@@ -3,6 +3,8 @@ The server repository contains the following projects:
 
 --LogDB--
 Module that inserts data comming from the requests to the Log database.
+[Detailed Module Description](LogDB/README.md)
+
 In this first approach it is being used LOG4J to perform the insertions in a declarative way.
 Just for testing purposes, there have been created 2 log4j configuration files: one that uses a MySQL database and other one using
 derby database. It is possible to choose any of these two databases for testing purposes.
