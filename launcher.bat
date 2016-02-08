@@ -1,0 +1,1 @@
+node "../node_modules/SwarmCore/etc/adapters/Launcher.js"
