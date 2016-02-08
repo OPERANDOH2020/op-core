@@ -10,7 +10,7 @@
  * Initially developed in the context of OPERANDO EU project www.operando.eu
  */
 
-package eu.operando.server.logdb;
+package eu.operando.core.logdb;
 
 public class Request {	
 	private String requestComponentId;

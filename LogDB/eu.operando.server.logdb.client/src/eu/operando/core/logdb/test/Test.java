@@ -10,9 +10,9 @@
  * Initially developed in the context of OPERANDO EU project www.operando.eu
  */
 
-package eu.operando.server.logdb.test;
+package eu.operando.core.logdb.test;
 
-import eu.operando.server.logdb.OperandoLog;
+import eu.operando.core.logdb.OperandoLog;
 
 public class Test {
 
