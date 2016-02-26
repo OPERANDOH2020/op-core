@@ -19,7 +19,7 @@ var userInfoSwarming =
         node:"UsersManager",
         code : function (){
             var self = this;
-            var user = getUserInfo.async(this.userId);
+            var user = getUserInfo.async(self.userId);
             (function(user){
                 self.result = user;
                 self.home("result");

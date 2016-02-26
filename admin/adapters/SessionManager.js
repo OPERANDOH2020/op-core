@@ -1,0 +1,173 @@
+var core = require("swarmcore");
+core.createAdapter("SessionManager");
+
+var apersistence = require('apersistence');
+var container = require("safebox").container;
+
+var myCfg = getMyConfig("SessionManager");
+
+var sessionMaxIdleTime = 360;//one hour
+
+if (myCfg.sessionTime != undefined) {
+    sessionMaxIdleTime = myCfg.sessionTime;
+}
+
+var flow = require("asynchron");
+
+apersistence.registerModel("DefaultSession", "Redis", {
+    ctor: function () {
+    },
+    userId: {
+        type: "string",
+        index :"true"
+    },
+    sessionId: {
+        type: "string",
+        pk: true,
+        index: true
+    },
+    expirationDate: {
+        type: "string"
+    },
+    ipAddress:{
+        type:"string"
+    }
+}, function(err, model){
+    if(err){
+        console.log(model);
+    }
+
+});
+
+
+createOrUpdateSession = function(sessionData, callback){
+    flow.createFlow("create or update Session", {
+        begin: function () {
+            if (!sessionData.userId) {
+                callback(new Error('Empty userId'), null);
+            }
+            else {
+                redisPersistence.lookup.async("DefaultSession", sessionData.sessionId, this.continue("createSession"));
+            }
+        },
+        createSession: function (err, session) {
+            sessionData.expirationDate = parseInt(Date.now()) + parseInt(sessionMaxIdleTime);
+            redisPersistence.externalUpdate(session, sessionData);
+            redisPersistence.saveObject(session, callback);
+        }
+    })();
+}
+
+deleteSession = function (sessionId, userId, callback) {
+    flow.createFlow("delete session", {
+        begin: function () {
+            redisPersistence.findById("DefaultSession", sessionId, this.continue("deleteSession"));
+        },
+        deleteSession: function (err, session) {
+            if (err) {
+                callback(err, null);
+            }
+            else {
+                if (redisPersistence.isFresh(session)) {
+                    callback(new Error("Could not find a session with id " + sessionId), null);
+                }
+                else {
+                    redisPersistence.deleteById("DefaultSession", sessionId, callback);
+                }
+            }
+        }
+    })();
+}
+
+deleteUserSessions = function(sessionId,callback){
+    var f = flow.createFlow("delete all user sessions", {
+        begin:function(sessionId, callback){
+            this.callback = callback;
+            if (!sessionId) {
+                callback(new Error("sessionId is required"), null);
+            }
+            else{
+                redisPersistence.findById("DefaultSession", sessionId, this.continue("findSessions"));
+            }
+        },
+        findSessions: function(err, session) {
+            if (err) {
+                this.callback(err, null);
+            }
+            else {
+                redisPersistence.filter("DefaultSession", {"userId": session.userId}, this.continue("deleteUserSessions"));
+            }
+        },
+        deleteUserSessions: function (err, sessions) {
+            if (err) {
+                this.callback(err, null);
+            } else {
+                var self = this;
+                sessions.forEach(function(session){
+                    self.next("deleteSingleSession",undefined,session);
+                });
+            }
+        },
+        deleteSingleSession:function(session){
+            redisPersistence.delete(session);
+        },
+
+        end:{
+            join:"deleteSingleSession",
+            code:function(err, response){
+                this.callback(err, response);
+            }
+        }
+    });
+    try{f(sessionId,callback)}catch(e){console.log(e);}
+
+}
+
+sessionIsValid = function (sessionId, userId, callback) {
+
+
+    flow.createFlow("validate session", {
+        begin: function () {
+
+            if (!sessionId) {
+                callback(new Error("sessionId is requred to validate session"), null);
+                return;
+            }
+
+            if (!userId) {
+                callback(new Error("userId is required to validate session"), null);
+                return;
+            }
+
+            redisPersistence.findById("DefaultSession", sessionId, this.continue("validateSession"));
+
+        },
+        validateSession: function (err, session) {
+            if (err) {
+                callback(err, session);
+            }
+            else if (!session || redisPersistence.isFresh(session)) {
+                callback(new Error("Session not found"), false);
+            }
+            else {
+                if (parseInt(session.expirationDate) < parseInt(Date.now())) {
+                    callback(new Error("Session is expired"), false);
+                }
+                else {
+                    session.expirationDate = parseInt(Date.now()) + parseInt(sessionMaxIdleTime);
+                    redisPersistence.saveObject(session, callback);
+                }
+            }
+        }
+    })();
+
+}
+
+
+container.declareDependency("SessionManagerAdapter", ["redisPersistence"], function (outOfService, redisPersistence) {
+    if (!outOfService) {
+        console.log("Enabling persistence...", redisPersistence);
+    } else {
+        console.log("Disabling persistence...");
+    }
+})

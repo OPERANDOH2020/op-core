@@ -2,7 +2,7 @@
     <div class="panel-heading">
         Memory (RAM) - Free Amount: {{availableMemory+" mb"}}
         <div style="float:right">
-            <select  ng-model='memPeriod' ng-change='memChanged()'>
+            <select  ng-model='memPeriod' ng-change='memChanged()' ng-init="memChanged()">
                 <option value="Last 5 minutes"> Last 5 minutes</option>
                 <option value="Last hour"> Last hour</option>
                 <option value="Last day"> Last day</option>

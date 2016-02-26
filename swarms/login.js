@@ -7,12 +7,16 @@
 TODO: check to be clean in production, this is an ideal place where you can put a backdoor for your authentication
  */
 
+sessionsRegistry  = require("../lib/SessionRegistry.js").getRegistry();
+
 var loginSwarming = {
     meta:{
         debug: false
     },
     vars:{
-        authenticated:false
+        authenticated:false,
+        sessionId:null,
+        userId:null
     },
     userLogin:function(clientSessionId, userId, authorisationToken){
         this.authenticated = false;
@@ -34,13 +38,72 @@ var loginSwarming = {
           (function(valid){
               if (valid) {
                   self.authenticated = true;
-                  self.swarm("enableSwarms", self.getEntryAdapter());
+                  self.swarm("createOrUpdateSession");
+
               } else {
                   self.swarm("failed", self.getEntryAdapter());
               }
           }).swait(valid);
         }
     },
+
+    logout:function(clientSessionId, userId){
+        this.setSessionId(clientSessionId);
+        this.userId = userId;
+        this.swarm("userLogout");
+    },
+
+    userLogout:{
+        node:"SessionManager",
+        code: function () {
+            var self = this;
+            console.log("SWARM DELETE SESSIONS");
+            deleteUserSessions(this.getSessionId(), S(function (err, result) {
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    self.home("logoutSucceed");
+                }
+            }));
+
+        }
+    },
+
+    restoreSession:function(clientSessionId, userId ){
+
+        this.sessionId = clientSessionId;
+        this.userId = userId;
+        this.swarm("validateSession");
+
+    },
+
+    validateSession: {
+        node: "SessionManager",
+        code: function () {
+            var self = this;
+            sessionIsValid(self.sessionId, self.userId, S(function (err, isValid) {
+
+                if (err) {
+                    console.log(err);
+                    self.home("restoreFailed");
+                }
+                else {
+                    if (isValid) {
+                        console.log("Session is valid");
+                        self.authenticated = true;
+                        self.swarm("restoreSwarms", self.getEntryAdapter());
+                    }
+                    else {
+                        self.home("restoreFailed");
+                    }
+                }
+            }));
+        }
+    }
+,
+
+    //It is not used anywhere
     reconnectInSession:function(clientSessionId, userId, secretToken){
         this.authenticated              = false;
         this.setSessionId(clientSessionId);
@@ -92,6 +155,38 @@ var loginSwarming = {
             enableOutlet(this);
             console.log("Success !");
             this.home("success");
+        }
+    },
+    restoreSwarms: {   //phase that is never executed... given as documentation
+        node:"EntryPoint",
+        code : function (){
+            var outlet = sessionsRegistry.getTemporarily(this.meta.outletId);
+            sessionsRegistry.registerOutlet(outlet);
+            enableOutlet(this);
+            console.log("Session restored for ", this.userId,"!");
+            this.home("restoreSucceed");
+        }
+    },
+
+    createOrUpdateSession:{
+        node: "SessionManager",
+        code:function(){
+            var self = this;
+            var sessionData = {
+                userId: self.userId,
+                sessionId: self.meta.sessionId
+            };
+
+            createOrUpdateSession(sessionData, S(function(error, session){
+                if(error){
+                    console.log(error);
+                }
+                else{
+                    console.log("Current session", session);
+                    self.swarm("enableSwarms", self.getEntryAdapter());
+                }
+            }));
+
         }
     }
 };

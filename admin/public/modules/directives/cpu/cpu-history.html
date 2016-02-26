@@ -2,7 +2,7 @@
     <div class="panel-heading">
         CPU Activity
         <div style="float:right">
-            <select  ng-model='cpuPeriod' ng-change='cpuChanged()'>
+            <select  ng-model='cpuPeriod' ng-change='cpuChanged()' ng-init="cpuChanged()">
                 <option value="Last 5 minutes"> Last 5 minutes</option>
                 <option value="Last hour"> Last hour</option>
                 <option value="Last day"> Last day</option>
