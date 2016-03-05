@@ -79,6 +79,28 @@ deleteSession = function (sessionId, userId, callback) {
     })();
 }
 
+getUserBySession = function (sessionId, callback) {
+
+    flow.createFlow("delete all user sessions", {
+        begin: function () {
+            if (!sessionId) {
+                callback(new Error("sessionId is required"), null);
+            }
+            else {
+                redisPersistence.findById("DefaultSession", sessionId, this.continue("getUser"));
+            }
+        },
+        getUser:function(err, session){
+            if(err){
+                callback(err, null);
+            }
+            else{
+                callback(null, session.userId);
+            }
+        }
+    })();
+}
+
 deleteUserSessions = function(sessionId,callback){
     var f = flow.createFlow("delete all user sessions", {
         begin:function(sessionId, callback){
@@ -94,7 +116,7 @@ deleteUserSessions = function(sessionId,callback){
             if (err) {
                 this.callback(err, null);
             }
-            else {
+            else if(session != null && session.userId) {
                 redisPersistence.filter("DefaultSession", {"userId": session.userId}, this.continue("deleteUserSessions"));
             }
         },
@@ -124,7 +146,6 @@ deleteUserSessions = function(sessionId,callback){
 }
 
 sessionIsValid = function (sessionId, userId, callback) {
-
 
     flow.createFlow("validate session", {
         begin: function () {

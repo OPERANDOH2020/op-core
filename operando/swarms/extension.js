@@ -10,7 +10,7 @@
  * Initially developed in the context of OPERANDO EU project www.operando.eu
  */
 
-var extension = {
+var extensionSwarming = {
 
     meta: {
         name: "extension.js"
@@ -127,4 +127,4 @@ var extension = {
 
 }
 
-extension;
+extensionSwarming;

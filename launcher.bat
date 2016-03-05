@@ -1,1 +1,1 @@
-node "../node_modules/SwarmCore/etc/adapters/Launcher.js"
+node "%NODE_PATH%/SwarmCore/etc/adapters/Launcher.js"
