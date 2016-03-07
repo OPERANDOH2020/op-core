@@ -12,7 +12,7 @@ if (myCfg.sessionTime != undefined) {
     sessionMaxIdleTime = myCfg.sessionTime;
 }
 
-var flow = require("asynchron");
+var flow = require("callflow");
 
 apersistence.registerModel("DefaultSession", "Redis", {
     ctor: function () {
@@ -41,7 +41,7 @@ apersistence.registerModel("DefaultSession", "Redis", {
 
 
 createOrUpdateSession = function(sessionData, callback){
-    flow.createFlow("create or update Session", {
+    flow.create("create or update Session", {
         begin: function () {
             if (!sessionData.userId) {
                 callback(new Error('Empty userId'), null);
@@ -59,7 +59,7 @@ createOrUpdateSession = function(sessionData, callback){
 }
 
 deleteSession = function (sessionId, userId, callback) {
-    flow.createFlow("delete session", {
+    flow.create("delete session", {
         begin: function () {
             redisPersistence.findById("DefaultSession", sessionId, this.continue("deleteSession"));
         },
@@ -81,7 +81,7 @@ deleteSession = function (sessionId, userId, callback) {
 
 getUserBySession = function (sessionId, callback) {
 
-    flow.createFlow("delete all user sessions", {
+    flow.create("delete all user sessions", {
         begin: function () {
             if (!sessionId) {
                 callback(new Error("sessionId is required"), null);
@@ -102,7 +102,7 @@ getUserBySession = function (sessionId, callback) {
 }
 
 deleteUserSessions = function(sessionId,callback){
-    var f = flow.createFlow("delete all user sessions", {
+    var f = flow.create("delete all user sessions", {
         begin:function(sessionId, callback){
             this.callback = callback;
             if (!sessionId) {
@@ -147,7 +147,7 @@ deleteUserSessions = function(sessionId,callback){
 
 sessionIsValid = function (sessionId, userId, callback) {
 
-    flow.createFlow("validate session", {
+    flow.create("validate session", {
         begin: function () {
 
             if (!sessionId) {

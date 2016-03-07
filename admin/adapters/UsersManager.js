@@ -20,7 +20,7 @@ var apersistence = require('apersistence');
 var  container = require("safebox").container;
 
 
-var flow = require("asynchron");
+var flow = require("callflow");
 
 
 var saveCallbackFn =function(err, obj){
@@ -138,7 +138,7 @@ apersistence.registerModel("DefaultUser","Redis", {
 
 createUser = function(userData, callback){
 
-    flow.createFlow("create user", {
+    flow.create("create user", {
         begin:function(){
             if(!userData.userId){
                 callback(new Error('Empty userId'), null);
@@ -171,7 +171,7 @@ createUser = function(userData, callback){
 
 
 deleteUser = function (userData) {
-    flow.createFlow("delete user", {
+    flow.create("delete user", {
         begin: function () {
             redisPersistence.deleteById("DefaultUser", userData.userId, this.continue("deleteReport"));
         },
@@ -194,7 +194,7 @@ deleteUser = function (userData) {
 
 
 deleteOrganisation = function(organisationId){
-    flow.createFlow("delete organisation",{
+    flow.create("delete organisation",{
         begin:function(){
             redisPersistence.deleteById("Organisation", organisationId, this.continue("deleteReport"));
         },
@@ -219,7 +219,7 @@ deleteOrganisation = function(organisationId){
 
 
 updateUser = function(userJsonObj, callback){
-    flow.createFlow("update user",{
+    flow.create("update user",{
         begin:function(){
             redisPersistence.lookup.async("DefaultUser", userJsonObj.userId, this.continue("updateUser"));
         },
@@ -256,7 +256,7 @@ updateUser = function(userJsonObj, callback){
 }*/
 
 queryUsers = function(organisationId, callback){
-    flow.createFlow("get organisation users",{
+    flow.create("get organisation users",{
         begin: function(){
             redisPersistence.filter("DefaultUser", {"organisationId": organisationId}, this.continue("getOrganisationUsers"));
         },
@@ -285,7 +285,7 @@ queryUsers = function(organisationId, callback){
 
 
 createOrganisation = function (organisationDump, callback) {
-    flow.createFlow("create organisation", {
+    flow.create("create organisation", {
         begin: function () {
             redisPersistence.lookup("Organisation", organisationDump.organisationId, this.continue("createOrganisation"));
         },
@@ -323,7 +323,7 @@ createOrganisation = function (organisationDump, callback) {
 }*/
 
 updateOrganisation = function (organisationDump, callback) {
-    flow.createFlow("update organization", {
+    flow.create("update organization", {
         begin: function () {
             redisPersistence.lookup("Organisation", organisationDump.organisationId, this.continue("updateOrganisation"));
         },
@@ -364,7 +364,7 @@ updateOrganisation = function (organisationDump, callback) {
 
 
 getOrganisations = function(callback){
-    flow.createFlow("get all organizations",{
+    flow.create("get all organizations",{
         begin:function(){
             redisPersistence.filter("Organisation", this.continue("info"));
         },
@@ -390,7 +390,7 @@ getOrganisations = function(callback){
 
 
 getUserInfo = function(userId, callback){
-    flow.createFlow("retrieve user info",{
+    flow.create("retrieve user info",{
         begin:function(){
             redisPersistence.findById("DefaultUser", userId, this.continue("info"));
         },
@@ -429,7 +429,7 @@ getUserInfo = function(userId, callback){
 
 validPassword = function(userId, pass, callback){
 
-    flow.createFlow("Validate Password", {
+    flow.create("Validate Password", {
         begin: function () {
             redisPersistence.findById("DefaultUser", userId, this.continue("validatePassword"));
         },
@@ -475,7 +475,7 @@ validPassword = function(userId, pass, callback){
 
 
 function bootSystem(){
-    flow.createFlow("bootSystem",{
+    flow.create("bootSystem",{
         begin:function(){
             redisPersistence.lookup("Organisation", "SystemAdministrators", this.continue("createOrganisation"));
         },

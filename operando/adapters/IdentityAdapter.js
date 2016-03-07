@@ -16,7 +16,7 @@ core.createAdapter("IdentityManager");
 var apersistence = require('apersistence');
 var container = require("safebox").container;
 
-var flow = require("asynchron");
+var flow = require("callflow");
 
 apersistence.registerModel("Identity", "Redis", {
 
@@ -56,7 +56,7 @@ container.declareDependency("IdentityManager", ["redisPersistence"], function (o
 
 
 createIdentity = function (identityData, callback) {
-    flow.createFlow("create identity", {
+    flow.create("create identity", {
         begin: function () {
                 redisPersistence.lookup.async("Identity", identityData.email, this.continue("createIdentity"));
         },
@@ -81,7 +81,7 @@ createIdentity = function (identityData, callback) {
 }
 
 generateIdentity = function(callback){
-    flow.createFlow("generateIdentity",{
+    flow.create("generateIdentity",{
         begin:function(){
             var identity = generateString();
             console.log(identity);
@@ -100,7 +100,7 @@ generateIdentity = function(callback){
 
 
 deleteIdentity = function (identityData, callback) {
-    flow.createFlow("delete identity", {
+    flow.create("delete identity", {
         begin: function () {
             if (!identityData.email) {
                 callback(new Error("empty email"), null);
