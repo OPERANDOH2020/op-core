@@ -126,11 +126,12 @@ deleteUserSessions = function(sessionId,callback){
             } else {
                 var self = this;
                 sessions.forEach(function(session){
-                    self.next("deleteSingleSession",undefined,session);
+                    self.deleteSingleSession(session);
                 });
             }
         },
         deleteSingleSession:function(session){
+            console.log(session);
             redisPersistence.delete(session);
         },
 
