@@ -101,6 +101,9 @@ apersistence.registerModel("DefaultUser","Redis", {
     },
     zip_code: {
         type: "string"
+    },
+    is_Active:{
+        type:"boolean"
     }
 }, function(err, model){
     if (err) {
@@ -114,27 +117,6 @@ apersistence.registerModel("DefaultUser","Redis", {
 /*
      Creeaza un utilizator
  */
-
-/*createUser = function(userData, callback){
-    if(!userData.userId){
-        callback(new Error('Empty userId'));
-        return;
-    }
-    var user = redisPersistence.lookup.async("DefaultUser", userData.userId);
-    (function(user){
-        if(!redisPersistence.isFresh(user)){
-            callback(new Error("User with identical id " + userData.userId + " already exists"), null);
-            return ;
-        }
-
-        redisPersistence.externalUpdate(user, userData);
-        redisPersistence.save(user, saveCallbackFn);
-        if(callback)  {
-            callback(null, user);
-        }
-    }).wait(user);
-}*/
-
 
 createUser = function(userData, callback){
 
@@ -156,6 +138,9 @@ createUser = function(userData, callback){
             }
         },
         createReport:function(err, user){
+            if(user.password){
+                delete user['password'];
+            }
             callback(err, user);
         }
     })();
@@ -164,11 +149,6 @@ createUser = function(userData, callback){
 /*
     Sterge un utilizator
  */
-
-/*deleteUser = function(userData){
-    redisPersistence.deleteById("DefaultUser", userData.userId);
-}*/
-
 
 deleteUser = function (userData) {
     flow.create("delete user", {
@@ -188,11 +168,6 @@ deleteUser = function (userData) {
  */
 
 
-/*deleteOrganisation = function(organisationId){
-    redisPersistence.deleteById("Organisation", organisationId);
-}*/
-
-
 deleteOrganisation = function(organisationId){
     flow.create("delete organisation",{
         begin:function(){
@@ -207,16 +182,6 @@ deleteOrganisation = function(organisationId){
 /*
     Updateaza informatiile unui utilizator
 */
-
-/*updateUser = function(userJsonObj, callback){
-    var user = redisPersistence.lookup.async("DefaultUser", userJsonObj.userId);
-    (function(user){
-        redisPersistence.externalUpdate(user, userJsonObj);
-        redisPersistence.saveObject(user,saveCallbackFn);
-        callback(null, user);
-    }).swait(user);
-}*/
-
 
 updateUser = function(userJsonObj, callback){
     flow.create("update user",{
@@ -247,14 +212,6 @@ updateUser = function(userJsonObj, callback){
     queryUsers returneaza lista utilizatorilor apartinind de o organizatie
  */
 
-/*queryUsers = function(organisationId, callback){
-    var list  = redisPersistence.filter.async("DefaultUser", {"organisationId": organisationId});
-
-    (function(list){
-        callback(null,list);
-    }).wait(list);
-}*/
-
 queryUsers = function(organisationId, callback){
     flow.create("get organisation users",{
         begin: function(){
@@ -269,20 +226,6 @@ queryUsers = function(organisationId, callback){
 /*
     Creeaza o organizatie
  */
-
-/*createOrganisation = function(organisationDump, callback){
-    var organisation = redisPersistence.lookup.async("Organisation", organisationDump.organisationId);
-    (function(organisation){
-        if(!redisPersistence.isFresh(organisation)){
-            callback(new Error("Organisation with identical id already exists"), null);
-            return ;
-        }
-        redisPersistence.externalUpdate(organisation, organisationDump);
-        redisPersistence.saveObject(organisation, saveCallbackFn);
-        callback(null, organisation);
-    }).swait(organisation);
-}*/
-
 
 createOrganisation = function (organisationDump, callback) {
     flow.create("create organisation", {
@@ -313,14 +256,6 @@ createOrganisation = function (organisationDump, callback) {
 /*
     Realizeaza salvarea datelor despre o organizatie
 */
-/*updateOrganisation = function(organisationDump, callback){
-    var organisation = redisPersistence.lookup.async("Organisation", organisationDump.organisationId);
-    (function(organisation){
-        redisPersistence.externalUpdate(organisation, organisationDump);
-        redisPersistence.saveObject(organisation, saveCallbackFn);
-        callback(null, organisation);
-    }).swait(organisation);
-}*/
 
 updateOrganisation = function (organisationDump, callback) {
     flow.create("update organization", {
@@ -354,14 +289,6 @@ updateOrganisation = function (organisationDump, callback) {
 /*
     Returneaza lista de organizatii
 */
-/*getOrganisations = function(callback){
-    var list  = redisPersistence.filter.async("Organisation", null);
-
-    (function(list){
-        callback(null,list);
-    }).wait(list);
-}*/
-
 
 getOrganisations = function(callback){
     flow.create("get all organizations",{
@@ -378,16 +305,6 @@ getOrganisations = function(callback){
 /*
     Returneaza informatii despre un utilizator
  */
-/*getUserInfo = function(userId, callback){
-    var user = redisPersistence.findById.nasync("DefaultUser", userId);
-    (function(user){
-            if(user){
-                user.password = null;
-            }
-            callback(null, user);
-    }).wait(user);
-}*/
-
 
 getUserInfo = function(userId, callback){
     flow.create("retrieve user info",{
@@ -413,20 +330,6 @@ getUserInfo = function(userId, callback){
 }
 
 
-/*validPassword = function(userId, pass, callback){
-    var user = redisPersistence.findById.async("DefaultUser", userId);
-
-    (function(user){
-        if(user && user.password  == pass){
-            callback(null, true);
-        } else {
-            callback(null, false);
-        }
-    }).wait(user);
-}*/
-
-
-
 validPassword = function(userId, pass, callback){
 
     flow.create("Validate Password", {
@@ -446,33 +349,6 @@ validPassword = function(userId, pass, callback){
     })();
 
 }
-
-
-
-
-/*
-    initialisation
- */
-/*function bootSystem(){
-    var organisation = redisPersistence.lookup.async("Organisation", "SystemAdministrators");
-
-    (function(organisation){
-        if(redisPersistence.isFresh(organisation)){
-            organisation.displayName = "System Administrators";
-            redisPersistence.saveObject(organisation, function(err, obj){
-                if(err){
-                    console.log("Error occurred on creating organisation",err);
-                }
-                else{
-                    createUser({userId:"admin", "password":"swarm", userName:"Admin",organisationId:"SystemAdministrators"},saveCallbackFn);
-                    createUser({userId:"rafael", "password":"swarm",userName:"Rafael",organisationId:"SystemAdministrators"},saveCallbackFn);
-                    createUser({userId:"rafa", "password":"swarm",userName:"Rafael Mastaleru",organisationId:"SystemAdministrators"},saveCallbackFn);
-                }
-            });
-        }
-    }).wait(organisation);
-}*/
-
 
 function bootSystem(){
     flow.create("bootSystem",{
