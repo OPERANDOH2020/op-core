@@ -1,0 +1,46 @@
+/*
+ * Copyright (c) 2016 Oxford Computer Consultants Ltd.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the The MIT License (MIT).
+ * which accompanies this distribution, and is available at
+ * http://opensource.org/licenses/MIT
+ *
+ * Contributors:
+ *    Matthew Gallagher (Oxford Computer Consultants) - Creation.
+ * Initially developed in the context of OPERANDO EU project www.operando.eu
+ */
+package eu.operando.server.watchdog;
+
+import java.util.Vector;
+
+/**
+ * The class representing the application which will actually be run.
+ */
+public class WatchdogApplication
+{
+	private static WatchdogClientI CLIENT = null;
+
+	public static void main(String[] args)
+	{
+		//Which user, which OSP?
+		//TODO - these should be read from somewhere. User Accounts DB?
+		int userId = 1;
+		int ospId = 2;
+		
+		//Get the user's current and required privacy settings with this OSP.
+		Vector<PrivacySetting> privacySettingsCurrent = CLIENT.getPrivacySettingsCurrent(userId, ospId);
+		Vector<PrivacySetting> privacySettingsRequired = CLIENT.getPrivacySettingsRequired(userId, ospId);
+		
+		//If there's a mismatch, send an email.
+		if (!privacySettingsCurrent.equals(privacySettingsRequired))
+		{
+			CLIENT.emailPrivacyAnalystAboutUserPrivacySettingDiscrepancy(userId, ospId);
+		}
+	}
+
+	public static void setClient(WatchdogClientI client)
+	{
+		WatchdogApplication.CLIENT = client;
+	}
+
+}
