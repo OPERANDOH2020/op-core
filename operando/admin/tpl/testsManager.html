@@ -1,0 +1,19 @@
+<div ng-controller="testsManagerController">
+    <div style="width: 100%;">
+        <div style="float:left; width: 20%">
+            <tree nodes='treeNodes' options="treeOptions"></tree>
+            <button ng-click="runSelectedTests()" ng-show="!currentlyRunningTests">
+                Run selected tests
+            </button>
+            <button ng-click="stopRunningTests()" ng-show="currentlyRunningTests">
+                Stop running tests
+            </button>
+        </div>
+        <div style="float:right;width:80%">
+            <div ng-show="currentlyRunningTests">
+                {{currentTestResult}}
+                BLABLA
+            </div>
+        </div>
+    </div>
+</div>
