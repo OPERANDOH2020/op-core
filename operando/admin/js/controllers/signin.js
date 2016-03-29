@@ -8,7 +8,6 @@ app.controller('SigninFormController', ['$scope', '$http', '$state','authenticat
     $scope.authError = null;
     $scope.login = function() {
 
-
     var securityErrorFunction = function(err, data) {
             $scope.authError = 'Invalid user or password...';
             $scope.$apply();
@@ -22,7 +21,6 @@ app.controller('SigninFormController', ['$scope', '$http', '$state','authenticat
     var successFunction = function(){
         $state.go('app.operando');
     }
-
 
     authenticationService.authenticateUser($scope.user.username,$scope.user.password,securityErrorFunction, errorFunction, successFunction);
 

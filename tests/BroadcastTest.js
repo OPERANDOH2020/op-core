@@ -1,7 +1,7 @@
 var adapterPort         = 3000;
 var adapterHost         = "localhost";
 var assert              = require('double-check').assert;
-var util                = require("swarmcore");
+var util                = require("SwarmCore");
 
 var client             = util.createClient(adapterHost, adapterPort, "BroadcastUser", "ok","BroadcastTest", "testCtor");
 
@@ -16,8 +16,4 @@ assert.callback("Broadcast should finish and print a result", function(callback)
         callback();
        // client.logout();
     });
-
 })
-/**
- * Created by TAC on 6/25/2015.
- */

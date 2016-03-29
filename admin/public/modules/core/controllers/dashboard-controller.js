@@ -35,6 +35,8 @@ SwarmMonitor.controller('DashboardController', ['$scope', '$state', '$rootScope'
         };
 
 
+
+
         function refresh(){
             $scope.activeServersCount = 0;
             $scope.activeAdaptersCount = 0;
@@ -75,8 +77,6 @@ SwarmMonitor.controller('DashboardController', ['$scope', '$state', '$rootScope'
             $scope.restartAdaptersCount += response.status.restartsCounter;
             $scope.$apply(); //what for?
         });
-
-
 
         function timeOutPing(){
             refresh();

@@ -7,7 +7,7 @@
  Cod Preluat din proiectul open source swam monitor. Nu e folosit momentan de
  */
 
-var core = require ("swarmcore");
+var core = require ("SwarmCore");
 var os = require('os');
 var winCPU = require('windows-cpu');
 

@@ -10,7 +10,7 @@
  * Initially developed in the context of OPERANDO EU project www.operando.eu
  */
 
-var core = require("swarmcore");
+var core = require("SwarmCore");
 thisAdapter = core.createAdapter("RESTAdapter");
 var http = require("http");
 

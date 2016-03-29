@@ -18,7 +18,6 @@ app
     $scope.d1_3 = [ [10, 80],  [20, 40], [30, 30],  [40, 20] ];
 
     $scope.d2 = [];
-
     for (var i = 0; i < 20; ++i) {
       $scope.d2.push([i, Math.sin(i)]);
     }   

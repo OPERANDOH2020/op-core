@@ -16,7 +16,7 @@ globalVerbosity = false;
 var assert              = require('double-check').assert;
 
 
-var util       = require("swarmcore");
+var util       = require("SwarmCore");
 var client     = util.createClient(adapterHost, adapterPort, "testExtension", "ok","testTenant", "testCtor");
 
 assert.callback("Swarm extension", function(callback){

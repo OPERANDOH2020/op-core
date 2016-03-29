@@ -10,14 +10,14 @@ var mockery= require('mockery');
 
 mockery.enable({warnOnUnregistered: false});	
 	
-var swarmcoreMock = {
+var SwarmCoreMock = {
 	// This mocked function is called when the actual adapter is loaded
 	createAdapter: function (name) {
 	console.log('Creating Mock Adapter ' + name);
 	}	
 };
 
-mockery.registerMock('swarmcore', swarmcoreMock);
+mockery.registerMock('SwarmCore', SwarmCoreMock);
 
 /* 
 Constructor : _file is the adapter module to mock

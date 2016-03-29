@@ -15,6 +15,7 @@ SwarmMonitor.controller('SwarmsController', ['$scope', '$state', '$rootScope',
         swarmHub.onSwarmConnection(function () {
             swarmHub.startSwarm('monitorClient.js', 'listSwarms');
         });
+
         swarmHub.on('monitorClient.js','listSwarmsDone', function (response) {
             $scope.swarms = response.swarmList;
             $scope.$apply();
