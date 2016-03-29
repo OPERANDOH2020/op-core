@@ -28,7 +28,6 @@ var registerSwarming = {
 
     registeNewUser:function(newUserData){
         this.newUser = newUserData;
-
     },
 
     saveNewUser:{
