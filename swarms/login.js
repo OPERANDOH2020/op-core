@@ -57,7 +57,6 @@ var loginSwarming = {
         node:"SessionManager",
         code: function () {
             var self = this;
-            console.log("SWARM DELETE SESSIONS");
             deleteUserSessions(this.getSessionId(), S(function (err, result) {
                 if (err) {
                     console.log(err);
