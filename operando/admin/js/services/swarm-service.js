@@ -25,8 +25,4 @@ angular.module('app')
                 swarmConnection.logout();
             }
         }
-
-
-
-
     });

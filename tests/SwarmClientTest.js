@@ -1,7 +1,6 @@
-
 var adapterPort     = 3000;
 var adapterHost     = "localhost";
-var util            = require("swarmcore");
+var util            = require("SwarmCore");
 var assert          = require('double-check').assert;
 globalVerbosity     = false;
 
@@ -9,9 +8,6 @@ var client2 = util.createClient(adapterHost, adapterPort, "Client2", "ok","Swarm
 var client1 = util.createClient(adapterHost, adapterPort, "Client1", "ok","SwarmClientTest", "testCtor");
 var client3 = util.createClient(adapterHost, adapterPort, "Client3", "ok","SwarmClientTest", "testCtor");
 var client4 = util.createClient(adapterHost, adapterPort, "Client4", "!ok","SwarmClientTest", "testCtor");
-
-
-
 
 function testGoodLogin(client, name){
     return function(callback){
@@ -21,12 +17,10 @@ function testGoodLogin(client, name){
             client.logout();
         });
         client.on("close",function(swarm){
-            //assert.true(swarm.authenticated);
             client.logout();
         });
     }
 }
-
 
 function testFailedLogin(client, name){
     return function(callback){

@@ -20,7 +20,6 @@ app.controller('SwarmsUsage', ['$scope', function ($scope) {
         $scope.$apply();
     });
 
-
     function monitoring(){
         var items=["Last month","Last 5 minutes", "Last year","Last day"];
         swarmHub.startSwarm('ping.js', 'queryLaunchers');

@@ -5,7 +5,7 @@ This repository will also contain the OPERANDO functionalities related to of UAM
 
 #Dependncies: 
 
-SwarmCore and other node.js modules  
+SwarmCore and other node.js modules
 
 ## Installation:  
 

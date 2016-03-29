@@ -92,6 +92,7 @@ SwarmMonitor.controller('OrganisationsController', ['$scope', '$state', '$rootSc
 
 
 
+
         $scope.addNewOrganisation = function(event) {
             $scope.selectedOrganisation = null;
             $scope.dialog =  ngDialog.open({

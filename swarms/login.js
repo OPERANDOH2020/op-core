@@ -70,7 +70,6 @@ var loginSwarming = {
     },
 
     restoreSession:function(clientSessionId, userId ){
-
         this.sessionId = clientSessionId;
         this.userId = userId;
         this.swarm("validateSession");

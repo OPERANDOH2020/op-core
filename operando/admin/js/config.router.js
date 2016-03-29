@@ -41,6 +41,16 @@ angular.module('app')
                         url: '/page',
                         template: '<div ui-view class="fade-in-down"></div>'
                     })
+                    .state('app.testsManager',{
+                        url: '/testsManager',
+                        templateUrl: 'tpl/testsManager.html',
+                        resolve: {
+                            deps: ['uiLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['js/controllers/testsManagerController.js']);
+                                }]
+                        }
+                    })
                     .state('app.page.profile', {
                         url: '/profile',
                         templateUrl: 'tpl/page_profile.html',
