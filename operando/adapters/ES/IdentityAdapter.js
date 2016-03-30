@@ -26,16 +26,16 @@ apersistence.registerModel("Identity", "Redis", {
         },
         name: {
             type: "string",
-            index: "true",
+            index: "true"
         },
         email: {
             type: "string",
             index: "true",
-            pk: "true",
+            pk: "true"
         },
         domain:{
             type: "string",
-            index: "true",
+            index: "true"
         }
 
     },
