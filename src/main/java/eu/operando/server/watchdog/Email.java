@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 public class Email
 {
-	private Integer sender = -1;
+	private int sender = -1;
 	private Vector<Integer> to = new Vector<Integer>();  
 	private Vector<Integer> cc = new Vector<Integer>();
 	private Vector<Integer> bcc = new Vector<Integer>();
@@ -42,11 +42,11 @@ public class Email
 		this.attachments = attachments;
 	}
 
-	public Integer getSender()
+	public int getSender()
 	{
 		return sender;
 	}
-	public void setSender(Integer sender)
+	public void setSender(int sender)
 	{
 		this.sender = sender;
 	}
