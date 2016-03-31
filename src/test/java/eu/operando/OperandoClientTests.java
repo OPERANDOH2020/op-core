@@ -45,9 +45,4 @@ public interface OperandoClientTests
 	public static final String ENDPOINT_OSP_ENFORCEMENT_PRIVACY_SETTINGS = PATH_OSP_ENFORCEMENT + "/osps/%d/privacy_settings";
 	public static final String ENDPOINT_USER_DEVICE_ENFORCEMENT_PRIVACY_SETTINGS = PATH_USER_DEVICE_ENFORCEMENT + "/privacy_settings";
 	public static final String ENDPOINT_EMAIL_SERVICES_EMAIL = PATH_EMAIL_SERVICES + "/email";
-	
-	public static final String HTTP_HEADER_CONTENT_TYPE = "Content-Type";
-	public static final String CONTENT_TYPE_APPLICATION_JSON = "application/json";
-	
-	public static final int HTTP_STATUS_CODE_SUCCESS = 200;
 }

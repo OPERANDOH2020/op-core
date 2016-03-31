@@ -25,6 +25,7 @@ import static org.junit.Assert.assertThat;
 
 import java.util.Vector;
 
+import org.apache.http.HttpStatus;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -136,7 +137,7 @@ public class WatchdogClientTests implements OperandoClientTests
 		
 		wireMockRule.stubFor(get(urlPathEqualTo(endPoint))
 				.willReturn(aResponse()
-						.withStatus(HTTP_STATUS_CODE_SUCCESS)
+						.withStatus(HttpStatus.SC_OK)
 						.withBody(jsonArraySettings)));
 	}
 	
