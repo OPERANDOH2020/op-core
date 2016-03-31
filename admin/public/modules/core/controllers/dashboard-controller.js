@@ -81,7 +81,7 @@ SwarmMonitor.controller('DashboardController', ['$scope', '$state', '$rootScope'
         function timeOutPing(){
             refresh();
             swarmHub.startSwarm('ping.js', 'queryLaunchers');
-            setTimeout(timeOutPing, 60*1000);
+            //setTimeout(timeOutPing, 60*1000);
         }
         timeOutPing();
 

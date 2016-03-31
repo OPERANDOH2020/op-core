@@ -13,18 +13,17 @@ if(!pathToTests){
 
 var fs = require('fs');
 
-
-
 runTests = function(tests,callback){
     var forker = require('child_process');
     tests.forEach(function(test){
-        var worker = forker.fork(test,{"silent":true});
+        var env = process.env;
+        env.RUN_WITH_WHYS = true;
+
+        var worker = forker.fork(test,{'env':env,'silent':true});
 
         worker.on("message",function(message){
-            callback({
-                "test":test,
-                result:message
-            })
+            message['test'] = test;
+            callback(message)
         });
 
         worker.on("exit",function(){
@@ -41,7 +40,7 @@ runTests = function(tests,callback){
                 worker.kill();
                 callback("Test did not terminate properly");
             }
-        },10000)
+        },process.env['TEST_TIMEOUT']||10000)
 
     })
 }
