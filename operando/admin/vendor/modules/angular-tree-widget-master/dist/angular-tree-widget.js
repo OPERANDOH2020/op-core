@@ -1,8 +1,8 @@
-﻿/*
-	@license Angular TreeWidget version 1.0.1
-	ⓒ 2016 Alex Suleap https://github.com/AlexSuleap/agular-tree-widget
-	License: MIT
-*/
+/*
+ @license Angular TreeWidget version 1.0.1
+ ⓒ 2016 Alex Suleap https://github.com/AlexSuleap/agular-tree-widget
+ License: MIT
+ */
 
 (function (angular) {
     'use strict';
@@ -60,15 +60,15 @@
                 restrict: "E",
                 scope: { nodes: '=', tree: '=', options: '=?' },
                 template: '<ul>'
-                            + '<li ng-repeat="node in nodes" class="node">'
-                                + '<i class="tree-node-ico pointer" ng-class="{\'tree-node-expanded\': node.expanded,\'tree-node-collapsed\':!node.expanded && node.children}" ng-click="toggleNode(node)"></i>'
-                                + '<span class="node-title pointer" ng-click="selectNode(node)" ng-class="{\'disabled\':node.disabled}">'
-                                    + '<span><i class="tree-node-ico" ng-if="options.showIcon" ng-class="{\'tree-node-image\':node.children, \'tree-node-leaf\':!node.children}" ng-style="node.image && {\'background-image\':\'url(\'+node.image+\')\'}"></i>'
-                                    + '<span class="node-name" ng-class="{selected: node.selected&& !node.disabled}">{{node.name}}</span></span>'
-                                + '</span>'
-                                + '<treenode ng-if="node.children" nodes=\'node.children\' tree="tree" options="options" ng-show="node.expanded" id="{{node.nodeId}}"></treenode>'
-                            + '</li>'
-                        + '</ul>',
+                + '<li ng-repeat="node in nodes" class="node">'
+                + '<i class="tree-node-ico pointer" ng-class="{\'tree-node-expanded\': node.expanded,\'tree-node-collapsed\':!node.expanded && node.children}" ng-click="toggleNode(node)"></i>'
+                + '<span class="node-title pointer" ng-click="selectNode(node)" ng-class="{\'disabled\':node.disabled}">'
+                + '<span><i class="tree-node-ico" ng-if="options.showIcon" ng-class="{\'tree-node-image\':node.children, \'tree-node-leaf\':!node.children}" ng-style="node.image && {\'background-image\':\'url(\'+node.image+\')\'}"></i>'
+                + '<span class="node-name" ng-style="node.style"  ng-class="{selected: node.selected&& !node.disabled}">{{node.name}} {{node.current_running_message}}</span></span>'
+                + '</span>'
+                + '<treenode ng-if="node.children" nodes=\'node.children\' tree="tree" options="options" ng-show="node.expanded" id="{{node.nodeId}}"></treenode>'
+                + '</li>'
+                + '</ul>',
                 compile: function (element) {
                     return RecursionHelper.compile(element, function (scope, iElement, iAttrs, controller, transcludeFn) {
                         //Select node
