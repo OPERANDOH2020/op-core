@@ -12,9 +12,7 @@
 
 var core = require ("swarmcore");
 core.createAdapter("RegisterUAM");
-
 var apersistence = require('apersistence');
-
 var  container = require("safebox").container;
 var flow = require("callflow");
 
