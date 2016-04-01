@@ -28,8 +28,18 @@ var notificationSwarming = {
 
 
     getNotifications: function () {
-        //for dummy test
+        //TODO
+        //Implement sendNotification ctor
         this.swarm("success");
+    },
+
+    sendNotification:function(){
+        //TODO
+        //Implement sendNotification ctor
+    },
+    deleteNotification:function(){
+        //TODO
+        //Implement deleteNotification ctor
     },
 
     success: {
@@ -61,7 +71,6 @@ var notificationSwarming = {
         }
 
     }
-
 
 }
 notificationSwarming;
