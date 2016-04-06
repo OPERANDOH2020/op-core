@@ -1,4 +1,3 @@
-package eu.operando.server.watchdog;
 /*
  * Copyright (c) 2016 Oxford Computer Consultants Ltd.
  * All rights reserved. This program and the accompanying materials
@@ -10,13 +9,18 @@ package eu.operando.server.watchdog;
  *    Matthew Gallagher (Oxford Computer Consultants) - Creation.
  * Initially developed in the context of OPERANDO EU project www.operando.eu
  */
+package eu.operando.core.watchdog;
 
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
 
-/**
- * A wrapper class for email attachments
- */
-public class Attachment
+@RunWith(Suite.class)
+@Suite.SuiteClasses
+({
+	WatchdogApplicationTests.class,
+	WatchdogClientTests.class
+})
+public class WatchdogTestSuite
 {
-	private String title = "";
-	private String path = "";
+
 }

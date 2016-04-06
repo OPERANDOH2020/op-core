@@ -1,4 +1,4 @@
-package eu.operando.server.watchdog;
+package eu.operando.core.watchdog;
 /*
  * Copyright (c) 2016 Oxford Computer Consultants Ltd.
  * All rights reserved. This program and the accompanying materials

@@ -9,9 +9,12 @@
  *    Matthew Gallagher (Oxford Computer Consultants) - Creation.
  * Initially developed in the context of OPERANDO EU project www.operando.eu
  */
-package eu.operando.server.watchdog;
+package eu.operando.core.watchdog;
 
 import java.util.Vector;
+
+import eu.operando.core.watchdog.PrivacySetting;
+import eu.operando.core.watchdog.WatchdogClientI;
 
 public class WatchdogClientStub implements WatchdogClientI
 {

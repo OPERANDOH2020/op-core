@@ -9,7 +9,7 @@
  *    Matthew Gallagher (Oxford Computer Consultants) - Creation.
  * Initially developed in the context of OPERANDO EU project www.operando.eu
  */
-package eu.operando.server.watchdog;
+package eu.operando.core.watchdog;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
@@ -18,6 +18,9 @@ import java.util.Vector;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import eu.operando.core.watchdog.PrivacySetting;
+import eu.operando.core.watchdog.WatchdogApplication;
 
 public class WatchdogApplicationTests
 {

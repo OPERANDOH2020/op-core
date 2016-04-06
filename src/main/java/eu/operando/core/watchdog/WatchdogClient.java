@@ -9,7 +9,7 @@
  *    Matthew Gallagher (Oxford Computer Consultants) - Creation.
  * Initially developed in the context of OPERANDO EU project www.operando.eu
  */
-package eu.operando.server.watchdog;
+package eu.operando.core.watchdog;
 
 import java.lang.reflect.Type;
 import java.util.Vector;

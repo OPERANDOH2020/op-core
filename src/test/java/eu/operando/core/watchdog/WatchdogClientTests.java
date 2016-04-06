@@ -9,7 +9,7 @@
  *    Matthew Gallagher (Oxford Computer Consultants) - Creation.
  * Initially developed in the context of OPERANDO EU project www.operando.eu
  */
-package eu.operando.server.watchdog;
+package eu.operando.core.watchdog;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
@@ -34,6 +34,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import eu.operando.OperandoClientTests;
+import eu.operando.core.watchdog.Attachment;
+import eu.operando.core.watchdog.EmailNotification;
+import eu.operando.core.watchdog.PrivacySetting;
+import eu.operando.core.watchdog.WatchdogClient;
 /**
  * TODO - handle HTTP errors being returned
  */
