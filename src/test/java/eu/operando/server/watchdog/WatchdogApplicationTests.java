@@ -31,7 +31,7 @@ public class WatchdogApplicationTests
 	}
 	
 	@Test
-	public void testMain_SettingsMatch_NoEmailSent()
+	public void testRunPrivacySettingsCheck_SettingsMatch_RequestToEmailAnalystNotSent()
 	{
 		//Set up
 		Vector<PrivacySetting> settingsCurrent = new Vector<PrivacySetting>();
@@ -42,17 +42,17 @@ public class WatchdogApplicationTests
 		settingsRequired.add(new PrivacySetting(1, "description", "name", "settingKey", "settingValue"));
 		clientStub.setPrivacySettingsRequired(settingsRequired);
 		
-		WatchdogApplication.setClient(clientStub);
+		WatchdogApplication application = new WatchdogApplication(clientStub);
 		
 		//Exercise
-		WatchdogApplication.main(null);
+		application.runPrivacySettingsCheck(1, 2);
 		
 		//Verify
 		assertThat("Settings did match so no email should have been sent.", clientStub.getEmailSent(), is(false));
 	}
 	
 	@Test
-	public void testMain_SettingsDoNotMatch_EmailSent()
+	public void testRunPrivacySettingsCheck_SettingsDoNotMatch_RequestToEmailAnalyst()
 	{
 		//Set up
 		Vector<PrivacySetting> settingsCurrent = new Vector<PrivacySetting>();
@@ -63,10 +63,10 @@ public class WatchdogApplicationTests
 		settingsRequired.add(new PrivacySetting(1, "different description", "name", "settingKey", "settingValue"));
 		clientStub.setPrivacySettingsRequired(settingsRequired);
 
-		WatchdogApplication.setClient(clientStub);
-
+		WatchdogApplication application = new WatchdogApplication(clientStub);
+		
 		//Exercise
-		WatchdogApplication.main(null);
+		application.runPrivacySettingsCheck(1, 2);
 
 		//Verify
 		assertThat("Settings did not match so an email should have been sent.", clientStub.getEmailSent(), is(true));
