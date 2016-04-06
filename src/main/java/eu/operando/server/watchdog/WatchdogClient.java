@@ -25,30 +25,27 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 
+import eu.operando.OperandoConstants;
+
 /**
  * The WatchdogClient is used by the WatchdogApplication to make API calls
  */
-public class WatchdogClient implements WatchdogClientI
+public class WatchdogClient extends OperandoConstants
+							implements WatchdogClientI
 {
-
-	private static final String RELATIVE_PATH_USER_DEVICE_ENFORCEMENT_PRIVACY_SETTINGS = "/privacy_settings";
-	private static final String RELATIVE_PATH_OSP_ENFORCEMENT_PRIVACY_SETTINGS = "osps/%d/privacy_settings"; //%d is {osp_id}
-	private static final String RELATIVE_PATH_EMAIL_SERVICES_EMAILS = "/emails";
-	
-	private static final int SENDER_ID_EMAIL_WATCHDOG = 4; 
-	
-	private String urlUserDeviceEnforcement = "";
-	private String urlOspEnforcement = "";
-	private String urlEmailServices = "";
-	private int userIdPrivacyAnalyst = -1;
+	private String protocolAndHostUserDeviceEnforcement = "";
+	private String protocolAndHostOspEnforcement = "";
+	private String protocolAndHostEmailServices = "";
+	private String emailAddressPrivacyAnalyst;
 
 	private Client client = ClientBuilder.newClient();
 	
-	public WatchdogClient(String urlUserDeviceEnforcement, String urlOspEnforcement, String urlEmailServices)
+	public WatchdogClient(String protocolAndHostUserDeviceEnforcement, String protocolAndHostOspEnforcement, String protocolAndHostEmailServices, String emailAddressPrivacyAnalyst)
 	{
-		this.urlUserDeviceEnforcement = urlUserDeviceEnforcement;
-		this.urlOspEnforcement = urlOspEnforcement;
-		this.urlEmailServices = urlEmailServices;	
+		this.protocolAndHostUserDeviceEnforcement = protocolAndHostUserDeviceEnforcement;
+		this.protocolAndHostOspEnforcement = protocolAndHostOspEnforcement;
+		this.protocolAndHostEmailServices = protocolAndHostEmailServices;
+		this.emailAddressPrivacyAnalyst = emailAddressPrivacyAnalyst;	
 	}
 
 	/**
@@ -58,8 +55,8 @@ public class WatchdogClient implements WatchdogClientI
 	public Vector<PrivacySetting> getPrivacySettingsCurrent(int userId, int ospId)
 	{
 		//Create a web target for the correct url.
-		WebTarget target = client.target(urlUserDeviceEnforcement);
-		target = target.path(RELATIVE_PATH_USER_DEVICE_ENFORCEMENT_PRIVACY_SETTINGS);
+		WebTarget target = client.target(protocolAndHostUserDeviceEnforcement);
+		target = target.path(ENDPOINT_USER_DEVICE_ENFORCEMENT_PRIVACY_SETTINGS);
 		target = target.queryParam("user_id", userId);
 		target = target.queryParam("osp_id", ospId);
 
@@ -73,8 +70,8 @@ public class WatchdogClient implements WatchdogClientI
 	public Vector<PrivacySetting> getPrivacySettingsRequired(int userId, int ospId)
 	{
 		//Create a web target for the correct end-point.
-		WebTarget target = client.target(urlOspEnforcement);
-		String relativePath = String.format(RELATIVE_PATH_OSP_ENFORCEMENT_PRIVACY_SETTINGS, ospId);
+		WebTarget target = client.target(protocolAndHostOspEnforcement);
+		String relativePath = String.format(ENDPOINT_OSP_ENFORCEMENT_PRIVACY_SETTINGS_VARIABLE_OSP_ID, ospId);
 		target = target.path(relativePath);
 		target = target.queryParam("user_id", userId);
 
@@ -113,25 +110,21 @@ public class WatchdogClient implements WatchdogClientI
 	 * Use the Email Services module to notify a privacy analyst about a discrepancy in current and required privacy settings. 
 	 */
 	@Override
-	public void emailPrivacyAnalystAboutUserPrivacySettingDiscrepancy(int userId, int ospId)
+	public void notifyPrivacyAnalystAboutUserPrivacySettingDiscrepancy(int userId, int ospId)
 	{
-		Vector<Integer> to = new Vector<Integer>();
-		to.add(userIdPrivacyAnalyst);
+		Vector<String> to = new Vector<String>();
+		to.add(emailAddressPrivacyAnalyst);
 		String content = "The privacy settings for user " + userId+ " with OSP " + ospId + " are not as required. This requires action.";
-		Email email = new Email(SENDER_ID_EMAIL_WATCHDOG, to, new Vector<Integer>(), new Vector<Integer>(), content, new Vector<Attachment>());
+		String subject = "Privacy settings discrepancy";
+		EmailNotification email = new EmailNotification(to, new Vector<String>(), new Vector<String>(), content, subject  , new Vector<Attachment>());
 		
 		//Create a web target for the correct end-point.
-		WebTarget target = client.target(urlEmailServices);
-		target = target.path(RELATIVE_PATH_EMAIL_SERVICES_EMAILS);
+		WebTarget target = client.target(protocolAndHostEmailServices);
+		target = target.path(ENDPOINT_EMAIL_SERVICES_EMAIL_NOTIFICATION);
 		
 		//Send the request with the email encoded as JSON in the body.
 		Builder requestBuilder = target.request();
-		Entity<Email> json = Entity.json(email);
+		Entity<EmailNotification> json = Entity.json(email);
 		requestBuilder.post(json);
-	}
-
-	public void setUserIdPrivacyAnalyst(int userIdPrivacyAnalyst)
-	{
-		this.userIdPrivacyAnalyst = userIdPrivacyAnalyst;
 	}
 }

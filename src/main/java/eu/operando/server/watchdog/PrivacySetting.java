@@ -1,3 +1,4 @@
+package eu.operando.server.watchdog;
 /*
  * Copyright (c) 2016 Oxford Computer Consultants Ltd.
  * All rights reserved. This program and the accompanying materials
@@ -9,7 +10,7 @@
  *    Matthew Gallagher (Oxford Computer Consultants) - Creation.
  * Initially developed in the context of OPERANDO EU project www.operando.eu
  */
-package eu.operando.server.watchdog;
+
 
 /**
  * OPERANDO's internal object representing a privacy setting with an OSP.

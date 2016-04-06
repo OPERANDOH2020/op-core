@@ -28,6 +28,6 @@ public interface WatchdogClientI
 	/**
 	 * Send an email to the privacy analyst, with a message about a mismatch between current and required privacy settings.
 	 */
-	public void emailPrivacyAnalystAboutUserPrivacySettingDiscrepancy(int userId, int ospId);
+	public void notifyPrivacyAnalystAboutUserPrivacySettingDiscrepancy(int userId, int ospId);
 
 }

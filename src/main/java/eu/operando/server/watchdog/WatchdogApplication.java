@@ -24,7 +24,7 @@ public class WatchdogApplication
 		//If there's a mismatch, send an email.
 		if (!privacySettingsCurrent.equals(privacySettingsRequired))
 		{
-			client.emailPrivacyAnalystAboutUserPrivacySettingDiscrepancy(userId, ospId);
+			client.notifyPrivacyAnalystAboutUserPrivacySettingDiscrepancy(userId, ospId);
 		}
 	}
 }

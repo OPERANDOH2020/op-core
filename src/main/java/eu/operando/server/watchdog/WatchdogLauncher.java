@@ -14,28 +14,29 @@ package eu.operando.server.watchdog;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
-import java.util.Vector;
 
 /**
  * The class representing the application which will actually be run.
  */
-public class WatchdogApplicationLauncher
+public class WatchdogLauncher
 {
 	private static final String PROPERTIES_FILE = "config.properties";
 	
-	public static final String PROPERTY_NAME_URL_USER_DEVICE_ENFORCEMENT = "urlUserDeviceEnforcement";
-	public static final String PROPERTY_NAME_URL_OSP_ENFORCEMENT = "urlOspEnforcement";
-	public static final String PROPERTY_NAME_URL_EMAIL_SERVICES = "urlEmailServices";
+	public static final String PROPERTY_NAME_PROTOCOL_AND_HOST_USER_DEVICE_ENFORCEMENT = "protocolAndHostUserDeviceEnforcement";
+	public static final String PROPERTY_NAME_PROTOCOL_AND_HOST_OSP_ENFORCEMENT = "protocolAndHostOspEnforcement";
+	public static final String PROPERTY_NAME_PROTOCOL_AND_HOST_EMAIL_SERVICES = "protocolAndHostEmailServices";
+	public static final String PROPERTY_NAME_EMAIL_ADDRESS_PRIVACY_ANALYST = "emailAddressPrivacyAnalyst";
 	public static final String PROPERTY_NAME_USER_ID = "userId";
 	public static final String PROPERTY_NAME_OSP_ID = "ospId";
 
 	public static void main(String[] args)
 	{
 		//Initialise the system.
-		String urlUserDeviceEnforcement = loadPropertyFromPropertiesFileString(PROPERTY_NAME_URL_USER_DEVICE_ENFORCEMENT);
-		String urlOspEnforcement = loadPropertyFromPropertiesFileString(PROPERTY_NAME_URL_OSP_ENFORCEMENT);
-		String urlEmailServices = loadPropertyFromPropertiesFileString(PROPERTY_NAME_URL_EMAIL_SERVICES);
-		WatchdogClient client = new WatchdogClient(urlUserDeviceEnforcement, urlOspEnforcement, urlEmailServices);
+		String protocolAndHostUserDeviceEnforcement = loadPropertyFromPropertiesFileString(PROPERTY_NAME_PROTOCOL_AND_HOST_USER_DEVICE_ENFORCEMENT);
+		String protocolAndHostOspEnforcement = loadPropertyFromPropertiesFileString(PROPERTY_NAME_PROTOCOL_AND_HOST_OSP_ENFORCEMENT);
+		String protocolAndHostEmailServices = loadPropertyFromPropertiesFileString(PROPERTY_NAME_PROTOCOL_AND_HOST_EMAIL_SERVICES);
+		String emailAddressPrivacyAnalyst = loadPropertyFromPropertiesFileString(PROPERTY_NAME_EMAIL_ADDRESS_PRIVACY_ANALYST);
+		WatchdogClient client = new WatchdogClient(protocolAndHostUserDeviceEnforcement, protocolAndHostOspEnforcement, protocolAndHostEmailServices, emailAddressPrivacyAnalyst);
 		WatchdogApplication application = new WatchdogApplication(client);
 		
 		//Which user, which OSP?
@@ -71,7 +72,7 @@ public class WatchdogApplicationLauncher
 		try
 		{
 			//Load the file into an input stream.
-			inputStream = WatchdogApplicationLauncher.class.getClassLoader().getResourceAsStream(PROPERTIES_FILE);
+			inputStream = WatchdogLauncher.class.getClassLoader().getResourceAsStream(PROPERTIES_FILE);
 			
 			//Load the properties from the file's stream.
 			properties.load(inputStream);

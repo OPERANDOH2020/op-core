@@ -57,7 +57,7 @@ public class WatchdogClientStub implements WatchdogClientI
 		return privacySettingsRequired;
 	}
 	@Override
-	public void emailPrivacyAnalystAboutUserPrivacySettingDiscrepancy(int userId, int ospId)
+	public void notifyPrivacyAnalystAboutUserPrivacySettingDiscrepancy(int userId, int ospId)
 	{
 		//Change the value of this boolean to indicate that this method has been called.
 		emailSent = true;

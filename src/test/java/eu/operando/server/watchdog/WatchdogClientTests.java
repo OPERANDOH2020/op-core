@@ -37,10 +37,11 @@ import eu.operando.OperandoClientTests;
 /**
  * TODO - handle HTTP errors being returned
  */
-public class WatchdogClientTests implements OperandoClientTests
+public class WatchdogClientTests extends OperandoClientTests
 {
-	private WatchdogClient client = new WatchdogClient(URL_USER_DEVICE_ENFORCEMENT, URL_OSP_ENFORCEMENT,
-			URL_EMAIL_SERVICES);
+	private String emailAddressPrivacyAnalyst = "";
+	private WatchdogClient client = new WatchdogClient(PROTOCOL_AND_HOST, PROTOCOL_AND_HOST,
+			PROTOCOL_AND_HOST, emailAddressPrivacyAnalyst);
 	
 	@Rule
 	public WireMockRule wireMockRule = new WireMockRule(PORT_WIREMOCK);
@@ -88,7 +89,7 @@ public class WatchdogClientTests implements OperandoClientTests
 		int userId = 1;
 		int ospId = 2;
 
-		String endpoint = String.format(ENDPOINT_OSP_ENFORCEMENT_PRIVACY_SETTINGS, ospId);
+		String endpoint = String.format(ENDPOINT_OSP_ENFORCEMENT_PRIVACY_SETTINGS_VARIABLE_OSP_ID, ospId);
 		
 		wireMockRule.stubFor(get(urlPathEqualTo(endpoint))
 				.willReturn(aResponse()));
@@ -106,7 +107,7 @@ public class WatchdogClientTests implements OperandoClientTests
 		//Set Up
 		Vector<PrivacySetting> settingsExpected = createTestVectorPrivacySettings();
 		int ospId = 4;
-		stubForSuccessWithPrivacySettingsAsJson(settingsExpected, String.format(ENDPOINT_OSP_ENFORCEMENT_PRIVACY_SETTINGS, ospId));
+		stubForSuccessWithPrivacySettingsAsJson(settingsExpected, String.format(ENDPOINT_OSP_ENFORCEMENT_PRIVACY_SETTINGS_VARIABLE_OSP_ID, ospId));
 		
 		//Exercise
 		int userId = 3;
@@ -141,33 +142,29 @@ public class WatchdogClientTests implements OperandoClientTests
 	}
 	
 	@Test
-	public void testSendEmailToPrivacyAnalyst_CorrectHttpRequest()
+	public void testNotifyPrivacyAnalystAboutUserPrivacySettingDiscrepancy_CorrectHttpRequest()
 	{
 		//Set Up
-		wireMockRule.stubFor(get(urlPathEqualTo(ENDPOINT_EMAIL_SERVICES_EMAIL))
+		wireMockRule.stubFor(get(urlPathEqualTo(ENDPOINT_EMAIL_SERVICES_EMAIL_NOTIFICATION))
 				.willReturn(aResponse()));
 
 		int userId = 1;
 		int ospId = 2;
-		int userIdPrivacyAnalyst = 3;
-		
-		//TODO - this should be read from a config file, and the test should check that the value in the file is used.
-		client.setUserIdPrivacyAnalyst(userIdPrivacyAnalyst);
 				
 		//Exercise
-		client.emailPrivacyAnalystAboutUserPrivacySettingDiscrepancy(userId, ospId);
+		client.notifyPrivacyAnalystAboutUserPrivacySettingDiscrepancy(userId, ospId);
 
 		//Verify
-		Vector<Integer> to = new Vector<Integer>();
-		to.add(userIdPrivacyAnalyst);
+		Vector<String> to = new Vector<String>();
+		to.add(emailAddressPrivacyAnalyst);
 		String content = "The privacy settings for user " + userId + " with OSP " + ospId + " are not as required. This requires action.";
-		int senderIdWatchdog = 4; //TODO - what should this be?
+		String subject = "Privacy settings discrepancy";
 		
-		Email emailExpected = new Email(senderIdWatchdog, to, new Vector<Integer>(), new Vector<Integer>(), content, new Vector<Attachment>());
+		EmailNotification emailNotificationExpected = new EmailNotification(to, new Vector<String>(), new Vector<String>(), content, subject, new Vector<Attachment>());
 		Gson gson = new GsonBuilder().create();
-		String jsonEmail = gson.toJson(emailExpected);
+		String jsonEmail = gson.toJson(emailNotificationExpected);
 		
-		wireMockRule.verify(postRequestedFor(urlPathEqualTo(ENDPOINT_EMAIL_SERVICES_EMAIL))
+		wireMockRule.verify(postRequestedFor(urlPathEqualTo(ENDPOINT_EMAIL_SERVICES_EMAIL_NOTIFICATION))
 				.withRequestBody(equalToJson(jsonEmail)));
 	}
 }
