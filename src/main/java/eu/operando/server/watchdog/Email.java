@@ -13,9 +13,12 @@ package eu.operando.server.watchdog;
 
 import java.util.Vector;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * The email object which is used in the Email Services API.
  */
+@XmlRootElement
 public class Email
 {
 	private int sender = -1;
