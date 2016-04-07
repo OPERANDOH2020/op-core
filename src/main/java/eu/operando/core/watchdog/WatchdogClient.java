@@ -22,12 +22,12 @@ import javax.ws.rs.client.WebTarget;
 
 import com.google.common.reflect.TypeToken;
 
-import eu.operando.OperandoObject;
+import eu.operando.OperandoModuleClient;
 
 /**
  * The WatchdogClient is used by the WatchdogApplication to make API calls
  */
-public class WatchdogClient extends OperandoObject
+public class WatchdogClient extends OperandoModuleClient
 							implements WatchdogClientI
 {
 	private String protocolAndHostUserDeviceEnforcement = "";
