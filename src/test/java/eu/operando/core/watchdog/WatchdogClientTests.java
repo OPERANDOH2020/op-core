@@ -25,31 +25,18 @@ import static org.junit.Assert.assertThat;
 import java.util.Vector;
 
 import org.apache.http.HttpStatus;
-import org.junit.Rule;
 import org.junit.Test;
 
-import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import eu.operando.OperandoClientTests;
-import eu.operando.core.watchdog.Attachment;
-import eu.operando.core.watchdog.EmailNotification;
-import eu.operando.core.watchdog.PrivacySetting;
-import eu.operando.core.watchdog.WatchdogClient;
+import eu.operando.OperandoModuleClientTests;
 /**
  * TODO - handle HTTP errors being returned
  */
-public class WatchdogClientTests extends OperandoClientTests
+public class WatchdogClientTests extends OperandoModuleClientTests
 {
 	private String emailAddressPrivacyAnalyst = "";
 	private WatchdogClient client = new WatchdogClient(PROTOCOL_AND_HOST, PROTOCOL_AND_HOST,
 			PROTOCOL_AND_HOST, emailAddressPrivacyAnalyst);
-	
-	@Rule
-	public WireMockRule wireMockRule = new WireMockRule(PORT_WIREMOCK);
-	
+		
 	/**
 	 * UDE
 	 */
@@ -57,7 +44,7 @@ public class WatchdogClientTests extends OperandoClientTests
 	public void testGetPrivacySettingsCurrent_CorrectHttpRequest()
 	{
 		//Set Up
-		wireMockRule.stubFor(get(urlPathEqualTo(ENDPOINT_USER_DEVICE_ENFORCEMENT_PRIVACY_SETTINGS))
+		getWireMockRule().stubFor(get(urlPathEqualTo(ENDPOINT_USER_DEVICE_ENFORCEMENT_PRIVACY_SETTINGS))
 				.willReturn(aResponse()));
 		
 		int userId = 1;
@@ -67,7 +54,7 @@ public class WatchdogClientTests extends OperandoClientTests
 		client.getPrivacySettingsCurrent(userId, ospId);
 		
 		//Verify
-		wireMockRule.verify(getRequestedFor(urlPathEqualTo(ENDPOINT_USER_DEVICE_ENFORCEMENT_PRIVACY_SETTINGS))
+		getWireMockRule().verify(getRequestedFor(urlPathEqualTo(ENDPOINT_USER_DEVICE_ENFORCEMENT_PRIVACY_SETTINGS))
 				.withQueryParam("user_id", equalTo("" + userId))
 				.withQueryParam("osp_id", equalTo("" + ospId)));
 	}
@@ -95,14 +82,14 @@ public class WatchdogClientTests extends OperandoClientTests
 
 		String endpoint = String.format(ENDPOINT_OSP_ENFORCEMENT_PRIVACY_SETTINGS_VARIABLE_OSP_ID, ospId);
 		
-		wireMockRule.stubFor(get(urlPathEqualTo(endpoint))
+		getWireMockRule().stubFor(get(urlPathEqualTo(endpoint))
 				.willReturn(aResponse()));
 	
 		//Exercise
 		client.getPrivacySettingsRequired(userId, ospId);
 		
 		//Verify
-		wireMockRule.verify(getRequestedFor(urlPathEqualTo(endpoint))
+		getWireMockRule().verify(getRequestedFor(urlPathEqualTo(endpoint))
 				.withQueryParam("user_id", equalTo("" + userId)));
 	}
 	@Test
@@ -136,10 +123,9 @@ public class WatchdogClientTests extends OperandoClientTests
 	}
 	private void stubForSuccessWithPrivacySettingsAsJson(Vector<PrivacySetting> vSettingsExpected, String endPoint)
 	{
-		Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
-		String jsonArraySettings = gson.toJson(vSettingsExpected);
+		String jsonArraySettings = getStringJsonFollowingOperandoConventions(vSettingsExpected);
 		
-		wireMockRule.stubFor(get(urlPathEqualTo(endPoint))
+		getWireMockRule().stubFor(get(urlPathEqualTo(endPoint))
 				.willReturn(aResponse()
 						.withStatus(HttpStatus.SC_OK)
 						.withBody(jsonArraySettings)));
@@ -149,7 +135,7 @@ public class WatchdogClientTests extends OperandoClientTests
 	public void testNotifyPrivacyAnalystAboutUserPrivacySettingDiscrepancy_CorrectHttpRequest()
 	{
 		//Set Up
-		wireMockRule.stubFor(get(urlPathEqualTo(ENDPOINT_EMAIL_SERVICES_EMAIL_NOTIFICATION))
+		getWireMockRule().stubFor(get(urlPathEqualTo(ENDPOINT_EMAIL_SERVICES_EMAIL_NOTIFICATION))
 				.willReturn(aResponse()));
 
 		int userId = 1;
@@ -165,10 +151,9 @@ public class WatchdogClientTests extends OperandoClientTests
 		String subject = "Privacy settings discrepancy";
 		
 		EmailNotification emailNotificationExpected = new EmailNotification(to, new Vector<String>(), new Vector<String>(), content, subject, new Vector<Attachment>());
-		Gson gson = new GsonBuilder().create();
-		String jsonEmail = gson.toJson(emailNotificationExpected);
+		String jsonEmail = getStringJsonFollowingOperandoConventions(emailNotificationExpected);
 		
-		wireMockRule.verify(postRequestedFor(urlPathEqualTo(ENDPOINT_EMAIL_SERVICES_EMAIL_NOTIFICATION))
+		getWireMockRule().verify(postRequestedFor(urlPathEqualTo(ENDPOINT_EMAIL_SERVICES_EMAIL_NOTIFICATION))
 				.withRequestBody(equalToJson(jsonEmail)));
 	}
 }

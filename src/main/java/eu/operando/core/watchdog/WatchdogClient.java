@@ -20,17 +20,14 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.client.WebTarget;
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
+import com.google.common.reflect.TypeToken;
 
-import eu.operando.OperandoConstants;
+import eu.operando.OperandoObject;
 
 /**
  * The WatchdogClient is used by the WatchdogApplication to make API calls
  */
-public class WatchdogClient extends OperandoConstants
+public class WatchdogClient extends OperandoObject
 							implements WatchdogClientI
 {
 	private String protocolAndHostUserDeviceEnforcement = "";
@@ -96,13 +93,8 @@ public class WatchdogClient extends OperandoConstants
 	 */
 	private Vector<PrivacySetting> convertJsonToPrivacySettingsVector(String strJson)
 	{
-		//JSON is in snake_case, but object fields are camelCase. 
-		GsonBuilder gsonBuilder = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
-		Gson gson = gsonBuilder.create();
-		
-		//Tell gson to turn the array into a vector of privacy settings.
 		Type type = new TypeToken<Vector<PrivacySetting>>(){}.getType();
-		Vector<PrivacySetting> settings = gson.fromJson(strJson, type);
+		Vector<PrivacySetting> settings = getStringJsonFollowingOperandoConventions(strJson, type);
 		return settings;
 	}
 	
