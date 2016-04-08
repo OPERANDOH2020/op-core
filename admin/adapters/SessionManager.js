@@ -146,13 +146,13 @@ deleteUserSessions = function(sessionId,callback){
 
 }
 
-sessionIsValid = function (sessionId, userId, callback) {
+sessionIsValid = function (newSession, sessionId, userId, callback) {
 
     flow.create("validate session", {
         begin: function () {
 
             if (!sessionId) {
-                callback(new Error("sessionId is requred to validate session"), null);
+                callback(new Error("sessionId is required to validate session"), null);
                 return;
             }
 
@@ -177,6 +177,7 @@ sessionIsValid = function (sessionId, userId, callback) {
                 }
                 else {
                     session.expirationDate = parseInt(Date.now()) + parseInt(sessionMaxIdleTime);
+                    session.sessionId = newSession;
                     redisPersistence.saveObject(session, callback);
                 }
             }
