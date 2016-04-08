@@ -17,7 +17,9 @@ treenode {
     }
 
         treenode ul li {
-            margin-right: 5px;            
+            margin-right: 5px;
+            clear:both;
+            word-wrap: break-word;
         }
 
     treenode .node-title {
@@ -72,7 +74,16 @@ span > .tree-node-ico {
     span > .tree-node-ico.tree-node-leaf {
         background-image: url('img/file.png');
     }
-
+.node-details {
+    float: left;
+    clear: both;
+    margin-top: 3px;
+    border: 1px solid green;
+    border-radius: 5px;
+    height: 100px;
+    width: 500px;
+    overflow:scroll;
+}
 
 
 /*

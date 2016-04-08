@@ -59,13 +59,21 @@
             return {
                 restrict: "E",
                 scope: { nodes: '=', tree: '=', options: '=?' },
-                template: '<ul>'
+                template:
+                '<ul>'
                 + '<li ng-repeat="node in nodes" class="node">'
                 + '<i class="tree-node-ico pointer" ng-class="{\'tree-node-expanded\': node.expanded,\'tree-node-collapsed\':!node.expanded && node.children}" ng-click="toggleNode(node)"></i>'
                 + '<span class="node-title pointer" ng-click="selectNode(node)" ng-class="{\'disabled\':node.disabled}">'
                 + '<span><i class="tree-node-ico" ng-if="options.showIcon" ng-class="{\'tree-node-image\':node.children, \'tree-node-leaf\':!node.children}" ng-style="node.image && {\'background-image\':\'url(\'+node.image+\')\'}"></i>'
                 + '<span class="node-name" ng-style="node.style"  ng-class="{selected: node.selected&& !node.disabled}">{{node.name}} {{node.current_running_message}}</span></span>'
                 + '</span>'
+                + '<div ng-show="node.displaysDetails">'
+                + '<div class="node-details">'
+                + '<div ng-repeat="line in node.details">'
+                + '{{line}}'
+                + '</div>'
+                + '</div>'
+                + '</div>'
                 + '<treenode ng-if="node.children" nodes=\'node.children\' tree="tree" options="options" ng-show="node.expanded" id="{{node.nodeId}}"></treenode>'
                 + '</li>'
                 + '</ul>',

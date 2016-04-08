@@ -28,7 +28,7 @@ app.controller('SwarmsUsage', ['$scope', function ($scope) {
         swarmHub.startSwarm('monitoring.js','fetchMemHistory',"Last 5 minutes")
         setTimeout(monitoring, 5*1000);
     }
-    monitoring();
+    //monitoring();
 
     var packDataNicely=function(containingObject){
         var addition=[];

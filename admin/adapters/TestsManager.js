@@ -21,9 +21,11 @@ runTests = function(tests,callback){
 
         var worker = forker.fork(test,{'env':env,'silent':true});
 
-        worker.on("message",function(message){
-            message['test'] = test;
-            callback(message)
+        worker.on("message",function(log){
+            if(log.type === 'assertResult'){
+                log['test'] = test;
+                callback(log)
+            }
         });
 
         worker.on("exit",function(){
