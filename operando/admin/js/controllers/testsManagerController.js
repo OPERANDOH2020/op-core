@@ -34,6 +34,7 @@ app.controller('testsManagerController', ['$scope', function($scope ) {
 
         swarmHub.on('FetchResult.js','gotResult',function(returningSwarm){
             var test;
+
             runningTests.some(function(runningTest){
                 if(runningTest.realPath === returningSwarm.result.test){
                     test = runningTest;
@@ -46,27 +47,19 @@ app.controller('testsManagerController', ['$scope', function($scope ) {
             if(returningSwarm.result['type']==='assertResult') {
                 if(!test['results']){
                     test['results'] = {}
+                    test['results']['messages'] = []
                 }
 
-                if (test['results']['whyLog'] === undefined) {
-                    test['results']['whyLog'] = {}
-                }
-
-
-                returningSwarm.result['whyLog'].forEach(function(flow){
+                returningSwarm.result['whyLogs'].forEach(function(flow){
+                    test['results']['whyLogs'] = {};
                     for(var flowName in flow){
-                        test['results']['whyLog'][flowName] = flow[flowName];
+                        test['results']['whyLogs'][flowName] = flow[flowName];
                     }
                 })
-
 
                 if (returningSwarm.result['message']) {
 
                     var testMessage = returningSwarm.result['message'];
-
-                    if(!test['results']['messages']){
-                        test['results']['messages'] = [];
-                    }
                     test['results']['messages'].push(testMessage);
 
                     if (testMessage.match('Pass')) {
@@ -74,8 +67,6 @@ app.controller('testsManagerController', ['$scope', function($scope ) {
                             test.style = {color: 'green'}
                         }
                     }
-
-
 
                     if (testMessage.match('Fail')) {
                         test.style = {color: 'red'};
