@@ -18,7 +18,7 @@ angular.module('app')
 
             },
             restoreConnection:function(username, sessionId, failCallback, errorCallback){
-                swarmConnection = new SwarmClient("localhost", 8080, username, {type:"sessionId",sessionId:sessionId}, "swarmMonitor", "restoreSession",failCallback, failCallback);
+                swarmConnection = new SwarmClient("localhost", 8080, username, {sessionId:sessionId}, "swarmMonitor", "restoreSession",failCallback, failCallback);
                 swarmHub.resetConnection(swarmConnection);
             },
             removeConnection:function(){

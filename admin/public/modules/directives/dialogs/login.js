@@ -14,7 +14,7 @@ SwarmMonitor.directive('login', ['$location','localStorageService', function(){
                 //init swarm system connection
                 var swarmClient =  swarmHub.getConnection();
                 if(!swarmClient){
-                    swarmClient = new SwarmClient(  $location.host(), 8080,  $scope.user.userId,
+                    swarmClient = new SwarmClient($location.host(), 8080,  $scope.user.userId,
                         $scope.user.password, "swarmMonitor", "userLogin",
                         function securityErrorFunction(err, data) {
                             $scope.status = 'Invalid user or password...';

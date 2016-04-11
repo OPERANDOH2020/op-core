@@ -36,6 +36,17 @@ angular.module('app')
                                 }]
                         }
                     })
+
+                    .state('app.usermanager',{
+                       url:'/userManager',
+                        templateUrl:'tpl/operando/usersManager.html',
+                        resolve:{
+                            deps:['$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['js/controllers/usersManagerController.js']);
+                                }]
+                        }
+                    })
                       // pages
                     .state('app.page', {
                         url: '/page',

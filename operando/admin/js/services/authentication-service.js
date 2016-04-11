@@ -70,7 +70,7 @@ angular.module('app')
             },
 
             logoutCurrentUser:function(callback){
-                swarmHub.startSwarm("login.js","logout",$cookieStore.get("sessionId"), authenticatedUser.sessionId);
+                swarmHub.startSwarm("login.js","logout");
                 swarmHub.on("login.js", "logoutSucceed", function(swarm){
                     authenticatedUser = {};
                     loggedIn = false;

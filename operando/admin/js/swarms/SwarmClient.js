@@ -215,7 +215,7 @@ function SwarmClient(host, port, userId, authToken, tenantId, loginCtor, securit
                 command: "start",
                 ctor: loginCtor,
                 tenantId: tenantId,
-                commandArguments: [sessionId, userId, authToken]
+                commandArguments: [userId, authToken]
             }
         };
         self.writeObject(cmd);

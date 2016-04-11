@@ -102,7 +102,7 @@ apersistence.registerModel("DefaultUser","Redis", {
     zip_code: {
         type: "string"
     },
-    is_Active:{
+    is_active:{
         type:"boolean"
     }
 }, function(err, model){
@@ -218,7 +218,16 @@ queryUsers = function(organisationId, callback){
             redisPersistence.filter("DefaultUser", {"organisationId": organisationId}, this.continue("getOrganisationUsers"));
         },
         getOrganisationUsers: function(err, users){
-            callback(err,users);
+            var organizationUsers = [];
+
+            users.forEach(function(user){
+                if(user.is_active!=false){
+                    delete user['password'];
+                    organizationUsers.push(user);
+                }
+            });
+
+            callback(err, organizationUsers);
         }
     })();
 }
