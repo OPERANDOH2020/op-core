@@ -294,6 +294,7 @@ app.controller('testsManagerController', ['$scope', function($scope ) {
             return nodes;
         }
         console.log($scope.testsTree);
+        $scope.$apply();
     })
 }]);
 

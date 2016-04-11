@@ -18,7 +18,8 @@ var loginSwarming = {
         sessionId:null,
         userId:null
     },
-    userLogin:function(clientSessionId, userId, authorisationToken){
+    userLogin:function(userId, authorisationToken){
+        this.sessionId = this.getSessionId();
         this.authenticated = false;
         this.userId = userId;
         if(!userId){
@@ -33,6 +34,7 @@ var loginSwarming = {
     checkPassword:{
       node:"UsersManager",
       code:function(){
+
           var valid = validPassword.async(this.userId, this.authorisationToken);
           var self = this;
           (function(valid){
@@ -47,9 +49,9 @@ var loginSwarming = {
         }
     },
 
-    logout:function(clientSessionId, userId){
-        this.setSessionId(clientSessionId);
-        this.userId = userId;
+    logout:function(){
+        console.log("logout");
+        this.sessionId = this.getSessionId();
         this.swarm("userLogout");
     },
 
@@ -70,7 +72,9 @@ var loginSwarming = {
     },
 
     restoreSession:function(clientSessionId, userId ){
+        console.log("Let's restore session");
         this.sessionId = clientSessionId;
+        this.outletSession = this.getSessionId();
         this.userId = userId;
         this.swarm("validateSession");
 
@@ -80,15 +84,16 @@ var loginSwarming = {
         node: "SessionManager",
         code: function () {
             var self = this;
-            sessionIsValid(self.sessionId, self.userId, S(function (err, isValid) {
+            sessionIsValid(self.outletSession, self.sessionId, self.userId, S(function (err, newSession) {
 
                 if (err) {
                     console.log(err);
                     self.home("restoreFailed");
                 }
                 else {
-                    if (isValid) {
+                    if (newSession) {
                         console.log("Session is valid");
+                        self.sessionId = newSession.sessionId;
                         self.authenticated = true;
                         self.swarm("restoreSwarms", self.getEntryAdapter());
                     }
@@ -172,7 +177,7 @@ var loginSwarming = {
             var self = this;
             var sessionData = {
                 userId: self.userId,
-                sessionId: self.meta.sessionId
+                sessionId: self.sessionId
             };
 
             createOrUpdateSession(sessionData, S(function(error, session){
