@@ -16,7 +16,6 @@ var sensorSwarming={
     },
 
     vars:{
-
         device_id:null,
         sensor_id:null,
         sensor_log:null
