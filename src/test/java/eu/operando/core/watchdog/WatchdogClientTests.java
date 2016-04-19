@@ -27,11 +27,11 @@ import java.util.Vector;
 import org.apache.http.HttpStatus;
 import org.junit.Test;
 
-import eu.operando.OperandoModuleClientTests;
+import eu.operando.ClientOperandoModuleTests;
 /**
  * TODO - handle HTTP errors being returned
  */
-public class WatchdogClientTests extends OperandoModuleClientTests
+public class WatchdogClientTests extends ClientOperandoModuleTests
 {
 	private String emailAddressPrivacyAnalyst = "";
 	private WatchdogClient client = new WatchdogClient(PROTOCOL_AND_HOST, PROTOCOL_AND_HOST,

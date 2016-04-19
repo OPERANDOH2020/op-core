@@ -16,24 +16,23 @@ import java.util.Vector;
 
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation.Builder;
 import javax.ws.rs.client.WebTarget;
 
 import com.google.common.reflect.TypeToken;
 
-import eu.operando.OperandoModuleClient;
+import eu.operando.ClientOperandoModule;
 
 /**
  * The WatchdogClient is used by the WatchdogApplication to make API calls
  */
-public class WatchdogClient extends OperandoModuleClient
+public class WatchdogClient extends ClientOperandoModule
 							implements WatchdogClientI
 {
 	private String protocolAndHostUserDeviceEnforcement = "";
 	private String protocolAndHostOspEnforcement = "";
 	private String protocolAndHostEmailServices = "";
-	private String emailAddressPrivacyAnalyst;
+	private String emailAddressPrivacyAnalyst = "";
 
 	private Client client = ClientBuilder.newClient();
 	
@@ -85,17 +84,9 @@ public class WatchdogClient extends OperandoModuleClient
 		Builder requestBuilder = target.request();
 		String strJson = requestBuilder.get(String.class);
 		
-		return convertJsonToPrivacySettingsVector(strJson);
-	}
-	
-	/**
-	 * Convert JSON representing an array of privacy settings to a Java vector of privacy settings.
-	 */
-	private Vector<PrivacySetting> convertJsonToPrivacySettingsVector(String strJson)
-	{
+		@SuppressWarnings("serial")
 		Type type = new TypeToken<Vector<PrivacySetting>>(){}.getType();
-		Vector<PrivacySetting> settings = getStringJsonFollowingOperandoConventions(strJson, type);
-		return settings;
+		return getObjectFromJsonFollowingOperandoConventions(strJson, type);
 	}
 	
 	/**
@@ -108,7 +99,7 @@ public class WatchdogClient extends OperandoModuleClient
 		to.add(emailAddressPrivacyAnalyst);
 		String content = "The privacy settings for user " + userId+ " with OSP " + ospId + " are not as required. This requires action.";
 		String subject = "Privacy settings discrepancy";
-		EmailNotification email = new EmailNotification(to, new Vector<String>(), new Vector<String>(), content, subject  , new Vector<Attachment>());
+		EmailNotification emailNotification = new EmailNotification(to, new Vector<String>(), new Vector<String>(), content, subject , new Vector<Attachment>());
 		
 		//Create a web target for the correct end-point.
 		WebTarget target = client.target(protocolAndHostEmailServices);
@@ -116,7 +107,6 @@ public class WatchdogClient extends OperandoModuleClient
 		
 		//Send the request with the email encoded as JSON in the body.
 		Builder requestBuilder = target.request();
-		Entity<EmailNotification> json = Entity.json(email);
-		requestBuilder.post(json);
+		requestBuilder.post(createEntityStringJsonFromObject(emailNotification));
 	}
 }
