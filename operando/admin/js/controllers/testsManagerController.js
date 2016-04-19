@@ -2,6 +2,7 @@
 
 app.controller('testsManagerController', ['$scope', function($scope ) {
 
+
     var running_options = {
         multipleSelect:false,
         showIcon:true
@@ -23,70 +24,16 @@ app.controller('testsManagerController', ['$scope', function($scope ) {
 
     var all_nodes = [];
     var runningTests = [];
+
     $scope.runSelectedTests=  function(){
         $scope.treeOptions = running_options;
         $scope.currentlyRunningTests = true;
         runningTests = getTestsToRun();
-        updateNodes(all_nodes,{'disabled':true,'selected':false,'testMessages':[],'whyLog':undefined});
+        updateNodes(all_nodes,{'disabled':true,'selected':false});
         updateNodes(runningTests, {'disabled':false,style:{color:'blue'},current_running_message :' is running','displayAsserts':false});
 
         swarmHub.startSwarm("TestRunner.js","start",runningTests.map(function(node){return node.realPath}));
 
-        swarmHub.on('FetchResult.js','gotResult',function(returningSwarm){
-            var test;
-
-            runningTests.some(function(runningTest){
-                if(runningTest.realPath === returningSwarm.result.test){
-                    test = runningTest;
-                    return true;
-                }else{
-                    return false;
-                }
-            })
-
-            if(returningSwarm.result['type']==='assertResult') {
-                if(!test['results']){
-                    test['results'] = {}
-                    test['results']['messages'] = []
-                }
-
-                returningSwarm.result['whyLogs'].forEach(function(flow){
-                    test['results']['whyLogs'] = {};
-                    for(var flowName in flow){
-                        test['results']['whyLogs'][flowName] = flow[flowName];
-                    }
-                })
-
-                if (returningSwarm.result['message']) {
-
-                    var testMessage = returningSwarm.result['message'];
-                    test['results']['messages'].push(testMessage);
-
-                    if (testMessage.match('Pass')) {
-                        if (test.style.color !== 'red') {
-                            test.style = {color: 'green'}
-                        }
-                    }
-
-                    if (testMessage.match('Fail')) {
-                        test.style = {color: 'red'};
-                    }
-                }
-
-                $scope.$apply();
-                return;
-            }
-
-            if(returningSwarm.result.result === "Terminated") {
-                $scope.$apply(function(){
-                    if(test.style.color!=='green'){
-                        test.style.color = 'red';
-                    }
-                    test.current_running_message = ' finished';
-                });
-                return;
-            }
-        })
 
         function getTestsToRun(){
             return all_nodes.filter(function(node){
@@ -99,50 +46,116 @@ app.controller('testsManagerController', ['$scope', function($scope ) {
             })
         }
     }
+    swarmHub.on('FetchResult.js','gotResult',function(returningSwarm){
+        var test;
+
+        runningTests.some(function(runningTest){
+            if(runningTest.realPath === returningSwarm.result.test){
+                test = runningTest;
+                return true;
+            }else{
+                return false;
+            }
+        })
+
+        if(returningSwarm.result['type']==='assertResult') {
+
+
+            if(test['results']===false){
+                test['results'] = []
+            }
+
+            if (returningSwarm.result['message']) {
+
+
+                var testMessage = returningSwarm.result['message'];
+                if (testMessage.match('Pass')) {
+                    if (test.style.color !== 'red') {
+                        test.style = {color: 'green'}
+                    }
+                }
+                else {
+                    if (testMessage.match('Fail')|| testMessage.match("Test did not terminate properly")) {
+                        test.style = {color: 'red'};
+                        if(testMessage.match("Test did not terminate properly")){
+                            test['results'].push("Test did not terminate properly...");
+                        }
+                        test.current_running_message = test['results'][test['results'].length-1]
+                    }
+                    else{
+                        var stack = returningSwarm['result']['stack'];
+                        var line = stack.split(test['realPath'].slice(0,-1))[1].split(")")[0].split(":")[1];
+                        test['results'].push(testMessage+" at line "+line);
+                    }
+                }
+                propagateResultUptree(test);
+            }
+
+            $scope.$apply();
+            return;
+        }
+
+        if(returningSwarm.result.result === "Terminated") {
+            $scope.$apply(function(){
+                if(test.style.color!=='green'){
+                    test.style.color = 'red';
+                }else {
+                    test.current_running_message = ' finished successfully';
+                }
+            });
+        }
+
+        function propagateResultUptree(node){
+            all_nodes.some(function(maybe_parent){
+                if(maybe_parent['children']) {
+                    return maybe_parent['children'].some(function (child) {
+                        if (node === child) {
+                            if(!maybe_parent['style']) {
+                                maybe_parent['style'] = node['style'];
+                                propagateResultUptree(maybe_parent);
+                            }else{
+                                if(maybe_parent['style']['color']!=='red'){
+                                    maybe_parent['style'] = node['style'];
+                                    propagateResultUptree(maybe_parent);
+                                }
+                            }
+                            return true;
+                        }
+                        return false;
+                    })
+                }else{
+                    return false;
+                }
+            })
+        }
+    })
+
 
     $scope.stopRunningTests = function(){
         $scope.currentTestResult = undefined;
         $scope.treeOptions = not_running_options;
         $scope.currentlyRunningTests = false;
-        updateNodes(all_nodes, {'style':undefined, 'results':undefined,'current_running_message':undefined,'disabled':false,'selected':false,'displayAsserts':false,'displayDetails':false})
+        updateNodes(all_nodes, {'style':undefined,
+                                'results':false,
+                                'current_running_message':undefined,
+                                'disabled':false,
+                                'selected':false,
+                                'displayAsserts':false,
+                                'displayDetails':false})
         runningTests = [];
     };
 
-    function updateNodes(nodes,properties) {
-        nodes.forEach(function (node) {
-            for(var prop in properties) {
-                node[prop] = properties[prop];
-
-            }
-        })
-    }
 
     $scope.$on('selection-changed',function(e,node){
 
         if($scope.currentlyRunningTests === true){
             if(node.realPath){
+                //if node has fielr realPath it means it is in the tests tree
                 $scope.currentTestResult = getExecutionTree(node);
-                console.log(node);
             }else{
                 checkDetails(node);
             }
             return;
-        }
-
-        function checkDetails(node){
-            if(node.displaysDetails){
-                hideDetails(node);
-            }else{
-                displayDetails(node);
-            }
-
-            function hideDetails(node){
-                node.displaysDetails = false;
-            }
-            function displayDetails(node){
-                node.displaysDetails = true;
-                console.log(node['details']);
-            }
         }
 
         $scope.treeNodes.forEach(function(node){
@@ -217,9 +230,25 @@ app.controller('testsManagerController', ['$scope', function($scope ) {
                 }
             }
         }
+
+        function checkDetails(node){
+            if(node.displaysDetails){
+                hideDetails(node);
+            }else{
+                displayDetails(node);
+            }
+
+            function hideDetails(node){
+                node.displaysDetails = false;
+            }
+            function displayDetails(node){
+                node.displaysDetails = true;
+                console.log(node['details']);
+            }
+        }
+
     })
 
-    swarmHub.startSwarm('FetchAvailableTests.js', 'start');
     swarmHub.on("FetchAvailableTests.js", 'gotTests', function (thisSwarm) {
         var tests = thisSwarm.tests;
 
@@ -227,7 +256,6 @@ app.controller('testsManagerController', ['$scope', function($scope ) {
         $scope.treeOptions = not_running_options;
 
         function getFolderStructure(testsList){
-
             var nodes = [];
             testsList.forEach(function(testPath){
                 var arrayedPath = testPath.split("/");
@@ -254,7 +282,7 @@ app.controller('testsManagerController', ['$scope', function($scope ) {
                             children:[],
                             realPath:currentPath,
                             selected:false,
-                            result:undefined
+                            results:false
                         }
                         tree.push(newNode);
                         tree = newNode.children;
@@ -296,6 +324,18 @@ app.controller('testsManagerController', ['$scope', function($scope ) {
         console.log($scope.testsTree);
         $scope.$apply();
     })
+
+    swarmHub.startSwarm('FetchAvailableTests.js', 'start');
+
+
+    function updateNodes(nodes,properties) {
+        nodes.forEach(function (node) {
+            for(var prop in properties) {
+                node[prop] = properties[prop];
+
+            }
+        })
+    }
 }]);
 
 

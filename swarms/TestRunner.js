@@ -2,6 +2,9 @@
  * Created by ciprian on 3/18/16.
  */
 var testRunner = {
+    meta:{
+        'debug':true
+    },
     start:function (tests) {
         this.tests = tests;
         this.swarm("runTests");

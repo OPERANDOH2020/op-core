@@ -34,9 +34,6 @@ SwarmMonitor.controller('DashboardController', ['$scope', '$state', '$rootScope'
             swarmHub.startSwarm('monitoring.js','fetchMemHistory',$scope.memPeriod)
         };
 
-
-
-
         function refresh(){
             $scope.activeServersCount = 0;
             $scope.activeAdaptersCount = 0;
@@ -84,6 +81,5 @@ SwarmMonitor.controller('DashboardController', ['$scope', '$state', '$rootScope'
             //setTimeout(timeOutPing, 60*1000);
         }
         timeOutPing();
-
     }
 ]);

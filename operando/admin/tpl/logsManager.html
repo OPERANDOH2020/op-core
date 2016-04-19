@@ -1,0 +1,19 @@
+<div class="hbox hbox-auto-xs hbox-auto-sm" ng-controller="logsManagerController">
+    <div class="col w-lg bg-light dk b-r bg-auto">
+        <div class="wrapper-md dker b-b">
+            <div class="h4">Log types</div>
+        </div>
+        <ul class="nav nav-pills nav-stacked nav-sm">
+            <li ng-repeat="(logType,logs) in logTypes" ng-click="displayLogs(logType)">
+                <a >
+                    {{logType}}
+                </a>
+            </li>
+        </ul>
+    </div>
+
+
+    <div class="col">
+
+    </div>
+</div>

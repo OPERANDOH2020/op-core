@@ -18,12 +18,12 @@ runTests = function(tests,callback){
     tests.forEach(function(test){
         var env = process.env;
         env.RUN_WITH_WHYS = true;
-
         var worker = forker.fork(test,{'env':env,'silent':true});
 
         worker.on("message",function(log){
             if(log.type === 'assertResult'){
                 log['test'] = test;
+                thisAdapter.nativeMiddleware.recordLog(log);
                 callback(log)
             }
         });
@@ -40,7 +40,7 @@ runTests = function(tests,callback){
         setTimeout(function(){
             if(!worker.terminated === true){
                 worker.kill();
-                callback("Test did not terminate properly");
+                callback({"messgae":"Test did not terminate properly"});
             }
         },process.env['TEST_TIMEOUT']||10000)
 
@@ -57,7 +57,6 @@ getAvailableTests = function(){
         dirsToBeAnalyzed = dirsToBeAnalyzed.concat(content.directories);
         tests = tests.concat(content.tests);
     }
-
 
     return tests;
     function extractContentOfDirectory(directory){
@@ -94,3 +93,4 @@ getAvailableTests = function(){
         }
     }
 }
+

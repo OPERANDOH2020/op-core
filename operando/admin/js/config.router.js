@@ -4,14 +4,12 @@
  * Config for the router
  */
 angular.module('app')
-    .run(
-        ['$rootScope', '$state', '$stateParams',
+    .run(['$rootScope', '$state', '$stateParams',
             function ($rootScope, $state, $stateParams) {
                 $rootScope.$state = $state;
                 $rootScope.$stateParams = $stateParams;
             }
-        ]
-    )
+        ])
     .config(
         ['$stateProvider', '$urlRouterProvider',
             function ($stateProvider, $urlRouterProvider) {
@@ -36,7 +34,6 @@ angular.module('app')
                                 }]
                         }
                     })
-
                     .state('app.usermanager',{
                        url:'/userManager',
                         templateUrl:'tpl/operando/usersManager.html',
@@ -54,11 +51,23 @@ angular.module('app')
                     })
                     .state('app.testsManager',{
                         url: '/testsManager',
+                        reloadOnSearch:false,
                         templateUrl: 'tpl/testsManager.html',
                         resolve: {
                             deps: ['uiLoad',
                                 function ($ocLazyLoad) {
                                     return $ocLazyLoad.load(['js/controllers/testsManagerController.js']);
+                                }]
+                        }
+                    })
+                    .state('app.logsManager',{
+                        url: '/logsManager',
+                        reloadOnSearch:false,
+                        templateUrl: 'tpl/logsManager.html',
+                        resolve: {
+                            deps: ['uiLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['js/controllers/logsManagerController.js']);
                                 }]
                         }
                     })
