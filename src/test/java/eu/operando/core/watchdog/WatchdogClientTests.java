@@ -11,20 +11,15 @@
  */
 package eu.operando.core.watchdog;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
-import static com.github.tomakehurst.wiremock.client.WireMock.equalToJson;
-import static com.github.tomakehurst.wiremock.client.WireMock.get;
-import static com.github.tomakehurst.wiremock.client.WireMock.getRequestedFor;
-import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
+import java.util.HashMap;
 import java.util.Vector;
 
-import org.apache.http.HttpStatus;
+import javax.ws.rs.HttpMethod;
+
 import org.junit.Test;
 
 import eu.operando.ClientOperandoModuleTests;
@@ -44,8 +39,8 @@ public class WatchdogClientTests extends ClientOperandoModuleTests
 	public void testGetPrivacySettingsCurrent_CorrectHttpRequest()
 	{
 		//Set Up
-		getWireMockRule().stubFor(get(urlPathEqualTo(ENDPOINT_USER_DEVICE_ENFORCEMENT_PRIVACY_SETTINGS))
-				.willReturn(aResponse()));
+		String endpoint = ENDPOINT_USER_DEVICE_ENFORCEMENT_PRIVACY_SETTINGS;
+		stub(HttpMethod.GET, endpoint);
 		
 		int userId = 1;
 		int ospId = 2;
@@ -54,15 +49,18 @@ public class WatchdogClientTests extends ClientOperandoModuleTests
 		client.getPrivacySettingsCurrent(userId, ospId);
 		
 		//Verify
-		getWireMockRule().verify(getRequestedFor(urlPathEqualTo(ENDPOINT_USER_DEVICE_ENFORCEMENT_PRIVACY_SETTINGS))
-				.withQueryParam("user_id", equalTo("" + userId))
-				.withQueryParam("osp_id", equalTo("" + ospId)));
+		HashMap<String, String> queriesParamToValue = new HashMap<String, String>();
+		queriesParamToValue.put("user_id", "" + userId);
+		queriesParamToValue.put("osp_id", "" + ospId);
+		verifyWithoutBody(HttpMethod.GET, endpoint, queriesParamToValue);
 	}
 	@Test
 	public void testGetCurrentPrivacySettings_HandlesSuccessfulResponseCorrectly()
 	{
+		//Set up
 		Vector<PrivacySetting> settingsExpected = createTestVectorPrivacySettings();
-		stubForSuccessWithPrivacySettingsAsJson(settingsExpected, ENDPOINT_USER_DEVICE_ENFORCEMENT_PRIVACY_SETTINGS);
+		stub(HttpMethod.GET, ENDPOINT_USER_DEVICE_ENFORCEMENT_PRIVACY_SETTINGS, getStringJsonFollowingOperandoConventions(settingsExpected));
+		
 		//Exercise
 		Vector<PrivacySetting> settingsActual = client.getPrivacySettingsCurrent(3, 4);
 		
@@ -81,16 +79,15 @@ public class WatchdogClientTests extends ClientOperandoModuleTests
 		int ospId = 2;
 
 		String endpoint = String.format(ENDPOINT_OSP_ENFORCEMENT_PRIVACY_SETTINGS_VARIABLE_OSP_ID, ospId);
-		
-		getWireMockRule().stubFor(get(urlPathEqualTo(endpoint))
-				.willReturn(aResponse()));
+		stub(HttpMethod.GET, endpoint);
 	
 		//Exercise
 		client.getPrivacySettingsRequired(userId, ospId);
 		
 		//Verify
-		getWireMockRule().verify(getRequestedFor(urlPathEqualTo(endpoint))
-				.withQueryParam("user_id", equalTo("" + userId)));
+		HashMap<String, String> queriesParamToValue = new HashMap<String, String>();
+		queriesParamToValue.put("user_id", "" + userId);
+		verifyWithoutBody(HttpMethod.GET, endpoint, queriesParamToValue);
 	}
 	@Test
 	public void testGetRequiredPrivacySettings_HandlesSuccessfulResponseCorrectly()
@@ -98,7 +95,9 @@ public class WatchdogClientTests extends ClientOperandoModuleTests
 		//Set Up
 		Vector<PrivacySetting> settingsExpected = createTestVectorPrivacySettings();
 		int ospId = 4;
-		stubForSuccessWithPrivacySettingsAsJson(settingsExpected, String.format(ENDPOINT_OSP_ENFORCEMENT_PRIVACY_SETTINGS_VARIABLE_OSP_ID, ospId));
+		
+		String endpoint = String.format(ENDPOINT_OSP_ENFORCEMENT_PRIVACY_SETTINGS_VARIABLE_OSP_ID, ospId);
+		stub(HttpMethod.GET, endpoint, getStringJsonFollowingOperandoConventions(settingsExpected));
 		
 		//Exercise
 		int userId = 3;
@@ -121,23 +120,11 @@ public class WatchdogClientTests extends ClientOperandoModuleTests
 		vSettingsExpected.add(settingTwo);
 		return vSettingsExpected;
 	}
-	private void stubForSuccessWithPrivacySettingsAsJson(Vector<PrivacySetting> vSettingsExpected, String endPoint)
-	{
-		String jsonArraySettings = getStringJsonFollowingOperandoConventions(vSettingsExpected);
-		
-		getWireMockRule().stubFor(get(urlPathEqualTo(endPoint))
-				.willReturn(aResponse()
-						.withStatus(HttpStatus.SC_OK)
-						.withBody(jsonArraySettings)));
-	}
 	
 	@Test
 	public void testNotifyPrivacyAnalystAboutUserPrivacySettingDiscrepancy_CorrectHttpRequest()
 	{
 		//Set Up
-		getWireMockRule().stubFor(get(urlPathEqualTo(ENDPOINT_EMAIL_SERVICES_EMAIL_NOTIFICATION))
-				.willReturn(aResponse()));
-
 		int userId = 1;
 		int ospId = 2;
 				
@@ -151,9 +138,6 @@ public class WatchdogClientTests extends ClientOperandoModuleTests
 		String subject = "Privacy settings discrepancy";
 		
 		EmailNotification emailNotificationExpected = new EmailNotification(to, new Vector<String>(), new Vector<String>(), content, subject, new Vector<Attachment>());
-		String jsonEmail = getStringJsonFollowingOperandoConventions(emailNotificationExpected);
-		
-		getWireMockRule().verify(postRequestedFor(urlPathEqualTo(ENDPOINT_EMAIL_SERVICES_EMAIL_NOTIFICATION))
-				.withRequestBody(equalToJson(jsonEmail)));
+		verifyWithoutQueryParams(HttpMethod.POST, ENDPOINT_EMAIL_SERVICES_EMAIL_NOTIFICATION, emailNotificationExpected);
 	}
 }
