@@ -71,7 +71,7 @@ var loginSwarming = {
         }
     },
 
-    restoreSession:function(clientSessionId, userId ){
+    restoreSession:function(userId, clientSessionId){
         console.log("Let's restore session");
         this.sessionId = clientSessionId;
         this.outletSession = this.getSessionId();
