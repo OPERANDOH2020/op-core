@@ -49,6 +49,16 @@ angular.module('app')
                         url: '/page',
                         template: '<div ui-view class="fade-in-down"></div>'
                     })
+                    .state('app.swarms', {
+                        url: '/swarms',
+                        templateUrl: 'tpl/swarms-infinite-scroll.html',
+                        resolve: {
+                            deps: ['uiLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['js/controllers/infiniteScroller.js']);
+                                }]
+                        }
+                    })
                     .state('app.testsManager',{
                         url: '/testsManager',
                         reloadOnSearch:false,

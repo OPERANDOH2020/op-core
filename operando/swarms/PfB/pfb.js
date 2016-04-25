@@ -10,22 +10,36 @@
  * Initially developed in the context of OPERANDO EU project www.operando.eu
  */
 
-var sensorSwarming={
+
+var privacyForBenefits = {
     meta:{
-        name:"sensor.js"
+        name:"pfb.js"
     },
 
     vars:{
-        device_id:null,
-        sensor_id:null,
-        sensor_log:null
+        deal:null,
     },
 
-    getSensorLog:function(){
+    viewDeal:function(){
         //TODO
-        //Implement getSensorLog ctor
-    }
+        //Implement viewDeal ctor
+    },
 
+    getAcceptedDeals:function(){
+        //TODO
+        //Implement getAcceptedDeals ctor
+    },
+
+    acceptDeal:function(){
+        //TODO
+        //Implement acceptDeal ctor
+    },
+
+    refuseDeal:function(){
+        //TODO
+        //Implement refuseDeal ctor
+    },
 
 }
-sensorSwarming;
+
+privacyForBenefits;

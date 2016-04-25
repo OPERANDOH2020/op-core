@@ -30,6 +30,10 @@ var registerSwarming = {
         this.newUser = newUserData;
     },
 
+    verifyValidationCode:function(){
+        //Confirm user identity and activate account
+    },
+
     saveNewUser:{
         node:"UserManager",
         code: function () {

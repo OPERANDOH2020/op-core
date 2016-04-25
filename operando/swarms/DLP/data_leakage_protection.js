@@ -10,22 +10,35 @@
  * Initially developed in the context of OPERANDO EU project www.operando.eu
  */
 
-var sensorSwarming={
+
+var dataLeakageProtection = {
     meta:{
-        name:"sensor.js"
+        name:"dlp.js"
     },
 
     vars:{
-        device_id:null,
-        sensor_id:null,
-        sensor_log:null
+        filter:null,
     },
 
-    getSensorLog:function(){
+    setFilter:function(filter){
         //TODO
-        //Implement getSensorLog ctor
+        //Implement setFilter ctor
+    },
+
+    removeFilter:function(){
+        //TODO
+        //Implement removeFilter ctor
+    },
+
+    getFilters:function(category_id){
+        //TODO
+        //Implement getFilters ctor
+    },
+    checkFilter: function(filter_id){
+        //TODO
+        //Implement checkFilter ctor
     }
 
-
 }
-sensorSwarming;
+
+dataLeakageProtection;
