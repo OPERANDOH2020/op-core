@@ -58,7 +58,7 @@ app.controller('testsManagerController', ['$scope', function($scope ) {
             }
         })
 
-        if(returningSwarm.result['type']==='assertResult') {
+        if(returningSwarm.result['type']==='assert') {
 
 
             if(test['results']===false){

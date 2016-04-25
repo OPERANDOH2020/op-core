@@ -1,0 +1,11 @@
+.rrr{
+    list-style: none;
+}
+.panel.logs-info .rrr  .list-group-item:last-child{
+    border-radius: 0px;
+
+}
+
+.log_list_cnt{
+    -webkit-padding-start: 0px;
+}

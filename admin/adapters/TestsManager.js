@@ -21,11 +21,11 @@ runTests = function(tests,callback){
         var worker = forker.fork(test,{'env':env,'silent':true});
 
         worker.on("message",function(log){
-            if(log.type === 'assertResult'){
+            if(log.type === 'assert'){
                 log['test'] = test;
-                thisAdapter.nativeMiddleware.recordLog(log);
                 callback(log)
             }
+            thisAdapter.nativeMiddleware.recordLog(log);
         });
 
         worker.on("exit",function(){
