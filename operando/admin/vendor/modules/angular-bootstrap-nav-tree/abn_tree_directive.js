@@ -36,7 +36,7 @@
           }
           expand_level = parseInt(attrs.expandLevel, 10);
           if (!scope.treeData) {
-            alert('no treeData defined for the tree!');
+            //alert('no treeData defined for the tree!');
             return;
           }
           if (scope.treeData.length == null) {

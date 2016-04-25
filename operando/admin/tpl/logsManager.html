@@ -1,5 +1,5 @@
-<div class="hbox hbox-auto-xs hbox-auto-sm" ng-controller="logsManagerController">
-    <div class="col w-lg bg-light dk b-r bg-auto">
+<div class=" clearfix" ng-controller="logsManagerController">
+    <div class="leftbox w-lg bg-light dk b-r bg-auto log-type">
         <div class="wrapper-md dker b-b">
             <div class="h4">Log types</div>
         </div>
@@ -12,21 +12,25 @@
         </ul>
     </div>
 
-    <div class="col" infinite-scroll="getMoreLogs()" infinite-scroll-distance='10'>
+
+    <div class="log_container" infinite-scroll="getMoreLogs()" infinite-scroll-distance='10' container-class="logs-info" >
+
             <div class="panel logs-info panel-info" style="overflow-y:scroll;display: block;">
                 <div class="panel-heading">
                     {{typeOnDisplay}}
                 </div>
                 <div class="list-group bg-black-opacity" >
                     <div class="log_list_cnt">
-                        <li ng-repeat="log in logsToDisplay track by $index" class="rrr">
+                        <li ng-repeat="log in logsToDisplay track by $index" class="log_item" ng-class="{expanded: log.expanded==true}" >
                             <div class="list-group-item clearfix b-l-3x ng-scope" >
-                                <a ng-click="expandLog(log)">
+                               <div class="log_item_brief_info" ng-click="expandLog(log)">
+                                <a>
                                     <div style="float:right">
                                         <span>{{log.timestamp}}</span>
                                     </div>
                                     {{log.message}}
                                 </a>
+                               </div>
 
                                 <div ng-show="log.expanded">
                                     <div ng-show="log.stack">
@@ -56,7 +60,7 @@
         </div>
     </div>
 
-    <div class="col" ng-show="whyNodeSelected">
+    <div class="col whyNodeSelected" ng-show="whyNodeSelected" >
         <div class="wrapper-md">
             <div class="alert alert-info">
                 {{whyNodeInfo.message}}
