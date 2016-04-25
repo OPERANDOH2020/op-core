@@ -19,8 +19,7 @@ import io.swagger.client.model.LogRequest.RequesterTypeEnum;
 public class Test {
 
 	@org.junit.Test
-	public void test() {
-		//fail("Not yet implemented");
+	public void test() {		
 		ApiClient apiClient = new ApiClient();
 		 
 	    byte[] postBinaryBody = null; 
@@ -44,8 +43,7 @@ public class Test {
 	    final String contentType = apiClient.selectHeaderContentType(contentTypes); 
 	 
 	    String[] authNames = new String[] {  }; 
-	 
-	    //TypeRef returnType = new TypeRef<DataUnit>() {}; 
+	 	     
 	    GenericType returnType = new GenericType<String>() {};
 		
 
@@ -55,23 +53,15 @@ public class Test {
 	    logRequest.setTitle("First log");
 	    logRequest.setLogPriority(LogPriorityEnum.LOW);
 	    logRequest.setRequesterId("1001");
-	    logRequest.setRequesterType(RequesterTypeEnum.MODULE_);
-	    //LogDataTypeEnum.INFO logDataTypeEnum = new LogDataTypeEnum("Info");
-	    
-		
+	    logRequest.setRequesterType(RequesterTypeEnum.MODULE_);	    	    		
 		
 		Object postBody = logRequest;
 		try {
-			String str = apiClient.invokeAPI(path,"POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
-			System.out.println(str);
+			String str = apiClient.invokeAPI(path,"POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);			
 		} catch (ApiException e) {
 			System.out.println(e.toString());
 			e.printStackTrace();
-		}
-		
-		//String str = client.invokeAPI("swagger.json", "GET", new HashMap<String, String>(), null, new HashMap<String, String>(), null, "application/json", null, new String[0]);
+		}			
 	}
-	
-	//prueba con post/dataunit
 
 }

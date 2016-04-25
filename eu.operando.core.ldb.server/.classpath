@@ -51,4 +51,6 @@
   <classpathentry kind="var" path="M2_REPO/junit/junit/4.8.1/junit-4.8.1.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/testng/testng/6.8.8/testng-6.8.8.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/beust/jcommander/1.27/jcommander-1.27.jar"/>
+  <classpathentry kind="var" path="M2_REPO/com/google/code/gson/gson/2.5/gson-2.5.jar"/>
+  <classpathentry kind="var" path="M2_REPO/mysql/mysql-connector-java/5.0.8/mysql-connector-java-5.0.8.jar"/>
 </classpath>
