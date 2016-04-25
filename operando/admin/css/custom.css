@@ -1,6 +1,19 @@
 .rrr{
     list-style: none;
 }
+
+.panel.logs-info{
+overflow-y:scroll;
+    padding-bottom: 48px;
+    height: 100%;
+}
+
+.app-content{
+    position: relative;
+}
+
+
+
 .panel.logs-info .rrr  .list-group-item:last-child{
     border-radius: 0px;
 
