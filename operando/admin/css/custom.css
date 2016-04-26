@@ -67,7 +67,6 @@
 .leftbox{
     float:left;
     display:inline-block;
-    width:10%;
 }
 
 .whyNodeSelected{
@@ -85,4 +84,12 @@ bottom: 50px;
 right: 0px;
 padding-left: 200px;
 top: 50px;
+}
+
+.app-content-body{
+    position: fixed;
+    overflow: auto;
+    height: 100%;
+    width: auto;
+    padding-bottom: 50px;
 }
