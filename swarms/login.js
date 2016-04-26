@@ -84,24 +84,33 @@ var loginSwarming = {
         node: "SessionManager",
         code: function () {
             var self = this;
-            sessionIsValid(self.outletSession, self.sessionId, self.userId, S(function (err, newSession) {
+            console.log(self.sessionId);
+            if(!self.sessionId){
+                self.home("restoreFailed");
+            }
+            else
+            {
+                sessionIsValid(self.outletSession, self.sessionId, self.userId, S(function (err, newSession) {
 
-                if (err) {
-                    console.log(err);
-                    self.home("restoreFailed");
-                }
-                else {
-                    if (newSession) {
-                        console.log("Session is valid");
-                        self.sessionId = newSession.sessionId;
-                        self.authenticated = true;
-                        self.swarm("restoreSwarms", self.getEntryAdapter());
-                    }
-                    else {
+                    if (err) {
+                        console.log(err);
                         self.home("restoreFailed");
                     }
-                }
-            }));
+                    else {
+                        if (newSession) {
+                            console.log("Session is valid");
+                            self.sessionId = newSession.sessionId;
+                            self.authenticated = true;
+                            self.swarm("restoreSwarms", self.getEntryAdapter());
+                        }
+                        else {
+                            self.home("restoreFailed");
+                        }
+                    }
+                }));
+            }
+
+
         }
     }
 ,
