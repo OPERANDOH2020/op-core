@@ -36,7 +36,7 @@
   ],
   "_id": "swarmesb@2.0.1",
   "dependencies" : {
-    "SwarmCore"     :    ">=2.2.6",
+    "swarmcore"     :    ">=2.2.6",
     "acl-magic"    :     ">=1.0.10",
     "apersistence" :      ">=1.0.24",
     "semantic-firewall" : ">=0.5.1",
