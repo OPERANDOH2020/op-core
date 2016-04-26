@@ -76,3 +76,13 @@
     margin-right: 3%;
     word-wrap: break-word;
 }
+
+.testManager{
+width: 100%;
+position: fixed;
+overflow: auto;
+bottom: 50px;
+right: 0px;
+padding-left: 200px;
+top: 50px;
+}
