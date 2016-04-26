@@ -22,7 +22,7 @@
             "serverAlias":"development",
             "watch":[
                         {"core":"etc/adapters/Core.js",                              "enabled":true, "step":1},
-                        {"core":"etc/relay/RedisRelay.js",                           "enabled":false, "args":["-n", "RESEARCH", "-r", "127.0.0.1", "-p", "6379" ], "step":2},
+                        {"core":"etc/relay/RedisRelay.js",                           "enabled":true, "args":["-n", "RESEARCH", "-r", "127.0.0.1", "-p", "6379" ], "step":2},
                         {"core":"etc/adapters/DefaultLogger.js",                     "enabled":true, "step":3},
                         {"node":"admin/adapters/UsersManager.js",                    "enabled":true  , "step":4},
                         {"node":"admin/adapters/SwarmMonitor.js",                    "enabled":true  , "step":5},
