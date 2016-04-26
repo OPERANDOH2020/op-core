@@ -84,10 +84,12 @@ var loginSwarming = {
         node: "SessionManager",
         code: function () {
             var self = this;
-            console.log(self.sessionId);
+
+
             if(!self.sessionId){
                 self.home("restoreFailed");
             }
+
             else
             {
                 sessionIsValid(self.outletSession, self.sessionId, self.userId, S(function (err, newSession) {
@@ -184,6 +186,9 @@ var loginSwarming = {
         node: "SessionManager",
         code:function(){
             var self = this;
+            if(this.sessionId == null || this.sessionId == undefined){
+                this.sessionId = this.getSessionId();
+            }
             var sessionData = {
                 userId: self.userId,
                 sessionId: self.sessionId
