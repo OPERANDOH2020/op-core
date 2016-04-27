@@ -10,37 +10,25 @@
  * Initially developed in the context of OPERANDO EU project www.operando.eu
  */
 
-
-var dataLeakageProtection = {
-    meta:{
-        name:"dlp.js"
+var appSwarming = {
+    meta: {
+        name: "app.js"
     },
 
-    vars:{
-        filter:null,
+    vars: {
+        app: null
     },
 
-    setFilter:function(filter){
+    requestAppUninstall:function (app) {
         //TODO
-        //Implement setFilter ctor
+        //implement requestUninstall ctor
     },
 
-    removeFilter:function(){
+    notifySystemUsage:function(app){
         //TODO
-        //Implement removeFilter ctor
-    },
-
-    getFilters:function(category_id){
-        //TODO
-        //Implement getFilters ctor
-    },
-    checkFilter: function(filter_id){
-        //TODO
-        //Implement checkFilter ctor
-    },
-
-
+        //implement requestUninstall ctor
+    }
 
 }
+appSwarming;
 
-dataLeakageProtection;
