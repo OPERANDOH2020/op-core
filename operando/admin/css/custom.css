@@ -7,7 +7,7 @@
     overflow: auto;
     top: 50px;
     bottom: 30px;
-    width:50%;
+    width:45%;
 }
 
 .app-content{
@@ -59,7 +59,7 @@
     float: left;
     display: inline-block;
     height: 100%;
-    width: 50%;
+    width: 45%;
     position: fixed;
     overflow: auto;
 }
@@ -67,11 +67,12 @@
 .leftbox{
     float:left;
     display:inline-block;
+    width: 10%;
 }
 
 .whyNodeSelected{
     float: right;
-    width: 30%;
+    width: 35%;
     margin-right: 3%;
     word-wrap: break-word;
 }
@@ -90,6 +91,8 @@ top: 50px;
     position: fixed;
     overflow: auto;
     height: 100%;
-    width: auto;
+    width: 100%;
     padding-bottom: 50px;
+    padding-left: 200px;
+    right: 0;
 }
