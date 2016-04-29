@@ -1,62 +1,69 @@
-/**
+/*
+ * Copyright (c) 2016 ROMSOFT.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the The MIT License (MIT).
+ * which accompanies this distribution, and is available at
+ * http://opensource.org/licenses/MIT
  *
- * Login swarm, Specific for USMED project
+ * Contributors:
+ *    RAFAEL MASTALERU (ROMSOFT)
+ * Initially developed in the context of OPERANDO EU project www.operando.eu
  */
 
 /*
-TODO: check to be clean in production, this is an ideal place where you can put a backdoor for your authentication
+ TODO: check to be clean in production, this is an ideal place where you can put a backdoor for your authentication
  */
 
-sessionsRegistry  = require("../lib/SessionRegistry.js").getRegistry();
+sessionsRegistry = require("../lib/SessionRegistry.js").getRegistry();
 
 var loginSwarming = {
-    meta:{
+    meta: {
         debug: false
     },
-    vars:{
-        authenticated:false,
-        sessionId:null,
-        userId:null
+    vars: {
+        authenticated: false,
+        sessionId: null,
+        userId: null
     },
-    userLogin:function(userId, authorisationToken){
+    userLogin: function (userId, authorisationToken) {
         this.sessionId = this.getSessionId();
         this.authenticated = false;
         this.userId = userId;
-        if(!userId){
+        if (!userId) {
             this.swarm('failed');
-            return ;
+            return;
         }
         this.authorisationToken = authorisationToken;
         this.clientAdapter = thisAdapter.nodeName;
         this.swarm('checkPassword');
 
     },
-    checkPassword:{
-      node:"UsersManager",
-      code:function(){
+    checkPassword: {
+        node: "UsersManager",
+        code: function () {
 
-          var valid = validPassword.async(this.userId, this.authorisationToken);
-          var self = this;
-          (function(valid){
-              if (valid) {
-                  self.authenticated = true;
-                  self.swarm("createOrUpdateSession");
+            var valid = validPassword.async(this.userId, this.authorisationToken);
+            var self = this;
+            (function (valid) {
+                if (valid) {
+                    self.authenticated = true;
+                    self.swarm("createOrUpdateSession");
 
-              } else {
-                  self.swarm("failed", self.getEntryAdapter());
-              }
-          }).swait(valid);
+                } else {
+                    self.swarm("failed", self.getEntryAdapter());
+                }
+            }).swait(valid);
         }
     },
 
-    logout:function(){
+    logout: function () {
         console.log("logout");
         this.sessionId = this.getSessionId();
         this.swarm("userLogout");
     },
 
-    userLogout:{
-        node:"SessionManager",
+    userLogout: {
+        node: "SessionManager",
         code: function () {
             var self = this;
             deleteUserSessions(this.getSessionId(), S(function (err, result) {
@@ -71,13 +78,17 @@ var loginSwarming = {
         }
     },
 
-    restoreSession:function(userId, clientSessionId){
-        console.log("Let's restore session");
-        this.sessionId = clientSessionId;
-        this.outletSession = this.getSessionId();
-        this.userId = userId;
-        this.swarm("validateSession");
-
+    restoreSession: function (userId, clientSessionId) {
+        if (clientSessionId == null || clientSessionId == undefined) {
+            this.home("restoreFailed");
+        }
+        else {
+            console.log("Let's restore session");
+            this.sessionId = clientSessionId;
+            this.outletSession = this.getSessionId();
+            this.userId = userId;
+            this.swarm("validateSession");
+        }
     },
 
     validateSession: {
@@ -85,13 +96,11 @@ var loginSwarming = {
         code: function () {
             var self = this;
 
-
-            if(!self.sessionId){
+            if (!self.sessionId) {
                 self.home("restoreFailed");
             }
 
-            else
-            {
+            else {
                 sessionIsValid(self.outletSession, self.sessionId, self.userId, S(function (err, newSession) {
 
                     if (err) {
@@ -115,17 +124,17 @@ var loginSwarming = {
 
         }
     }
-,
+    ,
 
     //It is not used anywhere
-    reconnectInSession:function(clientSessionId, userId, secretToken){
-        this.authenticated              = false;
+    reconnectInSession: function (clientSessionId, userId, secretToken) {
+        this.authenticated = false;
         this.setSessionId(clientSessionId);
-        this.userId                     = userId;
-        this.secretToken                = secretToken;
+        this.userId = userId;
+        this.secretToken = secretToken;
         this.swarm("reconnect");
     },
-    testCtor:function(clientSessionId, userId, authorisationToken) {
+    testCtor: function (clientSessionId, userId, authorisationToken) {
         this.authenticated = false;
         this.userId = userId;
         this.authorisationToken = authorisationToken;
@@ -140,30 +149,30 @@ var loginSwarming = {
             cprint("disabling... " + this.clientAdapter);
         }
     },
-    reconnect:{   //add this new outlet in sessions
-        node:"EntryPoint",
-        code : function (){
+    reconnect: {   //add this new outlet in sessions
+        node: "EntryPoint",
+        code: function () {
             var outlets = sessionsRegistry.findOutletsForSession(this.getSessionId());
-            for(var v in outlets){
-                if(outlets[v].getSecret() == this.secretToken){
+            for (var v in outlets) {
+                if (outlets[v].getSecret() == this.secretToken) {
                     this.swarm("enableSwarm", this.getEntryAdapter());
-                    return ;
+                    return;
                 }
             }
             this.home("failed");
         }
     },
-    failed:{   //phase
-        node:"EntryPoint",
-        code : function (){
+    failed: {   //phase
+        node: "EntryPoint",
+        code: function () {
             sessionsRegistry.disableOutlet(this.meta.outletId);
-            logger.info("Failed login for " + this.userId );
+            logger.info("Failed login for " + this.userId);
             this.home("failed");
         }
-    }, 
+    },
     enableSwarms: {   //phase that is never executed... given as documentation
-        node:"EntryPoint",
-        code : function (){
+        node: "EntryPoint",
+        code: function () {
             var outlet = sessionsRegistry.getTemporarily(this.meta.outletId);
             sessionsRegistry.registerOutlet(outlet);
             enableOutlet(this);
@@ -172,21 +181,21 @@ var loginSwarming = {
         }
     },
     restoreSwarms: {   //phase that is never executed... given as documentation
-        node:"EntryPoint",
-        code : function (){
+        node: "EntryPoint",
+        code: function () {
             var outlet = sessionsRegistry.getTemporarily(this.meta.outletId);
             sessionsRegistry.registerOutlet(outlet);
             enableOutlet(this);
-            console.log("Session restored for ", this.userId,"!");
+            console.log("Session restored for ", this.userId, "!");
             this.home("restoreSucceed");
         }
     },
 
-    createOrUpdateSession:{
+    createOrUpdateSession: {
         node: "SessionManager",
-        code:function(){
+        code: function () {
             var self = this;
-            if(this.sessionId == null || this.sessionId == undefined){
+            if (this.sessionId == null || this.sessionId == undefined) {
                 this.sessionId = this.getSessionId();
             }
             var sessionData = {
@@ -194,11 +203,11 @@ var loginSwarming = {
                 sessionId: self.sessionId
             };
 
-            createOrUpdateSession(sessionData, S(function(error, session){
-                if(error){
+            createOrUpdateSession(sessionData, S(function (error, session) {
+                if (error) {
                     console.log(error);
                 }
-                else{
+                else {
                     console.log("Current session", session);
                     self.swarm("enableSwarms", self.getEntryAdapter());
                 }
