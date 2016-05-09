@@ -27,7 +27,7 @@ import eu.operando.ClientOperandoModule;
  * The WatchdogClient is used by the WatchdogApplication to make API calls
  */
 public class WatchdogClient extends ClientOperandoModule
-							implements WatchdogClientI
+implements WatchdogClientI
 {
 	private String protocolAndHostUserDeviceEnforcement = "";
 	private String protocolAndHostOspEnforcement = "";
@@ -35,7 +35,7 @@ public class WatchdogClient extends ClientOperandoModule
 	private String emailAddressPrivacyAnalyst = "";
 
 	private Client client = ClientBuilder.newClient();
-	
+
 	public WatchdogClient(String protocolAndHostUserDeviceEnforcement, String protocolAndHostOspEnforcement, String protocolAndHostEmailServices, String emailAddressPrivacyAnalyst)
 	{
 		this.protocolAndHostUserDeviceEnforcement = protocolAndHostUserDeviceEnforcement;
@@ -58,7 +58,7 @@ public class WatchdogClient extends ClientOperandoModule
 
 		return sendRequestForPrivacySettingsAndConvertResponseJsonToPrivacySettings(target);
 	}
-	
+
 	/**
 	 * Gets the user's PrivacySettings last applied by the OSP Enforcement module.
 	 */
@@ -73,7 +73,7 @@ public class WatchdogClient extends ClientOperandoModule
 
 		return sendRequestForPrivacySettingsAndConvertResponseJsonToPrivacySettings(target);
 	}
-	
+
 	/**
 	 * Send a request, which will return a body of JSON representing an array of privacy settings, to the appropriate target.
 	 * Interpret the response and return the result. 
@@ -83,12 +83,12 @@ public class WatchdogClient extends ClientOperandoModule
 		//Send the request an get the response.
 		Builder requestBuilder = target.request();
 		String strJson = requestBuilder.get(String.class);
-		
+
 		@SuppressWarnings("serial")
 		Type type = new TypeToken<Vector<PrivacySetting>>(){}.getType();
 		return getObjectFromJsonFollowingOperandoConventions(strJson, type);
 	}
-	
+
 	/**
 	 * Use the Email Services module to notify a privacy analyst about a discrepancy in current and required privacy settings. 
 	 */
@@ -100,13 +100,39 @@ public class WatchdogClient extends ClientOperandoModule
 		String content = "The privacy settings for user " + userId+ " with OSP " + ospId + " are not as required. This requires action.";
 		String subject = "Privacy settings discrepancy";
 		EmailNotification emailNotification = new EmailNotification(to, new Vector<String>(), new Vector<String>(), content, subject , new Vector<Attachment>());
-		
+
 		//Create a web target for the correct end-point.
 		WebTarget target = client.target(protocolAndHostEmailServices);
 		target = target.path(ENDPOINT_EMAIL_SERVICES_EMAIL_NOTIFICATION);
-		
+
 		//Send the request with the email encoded as JSON in the body.
 		Builder requestBuilder = target.request();
 		requestBuilder.post(createEntityStringJsonFromObject(emailNotification));
+	}
+
+	public Vector<PrivacyPolicy> getOspPrivacyPolicies()
+	{
+		//Create a web target for the correct end-point.
+		WebTarget target = client.target(protocolAndHostEmailServices);
+		target = target.path(ENDPOINT_WEB_SERVICES_PRIVACY_POLICIES);
+
+		//Send the request.
+		Builder requestBuilder = target.request();
+		String stringJson = requestBuilder.get(String.class);
+		
+		@SuppressWarnings("serial")
+		Type type = new TypeToken<Vector<PrivacyPolicy>>(){}.getType();
+		return getObjectFromJsonFollowingOperandoConventions(stringJson, type);
+	}
+
+	public void getOspPrivacyOptions()
+	{
+		//Create a web target for the correct end-point.
+		WebTarget target = client.target(protocolAndHostEmailServices);
+		target = target.path(ENDPOINT_WEB_SERVICES_PRIVACY_OPTIONS);
+
+		//Send the request.
+		Builder requestBuilder = target.request();
+		requestBuilder.get();
 	}
 }

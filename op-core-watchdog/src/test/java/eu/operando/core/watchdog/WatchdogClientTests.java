@@ -29,8 +29,8 @@ import eu.operando.ClientOperandoModuleTests;
 public class WatchdogClientTests extends ClientOperandoModuleTests
 {
 	private String emailAddressPrivacyAnalyst = "";
-	private WatchdogClient client = new WatchdogClient(PROTOCOL_AND_HOST, PROTOCOL_AND_HOST,
-			PROTOCOL_AND_HOST, emailAddressPrivacyAnalyst);
+	private WatchdogClient client = new WatchdogClient(PROTOCOL_AND_HOST_HTTP_LOCALHOST, PROTOCOL_AND_HOST_HTTP_LOCALHOST,
+			PROTOCOL_AND_HOST_HTTP_LOCALHOST, emailAddressPrivacyAnalyst);
 		
 	/**
 	 * UDE
@@ -52,14 +52,14 @@ public class WatchdogClientTests extends ClientOperandoModuleTests
 		HashMap<String, String> queriesParamToValue = new HashMap<String, String>();
 		queriesParamToValue.put("user_id", "" + userId);
 		queriesParamToValue.put("osp_id", "" + ospId);
-		verifyWithoutBody(HttpMethod.GET, endpoint, queriesParamToValue);
+		verifyCorrectHttpRequestWithoutBody(HttpMethod.GET, endpoint, queriesParamToValue);
 	}
 	@Test
 	public void testGetCurrentPrivacySettings_HandlesSuccessfulResponseCorrectly()
 	{
 		//Set up
 		Vector<PrivacySetting> settingsExpected = createTestVectorPrivacySettings();
-		stub(HttpMethod.GET, ENDPOINT_USER_DEVICE_ENFORCEMENT_PRIVACY_SETTINGS, getStringJsonFollowingOperandoConventions(settingsExpected));
+		stub(HttpMethod.GET, ENDPOINT_USER_DEVICE_ENFORCEMENT_PRIVACY_SETTINGS, settingsExpected);
 		
 		//Exercise
 		Vector<PrivacySetting> settingsActual = client.getPrivacySettingsCurrent(3, 4);
@@ -87,7 +87,7 @@ public class WatchdogClientTests extends ClientOperandoModuleTests
 		//Verify
 		HashMap<String, String> queriesParamToValue = new HashMap<String, String>();
 		queriesParamToValue.put("user_id", "" + userId);
-		verifyWithoutBody(HttpMethod.GET, endpoint, queriesParamToValue);
+		verifyCorrectHttpRequestWithoutBody(HttpMethod.GET, endpoint, queriesParamToValue);
 	}
 	@Test
 	public void testGetRequiredPrivacySettings_HandlesSuccessfulResponseCorrectly()
@@ -97,7 +97,7 @@ public class WatchdogClientTests extends ClientOperandoModuleTests
 		int ospId = 4;
 		
 		String endpoint = String.format(ENDPOINT_OSP_ENFORCEMENT_PRIVACY_SETTINGS_VARIABLE_OSP_ID, ospId);
-		stub(HttpMethod.GET, endpoint, getStringJsonFollowingOperandoConventions(settingsExpected));
+		stub(HttpMethod.GET, endpoint, settingsExpected);
 		
 		//Exercise
 		int userId = 3;
@@ -121,6 +121,9 @@ public class WatchdogClientTests extends ClientOperandoModuleTests
 		return vSettingsExpected;
 	}
 	
+	/**
+	 * ES
+	 */
 	@Test
 	public void testNotifyPrivacyAnalystAboutUserPrivacySettingDiscrepancy_CorrectHttpRequest()
 	{
@@ -138,6 +141,47 @@ public class WatchdogClientTests extends ClientOperandoModuleTests
 		String subject = "Privacy settings discrepancy";
 		
 		EmailNotification emailNotificationExpected = new EmailNotification(to, new Vector<String>(), new Vector<String>(), content, subject, new Vector<Attachment>());
-		verifyWithoutQueryParams(HttpMethod.POST, ENDPOINT_EMAIL_SERVICES_EMAIL_NOTIFICATION, emailNotificationExpected);
+		verifyCorrectHttpRequestWithoutQueryParams(HttpMethod.POST, ENDPOINT_EMAIL_SERVICES_EMAIL_NOTIFICATION, emailNotificationExpected);
+	}
+	
+	/**
+	 * Web crawler
+	 */
+	@Test
+	public void testGetOspPrivacyPolicies_CorrectHttpRequest()
+	{
+		//Set up
+		stub(HttpMethod.GET, ENDPOINT_WEB_SERVICES_PRIVACY_POLICIES);
+		
+		//Exercise
+		client.getOspPrivacyPolicies();
+		
+		//Verify
+		verifyCorrectHttpRequest(HttpMethod.GET, ENDPOINT_WEB_SERVICES_PRIVACY_POLICIES);
+	}
+	@Test
+	public void testGetOspPrivacyPolicies_ResponseHandledCorrectly()
+	{
+		//Set up
+		Vector<PrivacyPolicy> policiesExpected = new Vector<PrivacyPolicy>();
+		policiesExpected.add(new PrivacyPolicy(1, "some text"));
+		policiesExpected.add(new PrivacyPolicy(2, "some other text"));
+		stub(HttpMethod.GET, ENDPOINT_WEB_SERVICES_PRIVACY_POLICIES, policiesExpected);
+		
+		//Exercise
+		Vector<PrivacyPolicy> policiesActual = client.getOspPrivacyPolicies();
+		
+		//Verify
+		//TODO - this fails at the moment because equals has not been overriden for privacy policy. It should be as we'll use it in the production code (WatchdogApplication) later. 
+		assertThat("The policies returned from the web crawler were incorrectly interpreted by the WatchdogClient", policiesActual, is(equalTo(policiesExpected)));
+	}
+	@Test
+	public void testGetOspPrivacyOptions_CorrectHttpRequest()
+	{
+		//Exercise
+		client.getOspPrivacyOptions();
+
+		//Verify
+		verifyCorrectHttpRequest(HttpMethod.GET, ENDPOINT_WEB_SERVICES_PRIVACY_OPTIONS);
 	}
 }
