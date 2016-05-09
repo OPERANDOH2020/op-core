@@ -3,7 +3,7 @@ Repository for anonymization engine.
 Server and client stubs are included.
 
 Requirements to execute the test case:
-- the testing MySql Database has to be created (the scripts can be found under testingDatabase folder
+- the testing MySql Database has to be created (the scripts can be found under testingDatabase folder)
 - connection data has to be checked on the Test.java class
 - this server project has to be deployed on a web server. For testing purposes it has
   been used the jetty web server.
