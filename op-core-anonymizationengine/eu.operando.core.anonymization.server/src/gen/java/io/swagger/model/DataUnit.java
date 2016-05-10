@@ -1,34 +1,19 @@
-/*******************************************************************************
- *  * Copyright (c) 2016 {TECNALIA}.
- *  * All rights reserved. This program and the accompanying materials
- *  * are made available under the terms of the The MIT License (MIT).
- *  * which accompanies this distribution, and is available at
- *  * http://opensource.org/licenses/MIT
- *  *
- *  * Contributors:
- *  *    Gorka Mikel Echevarría {TECNALIA}
- *  * Initially developed in the context of OPERANDO EU project www.operando.eu
- *******************************************************************************/
 package io.swagger.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.model.DataUnitValuePerAccessLevel;
-import java.util.ArrayList;
-import java.util.List;
 
 
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-03-16T08:19:16.233Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-05-10T09:36:15.284Z")
 public class DataUnit   {
   
   private String id = null;
   private String description = null;
-  private List<DataUnitValuePerAccessLevel> valuesPerAccessLevel = new ArrayList<DataUnitValuePerAccessLevel>();
 
   
   /**
@@ -69,24 +54,6 @@ public class DataUnit   {
   }
 
   
-  /**
-   **/
-  public DataUnit valuesPerAccessLevel(List<DataUnitValuePerAccessLevel> valuesPerAccessLevel) {
-    this.valuesPerAccessLevel = valuesPerAccessLevel;
-    return this;
-  }
-
-  
-  @ApiModelProperty(value = "")
-  @JsonProperty("valuesPerAccessLevel")
-  public List<DataUnitValuePerAccessLevel> getValuesPerAccessLevel() {
-    return valuesPerAccessLevel;
-  }
-  public void setValuesPerAccessLevel(List<DataUnitValuePerAccessLevel> valuesPerAccessLevel) {
-    this.valuesPerAccessLevel = valuesPerAccessLevel;
-  }
-
-  
 
   @Override
   public boolean equals(Object o) {
@@ -98,13 +65,12 @@ public class DataUnit   {
     }
     DataUnit dataUnit = (DataUnit) o;
     return Objects.equals(id, dataUnit.id) &&
-        Objects.equals(description, dataUnit.description) &&
-        Objects.equals(valuesPerAccessLevel, dataUnit.valuesPerAccessLevel);
+        Objects.equals(description, dataUnit.description);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, description, valuesPerAccessLevel);
+    return Objects.hash(id, description);
   }
 
   @Override
@@ -114,7 +80,6 @@ public class DataUnit   {
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
-    sb.append("    valuesPerAccessLevel: ").append(toIndentedString(valuesPerAccessLevel)).append("\n");
     sb.append("}");
     return sb.toString();
   }

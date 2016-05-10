@@ -1,30 +1,22 @@
-/*******************************************************************************
- *  * Copyright (c) 2016 {TECNALIA}.
- *  * All rights reserved. This program and the accompanying materials
- *  * are made available under the terms of the The MIT License (MIT).
- *  * which accompanies this distribution, and is available at
- *  * http://opensource.org/licenses/MIT
- *  *
- *  * Contributors:
- *  *    Gorka Mikel Echevarría {TECNALIA}
- *  * Initially developed in the context of OPERANDO EU project www.operando.eu
- *******************************************************************************/
 package io.swagger.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.model.DataUnitValuePerAccessLevel;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-03-16T08:19:16.233Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-05-10T09:36:15.284Z")
 public class PersonalData   {
   
   private String id = null;
-  private String description = null;
+  private List<DataUnitValuePerAccessLevel> dataUnitValuesPerAccessLevel = new ArrayList<DataUnitValuePerAccessLevel>();
 
   
   /**
@@ -47,21 +39,20 @@ public class PersonalData   {
 
   
   /**
-   * Description of the access level.
    **/
-  public PersonalData description(String description) {
-    this.description = description;
+  public PersonalData dataUnitValuesPerAccessLevel(List<DataUnitValuePerAccessLevel> dataUnitValuesPerAccessLevel) {
+    this.dataUnitValuesPerAccessLevel = dataUnitValuesPerAccessLevel;
     return this;
   }
 
   
-  @ApiModelProperty(value = "Description of the access level.")
-  @JsonProperty("description")
-  public String getDescription() {
-    return description;
+  @ApiModelProperty(value = "")
+  @JsonProperty("dataUnitValuesPerAccessLevel")
+  public List<DataUnitValuePerAccessLevel> getDataUnitValuesPerAccessLevel() {
+    return dataUnitValuesPerAccessLevel;
   }
-  public void setDescription(String description) {
-    this.description = description;
+  public void setDataUnitValuesPerAccessLevel(List<DataUnitValuePerAccessLevel> dataUnitValuesPerAccessLevel) {
+    this.dataUnitValuesPerAccessLevel = dataUnitValuesPerAccessLevel;
   }
 
   
@@ -76,12 +67,12 @@ public class PersonalData   {
     }
     PersonalData personalData = (PersonalData) o;
     return Objects.equals(id, personalData.id) &&
-        Objects.equals(description, personalData.description);
+        Objects.equals(dataUnitValuesPerAccessLevel, personalData.dataUnitValuesPerAccessLevel);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, description);
+    return Objects.hash(id, dataUnitValuesPerAccessLevel);
   }
 
   @Override
@@ -90,7 +81,7 @@ public class PersonalData   {
     sb.append("class PersonalData {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    dataUnitValuesPerAccessLevel: ").append(toIndentedString(dataUnitValuesPerAccessLevel)).append("\n");
     sb.append("}");
     return sb.toString();
   }

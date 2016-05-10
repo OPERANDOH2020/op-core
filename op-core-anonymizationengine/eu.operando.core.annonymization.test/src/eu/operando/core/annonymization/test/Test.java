@@ -1,29 +1,12 @@
 package eu.operando.core.annonymization.test;
 
-import java.io.IOException;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import org.deidentifier.arx.ARXAnonymizer;
-import org.deidentifier.arx.ARXConfiguration;
-import org.deidentifier.arx.ARXResult;
-import org.deidentifier.arx.AttributeType;
-import org.deidentifier.arx.AttributeType.Hierarchy;
-import org.deidentifier.arx.AttributeType.Hierarchy.DefaultHierarchy;
-import org.deidentifier.arx.Data;
-import org.deidentifier.arx.DataHandle;
-import org.deidentifier.arx.DataSource;
-import org.deidentifier.arx.DataType;
-import org.deidentifier.arx.criteria.KAnonymity;
 
 import com.sun.jersey.api.client.GenericType;
 
@@ -38,8 +21,8 @@ public class Test {
 	private Statement statement = null;	
 	private ResultSet resultSet = null;
 
-	@org.junit.Test
-	public void invocationTest() {		
+	/*@org.junit.Test
+	public void postInvocationTest() {		
 		ApiClient apiClient = new ApiClient();
 		 
 	    byte[] postBinaryBody = null; 
@@ -75,21 +58,64 @@ public class Test {
 		valuesPerAccessLevel.add(0, dataUnitValuePerAccessLevel);
 		dataUnit.setId("1");
 		dataUnit.setDescription("Education");		
-		dataUnit.setValuesPerAccessLevel(valuesPerAccessLevel);
 		
 		Object postBody = dataUnit;
 		try {
 			String str = apiClient.invokeAPI("/dataUnit","POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
-			System.out.println(str);
+			System.out.println(str);			
 		} catch (ApiException e) {
 			System.out.println(e.toString());
 			e.printStackTrace();
 		}
 				
+	}*/
+	@org.junit.Test
+	//http://localhost:8080/operando/core/anonymization/personaldata/1/search?query=operando_personaldata_view
+	public void getInvocationTest2() {
+		ApiClient apiClient = new ApiClient();
+		Object localVarPostBody = null;
+	    
+	    
+		String requester_id = "1";
+	    // create path and map variables
+	    String localVarPath = "/personaldata/"+requester_id+"/search";
+
+	    // query params
+	    List<Pair> localVarQueryParams = new ArrayList<Pair>();
+	    Map<String, String> localVarHeaderParams = new HashMap<String, String>();
+	    Map<String, Object> localVarFormParams = new HashMap<String, Object>();
+
+
+	    localVarFormParams.put("query", "operando_personaldata_view");
+	    //localVarQueryParams.addAll(apiClient.parameterToPairs("csv","query", "operando_personaldata_view"));
+	    localVarQueryParams = apiClient.parameterToPairs("csv", "query", "operando_personaldata_view"); 
+	    
+	    final String[] localVarAccepts = {
+	      "application/xml", "application/json"
+	    };
+	    final String localVarAccept = apiClient.selectHeaderAccept(localVarAccepts);
+
+	    final String[] localVarContentTypes = {
+	      
+	    };
+	    final String localVarContentType = apiClient.selectHeaderContentType(localVarContentTypes);
+
+	    String[] localVarAuthNames = new String[] {  };
+
+	    GenericType returnType = new GenericType<String>() {};
+	     try {
+	    	 String str = apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, returnType);
+	    	 System.out.println(str);
+		} catch (ApiException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	      //}
+				
 	}
 	
-	@org.junit.Test
-	public void arxAnonymizationTest() throws ClassNotFoundException, SQLException, IOException {
+	//@org.junit.Test
+	/*public void arxAnonymizationTest() throws ClassNotFoundException, SQLException, IOException {
 		// Load JDBC driver
         Class.forName("com.mysql.jdbc.Driver");        
         // Configuration for JDBC source
@@ -233,26 +259,26 @@ public class Test {
 		
 	}
 
-	/**
+	*//**
      * Prints a given data handle.
      *
      * @param handle
-     */
+     *//*
     protected static void print(DataHandle handle) {
         final Iterator<String[]> itHandle = handle.iterator();
         print(itHandle);
     }
 
-    /**
+    *//**
      * Prints a given iterator.
      *
      * @param iterator
-     */
+     *//*
     protected static void print(Iterator<String[]> iterator) {
         while (iterator.hasNext()) {
             System.out.print("   ");
             System.out.println(Arrays.toString(iterator.next()));
         }
     }  
-
+*/
 }

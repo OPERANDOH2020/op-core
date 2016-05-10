@@ -1,14 +1,3 @@
-/*******************************************************************************
- *  * Copyright (c) 2016 {TECNALIA}.
- *  * All rights reserved. This program and the accompanying materials
- *  * are made available under the terms of the The MIT License (MIT).
- *  * which accompanies this distribution, and is available at
- *  * http://opensource.org/licenses/MIT
- *  *
- *  * Contributors:
- *  *    Gorka Mikel Echevarría {TECNALIA}
- *  * Initially developed in the context of OPERANDO EU project www.operando.eu
- *******************************************************************************/
 package io.swagger.client.api;
 
 import com.sun.jersey.api.client.GenericType;
@@ -18,6 +7,7 @@ import io.swagger.client.ApiClient;
 import io.swagger.client.Configuration;
 import io.swagger.client.Pair;
 
+import io.swagger.client.model.AccessLevelRequest;
 import io.swagger.client.model.InlineResponse200;
 import io.swagger.client.model.Error;
 import io.swagger.client.model.AccessLevel;
@@ -27,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-11T13:10:20.376Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-05-10T09:36:21.749Z")
 public class AccessLevelsApi {
   private ApiClient apiClient;
 
@@ -51,11 +41,11 @@ public class AccessLevelsApi {
   /**
    * Creates a new access level.
    * Creates a new access level.
-   * @param accessLevel The Access Level data in JSON format.
+   * @param accessLevel The Access Level data in JSON format. (required)
    * @return InlineResponse200
    * @throws ApiException if fails to make API call
    */
-  public InlineResponse200 createAccessLevel(AccessLevel accessLevel) throws ApiException {
+  public InlineResponse200 createAccessLevel(AccessLevelRequest accessLevel) throws ApiException {
     Object localVarPostBody = accessLevel;
     
     // verify the required parameter 'accessLevel' is set
@@ -98,8 +88,8 @@ public class AccessLevelsApi {
   /**
    * Deletes an existing access level.
    * Deletes an existing access level.
-   * @param accessLevelId The access level identifier number
-   * @param accessLevelId2 ID of the access level that needs to be deleted
+   * @param accessLevelId The access level identifier number (required)
+   * @param accessLevelId2 ID of the access level that needs to be deleted (required)
    * @throws ApiException if fails to make API call
    */
   public void deleteAccessLevel(String accessLevelId, String accessLevelId2) throws ApiException {
@@ -116,9 +106,9 @@ public class AccessLevelsApi {
     }
     
     // create path and map variables
-    String localVarPath = "/accessLevel/{accessLevel-id}".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "accessLevel-id" + "\\}", apiClient.escapeString(accessLevelId.toString()))
-      .replaceAll("\\{" + "accessLevel-id" + "\\}", apiClient.escapeString(accessLevelId2.toString()));
+    String localVarPath = "/accessLevel/{accessLevel_id}".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "accessLevel_id" + "\\}", apiClient.escapeString(accessLevelId.toString()))
+      .replaceAll("\\{" + "accessLevel_id" + "\\}", apiClient.escapeString(accessLevelId2.toString()));
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -151,8 +141,8 @@ public class AccessLevelsApi {
   /**
    * Finds a access level by ID.
    * Finds a access level by ID.
-   * @param accessLevelId The access level identifier number
-   * @param accessLevelId2 ID of the access level that needs to be fetched.
+   * @param accessLevelId The access level identifier number (required)
+   * @param accessLevelId2 ID of the access level that needs to be fetched. (required)
    * @throws ApiException if fails to make API call
    */
   public void getAccessLevel(String accessLevelId, String accessLevelId2) throws ApiException {
@@ -169,9 +159,9 @@ public class AccessLevelsApi {
     }
     
     // create path and map variables
-    String localVarPath = "/accessLevel/{accessLevel-id}".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "accessLevel-id" + "\\}", apiClient.escapeString(accessLevelId.toString()))
-      .replaceAll("\\{" + "accessLevel-id" + "\\}", apiClient.escapeString(accessLevelId2.toString()));
+    String localVarPath = "/accessLevel/{accessLevel_id}/search".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "accessLevel_id" + "\\}", apiClient.escapeString(accessLevelId.toString()))
+      .replaceAll("\\{" + "accessLevel_id" + "\\}", apiClient.escapeString(accessLevelId2.toString()));
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -211,7 +201,7 @@ public class AccessLevelsApi {
     Object localVarPostBody = null;
     
     // create path and map variables
-    String localVarPath = "/accessLevel".replaceAll("\\{format\\}","json");
+    String localVarPath = "/accessLevel/search".replaceAll("\\{format\\}","json");
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -245,12 +235,12 @@ public class AccessLevelsApi {
   /**
    * Updates an existing access level.
    * Updates an existing access level.
-   * @param accessLevelId The access level identifier number
-   * @param accessLevel The Access Level data in JSON format.
+   * @param accessLevelId The access level identifier number (required)
+   * @param accessLevel The Access Level data in JSON format. (required)
    * @return InlineResponse200
    * @throws ApiException if fails to make API call
    */
-  public InlineResponse200 updateAccessLevel(String accessLevelId, AccessLevel accessLevel) throws ApiException {
+  public InlineResponse200 updateAccessLevel(String accessLevelId, AccessLevelRequest accessLevel) throws ApiException {
     Object localVarPostBody = accessLevel;
     
     // verify the required parameter 'accessLevelId' is set
@@ -264,8 +254,8 @@ public class AccessLevelsApi {
     }
     
     // create path and map variables
-    String localVarPath = "/accessLevel/{accessLevel-id}".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "accessLevel-id" + "\\}", apiClient.escapeString(accessLevelId.toString()));
+    String localVarPath = "/accessLevel/{accessLevel_id}".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "accessLevel_id" + "\\}", apiClient.escapeString(accessLevelId.toString()));
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();

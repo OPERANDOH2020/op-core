@@ -1,14 +1,3 @@
-/*******************************************************************************
- *  * Copyright (c) 2016 {TECNALIA}.
- *  * All rights reserved. This program and the accompanying materials
- *  * are made available under the terms of the The MIT License (MIT).
- *  * which accompanies this distribution, and is available at
- *  * http://opensource.org/licenses/MIT
- *  *
- *  * Contributors:
- *  *    Gorka Mikel Echevarría {TECNALIA}
- *  * Initially developed in the context of OPERANDO EU project www.operando.eu
- *******************************************************************************/
 package io.swagger.client.api;
 
 import com.sun.jersey.api.client.GenericType;
@@ -20,11 +9,11 @@ import io.swagger.client.Pair;
 
 import io.swagger.client.model.Error;
 import io.swagger.client.model.AccessLevel;
-import io.swagger.client.model.DataUnit;
 import io.swagger.client.model.InlineResponse2001;
+import io.swagger.client.model.DataUnitRequest;
 import io.swagger.client.model.InlineResponse2002;
 import io.swagger.client.model.InlineResponse200;
-import io.swagger.client.model.RequestedDataUnitsByPersons;
+import io.swagger.client.model.DataUnit;
 import io.swagger.client.model.InlineResponse2003;
 
 import java.util.ArrayList;
@@ -32,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-11T13:10:20.376Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-05-10T09:36:21.749Z")
 public class DataUnitsApi {
   private ApiClient apiClient;
 
@@ -56,10 +45,10 @@ public class DataUnitsApi {
   /**
    * Sets the granted access level for a data unit related to a person and for a specific requester.
    * Sets the granted access level for a data unit related to a person and for a specific requester.
-   * @param dataunitId The dataunit identifier number
-   * @param personId The person identifier number
-   * @param requesterId The requester identifier number
-   * @param accessLevel The access level data in JSON format.
+   * @param dataunitId The dataunit identifier number (required)
+   * @param personId The person identifier number (required)
+   * @param requesterId The requester identifier number (required)
+   * @param accessLevel The access level data in JSON format. (required)
    * @throws ApiException if fails to make API call
    */
   public void addAccessLevelsByDataUnitByPersonAndRequester(String dataunitId, String personId, String requesterId, AccessLevel accessLevel) throws ApiException {
@@ -86,10 +75,10 @@ public class DataUnitsApi {
     }
     
     // create path and map variables
-    String localVarPath = "/dataUnit/{dataunit-id}/person/{person-id}/requester/{requester-id}/accessLevel".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "dataunit-id" + "\\}", apiClient.escapeString(dataunitId.toString()))
-      .replaceAll("\\{" + "person-id" + "\\}", apiClient.escapeString(personId.toString()))
-      .replaceAll("\\{" + "requester-id" + "\\}", apiClient.escapeString(requesterId.toString()));
+    String localVarPath = "/dataUnit/{dataunit_id}/person/{person_id}/requester/{requester_id}/accessLevel".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "dataunit_id" + "\\}", apiClient.escapeString(dataunitId.toString()))
+      .replaceAll("\\{" + "person_id" + "\\}", apiClient.escapeString(personId.toString()))
+      .replaceAll("\\{" + "requester_id" + "\\}", apiClient.escapeString(requesterId.toString()));
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -122,11 +111,11 @@ public class DataUnitsApi {
   /**
    * Creates a new data unit.
    * Creates a new data unit.
-   * @param dataUnit The Data Unit data in JSON format.
+   * @param dataUnit The Data Unit data in JSON format. (required)
    * @return InlineResponse2001
    * @throws ApiException if fails to make API call
    */
-  public InlineResponse2001 createDataUnit(DataUnit dataUnit) throws ApiException {
+  public InlineResponse2001 createDataUnit(DataUnitRequest dataUnit) throws ApiException {
     Object localVarPostBody = dataUnit;
     
     // verify the required parameter 'dataUnit' is set
@@ -169,8 +158,8 @@ public class DataUnitsApi {
   /**
    * Deletes an existing data unit.
    * Deletes an existing data unit.
-   * @param dataunitId The dataunit identifier number
-   * @param dataunitId2 ID of the data unit that needs to be deleted
+   * @param dataunitId The dataunit identifier number (required)
+   * @param dataunitId2 ID of the data unit that needs to be deleted (required)
    * @throws ApiException if fails to make API call
    */
   public void deleteDataUnit(String dataunitId, String dataunitId2) throws ApiException {
@@ -187,9 +176,9 @@ public class DataUnitsApi {
     }
     
     // create path and map variables
-    String localVarPath = "/dataUnit/{dataunit-id}".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "dataunit-id" + "\\}", apiClient.escapeString(dataunitId.toString()))
-      .replaceAll("\\{" + "dataunit-id" + "\\}", apiClient.escapeString(dataunitId2.toString()));
+    String localVarPath = "/dataUnit/{dataunit_id}".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "dataunit_id" + "\\}", apiClient.escapeString(dataunitId.toString()))
+      .replaceAll("\\{" + "dataunit_id" + "\\}", apiClient.escapeString(dataunitId2.toString()));
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -222,7 +211,7 @@ public class DataUnitsApi {
   /**
    * Gets the available access levels for a specific data unit.
    * Gets the available access levels for a specific data unit.
-   * @param dataunitId The dataunit identifier number
+   * @param dataunitId The dataunit identifier number (required)
    * @return InlineResponse2002
    * @throws ApiException if fails to make API call
    */
@@ -235,8 +224,8 @@ public class DataUnitsApi {
     }
     
     // create path and map variables
-    String localVarPath = "/dataUnit/{dataunit-id}/accessLevels".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "dataunit-id" + "\\}", apiClient.escapeString(dataunitId.toString()));
+    String localVarPath = "/dataUnit/{dataunit_id}/accessLevels/search".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "dataunit_id" + "\\}", apiClient.escapeString(dataunitId.toString()));
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -270,8 +259,8 @@ public class DataUnitsApi {
   /**
    * Gets the granted access levels for a specific data unit according to countries laws.
    * Gets the granted access levels for a specific data unit according to countries laws.
-   * @param dataunitId The dataunit identifier number
-   * @param countryId The country identifier number
+   * @param dataunitId The dataunit identifier number (required)
+   * @param countryId The country identifier number (required)
    * @return InlineResponse2002
    * @throws ApiException if fails to make API call
    */
@@ -289,9 +278,9 @@ public class DataUnitsApi {
     }
     
     // create path and map variables
-    String localVarPath = "/dataUnit/{dataunit-id}/country/{country-id}/accessLevels".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "dataunit-id" + "\\}", apiClient.escapeString(dataunitId.toString()))
-      .replaceAll("\\{" + "country-id" + "\\}", apiClient.escapeString(countryId.toString()));
+    String localVarPath = "/dataUnit/{dataunit_id}/country/{country_id}/accessLevels/search".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "dataunit_id" + "\\}", apiClient.escapeString(dataunitId.toString()))
+      .replaceAll("\\{" + "country_id" + "\\}", apiClient.escapeString(countryId.toString()));
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -325,7 +314,7 @@ public class DataUnitsApi {
   /**
    * Gets the granted access levels for a specific data unit according the privacy authority.
    * Gets the granted access levels for a specific data unit according the privacy authority.
-   * @param dataunitId The dataunit identifier number
+   * @param dataunitId The dataunit identifier number (required)
    * @return InlineResponse2002
    * @throws ApiException if fails to make API call
    */
@@ -338,8 +327,8 @@ public class DataUnitsApi {
     }
     
     // create path and map variables
-    String localVarPath = "/dataUnit/{dataunit-id}/pa/accessLevels".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "dataunit-id" + "\\}", apiClient.escapeString(dataunitId.toString()));
+    String localVarPath = "/dataUnit/{dataunit_id}/pa/accessLevels/search".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "dataunit_id" + "\\}", apiClient.escapeString(dataunitId.toString()));
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -373,9 +362,9 @@ public class DataUnitsApi {
   /**
    * Gets the granted access level for a data unit related to a person and for a specific requester.
    * Gets the granted access level for a data unit related to a person and for a specific requester.
-   * @param dataunitId The dataunit identifier number
-   * @param personId The person identifier number
-   * @param requesterId The requester identifier number
+   * @param dataunitId The dataunit identifier number (required)
+   * @param personId The person identifier number (required)
+   * @param requesterId The requester identifier number (required)
    * @return InlineResponse200
    * @throws ApiException if fails to make API call
    */
@@ -398,10 +387,10 @@ public class DataUnitsApi {
     }
     
     // create path and map variables
-    String localVarPath = "/dataUnit/{dataunit-id}/person/{person-id}/requester/{requester-id}/accessLevel".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "dataunit-id" + "\\}", apiClient.escapeString(dataunitId.toString()))
-      .replaceAll("\\{" + "person-id" + "\\}", apiClient.escapeString(personId.toString()))
-      .replaceAll("\\{" + "requester-id" + "\\}", apiClient.escapeString(requesterId.toString()));
+    String localVarPath = "/dataUnit/{dataunit_id}/person/{person_id}/requester/{requester_id}/accessLevel/search".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "dataunit_id" + "\\}", apiClient.escapeString(dataunitId.toString()))
+      .replaceAll("\\{" + "person_id" + "\\}", apiClient.escapeString(personId.toString()))
+      .replaceAll("\\{" + "requester_id" + "\\}", apiClient.escapeString(requesterId.toString()));
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -435,8 +424,8 @@ public class DataUnitsApi {
   /**
    * Finds a data unit by ID.
    * Finds a data unit by ID.
-   * @param dataunitId The dataunit identifier number
-   * @param dataunitId2 ID of the data unit that needs to be fetched.
+   * @param dataunitId The dataunit identifier number (required)
+   * @param dataunitId2 ID of the data unit that needs to be fetched. (required)
    * @throws ApiException if fails to make API call
    */
   public void getDataUnit(String dataunitId, String dataunitId2) throws ApiException {
@@ -453,9 +442,9 @@ public class DataUnitsApi {
     }
     
     // create path and map variables
-    String localVarPath = "/dataUnit/{dataunit-id}".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "dataunit-id" + "\\}", apiClient.escapeString(dataunitId.toString()))
-      .replaceAll("\\{" + "dataunit-id" + "\\}", apiClient.escapeString(dataunitId2.toString()));
+    String localVarPath = "/dataUnit/{dataunit_id}/search".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "dataunit_id" + "\\}", apiClient.escapeString(dataunitId.toString()))
+      .replaceAll("\\{" + "dataunit_id" + "\\}", apiClient.escapeString(dataunitId2.toString()));
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -495,7 +484,7 @@ public class DataUnitsApi {
     Object localVarPostBody = null;
     
     // create path and map variables
-    String localVarPath = "/dataUnit".replaceAll("\\{format\\}","json");
+    String localVarPath = "/dataUnit/search".replaceAll("\\{format\\}","json");
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -527,29 +516,29 @@ public class DataUnitsApi {
   }
   
   /**
-   * Gets individual or colective personal data by receiving as parameters an array of personal ids, a requester id and an array of data units whose values are wanted to be recovered.
-   * Gets individual or colective personal data by receiving as parameters an array of personal ids, a requester id and an array of data units whose values are wanted to be recovered.
-   * @param requesterId The requester identifier number
-   * @param requestedDataUnitsPersons object encapsulating the set of data units and the personal ids of the people whose personal data is wanted to be received.
+   * Gets individual or colective personal data by receiving as parameter a query especifiyng the data wanted to be recovered and the requester id.
+   * Gets individual or colective personal data by receiving as parameter a query especifiyng the data wanted to be recovered and the requester id.
+   * @param requesterId The requester identifier number (required)
+   * @param query query encapsulating the set of data units and the personal ids of the people whose personal data is wanted to be received. (required)
    * @return InlineResponse2003
    * @throws ApiException if fails to make API call
    */
-  public InlineResponse2003 getPersonalData(String requesterId, RequestedDataUnitsByPersons requestedDataUnitsPersons) throws ApiException {
-    Object localVarPostBody = requestedDataUnitsPersons;
+  public InlineResponse2003 getPersonalData(String requesterId, String query) throws ApiException {
+    Object localVarPostBody = query;
     
     // verify the required parameter 'requesterId' is set
     if (requesterId == null) {
       throw new ApiException(400, "Missing the required parameter 'requesterId' when calling getPersonalData");
     }
     
-    // verify the required parameter 'requestedDataUnitsPersons' is set
-    if (requestedDataUnitsPersons == null) {
-      throw new ApiException(400, "Missing the required parameter 'requestedDataUnitsPersons' when calling getPersonalData");
+    // verify the required parameter 'query' is set
+    if (query == null) {
+      throw new ApiException(400, "Missing the required parameter 'query' when calling getPersonalData");
     }
     
     // create path and map variables
-    String localVarPath = "/personaldata/{requester-id}".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "requester-id" + "\\}", apiClient.escapeString(requesterId.toString()));
+    String localVarPath = "/personaldata/{requester_id}/search".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "requester_id" + "\\}", apiClient.escapeString(requesterId.toString()));
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -583,8 +572,8 @@ public class DataUnitsApi {
   /**
    * Sets the available access levels for a specific data unit.
    * Sets the available access levels for a specific data unit.
-   * @param dataunitId The dataunit identifier number
-   * @param accesslevels List of Access Levels.
+   * @param dataunitId The dataunit identifier number (required)
+   * @param accesslevels List of Access Levels. (required)
    * @throws ApiException if fails to make API call
    */
   public void setAccessLevelsByDataUnit(String dataunitId, List<AccessLevel> accesslevels) throws ApiException {
@@ -601,8 +590,8 @@ public class DataUnitsApi {
     }
     
     // create path and map variables
-    String localVarPath = "/dataUnit/{dataunit-id}/accessLevels".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "dataunit-id" + "\\}", apiClient.escapeString(dataunitId.toString()));
+    String localVarPath = "/dataUnit/{dataunit_id}/accessLevels".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "dataunit_id" + "\\}", apiClient.escapeString(dataunitId.toString()));
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -635,8 +624,8 @@ public class DataUnitsApi {
   /**
    * Updates the available access levels for a specific data unit.
    * Updates the available access levels for a specific data unit.
-   * @param dataunitId The dataunit identifier number
-   * @param accesslevels List of Access Levels.
+   * @param dataunitId The dataunit identifier number (required)
+   * @param accesslevels List of Access Levels. (required)
    * @throws ApiException if fails to make API call
    */
   public void updateAccessLevelsByDataUnit(String dataunitId, List<AccessLevel> accesslevels) throws ApiException {
@@ -653,8 +642,8 @@ public class DataUnitsApi {
     }
     
     // create path and map variables
-    String localVarPath = "/dataUnit/{dataunit-id}/accessLevels".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "dataunit-id" + "\\}", apiClient.escapeString(dataunitId.toString()));
+    String localVarPath = "/dataUnit/{dataunit_id}/accessLevels".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "dataunit_id" + "\\}", apiClient.escapeString(dataunitId.toString()));
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -687,10 +676,10 @@ public class DataUnitsApi {
   /**
    * Updates the granted access level for a data unit related to a person and for a specific requester.
    * Updates the granted access level for a data unit related to a person and for a specific requester.
-   * @param dataunitId The dataunit identifier number
-   * @param personId The person identifier number
-   * @param requesterId The requester identifier number
-   * @param accessLevel The access level data in JSON format.
+   * @param dataunitId The dataunit identifier number (required)
+   * @param personId The person identifier number (required)
+   * @param requesterId The requester identifier number (required)
+   * @param accessLevel The access level data in JSON format. (required)
    * @throws ApiException if fails to make API call
    */
   public void updateAccessLevelsByDataUnitByPersonAndRequester(String dataunitId, String personId, String requesterId, AccessLevel accessLevel) throws ApiException {
@@ -717,10 +706,10 @@ public class DataUnitsApi {
     }
     
     // create path and map variables
-    String localVarPath = "/dataUnit/{dataunit-id}/person/{person-id}/requester/{requester-id}/accessLevel".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "dataunit-id" + "\\}", apiClient.escapeString(dataunitId.toString()))
-      .replaceAll("\\{" + "person-id" + "\\}", apiClient.escapeString(personId.toString()))
-      .replaceAll("\\{" + "requester-id" + "\\}", apiClient.escapeString(requesterId.toString()));
+    String localVarPath = "/dataUnit/{dataunit_id}/person/{person_id}/requester/{requester_id}/accessLevel".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "dataunit_id" + "\\}", apiClient.escapeString(dataunitId.toString()))
+      .replaceAll("\\{" + "person_id" + "\\}", apiClient.escapeString(personId.toString()))
+      .replaceAll("\\{" + "requester_id" + "\\}", apiClient.escapeString(requesterId.toString()));
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -753,12 +742,12 @@ public class DataUnitsApi {
   /**
    * Updates an existing data unit.
    * Updates an existing data unit.
-   * @param dataunitId The dataunit identifier number
-   * @param dataUnit The Data Unit data in JSON format.
+   * @param dataunitId The dataunit identifier number (required)
+   * @param dataUnit The Data Unit data in JSON format. (required)
    * @return InlineResponse2001
    * @throws ApiException if fails to make API call
    */
-  public InlineResponse2001 updateDataUnit(String dataunitId, DataUnit dataUnit) throws ApiException {
+  public InlineResponse2001 updateDataUnit(String dataunitId, DataUnitRequest dataUnit) throws ApiException {
     Object localVarPostBody = dataUnit;
     
     // verify the required parameter 'dataunitId' is set
@@ -772,8 +761,8 @@ public class DataUnitsApi {
     }
     
     // create path and map variables
-    String localVarPath = "/dataUnit/{dataunit-id}".replaceAll("\\{format\\}","json")
-      .replaceAll("\\{" + "dataunit-id" + "\\}", apiClient.escapeString(dataunitId.toString()));
+    String localVarPath = "/dataUnit/{dataunit_id}".replaceAll("\\{format\\}","json")
+      .replaceAll("\\{" + "dataunit_id" + "\\}", apiClient.escapeString(dataunitId.toString()));
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();

@@ -1,14 +1,3 @@
-/*******************************************************************************
- *  * Copyright (c) 2016 {TECNALIA}.
- *  * All rights reserved. This program and the accompanying materials
- *  * are made available under the terms of the The MIT License (MIT).
- *  * which accompanies this distribution, and is available at
- *  * http://opensource.org/licenses/MIT
- *  *
- *  * Contributors:
- *  *    Gorka Mikel Echevarría {TECNALIA}
- *  * Initially developed in the context of OPERANDO EU project www.operando.eu
- *******************************************************************************/
 package io.swagger.client;
 
 import com.fasterxml.jackson.annotation.*;
@@ -52,7 +41,7 @@ import io.swagger.client.auth.HttpBasicAuth;
 import io.swagger.client.auth.ApiKeyAuth;
 import io.swagger.client.auth.OAuth;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-11T13:10:20.376Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-05-10T09:36:21.749Z")
 public class ApiClient {
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
   private String basePath = "http://localhost:8080/operando/core/anonymization";
@@ -82,7 +71,7 @@ public class ApiClient {
     dateFormat = ApiClient.buildDefaultDateFormat();
 
     // Set default User-Agent.
-    setUserAgent("Java-Swagger");
+    setUserAgent("Swagger-Codegen/1.0.0/java");
 
     // Setup authentications (key: authentication name, value: authentication).
     authentications = new HashMap<String, Authentication>();
