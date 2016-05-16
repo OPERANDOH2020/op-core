@@ -1,2 +1,7 @@
 .idea/
 .gitignore
+/nbproject/private/
+/op-core-pc/pc-server/target/
+/op-core-pdb/common-model/target/
+/op-core-pdb/pdb-client/target/
+/op-core-pdb/pdb-server/target/

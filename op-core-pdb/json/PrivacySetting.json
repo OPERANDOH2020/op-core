@@ -1,0 +1,7 @@
+{
+    "id": "unique identifier",
+    "description": "privacy setting example",
+    "name": "visibility",
+    "setting_key": "target setting key",
+    "setting_value": "key value"
+}

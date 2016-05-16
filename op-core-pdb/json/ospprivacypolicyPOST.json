@@ -1,0 +1,73 @@
+{
+    "OSPPolicyID": "0",
+    "PolicyText": "policy text string",
+    "PolicyURL": "my policy URL",
+    "Workflow": [
+    {
+        "RequesterId": "my requester id",
+        "Subject": "my example subject",
+        "RequestedURL": "my requested URL",
+        "Action": "Access",
+        "Attributes": [
+        {
+            "AttributeName": "my attribute name",
+            "AttributeValue": "my attribute value"
+        },
+        {
+            "AttributeName": "my attribute nameA",
+            "AttributeValue": "my attribute valueA"
+        }
+        ]
+    },
+    {
+        "RequesterId": "my second requester id",
+        "Subject": "my second example subject",
+        "RequestedURL": "my second requested URL",
+        "Action": "Collect",
+        "Attributes": [
+        {
+            "AttributeName": "my second attribute name",
+            "AttributeValue": "my second attribute value"
+        },
+        {
+            "AttributeName": "my second attribute nameA",
+            "AttributeValue": "my second attribute valueA"
+        }
+        ]
+    }
+    ],
+        "Policies": [
+        {
+            "Subject": "my policies subject",
+            "Permission": "True",
+            "Action": "Use",
+            "Resource": "my policies resource",
+            "Attributes": [
+            {
+                "AttributeName": "my attribute name",
+                "AttributeValue": "my attribute value"
+            },
+            {
+                "AttributeName": "my attribute nameA",
+                "AttributeValue": "my attribute valueA"
+            }
+            ]
+        },
+        {
+            "Subject": "my second policies subject",
+            "Permission": "True",
+            "Action": "Disclose",
+            "Resource": "my second policies resource",
+            "Attributes": [
+            {
+                "AttributeName": "my sec attribute name",
+                "AttributeValue": "my sec attribute value"
+            },
+            {
+                "AttributeName": "my sec attribute nameA",
+                "AttributeValue": "my sec attribute valueA"
+            }
+            ]
+        }
+    ]
+}
