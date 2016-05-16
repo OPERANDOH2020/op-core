@@ -1,0 +1,48 @@
+# POST a request
+curl -d @regPOST.json -H "Content-Type: application/json"  http://10.0.3.93:8080/policy_database/regulations/5
+
+# GET request with id
+curl http://10.0.3.93:8080/policy_database/regulations/5
+curl -v http://10.0.3.93:8080/policy_database/regulations/?filter=%7B%27action%27:%27delete%20my%20pictures%27%7D
+
+# DELETE request
+curl -X DELETE http://10.0.3.93:8080/policy_database/regulations/14
+
+# PUT
+curl -v -X PUT -d @reg_POST.json -H "Content-Type: application/json" http://10.0.3.93:8080/policy_database/regulations/
+
+
+# POST OSP 
+curl -d @ospprivacypolicyPOST.json -H "Content-Type: application/json"  http://10.0.3.93:8080/policy_database/OSP/11
+
+# GET OSP
+curl  http://10.0.3.93:8080/policy_database/OSP/11
+
+# DELETE OSP
+curl -X DELETE  http://10.0.3.93:8080/policy_database/OSP/11
+
+
+
+# POST UPP
+curl -v -d @upp.json -H "Content-Type: application/json"  http://10.0.3.93:8080/policy_database/user_privacy_policy/
+
+# GET UPP
+curl http://10.0.3.93:8080/policy_database/user_privacy_policy/1/
+
+# DELETE UPP
+curl -v -X DELETE http://10.0.3.93:8080/policy_database/user_privacy_policy/pmel_id/
+
+
+
+
+OSE
+curl -v http://10.0.3.93:8090/osps/fb_osp/privacy_settings/?user-id=pmel_id
+
+
+OSE REGULATIONS
+POST
+curl -v -d @reg_OSE_POST.json -H "Content-Type: application/json"  http://10.0.3.93:8090/regulations/
+
+PUT
+curl -v -X PUT -d @reg_OSE_PUT.json -H "Content-Type: application/json"  http://10.0.3.93:8090/regulations/my_ose_reg_id/
+

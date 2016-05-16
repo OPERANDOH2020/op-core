@@ -1,0 +1,10 @@
+{
+    "osp_id": "my_osp_id",
+    "osp_settings": [ {
+        "Subject": "web example",
+        "Permision": "True",
+        "Action": "Access",
+        "Resource": "http://my.example.com"
+    }
+    ]
+}

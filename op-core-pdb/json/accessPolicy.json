@@ -1,0 +1,6 @@
+{
+    "Subject": "web example",
+    "Permision": "True",
+    "Action": "Access",
+    "Resource": "http://my.example.com"
+}
