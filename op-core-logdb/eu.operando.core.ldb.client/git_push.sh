@@ -1,15 +1,4 @@
 #!/bin/sh
-#*******************************************************************************
-#  * Copyright (c) 2016 {TECNALIA}.
-#  * All rights reserved. This program and the accompanying materials
-#  * are made available under the terms of the The MIT License (MIT).
-#  * which accompanies this distribution, and is available at
-#  * http://opensource.org/licenses/MIT
-#  *
-#  * Contributors:
-#  *    Gorka Mikel Echevarría {TECNALIA}
-#  * Initially developed in the context of OPERANDO EU project www.operando.eu
-#*******************************************************************************
 # ref: https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/
 #
 # Usage example: /bin/sh ./git_push.sh wing328 swagger-petstore-perl "minor update"
