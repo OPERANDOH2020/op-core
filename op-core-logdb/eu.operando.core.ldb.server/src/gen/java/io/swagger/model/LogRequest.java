@@ -1,14 +1,3 @@
-/*******************************************************************************
- *  * Copyright (c) 2016 {TECNALIA}.
- *  * All rights reserved. This program and the accompanying materials
- *  * are made available under the terms of the The MIT License (MIT).
- *  * which accompanies this distribution, and is available at
- *  * http://opensource.org/licenses/MIT
- *  *
- *  * Contributors:
- *  *    Gorka Mikel Echevarría {TECNALIA}
- *  * Initially developed in the context of OPERANDO EU project www.operando.eu
- *******************************************************************************/
 package io.swagger.model;
 
 import java.util.Objects;
@@ -16,12 +5,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-04-07T07:27:45.925Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-05-16T12:28:19.935Z")
 public class LogRequest   {
   
 
@@ -91,6 +82,7 @@ public class LogRequest   {
   private LogDataTypeEnum logDataType = null;
   private String title = null;
   private String description = null;
+  private List<String> keywords = new ArrayList<String>();
 
   
   /**
@@ -207,6 +199,25 @@ public class LogRequest   {
   }
 
   
+  /**
+   * Array of keywords to facilitate search
+   **/
+  public LogRequest keywords(List<String> keywords) {
+    this.keywords = keywords;
+    return this;
+  }
+
+  
+  @ApiModelProperty(value = "Array of keywords to facilitate search")
+  @JsonProperty("keywords")
+  public List<String> getKeywords() {
+    return keywords;
+  }
+  public void setKeywords(List<String> keywords) {
+    this.keywords = keywords;
+  }
+
+  
 
   @Override
   public boolean equals(Object o) {
@@ -222,12 +233,13 @@ public class LogRequest   {
         Objects.equals(logPriority, logRequest.logPriority) &&
         Objects.equals(logDataType, logRequest.logDataType) &&
         Objects.equals(title, logRequest.title) &&
-        Objects.equals(description, logRequest.description);
+        Objects.equals(description, logRequest.description) &&
+        Objects.equals(keywords, logRequest.keywords);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(requesterType, requesterId, logPriority, logDataType, title, description);
+    return Objects.hash(requesterType, requesterId, logPriority, logDataType, title, description, keywords);
   }
 
   @Override
@@ -241,6 +253,7 @@ public class LogRequest   {
     sb.append("    logDataType: ").append(toIndentedString(logDataType)).append("\n");
     sb.append("    title: ").append(toIndentedString(title)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    keywords: ").append(toIndentedString(keywords)).append("\n");
     sb.append("}");
     return sb.toString();
   }
