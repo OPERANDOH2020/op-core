@@ -72,6 +72,7 @@ var loginSwarming = {
                 }
                 else {
                     self.home("logoutSucceed");
+                    sessionsRegistry.disableOutlet(this.meta.outletId);
                 }
             }));
 
