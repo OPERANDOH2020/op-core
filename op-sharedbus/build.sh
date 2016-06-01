@@ -1,1 +1,1 @@
-docker build --rm=true -t swarmesb .
+docker build --rm=true -t operando .
