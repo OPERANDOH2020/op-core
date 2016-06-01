@@ -5,7 +5,7 @@
 /*
     Default UsersManager adapter. Punct de integrare cu alte sisteme, gen casa de sanatate.
 */
-var core = require ("SwarmCore");
+var core = require ("swarmcore");
 /*
     usersmanager este un adaptor swarm care gestioneaza organizatiile si utilizatorii
 

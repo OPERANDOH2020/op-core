@@ -1,7 +1,7 @@
 /**
  * Created by TAC on 6/25/2015.
  */
-var core = require ("SwarmCore");
+var core = require ("swarmcore");
 thisAdapter = core.createAdapter("DemoBroadcast");
 var container = require("safebox").container;
 
