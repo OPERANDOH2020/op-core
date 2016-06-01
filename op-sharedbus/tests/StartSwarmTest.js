@@ -5,7 +5,7 @@ var adapterHost         = "localhost";
 globalVerbosity = false;
 var assert              = require('double-check').assert;
 
-var util       = require("SwarmCore");
+var util       = require("swarmcore");
 
 var client     = util.createClient(adapterHost, adapterPort, "testLoginUser", "ok","testTenant", "testCtor");
 

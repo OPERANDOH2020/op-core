@@ -43,7 +43,7 @@ var dummyVendors = [
 ]
 
 
-var core = require("SwarmCore");
+var core = require("swarmcore");
 core.createAdapter("PrivacyForBenefitsManager");
 var apersistence = require('apersistence');
 var container = require("safebox").container;

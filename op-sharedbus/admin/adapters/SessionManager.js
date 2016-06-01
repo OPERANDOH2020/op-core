@@ -1,4 +1,4 @@
-var core = require("SwarmCore");
+var core = require("swarmcore");
 core.createAdapter("SessionManager");
 
 var apersistence = require('apersistence');

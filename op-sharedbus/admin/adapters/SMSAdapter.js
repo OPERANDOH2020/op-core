@@ -8,7 +8,7 @@
  Cod Preluat din proiectul open source swam monitor. Nu e folosit momentan de
  */
 
-var core = require ("SwarmCore");
+var core = require ("swarmcore");
 thisAdapter = core.createAdapter("SMSAdapter");
 
 var request = require('request');
