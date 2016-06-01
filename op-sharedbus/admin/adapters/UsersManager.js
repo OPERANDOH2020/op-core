@@ -362,6 +362,7 @@ validPassword = function(userId, pass, callback){
 function bootSystem(){
     flow.create("bootSystem",{
         begin:function(){
+            createUser({userId:"zeev", "password":"operando",userName:"Zeev Pritzker",organisationId:organisation.organisationId},saveCallbackFn);
             redisPersistence.lookup("Organisation", "SystemAdministrators", this.continue("createOrganisation"));
         },
         createOrganisation: function(err, organisation){
