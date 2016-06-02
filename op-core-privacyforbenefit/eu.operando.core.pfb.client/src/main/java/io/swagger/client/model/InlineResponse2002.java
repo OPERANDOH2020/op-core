@@ -15,30 +15,33 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.client.model.Offer;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-31T13:37:26.696Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-05-27T11:58:41.893Z")
 public class InlineResponse2002   {
   
-  private Object data = null;
+  private List<Offer> data = new ArrayList<Offer>();
 
   
   /**
    **/
-  public InlineResponse2002 data(Object data) {
+  public InlineResponse2002 data(List<Offer> data) {
     this.data = data;
     return this;
   }
   
   @ApiModelProperty(example = "null", value = "")
   @JsonProperty("data")
-  public Object getData() {
+  public List<Offer> getData() {
     return data;
   }
-  public void setData(Object data) {
+  public void setData(List<Offer> data) {
     this.data = data;
   }
 

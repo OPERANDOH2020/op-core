@@ -28,8 +28,7 @@ import io.swagger.client.model.Offer;
 public class Test {
 
 	@org.junit.Test
-	public void test() {
-		//fail("Not yet implemented");
+	public void createOffer() {		
 		ApiClient apiClient = new ApiClient();
 		 
 	    byte[] postBinaryBody = null; 
@@ -76,10 +75,55 @@ public class Test {
 			System.out.println(e.toString());
 			e.printStackTrace();
 		}
+				
+	}
+	@org.junit.Test
+	public void getOffers() {		
+		ApiClient apiClient = new ApiClient();
+		 
+	    byte[] postBinaryBody = null; 
+	     
+	    // create path and map variables 
+	    String path = "/offers/search"; 
+	 
+	    // query params 
+	    List<Pair> queryParams = new ArrayList<Pair>();
+	    queryParams.add(new Pair ("website_url","website_url"));
+	    queryParams.add(new Pair ("website_id","website_id"));
+	    queryParams.add(new Pair ("osp_id","osp_id"));
+	    queryParams.add(new Pair ("user_id","user_id"));
+	    
+	    Map<String, String> headerParams = new HashMap<String, String>(); 
+	    Map<String, Object> formParams = new HashMap<String, Object>(); 
+	 
+	    final String[] accepts = { 
+	      "application/json", "application/xml" 
+	    }; 
+	    final String accept = apiClient.selectHeaderAccept(accepts); 
+	 
+	    final String[] contentTypes = { 
+	       
+	    }; 
+	    final String contentType = apiClient.selectHeaderContentType(contentTypes); 
+	 
+	    String[] authNames = new String[] {  }; 
+	 
+	    //TypeRef returnType = new TypeRef<DataUnit>() {}; 
+	    GenericType returnType = new GenericType<String>() {};
+		
+		
+		
+		Object postBody = null;
+		try {
+			String str = apiClient.invokeAPI(path,"GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+			System.out.println(str);
+		} catch (ApiException e) {
+			System.out.println(e.toString());
+			e.printStackTrace();
+		}
 		
 		//String str = client.invokeAPI("swagger.json", "GET", new HashMap<String, String>(), null, new HashMap<String, String>(), null, "application/json", null, new String[0]);
 	}
-	
-	//prueba con post/dataunit
+
 
 }

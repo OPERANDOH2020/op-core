@@ -30,7 +30,7 @@ import com.sun.jersey.multipart.FormDataParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-03-31T13:37:20.076Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-05-27T11:58:50.874Z")
 public abstract class DealsApiService {
   
       public abstract Response cancelDeal(String dealId,SecurityContext securityContext)
@@ -39,7 +39,7 @@ public abstract class DealsApiService {
       public abstract Response dealsDealIdGet(String dealId,SecurityContext securityContext)
       throws NotFoundException;
   
-      public abstract Response offerAccepted(String dealId,String ospId,SecurityContext securityContext)
+      public abstract Response offerAccepted(String dealId,String ospId,String offerId,SecurityContext securityContext)
       throws NotFoundException;
   
       public abstract Response requestOffer(String userId,String offerId,SecurityContext securityContext)

@@ -21,7 +21,7 @@ import io.swagger.client.model.OfferStatus;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-31T13:37:26.696Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-05-27T11:58:41.893Z")
 public class InlineResponse2003   {
   
   private OfferStatus data = null;

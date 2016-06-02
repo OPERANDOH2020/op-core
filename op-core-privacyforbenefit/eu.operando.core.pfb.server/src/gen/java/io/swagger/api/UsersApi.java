@@ -39,7 +39,7 @@ import javax.ws.rs.*;
 
 @Produces({ "application/json" })
 @io.swagger.annotations.Api(description = "the users API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-03-31T13:37:20.076Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-05-27T11:58:50.874Z")
 public class UsersApi  {
    private final UsersApiService delegate = UsersApiServiceFactory.getUsersApi();
 
@@ -50,12 +50,11 @@ public class UsersApi  {
     @io.swagger.annotations.ApiOperation(value = "Returns list of offers accepted by user.", notes = "Request from privacy dashboard to get list of offers accepted by user (and acknowledged by OSP).", response = InlineResponse2005.class, tags={ "Users", "Deals" })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "Successful operation (list of offers accepted by user).", response = InlineResponse2005.class),
-        
         @io.swagger.annotations.ApiResponse(code = 200, message = "Unexpected error", response = InlineResponse2005.class) })
-
     public Response getAcceptedDealsByUser(
-@ApiParam(value = "The user identifier number",required=true) @PathParam("user_id") String userId,
-@ApiParam(value = "filter deals by category / status" ) String status,@Context SecurityContext securityContext)
+        @ApiParam(value = "The user identifier number",required=true) @PathParam("user_id") String userId,
+        @ApiParam(value = "filter deals by category / status" ) String status,
+        @Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.getAcceptedDealsByUser(userId,status,securityContext);
     }

@@ -28,7 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-31T13:37:26.696Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-05-27T11:58:41.893Z")
 public class DealsApi {
   private ApiClient apiClient;
 
@@ -247,10 +247,11 @@ public class DealsApi {
    * This API call is used by the OSP to acknowledge a deal and approve that offer was awarded to user
    * @param dealId The unique identifier number of a deal. (required)
    * @param ospId Osp Id. (required)
+   * @param offerId Offer Id. (required)
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String offerAccepted(String dealId, String ospId) throws ApiException {
+  public String offerAccepted(String dealId, String ospId, String offerId) throws ApiException {
     Object localVarPostBody = null;
     
     // verify the required parameter 'dealId' is set
@@ -261,6 +262,11 @@ public class DealsApi {
     // verify the required parameter 'ospId' is set
     if (ospId == null) {
       throw new ApiException(400, "Missing the required parameter 'ospId' when calling offerAccepted");
+    }
+    
+    // verify the required parameter 'offerId' is set
+    if (offerId == null) {
+      throw new ApiException(400, "Missing the required parameter 'offerId' when calling offerAccepted");
     }
     
     // create path and map variables
@@ -274,6 +280,8 @@ public class DealsApi {
 
     
     localVarQueryParams.addAll(apiClient.parameterToPairs("", "ospId", ospId));
+    
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "offerId", offerId));
     
 
     

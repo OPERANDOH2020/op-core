@@ -18,11 +18,11 @@ import io.swagger.client.ApiClient;
 import io.swagger.client.Configuration;
 import io.swagger.client.Pair;
 
-import io.swagger.client.model.Offer;
-import io.swagger.client.model.Error;
-import io.swagger.client.model.InlineResponse2002;
-import io.swagger.client.model.InlineResponse2003;
+import io.swagger.client.model.OfferRequest;
 import io.swagger.client.model.InlineResponse2001;
+import io.swagger.client.model.Error;
+import io.swagger.client.model.InlineResponse2003;
+import io.swagger.client.model.InlineResponse2002;
 import io.swagger.client.model.InlineResponse200;
 
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-31T13:37:26.696Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-05-27T11:58:41.893Z")
 public class OffersApi {
   private ApiClient apiClient;
 
@@ -55,10 +55,10 @@ public class OffersApi {
    * Creates a new offer for an OSP .
    * Request from Administration Console to create a new offer for an OSP.
    * @param offer The offer data in JSON format. (required)
-   * @return InlineResponse2002
+   * @return InlineResponse2001
    * @throws ApiException if fails to make API call
    */
-  public InlineResponse2002 createOffer(Offer offer) throws ApiException {
+  public InlineResponse2001 createOffer(OfferRequest offer) throws ApiException {
     Object localVarPostBody = offer;
     
     // verify the required parameter 'offer' is set
@@ -93,7 +93,7 @@ public class OffersApi {
     String[] localVarAuthNames = new String[] {  };
 
     
-    GenericType<InlineResponse2002> localVarReturnType = new GenericType<InlineResponse2002>() {};
+    GenericType<InlineResponse2001> localVarReturnType = new GenericType<InlineResponse2001>() {};
     return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     
   }
@@ -153,14 +153,14 @@ public class OffersApi {
    * @param websiteId ID of the website to get offers related to specific website ID (optional)
    * @param ospId ID of the OSP to list of all offers created by specific OSP.. (optional)
    * @param userId ID of the user to limit offers to those apllicable to specific user. (optional)
-   * @return InlineResponse2001
+   * @return InlineResponse2002
    * @throws ApiException if fails to make API call
    */
-  public InlineResponse2001 getOffers(String websiteUrl, String websiteId, String ospId, String userId) throws ApiException {
+  public InlineResponse2002 getOffers(String websiteUrl, String websiteId, String ospId, String userId) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
-    String localVarPath = "/offers".replaceAll("\\{format\\}","json");
+    String localVarPath = "/offers/search".replaceAll("\\{format\\}","json");
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();
@@ -194,7 +194,7 @@ public class OffersApi {
     String[] localVarAuthNames = new String[] {  };
 
     
-    GenericType<InlineResponse2001> localVarReturnType = new GenericType<InlineResponse2001>() {};
+    GenericType<InlineResponse2002> localVarReturnType = new GenericType<InlineResponse2002>() {};
     return apiClient.invokeAPI(localVarPath, "GET", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
     
   }
@@ -264,7 +264,7 @@ public class OffersApi {
    * @return InlineResponse2003
    * @throws ApiException if fails to make API call
    */
-  public InlineResponse2003 updateOffer(String offerId, Offer offer) throws ApiException {
+  public InlineResponse2003 updateOffer(String offerId, OfferRequest offer) throws ApiException {
     Object localVarPostBody = offer;
     
     // verify the required parameter 'offerId' is set

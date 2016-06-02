@@ -20,7 +20,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-31T13:37:26.696Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-05-27T11:58:41.893Z")
 public class OfferStatus   {
   
   private String id = null;
@@ -46,14 +46,14 @@ public class OfferStatus   {
 
   
   /**
-   * Description of the offer.
+   * Description of the offer status.
    **/
   public OfferStatus status(String status) {
     this.status = status;
     return this;
   }
   
-  @ApiModelProperty(example = "null", value = "Description of the offer.")
+  @ApiModelProperty(example = "null", value = "Description of the offer status.")
   @JsonProperty("status")
   public String getStatus() {
     return status;

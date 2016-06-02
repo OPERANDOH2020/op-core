@@ -18,7 +18,7 @@ import com.sun.jersey.multipart.FormDataParam;
 
 import io.swagger.model.Error;
 import io.swagger.model.InlineResponse2004;
-import io.swagger.model.OSP;
+import io.swagger.model.OSPRequest;
 
 import java.util.List;
 import io.swagger.api.NotFoundException;
@@ -31,7 +31,7 @@ import com.sun.jersey.multipart.FormDataParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-03-31T13:37:20.076Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-05-27T11:58:50.874Z")
 public class OspsApiServiceImpl extends OspsApiService {
     
     @Override
@@ -42,7 +42,7 @@ public class OspsApiServiceImpl extends OspsApiService {
     }
     
     @Override
-    public Response registerOSP(OSP osp, SecurityContext securityContext)
+    public Response registerOSP(OSPRequest osp, SecurityContext securityContext)
     throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
