@@ -72,7 +72,7 @@ var loginSwarming = {
                 }
                 else {
                     self.home("logoutSucceed");
-                    sessionsRegistry.disableOutlet(this.meta.outletId);
+                    sessionsRegistry.disableOutlet(self.meta.outletId);
                 }
             }));
 
@@ -166,7 +166,7 @@ var loginSwarming = {
     failed: {   //phase
         node: "EntryPoint",
         code: function () {
-            sessionsRegistry.disableOutlet(this.sessionId);
+            sessionsRegistry.disableOutlet(this.meta.outletId);
             logger.info("Failed login for " + this.userId);
             this.home("failed");
         }
