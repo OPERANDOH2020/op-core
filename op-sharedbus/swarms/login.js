@@ -166,7 +166,7 @@ var loginSwarming = {
     failed: {   //phase
         node: "EntryPoint",
         code: function () {
-            sessionsRegistry.disableOutlet(this.meta.outletId);
+            sessionsRegistry.disableOutlet(this.sessionId);
             logger.info("Failed login for " + this.userId);
             this.home("failed");
         }
