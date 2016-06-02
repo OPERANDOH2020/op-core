@@ -12,7 +12,7 @@
 
 
 
-var core = require("SwarmCore");
+var core = require("swarmcore");
 core.createAdapter("DataLeakageProtection");
 var apersistence = require('apersistence');
 var container = require("safebox").container;

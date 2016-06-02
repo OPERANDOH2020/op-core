@@ -12,7 +12,8 @@
         {"core":"etc/testSwarms"      ,"enabled":true},
         {"folder":"admin/swarms"      ,"enabled":true},
         {"folder":"swarms"            ,"enabled":true},
-        {"folder":"operando/swarms"   ,"enabled":true}
+        {"folder":"operando/swarms"   ,"enabled":true},
+        {"folder":"operando/swarms/PfB"   ,"enabled":true}
      ]
   },
  "Logger":{},
@@ -27,7 +28,7 @@
                         {"core":"etc/adapters/DefaultLogger.js",                     "enabled":true, "step":3},
                         {"node":"admin/adapters/UsersManager.js",                    "enabled":true  , "step":4},
                         {"node":"admin/adapters/SessionManager.js",                  "enabled":true  , "step":4},
-                        {"node":"operando/adapters/IdentityAdapter.js",              "enabled":false  , "step":4},
+                        {"node":"operando/adapters/ES/IdentityAdapter.js",              "enabled":true  , "step":4},
                         {"node":"admin/adapters/SwarmMonitor.js",                    "enabled":true  , "step":5},
                         {"core":"etc/adapters/ClientAdapter.js",                     "enabled":true  , "step":6},
                         {"node":"operando/adapters/GuardianAdapter.js",              "enabled":false  , "step":7},
@@ -35,6 +36,7 @@
                         {"node":"operando/adapters/PAAdapter.js",                    "enabled":false  , "step":9},
                         {"node":"operando/adapters/RESTAdapter.js",                  "enabled":false  , "step":10},
                         {"core":"etc/adapters/WSServer.js",                          "enabled":true  , "step":10},
+                        {"node":"operando/adapters/CBE/PrivacyForBenefitsAdapter.js",    "enabled":true  , "step":10},
                         {"node":"admin/adapters/TestsManager.js",                    "enabled":true, "step":5,"args":["/home/ciprian/Workspace/node_modules"]}
 
 

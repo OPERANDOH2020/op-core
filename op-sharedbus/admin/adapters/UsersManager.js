@@ -5,7 +5,7 @@
 /*
     Default UsersManager adapter. Punct de integrare cu alte sisteme, gen casa de sanatate.
 */
-var core = require ("SwarmCore");
+var core = require ("swarmcore");
 /*
     usersmanager este un adaptor swarm care gestioneaza organizatiile si utilizatorii
 
@@ -375,6 +375,7 @@ function bootSystem(){
                 console.log("Error occurred on creating organisation",err);
             }
             else{
+                createUser({userId:"zeev", "password":"operando",userName:"Zeev Pritzker",organisationId:organisation.organisationId},saveCallbackFn);
                 createUser({userId:"admin", "password":"swarm", userName:"Admin",organisationId:organisation.organisationId},saveCallbackFn);
                 createUser({userId:"rafael", "password":"swarm",userName:"Rafael",organisationId:organisation.organisationId},saveCallbackFn);
                 createUser({userId:"rafa", "password":"swarm",userName:"Rafael Mastaleru",organisationId:organisation.organisationId},saveCallbackFn);

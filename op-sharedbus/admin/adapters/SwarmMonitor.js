@@ -7,7 +7,7 @@
 */
 
 
-var core        = require ("SwarmCore");
+var core        = require ("swarmcore");
 var os          = require('os');
 var fs          = require('fs');
 var moment      = require('moment');

@@ -3,7 +3,7 @@
  */
 
 
-var core = require ("SwarmCore");
+var core = require ("swarmcore");
 thisAdapter = core.createAdapter("TestsManager");
 
 var pathToTests = process.argv[2];
