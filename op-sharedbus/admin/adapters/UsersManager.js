@@ -362,7 +362,6 @@ validPassword = function(userId, pass, callback){
 function bootSystem(){
     flow.create("bootSystem",{
         begin:function(){
-            createUser({userId:"zeev", "password":"operando",userName:"Zeev Pritzker",organisationId:organisation.organisationId},saveCallbackFn);
             redisPersistence.lookup("Organisation", "SystemAdministrators", this.continue("createOrganisation"));
         },
         createOrganisation: function(err, organisation){
@@ -376,6 +375,7 @@ function bootSystem(){
                 console.log("Error occurred on creating organisation",err);
             }
             else{
+                createUser({userId:"zeev", "password":"operando",userName:"Zeev Pritzker",organisationId:organisation.organisationId},saveCallbackFn);
                 createUser({userId:"admin", "password":"swarm", userName:"Admin",organisationId:organisation.organisationId},saveCallbackFn);
                 createUser({userId:"rafael", "password":"swarm",userName:"Rafael",organisationId:organisation.organisationId},saveCallbackFn);
                 createUser({userId:"rafa", "password":"swarm",userName:"Rafael Mastaleru",organisationId:organisation.organisationId},saveCallbackFn);
