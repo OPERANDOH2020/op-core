@@ -17,8 +17,8 @@ var registerSwarming = {
     },
 
     vars: {
-        newUser:null,
-        erorr:null
+        newUser: null,
+        erorr: null
     },
 
 
@@ -26,32 +26,48 @@ var registerSwarming = {
         console.log("Swarm extension started");
     },
 
-    registeNewUser:function(newUserData){
+    registeNewUser: function (newUserData) {
+        console.log("New user register request", newUserData);
         this.newUser = newUserData;
+        this.swarm("verifyUserData");
     },
 
-    verifyValidationCode:function(){
+    verifyValidationCode: function () {
         //Confirm user identity and activate account
     },
 
-    saveNewUser:{
-        node:"UserManager",
+    verifyUserData: {
+        node: "UsersManager",
         code: function () {
             var self = this;
-            createUser(this.newUser, S(function(err, user){
-                if(err){
+            newUserIsValid(self.newUser, function (err, user) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log(user);
+                }
+            })
+        }
+    },
+
+    saveNewUser: {
+        node: "UserManager",
+        code: function () {
+            var self = this;
+            createUser(this.newUser, S(function (err, user) {
+                if (err) {
                     self.error = self.err,
-                    self.swarm("error");
-                }else{
+                        self.swarm("error");
+                } else {
                     self.swarm("generateValidationCode");
                 }
             }));
         }
     },
 
-    generateValidationCode:{
-        node : "RegisterUAM",
-        code:function(){
+    generateValidationCode: {
+        node: "RegisterUAM",
+        code: function () {
             this.swarm("success");
         }
     },
@@ -63,9 +79,9 @@ var registerSwarming = {
         }
     },
 
-    error:{
+    error: {
         node: "Core",
-        code: function(){
+        code: function () {
             console.log("Identity swarm error", this.error);
             this.home(this.action + "_error");
         }

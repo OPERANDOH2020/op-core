@@ -66,7 +66,8 @@ apersistence.registerModel("DefaultUser","Redis", {
         index:true
     },
     userName: {
-        type: "string"
+        type: "string",
+        pk: true
     },
     organisationId:{
         type:"string",
@@ -91,7 +92,8 @@ apersistence.registerModel("DefaultUser","Redis", {
         type: "string"
     },
     email: {
-        type: "string"
+        type: "string",
+        pk: true
     },
     address: {
         type: "string"
@@ -292,7 +294,47 @@ updateOrganisation = function (organisationDump, callback) {
 };
 
 
+newUserIsValid = function (newUser, callback) {
+    flow.create("user is valid", {
+        begin: function () {
+            redisPersistence.lookup("DefaultUser", newUser.username, this.continue("verifyEmail"))
+        },
+        verifyEmail: function (err, user) {
+            if (err) {
+                callback(err);
+            } else if (!redisPersistence.isFresh(user)) {
+                callback(new Error("Username is unavailable"));
+            }
+            else {
+                redisPersistence.lookup("DefaultUser", newUser.email, this.continue("verifyPasswords"))
+            }
+        },
+        verifyPasswords: function (err, user) {
+            if (err) {
+                callback(err);
+            }
+            else if (!redisPersistence.isFresh(user)) {
+                callback(new Error("Email is unavailable"));
+            }
+            else {
+                if (newUser.password != newUser.repeat_password) {
+                    callback(new Error("Passwords doest not match"));
+                }
+                else {
+                    createUser({
+                        userId: newUser.username,
+                        password: newUser.password,
+                        userName: newUser.username,
+                        email:newUser.email,
+                        organisationId: "Public"
+                    }, saveCallbackFn);
+                }
 
+            }
+        }
+
+    })();
+}
 
 
 /*
@@ -363,6 +405,15 @@ function bootSystem(){
     flow.create("bootSystem",{
         begin:function(){
             redisPersistence.lookup("Organisation", "SystemAdministrators", this.continue("createOrganisation"));
+
+            redisPersistence.lookup("Organisation", "Public", this.continue("createPublicOrganisation"));
+
+        },
+        createPublicOrganisation:function(err, organisation){
+            if(redisPersistence.isFresh(organisation)){
+                organisation.displayName = "OPERANDO PUBLIC";
+                redisPersistence.saveObject(organisation, this.continue("createGuestUser"));
+            }
         },
         createOrganisation: function(err, organisation){
             if(redisPersistence.isFresh(organisation)){
@@ -379,6 +430,14 @@ function bootSystem(){
                 createUser({userId:"admin", "password":"swarm", userName:"Admin",organisationId:organisation.organisationId},saveCallbackFn);
                 createUser({userId:"rafael", "password":"swarm",userName:"Rafael",organisationId:organisation.organisationId},saveCallbackFn);
                 createUser({userId:"rafa", "password":"swarm",userName:"Rafael Mastaleru",organisationId:organisation.organisationId},saveCallbackFn);
+            }
+        },
+        createGuestUser:function(err, organisation){
+            if(err){
+                console.log("Error occurred on creating organisation",err);
+            }
+            else{
+                createUser({userId:"guest", "password":"guest",userName:"Guest User",organisationId:organisation.organisationId},saveCallbackFn);
             }
         }
 
