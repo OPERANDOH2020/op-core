@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.47, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.5.49, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: operando_logdb
 -- ------------------------------------------------------
--- Server version	5.5.47-0ubuntu0.14.04.1
+-- Server version	5.5.49-0ubuntu0.14.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -23,11 +23,15 @@ DROP TABLE IF EXISTS `LOGS`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `LOGS` (
-  `USER_ID` varchar(20) NOT NULL,
-  `DATED` varchar(50) NOT NULL,
-  `LOGGER` varchar(50) NOT NULL,
-  `LEVEL` varchar(10) NOT NULL,
-  `MESSAGE` varchar(1000) NOT NULL
+  `USER_ID` varchar(20) DEFAULT NULL,
+  `DATED` varchar(50) DEFAULT NULL,
+  `LOGGER` varchar(50) DEFAULT NULL,
+  `LEVEL` varchar(10) DEFAULT NULL,
+  `REQUESTERTYPE` varchar(20) DEFAULT NULL,
+  `REQUESTERID` varchar(20) DEFAULT NULL,
+  `LOGPRIORITY` varchar(10) DEFAULT NULL,
+  `TITLE` varchar(50) DEFAULT NULL,
+  `MESSAGE` varchar(1000) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -37,20 +41,6 @@ CREATE TABLE `LOGS` (
 
 LOCK TABLES `LOGS` WRITE;
 /*!40000 ALTER TABLE `LOGS` DISABLE KEYS */;
+INSERT INTO `LOGS` VALUES ('username','2016-06-03 13:05:25,170','io.swagger.api.impl.LogApiServiceImpl','INFO','MODULE','1001','LOW','First log','{\"requesterType\":\"MODULE_\",\"requesterId\":\"1001\",\"logPriority\":\"LOW\",\"logDataType\":\"INFO\",\"title\":\"First log\",\"description\":\"First log for testing purposes\",\"keywords\":[\"keyword1\",\"keyword2\",\"keyword3\"]}');
 /*!40000 ALTER TABLE `LOGS` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Dumping routines for database 'operando_logdb'
---
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2016-04-25 11:42:30

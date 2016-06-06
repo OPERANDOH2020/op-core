@@ -1,28 +1,16 @@
 package io.swagger.api;
 
-import io.swagger.model.*;
-import io.swagger.api.LogApiService;
-import io.swagger.api.factories.LogApiServiceFactory;
-
-import io.swagger.annotations.ApiParam;
-
-import com.sun.jersey.multipart.FormDataParam;
-
-import io.swagger.model.LogRequest;
-import io.swagger.model.Error;
-
-import java.util.List;
-import io.swagger.api.NotFoundException;
-
-import java.io.InputStream;
-
-import com.sun.jersey.core.header.FormDataContentDisposition;
-import com.sun.jersey.multipart.FormDataParam;
-
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-import javax.ws.rs.*;
+
+import io.swagger.annotations.ApiParam;
+import io.swagger.api.factories.LogApiServiceFactory;
+import io.swagger.model.LogRequest;
 
 @Path("/log")
 

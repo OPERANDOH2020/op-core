@@ -66,7 +66,7 @@ public class Test {
 	    logRequest.setTitle("First log");
 	    logRequest.setLogPriority(LogPriorityEnum.LOW);
 	    logRequest.setRequesterId("1001");
-	    logRequest.setRequesterType(RequesterTypeEnum.MODULE_);
+	    logRequest.setRequesterType(RequesterTypeEnum.MODULE);
 	    List<String> keywords = new ArrayList ();
 	    keywords.add("keyword1");
 	    keywords.add("keyword2");

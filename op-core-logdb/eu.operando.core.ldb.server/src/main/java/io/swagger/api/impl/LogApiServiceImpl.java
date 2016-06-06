@@ -28,8 +28,12 @@ public class LogApiServiceImpl extends LogApiService {
     throws NotFoundException {    	    	
     	ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
     	PropertyConfigurator.configure(classLoader.getResource("config/log4jMySql.properties"));    	
-  	  	Gson gson = new Gson();
-  	  	MDC.put("username", "username");
+  	  	Gson gson = new Gson();  	  
+  	  	MDC.put("userName", "username");
+  	  	MDC.put("requesterType",request.getRequesterType() );
+  	  	MDC.put("requesterId", request.getRequesterId());
+  	  	MDC.put("logPriority", request.getLogPriority());
+  	  	MDC.put("title", request.getTitle());  	  	
   	  	String requestDataInJsonFormat = gson.toJson(request);  	  	
   	  	log.info(requestDataInJsonFormat);
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "The log message has been registered!")).build();

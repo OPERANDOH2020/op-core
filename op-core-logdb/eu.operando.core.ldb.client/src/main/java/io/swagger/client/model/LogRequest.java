@@ -1,5 +1,6 @@
 package io.swagger.client.model;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -9,17 +10,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
-
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-05-16T12:28:12.243Z")
+/**
+ * LogRequest
+ */
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-06T13:38:35.556Z")
 public class LogRequest   {
   
 
-
+  /**
+   * Source type from which comes the request.
+   */
   public enum RequesterTypeEnum {
-    PROCESS_("Process."),
-    MODULE_("Module.");
+    PROCESS("Process"),
+    MODULE("Module");
 
     private String value;
 
@@ -30,14 +33,16 @@ public class LogRequest   {
     @Override
     @JsonValue
     public String toString() {
-      return value;
+      return String.valueOf(value);
     }
   }
 
   private RequesterTypeEnum requesterType = null;
   private String requesterId = null;
 
-
+  /**
+   * Priority level of the data to be logged.
+   */
   public enum LogPriorityEnum {
     LOW("Low"),
     NORMAL("Normal"),
@@ -53,13 +58,15 @@ public class LogRequest   {
     @Override
     @JsonValue
     public String toString() {
-      return value;
+      return String.valueOf(value);
     }
   }
 
   private LogPriorityEnum logPriority = null;
 
-
+  /**
+   * Type of the data to be logged.
+   */
   public enum LogDataTypeEnum {
     INFO("Info"),
     WARN("Warn"),
@@ -75,7 +82,7 @@ public class LogRequest   {
     @Override
     @JsonValue
     public String toString() {
-      return value;
+      return String.valueOf(value);
     }
   }
 
@@ -102,7 +109,7 @@ public class LogRequest   {
     this.requesterType = requesterType;
   }
 
-  
+
   /**
    * Id of the requester (e.g the id of an OSP).
    **/
@@ -120,7 +127,7 @@ public class LogRequest   {
     this.requesterId = requesterId;
   }
 
-  
+
   /**
    * Priority level of the data to be logged.
    **/
@@ -138,7 +145,7 @@ public class LogRequest   {
     this.logPriority = logPriority;
   }
 
-  
+
   /**
    * Type of the data to be logged.
    **/
@@ -156,7 +163,7 @@ public class LogRequest   {
     this.logDataType = logDataType;
   }
 
-  
+
   /**
    * Subject of the event to be logged.
    **/
@@ -174,7 +181,7 @@ public class LogRequest   {
     this.title = title;
   }
 
-  
+
   /**
    * Description of the event to be logged.
    **/
@@ -192,7 +199,7 @@ public class LogRequest   {
     this.description = description;
   }
 
-  
+
   /**
    * Array of keywords to facilitate search
    **/
@@ -210,7 +217,6 @@ public class LogRequest   {
     this.keywords = keywords;
   }
 
-  
 
   @Override
   public boolean equals(java.lang.Object o) {

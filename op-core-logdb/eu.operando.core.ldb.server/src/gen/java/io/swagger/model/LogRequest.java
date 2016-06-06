@@ -1,5 +1,6 @@
 package io.swagger.model;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -9,17 +10,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
-
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-05-16T12:28:19.935Z")
+/**
+ * LogRequest
+ */
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-06T13:38:35.556Z")
 public class LogRequest   {
   
 
-
+  /**
+   * Source type from which comes the request.
+   */
   public enum RequesterTypeEnum {
-    PROCESS_("Process."),
-    MODULE_("Module.");
+    PROCESS("Process"),
+    MODULE("Module");
 
     private String value;
 
@@ -30,14 +33,16 @@ public class LogRequest   {
     @Override
     @JsonValue
     public String toString() {
-      return value;
+      return String.valueOf(value);
     }
   }
 
   private RequesterTypeEnum requesterType = null;
   private String requesterId = null;
 
-
+  /**
+   * Priority level of the data to be logged.
+   */
   public enum LogPriorityEnum {
     LOW("Low"),
     NORMAL("Normal"),
@@ -53,13 +58,15 @@ public class LogRequest   {
     @Override
     @JsonValue
     public String toString() {
-      return value;
+      return String.valueOf(value);
     }
   }
 
   private LogPriorityEnum logPriority = null;
 
-
+  /**
+   * Type of the data to be logged.
+   */
   public enum LogDataTypeEnum {
     INFO("Info"),
     WARN("Warn"),
@@ -75,7 +82,7 @@ public class LogRequest   {
     @Override
     @JsonValue
     public String toString() {
-      return value;
+      return String.valueOf(value);
     }
   }
 
@@ -92,9 +99,8 @@ public class LogRequest   {
     this.requesterType = requesterType;
     return this;
   }
-
   
-  @ApiModelProperty(value = "Source type from which comes the request.")
+  @ApiModelProperty(example = "null", value = "Source type from which comes the request.")
   @JsonProperty("requesterType")
   public RequesterTypeEnum getRequesterType() {
     return requesterType;
@@ -103,7 +109,7 @@ public class LogRequest   {
     this.requesterType = requesterType;
   }
 
-  
+
   /**
    * Id of the requester (e.g the id of an OSP).
    **/
@@ -111,9 +117,8 @@ public class LogRequest   {
     this.requesterId = requesterId;
     return this;
   }
-
   
-  @ApiModelProperty(value = "Id of the requester (e.g the id of an OSP).")
+  @ApiModelProperty(example = "null", value = "Id of the requester (e.g the id of an OSP).")
   @JsonProperty("requesterId")
   public String getRequesterId() {
     return requesterId;
@@ -122,7 +127,7 @@ public class LogRequest   {
     this.requesterId = requesterId;
   }
 
-  
+
   /**
    * Priority level of the data to be logged.
    **/
@@ -130,9 +135,8 @@ public class LogRequest   {
     this.logPriority = logPriority;
     return this;
   }
-
   
-  @ApiModelProperty(value = "Priority level of the data to be logged.")
+  @ApiModelProperty(example = "null", value = "Priority level of the data to be logged.")
   @JsonProperty("logPriority")
   public LogPriorityEnum getLogPriority() {
     return logPriority;
@@ -141,7 +145,7 @@ public class LogRequest   {
     this.logPriority = logPriority;
   }
 
-  
+
   /**
    * Type of the data to be logged.
    **/
@@ -149,9 +153,8 @@ public class LogRequest   {
     this.logDataType = logDataType;
     return this;
   }
-
   
-  @ApiModelProperty(value = "Type of the data to be logged.")
+  @ApiModelProperty(example = "null", value = "Type of the data to be logged.")
   @JsonProperty("logDataType")
   public LogDataTypeEnum getLogDataType() {
     return logDataType;
@@ -160,7 +163,7 @@ public class LogRequest   {
     this.logDataType = logDataType;
   }
 
-  
+
   /**
    * Subject of the event to be logged.
    **/
@@ -168,9 +171,8 @@ public class LogRequest   {
     this.title = title;
     return this;
   }
-
   
-  @ApiModelProperty(value = "Subject of the event to be logged.")
+  @ApiModelProperty(example = "null", value = "Subject of the event to be logged.")
   @JsonProperty("title")
   public String getTitle() {
     return title;
@@ -179,7 +181,7 @@ public class LogRequest   {
     this.title = title;
   }
 
-  
+
   /**
    * Description of the event to be logged.
    **/
@@ -187,9 +189,8 @@ public class LogRequest   {
     this.description = description;
     return this;
   }
-
   
-  @ApiModelProperty(value = "Description of the event to be logged.")
+  @ApiModelProperty(example = "null", value = "Description of the event to be logged.")
   @JsonProperty("description")
   public String getDescription() {
     return description;
@@ -198,7 +199,7 @@ public class LogRequest   {
     this.description = description;
   }
 
-  
+
   /**
    * Array of keywords to facilitate search
    **/
@@ -206,9 +207,8 @@ public class LogRequest   {
     this.keywords = keywords;
     return this;
   }
-
   
-  @ApiModelProperty(value = "Array of keywords to facilitate search")
+  @ApiModelProperty(example = "null", value = "Array of keywords to facilitate search")
   @JsonProperty("keywords")
   public List<String> getKeywords() {
     return keywords;
@@ -217,10 +217,9 @@ public class LogRequest   {
     this.keywords = keywords;
   }
 
-  
 
   @Override
-  public boolean equals(Object o) {
+  public boolean equals(java.lang.Object o) {
     if (this == o) {
       return true;
     }
@@ -228,13 +227,13 @@ public class LogRequest   {
       return false;
     }
     LogRequest logRequest = (LogRequest) o;
-    return Objects.equals(requesterType, logRequest.requesterType) &&
-        Objects.equals(requesterId, logRequest.requesterId) &&
-        Objects.equals(logPriority, logRequest.logPriority) &&
-        Objects.equals(logDataType, logRequest.logDataType) &&
-        Objects.equals(title, logRequest.title) &&
-        Objects.equals(description, logRequest.description) &&
-        Objects.equals(keywords, logRequest.keywords);
+    return Objects.equals(this.requesterType, logRequest.requesterType) &&
+        Objects.equals(this.requesterId, logRequest.requesterId) &&
+        Objects.equals(this.logPriority, logRequest.logPriority) &&
+        Objects.equals(this.logDataType, logRequest.logDataType) &&
+        Objects.equals(this.title, logRequest.title) &&
+        Objects.equals(this.description, logRequest.description) &&
+        Objects.equals(this.keywords, logRequest.keywords);
   }
 
   @Override
@@ -262,7 +261,7 @@ public class LogRequest   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(Object o) {
+  private String toIndentedString(java.lang.Object o) {
     if (o == null) {
       return "null";
     }
