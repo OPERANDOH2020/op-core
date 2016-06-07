@@ -25,11 +25,52 @@ public class LogApiServiceImpl extends LogApiService {
 	private Statement statement = null;
 	private ResultSet resultSet = null;
     @Override
-    public Response getLogs(String dateFrom, String dateTo, String logLevel, String requesterType, String requesterId, String logPriority, String title, List<String> keyWords, SecurityContext securityContext) throws NotFoundException {
-    String select = "";
-    LogResponse logResponse = new LogResponse();
-    ArrayList logResponsesArray = new ArrayList ();
-    
+    public Response getLogs(String dateFrom, String dateTo, String logLevel, String requesterType, String requesterId, String logPriority, String title, List<String> keyWords, SecurityContext securityContext) throws NotFoundException {    
+    String strSelect = "select * from LOGS";    
+    StringBuffer strBufferSelect = new StringBuffer(strSelect);
+    boolean boolAnd = false;
+    LogResponse logResponse;
+    ArrayList<LogResponse> logResponsesArray = new ArrayList<LogResponse> ();
+    if (!((dateFrom=="") && (dateTo=="") && (logLevel=="") && (requesterType=="") && (requesterId=="") && (logPriority=="") && (title=="") && (keyWords==null))){
+    	strBufferSelect.append(" WHERE ");
+    	if (dateFrom!=""){
+    		strBufferSelect.append("DATED >= '"+dateFrom+"'");
+    		boolAnd = true;
+    	}
+    	if (dateTo!=""){
+    		if (boolAnd)
+    			strBufferSelect.append(" & ");
+    		strBufferSelect.append("DATED <= '"+dateFrom+"'");
+    		boolAnd = true;
+    	}
+    	if (logLevel!=""){
+    		if (boolAnd)
+    			strBufferSelect.append(" & ");
+    		strBufferSelect.append("LEVEL == '"+logLevel+"'");
+    		boolAnd = true;
+    	}
+    	if (requesterType!=""){
+    		if (boolAnd)
+    			strBufferSelect.append(" & ");
+    		strBufferSelect.append("REQUESTERTYPE == '"+requesterType+"'");
+    		boolAnd = true;
+    	}
+    	if (requesterId!=""){
+    		if (boolAnd)
+    			strBufferSelect.append(" & ");
+    		strBufferSelect.append("REQUESTERID == '"+requesterId+"'");
+    		boolAnd = true;
+    	}
+    	if (logPriority!=""){
+    		if (boolAnd)
+    			strBufferSelect.append(" & ");
+    		strBufferSelect.append("LOGPRIORITY == '"+logPriority+"'");
+    		boolAnd = true;
+    	}
+    	strSelect = strBufferSelect.toString();
+    	System.out.println(strSelect);
+    }
+    	
 	try {
 		Class.forName("com.mysql.jdbc.Driver");
 		connection = DriverManager
@@ -37,17 +78,18 @@ public class LogApiServiceImpl extends LogApiService {
 			        + "user=root&password=root");
 		 statement = connection.createStatement();
 		 resultSet = statement
-		          .executeQuery("select * from LOGS");		 
+		          .executeQuery(strSelect);		 
 		 while (resultSet.next()){
+			 logResponse = new LogResponse();
 			 logResponse.setLogDate(resultSet.getString("DATED"));			 
 			 LogLevelEnum logLevelEnum = LogLevelEnum.valueOf(resultSet.getString("LEVEL"));
 			 logResponse.setLogLevel(logLevelEnum);
 			 LogPriorityEnum logPriorityEnum = LogPriorityEnum.valueOf(resultSet.getString("LOGPRIORITY"));
 			 logResponse.setLogPriority(logPriorityEnum);
-			 logResponse.setRequesterId(resultSet.getString("DATED"));
+			 logResponse.setRequesterId(resultSet.getString("REQUESTERID"));
 			 RequesterTypeEnum requesterTypeEnum = RequesterTypeEnum.valueOf(resultSet.getString("REQUESTERTYPE"));
 			 logResponse.setRequesterType(requesterTypeEnum);
-			 logResponse.setTitle(resultSet.getString("DATED"));
+			 logResponse.setTitle(resultSet.getString("TITLE"));
 			 logResponsesArray.add(logResponse);
 		 }		 		 
 	} 
