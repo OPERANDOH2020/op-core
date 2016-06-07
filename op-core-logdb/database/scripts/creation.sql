@@ -30,6 +30,7 @@ CREATE TABLE `LOGS` (
   `REQUESTERTYPE` varchar(20) DEFAULT NULL,
   `REQUESTERID` varchar(20) DEFAULT NULL,
   `LOGPRIORITY` varchar(10) DEFAULT NULL,
+  `KEYWORDS` varchar(50) DEFAULT NULL,
   `TITLE` varchar(50) DEFAULT NULL,
   `MESSAGE` varchar(1000) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -41,6 +42,6 @@ CREATE TABLE `LOGS` (
 
 LOCK TABLES `LOGS` WRITE;
 /*!40000 ALTER TABLE `LOGS` DISABLE KEYS */;
-INSERT INTO `LOGS` VALUES ('username','2016-06-03 13:05:25,170','io.swagger.api.impl.LogApiServiceImpl','INFO','MODULE','1001','LOW','First log','{\"requesterType\":\"MODULE_\",\"requesterId\":\"1001\",\"logPriority\":\"LOW\",\"logDataType\":\"INFO\",\"title\":\"First log\",\"description\":\"First log for testing purposes\",\"keywords\":[\"keyword1\",\"keyword2\",\"keyword3\"]}');
+INSERT INTO `LOGS` VALUES ('username','2016-06-07 15:10:22,174','io.swagger.api.impl.LogApiServiceImpl','INFO','Module','1001','Low','[keyword1, keyword2, keyword3]','First log','First log for testing purposes');
 /*!40000 ALTER TABLE `LOGS` ENABLE KEYS */;
 UNLOCK TABLES;

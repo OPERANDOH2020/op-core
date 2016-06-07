@@ -33,9 +33,10 @@ public class LogApiServiceImpl extends LogApiService {
   	  	MDC.put("requesterType",request.getRequesterType() );
   	  	MDC.put("requesterId", request.getRequesterId());
   	  	MDC.put("logPriority", request.getLogPriority());
-  	  	MDC.put("title", request.getTitle());  	  	
-  	  	String requestDataInJsonFormat = gson.toJson(request);  	  	
-  	  	log.info(requestDataInJsonFormat);
+  	  	MDC.put("keywords", request.getKeywords().toString());
+  	  	MDC.put("title", request.getTitle());  	  	  	  	
+  	  	//String requestDataInJsonFormat = gson.toJson(request);  	  	
+  	  	log.info(request.getDescription());
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "The log message has been registered!")).build();
     }
     
