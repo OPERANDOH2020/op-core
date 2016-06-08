@@ -21,11 +21,6 @@ var registerSwarming = {
         erorr: null
     },
 
-
-    start: function () {
-        console.log("Swarm extension started");
-    },
-
     registeNewUser: function (newUserData) {
         console.log("New user register request", newUserData);
         this.newUser = newUserData;
@@ -40,52 +35,46 @@ var registerSwarming = {
         node: "UsersManager",
         code: function () {
             var self = this;
-            newUserIsValid(self.newUser, function (err, user) {
+
+            newUserIsValid(self.newUser, S(function (err, user) {
                 if (err) {
                     console.log(err);
+                    self.status = "error";
+                    self.error = err.message;
+                    self.newUser = {}
+                    self.home("error");
                 } else {
-                    console.log(user);
+                    self.swarm("generateValidationCode");
                 }
-            })
+            }))
         }
     },
 
-    saveNewUser: {
+/*    saveNewUser: {
         node: "UserManager",
         code: function () {
             var self = this;
             createUser(this.newUser, S(function (err, user) {
                 if (err) {
+                    console.log("ERR");
                     self.error = self.err,
                         self.swarm("error");
                 } else {
-                    self.swarm("generateValidationCode");
+
+                    self.swarm("success");
                 }
             }));
         }
-    },
+    },*/
 
     generateValidationCode: {
-        node: "RegisterUAM",
-        code: function () {
-            this.swarm("success");
-        }
-    },
-
-    success: {
-        node: "Core",
+        node: "UsersManager",
         code: function () {
             this.home("success");
         }
     },
 
-    error: {
-        node: "Core",
-        code: function () {
-            console.log("Identity swarm error", this.error);
-            this.home(this.action + "_error");
-        }
-    }
+
 }
 
 registerSwarming;
