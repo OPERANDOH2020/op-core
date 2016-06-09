@@ -95,11 +95,11 @@ public class DealsApi  {
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "Successful operation", response = InlineResponse200.class),
         @io.swagger.annotations.ApiResponse(code = 200, message = "Unexpected error", response = InlineResponse200.class) })
-    public Response requestOffer(
+    public Response createDeal(
         @ApiParam(value = "User Id.",required=true) @QueryParam("user_id") String userId,
         @ApiParam(value = "Offer ID.",required=true) @QueryParam("offer_id") String offerId,
         @Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.requestOffer(userId,offerId,securityContext);
+        return delegate.createDeal(userId,offerId,securityContext);
     }
 }

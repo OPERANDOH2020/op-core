@@ -55,7 +55,7 @@ public class DealsApiServiceImpl extends DealsApiService {
     }
     
     @Override
-    public Response requestOffer(String userId, String offerId, SecurityContext securityContext)
+    public Response createDeal(String userId, String offerId, SecurityContext securityContext)
     throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
