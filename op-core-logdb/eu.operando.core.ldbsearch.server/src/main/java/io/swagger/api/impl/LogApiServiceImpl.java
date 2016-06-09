@@ -6,12 +6,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.ListIterator;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-import io.swagger.api.ApiResponseMessage;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import io.swagger.api.LogApiService;
 import io.swagger.api.NotFoundException;
 import io.swagger.model.LogResponse;
@@ -24,49 +26,74 @@ public class LogApiServiceImpl extends LogApiService {
 	private Connection connection = null;
 	private Statement statement = null;
 	private ResultSet resultSet = null;
+	
+    /* (non-Javadoc)
+     * @see io.swagger.api.LogApiService#getLogs(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, javax.ws.rs.core.SecurityContext)
+     * This method returns 0 to n log records that are stored in the log database depending on a filter (log4j is used internally) 
+     */
     @Override
-    public Response getLogs(String dateFrom, String dateTo, String logLevel, String requesterType, String requesterId, String logPriority, String title, List<String> keyWords, SecurityContext securityContext) throws NotFoundException {    
+    public Response getLogs(String dateFrom, String dateTo, String logLevel, String requesterType, String requesterId, String logPriority, String title, String keyWords, SecurityContext securityContext) throws NotFoundException {    
     String strSelect = "select * from LOGS";    
     StringBuffer strBufferSelect = new StringBuffer(strSelect);
+    String keyValue = "";
     boolean boolAnd = false;
+    boolean boolOr = false;
     LogResponse logResponse;
+    ArrayList<String> arrayListKeyWords = null;
     ArrayList<LogResponse> logResponsesArray = new ArrayList<LogResponse> ();
     if (!((dateFrom=="") && (dateTo=="") && (logLevel=="") && (requesterType=="") && (requesterId=="") && (logPriority=="") && (title=="") && (keyWords==null))){
     	strBufferSelect.append(" WHERE ");
-    	if (dateFrom!=""){
+    	if ((dateFrom!=null)&(!dateFrom.equals(""))){
     		strBufferSelect.append("DATED >= '"+dateFrom+"'");
     		boolAnd = true;
     	}
-    	if (dateTo!=""){
+    	if ((dateTo!=null)&(!dateTo.equals(""))){
     		if (boolAnd)
     			strBufferSelect.append(" & ");
-    		strBufferSelect.append("DATED <= '"+dateFrom+"'");
+    		strBufferSelect.append("DATED <= '"+dateTo+"'");
     		boolAnd = true;
     	}
-    	if (logLevel!=""){
+    	if ((logLevel!=null)&(!logLevel.equals(""))){
     		if (boolAnd)
     			strBufferSelect.append(" & ");
-    		strBufferSelect.append("LEVEL == '"+logLevel+"'");
+    		strBufferSelect.append("LEVEL == "+logLevel+"");
     		boolAnd = true;
     	}
-    	if (requesterType!=""){
+    	if ((requesterType!=null)&(!requesterType.equals(""))){
     		if (boolAnd)
     			strBufferSelect.append(" & ");
-    		strBufferSelect.append("REQUESTERTYPE == '"+requesterType+"'");
+    		strBufferSelect.append("REQUESTERTYPE == "+requesterType+"");
     		boolAnd = true;
     	}
-    	if (requesterId!=""){
+    	if ((requesterId!=null)&(!requesterId.equals(""))){
     		if (boolAnd)
     			strBufferSelect.append(" & ");
-    		strBufferSelect.append("REQUESTERID == '"+requesterId+"'");
+    		strBufferSelect.append("REQUESTERID == "+requesterId+"");
     		boolAnd = true;
     	}
-    	if (logPriority!=""){
+    	if ((logPriority!=null)&(!logPriority.equals(""))){
     		if (boolAnd)
     			strBufferSelect.append(" & ");
-    		strBufferSelect.append("LOGPRIORITY == '"+logPriority+"'");
+    		strBufferSelect.append("LOGPRIORITY == "+logPriority+"");
     		boolAnd = true;
     	}
+    	System.out.println("keywords: "+keyWords);
+    	if (keyWords!=null){    		
+    		Gson gson=new Gson();
+    		TypeToken<ArrayList<String>> token = new TypeToken<ArrayList<String>>() {};
+    		arrayListKeyWords = gson.fromJson(keyWords, token.getType());
+    		ListIterator<String> listIterator = arrayListKeyWords.listIterator();
+    		if (boolAnd)
+    			strBufferSelect.append(" & ");    		
+    		while (listIterator.hasNext()){
+    			keyValue = listIterator.next();
+    			if (boolOr)
+    				strBufferSelect.append(" || "); 
+    			strBufferSelect.append("KEYWORDS LIKE '%"+keyValue+"%'");
+    			boolOr = true;
+    		}
+    		    		
+    	}    	    	
     	strSelect = strBufferSelect.toString();
     	System.out.println(strSelect);
     }
@@ -90,6 +117,7 @@ public class LogApiServiceImpl extends LogApiService {
 			 RequesterTypeEnum requesterTypeEnum = RequesterTypeEnum.valueOf(resultSet.getString("REQUESTERTYPE"));
 			 logResponse.setRequesterType(requesterTypeEnum);
 			 logResponse.setTitle(resultSet.getString("TITLE"));
+			 logResponse.setDescription(resultSet.getString("MESSAGE"));
 			 logResponsesArray.add(logResponse);
 		 }		 		 
 	} 
@@ -103,4 +131,6 @@ public class LogApiServiceImpl extends LogApiService {
 	}
 	return Response.ok().entity(logResponsesArray).build();
     }
+    
+    
 }

@@ -18,13 +18,12 @@ import java.util.Map;
 
 import org.junit.runner.JUnitCore;
 
+import com.google.gson.Gson;
 import com.sun.jersey.api.client.GenericType;
 
 import io.swagger.client.ApiClient;
 import io.swagger.client.ApiException;
 import io.swagger.client.Pair;
-import io.swagger.client.model.LogResponse.LogPriorityEnum;
-import io.swagger.client.model.LogResponse.RequesterTypeEnum;
 
 
 public class Test {
@@ -43,7 +42,10 @@ public class Test {
 	    // create path and map variables 
 	    String path = "/log/search"; 
 	 
-	    // query params 
+	    // query params
+	    ArrayList<String> keyWords = new ArrayList<String>();
+	    keyWords.add("keyword1");
+	    String jsonKeyWords = new Gson().toJson(keyWords);
 	    List<Pair> queryParams = new ArrayList<Pair>();
 	    queryParams.add(new Pair ("dateFrom","2016-06-04 08:50:25,170"));
 	    queryParams.add(new Pair ("dateTo",""));
@@ -53,7 +55,7 @@ public class Test {
 	    queryParams.add(new Pair ("website_id",""));
 	    queryParams.add(new Pair ("logPriority",""));
 	    queryParams.add(new Pair ("title",""));
-	    queryParams.add(new Pair ("keyWords",null));
+	    queryParams.add(new Pair ("keyWords",jsonKeyWords));
 	    
 	    Map<String, String> headerParams = new HashMap<String, String>(); 
 	    Map<String, Object> formParams = new HashMap<String, Object>(); 

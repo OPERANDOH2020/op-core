@@ -7,8 +7,6 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.MDC;
 import org.apache.log4j.PropertyConfigurator;
 
-import com.google.gson.Gson;
-
 import io.swagger.api.ApiResponseMessage;
 import io.swagger.api.LogApiService;
 import io.swagger.api.NotFoundException;
@@ -27,15 +25,13 @@ public class LogApiServiceImpl extends LogApiService {
     public Response lodDB(LogRequest request, SecurityContext securityContext)
     throws NotFoundException {    	    	
     	ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-    	PropertyConfigurator.configure(classLoader.getResource("config/log4jMySql.properties"));    	
-  	  	Gson gson = new Gson();  	  
+    	PropertyConfigurator.configure(classLoader.getResource("config/log4jMySql.properties"));    	  	  	  	  
   	  	MDC.put("userName", "username");
   	  	MDC.put("requesterType",request.getRequesterType() );
   	  	MDC.put("requesterId", request.getRequesterId());
   	  	MDC.put("logPriority", request.getLogPriority());
   	  	MDC.put("keywords", request.getKeywords().toString());
   	  	MDC.put("title", request.getTitle());  	  	  	  	
-  	  	//String requestDataInJsonFormat = gson.toJson(request);  	  	
   	  	log.info(request.getDescription());
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "The log message has been registered!")).build();
     }

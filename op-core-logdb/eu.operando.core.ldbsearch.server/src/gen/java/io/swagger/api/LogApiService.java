@@ -21,6 +21,6 @@ import javax.ws.rs.core.SecurityContext;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-06-06T10:10:57.937Z")
 public abstract class LogApiService {
-      public abstract Response getLogs(String dateFrom,String dateTo,String logLevel,String requesterType,String requesterId,String logPriority,String title,List<String> keyWords,SecurityContext securityContext)
+      public abstract Response getLogs(String dateFrom,String dateTo,String logLevel,String requesterType,String requesterId,String logPriority,String title,String keyWords,SecurityContext securityContext)
       throws NotFoundException;
 }

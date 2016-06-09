@@ -1,19 +1,19 @@
 package io.swagger.model;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+
+import io.swagger.annotations.ApiModelProperty;
 
 
 /**
  * LogRequest
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-06T13:38:35.556Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-09T09:48:30.419Z")
 public class LogRequest   {
   
 
@@ -21,8 +21,8 @@ public class LogRequest   {
    * Source type from which comes the request.
    */
   public enum RequesterTypeEnum {
-    PROCESS("Process"),
-    MODULE("Module");
+    PROCESS("PROCESS"),
+    MODULE("MODULE");
 
     private String value;
 
@@ -44,10 +44,10 @@ public class LogRequest   {
    * Priority level of the data to be logged.
    */
   public enum LogPriorityEnum {
-    LOW("Low"),
-    NORMAL("Normal"),
-    HIGH("High"),
-    CRITICAL("Critical");
+    LOW("LOW"),
+    NORMAL("NORMAL"),
+    HIGH("HIGH"),
+    CRITICAL("CRITICAL");
 
     private String value;
 
@@ -68,10 +68,10 @@ public class LogRequest   {
    * Type of the data to be logged.
    */
   public enum LogDataTypeEnum {
-    INFO("Info"),
-    WARN("Warn"),
-    ERROR("Error"),
-    FATAL("Fatal");
+    INFO("INFO"),
+    WARN("WARN"),
+    ERROS("ERROS"),
+    FATAL("FATAL");
 
     private String value;
 
@@ -267,5 +267,4 @@ public class LogRequest   {
     }
     return o.toString().replace("\n", "\n    ");
   }
-}
-
+}                                                 

@@ -57,7 +57,7 @@ public class Test {
 	 
 	    String[] authNames = new String[] {  }; 
 	 	     
-	    GenericType returnType = new GenericType<String>() {};
+	    GenericType<String> returnType = new GenericType<String>() {};
 		
 
 	    LogRequest logRequest = new LogRequest();
@@ -67,19 +67,21 @@ public class Test {
 	    logRequest.setLogPriority(LogPriorityEnum.LOW);
 	    logRequest.setRequesterId("1001");
 	    logRequest.setRequesterType(RequesterTypeEnum.MODULE);
-	    List<String> keywords = new ArrayList ();
+	    ArrayList<String> keywords = new ArrayList<String> ();
 	    keywords.add("keyword1");
 	    keywords.add("keyword2");
 	    keywords.add("keyword3");
 		logRequest.setKeywords(keywords );
 		
 		Object postBody = logRequest;
+		String str = "";
 		try {
-			String str = apiClient.invokeAPI(path,"POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);			
+			str = apiClient.invokeAPI(path,"POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);			
 		} catch (ApiException e) {
 			System.out.println(e.toString());
 			e.printStackTrace();
-		}			
+		}
+		System.out.println(str);
 	}
 	
 	public static void main(String[] args) throws Exception {                    
