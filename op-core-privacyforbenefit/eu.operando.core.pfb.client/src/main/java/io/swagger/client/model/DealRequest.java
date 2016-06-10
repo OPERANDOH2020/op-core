@@ -8,24 +8,24 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 /**
- * OfferUser
+ * DealRequest
  */
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-10T07:22:24.300Z")
-public class OfferUser   {
+public class DealRequest   {
   
   private String offerId = null;
   private String userId = null;
 
   
   /**
-   * Id of the Offer.
+   * Unique ID of the offer.
    **/
-  public OfferUser offerId(String offerId) {
+  public DealRequest offerId(String offerId) {
     this.offerId = offerId;
     return this;
   }
   
-  @ApiModelProperty(example = "null", value = "Id of the Offer.")
+  @ApiModelProperty(example = "null", value = "Unique ID of the offer.")
   @JsonProperty("offer_id")
   public String getOfferId() {
     return offerId;
@@ -36,14 +36,14 @@ public class OfferUser   {
 
 
   /**
-   * Id of the User.
+   * Unique ID of the user.
    **/
-  public OfferUser userId(String userId) {
+  public DealRequest userId(String userId) {
     this.userId = userId;
     return this;
   }
   
-  @ApiModelProperty(example = "null", value = "Id of the User.")
+  @ApiModelProperty(example = "null", value = "Unique ID of the user.")
   @JsonProperty("user_id")
   public String getUserId() {
     return userId;
@@ -61,9 +61,9 @@ public class OfferUser   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    OfferUser offerUser = (OfferUser) o;
-    return Objects.equals(this.offerId, offerUser.offerId) &&
-        Objects.equals(this.userId, offerUser.userId);
+    DealRequest dealRequest = (DealRequest) o;
+    return Objects.equals(this.offerId, dealRequest.offerId) &&
+        Objects.equals(this.userId, dealRequest.userId);
   }
 
   @Override
@@ -74,7 +74,7 @@ public class OfferUser   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class OfferUser {\n");
+    sb.append("class DealRequest {\n");
     
     sb.append("    offerId: ").append(toIndentedString(offerId)).append("\n");
     sb.append("    userId: ").append(toIndentedString(userId)).append("\n");

@@ -96,10 +96,9 @@ public class DealsApi  {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Successful operation", response = InlineResponse200.class),
         @io.swagger.annotations.ApiResponse(code = 200, message = "Unexpected error", response = InlineResponse200.class) })
     public Response createDeal(
-        @ApiParam(value = "User Id.",required=true) @QueryParam("user_id") String userId,
-        @ApiParam(value = "Offer ID.",required=true) @QueryParam("offer_id") String offerId,
+    		@ApiParam(value = "The deal data in JSON format." ,required=true) DealRequest deal,
         @Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.createDeal(userId,offerId,securityContext);
+    	return delegate.createDeal(deal,securityContext);
     }
 }

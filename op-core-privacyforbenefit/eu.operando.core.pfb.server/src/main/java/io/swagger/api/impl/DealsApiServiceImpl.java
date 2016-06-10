@@ -11,27 +11,28 @@
  *******************************************************************************/
 package io.swagger.api.impl;
 
-import io.swagger.api.*;
-import io.swagger.model.*;
-
-import com.sun.jersey.multipart.FormDataParam;
-
-import io.swagger.model.Error;
-import io.swagger.model.InlineResponse200;
-
-import java.util.List;
-import io.swagger.api.NotFoundException;
-
-import java.io.InputStream;
-
-import com.sun.jersey.core.header.FormDataContentDisposition;
-import com.sun.jersey.multipart.FormDataParam;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
+import io.swagger.api.ApiResponseMessage;
+import io.swagger.api.DealsApiService;
+import io.swagger.api.NotFoundException;
+import io.swagger.model.DealRequest;
+
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-05-27T11:58:50.874Z")
 public class DealsApiServiceImpl extends DealsApiService {
+	private Connection connection = null;
+	private Statement statement = null;
+	private ResultSet resultSet = null;
     
     @Override
     public Response cancelDeal(String dealId, SecurityContext securityContext)
@@ -55,10 +56,31 @@ public class DealsApiServiceImpl extends DealsApiService {
     }
     
     @Override
-    public Response createDeal(String userId, String offerId, SecurityContext securityContext)
+    public Response createDeal(DealRequest deal, SecurityContext securityContext)
     throws NotFoundException {
-        // do some magic!
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Date date = new Date();
+		String strActualDate = dateFormat.format(date);
+    	String strInsert = "INSERT INTO DEAL (USER_ID,OFFER_ID,CREATED_AT,CANCELED_AT) VALUES ('"+deal.getUserId()+"','"+deal.getOfferId()+"','"+strActualDate+"','')";
+    	
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			connection = DriverManager
+				    .getConnection("jdbc:mysql://localhost/operando_privacyforbenefitdb?"
+				        + "user=root&password=root");
+			statement = connection.createStatement();
+			statement.execute(strInsert);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		 		 				          		 
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "The deal has been created successfully!")).build();
     }
     
 }

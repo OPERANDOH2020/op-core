@@ -120,7 +120,7 @@ public class LogApiServiceImpl extends LogApiService {
 			 logResponse.setDescription(resultSet.getString("MESSAGE"));
 			 logResponsesArray.add(logResponse);
 		 }		 		 
-	} 
+	}	
 	catch (ClassNotFoundException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
@@ -128,6 +128,15 @@ public class LogApiServiceImpl extends LogApiService {
 	catch (SQLException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
+	}
+	finally{
+		try {
+			resultSet.close();		
+			statement.close();
+			connection.close();
+		} catch (SQLException e) {			
+			e.printStackTrace();
+		}
 	}
 	return Response.ok().entity(logResponsesArray).build();
     }

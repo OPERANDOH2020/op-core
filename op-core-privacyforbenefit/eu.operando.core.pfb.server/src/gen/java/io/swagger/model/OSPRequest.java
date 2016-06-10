@@ -1,14 +1,3 @@
-/*******************************************************************************
- *  * Copyright (c) 2016 {TECNALIA}.
- *  * All rights reserved. This program and the accompanying materials
- *  * are made available under the terms of the The MIT License (MIT).
- *  * which accompanies this distribution, and is available at
- *  * http://opensource.org/licenses/MIT
- *  *
- *  * Contributors:
- *  *    Gorka Mikel Echevarría {TECNALIA}
- *  * Initially developed in the context of OPERANDO EU project www.operando.eu
- *******************************************************************************/
 package io.swagger.model;
 
 import java.util.Objects;
@@ -20,34 +9,13 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-05-27T11:58:50.874Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-06-10T07:14:29.764Z")
 public class OSPRequest   {
   
-  private String id = null;
   private String name = null;
   private String description = null;
   private String ospWebsite = null;
 
-  
-  /**
-   * Id of the OSP.
-   **/
-  public OSPRequest id(String id) {
-    this.id = id;
-    return this;
-  }
-
-  
-  @ApiModelProperty(value = "Id of the OSP.")
-  @JsonProperty("id")
-  public String getId() {
-    return id;
-  }
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  
   /**
    * Name of the OSP.
    **/
@@ -66,7 +34,6 @@ public class OSPRequest   {
     this.name = name;
   }
 
-  
   /**
    * Description of the OSP.
    **/
@@ -85,7 +52,6 @@ public class OSPRequest   {
     this.description = description;
   }
 
-  
   /**
    * Website of the OSP.
    **/
@@ -104,7 +70,6 @@ public class OSPRequest   {
     this.ospWebsite = ospWebsite;
   }
 
-  
 
   @Override
   public boolean equals(Object o) {
@@ -115,15 +80,14 @@ public class OSPRequest   {
       return false;
     }
     OSPRequest oSPRequest = (OSPRequest) o;
-    return Objects.equals(id, oSPRequest.id) &&
-        Objects.equals(name, oSPRequest.name) &&
+    return Objects.equals(name, oSPRequest.name) &&
         Objects.equals(description, oSPRequest.description) &&
         Objects.equals(ospWebsite, oSPRequest.ospWebsite);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, description, ospWebsite);
+    return Objects.hash(name, description, ospWebsite);
   }
 
   @Override
@@ -131,7 +95,6 @@ public class OSPRequest   {
     StringBuilder sb = new StringBuilder();
     sb.append("class OSPRequest {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    ospWebsite: ").append(toIndentedString(ospWebsite)).append("\n");

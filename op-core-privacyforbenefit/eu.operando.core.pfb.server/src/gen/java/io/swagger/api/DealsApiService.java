@@ -42,7 +42,7 @@ public abstract class DealsApiService {
       public abstract Response offerAccepted(String dealId,String ospId,String offerId,SecurityContext securityContext)
       throws NotFoundException;
   
-      public abstract Response createDeal(String userId,String offerId,SecurityContext securityContext)
+      public abstract Response createDeal(DealRequest deal,SecurityContext securityContext)
       throws NotFoundException;
   
 }

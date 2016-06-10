@@ -1,14 +1,3 @@
-/*******************************************************************************
- *  * Copyright (c) 2016 {TECNALIA}.
- *  * All rights reserved. This program and the accompanying materials
- *  * are made available under the terms of the The MIT License (MIT).
- *  * which accompanies this distribution, and is available at
- *  * http://opensource.org/licenses/MIT
- *  *
- *  * Contributors:
- *  *    Gorka Mikel Echevarría {TECNALIA}
- *  * Initially developed in the context of OPERANDO EU project www.operando.eu
- *******************************************************************************/
 package io.swagger.model;
 
 import java.util.Objects;
@@ -21,12 +10,11 @@ import io.swagger.model.Deal;
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-05-27T11:58:50.874Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-06-10T07:14:29.764Z")
 public class InlineResponse200   {
   
   private Deal data = null;
 
-  
   /**
    **/
   public InlineResponse200 data(Deal data) {
@@ -44,7 +32,6 @@ public class InlineResponse200   {
     this.data = data;
   }
 
-  
 
   @Override
   public boolean equals(Object o) {
