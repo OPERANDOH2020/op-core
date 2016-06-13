@@ -17,28 +17,32 @@ var dummyVendors = [
         website: "9gag.com",
         benfit: "5 euros",
         identifier: ".btn-connect-option.facebook.badge-facebook-connect",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus dolor diam, pharetra vel velit in, finibus mollis purus. Sed luctus mattis porta. In a massa dignissim, imperdiet eros vitae, facilisis sem. Praesent posuere ex vehicula dolor pulvinar dictum. Nulla facilisi. Vestibulum faucibus nisi eleifend, scelerisque leo ac, finibus ex. Pellentesque eget ullamcorper nunc. Sed porttitor ex ligula, sed scelerisque nisl mollis at. Mauris lacus elit, dictum id ipsum vel, cursus malesuada nisl. Donec tincidunt sapien eget pulvinar sodales. Aenean laoreet libero vitae dolor aliquam, hendrerit euismod augue rhoncus"
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus dolor diam, pharetra vel velit in, finibus mollis purus. Sed luctus mattis porta. In a massa dignissim, imperdiet eros vitae, facilisis sem. Praesent posuere ex vehicula dolor pulvinar dictum. Nulla facilisi. Vestibulum faucibus nisi eleifend, scelerisque leo ac, finibus ex. Pellentesque eget ullamcorper nunc. Sed porttitor ex ligula, sed scelerisque nisl mollis at. Mauris lacus elit, dictum id ipsum vel, cursus malesuada nisl. Donec tincidunt sapien eget pulvinar sodales. Aenean laoreet libero vitae dolor aliquam, hendrerit euismod augue rhoncus",
+        logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/9GAG_new_logo.svg/2000px-9GAG_new_logo.svg.png"
     },
     {
         serviceId: 1,
         website: "kissfm.ro",
         benfit: "2 euros",
         identifier: ".btn.btn-facebook.btn-block",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus dolor diam, pharetra vel velit in, finibus mollis purus. Sed luctus mattis porta. In a massa dignissim, imperdiet eros vitae, facilisis sem. Praesent posuere ex vehicula dolor pulvinar dictum. Nulla facilisi. Vestibulum faucibus nisi eleifend, scelerisque leo ac, finibus ex. Pellentesque eget ullamcorper nunc. Sed porttitor ex ligula, sed scelerisque nisl mollis at. Mauris lacus elit, dictum id ipsum vel, cursus malesuada nisl. Donec tincidunt sapien eget pulvinar sodales. Aenean laoreet libero vitae dolor aliquam, hendrerit euismod augue rhoncus"
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus dolor diam, pharetra vel velit in, finibus mollis purus. Sed luctus mattis porta. In a massa dignissim, imperdiet eros vitae, facilisis sem. Praesent posuere ex vehicula dolor pulvinar dictum. Nulla facilisi. Vestibulum faucibus nisi eleifend, scelerisque leo ac, finibus ex. Pellentesque eget ullamcorper nunc. Sed porttitor ex ligula, sed scelerisque nisl mollis at. Mauris lacus elit, dictum id ipsum vel, cursus malesuada nisl. Donec tincidunt sapien eget pulvinar sodales. Aenean laoreet libero vitae dolor aliquam, hendrerit euismod augue rhoncus",
+        logo:"https://upload.wikimedia.org/wikipedia/en/8/86/Logo_Kiss_FM.png"
     },
     {
         serviceId: 2,
         website: "dribbble.com",
         benfit: "2 euros",
         identifier: ".sign-connections .auth-twitter, .signup-twitter .auth-twitter",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus dolor diam, pharetra vel velit in, finibus mollis purus. Sed luctus mattis porta. In a massa dignissim, imperdiet eros vitae, facilisis sem. Praesent posuere ex vehicula dolor pulvinar dictum. Nulla facilisi. Vestibulum faucibus nisi eleifend, scelerisque leo ac, finibus ex. Pellentesque eget ullamcorper nunc. Sed porttitor ex ligula, sed scelerisque nisl mollis at. Mauris lacus elit, dictum id ipsum vel, cursus malesuada nisl. Donec tincidunt sapien eget pulvinar sodales. Aenean laoreet libero vitae dolor aliquam, hendrerit euismod augue rhoncus"
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus dolor diam, pharetra vel velit in, finibus mollis purus. Sed luctus mattis porta. In a massa dignissim, imperdiet eros vitae, facilisis sem. Praesent posuere ex vehicula dolor pulvinar dictum. Nulla facilisi. Vestibulum faucibus nisi eleifend, scelerisque leo ac, finibus ex. Pellentesque eget ullamcorper nunc. Sed porttitor ex ligula, sed scelerisque nisl mollis at. Mauris lacus elit, dictum id ipsum vel, cursus malesuada nisl. Donec tincidunt sapien eget pulvinar sodales. Aenean laoreet libero vitae dolor aliquam, hendrerit euismod augue rhoncus",
+        logo:"http://www.userlogos.org/files/logos/jumpordie/dribbble_01.png"
     },
     {
         serviceId: 3,
         website: "ssl.bbc.com",
         benfit: "free content",
         identifier: ".bbcid-facebook-com",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus dolor diam, pharetra vel velit in, finibus mollis purus. Sed luctus mattis porta. In a massa dignissim, imperdiet eros vitae, facilisis sem. Praesent posuere ex vehicula dolor pulvinar dictum. Nulla facilisi. Vestibulum faucibus nisi eleifend, scelerisque leo ac, finibus ex. Pellentesque eget ullamcorper nunc. Sed porttitor ex ligula, sed scelerisque nisl mollis at. Mauris lacus elit, dictum id ipsum vel, cursus malesuada nisl. Donec tincidunt sapien eget pulvinar sodales. Aenean laoreet libero vitae dolor aliquam, hendrerit euismod augue rhoncus"
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus dolor diam, pharetra vel velit in, finibus mollis purus. Sed luctus mattis porta. In a massa dignissim, imperdiet eros vitae, facilisis sem. Praesent posuere ex vehicula dolor pulvinar dictum. Nulla facilisi. Vestibulum faucibus nisi eleifend, scelerisque leo ac, finibus ex. Pellentesque eget ullamcorper nunc. Sed porttitor ex ligula, sed scelerisque nisl mollis at. Mauris lacus elit, dictum id ipsum vel, cursus malesuada nisl. Donec tincidunt sapien eget pulvinar sodales. Aenean laoreet libero vitae dolor aliquam, hendrerit euismod augue rhoncus",
+        logo:"https://upload.wikimedia.org/wikipedia/en/thumb/f/ff/BBC_News.svg/1280px-BBC_News.svg.png"
     }
 ]
 

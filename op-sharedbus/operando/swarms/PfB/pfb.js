@@ -34,7 +34,7 @@ var privacyForBenefits = {
         this.swarm("getAllDealsSwarm");
     },
 
-    getAcceptedDeals: function () {
+    getMyDeals: function () {
         this.action = "listMyDeals";
         this.swarm("checkUser");
     },
@@ -133,6 +133,8 @@ var privacyForBenefits = {
         node: "PrivacyForBenefitsManager",
         code: function () {
 
+            //TODO implement here
+            this.home("gotMyDeals");
         }
 
     },
@@ -141,7 +143,7 @@ var privacyForBenefits = {
         node:"PrivacyForBenefitsManager",
         code: function(){
             this.deals = getAllDeals();
-            this.swarm("gotActivetDeals");
+            this.home("gotActiveDeals");
         }
     }
 }
