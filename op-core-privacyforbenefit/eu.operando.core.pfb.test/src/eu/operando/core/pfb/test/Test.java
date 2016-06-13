@@ -27,7 +27,7 @@ import io.swagger.client.model.Offer;
 
 public class Test {
 
-	@org.junit.Test
+	//@org.junit.Test
 	public void createOffer() {		
 		ApiClient apiClient = new ApiClient();
 		 
@@ -69,10 +69,8 @@ public class Test {
 		
 		Object postBody = offer;
 		try {
-			String str = apiClient.invokeAPI(path,"POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
-			System.out.println(str);
-		} catch (ApiException e) {
-			System.out.println(e.toString());
+			String str = apiClient.invokeAPI(path,"POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);			
+		} catch (ApiException e) {			
 			e.printStackTrace();
 		}			
 	}
@@ -110,20 +108,17 @@ public class Test {
 		Deal deal = new Deal();
 		deal.setOfferId("1");
 		deal.setUserId("1");
-		
-		
+				
 		Object postBody = deal;
 		try {
-			String str = apiClient.invokeAPI(path,"POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
-			System.out.println(str);
-		} catch (ApiException e) {
-			System.out.println(e.toString());
+			String str = apiClient.invokeAPI(path,"POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);			
+		} catch (ApiException e) {			
 			e.printStackTrace();
 		}
 				
 	}
 	
-	@org.junit.Test
+	//@org.junit.Test
 	public void getOffers() {		
 		ApiClient apiClient = new ApiClient();
 		 
@@ -161,10 +156,53 @@ public class Test {
 		
 		Object postBody = null;
 		try {
-			String str = apiClient.invokeAPI(path,"GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
-			System.out.println(str);
-		} catch (ApiException e) {
-			System.out.println(e.toString());
+			String str = apiClient.invokeAPI(path,"GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);			
+		} catch (ApiException e) {			
+			e.printStackTrace();
+		}
+		
+		//String str = client.invokeAPI("swagger.json", "GET", new HashMap<String, String>(), null, new HashMap<String, String>(), null, "application/json", null, new String[0]);
+	}
+	
+	@org.junit.Test
+	public void getDeals() {		
+		ApiClient apiClient = new ApiClient();
+		 
+	    byte[] postBinaryBody = null; 
+	     
+	    // create path and map variables 
+	    String path = "/deals/search"; 
+	 
+	    // query params 
+	    List<Pair> queryParams = new ArrayList<Pair>();
+	    queryParams.add(new Pair ("offer_id","1"));
+	    queryParams.add(new Pair ("user_id","1"));
+	    queryParams.add(new Pair ("created_from","2016-06-04 08:50:25"));
+	    queryParams.add(new Pair ("created_to","2016-06-09 20:50:25"));
+	    queryParams.add(new Pair ("canceled","false"));
+	    
+	    Map<String, String> headerParams = new HashMap<String, String>(); 
+	    Map<String, Object> formParams = new HashMap<String, Object>(); 
+	 
+	    final String[] accepts = { 
+	      "application/json", "application/xml" 
+	    }; 
+	    final String accept = apiClient.selectHeaderAccept(accepts); 
+	 
+	    final String[] contentTypes = { 
+	       
+	    }; 
+	    final String contentType = apiClient.selectHeaderContentType(contentTypes); 
+	 
+	    String[] authNames = new String[] {  }; 
+	 
+	    //TypeRef returnType = new TypeRef<DataUnit>() {}; 
+	    GenericType returnType = new GenericType<String>() {};
+				
+		Object postBody = null;
+		try {
+			String str = apiClient.invokeAPI(path,"GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);			
+		} catch (ApiException e) {			
 			e.printStackTrace();
 		}
 		

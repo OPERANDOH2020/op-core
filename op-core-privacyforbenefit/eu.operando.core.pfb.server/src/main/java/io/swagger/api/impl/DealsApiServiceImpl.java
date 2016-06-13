@@ -17,7 +17,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.ws.rs.core.Response;
@@ -26,7 +29,9 @@ import javax.ws.rs.core.SecurityContext;
 import io.swagger.api.ApiResponseMessage;
 import io.swagger.api.DealsApiService;
 import io.swagger.api.NotFoundException;
+import io.swagger.model.Deal;
 import io.swagger.model.DealRequest;
+
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-05-27T11:58:50.874Z")
 public class DealsApiServiceImpl extends DealsApiService {
@@ -42,14 +47,7 @@ public class DealsApiServiceImpl extends DealsApiService {
     }
     
     @Override
-    public Response dealsDealIdGet(String dealId, SecurityContext securityContext)
-    throws NotFoundException {
-        // do some magic!
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
-    }
-    
-    @Override
-    public Response offerAccepted(String dealId, String ospId, String offerId, SecurityContext securityContext)
+    public Response getDealById(String dealId, SecurityContext securityContext)
     throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
@@ -58,11 +56,11 @@ public class DealsApiServiceImpl extends DealsApiService {
     @Override
     public Response createDeal(DealRequest deal, SecurityContext securityContext)
     throws NotFoundException {
-    	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		Date date = new Date();
-		String strActualDate = dateFormat.format(date);
-    	String strInsert = "INSERT INTO DEAL (USER_ID,OFFER_ID,CREATED_AT,CANCELED_AT) VALUES ('"+deal.getUserId()+"','"+deal.getOfferId()+"','"+strActualDate+"','')";
-    	
+    	DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    	Date date = Calendar.getInstance().getTime();
+    	String strDate = df.format(date);    	
+    	String strInsert = "INSERT INTO DEAL (USER_ID,OFFER_ID,CREATED_AT,CANCELED_AT) VALUES ('"+deal.getUserId()+"','"+deal.getOfferId()+"',STR_TO_DATE('"+strDate+"', '%Y-%m-%d %T'),null)";
+    	    	
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
@@ -79,8 +77,136 @@ public class DealsApiServiceImpl extends DealsApiService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		 		 				          		 
+		finally{
+			try {					
+				statement.close();
+				connection.close();
+			} catch (SQLException e) {			
+				e.printStackTrace();
+			}
+		}		 				          		 
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "The deal has been created successfully!")).build();
+    }
+	@Override
+    public Response getDeals(String offerId, String userId, String createdFrom, String createdTo, String canceled, SecurityContext securityContext)
+    throws NotFoundException {
+		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+		String strSelect = "select * from DEAL";    
+        StringBuffer strBufferSelect = new StringBuffer(strSelect);
+        String keyValue = "";
+        boolean boolAnd = false;
+        boolean boolOr = false;
+        Deal deal;        
+        ArrayList<Deal> dealsArray = new ArrayList<Deal> ();
+        if (!((offerId=="") && (userId=="") && (createdFrom=="") && (createdTo=="") && (canceled==""))){
+        	strBufferSelect.append(" WHERE ");
+        	if ((offerId!=null)&(!offerId.equals(""))){ 
+        		if (boolAnd)
+        			strBufferSelect.append(" & ");
+        		strBufferSelect.append("OFFER_ID="+offerId+"");
+        		boolAnd = true;
+        	}
+        	if ((userId!=null)&(!userId.equals(""))){ 
+        		if (boolAnd)
+        			strBufferSelect.append(" & ");
+        		strBufferSelect.append("USER_ID="+userId+"");
+        		boolAnd = true;
+        	}
+        	if ((createdFrom!=null)&(!createdFrom.equals(""))){
+        		if (boolAnd)
+        			strBufferSelect.append(" & ");
+        		strBufferSelect.append("CREATED_AT>=STR_TO_DATE('"+createdFrom+"', '%Y-%m-%d %T'"+")");
+        		boolAnd = true;        		        		
+        	}
+        	if ((createdTo!=null)&(!createdTo.equals(""))){
+        		if (boolAnd)
+        			strBufferSelect.append(" & ");
+        		strBufferSelect.append("CREATED_AT<=STR_TO_DATE('"+createdTo+"', '%Y-%m-%d %T'"+")");
+        		boolAnd = true;
+        	}
+        	if ((canceled!=null)&(!canceled.equals(""))){
+        		if (boolAnd)
+        			strBufferSelect.append(" & ");
+        		if (canceled.equalsIgnoreCase("true"))
+        			strBufferSelect.append("CANCELED_AT!=''");
+        		else
+        			strBufferSelect.append("CANCELED_AT==''");
+        		boolAnd = true;
+        	}
+        	        	        		    	
+        	strSelect = strBufferSelect.toString();        	
+        }
+        	
+    	try {
+    		Class.forName("com.mysql.jdbc.Driver");
+    		connection = DriverManager
+    			    .getConnection("jdbc:mysql://localhost/operando_logdb?"
+    			        + "user=root&password=root");
+    		 statement = connection.createStatement();
+    		 resultSet = statement
+    		          .executeQuery(strSelect);
+    		 Date date = null;
+    		 while (resultSet.next()){
+    			 deal = new Deal();
+    			 deal.setId(resultSet.getString("ID"));
+    			 deal.setOfferId(resultSet.getString("OFFER_ID"));
+    			 deal.setUserId(resultSet.getString("USER_ID"));
+    			 if ((resultSet.getString("CREATED_AT")!=null) && (resultSet.getString("CREATED_AT")!="")){
+    				 try {
+						date=dateFormat.parse(resultSet.getString("CREATED_AT"));
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+    				 deal.setCreatedAt(date);
+    			 }
+    			 if ((resultSet.getString("CANCELED_AT")!=null) && (resultSet.getString("CANCELED_AT")!="")){
+    				 try {
+						date=dateFormat.parse(resultSet.getString("CANCELED_AT"));
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+    				 deal.setCanceledAt(date);
+    			 }    			 
+    			 /*logResponse.setLogDate(resultSet.getString("DATED"));			 
+    			 LogLevelEnum logLevelEnum = LogLevelEnum.valueOf(resultSet.getString("LEVEL"));
+    			 logResponse.setLogLevel(logLevelEnum);
+    			 LogPriorityEnum logPriorityEnum = LogPriorityEnum.valueOf(resultSet.getString("LOGPRIORITY"));
+    			 logResponse.setLogPriority(logPriorityEnum);
+    			 logResponse.setRequesterId(resultSet.getString("REQUESTERID"));
+    			 RequesterTypeEnum requesterTypeEnum = RequesterTypeEnum.valueOf(resultSet.getString("REQUESTERTYPE"));
+    			 logResponse.setRequesterType(requesterTypeEnum);
+    			 logResponse.setTitle(resultSet.getString("TITLE"));
+    			 logResponse.setDescription(resultSet.getString("MESSAGE"));*/
+    			 dealsArray.add(deal);
+    		 }		 		 
+    	}	
+    	catch (ClassNotFoundException e) {
+    		// TODO Auto-generated catch block
+    		e.printStackTrace();
+    	}        		
+    	catch (SQLException e) {
+    		// TODO Auto-generated catch block
+    		e.printStackTrace();
+    	}
+    	finally{
+    		try {
+    			resultSet.close();		
+    			statement.close();
+    			connection.close();
+    		} catch (SQLException e) {			
+    			e.printStackTrace();
+    		}
+    	}
+    	return Response.ok().entity(dealsArray).build();
+        }
+        
+    //}
+    @Override
+    public Response offerAccepted(String dealId, String ospId, String offerId, SecurityContext securityContext)
+    throws NotFoundException {
+    	return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     
 }
