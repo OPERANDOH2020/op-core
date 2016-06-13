@@ -76,8 +76,7 @@ public class LogApiServiceImpl extends LogApiService {
     			strBufferSelect.append(" & ");
     		strBufferSelect.append("LOGPRIORITY == "+logPriority+"");
     		boolAnd = true;
-    	}
-    	System.out.println("keywords: "+keyWords);
+    	}    	
     	if (keyWords!=null){    		
     		Gson gson=new Gson();
     		TypeToken<ArrayList<String>> token = new TypeToken<ArrayList<String>>() {};
@@ -94,8 +93,7 @@ public class LogApiServiceImpl extends LogApiService {
     		}
     		    		
     	}    	    	
-    	strSelect = strBufferSelect.toString();
-    	System.out.println(strSelect);
+    	strSelect = strBufferSelect.toString();    	
     }
     	
 	try {

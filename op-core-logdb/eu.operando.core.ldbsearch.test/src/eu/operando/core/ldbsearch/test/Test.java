@@ -47,8 +47,8 @@ public class Test {
 	    keyWords.add("keyword1");
 	    String jsonKeyWords = new Gson().toJson(keyWords);
 	    List<Pair> queryParams = new ArrayList<Pair>();
-	    queryParams.add(new Pair ("dateFrom","2016-06-04 08:50:25,170"));
-	    queryParams.add(new Pair ("dateTo",""));
+	    queryParams.add(new Pair ("dateFrom","2016-06-04 08:50:25"));
+	    queryParams.add(new Pair ("dateTo","2016-06-10 08:50:25"));
 	    queryParams.add(new Pair ("logLevel",""));
 	    queryParams.add(new Pair ("requesterType",""));
 	    queryParams.add(new Pair ("requesterId",""));
@@ -71,22 +71,16 @@ public class Test {
 	    final String contentType = apiClient.selectHeaderContentType(contentTypes); 
 	 
 	    String[] authNames = new String[] {  }; 
-	 
-	    //TypeRef returnType = new TypeRef<DataUnit>() {}; 
-	    GenericType returnType = new GenericType<String>() {};
-		
-		
+	 	    
+	    GenericType returnType = new GenericType<String>() {};				
 		
 		Object postBody = null;
 		try {
-			String str = apiClient.invokeAPI(path,"GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
-			System.out.println(str);
+			String str = apiClient.invokeAPI(path,"GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);			
 		} catch (ApiException e) {
 			System.out.println(e.toString());
 			e.printStackTrace();
-		}
-		
-		//String str = client.invokeAPI("swagger.json", "GET", new HashMap<String, String>(), null, new HashMap<String, String>(), null, "application/json", null, new String[0]);
+		}				
 	}
 
 

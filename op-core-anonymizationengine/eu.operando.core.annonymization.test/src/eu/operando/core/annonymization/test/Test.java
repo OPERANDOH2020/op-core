@@ -1,20 +1,25 @@
 package eu.operando.core.annonymization.test;
 
+import java.io.IOException;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.Arrays;
+import java.util.Iterator;
 
-import com.sun.jersey.api.client.GenericType;
-
-import io.swagger.client.ApiClient;
-import io.swagger.client.ApiException;
-import io.swagger.client.Pair;
-import io.swagger.client.model.DataUnit;
-import io.swagger.client.model.DataUnitValuePerAccessLevel;
+import org.deidentifier.arx.ARXAnonymizer;
+import org.deidentifier.arx.ARXConfiguration;
+import org.deidentifier.arx.ARXResult;
+import org.deidentifier.arx.AttributeType;
+import org.deidentifier.arx.AttributeType.Hierarchy;
+import org.deidentifier.arx.AttributeType.Hierarchy.DefaultHierarchy;
+import org.deidentifier.arx.Data;
+import org.deidentifier.arx.DataHandle;
+import org.deidentifier.arx.DataSource;
+import org.deidentifier.arx.DataType;
+import org.deidentifier.arx.criteria.KAnonymity;
 
 public class Test {
 	private Connection connect = null;
@@ -71,7 +76,7 @@ public class Test {
 	}*/
 	@org.junit.Test
 	//http://localhost:8080/operando/core/anonymization/personaldata/1/search?query=operando_personaldata_view
-	public void getInvocationTest2() {
+	/*public void getInvocationTest2() {
 		ApiClient apiClient = new ApiClient();
 		Object localVarPostBody = null;
 	    
@@ -112,10 +117,10 @@ public class Test {
 		}
 	      //}
 				
-	}
+	}*/
 	
 	//@org.junit.Test
-	/*public void arxAnonymizationTest() throws ClassNotFoundException, SQLException, IOException {
+	public void arxAnonymizationTest() throws ClassNotFoundException, SQLException, IOException {
 		// Load JDBC driver
         Class.forName("com.mysql.jdbc.Driver");        
         // Configuration for JDBC source
@@ -259,26 +264,18 @@ public class Test {
 		
 	}
 
-	*//**
-     * Prints a given data handle.
-     *
-     * @param handle
-     *//*
+	
     protected static void print(DataHandle handle) {
         final Iterator<String[]> itHandle = handle.iterator();
         print(itHandle);
     }
 
-    *//**
-     * Prints a given iterator.
-     *
-     * @param iterator
-     *//*
+   
     protected static void print(Iterator<String[]> iterator) {
         while (iterator.hasNext()) {
             System.out.print("   ");
             System.out.println(Arrays.toString(iterator.next()));
         }
     }  
-*/
+
 }
