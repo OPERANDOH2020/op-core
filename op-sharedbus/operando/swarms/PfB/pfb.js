@@ -31,7 +31,9 @@ var privacyForBenefits = {
 
 
     getActiveDeals:function(){
-        this.swarm("getAllDealsSwarm");
+
+        this.action = "listAvailableDeals";
+        this.swarm("checkUser");
     },
 
     getMyDeals: function () {
@@ -73,7 +75,8 @@ var privacyForBenefits = {
         node: "PrivacyForBenefitsManager",
         code: function () {
             if (websiteHasPfBDeal(this.website)) {
-                this.swarm("getWebsitePfBDeal")
+                this.action="getWebsitePfBDeal";
+                this.swarm("checkUser");
             }
             else {
                 this.home("no_pfb");
@@ -83,12 +86,18 @@ var privacyForBenefits = {
     getWebsitePfBDeal: {
         node: "PrivacyForBenefitsManager",
         code: function () {
-            this.deal = getWebsitePfBDeal(this.website);
-            if (this.deal != null) {
-                this.home("success");
-            } else {
-                this.home("no_pfb");
-            }
+            var self = this;
+
+            getPfBDeal(self.userId, self.website, S(function(err, deal){
+
+                if (deal != null) {
+                    self.deal = deal;
+                    self.home("success");
+                } else {
+                    self.home("no_pfb");
+                }
+
+            }));
         }
     },
 
@@ -112,6 +121,11 @@ var privacyForBenefits = {
                         case "listMyDeals":
                             self.swarm("listMyDeals");
                             break;
+                        case "listAvailableDeals":
+                            self.swarm("getAllDealsSwarm");
+                            break;
+                        case "getWebsitePfBDeal":
+                            self.swarm("getWebsitePfBDeal");
                     }
                 }
             }));
@@ -132,18 +146,27 @@ var privacyForBenefits = {
     listMyDeals: {
         node: "PrivacyForBenefitsManager",
         code: function () {
-
-            //TODO implement here
-            this.home("gotMyDeals");
+            var self = this;
+            getUserDeals(self.userId, S(function(err, deals){
+                if(deals){
+                    self.deals = deals;
+                    self.home("gotMyDeals");
+                }
+            }));
         }
-
     },
 
-    getAllDealsSwarm:{
-        node:"PrivacyForBenefitsManager",
-        code: function(){
-            this.deals = getAllDeals();
-            this.home("gotActiveDeals");
+    getAllDealsSwarm: {
+        node: "PrivacyForBenefitsManager",
+        code: function () {
+            var self = this;
+            getAllDeals(self.userId,S(function (err, deals) {
+                if (deals) {
+                    self.deals = deals;
+                    self.home("gotActiveDeals");
+                }
+            }));
+
         }
     }
 }
