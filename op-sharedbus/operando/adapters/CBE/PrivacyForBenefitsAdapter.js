@@ -22,11 +22,11 @@ var dummyVendors = [
     },
     {
         serviceId: 1,
-        website: "kissfm.ro",
+        website: "nytimes.com",
         benfit: "2 euros",
-        identifier: ".btn.btn-facebook.btn-block",
+        identifier: "#facebook-oauth-button-registration-modal, #facebook-oauth-button-login-modal",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus dolor diam, pharetra vel velit in, finibus mollis purus. Sed luctus mattis porta. In a massa dignissim, imperdiet eros vitae, facilisis sem. Praesent posuere ex vehicula dolor pulvinar dictum. Nulla facilisi. Vestibulum faucibus nisi eleifend, scelerisque leo ac, finibus ex. Pellentesque eget ullamcorper nunc. Sed porttitor ex ligula, sed scelerisque nisl mollis at. Mauris lacus elit, dictum id ipsum vel, cursus malesuada nisl. Donec tincidunt sapien eget pulvinar sodales. Aenean laoreet libero vitae dolor aliquam, hendrerit euismod augue rhoncus",
-        logo:"https://upload.wikimedia.org/wikipedia/en/8/86/Logo_Kiss_FM.png"
+        logo:"https://upload.wikimedia.org/wikipedia/commons/4/40/New_York_Times_logo_variation.jpg"
     },
     {
         serviceId: 2,
@@ -51,6 +51,15 @@ var dummyVendors = [
         identifier: ".fr24-icon-facebook",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus dolor diam, pharetra vel velit in, finibus mollis purus. Sed luctus mattis porta. In a massa dignissim, imperdiet eros vitae, facilisis sem. Praesent posuere ex vehicula dolor pulvinar dictum. Nulla facilisi. Vestibulum faucibus nisi eleifend, scelerisque leo ac, finibus ex. Pellentesque eget ullamcorper nunc. Sed porttitor ex ligula, sed scelerisque nisl mollis at. Mauris lacus elit, dictum id ipsum vel, cursus malesuada nisl. Donec tincidunt sapien eget pulvinar sodales. Aenean laoreet libero vitae dolor aliquam, hendrerit euismod augue rhoncus",
         logo:"https://lh3.googleusercontent.com/P0aVrLO7Wxob0dIBx80m85wUyHFiK3-Xw7Xw_6CDFAogdeoRR0YWnSjkFNOR4M7nIA=w300"
+    },{
+        serviceId: 5,
+        website: "etsy.com",
+        benfit: "free content",
+        identifier: ".google-connect-button",
+        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus dolor diam, pharetra vel velit in, finibus mollis purus. Sed luctus mattis porta. In a massa dignissim, imperdiet eros vitae, facilisis sem. Praesent posuere ex vehicula dolor pulvinar dictum. Nulla facilisi. Vestibulum faucibus nisi eleifend, scelerisque leo ac, finibus ex. Pellentesque eget ullamcorper nunc. Sed porttitor ex ligula, sed scelerisque nisl mollis at. Mauris lacus elit, dictum id ipsum vel, cursus malesuada nisl. Donec tincidunt sapien eget pulvinar sodales. Aenean laoreet libero vitae dolor aliquam, hendrerit euismod augue rhoncus",
+        logo:"http://www.brandsoftheworld.com/sites/default/files/styles/logo-thumbnail/public/122010/etsy-thumb.png"
+
+
     }
 ]
 
