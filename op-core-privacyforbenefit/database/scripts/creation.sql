@@ -23,12 +23,13 @@ DROP TABLE IF EXISTS `DEAL`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `DEAL` (
-  `ID` int(10) unsigned DEFAULT NULL,
+  `ID` int(10) NOT NULL AUTO_INCREMENT,
   `OFFER_ID` varchar(20) DEFAULT NULL,
   `USER_ID` varchar(20) DEFAULT NULL,
   `CREATED_AT` varchar(50) DEFAULT NULL,
-  `CANCELED_AT` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `CANCELED_AT` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,7 +38,7 @@ CREATE TABLE `DEAL` (
 
 LOCK TABLES `DEAL` WRITE;
 /*!40000 ALTER TABLE `DEAL` DISABLE KEYS */;
-INSERT INTO `DEAL` VALUES (NULL,'1','1','2016-06-16 10:30:05',NULL);
+INSERT INTO `DEAL` VALUES (1,'1','1','2016-06-16 11:52:23',NULL),(2,'1','1','2016-06-16 11:53:00',NULL);
 /*!40000 ALTER TABLE `DEAL` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -49,17 +50,16 @@ DROP TABLE IF EXISTS `OFFER`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `OFFER` (
-  `ID` varchar(10) NOT NULL DEFAULT '',
+  `ID` bigint(5) NOT NULL AUTO_INCREMENT,
   `OSP_ID` varchar(5) DEFAULT NULL,
   `TITLE` varchar(50) DEFAULT NULL,
   `DESCRIPTION` varchar(200) DEFAULT NULL,
   `SERVICE_WEBSITE` varchar(100) DEFAULT NULL,
-  `IS_ENABLED` tinyint(1) DEFAULT NULL,
   `OSP_CALLBACK_URL` varchar(50) DEFAULT NULL,
-  `EXPIRATION_DATE` datetime DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  CONSTRAINT `OFFER_ibfk_1` FOREIGN KEY (`ID`) REFERENCES `OSP` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `EXPIRATION_DATE` varchar(50) DEFAULT NULL,
+  `IS_ENABLED` int(10) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -68,7 +68,7 @@ CREATE TABLE `OFFER` (
 
 LOCK TABLES `OFFER` WRITE;
 /*!40000 ALTER TABLE `OFFER` DISABLE KEYS */;
-INSERT INTO `OFFER` VALUES ('1','1','5 € Coupon','Get a 5€ coupon for your first purchase.','www.netflix.com',1,'https://facebook.com',NULL);
+INSERT INTO `OFFER` VALUES (3,'1','New Offer','New offer','www.operando.pfb.eu','www.operando.pfb.eu','2016-12-31 00:00:00',1);
 /*!40000 ALTER TABLE `OFFER` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -99,6 +99,28 @@ INSERT INTO `OSP` VALUES ('1','Facebook',NULL,'https://www.facebook.com');
 UNLOCK TABLES;
 
 --
+-- Table structure for table `TEST`
+--
+
+DROP TABLE IF EXISTS `TEST`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `TEST` (
+  `ID` bigint(5) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `TEST`
+--
+
+LOCK TABLES `TEST` WRITE;
+/*!40000 ALTER TABLE `TEST` DISABLE KEYS */;
+/*!40000 ALTER TABLE `TEST` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Dumping routines for database 'operando_privacyforbenefitdb'
 --
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -111,4 +133,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-06-16 10:33:34
+-- Dump completed on 2016-06-16 14:08:05

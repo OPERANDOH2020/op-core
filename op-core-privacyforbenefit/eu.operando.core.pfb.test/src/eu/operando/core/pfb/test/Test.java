@@ -11,7 +11,10 @@
  *******************************************************************************/
 package eu.operando.core.pfb.test;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +30,7 @@ import io.swagger.client.model.Offer;
 
 public class Test {
 
-	//@org.junit.Test
+	@org.junit.Test
 	public void createOffer() {		
 		ApiClient apiClient = new ApiClient();
 		 
@@ -56,12 +59,21 @@ public class Test {
 	    //TypeRef returnType = new TypeRef<DataUnit>() {}; 
 	    GenericType returnType = new GenericType<String>() {};
 		
+	    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String dateInString = "2016-12-31";
+		Date date = null;
+		try {
+			date = sdf.parse(dateInString);
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		Offer offer = new Offer();
-		offer.setId("-1");
+		//offer.setId("-1");
 		offer.setDescription("New offer");
-		offer.setExpirationDate(null);
-		offer.setIsEnabled(new Boolean(true));		
+		offer.setExpirationDate(date);
+		offer.setIsEnabled(1);		
 		offer.setOspCallbackUrl("www.operando.pfb.eu");
 		offer.setOspId("1");
 		offer.setTitle("New Offer");
@@ -75,7 +87,7 @@ public class Test {
 		}			
 	}
 	
-	@org.junit.Test
+	//@org.junit.Test
 	public void createDeal() {		
 		ApiClient apiClient = new ApiClient();
 		 
@@ -118,7 +130,7 @@ public class Test {
 				
 	}
 	
-	//@org.junit.Test
+	@org.junit.Test
 	public void getOffers() {		
 		ApiClient apiClient = new ApiClient();
 		 
@@ -129,10 +141,12 @@ public class Test {
 	 
 	    // query params 
 	    List<Pair> queryParams = new ArrayList<Pair>();
-	    queryParams.add(new Pair ("website_url","website_url"));
-	    queryParams.add(new Pair ("website_id","website_id"));
-	    queryParams.add(new Pair ("osp_id","osp_id"));
-	    queryParams.add(new Pair ("user_id","user_id"));
+	    queryParams.add(new Pair ("osp_id","1"));
+	    queryParams.add(new Pair ("service_website","www.operando.pfb.eu"));	    
+	    queryParams.add(new Pair ("is_enabled","1"));
+	    	    
+	    
+	    
 	    
 	    Map<String, String> headerParams = new HashMap<String, String>(); 
 	    Map<String, Object> formParams = new HashMap<String, Object>(); 
@@ -156,7 +170,8 @@ public class Test {
 		
 		Object postBody = null;
 		try {
-			String str = apiClient.invokeAPI(path,"GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);			
+			String str = apiClient.invokeAPI(path,"GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+			System.out.println(str);
 		} catch (ApiException e) {			
 			e.printStackTrace();
 		}
@@ -164,7 +179,7 @@ public class Test {
 		//String str = client.invokeAPI("swagger.json", "GET", new HashMap<String, String>(), null, new HashMap<String, String>(), null, "application/json", null, new String[0]);
 	}
 	
-	@org.junit.Test
+	//@org.junit.Test
 	public void getDeals() {		
 		ApiClient apiClient = new ApiClient();
 		 
@@ -195,8 +210,7 @@ public class Test {
 	    final String contentType = apiClient.selectHeaderContentType(contentTypes); 
 	 
 	    String[] authNames = new String[] {  }; 
-	 
-	    //TypeRef returnType = new TypeRef<DataUnit>() {}; 
+	 	     
 	    GenericType returnType = new GenericType<String>() {};
 				
 		Object postBody = null;
@@ -205,9 +219,7 @@ public class Test {
 			System.out.println(str);
 		} catch (ApiException e) {			
 			e.printStackTrace();
-		}
-		
-		//String str = client.invokeAPI("swagger.json", "GET", new HashMap<String, String>(), null, new HashMap<String, String>(), null, "application/json", null, new String[0]);
+		}				
 	}
 
 

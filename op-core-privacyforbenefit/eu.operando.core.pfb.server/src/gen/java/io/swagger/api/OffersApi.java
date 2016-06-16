@@ -83,14 +83,13 @@ public class OffersApi  {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Successful operation", response = InlineResponse2002.class),
         @io.swagger.annotations.ApiResponse(code = 200, message = "Unexpected error", response = InlineResponse2002.class) })
     public Response getOffers(
-        @ApiParam(value = "URL of the website to get offers related to specific URL") @QueryParam("website_url") String websiteUrl,
-        @ApiParam(value = "ID of the website to get offers related to specific website ID") @QueryParam("website_id") String websiteId,
         @ApiParam(value = "ID of the OSP to list of all offers created by specific OSP..") @QueryParam("osp_id") String ospId,
-        @ApiParam(value = "ID of the user to limit offers to those apllicable to specific user.") @QueryParam("user_id") String userId,
+        @ApiParam(value = "URL of the website to get offers related to specific URL") @QueryParam("service_website") String serviceWebsite,
+        @ApiParam(value = "Indicates if the offer is enabled or not (1/0)") @QueryParam("is_enabled") String isEnabled,
         @Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.getOffers(websiteUrl,websiteId,ospId,userId,securityContext);
-    }
+        return delegate.getOffers(ospId,serviceWebsite,isEnabled,securityContext);
+    } 
     @PUT
     @Path("/{offer_id}")
     @Consumes({ "application/json" })
