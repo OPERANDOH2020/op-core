@@ -178,7 +178,7 @@ public class Test {
 	    queryParams.add(new Pair ("offer_id","1"));
 	    queryParams.add(new Pair ("user_id","1"));
 	    queryParams.add(new Pair ("created_from","2016-06-04 08:50:25"));
-	    queryParams.add(new Pair ("created_to","2016-06-09 20:50:25"));
+	    queryParams.add(new Pair ("created_to","2016-06-20 20:50:25"));
 	    queryParams.add(new Pair ("canceled","false"));
 	    
 	    Map<String, String> headerParams = new HashMap<String, String>(); 
@@ -201,7 +201,8 @@ public class Test {
 				
 		Object postBody = null;
 		try {
-			String str = apiClient.invokeAPI(path,"GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);			
+			String str = apiClient.invokeAPI(path,"GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+			System.out.println(str);
 		} catch (ApiException e) {			
 			e.printStackTrace();
 		}

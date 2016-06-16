@@ -23,14 +23,11 @@ DROP TABLE IF EXISTS `DEAL`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `DEAL` (
-  `ID` varchar(20) NOT NULL,
-  `OFFER_ID` varchar(20) NOT NULL,
-  `USER_ID` varchar(20) NOT NULL,
-  `CREATED_AT` varchar(20) NOT NULL,
-  `CANCELED_AT` varchar(20) NOT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `OFFER_ID` (`OFFER_ID`),
-  CONSTRAINT `DEAL_ibfk_1` FOREIGN KEY (`OFFER_ID`) REFERENCES `OFFER` (`ID`)
+  `ID` int(10) unsigned DEFAULT NULL,
+  `OFFER_ID` varchar(20) DEFAULT NULL,
+  `USER_ID` varchar(20) DEFAULT NULL,
+  `CREATED_AT` varchar(50) DEFAULT NULL,
+  `CANCELED_AT` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -40,6 +37,7 @@ CREATE TABLE `DEAL` (
 
 LOCK TABLES `DEAL` WRITE;
 /*!40000 ALTER TABLE `DEAL` DISABLE KEYS */;
+INSERT INTO `DEAL` VALUES (NULL,'1','1','2016-06-16 10:30:05',NULL);
 /*!40000 ALTER TABLE `DEAL` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -70,6 +68,7 @@ CREATE TABLE `OFFER` (
 
 LOCK TABLES `OFFER` WRITE;
 /*!40000 ALTER TABLE `OFFER` DISABLE KEYS */;
+INSERT INTO `OFFER` VALUES ('1','1','5 € Coupon','Get a 5€ coupon for your first purchase.','www.netflix.com',1,'https://facebook.com',NULL);
 /*!40000 ALTER TABLE `OFFER` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -112,4 +111,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-06-09 15:42:26
+-- Dump completed on 2016-06-16 10:33:34
