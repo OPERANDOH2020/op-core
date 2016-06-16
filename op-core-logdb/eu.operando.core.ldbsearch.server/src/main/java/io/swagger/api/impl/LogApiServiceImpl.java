@@ -33,7 +33,7 @@ public class LogApiServiceImpl extends LogApiService {
      */
     @Override
     public Response getLogs(String dateFrom, String dateTo, String logLevel, String requesterType, String requesterId, String logPriority, String title, String keyWords, SecurityContext securityContext) throws NotFoundException {    
-    String strSelect = "select * from LOGS";    
+    String strSelect = "select * from operando_logdb.LOGS";    
     StringBuffer strBufferSelect = new StringBuffer(strSelect);
     String keyValue = "";
     boolean boolAnd = false;
@@ -49,19 +49,19 @@ public class LogApiServiceImpl extends LogApiService {
     	}
     	if ((dateTo!=null)&(!dateTo.equals(""))){
     		if (boolAnd)
-    			strBufferSelect.append(" & ");
+    			strBufferSelect.append(" AND ");
     		strBufferSelect.append("DATED <= '"+dateTo+"'");
     		boolAnd = true;
     	}
     	if ((logLevel!=null)&(!logLevel.equals(""))){
     		if (boolAnd)
-    			strBufferSelect.append(" & ");
+    			strBufferSelect.append(" AND ");
     		strBufferSelect.append("LEVEL == "+logLevel+"");
     		boolAnd = true;
     	}
     	if ((requesterType!=null)&(!requesterType.equals(""))){
     		if (boolAnd)
-    			strBufferSelect.append(" & ");
+    			strBufferSelect.append(" AND ");
     		strBufferSelect.append("REQUESTERTYPE == "+requesterType+"");
     		boolAnd = true;
     	}
@@ -73,7 +73,7 @@ public class LogApiServiceImpl extends LogApiService {
     	}
     	if ((logPriority!=null)&(!logPriority.equals(""))){
     		if (boolAnd)
-    			strBufferSelect.append(" & ");
+    			strBufferSelect.append(" AND ");
     		strBufferSelect.append("LOGPRIORITY == "+logPriority+"");
     		boolAnd = true;
     	}    	
@@ -83,7 +83,7 @@ public class LogApiServiceImpl extends LogApiService {
     		arrayListKeyWords = gson.fromJson(keyWords, token.getType());
     		ListIterator<String> listIterator = arrayListKeyWords.listIterator();
     		if (boolAnd)
-    			strBufferSelect.append(" & ");    		
+    			strBufferSelect.append(" AND ");    		
     		while (listIterator.hasNext()){
     			keyValue = listIterator.next();
     			if (boolOr)
@@ -93,7 +93,8 @@ public class LogApiServiceImpl extends LogApiService {
     		}
     		    		
     	}    	    	
-    	strSelect = strBufferSelect.toString();    	
+    	strSelect = strBufferSelect.toString();
+    	System.out.println(strSelect);
     }
     	
 	try {

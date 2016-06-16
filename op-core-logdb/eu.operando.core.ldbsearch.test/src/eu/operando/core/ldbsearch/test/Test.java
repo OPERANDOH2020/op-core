@@ -48,7 +48,7 @@ public class Test {
 	    String jsonKeyWords = new Gson().toJson(keyWords);
 	    List<Pair> queryParams = new ArrayList<Pair>();
 	    queryParams.add(new Pair ("dateFrom","2016-06-04 08:50:25"));
-	    queryParams.add(new Pair ("dateTo","2016-06-10 08:50:25"));
+	    queryParams.add(new Pair ("dateTo","2016-06-08 08:50:25"));
 	    queryParams.add(new Pair ("logLevel",""));
 	    queryParams.add(new Pair ("requesterType",""));
 	    queryParams.add(new Pair ("requesterId",""));
@@ -76,7 +76,8 @@ public class Test {
 		
 		Object postBody = null;
 		try {
-			String str = apiClient.invokeAPI(path,"GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);			
+			String str = apiClient.invokeAPI(path,"GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+			System.out.println(str);
 		} catch (ApiException e) {
 			System.out.println(e.toString());
 			e.printStackTrace();
