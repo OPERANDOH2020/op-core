@@ -38,7 +38,7 @@ CREATE TABLE `DEAL` (
 
 LOCK TABLES `DEAL` WRITE;
 /*!40000 ALTER TABLE `DEAL` DISABLE KEYS */;
-INSERT INTO `DEAL` VALUES (1,'1','1','2016-06-16 11:52:23',NULL),(2,'1','1','2016-06-16 11:53:00',NULL);
+INSERT INTO `DEAL` VALUES (1,'3','1','2016-06-16 11:52:23',NULL),(2,'1','1','2016-06-16 11:53:00',NULL);
 /*!40000 ALTER TABLE `DEAL` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -80,12 +80,12 @@ DROP TABLE IF EXISTS `OSP`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `OSP` (
-  `ID` varchar(5) NOT NULL,
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
   `NAME` varchar(20) NOT NULL,
   `DESCRIPTION` varchar(50) DEFAULT NULL,
   `OSP_WEBSITE` varchar(50) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -94,30 +94,8 @@ CREATE TABLE `OSP` (
 
 LOCK TABLES `OSP` WRITE;
 /*!40000 ALTER TABLE `OSP` DISABLE KEYS */;
-INSERT INTO `OSP` VALUES ('1','Facebook',NULL,'https://www.facebook.com');
+INSERT INTO `OSP` VALUES (1,'Facebook','Facebook social network','https://www.facebook.com');
 /*!40000 ALTER TABLE `OSP` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `TEST`
---
-
-DROP TABLE IF EXISTS `TEST`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `TEST` (
-  `ID` bigint(5) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `TEST`
---
-
-LOCK TABLES `TEST` WRITE;
-/*!40000 ALTER TABLE `TEST` DISABLE KEYS */;
-/*!40000 ALTER TABLE `TEST` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -133,4 +111,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-06-16 14:08:05
+-- Dump completed on 2016-06-16 15:32:09

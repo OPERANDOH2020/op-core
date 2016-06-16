@@ -25,12 +25,13 @@ import io.swagger.client.ApiClient;
 import io.swagger.client.ApiException;
 import io.swagger.client.Pair;
 import io.swagger.client.model.Deal;
+import io.swagger.client.model.OSPRequest;
 import io.swagger.client.model.Offer;
 
 
 public class Test {
 
-	@org.junit.Test
+	//@org.junit.Test
 	public void createOffer() {		
 		ApiClient apiClient = new ApiClient();
 		 
@@ -86,6 +87,51 @@ public class Test {
 			e.printStackTrace();
 		}			
 	}
+	//@org.junit.Test
+	public void registerOsp() {		
+		ApiClient apiClient = new ApiClient();
+		 
+	    byte[] postBinaryBody = null; 
+	     
+	    // create path and map variables 
+	    String path = "/osps"; 
+	 
+	    // query params 
+	    List<Pair> queryParams = new ArrayList<Pair>(); 
+	    Map<String, String> headerParams = new HashMap<String, String>(); 
+	    Map<String, Object> formParams = new HashMap<String, Object>(); 
+	 
+	    final String[] accepts = { 
+	      "application/json", "application/xml" 
+	    }; 
+	    final String accept = apiClient.selectHeaderAccept(accepts); 
+	 
+	    final String[] contentTypes = { 
+	       
+	    }; 
+	    final String contentType = apiClient.selectHeaderContentType(contentTypes); 
+	 
+	    String[] authNames = new String[] {  }; 
+	 
+	    //TypeRef returnType = new TypeRef<DataUnit>() {}; 
+	    GenericType returnType = new GenericType<String>() {};
+			    
+
+	    OSPRequest oSPRequest = new OSPRequest();
+	    oSPRequest.setName("Facebook");
+	    oSPRequest.setDescription("Facebook social network");
+	    oSPRequest.setOspWebsite("https://www.facebook.com");
+		//offer.setId("-1");
+		
+		
+		Object postBody = oSPRequest;
+		try {
+			String str = apiClient.invokeAPI(path,"POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+			System.out.println(str);
+		} catch (ApiException e) {			
+			e.printStackTrace();
+		}			
+	}
 	
 	//@org.junit.Test
 	public void createDeal() {		
@@ -130,7 +176,7 @@ public class Test {
 				
 	}
 	
-	@org.junit.Test
+	//@org.junit.Test
 	public void getOffers() {		
 		ApiClient apiClient = new ApiClient();
 		 
@@ -221,6 +267,45 @@ public class Test {
 			e.printStackTrace();
 		}				
 	}
-
+	
+	@org.junit.Test
+	public void getAcceptedDealsByOSP() {		
+		ApiClient apiClient = new ApiClient();
+		 
+	    byte[] postBinaryBody = null; 
+	     
+	    // create path and map variables 
+	    String path = "/osps/{osp_id}/deals".replaceAll("\\{" + "osp_id" + "\\}", 
+	    		apiClient.escapeString("1")); 
+	 
+	    // query params 
+	    List<Pair> queryParams = new ArrayList<Pair>();	    
+	    
+	    Map<String, String> headerParams = new HashMap<String, String>(); 
+	    Map<String, Object> formParams = new HashMap<String, Object>(); 	    	    
+	 
+	    final String[] accepts = { 
+	      "application/json", "application/xml" 
+	    }; 
+	    final String accept = apiClient.selectHeaderAccept(accepts); 
+	 
+	    final String[] contentTypes = { 
+	       
+	    }; 
+	    final String contentType = apiClient.selectHeaderContentType(contentTypes); 
+	 
+	    String[] authNames = new String[] {  }; 
+	 	     
+	    GenericType returnType = new GenericType<String>() {};
+				
+		Object postBody = null;
+		try {
+			String str = apiClient.invokeAPI(path,"GET", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+			System.out.println(str);
+		} catch (ApiException e) {			
+			e.printStackTrace();
+		}				
+	}
+	
 
 }
