@@ -22,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -56,10 +57,11 @@ public class DealsApiServiceImpl extends DealsApiService {
     @Override
     public Response createDeal(DealRequest deal, SecurityContext securityContext)
     throws NotFoundException {
-    	DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    	Date date = Calendar.getInstance().getTime();
-    	String strDate = df.format(date);    	
-    	String strInsert = "INSERT INTO DEAL (USER_ID,OFFER_ID,CREATED_AT,CANCELED_AT) VALUES ('"+deal.getUserId()+"','"+deal.getOfferId()+"',STR_TO_DATE('"+strDate+"', '%Y-%m-%d %T'),null)";
+    	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    	//dateFormat.setTimeZone(TimeZone.getTimeZone("Europe/Berlin"));
+    	Date date = Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTime();
+    	String strDate = dateFormat.format(date);    	
+    	String strInsert = "INSERT INTO operando_privacyforbenefitdb.DEAL (USER_ID,OFFER_ID,CREATED_AT,CANCELED_AT) VALUES ('"+deal.getUserId()+"','"+deal.getOfferId()+"','"+strDate+"',null)";
     	    	
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -90,51 +92,51 @@ public class DealsApiServiceImpl extends DealsApiService {
 	@Override
     public Response getDeals(String offerId, String userId, String createdFrom, String createdTo, String canceled, SecurityContext securityContext)
     throws NotFoundException {
-		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-		String strSelect = "select * from DEAL";    
-        StringBuffer strBufferSelect = new StringBuffer(strSelect);
-        String keyValue = "";
-        boolean boolAnd = false;
-        boolean boolOr = false;
+		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+		String strSelect = "select * from operando_privacyforbenefitdb.DEAL";    
+        StringBuffer strBufferSelect = new StringBuffer(strSelect);        
+        boolean boolAnd = false;        
         Deal deal;        
         ArrayList<Deal> dealsArray = new ArrayList<Deal> ();
         if (!((offerId=="") && (userId=="") && (createdFrom=="") && (createdTo=="") && (canceled==""))){
         	strBufferSelect.append(" WHERE ");
         	if ((offerId!=null)&(!offerId.equals(""))){ 
         		if (boolAnd)
-        			strBufferSelect.append(" & ");
+        			strBufferSelect.append(" AND ");
         		strBufferSelect.append("OFFER_ID="+offerId+"");
         		boolAnd = true;
         	}
         	if ((userId!=null)&(!userId.equals(""))){ 
         		if (boolAnd)
-        			strBufferSelect.append(" & ");
+        			strBufferSelect.append(" AND ");
         		strBufferSelect.append("USER_ID="+userId+"");
         		boolAnd = true;
         	}
         	if ((createdFrom!=null)&(!createdFrom.equals(""))){
         		if (boolAnd)
-        			strBufferSelect.append(" & ");
-        		strBufferSelect.append("CREATED_AT>=STR_TO_DATE('"+createdFrom+"', '%Y-%m-%d %T'"+")");
+        			strBufferSelect.append(" AND ");
+        		strBufferSelect.append("CREATED_AT>= '"+createdFrom+"'");
         		boolAnd = true;        		        		
         	}
         	if ((createdTo!=null)&(!createdTo.equals(""))){
         		if (boolAnd)
-        			strBufferSelect.append(" & ");
-        		strBufferSelect.append("CREATED_AT<=STR_TO_DATE('"+createdTo+"', '%Y-%m-%d %T'"+")");
+        			strBufferSelect.append(" AND ");
+        		strBufferSelect.append("CREATED_AT<= '"+createdTo+"'");
         		boolAnd = true;
         	}
         	if ((canceled!=null)&(!canceled.equals(""))){
         		if (boolAnd)
-        			strBufferSelect.append(" & ");
+        			strBufferSelect.append(" AND ");
         		if (canceled.equalsIgnoreCase("true"))
-        			strBufferSelect.append("CANCELED_AT!=''");
+        			strBufferSelect.append("CANCELED_AT IS NOT NULL");
         		else
-        			strBufferSelect.append("CANCELED_AT==''");
+        			strBufferSelect.append("CANCELED_AT IS NULL");
         		boolAnd = true;
         	}
         	        	        		    	
-        	strSelect = strBufferSelect.toString();        	
+        	strSelect = strBufferSelect.toString();
+        	System.out.println(strSelect);
         }
         	
     	try {
@@ -169,16 +171,6 @@ public class DealsApiServiceImpl extends DealsApiService {
 					}
     				 deal.setCanceledAt(date);
     			 }    			 
-    			 /*logResponse.setLogDate(resultSet.getString("DATED"));			 
-    			 LogLevelEnum logLevelEnum = LogLevelEnum.valueOf(resultSet.getString("LEVEL"));
-    			 logResponse.setLogLevel(logLevelEnum);
-    			 LogPriorityEnum logPriorityEnum = LogPriorityEnum.valueOf(resultSet.getString("LOGPRIORITY"));
-    			 logResponse.setLogPriority(logPriorityEnum);
-    			 logResponse.setRequesterId(resultSet.getString("REQUESTERID"));
-    			 RequesterTypeEnum requesterTypeEnum = RequesterTypeEnum.valueOf(resultSet.getString("REQUESTERTYPE"));
-    			 logResponse.setRequesterType(requesterTypeEnum);
-    			 logResponse.setTitle(resultSet.getString("TITLE"));
-    			 logResponse.setDescription(resultSet.getString("MESSAGE"));*/
     			 dealsArray.add(deal);
     		 }		 		 
     	}	

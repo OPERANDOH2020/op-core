@@ -23,15 +23,13 @@ DROP TABLE IF EXISTS `DEAL`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `DEAL` (
-  `ID` varchar(20) NOT NULL,
-  `OFFER_ID` varchar(20) NOT NULL,
-  `USER_ID` varchar(20) NOT NULL,
-  `CREATED_AT` varchar(20) NOT NULL,
-  `CANCELED_AT` varchar(20) NOT NULL,
-  PRIMARY KEY (`ID`),
-  KEY `OFFER_ID` (`OFFER_ID`),
-  CONSTRAINT `DEAL_ibfk_1` FOREIGN KEY (`OFFER_ID`) REFERENCES `OFFER` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `ID` int(10) NOT NULL AUTO_INCREMENT,
+  `OFFER_ID` varchar(20) DEFAULT NULL,
+  `USER_ID` varchar(20) DEFAULT NULL,
+  `CREATED_AT` varchar(50) DEFAULT NULL,
+  `CANCELED_AT` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -40,6 +38,7 @@ CREATE TABLE `DEAL` (
 
 LOCK TABLES `DEAL` WRITE;
 /*!40000 ALTER TABLE `DEAL` DISABLE KEYS */;
+INSERT INTO `DEAL` VALUES (1,'3','1','2016-06-16 11:52:23',NULL),(2,'1','1','2016-06-16 11:53:00',NULL);
 /*!40000 ALTER TABLE `DEAL` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -51,17 +50,16 @@ DROP TABLE IF EXISTS `OFFER`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `OFFER` (
-  `ID` varchar(10) NOT NULL DEFAULT '',
+  `ID` bigint(5) NOT NULL AUTO_INCREMENT,
   `OSP_ID` varchar(5) DEFAULT NULL,
   `TITLE` varchar(50) DEFAULT NULL,
   `DESCRIPTION` varchar(200) DEFAULT NULL,
   `SERVICE_WEBSITE` varchar(100) DEFAULT NULL,
-  `IS_ENABLED` tinyint(1) DEFAULT NULL,
   `OSP_CALLBACK_URL` varchar(50) DEFAULT NULL,
-  `EXPIRATION_DATE` datetime DEFAULT NULL,
-  PRIMARY KEY (`ID`),
-  CONSTRAINT `OFFER_ibfk_1` FOREIGN KEY (`ID`) REFERENCES `OSP` (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `EXPIRATION_DATE` varchar(50) DEFAULT NULL,
+  `IS_ENABLED` int(10) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,6 +68,7 @@ CREATE TABLE `OFFER` (
 
 LOCK TABLES `OFFER` WRITE;
 /*!40000 ALTER TABLE `OFFER` DISABLE KEYS */;
+INSERT INTO `OFFER` VALUES (3,'1','New Offer','New offer','www.operando.pfb.eu','www.operando.pfb.eu','2016-12-31 00:00:00',1);
 /*!40000 ALTER TABLE `OFFER` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -81,12 +80,12 @@ DROP TABLE IF EXISTS `OSP`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `OSP` (
-  `ID` varchar(5) NOT NULL,
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
   `NAME` varchar(20) NOT NULL,
   `DESCRIPTION` varchar(50) DEFAULT NULL,
   `OSP_WEBSITE` varchar(50) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -95,7 +94,7 @@ CREATE TABLE `OSP` (
 
 LOCK TABLES `OSP` WRITE;
 /*!40000 ALTER TABLE `OSP` DISABLE KEYS */;
-INSERT INTO `OSP` VALUES ('1','Facebook',NULL,'https://www.facebook.com');
+INSERT INTO `OSP` VALUES (1,'Facebook','Facebook social network','https://www.facebook.com');
 /*!40000 ALTER TABLE `OSP` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -112,4 +111,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-06-09 15:42:26
+-- Dump completed on 2016-06-16 15:32:09

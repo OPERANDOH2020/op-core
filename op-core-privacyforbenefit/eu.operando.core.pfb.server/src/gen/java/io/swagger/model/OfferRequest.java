@@ -1,23 +1,22 @@
 package io.swagger.model;
 
-import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
+import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.swagger.annotations.ApiModelProperty;
 
 
 
-
-
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-06-10T07:14:29.764Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-06-16T10:39:31.522Z")
 public class OfferRequest   {
   
   private String ospId = null;
   private String title = null;
   private String description = null;
   private String serviceWebsite = null;
-  private Boolean isEnabled = null;
+  private Integer isEnabled = null;
   private String ospCallbackUrl = null;
   private Date expirationDate = null;
 
@@ -96,7 +95,7 @@ public class OfferRequest   {
   /**
    * Indication whether the offer is enabled or not.
    **/
-  public OfferRequest isEnabled(Boolean isEnabled) {
+  public OfferRequest isEnabled(Integer isEnabled) {
     this.isEnabled = isEnabled;
     return this;
   }
@@ -104,10 +103,10 @@ public class OfferRequest   {
   
   @ApiModelProperty(value = "Indication whether the offer is enabled or not.")
   @JsonProperty("is_enabled")
-  public Boolean getIsEnabled() {
+  public Integer getIsEnabled() {
     return isEnabled;
   }
-  public void setIsEnabled(Boolean isEnabled) {
+  public void setIsEnabled(Integer isEnabled) {
     this.isEnabled = isEnabled;
   }
 
