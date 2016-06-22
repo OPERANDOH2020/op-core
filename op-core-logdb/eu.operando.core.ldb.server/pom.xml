@@ -8,10 +8,22 @@
 	<version>1.0.0</version>
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
-		<plugins>			
+		<plugins>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
+				<configuration>
+					<url>http://localhost:8090/manager/text</url>
+					<server>TomcatServer</server>					
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+                	<outputDirectory>/opt/apache-tomcat-7.0.70/webapps/ldb/</outputDirectory>
+            	</configuration>
 				<version>2.1.1</version>
 			</plugin>
 			<plugin>
@@ -21,7 +33,6 @@
 					<execution>
 						<goals>
 							<goal>integration-test</goal>
-							<goal>verify</goal>
 						</goals>
 					</execution>
 				</executions>
@@ -82,42 +93,7 @@
 					</execution>
 				</executions>
 			</plugin>
-
-			<plugin>
-				<groupId>org.apache.tomcat.maven</groupId>
-				<artifactId>tomcat7-maven-plugin</artifactId>
-				<version>2.2</version>
-				<configuration>
-					<url>http://localhost:8080/manager/text</url>
-					<server>TomcatServer</server>
-					<username>admin</username>
-					<password>password</password>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.tomcat.maven</groupId>
-				<artifactId>tomcat7-maven-plugin</artifactId>
-				<version>2.2</version>
-				<configuration>
-					<warSourceDirectory>target/${project.artifactId}-${project.version}</warSourceDirectory>
-					<port>8080</port>
-					<path>/</path>
-				</configuration>
-				<executions>
-					<execution>
-						<id>run-tomcat</id>
-						<phase>pre-integration-test</phase>
-						<configuration>
-							<fork>true</fork>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-
+			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
