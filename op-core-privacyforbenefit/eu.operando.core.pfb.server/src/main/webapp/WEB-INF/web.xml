@@ -7,7 +7,7 @@
      * http://opensource.org/licenses/MIT
      *
      * Contributors:
-     *    Gorka Mikel Echevarría {TECNALIA}
+     *    Gorka Mikel Echevarrï¿½a {TECNALIA}
      * Initially developed in the context of OPERANDO EU project www.operando.eu
  -->
 
@@ -53,7 +53,7 @@
 
   <servlet-mapping>
     <servlet-name>jersey</servlet-name>
-    <url-pattern>/operando/core/pfb/*</url-pattern>
+    <url-pattern>/*</url-pattern>
   </servlet-mapping>
   <filter>
     <filter-name>ApiOriginFilter</filter-name>
