@@ -1,0 +1,123 @@
+# OPERANDO YAML Based on Example YAML to get you started quickly.
+# Be aware that YAML has indentation based scoping (which use to be a nightmare).
+# Code completion support is available so start typing for available options.
+swagger: '2.0'
+
+# This is your document metadata
+info:
+  version: "0.0.1"
+  title: eu.operando.core.bda.mc
+  description: Operando's BDA interfaces for management console
+  license:
+    name: MIT
+    url: http://opensource.org/licenses/MIT
+host: localhost:8080
+schemes:
+- http
+basePath: /operando/bda/mc
+produces:
+- application/json
+# Describe your paths here
+paths:
+  # This is a path endpoint. Change it.
+  /job/subscribe:
+    # This is a HTTP operation
+    get:
+      # Describe this verb here. Note: you can use markdown
+      description:   
+         Allows to subscribe to a job for its execution. <br>
+         <ul>
+         <li>If no start date is specified it start inmediately. </li>
+         <li>If no end date is specified it executes forever. </li>
+         <li>If no periodicity is specified it executes just one time.  </li>
+         </ul>
+      # This is array of GET operation parameters:
+      parameters:
+        # An example parameter that is in query and is required
+        -
+          name: requestHeader # ACTION REQUIRED TO AGREE ON THIS IN THE PROYECT, MAYBE WE NEED SOMETHIN SUCH AS REQUESTINFO OR REQUEST HEADER
+          in: body
+          description: Identification of the requesting end user
+          schema:
+            $ref: '#/definitions/requestHeader'
+          required: true
+        -
+          name: jobId 
+          in: query
+          description: Identification of the job to be subscribed
+          type: string
+          required: true
+        -
+          name: startDate 
+          in: query
+          description: Identification of the job subscribtion starting date
+          type: string
+          format: date-time
+        -
+          name: endDate 
+          in: query
+          description: Identification of the job subscribtion end date
+          type: string
+          format: date-time
+        -
+          name: period 
+          in: query
+          description: Identification of job execution periodicity -> yearly, monthly, weekly, ...
+          type: string
+          
+          # PENDING information about the endpoint to notify job success, it could be an email or a notification endpoint
+          
+      # Expected responses for this operation:
+      responses:
+        # Response code
+        200:
+          description: Successful response
+          # PENDING what happens in case of failure???
+  /job/unSubscribe:
+    # This is a HTTP operation
+    get:
+      # Describe this verb here. Note: you can use markdown
+      description:   
+         unSubscribe to a job for its execution. <br>
+      # This is array of GET operation parameters:
+      parameters:
+        # An example parameter that is in query and is required
+        -
+          name: requestHeader # ACTION REQUIRED TO AGREE ON THIS IN THE PROYECT, MAYBE WE NEED SOMETHIN SUCH AS REQUESTINFO OR REQUEST HEADER
+          in: body
+          description: Identification of the requesting end user
+          schema:
+            $ref: '#/definitions/requestHeader'
+          required: true
+        -
+          name: jobId 
+          in: query
+          description: Identification of the job to be unSubscribed
+          type: string
+          required: true
+
+      # Expected responses for this operation:
+      responses:
+        # Response code
+        200:
+          description: Successful response
+          # PENDING what happens in case of failure???
+
+definitions:
+  requestHeader:
+    type: object
+    properties:
+      requestId:
+        type: string
+      requesterId:
+        type: string
+      requesterComponentId:
+        type: string
+      proxyId:
+        type: string
+      requestDateTime:
+        type: string
+        format: date-time
+    required:
+    - requestId
+    - requesterId

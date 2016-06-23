@@ -1,0 +1,71 @@
+# OPERANDO YAML Based on Example YAML to get you started quickly.
+# Be aware that YAML has indentation based scoping (which use to be a nightmare).
+# Code completion support is available so start typing for available options.
+swagger: '2.0'
+
+# This is your document metadata
+info:
+  version: "0.0.1"
+  title: eu.operando.core.bda.out
+  description: Operando's BDA interfaces for outcomes retrieval
+  license:
+    name: MIT
+    url: http://opensource.org/licenses/MIT
+host: localhost:8080
+schemes:
+- http
+basePath: /operando/bda/out
+produces:
+- application/json
+# Describe your paths here
+paths:
+  # This is a path endpoint. Change it.
+  /report/download:
+    # This is a HTTP operation
+    get:
+      # Describe this verb here. Note: you can use markdown
+      description:   
+         provides a link to download a report
+        # An example parameter that is in query and is required
+      # This is array of GET operation parameters:
+      parameters:
+        -
+          name: requestHeader # ACTION REQUIRED TO AGREE ON THIS IN THE PROYECT, MAYBE WE NEED SOMETHIN SUCH AS REQUESTINFO OR REQUEST HEADER
+          in: body
+          description: Identification of the requesting end user
+          schema:
+            $ref: '#/definitions/requestHeader'
+          required: true
+        -
+          name: jobId 
+          in: query
+          description: Identification of the job to get the status about
+          type: string
+          required: true
+      # Expected responses for this operation:
+      responses:
+        # Response code
+        200:
+          description: Successful response
+          # PENDING what happens in case of failure???
+          # name: jobStatus
+          # type: string
+
+definitions:
+  requestHeader:
+    type: object
+    properties:
+      requestId:
+        type: string
+      requesterId:
+        type: string
+      requesterComponentId:
+        type: string
+      proxyId:
+        type: string
+      requestDateTime:
+        type: string
+        format: date-time
+    required:
+    - requestId
+    - requesterId

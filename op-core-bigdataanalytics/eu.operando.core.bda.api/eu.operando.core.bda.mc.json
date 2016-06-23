@@ -1,0 +1,125 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "0.0.1",
+        "title": "eu.operando.core.bda.mc",
+        "description": "Operando's BDA interfaces for management console",
+        "license": {
+            "name": "MIT",
+            "url": "http://opensource.org/licenses/MIT"
+        }
+    },
+    "host": "localhost:8080",
+    "schemes": [
+        "http"
+    ],
+    "basePath": "/operando/bda/mc",
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/job/subscribe": {
+            "get": {
+                "description": "Allows to subscribe to a job for its execution. <br> <ul> <li>If no start date is specified it start inmediately. </li> <li>If no end date is specified it executes forever. </li> <li>If no periodicity is specified it executes just one time.  </li> </ul>",
+                "parameters": [
+                    {
+                        "name": "requestHeader",
+                        "in": "body",
+                        "description": "Identification of the requesting end user",
+                        "schema": {
+                            "$ref": "#/definitions/requestHeader"
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "jobId",
+                        "in": "query",
+                        "description": "Identification of the job to be subscribed",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "startDate",
+                        "in": "query",
+                        "description": "Identification of the job subscribtion starting date",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    {
+                        "name": "endDate",
+                        "in": "query",
+                        "description": "Identification of the job subscribtion end date",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    {
+                        "name": "period",
+                        "in": "query",
+                        "description": "Identification of job execution periodicity -> yearly, monthly, weekly, ...",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/job/unSubscribe": {
+            "get": {
+                "description": "unSubscribe to a job for its execution. <br>",
+                "parameters": [
+                    {
+                        "name": "requestHeader",
+                        "in": "body",
+                        "description": "Identification of the requesting end user",
+                        "schema": {
+                            "$ref": "#/definitions/requestHeader"
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "jobId",
+                        "in": "query",
+                        "description": "Identification of the job to be unSubscribed",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "requestHeader": {
+            "type": "object",
+            "properties": {
+                "requestId": {
+                    "type": "string"
+                },
+                "requesterId": {
+                    "type": "string"
+                },
+                "requesterComponentId": {
+                    "type": "string"
+                },
+                "proxyId": {
+                    "type": "string"
+                },
+                "requestDateTime": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            },
+            "required": [
+                "requestId",
+                "requesterId"
+            ]
+        }
+    }
+}
