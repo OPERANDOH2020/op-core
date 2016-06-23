@@ -55,7 +55,7 @@ import io.swagger.client.auth.OAuth;
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-05-27T11:58:41.893Z")
 public class ApiClient {
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
-  private String basePath = "http://localhost:8080/operando/core/pfb";
+  private String basePath = "http://localhost:8080";
   private boolean debugging = false;
   private int connectionTimeout = 0;
 

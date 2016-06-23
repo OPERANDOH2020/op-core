@@ -16,7 +16,7 @@
 				<configuration>
 					<url>http://localhost:8080/manager/text</url>
 					<server>TomcatServer</server>
-					<!-- /logdbsearch is the context and it is neccesary to deploy to tomcat several modules generated automatically from swagger -->
+					<!-- /operando/core/logdbsearch is the context and it is neccesary to deploy to tomcat several modules generated automatically from swagger -->
 					<path>/operando/core/logdbsearch</path>					
 				</configuration>
 			</plugin>
