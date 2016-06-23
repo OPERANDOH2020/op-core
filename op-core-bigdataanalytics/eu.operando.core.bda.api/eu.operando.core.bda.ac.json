@@ -13,12 +13,11 @@
     "schemes": [
         "http"
     ],
-    "basePath": "/operando/bda/ac",
     "produces": [
         "application/json"
     ],
     "paths": {
-        "/job/status": {
+        "/operando/bda/ac/job/status": {
             "get": {
                 "description": "Allows to get the status of a job",
                 "parameters": [
@@ -46,7 +45,7 @@
                 }
             }
         },
-        "/job/info/load": {
+        "/operando/bda/ac/job/info/load": {
             "get": {
                 "description": "It forces the information loading for a given job",
                 "parameters": [
@@ -74,7 +73,7 @@
                 }
             }
         },
-        "/job/info/update": {
+        "/operando/bda/ac/job/info/update": {
             "get": {
                 "description": "It forces the information updating for a given job, it only load last updates",
                 "parameters": [
@@ -102,7 +101,7 @@
                 }
             }
         },
-        "/job/list": {
+        "/operando/bda/ac/job/list": {
             "get": {
                 "description": "It returns the list of jobs available for that user",
                 "parameters": [
@@ -130,7 +129,7 @@
                 }
             }
         },
-        "/user/subscribed": {
+        "/operando/bda/ac/user/subscribed": {
             "get": {
                 "description": "It returns the list of jobs subscribed for that user",
                 "parameters": [
@@ -158,7 +157,7 @@
                 }
             }
         },
-        "/user/rights/execution": {
+        "/operando/bda/ac/user/rights/execution": {
             "get": {
                 "description": "It returns the list of jobs subscribed for that user",
                 "parameters": [
@@ -186,7 +185,7 @@
                 }
             }
         },
-        "/user/rights/access": {
+        "/operando/bda/ac/user/rights/access": {
             "get": {
                 "description": "It returns the list of jobs subscribed for that user",
                 "parameters": [
@@ -214,7 +213,7 @@
                 }
             }
         },
-        "/event/change": {
+        "/operando/bda/ac/event/change": {
             "get": {
                 "description": "It returns the list of jobs subscribed for that user",
                 "parameters": [
@@ -242,7 +241,7 @@
                 }
             }
         },
-        "/job/change": {
+        "/operando/bda/ac/job/change": {
             "get": {
                 "description": "It returns the list of jobs subscribed for that user",
                 "parameters": [
