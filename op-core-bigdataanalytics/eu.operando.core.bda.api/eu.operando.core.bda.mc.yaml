@@ -14,13 +14,14 @@ info:
 host: localhost:8080
 schemes:
 - http
-basePath: /operando/bda/mc
+# basePath: /operando/bda/mc
+# removed to solve a problem with the deployment of multiple swager generated wars in the same tomcat
 produces:
 - application/json
 # Describe your paths here
 paths:
   # This is a path endpoint. Change it.
-  /job/subscribe:
+  /operando/bda/mc/job/subscribe:
     # This is a HTTP operation
     get:
       # Describe this verb here. Note: you can use markdown
@@ -73,7 +74,7 @@ paths:
         200:
           description: Successful response
           # PENDING what happens in case of failure???
-  /job/unSubscribe:
+  /operando/bda/mc/job/unSubscribe:
     # This is a HTTP operation
     get:
       # Describe this verb here. Note: you can use markdown
