@@ -1,0 +1,301 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "0.0.1",
+        "title": "eu.operando.core.bda.ac",
+        "description": "Operando's BDA interfaces for administration console",
+        "license": {
+            "name": "MIT",
+            "url": "http://opensource.org/licenses/MIT"
+        }
+    },
+    "host": "localhost:8080",
+    "schemes": [
+        "http"
+    ],
+    "basePath": "/operando/bda/ac",
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/job/status": {
+            "get": {
+                "description": "Allows to get the status of a job",
+                "parameters": [
+                    {
+                        "name": "requestHeader",
+                        "in": "body",
+                        "description": "Identification of the requesting end user",
+                        "schema": {
+                            "$ref": "#/definitions/requestHeader"
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "jobId",
+                        "in": "query",
+                        "description": "Identification of the job to get the status about",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/job/info/load": {
+            "get": {
+                "description": "It forces the information loading for a given job",
+                "parameters": [
+                    {
+                        "name": "requestHeader",
+                        "in": "body",
+                        "description": "Identification of the requesting end user",
+                        "schema": {
+                            "$ref": "#/definitions/requestHeader"
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "jobId",
+                        "in": "query",
+                        "description": "Identification of the job to get the status about",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/job/info/update": {
+            "get": {
+                "description": "It forces the information updating for a given job, it only load last updates",
+                "parameters": [
+                    {
+                        "name": "requestHeader",
+                        "in": "body",
+                        "description": "Identification of the requesting end user",
+                        "schema": {
+                            "$ref": "#/definitions/requestHeader"
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "jobId",
+                        "in": "query",
+                        "description": "Identification of the job to get the status about",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/job/list": {
+            "get": {
+                "description": "It returns the list of jobs available for that user",
+                "parameters": [
+                    {
+                        "name": "requestHeader",
+                        "in": "body",
+                        "description": "Identification of the requesting end user",
+                        "schema": {
+                            "$ref": "#/definitions/requestHeader"
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "jobId",
+                        "in": "query",
+                        "description": "Identification of the job to get the status about",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/user/subscribed": {
+            "get": {
+                "description": "It returns the list of jobs subscribed for that user",
+                "parameters": [
+                    {
+                        "name": "requestHeader",
+                        "in": "body",
+                        "description": "Identification of the requesting end user",
+                        "schema": {
+                            "$ref": "#/definitions/requestHeader"
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "jobId",
+                        "in": "query",
+                        "description": "Identification of the job to get the status about",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/user/rights/execution": {
+            "get": {
+                "description": "It returns the list of jobs subscribed for that user",
+                "parameters": [
+                    {
+                        "name": "requestHeader",
+                        "in": "body",
+                        "description": "Identification of the requesting end user",
+                        "schema": {
+                            "$ref": "#/definitions/requestHeader"
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "jobId",
+                        "in": "query",
+                        "description": "Identification of the job to get the status about",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/user/rights/access": {
+            "get": {
+                "description": "It returns the list of jobs subscribed for that user",
+                "parameters": [
+                    {
+                        "name": "requestHeader",
+                        "in": "body",
+                        "description": "Identification of the requesting end user",
+                        "schema": {
+                            "$ref": "#/definitions/requestHeader"
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "jobId",
+                        "in": "query",
+                        "description": "Identification of the job to get the status about",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/event/change": {
+            "get": {
+                "description": "It returns the list of jobs subscribed for that user",
+                "parameters": [
+                    {
+                        "name": "requestHeader",
+                        "in": "body",
+                        "description": "Identification of the requesting end user",
+                        "schema": {
+                            "$ref": "#/definitions/requestHeader"
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "jobId",
+                        "in": "query",
+                        "description": "Identification of the job to get the status about",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        },
+        "/job/change": {
+            "get": {
+                "description": "It returns the list of jobs subscribed for that user",
+                "parameters": [
+                    {
+                        "name": "requestHeader",
+                        "in": "body",
+                        "description": "Identification of the requesting end user",
+                        "schema": {
+                            "$ref": "#/definitions/requestHeader"
+                        },
+                        "required": true
+                    },
+                    {
+                        "name": "jobId",
+                        "in": "query",
+                        "description": "Identification of the job to get the status about",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful response"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "requestHeader": {
+            "type": "object",
+            "properties": {
+                "requestId": {
+                    "type": "string"
+                },
+                "requesterId": {
+                    "type": "string"
+                },
+                "requesterComponentId": {
+                    "type": "string"
+                },
+                "proxyId": {
+                    "type": "string"
+                },
+                "requestDateTime": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            },
+            "required": [
+                "requestId",
+                "requesterId"
+            ]
+        }
+    }
+}
