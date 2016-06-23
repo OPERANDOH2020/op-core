@@ -10,4 +10,4 @@ Requirements to execute the test case:
   config on the server project folder points correctly to the database.
 - this server project has to be deployed on a web server. For testing purposes it has
   been used the jetty web server.
-- the test project contains a JUNit test case that can be run directly from the eclipse environment.
+- the test projects contains JUNit test cases that can be run directly from the command line (executable jar files).

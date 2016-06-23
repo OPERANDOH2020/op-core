@@ -38,7 +38,7 @@ public class Test {
 	    byte[] postBinaryBody = null; 
 	     
 	    // create path and map variables 
-	    String path = "/log"; 
+	    String path = "/operando/core/logdb/log"; 
 	 
 	    // query params 
 	    List<Pair> queryParams = new ArrayList<Pair>(); 

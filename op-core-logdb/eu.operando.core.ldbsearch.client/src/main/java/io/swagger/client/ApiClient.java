@@ -44,7 +44,7 @@ import io.swagger.client.auth.OAuth;
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-06T10:11:04.559Z")
 public class ApiClient {
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
-  private String basePath = "http://localhost:8080/operando/core/logdbsearch";
+  private String basePath = "http://localhost:8080";
   private boolean debugging = false;
   private int connectionTimeout = 0;
 
