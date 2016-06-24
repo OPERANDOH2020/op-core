@@ -1,3 +1,3 @@
 The test cases can be run directly via script or from the command line by executing:
-java -jar eu.operando.core.anonymization.server.jar
+java -jar eu.operando.core.anonymization.test.jar
 

@@ -537,8 +537,7 @@ public class ApiClient {
 
     updateParamsForAuth(authNames, queryParams, headerParams);
 
-    final String url = buildUrl(path, queryParams);
-    System.out.println("La URl de llamada es "+url);
+    final String url = buildUrl(path, queryParams);    
     Builder builder;
     if (accept == null) {
       builder = httpClient.resource(url).getRequestBuilder();
