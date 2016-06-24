@@ -98,7 +98,37 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.5.1</version>
 			</plugin>
-
+		    <!-- added to support docker image creation -->
+			<plugin>
+				<groupId>org.jolokia</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.13.9</version> <!--  last version in https://mvnrepository.com/artifact/org.jolokia/docker-maven-plugin -->
+				<configuration>
+					<images>
+						<image>
+							<alias>${project.artifactId}</alias>
+							<name>${docker.repository.name}:${project.version}</name>
+							<build>
+								<from>tomcat:7</from> <!-- in our case we start from tomcat image -->
+								<assembly>
+									<descriptor>docker-assembly.xml</descriptor>
+								</assembly>
+								<ports>
+									<port>8080</port>
+								</ports>
+							</build>
+							<run>
+								<namingStrategy>alias</namingStrategy>
+								<ports>
+									<port>${docker.logdb.port}:8080</port>
+								</ports>
+							</run>
+						</image>
+					</images>
+				</configuration>
+			</plugin>
+			<!-- end of addition -->
+			
 		</plugins>
 	</build>
 	<dependencies>
@@ -203,5 +233,10 @@
 		<slf4j-version>1.6.3</slf4j-version>
 		<junit-version>4.8.1</junit-version>
 		<servlet-api-version>2.5</servlet-api-version>
+		<!-- added to support docker image creation -->
+		<docker.registry.name>localhost:5000/</docker.registry.name><!-- leave empty for docker hub; use e.g. "localhost:5000/" for a local docker registry -->
+        <docker.repository.name>${docker.registry.name}tecnalia/${project.artifactId}</docker.repository.name>
+        <docker.logdb.port>8090</docker.logdb.port>
+        <!-- end of addition -->
 	</properties>
 </project>
