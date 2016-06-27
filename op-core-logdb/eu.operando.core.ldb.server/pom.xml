@@ -155,7 +155,7 @@
 		          <execution>
 		            <phase></phase>
 		            <goals>
-		              <goal>execute</goal>
+		              <goal>build</goal>
 		            </goals>
 		            <!-- specific configuration for this execution -->
 		            <configuration>
