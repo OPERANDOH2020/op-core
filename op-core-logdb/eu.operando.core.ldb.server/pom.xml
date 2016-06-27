@@ -7,6 +7,48 @@
 	<name>eu.operando.core.ldb.server</name>
 	<version>1.0.0</version>
 	<build>
+	    <pluginManagement>
+		    <!-- added to support initial database creation -->
+    	    <plugin>
+		        <groupId>org.codehaus.mojo</groupId>
+		        <artifactId>sql-maven-plugin</artifactId>
+		        <version>1.5</version>
+		
+		        <dependencies>
+		          <!-- specify the dependent JDBC driver here -->
+		          <dependency>
+         			<groupId>mysql</groupId>
+					<artifactId>mysql-connector-java</artifactId>
+					<version>5.0.8</version>
+		          </dependency>
+		        </dependencies>
+		
+		        <!-- common configuration shared by all executions -->
+		        <configuration>
+		          <driver>com.mysql.jdbc.Driver</driver>
+		          <url>jdbc:mysql://${mysql.host}:${mysql.port}/operando_logdb</url>
+		          <username>root</username>
+		          <password>root</password>
+		        </configuration>	
+		        <executions>
+		          <execution>
+		            <id>initalize</id>
+		            <phase>initalize</phase>
+		            <goals>
+		              <goal>execute</goal>
+		            </goals>
+		            <!-- specific configuration for this execution -->
+		            <configuration>
+		              <!-- specify your SQL commands, can be all of the following configurations -->
+		              <srcFiles>
+		                <srcFile>src/main/sql/creation.sql</srcFile>
+		              </srcFiles>
+		            </configuration>
+		          </execution>
+		        </executions>
+		      </plugin>
+			<!-- end of addition -->	    
+	    </pluginManagement>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<plugins>
 			<plugin>
@@ -92,7 +134,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -128,46 +169,6 @@
 					</images>
 				</configuration>
 			</plugin>
-			<!-- end of addition -->
-		    <!-- added to support initial database creation -->
-    	    <plugin>
-		        <groupId>org.codehaus.mojo</groupId>
-		        <artifactId>sql-maven-plugin</artifactId>
-		        <version>1.5</version>
-		
-		        <dependencies>
-		          <!-- specify the dependent JDBC driver here -->
-		          <dependency>
-         			<groupId>mysql</groupId>
-					<artifactId>mysql-connector-java</artifactId>
-					<version>5.0.8</version>
-		          </dependency>
-		        </dependencies>
-		
-		        <!-- common configuration shared by all executions -->
-		        <configuration>
-		          <driver>com.mysql.jdbc.Driver</driver>
-		          <url>jdbc:mysql://${mysql.host}:${mysql.port}/operando_logdb</url>
-		          <username>root</username>
-		          <password>root</password>
-		        </configuration>	
-		        <executions>
-		          <execution>
-		            <id>initalize</id>
-		            <phase>initalize</phase>
-		            <goals>
-		              <goal>execute</goal>
-		            </goals>
-		            <!-- specific configuration for this execution -->
-		            <configuration>
-		              <!-- specify your SQL commands, can be all of the following configurations -->
-		              <srcFiles>
-		                <srcFile>src/main/sql/creation.sql</srcFile>
-		              </srcFiles>
-		            </configuration>
-		          </execution>
-		        </executions>
-		      </plugin>
 			<!-- end of addition -->
 		</plugins>
 	    <resources>
