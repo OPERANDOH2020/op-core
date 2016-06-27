@@ -147,7 +147,7 @@
 		        <!-- common configuration shared by all executions -->
 		        <configuration>
 		          <driver>com.mysql.jdbc.Driver</driver>
-		          <url>jdbc:mysql://localhost:3306/operando_logdb</url>
+		          <url>jdbc:mysql://${mysql.host}:${mysql.port}/operando_logdb</url>
 		          <username>root</username>
 		          <password>root</password>
 		        </configuration>	
@@ -169,6 +169,12 @@
 		      </plugin>
 			<!-- end of addition -->
 		</plugins>
+	    <resources>
+	    	<resource>
+		        <directory>src/main/resources/config</directory>
+		        <filtering>true</filtering>
+	      	</resource>
+	    </resources>
 	</build>
 	<dependencies>
 		<dependency>
@@ -276,6 +282,21 @@
 		<docker.registry.name>localhost:5000/</docker.registry.name><!-- leave empty for docker hub; use e.g. "localhost:5000/" for a local docker registry -->
         <docker.repository.name>${docker.registry.name}tecnalia/${project.artifactId}</docker.repository.name>
         <docker.logdb.port>8090</docker.logdb.port>
+ 	    <mysql.host>localhost</mysql.host>
+        <mysql.port>3306</mysql.port>
         <!-- end of addition -->
 	</properties>
+	<profiles>
+		<profile>
+		  <id>jenkins-dev</id>
+		  <activation>
+            <property>
+                <name>ci</name>
+            </property>
+          </activation>
+		  <properties>
+	        <mysql.host>10.0.0.2</mysql.host>
+		  </properties>
+		</profile>
+	</profiles>
 </project>
