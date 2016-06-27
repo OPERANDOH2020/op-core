@@ -36,7 +36,8 @@
 							    <MYSQL_ROOT_PASSWORD>root</MYSQL_ROOT_PASSWORD>
 							</env>
 							<ports>
-								<port>localhost:${docker.mysql.port}:3306</port>
+								<!-- <port>localhost:${docker.mysql.port}:3306</port> -->
+								<port>${docker.mysql.port}:3306</port>
 							</ports>
 							
 						</run>
