@@ -18,7 +18,7 @@
 			<configuration>
 				<images>
 					<image>
-						<alias>${project.groupId}${project.artifactId}</alias>
+						<alias>${project.groupId}.${project.artifactId}</alias>
 						<name>${docker.repository.name}:${project.version}</name>
 						<build>
 							<from>mysql:5</from> <!-- in our case we start from tomcat image -->
