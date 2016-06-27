@@ -8,6 +8,7 @@
 	<version>1.0.0</version>
 	<build>
 	    <pluginManagement>
+	    	<plugins>
 		    <!-- added to support initial database creation -->
     	    <plugin>
 		        <groupId>org.codehaus.mojo</groupId>
@@ -47,7 +48,8 @@
 		          </execution>
 		        </executions>
 		      </plugin>
-			<!-- end of addition -->	    
+			<!-- end of addition -->
+			</plugins>	    
 	    </pluginManagement>
 		<sourceDirectory>src/main/java</sourceDirectory>
 		<plugins>
