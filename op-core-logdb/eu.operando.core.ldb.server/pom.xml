@@ -153,7 +153,8 @@
 		        </configuration>	
 		        <executions>
 		          <execution>
-		            <phase></phase>
+		            <id>initalize</id>
+		            <phase>initalize</phase>
 		            <goals>
 		              <goal>execute</goal>
 		            </goals>
@@ -161,7 +162,7 @@
 		            <configuration>
 		              <!-- specify your SQL commands, can be all of the following configurations -->
 		              <srcFiles>
-		                <srcFile>src/main/mysql/creation.sql</srcFile>
+		                <srcFile>src/main/sql/creation.sql</srcFile>
 		              </srcFiles>
 		            </configuration>
 		          </execution>
