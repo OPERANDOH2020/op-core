@@ -295,7 +295,7 @@
             </property>
           </activation>
 		  <properties>
-	        <mysql.host>10.0.0.2</mysql.host>
+	        <mysql.host>10.0.0.5</mysql.host>
 		  </properties>
 		</profile>
 	</profiles>
