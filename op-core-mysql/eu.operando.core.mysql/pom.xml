@@ -9,9 +9,49 @@
 
   <name>mysql</name>
   <url>http://maven.apache.org</url>
+  <build>
+  	<plugins>
+  		<plugin>
+			<groupId>org.jolokia</groupId>
+			<artifactId>docker-maven-plugin</artifactId>
+			<version>0.13.9</version> <!--  last version in https://mvnrepository.com/artifact/org.jolokia/docker-maven-plugin -->
+			<configuration>
+				<images>
+					<image>
+						<alias>${project.artifactId}</alias>
+						<name>${docker.repository.name}:${project.version}</name>
+						<build>
+							<from>mysql:5</from> <!-- in our case we start from tomcat image -->
+							<assembly>
+							    <basedir>/</basedir>
+								<descriptor>docker-assembly.xml</descriptor>
+							</assembly>
+							<ports>
+								<port>3306</port>
+							</ports>
+						</build>
+						<run>
+							<namingStrategy>alias</namingStrategy>
+							<env>
+							    <MYSQL_ROOT_PASSWORD>root</MYSQL_ROOT_PASSWORD>
+							</env>
+							<ports>
+								<port>${docker.mysql.port}:3306</port>
+							</ports>
+							
+						</run>
+					</image>
+				</images>
+			</configuration>
+		</plugin>
+	</plugins>
+  </build>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <docker.registry.name>localhost:5000/</docker.registry.name><!-- leave empty for docker hub; use e.g. "localhost:5000/" for a local docker registry -->
+    <docker.repository.name>${docker.registry.name}tecnalia/${project.artifactId}</docker.repository.name>
+    <docker.mysql.port>3306</docker.mysql.port>
   </properties>
 
 </project>
