@@ -18,7 +18,7 @@
 			<configuration>
 				<images>
 					<image>
-						<alias>${project.artifactId}</alias>
+						<alias>${project.groupId}${project.artifactId}</alias>
 						<name>${docker.repository.name}:${project.version}</name>
 						<build>
 							<from>mysql:5</from> <!-- in our case we start from tomcat image -->
@@ -36,7 +36,7 @@
 							    <MYSQL_ROOT_PASSWORD>root</MYSQL_ROOT_PASSWORD>
 							</env>
 							<ports>
-								<port>${docker.mysql.port}:3306</port>
+								<port>localhost:${docker.mysql.port}:3306</port>
 							</ports>
 							
 						</run>
