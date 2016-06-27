@@ -111,6 +111,7 @@
 							<build>
 								<from>tomcat:7</from> <!-- in our case we start from tomcat image -->
 								<assembly>
+								    <basedir>/</basedir>
 									<descriptor>docker-assembly.xml</descriptor>
 								</assembly>
 								<ports>
