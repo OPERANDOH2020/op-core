@@ -3,6 +3,7 @@ thisAdapter = core.createAdapter("WatchDog");
 
 
 function saveOSPPreferences(preferences){
+  var userId = getCurrentUser();// in swarm     phase.getUserId
 
 }
 

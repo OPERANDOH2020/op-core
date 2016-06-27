@@ -87,7 +87,7 @@ var identitySwarming = {
     },
 
     checkUser: {
-        node: "SessionManager",
+        node: "SessionManager", //TODO remove rthis and use getUserId
         code: function () {
             var self = this;
             getUserBySession(this.getSessionId(), S(function (err, userId) {
