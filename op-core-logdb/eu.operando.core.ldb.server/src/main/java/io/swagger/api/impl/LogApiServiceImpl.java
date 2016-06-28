@@ -25,7 +25,9 @@ public class LogApiServiceImpl extends LogApiService {
     public Response lodDB(LogRequest request, SecurityContext securityContext)
     throws NotFoundException {    	    	
     	ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-    	PropertyConfigurator.configure(classLoader.getResource("config/log4jMySql.properties"));    	  	  	  	  
+    	//GBE I comment this because in tomcat the file is not there, what I do instead is to put a copy of the file with log4j.properties
+    	//PropertyConfigurator.configure(classLoader.getResource("config/log4jMySql.properties"));
+    	//GBE end
   	  	MDC.put("userName", "username");
   	  	MDC.put("requesterType",request.getRequesterType() );
   	  	MDC.put("requesterId", request.getRequesterId());
