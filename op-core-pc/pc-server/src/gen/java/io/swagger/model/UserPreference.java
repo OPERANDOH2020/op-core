@@ -1,56 +1,40 @@
-/////////////////////////////////////////////////////////////////////////
-//
-// © University of Southampton IT Innovation Centre, 2016
-//
-// Copyright in this library belongs to the University of Southampton
-// University Road, Highfield, Southampton, UK, SO17 1BJ
-//
-// This software may not be used, sold, licensed, transferred, copied
-// or reproduced in whole or in part in any manner or form or in or
-// on any media by any person other than in accordance with the terms
-// of the Licence Agreement supplied with the software, or otherwise
-// without the prior written consent of the copyright owners.
-//
-// This software is distributed WITHOUT ANY WARRANTY, without even the
-// implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-// PURPOSE, except where stated in the Licence Agreement supplied with
-// the software.
-//
-// Created By : Paul Grace
-// Created for Project : OPERANDO (http://www.operando.eu)
-//
-/////////////////////////////////////////////////////////////////////////
-//
-//  License : GNU Lesser General Public License, version 3
-//
-/////////////////////////////////////////////////////////////////////////
 package io.swagger.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-05-13T11:11:54.739Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-06-27T09:46:42.374Z")
 public class UserPreference   {
+  
 
-
-
+  /**
+   * The type of private information; e.g. is it information that identifies the user (e.g. id number)? is it location information about the user? Is it about their activities? 
+   */
   public enum InformationtypeEnum {
     IDENTIFICATION("Identification"),
-    SHARED_IDENTIFICATION("Shared Identification"),
-    GEOGRAPHIC("Geographic"),
-    TEMPORAL("Temporal"),
-    NETWORK_AND_RELATIONSHIPS("Network and relationships"),
-    OBJECTS("Objects"),
-    BEHAVIOURAL("Behavioural"),
-    BELIEFS("Beliefs"),
-    MEASUREMENTS("Measurements");
 
+        SHARED_IDENTIFICATION("Shared Identification"),
+
+        GEOGRAPHIC("Geographic"),
+
+        TEMPORAL("Temporal"),
+
+        NETWORK_AND_RELATIONSHIPS("Network and relationships"),
+
+        OBJECTS("Objects"),
+
+        BEHAVIOURAL("Behavioural"),
+
+        BELIEFS("Beliefs"),
+
+        MEASUREMENTS("Measurements");
     private String value;
 
     InformationtypeEnum(String value) {
@@ -60,19 +44,23 @@ public class UserPreference   {
     @Override
     @JsonValue
     public String toString() {
-      return value;
+      return String.valueOf(value);
     }
   }
 
   private InformationtypeEnum informationtype = null;
 
-
+  /**
+   * The category of the service invading the privacy of the user. 
+   */
   public enum CategoryEnum {
     HEALTHCARE("Healthcare"),
-    FINANCE("Finance"),
-    WEB("Web"),
-    SOCIAL_NETWORK("Social Network");
 
+        FINANCE("Finance"),
+
+        WEB("Web"),
+
+        SOCIAL_NETWORK("Social Network");
     private String value;
 
     CategoryEnum(String value) {
@@ -82,18 +70,21 @@ public class UserPreference   {
     @Override
     @JsonValue
     public String toString() {
-      return value;
+      return String.valueOf(value);
     }
   }
 
   private CategoryEnum category = null;
 
-
+  /**
+   * The user's privacy preference. High means they are sensitive to disclosing private information. Medium they have concerns; and low means they have few privacy concerns with this question. 
+   */
   public enum PreferenceEnum {
     HIGH("High"),
-    MEDIUM("Medium"),
-    LOW("Low");
 
+        MEDIUM("Medium"),
+
+        LOW("Low");
     private String value;
 
     PreferenceEnum(String value) {
@@ -103,21 +94,26 @@ public class UserPreference   {
     @Override
     @JsonValue
     public String toString() {
-      return value;
+      return String.valueOf(value);
     }
   }
 
   private PreferenceEnum preference = null;
   private String role = null;
 
-
+  /**
+   * The action being carried out on the private date e.g. accessing, disclosing to a third party. This is an optional parameter in the case where users drill down to more detailed preferences.  
+   */
   public enum ActionEnum {
     COLLECT("Collect"),
-    ACCESS("Access"),
-    USE("Use"),
-    DISCLOSE("Disclose"),
-    ARCHIVE("Archive");
 
+        ACCESS("Access"),
+
+        USE("Use"),
+
+        DISCLOSE("Disclose"),
+
+        ARCHIVE("Archive");
     private String value;
 
     ActionEnum(String value) {
@@ -127,7 +123,7 @@ public class UserPreference   {
     @Override
     @JsonValue
     public String toString() {
-      return value;
+      return String.valueOf(value);
     }
   }
 
@@ -135,17 +131,16 @@ public class UserPreference   {
   private String purpose = null;
   private String recipient = null;
 
-
   /**
-   * The type of private information; e.g. is it information that identifies the user (e.g. id number)? is it location information about the user? Is it about their activities?\n
+   * The type of private information; e.g. is it information that identifies the user (e.g. id number)? is it location information about the user? Is it about their activities? 
    **/
   public UserPreference informationtype(InformationtypeEnum informationtype) {
     this.informationtype = informationtype;
     return this;
   }
 
-
-  @ApiModelProperty(value = "The type of private information; e.g. is it information that identifies the user (e.g. id number)? is it location information about the user? Is it about their activities?\n")
+  
+  @ApiModelProperty(value = "The type of private information; e.g. is it information that identifies the user (e.g. id number)? is it location information about the user? Is it about their activities? ")
   @JsonProperty("informationtype")
   public InformationtypeEnum getInformationtype() {
     return informationtype;
@@ -154,17 +149,16 @@ public class UserPreference   {
     this.informationtype = informationtype;
   }
 
-
   /**
-   * The category of the service invading the privacy of the user.\n
+   * The category of the service invading the privacy of the user. 
    **/
   public UserPreference category(CategoryEnum category) {
     this.category = category;
     return this;
   }
 
-
-  @ApiModelProperty(value = "The category of the service invading the privacy of the user.\n")
+  
+  @ApiModelProperty(value = "The category of the service invading the privacy of the user. ")
   @JsonProperty("category")
   public CategoryEnum getCategory() {
     return category;
@@ -173,17 +167,16 @@ public class UserPreference   {
     this.category = category;
   }
 
-
   /**
-   * The user's privacy preference. High means they are sensitive to disclosing private information. Medium they have concerns; and low means they have few privacy concerns with this question.\n
+   * The user's privacy preference. High means they are sensitive to disclosing private information. Medium they have concerns; and low means they have few privacy concerns with this question. 
    **/
   public UserPreference preference(PreferenceEnum preference) {
     this.preference = preference;
     return this;
   }
 
-
-  @ApiModelProperty(value = "The user's privacy preference. High means they are sensitive to disclosing private information. Medium they have concerns; and low means they have few privacy concerns with this question.\n")
+  
+  @ApiModelProperty(value = "The user's privacy preference. High means they are sensitive to disclosing private information. Medium they have concerns; and low means they have few privacy concerns with this question. ")
   @JsonProperty("preference")
   public PreferenceEnum getPreference() {
     return preference;
@@ -192,17 +185,16 @@ public class UserPreference   {
     this.preference = preference;
   }
 
-
   /**
-   * The role of a person or service that the private information is being disclosed to or used by. This is an optional parameter in the case where users drill down to more detailed preferences.\n
+   * The role of a person or service that the private information is being disclosed to or used by. This is an optional parameter in the case where users drill down to more detailed preferences. 
    **/
   public UserPreference role(String role) {
     this.role = role;
     return this;
   }
 
-
-  @ApiModelProperty(value = "The role of a person or service that the private information is being disclosed to or used by. This is an optional parameter in the case where users drill down to more detailed preferences.\n")
+  
+  @ApiModelProperty(value = "The role of a person or service that the private information is being disclosed to or used by. This is an optional parameter in the case where users drill down to more detailed preferences. ")
   @JsonProperty("role")
   public String getRole() {
     return role;
@@ -211,17 +203,16 @@ public class UserPreference   {
     this.role = role;
   }
 
-
   /**
-   * The action being carried out on the private date e.g. accessing, disclosing to a third party. This is an optional parameter in the case where users drill down to more detailed preferences. \n
+   * The action being carried out on the private date e.g. accessing, disclosing to a third party. This is an optional parameter in the case where users drill down to more detailed preferences.  
    **/
   public UserPreference action(ActionEnum action) {
     this.action = action;
     return this;
   }
 
-
-  @ApiModelProperty(value = "The action being carried out on the private date e.g. accessing, disclosing to a third party. This is an optional parameter in the case where users drill down to more detailed preferences. \n")
+  
+  @ApiModelProperty(value = "The action being carried out on the private date e.g. accessing, disclosing to a third party. This is an optional parameter in the case where users drill down to more detailed preferences.  ")
   @JsonProperty("action")
   public ActionEnum getAction() {
     return action;
@@ -230,17 +221,16 @@ public class UserPreference   {
     this.action = action;
   }
 
-
   /**
-   * The purpose for which the service is using the private data. This is an optional parameter in the case where users drill down to more detailed preferences.\n
+   * The purpose for which the service is using the private data. This is an optional parameter in the case where users drill down to more detailed preferences. 
    **/
   public UserPreference purpose(String purpose) {
     this.purpose = purpose;
     return this;
   }
 
-
-  @ApiModelProperty(value = "The purpose for which the service is using the private data. This is an optional parameter in the case where users drill down to more detailed preferences.\n")
+  
+  @ApiModelProperty(value = "The purpose for which the service is using the private data. This is an optional parameter in the case where users drill down to more detailed preferences. ")
   @JsonProperty("purpose")
   public String getPurpose() {
     return purpose;
@@ -249,17 +239,16 @@ public class UserPreference   {
     this.purpose = purpose;
   }
 
-
   /**
-   * The recipient of any disclosed privacy information. This is an optional parameter in the case where users drill down to more detailed preferences.\n
+   * The recipient of any disclosed privacy information. This is an optional parameter in the case where users drill down to more detailed preferences. 
    **/
   public UserPreference recipient(String recipient) {
     this.recipient = recipient;
     return this;
   }
 
-
-  @ApiModelProperty(value = "The recipient of any disclosed privacy information. This is an optional parameter in the case where users drill down to more detailed preferences.\n")
+  
+  @ApiModelProperty(value = "The recipient of any disclosed privacy information. This is an optional parameter in the case where users drill down to more detailed preferences. ")
   @JsonProperty("recipient")
   public String getRecipient() {
     return recipient;
@@ -267,7 +256,6 @@ public class UserPreference   {
   public void setRecipient(String recipient) {
     this.recipient = recipient;
   }
-
 
 
   @Override
@@ -297,7 +285,7 @@ public class UserPreference   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class UserPreference {\n");
-
+    
     sb.append("    informationtype: ").append(toIndentedString(informationtype)).append("\n");
     sb.append("    category: ").append(toIndentedString(category)).append("\n");
     sb.append("    preference: ").append(toIndentedString(preference)).append("\n");

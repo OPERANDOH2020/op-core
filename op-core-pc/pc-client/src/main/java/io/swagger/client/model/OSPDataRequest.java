@@ -1,5 +1,6 @@
 package io.swagger.client.model;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -10,17 +11,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
-
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-05-13T11:21:59.111Z")
+/**
+ * OSPDataRequest
+ */
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-27T09:46:52.939Z")
 public class OSPDataRequest   {
   
   private String requesterId = null;
   private String subject = null;
   private String requestedUrl = null;
 
-
+  /**
+   * The action being carried out on the private date e.g. accessing, disclosing to a third party.  
+   */
   public enum ActionEnum {
     COLLECT("Collect"),
     ACCESS("Access"),
@@ -37,7 +40,7 @@ public class OSPDataRequest   {
     @Override
     @JsonValue
     public String toString() {
-      return value;
+      return String.valueOf(value);
     }
   }
 
@@ -62,16 +65,16 @@ public class OSPDataRequest   {
     this.requesterId = requesterId;
   }
 
-  
+
   /**
-   * A description of the subject who the policies grants/doesn't grant to carry out.\n
+   * A description of the subject who the policies grants/doesn't grant to carry out. 
    **/
   public OSPDataRequest subject(String subject) {
     this.subject = subject;
     return this;
   }
   
-  @ApiModelProperty(example = "null", value = "A description of the subject who the policies grants/doesn't grant to carry out.\n")
+  @ApiModelProperty(example = "null", value = "A description of the subject who the policies grants/doesn't grant to carry out. ")
   @JsonProperty("subject")
   public String getSubject() {
     return subject;
@@ -80,16 +83,16 @@ public class OSPDataRequest   {
     this.subject = subject;
   }
 
-  
+
   /**
-   * The Requested URL of the data.\n
+   * The Requested URL of the data. 
    **/
   public OSPDataRequest requestedUrl(String requestedUrl) {
     this.requestedUrl = requestedUrl;
     return this;
   }
   
-  @ApiModelProperty(example = "null", value = "The Requested URL of the data.\n")
+  @ApiModelProperty(example = "null", value = "The Requested URL of the data. ")
   @JsonProperty("requested_url")
   public String getRequestedUrl() {
     return requestedUrl;
@@ -98,16 +101,16 @@ public class OSPDataRequest   {
     this.requestedUrl = requestedUrl;
   }
 
-  
+
   /**
-   * The action being carried out on the private date e.g. accessing, disclosing to a third party. \n
+   * The action being carried out on the private date e.g. accessing, disclosing to a third party.  
    **/
   public OSPDataRequest action(ActionEnum action) {
     this.action = action;
     return this;
   }
   
-  @ApiModelProperty(example = "null", value = "The action being carried out on the private date e.g. accessing, disclosing to a third party. \n")
+  @ApiModelProperty(example = "null", value = "The action being carried out on the private date e.g. accessing, disclosing to a third party.  ")
   @JsonProperty("action")
   public ActionEnum getAction() {
     return action;
@@ -116,16 +119,16 @@ public class OSPDataRequest   {
     this.action = action;
   }
 
-  
+
   /**
-   * The set of context attributes attached to the policy (e.g. subject role, subject purpose)\n
+   * The set of context attributes attached to the policy (e.g. subject role, subject purpose) 
    **/
   public OSPDataRequest attributes(List<PolicyAttribute> attributes) {
     this.attributes = attributes;
     return this;
   }
   
-  @ApiModelProperty(example = "null", value = "The set of context attributes attached to the policy (e.g. subject role, subject purpose)\n")
+  @ApiModelProperty(example = "null", value = "The set of context attributes attached to the policy (e.g. subject role, subject purpose) ")
   @JsonProperty("attributes")
   public List<PolicyAttribute> getAttributes() {
     return attributes;
@@ -134,7 +137,6 @@ public class OSPDataRequest   {
     this.attributes = attributes;
   }
 
-  
 
   @Override
   public boolean equals(java.lang.Object o) {

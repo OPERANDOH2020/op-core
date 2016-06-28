@@ -21,13 +21,10 @@ import com.sun.jersey.multipart.FormDataParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-05-13T11:11:54.739Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-06-27T09:46:42.374Z")
 public abstract class RegulationsApiService {
-  
       public abstract Response regulationsRegIdPost(BigDecimal regId,SecurityContext securityContext)
       throws NotFoundException;
-  
       public abstract Response regulationsRegIdPut(BigDecimal regId,List<PrivacyRegulation> regulation,SecurityContext securityContext)
       throws NotFoundException;
-  
 }

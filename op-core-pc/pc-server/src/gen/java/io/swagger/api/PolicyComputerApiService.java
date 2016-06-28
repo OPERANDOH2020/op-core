@@ -20,10 +20,8 @@ import com.sun.jersey.multipart.FormDataParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-05-13T11:11:54.739Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-06-27T09:46:42.374Z")
 public abstract class PolicyComputerApiService {
-  
       public abstract Response policyComputerPost(String userId,List<UserPreference> generalPreferences,SecurityContext securityContext)
       throws NotFoundException;
-  
 }
