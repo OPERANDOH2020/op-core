@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context path="/operando/core/logdb" docBase="webapps/${project.build.finalName}">
+<Context path="/operando/core/logdb" docBase="/usr/local/tomcat/webapps/${project.build.finalName}">
 	  <!-- Default set of monitored resources -->
 	  <WatchedResource>WEB-INF/web.xml</WatchedResource>
 </Context>
