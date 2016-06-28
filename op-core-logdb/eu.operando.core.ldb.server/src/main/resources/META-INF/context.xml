@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Context path="/operando/core/logdb" docBase="${project.artifactId}-${project.version}">
+<Context path="/operando/core/logdb" docBase="${mysql.host}:${mysql.port}">
 	  <!-- Default set of monitored resources -->
 	  <WatchedResource>WEB-INF/web.xml</WatchedResource>
 </Context>
