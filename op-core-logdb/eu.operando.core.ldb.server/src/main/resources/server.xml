@@ -122,7 +122,7 @@
                resourceName="UserDatabase"/>
       </Realm>
 
-      <Host name="localhost" xmlBase="conf/Catalina/localhost" appBase="webapps" unpackWARs="true" autoDeploy="true" deployOnStartup="true" copyXML="true" deployXML="true">
+      <Host name="localhost" createDirs="true" appBase="webapps" unpackWARs="true" autoDeploy="true" deployOnStartup="true" copyXML="true" deployXML="true">
 
         <!-- SingleSignOn valve, share authentication between web applications
              Documentation at: /docs/config/valve.html -->
