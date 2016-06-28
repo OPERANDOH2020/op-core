@@ -35,7 +35,7 @@
 	                </webResources>
 				<!-- end of addition -->
 				<!-- added to support right name of log db -->
-				    <warName>operando#core#logdb</warName>				
+				    <warName>${user.warName}</warName>				
 				<!-- end of addition -->
 				</configuration>
 			</plugin>
@@ -295,6 +295,7 @@
 		<docker.registry.name>localhost:5000/</docker.registry.name><!-- leave empty for docker hub; use e.g. "localhost:5000/" for a local docker registry -->
         <docker.repository.name>${docker.registry.name}tecnalia/${project.artifactId}</docker.repository.name>
         <docker.logdb.port>8090</docker.logdb.port>
+ 	    <user.warName>operando#core#logdb</user.warName>
  	    <mysql.host>localhost</mysql.host>
         <mysql.port>3306</mysql.port>
         <!-- end of addition -->
