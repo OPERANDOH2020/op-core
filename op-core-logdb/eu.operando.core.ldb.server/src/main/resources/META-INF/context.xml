@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context path="/operando/core/logdb" docBase="${project.build.finalName}">
-	  <!-- Default set of monitored resources -->
+	  <!-- Default set of monitored resources 
 	  <WatchedResource>WEB-INF/web.xml</WatchedResource>
+	  -->
 </Context>
