@@ -4,16 +4,18 @@ xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assemb
 	<id>${project.artifactId}</id>
 	<files>
 		<file>
-			<source>target/${project.build.finalName}.war</source>
+			<source>target/${user.warName}.war</source>
 			<outputDirectory>/usr/local/tomcat/webapps</outputDirectory>
 		</file>
 		<file>
 			<source>src/main/resources/docker-config.yml</source>
 			<outputDirectory>/</outputDirectory>
 		</file>
+		<!-- after several tries I was not able to define a context with context.xml, therefore I will name the app with the path
 		<file>
 			<source>src/main/resources/server.xml</source>
 			<outputDirectory>/usr/local/tomcat/conf</outputDirectory>
 		</file>
+        -->
 	</files>
 </assembly>

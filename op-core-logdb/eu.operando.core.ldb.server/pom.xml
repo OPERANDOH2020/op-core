@@ -24,8 +24,8 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>				
 				<version>2.1.1</version>
-				<!-- added to support context customization -->
 				<configuration>
+				<!-- added to support context customization -->
 	                <webResources>
 	                    <resource>
 	                        <!-- this is relative to the pom.xml directory -->
@@ -33,7 +33,10 @@
 	                        <filtering>true</filtering>
 	                    </resource>
 	                </webResources>
-				<!-- end of addition -->				
+				<!-- end of addition -->
+				<!-- added to support right name of log db -->
+				    <warName>operando#core#logdb</warName>				
+				<!-- end of addition -->
 				</configuration>
 			</plugin>
 			<plugin>
