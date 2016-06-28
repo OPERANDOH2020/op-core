@@ -5,7 +5,7 @@ xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assemb
 	<files>
 		<file>
 			<source>target/${project.build.finalName}.war</source>
-			<outputDirectory>/usr/local/tomcat/webapps</outputDirectory>
+			<outputDirectory>/usr/local/tomcat</outputDirectory>
 		</file>
 		<file>
 			<source>src/main/resources/docker-config.yml</source>
