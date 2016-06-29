@@ -78,7 +78,7 @@ public class LogApiServiceImpl extends LogApiService {
         ArrayList<LogResponse> logResponsesArray = new ArrayList<LogResponse> ();   	
         LogResponse logResponse;
         
-//		while (resultSet.next()){
+		while (resultSet.next()){
 			 logResponse = new LogResponse();
 			 String date =  resultSet.getString("DATED");
 /*			 logResponse.setLogDate(resultSet.getString("DATED"));			 
@@ -91,9 +91,9 @@ public class LogApiServiceImpl extends LogApiService {
 			 logResponse.setRequesterType(requesterTypeEnum);
 			 logResponse.setTitle(resultSet.getString("TITLE"));
 			 logResponse.setDescription(resultSet.getString("MESSAGE"));
-			 logResponsesArray.add(logResponse);
 */
-//		 }
+			 logResponsesArray.add(logResponse);
+		 }
 		
 		/*
 		 * | USER_ID  | DATED  | LOGGER | LEVEL | REQUESTERTYPE | REQUESTERID | LOGPRIORITY | KEYWORDS  | TITLE | MESSAGE 
