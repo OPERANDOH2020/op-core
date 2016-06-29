@@ -58,9 +58,10 @@ public class LogApiServiceImpl extends LogApiService {
 		 
         ArrayList<LogResponse> logResponsesArray=null;   
         
-        String value="";
+        String value="lo borrara?";
         try {
-        	value=resultSet.getString(1);
+        	resultSet.next();
+        	value=resultSet.getString(2);
 			//logResponsesArray = composeResultsFromResultSet();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
