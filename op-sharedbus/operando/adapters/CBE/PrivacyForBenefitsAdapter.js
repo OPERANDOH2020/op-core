@@ -73,7 +73,7 @@ var dummyVendors = [
         benefit: "Get first date free",
         identifier: ".joinBtn.fbJoinButton",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus dolor diam, pharetra vel velit in, finibus mollis purus. Sed luctus mattis porta. In a massa dignissim, imperdiet eros vitae, facilisis sem. Praesent posuere ex vehicula dolor pulvinar dictum. Nulla facilisi. Vestibulum faucibus nisi eleifend, scelerisque leo ac, finibus ex. Pellentesque eget ullamcorper nunc. Sed porttitor ex ligula, sed scelerisque nisl mollis at. Mauris lacus elit, dictum id ipsum vel, cursus malesuada nisl. Donec tincidunt sapien eget pulvinar sodales. Aenean laoreet libero vitae dolor aliquam, hendrerit euismod augue rhoncus",
-        logo:"http://is.i2.datinglab.net/pics/i2/4/chrome/logo.svg"
+        logo:"http://is.i2.datinglab.net/pics/i2/4/chrome/logo_4.svg"
     }
 ]
 
@@ -83,6 +83,7 @@ core.createAdapter("PrivacyForBenefitsManager");
 var apersistence = require('apersistence');
 var container = require("safebox").container;
 var flow = require("callflow");
+var voucher_codes = require('voucher-code-generator');
 
 apersistence.registerModel("PrivacyForBenefitsService", "Redis", {
         serviceId: {
@@ -120,6 +121,9 @@ apersistence.registerModel("UserPfB", "Redis", {
         pfbId: {
             type: "string",
             index: "true"
+        },
+        voucher:{
+            type: "string"
         }
     },
     function (err, model) {
@@ -241,7 +245,12 @@ getUserDeals = function (userId, callback) {
                     for (var k = 0; k < dummyVendors.length; k++) {
 
                         if (dummyVendors[k].serviceId == deals[i].pfbId) {
-                            userDeals.push(dummyVendors[k]);
+                            var deal = dummyVendors[k];
+                            if(deals[i].voucher){
+                                deal.voucher = deals[i].voucher;
+                            }
+                            userDeals.push(deal);
+                            console.log(deal);
                             break;
                         }
                     }
@@ -299,7 +308,10 @@ saveUserDeal = function (dealId, userId, callback) {
                 if (redisPersistence.isFresh(deal)) {
                     deal.userId = userId;
                     deal.pfbId = dealId;
-                    console.log(deal);
+                    deal.voucher = voucher_codes.generate({
+                        pattern: "##-####-##-####-####-##",
+                        charset: voucher_codes.charset("numbers")
+                    })[0];
                     redisPersistence.save(deal, self.continue("returnDeal"))
                 }
             })
