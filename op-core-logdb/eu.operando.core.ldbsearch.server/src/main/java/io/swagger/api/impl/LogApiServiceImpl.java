@@ -51,6 +51,7 @@ public class LogApiServiceImpl extends LogApiService {
 		try {
 			statement = connection.createStatement();
 			resultSet = statement.executeQuery(strSelect);	
+			resultSet.next();
 			anyRowNumber = resultSet.getRow();
 			
 		} catch (SQLException e) {
