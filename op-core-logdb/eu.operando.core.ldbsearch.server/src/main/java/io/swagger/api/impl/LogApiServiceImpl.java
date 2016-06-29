@@ -108,16 +108,14 @@ public class LogApiServiceImpl extends LogApiService {
 	Properties props = new Properties();
     InputStream fis = null;
     try {
-        fis = this.getClass().getClassLoader().getResourceAsStream("db.properties");
+        fis = this.getClass().getClassLoader().getResourceAsStream("/db.properties");
         props.load(fis);
     }     catch (IOException e) {
         // TODO Auto-generated catch block
+        log.info("error loading the db.properties");
         e.printStackTrace();
     }
-    
-    log.info("Db properties loaded ");
-    log.info("Db properties loaded " + props.getProperty("jdbc.url"));
-    
+        
     try {
 		Class.forName(props.getProperty("jdbc.driverClassName"));
 		connection = DriverManager
