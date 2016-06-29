@@ -80,16 +80,18 @@ public class LogApiServiceImpl extends LogApiService {
         
 		while (resultSet.next()){
 			 logResponse = new LogResponse();
-			 logResponse.setLogDate(resultSet.getString("DATED"));			 
-			 LogLevelEnum logLevelEnum = LogLevelEnum.valueOf(resultSet.getString("LEVEL"));
-			 logResponse.setLogLevel(logLevelEnum);
-			 LogPriorityEnum logPriorityEnum = LogPriorityEnum.valueOf(resultSet.getString("LOGPRIORITY"));
-			 logResponse.setLogPriority(logPriorityEnum);
-			 logResponse.setRequesterId(resultSet.getString("REQUESTERID"));
-			 RequesterTypeEnum requesterTypeEnum = RequesterTypeEnum.valueOf(resultSet.getString("REQUESTERTYPE"));
-			 logResponse.setRequesterType(requesterTypeEnum);
-			 logResponse.setTitle(resultSet.getString("TITLE"));
-			 logResponse.setDescription(resultSet.getString("MESSAGE"));
+			 logResponse.setLogDate(resultSet.getString("DATED"));	
+			 
+//			 LogLevelEnum logLevelEnum = LogLevelEnum.valueOf(resultSet.getString("LEVEL"));
+//			 logResponse.setLogLevel(logLevelEnum);
+//			 LogPriorityEnum logPriorityEnum = LogPriorityEnum.valueOf(resultSet.getString("LOGPRIORITY"));
+//			 logResponse.setLogPriority(logPriorityEnum);
+//			 logResponse.setRequesterId(resultSet.getString("REQUESTERID"));
+//			 RequesterTypeEnum requesterTypeEnum = RequesterTypeEnum.valueOf(resultSet.getString("REQUESTERTYPE"));
+//			 logResponse.setRequesterType(requesterTypeEnum);
+//			 logResponse.setTitle(resultSet.getString("TITLE"));
+//			 logResponse.setDescription(resultSet.getString("MESSAGE"));
+
 			 logResponsesArray.add(logResponse);
 		 }
 		
