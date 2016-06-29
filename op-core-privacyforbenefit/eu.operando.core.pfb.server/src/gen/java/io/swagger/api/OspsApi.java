@@ -21,7 +21,7 @@ import com.sun.jersey.multipart.FormDataParam;
 
 import io.swagger.model.Error;
 import io.swagger.model.InlineResponse2004;
-import io.swagger.model.OSP;
+import io.swagger.model.OSPRequest;
 
 import java.util.List;
 import io.swagger.api.NotFoundException;
@@ -40,7 +40,7 @@ import javax.ws.rs.*;
 
 @Produces({ "application/json" })
 @io.swagger.annotations.Api(description = "the osps API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-03-31T13:37:20.076Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-05-27T11:58:50.874Z")
 public class OspsApi  {
    private final OspsApiService delegate = OspsApiServiceFactory.getOspsApi();
 
@@ -51,11 +51,10 @@ public class OspsApi  {
     @io.swagger.annotations.ApiOperation(value = "List of all users and their active deals for the OSP.", notes = "Request from an OSP to get a list of all users and their active deals for specific OSP (could be also for report) .", response = InlineResponse2004.class, tags={ "Deals", "OSPs",  })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "Successful operation (list of offers' ids associated with users' ids).", response = InlineResponse2004.class),
-        
         @io.swagger.annotations.ApiResponse(code = 200, message = "Unexpected error", response = InlineResponse2004.class) })
-
     public Response getAcceptedDealsByOSP(
-@ApiParam(value = "The identifier number of an OSP",required=true) @PathParam("osp_id") String ospId,@Context SecurityContext securityContext)
+        @ApiParam(value = "The identifier number of an OSP",required=true) @PathParam("osp_id") String ospId,
+        @Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.getAcceptedDealsByOSP(ospId,securityContext);
     }
@@ -66,11 +65,10 @@ public class OspsApi  {
     @io.swagger.annotations.ApiOperation(value = "Registers a new OSP.", notes = "Request from Administration Console to register a new Online Service Provider.", response = String.class, tags={ "OSPs" })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "Successful operation.", response = String.class),
-        
         @io.swagger.annotations.ApiResponse(code = 200, message = "Unexpected error", response = String.class) })
-
     public Response registerOSP(
-@ApiParam(value = "The OSP data in JSON format." ,required=true) OSP osp,@Context SecurityContext securityContext)
+        @ApiParam(value = "The OSP data in JSON format." ,required=true) OSPRequest osp,
+        @Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.registerOSP(osp,securityContext);
     }

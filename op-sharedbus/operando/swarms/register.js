@@ -17,59 +17,64 @@ var registerSwarming = {
     },
 
     vars: {
-        newUser:null,
-        erorr:null
+        newUser: null,
+        erorr: null
     },
 
-
-    start: function () {
-        console.log("Swarm extension started");
-    },
-
-    registeNewUser:function(newUserData){
+    registeNewUser: function (newUserData) {
+        console.log("New user register request", newUserData);
         this.newUser = newUserData;
+        this.swarm("verifyUserData");
     },
 
-    verifyValidationCode:function(){
+    verifyValidationCode: function () {
         //Confirm user identity and activate account
     },
 
-    saveNewUser:{
-        node:"UserManager",
+    verifyUserData: {
+        node: "UsersManager",
         code: function () {
             var self = this;
-            createUser(this.newUser, S(function(err, user){
-                if(err){
-                    self.error = self.err,
-                    self.swarm("error");
-                }else{
+
+            newUserIsValid(self.newUser, S(function (err, user) {
+                if (err) {
+                    console.log(err);
+                    self.status = "error";
+                    self.error = err.message;
+                    self.newUser = {}
+                    self.home("error");
+                } else {
                     self.swarm("generateValidationCode");
+                }
+            }))
+        }
+    },
+
+/*    saveNewUser: {
+        node: "UserManager",
+        code: function () {
+            var self = this;
+            createUser(this.newUser, S(function (err, user) {
+                if (err) {
+                    console.log("ERR");
+                    self.error = self.err,
+                        self.swarm("error");
+                } else {
+
+                    self.swarm("success");
                 }
             }));
         }
-    },
+    },*/
 
-    generateValidationCode:{
-        node : "RegisterUAM",
-        code:function(){
-            this.swarm("success");
-        }
-    },
-
-    success: {
-        node: "Core",
+    generateValidationCode: {
+        node: "UsersManager",
         code: function () {
             this.home("success");
         }
     },
 
-    error:{
-        node: "Core",
-        code: function(){
-            console.log("Identity swarm error", this.error);
-            this.home(this.action + "_error");
-        }
-    }
+
 }
 
 registerSwarming;

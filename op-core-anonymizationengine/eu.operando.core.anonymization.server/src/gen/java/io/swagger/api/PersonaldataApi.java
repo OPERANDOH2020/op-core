@@ -1,28 +1,17 @@
 package io.swagger.api;
 
-import io.swagger.model.*;
-import io.swagger.api.PersonaldataApiService;
-import io.swagger.api.factories.PersonaldataApiServiceFactory;
-
-import io.swagger.annotations.ApiParam;
-
-import com.sun.jersey.multipart.FormDataParam;
-
-import io.swagger.model.Error;
-import io.swagger.model.InlineResponse2003;
-
-import java.util.List;
-import io.swagger.api.NotFoundException;
-
-import java.io.InputStream;
-
-import com.sun.jersey.core.header.FormDataContentDisposition;
-import com.sun.jersey.multipart.FormDataParam;
-
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-import javax.ws.rs.*;
+
+import io.swagger.annotations.ApiParam;
+import io.swagger.api.factories.PersonaldataApiServiceFactory;
+import io.swagger.model.InlineResponse2003;
 
 @Path("/personaldata")
 

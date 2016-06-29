@@ -44,7 +44,7 @@ import io.swagger.client.auth.OAuth;
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-05-10T09:36:21.749Z")
 public class ApiClient {
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
-  private String basePath = "http://localhost:8080/operando/core/anonymization";
+  private String basePath = "http://localhost:8080";
   private boolean debugging = false;
   private int connectionTimeout = 0;
 
@@ -537,7 +537,7 @@ public class ApiClient {
 
     updateParamsForAuth(authNames, queryParams, headerParams);
 
-    final String url = buildUrl(path, queryParams);
+    final String url = buildUrl(path, queryParams);    
     Builder builder;
     if (accept == null) {
       builder = httpClient.resource(url).getRequestBuilder();

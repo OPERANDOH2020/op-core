@@ -53,7 +53,8 @@
     "callflow"  :">=0.5.4",
     "whys" : ">=0.2.1",
     "urlencode":">=1.1.0",
-    "windows-cpu":">=0.1.4"
+    "windows-cpu":">=0.1.4",
+    "checksum" :">=0.1.0"
 
   },
   "optionalDependencies": {},

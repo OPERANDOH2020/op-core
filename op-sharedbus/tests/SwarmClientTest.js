@@ -1,6 +1,6 @@
 var adapterPort     = 3000;
 var adapterHost     = "localhost";
-var util            = require("SwarmCore");
+var util            = require("swarmcore");
 var assert          = require('double-check').assert;
 globalVerbosity     = false;
 

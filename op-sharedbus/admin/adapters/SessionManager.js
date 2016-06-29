@@ -1,4 +1,4 @@
-var core = require("SwarmCore");
+var core = require("swarmcore");
 core.createAdapter("SessionManager");
 
 var apersistence = require('apersistence');
@@ -6,7 +6,7 @@ var container = require("safebox").container;
 
 var myCfg = getMyConfig("SessionManager");
 
-var sessionMaxIdleTime = 360;//one hour
+var sessionMaxIdleTime = 8640;//one day
 
 if (myCfg.sessionTime != undefined) {
     sessionMaxIdleTime = myCfg.sessionTime;

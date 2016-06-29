@@ -72,6 +72,7 @@ var loginSwarming = {
                 }
                 else {
                     self.home("logoutSucceed");
+                    sessionsRegistry.disableOutlet(self.meta.outletId);
                 }
             }));
 
@@ -208,7 +209,7 @@ var loginSwarming = {
                     console.log(error);
                 }
                 else {
-                    console.log("Current session", session);
+                    //console.log("Current session", session);
                     self.swarm("enableSwarms", self.getEntryAdapter());
                 }
             }));

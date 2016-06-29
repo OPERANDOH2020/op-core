@@ -10,7 +10,7 @@
  * Initially developed in the context of OPERANDO EU project www.operando.eu
  */
 
-var core = require("SwarmCore");
+var core = require("swarmcore");
 thisAdapter = core.createAdapter("PAAdapter");
 
 processAction = function(user, resource, action){

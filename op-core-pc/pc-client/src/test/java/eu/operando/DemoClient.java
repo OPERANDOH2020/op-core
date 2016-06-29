@@ -35,12 +35,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 /**
  * Simulation of the Management Consoles usage of the PC and related OPERANDO
  * modules
  */
 public class DemoClient {
+
+    private static String PC_URL =  "http://localhost:8080/osp-core-pc-1.0.0/pc";
 
     /**
      * @param args the command line arguments
@@ -48,38 +49,42 @@ public class DemoClient {
     public static void main(String[] args) {
 
         try {
-
-//             GETApi pdbClient = new GETApi(new ApiClient().setBasePath("http://192.9.206.155:8080/pdb-server/policy_database"));
-//                UserPrivacyPolicy userPrivacyPolicyUserIdGet;
-//                try {
-//                    userPrivacyPolicyUserIdGet = pdbClient.userPrivacyPolicyUserIdGet("pjgrace");
-//                    System.out.println(userPrivacyPolicyUserIdGet.getUserId());
-//                } catch (io.swagger.client.ApiException ex) {
-//                    // The request can be allowed because there is no policy in the database to contradict the request.
-//                    ex.printStackTrace();
-//                }
-
             ApiClient cli = new ApiClient();
-            cli.setBasePath("http://localhost:8081/pc");
+            cli.setBasePath(PC_URL);
             PolicyEvaluationApi pApi = new PolicyEvaluationApi(cli);
 
-            // Set the userId to be the unique email address
-            String userId = "pjgrace@mail.com";
-            String ospId = "Hosptial OSP";
+            // Set the userId and OspId of the requests
+            String userId = "pjgrace";
+            String ospId = "Hospital OSP";
 
+            // Create a single request
             List<OSPDataRequest> ospRequest = new ArrayList<OSPDataRequest>();
             OSPDataRequest osD = new OSPDataRequest();
             osD.setAction(OSPDataRequest.ActionEnum.ACCESS);
             osD.setRequesterId("Hospital OSP");
-            osD.requestedUrl("User.MedicalRecord.Heartrate");
+            osD.setSubject("Doctor");
+            osD.requestedUrl("Weight");
             ospRequest.add(osD);
 
             PolicyEvaluationReport response = pApi.ospPolicyEvaluatorPost(userId, ospId, ospRequest);
-            System.out.println("Status (t/f) = " + response.getCompliance());
-            System.out.println("Status Report = " + response.getStatus());
+            System.out.println("Status (t/f) = " + response.getStatus());
+            System.out.println("Status Report = " + response.getCompliance());
+
+            osD.setSubject("Cleaner");
+            response = pApi.ospPolicyEvaluatorPost(userId, ospId, ospRequest);
+            System.out.println("Status (t/f) = " + response.getStatus());
+            System.out.println("Status Report = " + response.getCompliance());
+
+            osD.setSubject("Doctor");
+            osD.setAction(OSPDataRequest.ActionEnum.DISCLOSE);
+            response = pApi.ospPolicyEvaluatorPost(userId, ospId, ospRequest);
+            System.out.println("Status (t/f) = " + response.getStatus());
+            System.out.println("Status Report = " + response.getCompliance());
+
         } catch (ApiException ex) {
             Logger.getLogger(DemoClient.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 
 }

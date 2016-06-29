@@ -1,5 +1,7 @@
 #  8000: admin
 #  8080: websockets
+docker stop OPERANDO
+docker rm OPERANDO
+docker run -p 9001:8080  --restart=always --name="OPERANDO" operando
 
-docker run -p 8001:8001 -p 8002:-p 8080:8080  --name="SwarmDemo" swarmesb
 
