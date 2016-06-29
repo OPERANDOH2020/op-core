@@ -44,7 +44,7 @@ public class LogApiServiceImpl extends LogApiService {
     	Properties props;
     	props = loadDbProperties();
     	
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic! " + dateFrom + strSelect)).build();
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic! " + dateTo + strSelect)).build();
     }
 
 	/**
