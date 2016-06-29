@@ -33,8 +33,8 @@ public class LogApiServiceImpl extends LogApiService {
 	private Statement statement = null;
 	private ResultSet resultSet = null;
 	
-	@Override
-    public Response getLogs(String dateFrom, String dateTo, String logLevel, String requesterType, String requesterId, String logPriority, String title, String keyWords, SecurityContext securityContext)
+	//@Override
+    public Response getLogsTest(String dateFrom, String dateTo, String logLevel, String requesterType, String requesterId, String logPriority, String title, String keyWords, SecurityContext securityContext)
     throws NotFoundException {
         // do some magic!
     	
@@ -45,9 +45,6 @@ public class LogApiServiceImpl extends LogApiService {
     	props = loadDbProperties();
     	
     	connection = getDbConnection(props);
-    	
-    	int anyRowNumber=0;
-    	
 		try {
 			statement = connection.createStatement();
 			resultSet = statement.executeQuery(strSelect);	
@@ -57,8 +54,6 @@ public class LogApiServiceImpl extends LogApiService {
 		}
 		 
         ArrayList<LogResponse> logResponsesArray=null;   
-        
-        String value="lo borrara?";
         try {
         	//resultSet.next();
         	//value=resultSet.getString("DATED");
@@ -210,8 +205,8 @@ public class LogApiServiceImpl extends LogApiService {
      * @see io.swagger.api.LogApiService#getLogs(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, javax.ws.rs.core.SecurityContext)
      * This method returns 0 to n log records that are stored in the log database depending on a filter (log4j is used internally) 
      */
-    //@Override
-    public Response getLogsWeird(String dateFrom, String dateTo, String logLevel, String requesterType, String requesterId, String logPriority, String title, String keyWords, SecurityContext securityContext) throws NotFoundException {
+    @Override
+    public Response getLogs(String dateFrom, String dateTo, String logLevel, String requesterType, String requesterId, String logPriority, String title, String keyWords, SecurityContext securityContext) throws NotFoundException {
 		String strSelect;
 		strSelect = composeSqlQuery(dateFrom, dateTo, logLevel, requesterType, requesterId, logPriority, title, keyWords);    	
 	    
@@ -219,57 +214,33 @@ public class LogApiServiceImpl extends LogApiService {
 		Properties props;
 		props = loadDbProperties();
  
-    	LogResponse logResponse;
-        ArrayList<LogResponse> logResponsesArray = new ArrayList<LogResponse> ();   	
-	    try {  	
-/*		Class.forName(props.getProperty("jdbc.driverClassName"));
-		connection = DriverManager
-			    .getConnection(props.getProperty("jdbc.url"),
-			    		props.getProperty("jdbc.username"),
-			    		props.getProperty("jdbc.password"));
-	    //GBE end
-*/
-    	Class.forName("com.mysql.jdbc.Driver");
-		connection = DriverManager
-			    .getConnection("jdbc:mysql://10.0.0.5:3306/operando_logdb",
-			    		"root",
-			    		"root");	
-		 statement = connection.createStatement();
-		 resultSet = statement
-		          .executeQuery(strSelect);		 
-		 while (resultSet.next()){
-			 logResponse = new LogResponse();
-			 logResponse.setLogDate(resultSet.getString("DATED"));			 
-			 LogLevelEnum logLevelEnum = LogLevelEnum.valueOf(resultSet.getString("LEVEL"));
-			 logResponse.setLogLevel(logLevelEnum);
-			 LogPriorityEnum logPriorityEnum = LogPriorityEnum.valueOf(resultSet.getString("LOGPRIORITY"));
-			 logResponse.setLogPriority(logPriorityEnum);
-			 logResponse.setRequesterId(resultSet.getString("REQUESTERID"));
-			 RequesterTypeEnum requesterTypeEnum = RequesterTypeEnum.valueOf(resultSet.getString("REQUESTERTYPE"));
-			 logResponse.setRequesterType(requesterTypeEnum);
-			 logResponse.setTitle(resultSet.getString("TITLE"));
-			 logResponse.setDescription(resultSet.getString("MESSAGE"));
-			 logResponsesArray.add(logResponse);
-		 }		 		 
-	}	
-	catch (ClassNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}        		
-	catch (SQLException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-	finally{
+    	connection = getDbConnection(props);
 		try {
-			resultSet.close();		
-			statement.close();
-			connection.close();
-		} catch (SQLException e) {			
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(strSelect);	
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-	return Response.ok().entity(logResponsesArray).build();
+		 
+        ArrayList<LogResponse> logResponsesArray=null;   
+        try {
+        	//resultSet.next();
+        	//value=resultSet.getString("DATED");
+			logResponsesArray = composeResultsFromResultSet();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally{
+			try {
+				resultSet.close();		
+				statement.close();
+				connection.close();
+			} catch (SQLException e) {			
+				e.printStackTrace();
+			}
+		}
+        return Response.ok().entity(logResponsesArray).build();
     }
 
 	/**
