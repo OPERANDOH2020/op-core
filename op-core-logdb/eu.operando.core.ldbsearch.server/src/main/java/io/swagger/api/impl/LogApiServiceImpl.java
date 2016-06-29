@@ -19,6 +19,7 @@ import org.apache.log4j.Logger;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import io.swagger.api.ApiResponseMessage;
 import io.swagger.api.LogApiService;
 import io.swagger.api.NotFoundException;
 import io.swagger.model.LogResponse;
@@ -32,12 +33,20 @@ public class LogApiServiceImpl extends LogApiService {
 	private Statement statement = null;
 	private ResultSet resultSet = null;
 	
+	
+    @Override
+    public Response getLogs(String dateFrom, String dateTo, String logLevel, String requesterType, String requesterId, String logPriority, String title, String keyWords, SecurityContext securityContext)
+    throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    
     /* (non-Javadoc)
      * @see io.swagger.api.LogApiService#getLogs(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, javax.ws.rs.core.SecurityContext)
      * This method returns 0 to n log records that are stored in the log database depending on a filter (log4j is used internally) 
      */
-    @Override
-    public Response getLogs(String dateFrom, String dateTo, String logLevel, String requesterType, String requesterId, String logPriority, String title, String keyWords, SecurityContext securityContext) throws NotFoundException {    
+    //@Override
+    public Response getLogsWeird(String dateFrom, String dateTo, String logLevel, String requesterType, String requesterId, String logPriority, String title, String keyWords, SecurityContext securityContext) throws NotFoundException {    
     String strSelect = "select * from operando_logdb.LOGS";    
     StringBuffer strBufferSelect = new StringBuffer(strSelect);
     String keyValue = "";
@@ -101,9 +110,8 @@ public class LogApiServiceImpl extends LogApiService {
     	strSelect = strBufferSelect.toString();
     	System.out.println(strSelect);
     }
-/*    
-    System.out.println("GBE: fast testiong of db properties");
-    //GBE added code to get db information form a properties file
+    
+     //GBE added code to get db information form a properties file
 	Properties props = new Properties();
     InputStream fis = null;
     try {
@@ -113,8 +121,7 @@ public class LogApiServiceImpl extends LogApiService {
         // TODO Auto-generated catch block
         e.printStackTrace();
     }
-    System.out.println("GBE: fast testiong of db properties END");
-*/       
+       
     try {
 /*		Class.forName(props.getProperty("jdbc.driverClassName"));
 		connection = DriverManager
