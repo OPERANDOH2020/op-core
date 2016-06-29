@@ -14,6 +14,8 @@ import java.util.Properties;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
+import org.apache.log4j.Logger;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -29,6 +31,8 @@ public class LogApiServiceImpl extends LogApiService {
 	private Connection connection = null;
 	private Statement statement = null;
 	private ResultSet resultSet = null;
+	
+	static Logger log = Logger.getLogger(LogApiService.class.getName());
 	
     /* (non-Javadoc)
      * @see io.swagger.api.LogApiService#getLogs(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, javax.ws.rs.core.SecurityContext)
@@ -110,6 +114,9 @@ public class LogApiServiceImpl extends LogApiService {
         // TODO Auto-generated catch block
         e.printStackTrace();
     }
+    
+    log.info("Db properties loaded ");
+    log.info("Db properties loaded " + props.getProperty("jdbc.url"));
     
     try {
 		Class.forName(props.getProperty("jdbc.driverClassName"));
