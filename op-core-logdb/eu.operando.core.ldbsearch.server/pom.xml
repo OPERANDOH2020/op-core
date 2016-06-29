@@ -24,6 +24,11 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>				
 				<version>2.1.1</version>
+				<configuration>
+				<!-- added to support right name of log db search -->
+				    <warName>${user.warName}</warName>				
+				<!-- end of addition -->				
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -98,7 +103,43 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.jolokia</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.13.9</version> <!--  last version in https://mvnrepository.com/artifact/org.jolokia/docker-maven-plugin -->
+				<configuration>
+					<images>
+						<image>
+							<alias>${project.artifactId}</alias>
+							<name>${docker.repository.name}:${project.version}</name>
+							<build>
+								<from>tomcat:7</from> <!-- in our case we start from tomcat image -->
+								<assembly>
+								    <basedir>/</basedir>
+									<descriptor>docker-assembly.xml</descriptor>
+								</assembly>
+								<ports>
+									<port>8080</port>
+								</ports>
+							</build>
+							<run>
+								<namingStrategy>alias</namingStrategy>
+								<ports>
+									<port>${docker.logdb.port}:8080</port>
+								</ports>
+							</run>
+						</image>
+					</images>
+				</configuration>
+			</plugin>
+			<!-- end of addition -->
 		</plugins>
+	    <resources>
+	      	<resource>
+		        <directory>src/main/resources/config</directory>
+		        <filtering>true</filtering>
+	      	</resource>
+	    </resources>
 	</build>
 	<dependencies>
 		<dependency>
@@ -141,9 +182,7 @@
 			<artifactId>servlet-api</artifactId>
 			<version>${servlet-api-version}</version>
 			<scope>provided</scope>
-
 		</dependency>
-
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -182,6 +221,11 @@
 			</exclusions>
 		</dependency>
 		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.5</version>
+		</dependency>
+		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.0.8</version>
@@ -203,5 +247,26 @@
 		<slf4j-version>1.6.3</slf4j-version>
 		<junit-version>4.8.1</junit-version>
 		<servlet-api-version>2.5</servlet-api-version>
+		<!-- added to support docker image creation -->
+		<docker.registry.name>localhost:5000/</docker.registry.name><!-- leave empty for docker hub; use e.g. "localhost:5000/" for a local docker registry -->
+        <docker.repository.name>${docker.registry.name}tecnalia/${project.artifactId}</docker.repository.name>
+        <docker.logdb.port>8091</docker.logdb.port>
+ 	    <user.warName>operando#core#ldbsearch</user.warName>
+ 	    <mysql.host>localhost</mysql.host>
+        <mysql.port>3306</mysql.port>
+        <!-- end of addition -->
 	</properties>
+	<profiles>
+		<profile>
+		  <id>jenkins-dev</id>
+		  <activation>
+            <property>
+                <name>ci</name>
+            </property>
+          </activation>
+		  <properties>
+	        <mysql.host>10.0.0.5</mysql.host>
+		  </properties>
+		</profile>
+	</profiles>
 </project>
