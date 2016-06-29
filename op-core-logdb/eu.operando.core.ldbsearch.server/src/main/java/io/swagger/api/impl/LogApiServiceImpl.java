@@ -79,33 +79,31 @@ public class LogApiServiceImpl extends LogApiService {
         		boolAnd = true;
         	}
         	
-           	if (true) return strSelect;
-
-        	if ((dateTo!=null)&(!dateTo.equals(""))){
+         	if ((dateTo!=null) && (!dateTo.equals(""))){
         		if (boolAnd)
         			strBufferSelect.append(" AND ");
         		strBufferSelect.append("DATED <= '"+dateTo+"'");
         		boolAnd = true;
         	}
-        	if ((logLevel!=null)&(!logLevel.equals(""))){
+        	if ((logLevel!=null) && (!logLevel.equals(""))){
         		if (boolAnd)
         			strBufferSelect.append(" AND ");
         		strBufferSelect.append("LEVEL == "+logLevel+"");
         		boolAnd = true;
         	}
-        	if ((requesterType!=null)&(!requesterType.equals(""))){
+        	if ((requesterType!=null) && (!requesterType.equals(""))){
         		if (boolAnd)
         			strBufferSelect.append(" AND ");
         		strBufferSelect.append("REQUESTERTYPE == "+requesterType+"");
         		boolAnd = true;
         	}
-        	if ((requesterId!=null)&(!requesterId.equals(""))){
+        	if ((requesterId!=null) && (!requesterId.equals(""))){
         		if (boolAnd)
         			strBufferSelect.append(" & ");
         		strBufferSelect.append("REQUESTERID == "+requesterId+"");
         		boolAnd = true;
         	}
-        	if ((logPriority!=null)&(!logPriority.equals(""))){
+        	if ((logPriority!=null) && (!logPriority.equals(""))){
         		if (boolAnd)
         			strBufferSelect.append(" AND ");
         		strBufferSelect.append("LOGPRIORITY == "+logPriority+"");
