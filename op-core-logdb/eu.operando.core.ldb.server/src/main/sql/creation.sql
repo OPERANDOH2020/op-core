@@ -42,6 +42,6 @@ CREATE TABLE `LOGS` (
 
 LOCK TABLES `LOGS` WRITE;
 /*!40000 ALTER TABLE `LOGS` DISABLE KEYS */;
-INSERT INTO `LOGS` VALUES ('username','2016-06-07 15:10:22,174','io.swagger.api.impl.LogApiServiceImpl','INFO','Module','1001','Low','[keyword1, keyword2, keyword3]','First log','First log for testing purposes');
+INSERT INTO `LOGS` VALUES ('username','2016-06-07 15:10:22,174','io.swagger.api.impl.LogApiServiceImpl','INFO','MODULE','1001','LOW','[keyword1, keyword2, keyword3]','First log','First log for testing purposes');
 /*!40000 ALTER TABLE `LOGS` ENABLE KEYS */;
 UNLOCK TABLES;
