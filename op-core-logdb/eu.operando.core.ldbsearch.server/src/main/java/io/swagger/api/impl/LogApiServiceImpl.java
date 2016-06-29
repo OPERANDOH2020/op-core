@@ -32,8 +32,6 @@ public class LogApiServiceImpl extends LogApiService {
 	private Statement statement = null;
 	private ResultSet resultSet = null;
 	
-	static Logger log = Logger.getLogger(LogApiService.class.getName());
-	
     /* (non-Javadoc)
      * @see io.swagger.api.LogApiService#getLogs(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, javax.ws.rs.core.SecurityContext)
      * This method returns 0 to n log records that are stored in the log database depending on a filter (log4j is used internally) 
@@ -103,7 +101,7 @@ public class LogApiServiceImpl extends LogApiService {
     	strSelect = strBufferSelect.toString();
     	System.out.println(strSelect);
     }
-    
+    System.out.println("GBE: fast testiong of db properties");
     //GBE added code to get db information form a properties file
 	Properties props = new Properties();
     InputStream fis = null;
@@ -112,10 +110,10 @@ public class LogApiServiceImpl extends LogApiService {
         props.load(fis);
     }     catch (IOException e) {
         // TODO Auto-generated catch block
-        log.info("error loading the db.properties");
         e.printStackTrace();
     }
-        
+    System.out.println("GBE: fast testiong of db properties END");
+       
     try {
 		Class.forName(props.getProperty("jdbc.driverClassName"));
 		connection = DriverManager
