@@ -70,8 +70,6 @@ public class LogApiServiceImpl extends LogApiService {
         boolean boolOr = false;
         ArrayList<String> arrayListKeyWords = null;
         
-        if (true) return strSelect;
-        
         if (!((dateFrom=="") && (dateTo=="") && (logLevel=="") && (requesterType=="") && (requesterId=="") && (logPriority=="") && (title=="") && (keyWords==null))){
         	strBufferSelect.append(" WHERE ");
         	if ((dateFrom!=null)&(!dateFrom.equals(""))){
@@ -125,7 +123,7 @@ public class LogApiServiceImpl extends LogApiService {
         		    		
         	}    	    	
         	strSelect = strBufferSelect.toString();
-        	System.out.println(strSelect);
+        	//System.out.println(strSelect);
         }
         return strSelect;
 	}
