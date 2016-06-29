@@ -40,14 +40,14 @@ public class LogApiServiceImpl extends LogApiService {
         // do some magic!
     	
     	String strSelect;
-    	//strSelect = composeSqlQuery(dateFrom, dateTo, logLevel, requesterType, requesterId, logPriority, title, keyWords);
+    	strSelect = composeSqlQuery(dateFrom, dateTo, logLevel, requesterType, requesterId, logPriority, title, keyWords);
     	
     	Properties props;
     	props = loadDbProperties();
 
     	
     	
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic! " + props.getProperty("jdbc.driverClassName"))).build();
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic! " + strSelect)).build();
     }
 
 	/**
@@ -69,6 +69,9 @@ public class LogApiServiceImpl extends LogApiService {
         boolean boolAnd = false;
         boolean boolOr = false;
         ArrayList<String> arrayListKeyWords = null;
+        
+        if (true) return strSelect;
+        
         if (!((dateFrom=="") && (dateTo=="") && (logLevel=="") && (requesterType=="") && (requesterId=="") && (logPriority=="") && (title=="") && (keyWords==null))){
         	strBufferSelect.append(" WHERE ");
         	if ((dateFrom!=null)&(!dateFrom.equals(""))){
