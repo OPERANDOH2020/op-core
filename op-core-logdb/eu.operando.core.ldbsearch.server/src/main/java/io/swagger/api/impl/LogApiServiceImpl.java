@@ -80,8 +80,7 @@ public class LogApiServiceImpl extends LogApiService {
         
 		while (resultSet.next()){
 			 logResponse = new LogResponse();
-			 String date =  resultSet.getString("DATED");
-/*			 logResponse.setLogDate(resultSet.getString("DATED"));			 
+			 logResponse.setLogDate(resultSet.getString("DATED"));			 
 			 LogLevelEnum logLevelEnum = LogLevelEnum.valueOf(resultSet.getString("LEVEL"));
 			 logResponse.setLogLevel(logLevelEnum);
 			 LogPriorityEnum logPriorityEnum = LogPriorityEnum.valueOf(resultSet.getString("LOGPRIORITY"));
@@ -91,7 +90,6 @@ public class LogApiServiceImpl extends LogApiService {
 			 logResponse.setRequesterType(requesterTypeEnum);
 			 logResponse.setTitle(resultSet.getString("TITLE"));
 			 logResponse.setDescription(resultSet.getString("MESSAGE"));
-*/
 			 logResponsesArray.add(logResponse);
 		 }
 		
