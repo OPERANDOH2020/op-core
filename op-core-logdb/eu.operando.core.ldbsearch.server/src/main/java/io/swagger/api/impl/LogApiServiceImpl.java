@@ -40,14 +40,14 @@ public class LogApiServiceImpl extends LogApiService {
         // do some magic!
     	
     	String strSelect;
-    	strSelect = composeSqlQuery(dateFrom, dateTo, logLevel, requesterType, requesterId, logPriority, title, keyWords);
+    	//strSelect = composeSqlQuery(dateFrom, dateTo, logLevel, requesterType, requesterId, logPriority, title, keyWords);
     	
     	Properties props;
-    	//props = loadDbProperties();
+    	props = loadDbProperties();
 
     	
     	
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic! " + props.getProperty("jdbc.driverClassName"))).build();
     }
 
 	/**
