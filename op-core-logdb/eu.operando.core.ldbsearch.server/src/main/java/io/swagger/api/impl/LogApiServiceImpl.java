@@ -46,15 +46,15 @@ public class LogApiServiceImpl extends LogApiService {
     	
     	connection = getDbConnection(props);
     	
-//    	String schema="";
-//    	try {
-//			schema = connection.getSchema();
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-    	
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic! " +  props.getProperty("jdbc.url"))).build();
+    	String isClosed="abierto";
+    	try {
+    		if(connection.isClosed()) isClosed="Pues si cerrado";
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	   	
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic! " + isClosed)).build();
     }
 	
 	private Connection getDbConnection (Properties props){
