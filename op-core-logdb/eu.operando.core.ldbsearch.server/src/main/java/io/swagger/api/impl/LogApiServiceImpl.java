@@ -91,7 +91,8 @@ public class LogApiServiceImpl extends LogApiService {
 			 logResponse.setRequesterType(requesterTypeEnum);
 			 logResponse.setTitle(resultSet.getString("TITLE"));
 			 logResponse.setDescription(resultSet.getString("MESSAGE"));
-*/			 logResponsesArray.add(logResponse);
+			 logResponsesArray.add(logResponse);
+*/
 //		 }
 		
 		/*
