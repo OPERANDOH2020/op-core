@@ -56,17 +56,18 @@ public class LogApiServiceImpl extends LogApiService {
 			e.printStackTrace();
 		}
 		 
-        ArrayList<LogResponse> logResponsesArray=null;   	
+        ArrayList<LogResponse> logResponsesArray=null;   
+        
+        String value="";
         try {
-			logResponsesArray = composeResultsFromResultSet();
+        	value=resultSet.getString(1);
+			//logResponsesArray = composeResultsFromResultSet();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	
-        
-        
-		 
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic! " + logResponsesArray.size() )).build();
+ 		 
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic! " + value )).build();
     }
 
 	/**
