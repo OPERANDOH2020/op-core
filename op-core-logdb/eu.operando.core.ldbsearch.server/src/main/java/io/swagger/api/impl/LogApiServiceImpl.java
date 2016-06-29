@@ -101,6 +101,7 @@ public class LogApiServiceImpl extends LogApiService {
     	strSelect = strBufferSelect.toString();
     	System.out.println(strSelect);
     }
+/*    
     System.out.println("GBE: fast testiong of db properties");
     //GBE added code to get db information form a properties file
 	Properties props = new Properties();
@@ -113,14 +114,20 @@ public class LogApiServiceImpl extends LogApiService {
         e.printStackTrace();
     }
     System.out.println("GBE: fast testiong of db properties END");
-       
+*/       
     try {
-		Class.forName(props.getProperty("jdbc.driverClassName"));
+/*		Class.forName(props.getProperty("jdbc.driverClassName"));
 		connection = DriverManager
 			    .getConnection(props.getProperty("jdbc.url"),
 			    		props.getProperty("jdbc.username"),
 			    		props.getProperty("jdbc.password"));
 	    //GBE end
+*/
+    	Class.forName("com.mysql.jdbc.Driver");
+		connection = DriverManager
+			    .getConnection("jdbc:mysql://10.0.0.5:3306/operando_logdb",
+			    		"root",
+			    		"root");	
 		 statement = connection.createStatement();
 		 resultSet = statement
 		          .executeQuery(strSelect);		 
