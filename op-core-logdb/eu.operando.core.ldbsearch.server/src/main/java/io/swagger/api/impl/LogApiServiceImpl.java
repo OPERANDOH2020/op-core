@@ -61,7 +61,7 @@ public class LogApiServiceImpl extends LogApiService {
         String value="lo borrara?";
         try {
         	resultSet.next();
-        	value=resultSet.getString(2);
+        	value=resultSet.getString("DATED");
 			//logResponsesArray = composeResultsFromResultSet();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
