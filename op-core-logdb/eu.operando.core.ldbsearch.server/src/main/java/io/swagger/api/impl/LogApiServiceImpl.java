@@ -84,8 +84,8 @@ public class LogApiServiceImpl extends LogApiService {
 			 
 			 LogLevelEnum logLevelEnum = LogLevelEnum.valueOf(resultSet.getString("LEVEL"));
 			 logResponse.setLogLevel(logLevelEnum);
-//			 LogPriorityEnum logPriorityEnum = LogPriorityEnum.valueOf(resultSet.getString("LOGPRIORITY"));
-//			 logResponse.setLogPriority(logPriorityEnum);
+			 LogPriorityEnum logPriorityEnum = LogPriorityEnum.valueOf(resultSet.getString("LOGPRIORITY"));
+			 logResponse.setLogPriority(logPriorityEnum);
 			 logResponse.setRequesterId(resultSet.getString("REQUESTERID"));
 //			 RequesterTypeEnum requesterTypeEnum = RequesterTypeEnum.valueOf(resultSet.getString("REQUESTERTYPE"));
 //			 logResponse.setRequesterType(requesterTypeEnum);
