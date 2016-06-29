@@ -51,16 +51,51 @@ public class LogApiServiceImpl extends LogApiService {
 		try {
 			statement = connection.createStatement();
 			resultSet = statement.executeQuery(strSelect);	
-			resultSet.next();
-			anyRowNumber = resultSet.getRow();
-			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		 
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic! " + anyRowNumber )).build();
+        ArrayList<LogResponse> logResponsesArray=null;   	
+        try {
+			logResponsesArray = composeResultsFromResultSet();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+        
+        
+		 
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic! " + logResponsesArray.size() )).build();
     }
+
+	/**
+	 * @throws SQLException
+	 */
+	private ArrayList<LogResponse> composeResultsFromResultSet() throws SQLException {
+        ArrayList<LogResponse> logResponsesArray = new ArrayList<LogResponse> ();   	
+        LogResponse logResponse;
+        
+//		while (resultSet.next()){
+			 logResponse = new LogResponse();
+			 logResponse.setLogDate(resultSet.getString("DATED"));			 
+/*			 LogLevelEnum logLevelEnum = LogLevelEnum.valueOf(resultSet.getString("LEVEL"));
+			 logResponse.setLogLevel(logLevelEnum);
+			 LogPriorityEnum logPriorityEnum = LogPriorityEnum.valueOf(resultSet.getString("LOGPRIORITY"));
+			 logResponse.setLogPriority(logPriorityEnum);
+			 logResponse.setRequesterId(resultSet.getString("REQUESTERID"));
+			 RequesterTypeEnum requesterTypeEnum = RequesterTypeEnum.valueOf(resultSet.getString("REQUESTERTYPE"));
+			 logResponse.setRequesterType(requesterTypeEnum);
+			 logResponse.setTitle(resultSet.getString("TITLE"));
+			 logResponse.setDescription(resultSet.getString("MESSAGE"));
+*/			 logResponsesArray.add(logResponse);
+//		 }
+		
+		/*
+		 * | USER_ID  | DATED  | LOGGER | LEVEL | REQUESTERTYPE | REQUESTERID | LOGPRIORITY | KEYWORDS  | TITLE | MESSAGE 
+		 */
+		return logResponsesArray;
+	}
 	
 	private Connection getDbConnection (Properties props){
 		Connection connection = null;
