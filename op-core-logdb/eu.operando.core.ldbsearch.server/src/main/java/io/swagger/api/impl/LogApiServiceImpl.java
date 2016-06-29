@@ -46,14 +46,22 @@ public class LogApiServiceImpl extends LogApiService {
     	
     	connection = getDbConnection(props);
     	
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic! " + strSelect)).build();
+    	String schema="";
+    	try {
+			schema = connection.getSchema();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic! " +  schema)).build();
     }
 	
 	private Connection getDbConnection (Properties props){
 		Connection connection = null;
     	
     	try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName(props.getProperty("jdbc.driverClassName"));
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -61,9 +69,9 @@ public class LogApiServiceImpl extends LogApiService {
     	
 		try {
 			connection = DriverManager
-				    .getConnection("jdbc:mysql://10.0.0.5:3306/operando_logdb",
-				    		"root",
-				    		"root");
+				    .getConnection(props.getProperty("jdbc.url"),
+				    		props.getProperty("jdbc.username"),
+				    		props.getProperty("jdbc.password"));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
