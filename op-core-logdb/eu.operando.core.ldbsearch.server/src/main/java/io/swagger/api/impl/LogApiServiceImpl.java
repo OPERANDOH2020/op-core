@@ -78,8 +78,9 @@ public class LogApiServiceImpl extends LogApiService {
         
 //		while (resultSet.next()){
 			 logResponse = new LogResponse();
-			 logResponse.setLogDate(resultSet.getString("DATED"));			 
-/*			 LogLevelEnum logLevelEnum = LogLevelEnum.valueOf(resultSet.getString("LEVEL"));
+			 String date =  resultSet.getString("DATED");
+/*			 logResponse.setLogDate(resultSet.getString("DATED"));			 
+			 LogLevelEnum logLevelEnum = LogLevelEnum.valueOf(resultSet.getString("LEVEL"));
 			 logResponse.setLogLevel(logLevelEnum);
 			 LogPriorityEnum logPriorityEnum = LogPriorityEnum.valueOf(resultSet.getString("LOGPRIORITY"));
 			 logResponse.setLogPriority(logPriorityEnum);
