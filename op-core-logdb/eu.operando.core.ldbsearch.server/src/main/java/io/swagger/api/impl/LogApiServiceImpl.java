@@ -43,7 +43,7 @@ public class LogApiServiceImpl extends LogApiService {
     	strSelect = composeSqlQuery(dateFrom, dateTo, logLevel, requesterType, requesterId, logPriority, title, keyWords);
     	
     	Properties props;
-    	props = loadDbProperties();
+    	//props = loadDbProperties();
 
     	
     	
