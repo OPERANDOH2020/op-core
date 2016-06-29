@@ -1,5 +1,7 @@
 package io.swagger.api.impl;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -7,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.ListIterator;
+import java.util.Properties;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -96,12 +99,25 @@ public class LogApiServiceImpl extends LogApiService {
     	strSelect = strBufferSelect.toString();
     	System.out.println(strSelect);
     }
-    	
-	try {
-		Class.forName("com.mysql.jdbc.Driver");
+    
+    //GBE added code to get db information form a properties file
+	Properties props = new Properties();
+    InputStream fis = null;
+    try {
+        fis = this.getClass().getClassLoader().getResourceAsStream("db.properties");
+        props.load(fis);
+    }     catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+    }
+    
+    try {
+		Class.forName(props.getProperty("jdbc.driverClassName"));
 		connection = DriverManager
-			    .getConnection("jdbc:mysql://localhost/operando_logdb?"
-			        + "user=root&password=root");
+			    .getConnection(props.getProperty("jdbc.url"),
+			    		props.getProperty("jdbc.username"),
+			    		props.getProperty("jdbc.password"));
+	    //GBE end
 		 statement = connection.createStatement();
 		 resultSet = statement
 		          .executeQuery(strSelect);		 
