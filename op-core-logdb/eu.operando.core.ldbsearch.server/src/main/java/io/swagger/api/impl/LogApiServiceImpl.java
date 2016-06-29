@@ -81,14 +81,14 @@ public class LogApiServiceImpl extends LogApiService {
 		while (resultSet.next()){
 			 logResponse = new LogResponse();
 			 logResponse.setLogDate(resultSet.getString("DATED"));	
-			 
-			 LogLevelEnum logLevelEnum = LogLevelEnum.valueOf(resultSet.getString("LEVEL"));
+			 //GBE: Attention!!! if the value is in lowercase it crashes, we add a uppercase function
+			 LogLevelEnum logLevelEnum = LogLevelEnum.valueOf(resultSet.getString("LEVEL").toUpperCase());
 			 logResponse.setLogLevel(logLevelEnum);
-			 LogPriorityEnum logPriorityEnum = LogPriorityEnum.valueOf(resultSet.getString("LOGPRIORITY"));
+			 LogPriorityEnum logPriorityEnum = LogPriorityEnum.valueOf(resultSet.getString("LOGPRIORITY").toUpperCase());
 			 logResponse.setLogPriority(logPriorityEnum);
 			 logResponse.setRequesterId(resultSet.getString("REQUESTERID"));
-//			 RequesterTypeEnum requesterTypeEnum = RequesterTypeEnum.valueOf(resultSet.getString("REQUESTERTYPE"));
-//			 logResponse.setRequesterType(requesterTypeEnum);
+			 RequesterTypeEnum requesterTypeEnum = RequesterTypeEnum.valueOf(resultSet.getString("REQUESTERTYPE").toUpperCase());
+			 logResponse.setRequesterType(requesterTypeEnum);
 			 logResponse.setTitle(resultSet.getString("TITLE"));
 			 logResponse.setDescription(resultSet.getString("MESSAGE"));
 
