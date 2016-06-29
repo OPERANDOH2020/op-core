@@ -46,14 +46,19 @@ public class LogApiServiceImpl extends LogApiService {
     	
     	connection = getDbConnection(props);
     	
-		 try {
+    	int anyRowNumber=0;
+    	
+		try {
 			statement = connection.createStatement();
+			resultSet = statement.executeQuery(strSelect);	
+			anyRowNumber = resultSet.getRow();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		 
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic! " )).build();
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic! " + anyRowNumber )).build();
     }
 	
 	private Connection getDbConnection (Properties props){
