@@ -74,7 +74,7 @@ public class LogApiServiceImpl extends LogApiService {
 
         	strBufferSelect.append(" WHERE ");
            	
-         	if ((dateFrom!=null)&(!dateFrom.equals(""))){
+         	if ((dateFrom!=null) && (!dateFrom.equals(""))){
         		strBufferSelect.append("DATED >= '"+dateFrom+"'");
         		boolAnd = true;
         	}
