@@ -71,9 +71,8 @@ public class LogApiServiceImpl extends LogApiService {
         ArrayList<String> arrayListKeyWords = null;
         
         if (!((dateFrom=="") && (dateTo=="") && (logLevel=="") && (requesterType=="") && (requesterId=="") && (logPriority=="") && (title=="") && (keyWords==null))){
-           	if (true) return strSelect;
 
-           	strBufferSelect.append(" WHERE ");
+        	strBufferSelect.append(" WHERE ");
            	
            	if (true) return strSelect;
           	
