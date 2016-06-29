@@ -1,0 +1,80 @@
+swagger: '2.0'
+info:
+  title: eu.operando.core.logdbsearch
+  description: Operando LogDBSearch module.
+  version: "1.0.0"
+  license:
+    name: MIT
+    url: http://opensource.org/licenses/MIT
+host: localhost:8080
+schemes:
+- http
+- https
+produces:
+- application/json
+################################################################################
+#                                   Tags                                       #
+################################################################################
+tags:
+  - name: LogSearch
+    description: Search logs in database.
+  
+################################################################################
+#                                   Parameters                                 #
+################################################################################
+
+paths:
+  /operando/core/logdbsearch/log/search:
+    get:
+      summary: Search logs in database
+      description: Search logs in database by specifying a filter.
+      tags:
+        - LogSearch
+      operationId: getLogs
+      parameters:
+        - name: dateFrom
+          in: query
+          description: Date from which wanted to be recovered the logs.
+          type: string
+        - name: dateTo
+          in: query
+          description: Date to which wanted to be recovered the logs.
+          type: string
+        - name: logLevel
+          in: query
+          description: Log level wanted to be recovered.
+          type: string
+        - name: requesterType
+          in: query
+          description: Type of the requester that originated the log entry.
+          type: string
+        - name: requesterId
+          in: query
+          description: Id of the requester that originated the log entry.
+          type: string
+        - name: logPriority
+          in: query
+          description: Priority of the log messages to be recovered.
+          type: string
+        - name: title
+          in: query
+          description: Title of the log messages to be recovered.
+          type: string
+        - name: keyWords
+          in: query
+          description: Keywords to perform the search.
+          type: string
+      responses:
+        "200":
+          description: Successful operation
+          schema:
+            type: object
+            properties:
+              data:
+                type: array
+                items:
+                  $ref: 'https://raw.githubusercontent.com/OPERANDOH2020/op-api-doc/master/definitions/eu.operando.definitions.logdb.yaml#/LogResponse'
+        default:
+          description: Unexpected error
+          schema:
+            $ref: 'https://raw.githubusercontent.com/OPERANDOH2020/op-api-doc/master/definitions/Error.yaml'
