@@ -67,64 +67,64 @@ public class LogApiServiceImpl extends LogApiService {
         boolean boolOr = false;
         ArrayList<String> arrayListKeyWords = null;
         
-        if (!((dateFrom=="") && (dateTo=="") && (logLevel=="") && (requesterType=="") && (requesterId=="") && (logPriority=="") && (title=="") && (keyWords==""))){
-
-        	strBufferSelect.append(" WHERE ");
-           	
-         	if ((dateFrom!=null) && (!dateFrom.equals(""))){
-        		strBufferSelect.append("DATED >= '"+dateFrom+"'");
-        		boolAnd = true;
-        	}
-        	
-         	if ((dateTo!=null) && (!dateTo.equals(""))){
-        		if (boolAnd)
-        			strBufferSelect.append(" AND ");
-        		strBufferSelect.append("DATED <= '"+dateTo+"'");
-        		boolAnd = true;
-        	}
-        	if ((logLevel!=null) && (!logLevel.equals(""))){
-        		if (boolAnd)
-        			strBufferSelect.append(" AND ");
-        		strBufferSelect.append("LEVEL == "+logLevel+"");
-        		boolAnd = true;
-        	}
-        	if ((requesterType!=null) && (!requesterType.equals(""))){
-        		if (boolAnd)
-        			strBufferSelect.append(" AND ");
-        		strBufferSelect.append("REQUESTERTYPE == "+requesterType+"");
-        		boolAnd = true;
-        	}
-        	if ((requesterId!=null) && (!requesterId.equals(""))){
-        		if (boolAnd)
-        			strBufferSelect.append(" & ");
-        		strBufferSelect.append("REQUESTERID == "+requesterId+"");
-        		boolAnd = true;
-        	}
-        	if ((logPriority!=null) && (!logPriority.equals(""))){
-        		if (boolAnd)
-        			strBufferSelect.append(" AND ");
-        		strBufferSelect.append("LOGPRIORITY == "+logPriority+"");
-        		boolAnd = true;
-        	}    	
-        	if (keyWords!=null){    		
-        		Gson gson=new Gson();
-        		TypeToken<ArrayList<String>> token = new TypeToken<ArrayList<String>>() {};
-        		arrayListKeyWords = gson.fromJson(keyWords, token.getType());
-        		ListIterator<String> listIterator = arrayListKeyWords.listIterator();
-        		if (boolAnd)
-        			strBufferSelect.append(" AND ");    		
-        		while (listIterator.hasNext()){
-        			keyValue = listIterator.next();
-        			if (boolOr)
-        				strBufferSelect.append(" || "); 
-        			strBufferSelect.append("KEYWORDS LIKE '%"+keyValue+"%'");
-        			boolOr = true;
-        		}
-        		    		
-        	}    	    	
-        	strSelect = strBufferSelect.toString();
-        	System.out.println(strSelect);
-        }
+        //GBE I remove because it is not really necessary and it does not consider the null value when the paramenter is not provided
+        //if (!((dateFrom=="") && (dateTo=="") && (logLevel=="") && (requesterType=="") && (requesterId=="") && (logPriority=="") && (title=="") && (keyWords==""))){
+       	
+     	if ((dateFrom!=null) && (!dateFrom.equals(""))){
+     		if (!boolAnd) strBufferSelect.append(" WHERE ");
+    		strBufferSelect.append("DATED >= '"+dateFrom+"'");
+    		boolAnd = true;
+    	}
+    	
+     	if ((dateTo!=null) && (!dateTo.equals(""))){
+     		if (!boolAnd) strBufferSelect.append(" WHERE ");
+     		else strBufferSelect.append(" AND ");
+    		strBufferSelect.append("DATED <= '"+dateTo+"'");
+    		boolAnd = true;
+    	}
+    	if ((logLevel!=null) && (!logLevel.equals(""))){
+     		if (!boolAnd) strBufferSelect.append(" WHERE ");
+     		else strBufferSelect.append(" AND ");
+    		strBufferSelect.append("LEVEL == "+logLevel+"");
+    		boolAnd = true;
+    	}
+    	if ((requesterType!=null) && (!requesterType.equals(""))){
+     		if (!boolAnd) strBufferSelect.append(" WHERE ");
+     		else strBufferSelect.append(" AND ");
+    		strBufferSelect.append("REQUESTERTYPE == "+requesterType+"");
+    		boolAnd = true;
+    	}
+    	if ((requesterId!=null) && (!requesterId.equals(""))){
+     		if (!boolAnd) strBufferSelect.append(" WHERE ");
+     		else strBufferSelect.append(" AND ");
+    		strBufferSelect.append("REQUESTERID == "+requesterId+"");
+    		boolAnd = true;
+    	}
+    	if ((logPriority!=null) && (!logPriority.equals(""))){
+     		if (!boolAnd) strBufferSelect.append(" WHERE ");
+     		else strBufferSelect.append(" AND ");
+    		strBufferSelect.append("LOGPRIORITY == "+logPriority+"");
+    		boolAnd = true;
+    	}    	
+    	if ((keyWords!=null) && (!keyWords.equals(""))){    		
+    		Gson gson=new Gson();
+    		TypeToken<ArrayList<String>> token = new TypeToken<ArrayList<String>>() {};
+    		arrayListKeyWords = gson.fromJson(keyWords, token.getType());
+    		ListIterator<String> listIterator = arrayListKeyWords.listIterator();
+     		if (!boolAnd) strBufferSelect.append(" WHERE ");
+     		else strBufferSelect.append(" AND ");
+    		while (listIterator.hasNext()){
+    			keyValue = listIterator.next();
+    			if (boolOr)
+    				strBufferSelect.append(" || "); 
+    			strBufferSelect.append("KEYWORDS LIKE '%"+keyValue+"%'");
+    			boolOr = true;
+    		}
+    		    		
+    	}    	    	
+    	strSelect = strBufferSelect.toString();
+    	System.out.println(strSelect);
+        //
         return strSelect;
 	}
     
