@@ -33,8 +33,8 @@ public class LogApiServiceImpl extends LogApiService {
 	private Statement statement = null;
 	private ResultSet resultSet = null;
 	
-	//@Override
-    public Response getLogsTest(String dateFrom, String dateTo, String logLevel, String requesterType, String requesterId, String logPriority, String title, String keyWords, SecurityContext securityContext)
+	@Override
+    public Response getLogs(String dateFrom, String dateTo, String logLevel, String requesterType, String requesterId, String logPriority, String title, String keyWords, SecurityContext securityContext)
     throws NotFoundException {
         // do some magic!
     	
@@ -44,9 +44,35 @@ public class LogApiServiceImpl extends LogApiService {
     	Properties props;
     	props = loadDbProperties();
     	
+    	connection = getDbConnection(props);
+    	
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic! " + strSelect)).build();
     }
+	
+	private Connection getDbConnection (Properties props){
+		Connection connection = null;
+    	
+    	try {
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+		try {
+			connection = DriverManager
+				    .getConnection("jdbc:mysql://10.0.0.5:3306/operando_logdb",
+				    		"root",
+				    		"root");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	 
+		return connection;
+	}
 
+	
 	/**
 	 * @param dateFrom
 	 * @param dateTo
@@ -132,8 +158,8 @@ public class LogApiServiceImpl extends LogApiService {
      * @see io.swagger.api.LogApiService#getLogs(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, javax.ws.rs.core.SecurityContext)
      * This method returns 0 to n log records that are stored in the log database depending on a filter (log4j is used internally) 
      */
-    @Override
-    public Response getLogs(String dateFrom, String dateTo, String logLevel, String requesterType, String requesterId, String logPriority, String title, String keyWords, SecurityContext securityContext) throws NotFoundException {
+    //@Override
+    public Response getLogsWeird(String dateFrom, String dateTo, String logLevel, String requesterType, String requesterId, String logPriority, String title, String keyWords, SecurityContext securityContext) throws NotFoundException {
 		String strSelect;
 		strSelect = composeSqlQuery(dateFrom, dateTo, logLevel, requesterType, requesterId, logPriority, title, keyWords);    	
 	    
