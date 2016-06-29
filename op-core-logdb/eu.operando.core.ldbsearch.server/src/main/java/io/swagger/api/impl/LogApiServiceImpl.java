@@ -46,15 +46,15 @@ public class LogApiServiceImpl extends LogApiService {
     	
     	connection = getDbConnection(props);
     	
-    	String schema="";
-    	try {
-			schema = connection.getSchema();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//    	String schema="";
+//    	try {
+//			schema = connection.getSchema();
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
     	
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic! " +  schema)).build();
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic! " +  props.getProperty("jdbc.url"))).build();
     }
 	
 	private Connection getDbConnection (Properties props){
