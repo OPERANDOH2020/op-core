@@ -1,6 +1,7 @@
 .idea/
 .gitignore
 /op-sharedbus/logs/*.logs
+/op-sharedbus/node_modules
 /nbproject/private/
 /op-core-pc/pc-server/target/
 /op-core-pdb/common-model/target/
