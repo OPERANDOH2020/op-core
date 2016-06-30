@@ -99,6 +99,8 @@ public class DealsApiServiceImpl extends DealsApiService {
         boolean boolAnd = false;        
         Deal deal;        
         ArrayList<Deal> dealsArray = new ArrayList<Deal> ();
+
+        if (true) return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, strSelect + "stop here!")).build();
         
         if (!((offerId=="") && (userId=="") && (createdFrom=="") && (createdTo=="") && (canceled==""))){
         	strBufferSelect.append(" WHERE ");
