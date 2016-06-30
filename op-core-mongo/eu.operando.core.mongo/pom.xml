@@ -22,10 +22,6 @@
 						<name>${docker.repository.name}:${project.version}</name>
 						<build>
 							<from>mongo</from> <!-- in our case we start from mongo image -->
-							<assembly>
-							    <basedir>/</basedir>
-								<descriptor>docker-assembly.xml</descriptor>
-							</assembly>
 							<ports>
 								<port>27017</port>
 							</ports>
