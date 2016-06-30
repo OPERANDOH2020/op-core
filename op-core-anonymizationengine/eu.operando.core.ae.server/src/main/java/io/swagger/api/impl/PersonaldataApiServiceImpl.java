@@ -11,6 +11,7 @@ import io.swagger.model.InlineResponse2003;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -74,15 +75,21 @@ public class PersonaldataApiServiceImpl extends PersonaldataApiService {
 				e.printStackTrace();
 			}
         //}
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "The data has been anonymized results are dumpped in the console!")).build();
-        	
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "The data has been anonymized results are dumpped in the console!")).build();        	
     }
     
     private void arxAnonymizationPersonalData() throws ClassNotFoundException, SQLException, IOException {
-		// Load JDBC driver
-        Class.forName("com.mysql.jdbc.Driver");        
+    	Properties props;
+    	props = loadDbProperties();
+
+    	// Load JDBC driver
+        Class.forName(props.getProperty("jdbc.driverClassName"));        
         // Configuration for JDBC source
-        DataSource source = DataSource.createJDBCSource("jdbc:mysql://localhost:3306/operando_personaldatadb?user=root&password=root","operando_personaldata_view");    
+        DataSource source = DataSource.createJDBCSource(props.getProperty("jdbc.url"),
+	    		props.getProperty("jdbc.username"),
+	    		props.getProperty("jdbc.password"),
+	    		"operando_personaldata_view");    
+        //DataSource source = DataSource.createJDBCSource("jdbc:mysql://localhost:3306/operando_personaldatadb?user=root&password=root","operando_personaldata_view");    
         
         source.addColumn("NAME", DataType.STRING);
         source.addColumn("SURNAME", DataType.STRING);
@@ -99,12 +106,16 @@ public class PersonaldataApiServiceImpl extends PersonaldataApiService {
         source.addColumn("WORK_CLASS", DataType.STRING);
         source.addColumn("OCCUPATION", DataType.STRING);
         source.addColumn("SALARY_CLASS", DataType.STRING);
-        
+
+    	mainLogger.logp(Level.INFO, "getPersonalData", "main", "Database source success  ... ");
+
         // This will load the MySQL driver, each DB has its own driver
- 		Class.forName("com.mysql.jdbc.Driver");
+		Class.forName(props.getProperty("jdbc.driverClassName"));
  		// Setup the connection with the DB
- 		connect = DriverManager.getConnection("jdbc:mysql://localhost:3306/operando_personaldatadb?user=root&password=root"); 		
-        
+ 		connect = DriverManager.getConnection(props.getProperty("jdbc.url"),
+	    		props.getProperty("jdbc.username"),
+	    		props.getProperty("jdbc.password"));
+ 		
         DefaultHierarchy NATIVE_COUNTRY = getHierarchyNativeCountry (connect);        
         DefaultHierarchy EDUCATION = getHierarchyEducation (connect);        
         DefaultHierarchy WORK_CLASS = getHierarchyWorkClass (connect);
@@ -112,6 +123,8 @@ public class PersonaldataApiServiceImpl extends PersonaldataApiService {
         DefaultHierarchy SALARY_CLASS = getHierarchySalaryClass (connect);
                 
         connect.close();
+        
+    	mainLogger.logp(Level.INFO, "getPersonalData", "main", "Default Hierarchies success  ... ");
 
         // Create data object
         Data data = Data.create(source);
@@ -142,7 +155,9 @@ public class PersonaldataApiServiceImpl extends PersonaldataApiService {
         while (transformed.hasNext()) {
             System.out.print("   ");
             i++;
-            System.out.println(Arrays.toString(transformed.next()));
+            String outputmessage = Arrays.toString(transformed.next());
+            System.out.println(outputmessage);
+        	mainLogger.logp(Level.INFO, "getPersonalData", "main", outputmessage);
         }        
 	}
 	
@@ -242,9 +257,25 @@ public class PersonaldataApiServiceImpl extends PersonaldataApiService {
             System.out.print("   ");
             String outputmessage = Arrays.toString(iterator.next());
             System.out.println(outputmessage);
-        	mainLogger.logp(Level.INFO, "getPersonalData", "main", outputmessage);
+        	mainLogger.logp(Level.INFO, "getPersonalData", "main", "PRINT FUNCTION: " + outputmessage);
        }
     }  
+    
+	private Properties loadDbProperties() {
+		Properties props;
+		props = new Properties();
+		
+		InputStream fis = null;
+		try {
+		    fis = this.getClass().getClassLoader().getResourceAsStream("/db.properties");
+		    props.load(fis);
+		}     catch (IOException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		}
+		
+		return props;
+	}
 
     
 }
