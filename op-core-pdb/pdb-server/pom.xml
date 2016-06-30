@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>operando.eu</groupId>
   <artifactId>osp-core-pc</artifactId>
-  <packaging>jar</packaging>
+  <packaging>${packaging.type}</packaging>
   <name>osp-core-pc</name>
   <version>1.0.0</version>
   <build>
@@ -241,6 +241,7 @@
  	    <user.warName>operando#core#pdb</user.warName>
  	    <mongo.host>localhost</mongo.host>
         <mongo.port>27017</mongo.port>
+        <packaging.type>jar</packaging.type>
         <!-- end of addition -->
 	</properties>
 	<profiles>
@@ -253,6 +254,7 @@
           </activation>
 		  <properties>
  	    	<mongo.host>10.0.0.5</mongo.host>
+ 	    	<packaging.type>war</packaging.type>
 		  </properties>
 		</profile>
 	</profiles>
