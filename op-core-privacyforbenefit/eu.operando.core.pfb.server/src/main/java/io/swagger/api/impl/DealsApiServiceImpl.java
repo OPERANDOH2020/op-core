@@ -11,6 +11,8 @@
  *******************************************************************************/
 package io.swagger.api.impl;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -22,6 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Properties;
 import java.util.TimeZone;
 
 import javax.ws.rs.core.Response;
@@ -100,9 +103,80 @@ public class DealsApiServiceImpl extends DealsApiService {
         Deal deal;        
         ArrayList<Deal> dealsArray = new ArrayList<Deal> ();
 
+        //strSelect = composeQuery(offerId, userId, createdFrom, createdTo, canceled, strSelect, strBufferSelect,	boolAnd);
+              
+    	Properties props;
+    	props = loadDbProperties();
+    	
+    	connection = getDbConnection(props);
+		try {
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery(strSelect);	
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
         if (true) return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, strSelect + "stop here!")).build();
-        
-        if (!((offerId=="") && (userId=="") && (createdFrom=="") && (createdTo=="") && (canceled==""))){
+		
+    	try {
+    		 Date date = null;
+    		 while (resultSet.next()){
+    			 deal = new Deal();
+    			 deal.setId(resultSet.getString("ID"));
+    			 deal.setOfferId(resultSet.getString("OFFER_ID"));
+    			 deal.setUserId(resultSet.getString("USER_ID"));
+    			 if ((resultSet.getString("CREATED_AT")!=null) && (resultSet.getString("CREATED_AT")!="")){
+    				 try {
+						date=dateFormat.parse(resultSet.getString("CREATED_AT"));
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+    				 deal.setCreatedAt(date);
+    			 }
+    			 if ((resultSet.getString("CANCELED_AT")!=null) && (resultSet.getString("CANCELED_AT")!="")){
+    				 try {
+						date=dateFormat.parse(resultSet.getString("CANCELED_AT"));
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+    				 deal.setCanceledAt(date);
+    			 }    			 
+    			 dealsArray.add(deal);
+    		 }		 		 
+    	}	
+    	catch (SQLException e) {
+    		// TODO Auto-generated catch block
+    		e.printStackTrace();
+    	}
+    	finally{
+    		try {
+    			resultSet.close();		
+    			statement.close();
+    			connection.close();
+    		} catch (SQLException e) {			
+    			e.printStackTrace();
+    		}
+    	}
+    	return Response.ok().entity(dealsArray).build();
+        }
+
+	/**
+	 * @param offerId
+	 * @param userId
+	 * @param createdFrom
+	 * @param createdTo
+	 * @param canceled
+	 * @param strSelect
+	 * @param strBufferSelect
+	 * @param boolAnd
+	 * @return
+	 */
+	private String composeQuery(String offerId, String userId, String createdFrom, String createdTo, String canceled,
+			String strSelect, StringBuffer strBufferSelect, boolean boolAnd) {
+		if (!((offerId=="") && (userId=="") && (createdFrom=="") && (createdTo=="") && (canceled==""))){
         	strBufferSelect.append(" WHERE ");
         	if ((offerId!=null)&(!offerId.equals(""))){ 
         		if (boolAnd)
@@ -141,63 +215,8 @@ public class DealsApiServiceImpl extends DealsApiService {
         	strSelect = strBufferSelect.toString();
         	System.out.println(strSelect);
         }
-        
-        if (true) return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, strSelect + "stop here!")).build();
-        	
-    	try {
-    		Class.forName("com.mysql.jdbc.Driver");
-    		connection = DriverManager
-    			    .getConnection("jdbc:mysql://localhost/operando_logdb?"
-    			        + "user=root&password=root");
-    		 statement = connection.createStatement();
-    		 resultSet = statement
-    		          .executeQuery(strSelect);
-    		 Date date = null;
-    		 while (resultSet.next()){
-    			 deal = new Deal();
-    			 deal.setId(resultSet.getString("ID"));
-    			 deal.setOfferId(resultSet.getString("OFFER_ID"));
-    			 deal.setUserId(resultSet.getString("USER_ID"));
-    			 if ((resultSet.getString("CREATED_AT")!=null) && (resultSet.getString("CREATED_AT")!="")){
-    				 try {
-						date=dateFormat.parse(resultSet.getString("CREATED_AT"));
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-    				 deal.setCreatedAt(date);
-    			 }
-    			 if ((resultSet.getString("CANCELED_AT")!=null) && (resultSet.getString("CANCELED_AT")!="")){
-    				 try {
-						date=dateFormat.parse(resultSet.getString("CANCELED_AT"));
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-    				 deal.setCanceledAt(date);
-    			 }    			 
-    			 dealsArray.add(deal);
-    		 }		 		 
-    	}	
-    	catch (ClassNotFoundException e) {
-    		// TODO Auto-generated catch block
-    		e.printStackTrace();
-    	}        		
-    	catch (SQLException e) {
-    		// TODO Auto-generated catch block
-    		e.printStackTrace();
-    	}
-    	finally{
-    		try {
-    			resultSet.close();		
-    			statement.close();
-    			connection.close();
-    		} catch (SQLException e) {			
-    			e.printStackTrace();
-    		}
-    	}
-    	return Response.ok().entity(dealsArray).build();
-        }
+		return strSelect;
+	}
         
     //}
     @Override
@@ -206,4 +225,43 @@ public class DealsApiServiceImpl extends DealsApiService {
     	return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
     
+	private Connection getDbConnection (Properties props){
+		Connection connection = null;
+    	
+    	try {
+			Class.forName(props.getProperty("jdbc.driverClassName"));
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+		try {
+			connection = DriverManager
+				    .getConnection(props.getProperty("jdbc.url"),
+				    		props.getProperty("jdbc.username"),
+				    		props.getProperty("jdbc.password"));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	 
+		return connection;
+	}
+
+
+	private Properties loadDbProperties() {
+		Properties props;
+		props = new Properties();
+		
+		InputStream fis = null;
+		try {
+		    fis = this.getClass().getClassLoader().getResourceAsStream("/db.properties");
+		    props.load(fis);
+		}     catch (IOException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		}
+		
+		return props;
+	}
 }
