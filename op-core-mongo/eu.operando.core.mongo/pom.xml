@@ -1,0 +1,52 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>eu.operando.core</groupId>
+  <artifactId>eu.operando.core.mongo</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>eu.operando.core.mongo</name>
+  <url>http://maven.apache.org</url>
+  <build>
+  	<plugins>
+  		<plugin>
+			<groupId>org.jolokia</groupId>
+			<artifactId>docker-maven-plugin</artifactId>
+			<version>0.13.9</version> <!--  last version in https://mvnrepository.com/artifact/org.jolokia/docker-maven-plugin -->
+			<configuration>
+				<images>
+					<image>
+						<alias>${project.groupId}.${project.artifactId}</alias>
+						<name>${docker.repository.name}:${project.version}</name>
+						<build>
+							<from>mongo</from> <!-- in our case we start from mongo image -->
+							<assembly>
+							    <basedir>/</basedir>
+								<descriptor>docker-assembly.xml</descriptor>
+							</assembly>
+							<ports>
+								<port>27017</port>
+							</ports>
+						</build>
+						<run>
+							<namingStrategy>alias</namingStrategy>
+							<ports>
+								<port>${docker.mongo.port}:27017</port>
+							</ports>							
+						</run>
+					</image>
+				</images>
+			</configuration>
+		</plugin>
+	</plugins>
+  </build>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <docker.registry.name>localhost:5000/</docker.registry.name><!-- leave empty for docker hub; use e.g. "localhost:5000/" for a local docker registry -->
+    <docker.repository.name>${docker.registry.name}tecnalia/${project.groupId}.${project.artifactId}</docker.repository.name>
+    <docker.mongo.port>27017</docker.mongo.port>
+  </properties>
+</project>
