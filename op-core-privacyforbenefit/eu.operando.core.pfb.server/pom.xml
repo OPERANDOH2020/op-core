@@ -22,7 +22,7 @@
 				<configuration>
 					<url>http://localhost:8080/manager/text</url>
 					<server>TomcatServer</server>
-					<!-- /operando/core/pfb is the context and it is neccesary to deploy to tomcat several modules generated automatically from swagger -->
+					<!-- /operando/core/pfb is the context and it is necessary to deploy to tomcat several modules generated automatically from swagger -->
 					<path>/operando/core/pfb</path>					
 				</configuration>
 			</plugin>
@@ -30,6 +30,11 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>				
 				<version>2.1.1</version>
+				<configuration>
+				<!-- added to support right name of the endpoint path -->
+				    <warName>${user.warName}</warName>				
+				<!-- end of addition -->
+				</configuration>
 			</plugin>
 			<plugin>
 				<artifactId>maven-failsafe-plugin</artifactId>
