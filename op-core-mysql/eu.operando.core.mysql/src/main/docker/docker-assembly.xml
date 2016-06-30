@@ -7,10 +7,11 @@ xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assemb
 			<source>src/main/mysql/ldb.sql</source>
 			<outputDirectory>/docker-entrypoint-initdb.d</outputDirectory>
 		</file>
-		<file>
+<!-- 	<file>
 			<source>src/main/mysql/ae.sql</source>
 			<outputDirectory>/docker-entrypoint-initdb.d</outputDirectory>
 		</file>
+-->
 		<file>
 			<source>src/main/resources/docker-config.yml</source>
 			<outputDirectory>/</outputDirectory>
