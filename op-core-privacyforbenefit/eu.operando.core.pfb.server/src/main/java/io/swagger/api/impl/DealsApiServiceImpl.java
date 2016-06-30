@@ -99,6 +99,7 @@ public class DealsApiServiceImpl extends DealsApiService {
         boolean boolAnd = false;        
         Deal deal;        
         ArrayList<Deal> dealsArray = new ArrayList<Deal> ();
+        
         if (!((offerId=="") && (userId=="") && (createdFrom=="") && (createdTo=="") && (canceled==""))){
         	strBufferSelect.append(" WHERE ");
         	if ((offerId!=null)&(!offerId.equals(""))){ 
@@ -138,6 +139,8 @@ public class DealsApiServiceImpl extends DealsApiService {
         	strSelect = strBufferSelect.toString();
         	System.out.println(strSelect);
         }
+        
+        if (true) return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, strSelect + "stop here!")).build();
         	
     	try {
     		Class.forName("com.mysql.jdbc.Driver");
