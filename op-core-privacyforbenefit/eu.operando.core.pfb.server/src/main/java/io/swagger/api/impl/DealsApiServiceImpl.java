@@ -117,7 +117,7 @@ public class DealsApiServiceImpl extends DealsApiService {
 			e.printStackTrace();
 		}
 		
-        if (true) return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, strSelect + "stop here!")).build();
+        //if (true) return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, strSelect + "stop here!")).build();
 		
     	try {
     		 Date date = null;
@@ -147,6 +147,7 @@ public class DealsApiServiceImpl extends DealsApiService {
     			 dealsArray.add(deal);
     		 }		 		 
     	}	
+    	
     	catch (SQLException e) {
     		// TODO Auto-generated catch block
     		e.printStackTrace();
