@@ -94,7 +94,7 @@
 				<configuration>
 					<images>
 						<image>
-							<alias>${project.artifactId}</alias>
+							<alias>eu.operando.core.pdb.server</alias>
 							<name>${docker.repository.name}:${project.version}</name>
 							<build>
 								<from>tomcat:7</from> <!-- in our case we start from tomcat image -->
@@ -242,6 +242,7 @@
  	    <mongo.host>localhost</mongo.host>
         <mongo.port>27017</mongo.port>
         <packaging.type>jar</packaging.type>
+        <artifactId.name>jar</artifactId.name>
         <!-- end of addition -->
 	</properties>
 	<profiles>
@@ -255,6 +256,7 @@
 		  <properties>
  	    	<mongo.host>10.0.0.5</mongo.host>
  	    	<packaging.type>war</packaging.type>
+        <artifactId.name>jar</artifactId.name>
 		  </properties>
 		</profile>
 	</profiles>
