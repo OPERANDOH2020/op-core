@@ -24,7 +24,7 @@ public class Test {
 	    byte[] postBinaryBody = null; 
 	     
 	    // create path and map variables 
-	    String path = "/operando/core/anonymization/dataUnit"; 
+	    String path = "/operando/core/ae/dataUnit"; 
 	 
 	    // query params 
 	    List<Pair> queryParams = new ArrayList<Pair>(); 
@@ -71,7 +71,7 @@ public class Test {
 		Object localVarPostBody = null;
 		String requester_id = "1";
 		
-		String path = "/operando/core/anonymization/personaldata/{requester_id}/search".replaceAll("\\{" + "requester_id" + "\\}", 
+		String path = "/operando/core/ae/personaldata/{requester_id}/search".replaceAll("\\{" + "requester_id" + "\\}", 
 	    		apiClient.escapeString(requester_id)); 	    	
 
 	    // query params
@@ -107,6 +107,6 @@ public class Test {
 	}
 	public static void main(String[] args) throws Exception {                    
 	       JUnitCore.main(
-	         "eu.operando.core.annonymization.test.Test");            
+	         "eu.operando.core.ae.test.Test");            
 	}
 }

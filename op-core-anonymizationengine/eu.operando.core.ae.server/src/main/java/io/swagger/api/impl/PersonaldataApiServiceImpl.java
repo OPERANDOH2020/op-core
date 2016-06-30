@@ -48,7 +48,8 @@ public class PersonaldataApiServiceImpl extends PersonaldataApiService {
     @Override
     public Response getPersonalData(String requesterId, String query, SecurityContext securityContext)
     throws NotFoundException {    	
-        // do some magic!    	
+        // do some magic!    
+        System.out.println("Testing where the System Out is in the docker");
     	System.out.println(query);
     	System.out.println(requesterId);
         //if (query.equalsIgnoreCase("operando_personaldata_view")){
@@ -66,7 +67,7 @@ public class PersonaldataApiServiceImpl extends PersonaldataApiService {
 				e.printStackTrace();
 			}
         //}
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "The data has been anonymized!")).build();
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "The data has been anonymized results are dumpped in the console!")).build();
         	
     }
     
