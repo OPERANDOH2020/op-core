@@ -11,6 +11,9 @@ import io.swagger.model.InlineResponse2003;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import io.swagger.api.NotFoundException;
 
 import java.io.IOException;
@@ -44,12 +47,16 @@ public class PersonaldataApiServiceImpl extends PersonaldataApiService {
 	
 	private Connection connect = null;		
 	private ResultSet resultSet = null;
-
+    static Logger mainLogger = null;
+    static {
+        mainLogger = Logger.getLogger("eu.operando.core.ae.server");
+    }
+    
     @Override
     public Response getPersonalData(String requesterId, String query, SecurityContext securityContext)
     throws NotFoundException {    	
         // do some magic!    
-        System.out.println("Testing where the System Out is in the docker");
+    	mainLogger.logp(Level.INFO, "getPersonalData", "main", "Testing logging in tomcat docker ... ");
     	System.out.println(query);
     	System.out.println(requesterId);
         //if (query.equalsIgnoreCase("operando_personaldata_view")){
@@ -233,8 +240,10 @@ public class PersonaldataApiServiceImpl extends PersonaldataApiService {
     protected static void print(Iterator<String[]> iterator) {
         while (iterator.hasNext()) {
             System.out.print("   ");
-            System.out.println(Arrays.toString(iterator.next()));
-        }
+            String outputmessage = Arrays.toString(iterator.next());
+            System.out.println(outputmessage);
+        	mainLogger.logp(Level.INFO, "getPersonalData", "main", outputmessage);
+       }
     }  
 
     
