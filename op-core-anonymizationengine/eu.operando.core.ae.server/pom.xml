@@ -157,7 +157,7 @@
 				<!-- common configuration shared by all executions -->
 				<configuration>
 					<driver>com.mysql.jdbc.Driver</driver>
-					<url>jdbc:mysql://${mysql.host}:${mysql.port}/operando_personaldatadb</url>
+					<url>jdbc:mysql://${mysql.host}:${mysql.port}/${mysql.dbname}</url>
 					<username>root</username>
 					<password>root</password>
 				</configuration>
@@ -341,6 +341,7 @@
 		<user.warName>operando#core#ae</user.warName>
 		<mysql.host>localhost</mysql.host>
 		<mysql.port>3306</mysql.port>
+		<mysql.dbname>operando_personaldatadb</mysql.dbname>
 		<!-- end of addition -->
 	</properties>
 	<profiles>

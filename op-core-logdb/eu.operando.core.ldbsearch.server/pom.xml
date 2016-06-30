@@ -266,6 +266,7 @@
  	    <user.warName>operando#core#ldbsearch</user.warName>
  	    <mysql.host>localhost</mysql.host>
         <mysql.port>3306</mysql.port>
+ 		<mysql.dbname>operando_logdb</mysql.dbname>
         <!-- end of addition -->
 	</properties>
 	<profiles>
