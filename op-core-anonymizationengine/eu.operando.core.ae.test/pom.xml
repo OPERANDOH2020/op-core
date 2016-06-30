@@ -11,8 +11,8 @@
  -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>eu.operando.core.annonymization.test</groupId>
-  <artifactId>eu.operando.core.annonymization.test</artifactId>
+  <groupId>eu.operando.core.ae.test</groupId>
+  <artifactId>eu.operando.core.ae.test</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <build>
     <sourceDirectory>src</sourceDirectory>
@@ -30,13 +30,13 @@
   <dependencies>
 	<dependency>
 	    <groupId>io.swagger</groupId>
-	    <artifactId>eu.operando.core.annonymization.client</artifactId>
+	    <artifactId>eu.operando.core.ae.client</artifactId>
 	    <version>1.0.0</version>
 	    <scope>compile</scope>
 	</dependency>
 	<dependency>
-	    <groupId>org.deindentifier</groupId>
-	    <artifactId>arx</artifactId>
+	    <groupId>org.deidentifier</groupId>
+	    <artifactId>libarx</artifactId>
 	    <version>3.3.1</version>
 	    <scope>compile</scope>
 	</dependency>

@@ -13,9 +13,9 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>io.swagger</groupId>
-  <artifactId>eu.operando.core.annonymization.client</artifactId>
+  <artifactId>eu.operando.core.ae.client</artifactId>
   <packaging>jar</packaging>
-  <name>eu.operando.core.annonymization.client</name>
+  <name>eu.operando.core.ae.client</name>
   <version>1.0.0</version>
 
   <prerequisites>

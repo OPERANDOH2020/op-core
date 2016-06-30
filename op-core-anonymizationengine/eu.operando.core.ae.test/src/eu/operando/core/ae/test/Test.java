@@ -1,4 +1,4 @@
-package eu.operando.core.annonymization.test;
+package eu.operando.core.ae.test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
