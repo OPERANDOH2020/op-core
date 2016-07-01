@@ -7,8 +7,12 @@ import io.swagger.model.OSPDataRequest;
 import io.swagger.model.PolicyEvaluationReport;
 
 import java.util.List;
+import java.util.Properties;
+import java.util.logging.Logger;
+
 import io.swagger.api.NotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import javax.ws.rs.core.MediaType;
 
@@ -25,7 +29,34 @@ import org.apache.http.util.EntityUtils;
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-06-27T09:46:42.374Z")
 public class OspPolicyEvaluatorApiServiceImpl extends OspPolicyEvaluatorApiService {
 
-    private final static String PDB_BASEURL = "http://localhost:8080/pdb-server/policy_database/user_privacy_policy/";
+	private String PDB_BASEURL = null;
+
+    public OspPolicyEvaluatorApiServiceImpl() {
+		super();
+		// TODO Auto-generated constructor stub
+
+		Properties props;
+    	props = loadDbProperties();
+    	
+    	PDB_BASEURL = props.getProperty("pdb.baseurl");
+	}
+     
+	private Properties loadDbProperties() {
+		Properties props;
+		props = new Properties();
+		
+		InputStream fis = null;
+		try {
+		    fis = this.getClass().getClassLoader().getResourceAsStream("/operando.properties");
+		    props.load(fis);
+		}     catch (IOException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		}
+		
+		return props;
+	}
+
 
     @Override
     public Response ospPolicyEvaluatorPost(String userId, String ospId, List<OSPDataRequest> ospRequest, SecurityContext securityContext)
