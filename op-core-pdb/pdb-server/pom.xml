@@ -1,9 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>operando.eu</groupId>
-  <artifactId>osp-core-pc</artifactId>
+  <artifactId>osp-core-pdb</artifactId>
   <packaging>${packaging.type}</packaging>
-  <name>osp-core-pc</name>
+  <name>osp-core-pdb</name>
   <version>1.0.0</version>
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
@@ -262,7 +262,6 @@
 		  <properties>
  	    	<mongo.host>10.0.0.5</mongo.host>
  	    	<packaging.type>war</packaging.type>
-        <artifactId.name>jar</artifactId.name>
 		  </properties>
 		</profile>
 	</profiles>
