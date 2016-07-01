@@ -55,12 +55,12 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
     public Response regulationsPost(PrivacyRegulationInput regulation, SecurityContext securityContext)
             throws NotFoundException {
         // do some magic!
+ 
+        RegulationsMongo regdb = new RegulationsMongo();
 
         //GBE debugging
-        if (true) return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "GBE Debugging!")).build();
-
-        RegulationsMongo regdb = new RegulationsMongo();
-        
+        //if (true) return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "GBE Debugging!")).build();
+       
         String storeAction = regdb.storeRegulation(regulation);
         if (storeAction == null) {
             return Response.status(405).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,

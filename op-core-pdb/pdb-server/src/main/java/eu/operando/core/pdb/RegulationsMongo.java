@@ -68,7 +68,7 @@ public class RegulationsMongo {
     	//GBE added to externalize db properties
     	Properties props;
     	props = loadDbProperties();
-
+    	
         try {
         	//this.mongo = new MongoClient("localhost", 27017);
         	this.mongo = new MongoClient(props.getProperty("mongo.host"), Integer.parseInt(props.getProperty("mongo.port")));
