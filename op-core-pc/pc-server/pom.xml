@@ -255,7 +255,7 @@
 		  <properties>
  	    	<mongo.host>10.0.0.5</mongo.host>
  	    	<packaging.type>war</packaging.type>
- 	    	<pdb.baseurl>http://10.0.0.5:8096/pdb-server/pdb/user_privacy_policy/</pdb.baseurl>
+ 	    	<pdb.baseurl>http://10.0.0.5:8096/operando/core/pdb/user_privacy_policy/</pdb.baseurl>
 		  </properties>
 		</profile>
 	</profiles>
