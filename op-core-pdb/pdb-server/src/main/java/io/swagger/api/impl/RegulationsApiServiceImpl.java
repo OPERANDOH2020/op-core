@@ -27,9 +27,6 @@ package io.swagger.api.impl;
 
 import io.swagger.api.*;
 import io.swagger.model.PrivacyRegulationInput;
-
-import io.swagger.api.NotFoundException;
-
 import eu.operando.core.pdb.RegulationsMongo;
 import javax.ws.rs.core.MediaType;
 
@@ -60,6 +57,10 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
         // do some magic!
 
         RegulationsMongo regdb = new RegulationsMongo();
+        
+        //GBE debugging
+        if (true) return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "GBE Debugging!")).build();
+
         String storeAction = regdb.storeRegulation(regulation);
         if (storeAction == null) {
             return Response.status(405).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,

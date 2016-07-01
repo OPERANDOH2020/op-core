@@ -236,7 +236,7 @@
     <servlet-api-version>2.5</servlet-api-version>
 		<!-- added to support docker image creation -->
 		<docker.registry.name>localhost:5000/</docker.registry.name><!-- leave empty for docker hub; use e.g. "localhost:5000/" for a local docker registry -->
-        <docker.repository.name>${docker.registry.name}tecnalia/${project.artifactId}</docker.repository.name>
+        <docker.repository.name>${docker.registry.name}tecnalia/eu.operando.core.pdb.server</docker.repository.name>
         <docker.logdb.port>8096</docker.logdb.port>
  	    <user.warName>operando#core#pdb</user.warName>
  	    <mongo.host>localhost</mongo.host>
