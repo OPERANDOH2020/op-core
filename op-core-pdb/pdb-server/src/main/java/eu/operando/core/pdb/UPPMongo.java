@@ -36,12 +36,9 @@ import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
 import io.swagger.model.UserPrivacyPolicy;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Properties;
-
 import org.bson.types.ObjectId;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.DeserializationConfig;
@@ -64,15 +61,9 @@ public class UPPMongo {
     private DBCollection uppTable;
 
     public UPPMongo() {
-    	//GBE added to externalize db properties
-    	Properties props;
-    	props = loadDbProperties();
-
         try {
-        	//this.mongo = new MongoClient("localhost", 27017);
-        	this.mongo = new MongoClient(props.getProperty("mongo.host"), Integer.parseInt(props.getProperty("mongo.port")));
-
-        	// get database
+            this.mongo = new MongoClient("localhost", 27017);
+            // get database
             this.db = mongo.getDB("pdb");
             // get collection
             this.uppTable = db.getCollection("upp");
@@ -205,7 +196,7 @@ public class UPPMongo {
         return jsonInString;
     }
 
-    public boolean updateUPP(String regId, UserPrivacyPolicy upp) {
+    public boolean updateUPP(String uppId, UserPrivacyPolicy upp) {
         boolean result = false;
         //upp.setUserPolicyID(regId);
         try {
@@ -214,9 +205,11 @@ public class UPPMongo {
             Object obj = JSON.parse(jsonInString);
             DBObject document = (DBObject) obj;
 
-            BasicDBObject searchQuery;
+            //BasicDBObject searchQuery;
+            BasicDBObject searchQuery = new BasicDBObject();
             try {
-                searchQuery = new BasicDBObject().append("_id", new ObjectId(regId));
+                //searchQuery = new BasicDBObject().append("_id", new ObjectId(regId));
+                searchQuery.put("userId", uppId);
             } catch (IllegalArgumentException e) {
                 e.printStackTrace();
                 return result;
@@ -247,8 +240,8 @@ public class UPPMongo {
 
             uppTable.insert(document);
             ObjectId id = (ObjectId) document.get("_id");
-            System.out.println("stored upp in " + id.toString());
-            result = getUPPById(id.toString());
+            System.out.println("stored upp in " + id.toString() + document.get("userId"));
+            result = getUPPById(document.get("userId").toString());
 
         } catch (MongoException e) {
             result = null;
@@ -263,19 +256,4 @@ public class UPPMongo {
         return result;
     }
 
-	private Properties loadDbProperties() {
-		Properties props;
-		props = new Properties();
-		
-		InputStream fis = null;
-		try {
-		    fis = this.getClass().getClassLoader().getResourceAsStream("/db.properties");
-		    props.load(fis);
-		}     catch (IOException e) {
-		    // TODO Auto-generated catch block
-		    e.printStackTrace();
-		}		
-		return props;
-	}	
-	
 }

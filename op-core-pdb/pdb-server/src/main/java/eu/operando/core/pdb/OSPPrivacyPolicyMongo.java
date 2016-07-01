@@ -37,12 +37,9 @@ import com.mongodb.util.JSON;
 import io.swagger.model.OSPPrivacyPolicy;
 import io.swagger.model.OSPPrivacyPolicyInput;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Properties;
-
 import org.bson.types.ObjectId;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.DeserializationConfig;
@@ -64,14 +61,8 @@ public class OSPPrivacyPolicyMongo {
     private DBCollection ospTable;
 
     public OSPPrivacyPolicyMongo() {
-    	
-    	//GBE added to externalize db properties
-    	Properties props;
-    	props = loadDbProperties();
-
         try {
-        	//this.mongo = new MongoClient("localhost", 27017);
-        	this.mongo = new MongoClient(props.getProperty("mongo.host"), Integer.parseInt(props.getProperty("mongo.port")));
+            this.mongo = new MongoClient("localhost", 27017);
             // get database
             this.db = mongo.getDB("pdb");
             // get collection
@@ -110,6 +101,11 @@ public class OSPPrivacyPolicyMongo {
         BasicDBObject query = new BasicDBObject();
 
         System.out.println("filter expression: " + filter);
+
+        if(filter == null) {
+			filter = "{'_id':'*'}";
+            System.out.println("filter expression converted to *");
+		}
 
         try {
             JSONObject obj = new JSONObject(filter);
@@ -261,19 +257,4 @@ public class OSPPrivacyPolicyMongo {
         }
         return result;
     }
-    
-	private Properties loadDbProperties() {
-		Properties props;
-		props = new Properties();
-		
-		InputStream fis = null;
-		try {
-		    fis = this.getClass().getClassLoader().getResourceAsStream("/db.properties");
-		    props.load(fis);
-		}     catch (IOException e) {
-		    // TODO Auto-generated catch block
-		    e.printStackTrace();
-		}		
-		return props;
-	}	
 }

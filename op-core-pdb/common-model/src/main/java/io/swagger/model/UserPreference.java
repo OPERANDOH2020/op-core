@@ -57,16 +57,16 @@ public class UserPreference   {
       this.value = value;
     }
 
-    @Override
+    //@Override
     @JsonValue
     public String toString() {
       return value;
     }
     
-    @JsonValue
+    /*@JsonValue
     public String getValue() {
       return value;
-    }
+    }*/
   }
 
   private InformationTypeEnum informationType = null;

@@ -60,7 +60,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
     public Response userPrivacyPolicyPost(UserPrivacyPolicy upp, SecurityContext securityContext)
     throws NotFoundException {
         // do some magic!
-        
+        //System.out.println("UPP:" + upp.toString());
         UPPMongo uppMongo = new UPPMongo();
         String storeAction = uppMongo.storeUPP(upp);
         if(storeAction == null) {
