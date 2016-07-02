@@ -33,9 +33,11 @@
 						<alias>${project.groupId}.${project.artifactId}</alias>
 						<name>${docker.repository.name}:${project.version}</name>
 						<build>
-						<!-- this time we will do it from a docker file element is needed to switch the usage of the extrenal file -->
-							<dockerFileDir>.</dockerFileDir>
-						<!-- end -->
+						     <assembly>
+		 					 <!-- this time we will do it from a docker file element is needed to switch the usage of the extrenal file -->
+							     <dockerFileDir>.</dockerFileDir>
+						     <!-- end -->
+						     </assembly>
 						</build>
 						<run>
 							<namingStrategy>alias</namingStrategy>
