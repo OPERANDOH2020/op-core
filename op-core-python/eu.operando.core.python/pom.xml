@@ -15,11 +15,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>eu.operando.core</groupId>
-  <artifactId>mysql</artifactId>
+  <artifactId>python</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>jar</packaging>
+  <packaging>pom</packaging>
 
-  <name>mysql</name>
+  <name>python</name>
   <url>http://maven.apache.org</url>
   <build>
   	<plugins>
@@ -33,25 +33,16 @@
 						<alias>${project.groupId}.${project.artifactId}</alias>
 						<name>${docker.repository.name}:${project.version}</name>
 						<build>
-							<from>mysql:5</from> <!-- in our case we start from tomcat image -->
-							<assembly>
-							    <basedir>/</basedir>
-								<descriptor>docker-assembly.xml</descriptor>
-							</assembly>
-							<ports>
-								<port>3306</port>
-							</ports>
+						<!-- this time we will do it from a docker file element is needed to switch the usage of the extrenal file -->
+							<dockerFileDir>.</dockerFileDir>
+						<!-- end -->
 						</build>
 						<run>
 							<namingStrategy>alias</namingStrategy>
 							<env>
-							    <MYSQL_ROOT_PASSWORD>root</MYSQL_ROOT_PASSWORD>
 							</env>
 							<ports>
-								<!-- <port>localhost:${docker.mysql.port}:3306</port> -->
-								<port>${docker.mysql.port}:3306</port>
 							</ports>
-							
 						</run>
 					</image>
 				</images>
