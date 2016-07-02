@@ -44,7 +44,7 @@
 							<env>
 							</env>
 							<ports>
-                                 <port>${docker.mysql.port}:5000</port>
+                                 <port>${docker.python.port}:5000</port>
 							</ports>
 						</run>
 					</image>
