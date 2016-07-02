@@ -16,6 +16,7 @@ __URL = "http://snf-706921.vm.okeanos.grnet.gr:8080/dan/operando/pdr/access_node
 __URL_TGT = "http://snf-706921.vm.okeanos.grnet.gr:8080/authentication/aapi/tickets/"
 URL_TGT__2GET = 'https://snf-706921.vm.okeanos.grnet.gr:8443/dan'
 __URL_PC='http://server02tecnalia.westeurope.cloudapp.azure.com:8095/operando/core/pc/osp_policy_evaluator?user_id=pjgrace&osp_id=Hospital+OSP'
+__URL_LOGDB='http://server02tecnalia.westeurope.cloudapp.azure.com:8090/operando/core/ldb/log'
 app = Flask(__name__)
 TGT=""
 
@@ -28,17 +29,10 @@ def results_get():
     # read the request parameters
     data = request.get_json(force=True)
     try:
-"""
-{
-                “OspId”: “FoodCoach” ,
-“RoleId”: “1”,
-“QueryId”: “FoodCoach;2”,
-                “UserIds”: [“36”]
-}
-"""
         tckt = data['ticket']
         sID = data['ServiceID']
         params = data['ParamValues']
+        roleID= data['RoleID']
     except (KeyError, TypeError, ValueError):
         raise JsonError(description='Invalid value.')
     print 10*"-"+tckt+"||"+sID+"||"+params
@@ -53,7 +47,8 @@ def results_get():
     logdata[ "description"]= "access to query with params: %s" % params
     logdata[ "keywords"]=  ["query"] 
     logdata=json.dumps(logdata)
-    log_resp=requests.post('http://server02tecnalia.westeurope.cloudapp.azure.com:8090/operando/core/ldb/log', headers=__hdr, data=logdata)
+
+    log_resp=requests.post(__URL_LOGDB, headers=__hdr, data=logdata)
     #test the response
     logmsg=log_resp.text
     try:
@@ -84,8 +79,10 @@ def results_get():
 
                 #determine if the query has to be executed
                 dt={}
+
+                dt["subject"]=roleID
+                #for both queries these properties are the same
                 dt["requester_id"]="Hospital OSP"
-                dt["subject"]="Doctor"
                 dt["requested_url"]="Weight"
                 dt["action"]="Access"
                 dt["attributes"]= []
@@ -97,12 +94,15 @@ def results_get():
                 resp=json.loads(resp)
                 if resp["status"].lower()=="true":
                     # get a ticket for DAN
+                    print "in 1*****"
                     tckt4DAN = requests.post(__URL_TGT+TGT, data=URL_TGT__2GET).text
                     params=json.loads(params)
                     params["st"]=tckt4DAN
                     params=json.dumps(params)
+                    print "in 2*****"
                     # execute the query to DAN                
                     req = urllib2.Request(__URL, headers=__hdr, data=params)
+                    print "3*****"
                     return Response(urllib2.urlopen(req).read(), status=200, mimetype='application/json')
                 else:
                     resp = jsonify({'status': 401, 'message': resp["compliance"], })
@@ -131,4 +131,5 @@ if __name__ == '__main__':
     data = json.dumps(data)
     req = urllib2.Request('http://snf-706921.vm.okeanos.grnet.gr:8080/authentication/aapi/tickets', headers=__hdr, data=data)
     TGT = urllib2.urlopen(req).read()  
+    #start the service
     app.run(host='0.0.0.0',port=8080, threaded=True, debug=True)
