@@ -44,6 +44,7 @@
 							<env>
 							</env>
 							<ports>
+                                 <port>${docker.mysql.port}:8080</port>
 							</ports>
 						</run>
 					</image>
@@ -57,7 +58,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <docker.registry.name>localhost:5000/</docker.registry.name><!-- leave empty for docker hub; use e.g. "localhost:5000/" for a local docker registry -->
     <docker.repository.name>${docker.registry.name}tecnalia/${project.groupId}.${project.artifactId}</docker.repository.name>
-    <docker.mysql.port>3306</docker.mysql.port>
+    <docker.python.port>8102</docker.python.port>
   </properties>
 
 </project>
