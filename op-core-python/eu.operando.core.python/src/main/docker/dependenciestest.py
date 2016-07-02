@@ -1,13 +1,4 @@
-import urllib2
-import json
-from flask import jsonify
-from flask import Flask, Response, request
-from xml.etree import ElementTree as ET
-import ssl
-import requests
-import json
-import ConfigParser
-
+from flask import Flask
 app = Flask(__name__)
 
 @app.route("/")
