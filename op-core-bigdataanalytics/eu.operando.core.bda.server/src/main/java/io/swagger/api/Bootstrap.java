@@ -16,9 +16,9 @@ public class Bootstrap extends HttpServlet {
     Info info = new Info()
       .title("Swagger Server")
       .description("Operando's BDA interfaces for administration console")
-      .termsOfService("")
+      .termsOfService("http://www.operando.eu/terms/")
       .contact(new Contact()
-        .email(""))
+        .email("support@operando.eu"))
       .license(new License()
         .name("MIT")
         .url("http://opensource.org/licenses/MIT"));
