@@ -90,6 +90,7 @@ public class McApiServiceImpl extends McApiService {
     public Response mcOspOspIdJobsJobIdSubscriptionPut(BigDecimal ospId, BigDecimal jobId, OSPJobsSubscriptionRequest oSPJobsSubscriptionRequest, SecurityContext securityContext)
     throws NotFoundException {
 		String strSelect;
+        if (true) return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "ospid " + ospId + ", jobid " +  jobId + "OSPJobsSubscriptionRequest" +  oSPJobsSubscriptionRequest.toString())).build();
 		strSelect = composeSqlQuery2(ospId, jobId, oSPJobsSubscriptionRequest);    	
 	    
     	//GBE added code to get db information form a properties file
