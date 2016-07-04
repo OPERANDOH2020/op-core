@@ -92,7 +92,7 @@ public class McApiServiceImpl extends McApiService {
 		String strSelect;
         //if (true) return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "ospid " + ospId + ", jobid " +  jobId + "OSPJobsSubscriptionRequest" +  oSPJobsSubscriptionRequest.toString())).build();
 		strSelect = composeSqlQuery2(ospId, jobId, oSPJobsSubscriptionRequest);    	
-        if (true) return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, strSelect)).build();
+        //if (true) return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, strSelect)).build();
 	    
     	//GBE added code to get db information form a properties file
 		Properties props;
