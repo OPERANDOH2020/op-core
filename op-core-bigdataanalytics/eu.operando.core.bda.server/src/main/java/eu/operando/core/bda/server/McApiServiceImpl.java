@@ -101,7 +101,7 @@ public class McApiServiceImpl extends McApiService {
 		connection = getDbConnection(props);
 			try {
 				statement = connection.createStatement();
-				resultSet = statement.executeQuery(strSelect);	
+				statement.executeUpdate(strSelect);	
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
