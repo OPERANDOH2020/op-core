@@ -184,7 +184,7 @@ public class McApiServiceImpl extends McApiService {
 	}	
 	private String composeSqlQuery2(BigDecimal ospId, BigDecimal jobId, OSPJobsSubscriptionRequest oSPJobsSubscriptionRequest) {
 		String strSelect;
-		strSelect = "UPDATE usersjobs SET subscribed=" + oSPJobsSubscriptionRequest.getSubscribed() + ", frequency=" + oSPJobsSubscriptionRequest.getFrequency() + " WHERE user_id=\"" + ospId + "\" and job_id=\"" + jobId + "\";";    
+		strSelect = "UPDATE usersjobs SET subscribed=" + oSPJobsSubscriptionRequest.getSubscribed() + ", frequency=\"" + oSPJobsSubscriptionRequest.getFrequency() + "\" WHERE user_id=\"" + ospId + "\" and job_id=\"" + jobId + "\";";    
         return strSelect;
 	}
 
