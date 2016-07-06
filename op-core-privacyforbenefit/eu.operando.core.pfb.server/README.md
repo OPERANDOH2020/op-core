@@ -11,7 +11,10 @@ To run the server, please execute the following:
 
 ```
 mvn clean package jetty:run
+
+For deploying on Tomcat7 Web Server
 ```
+mvn clean package tomcat7:run
 
 You can then view the swagger listing here:
 

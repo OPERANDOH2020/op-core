@@ -40,15 +40,15 @@ public class Test {
 	    byte[] postBinaryBody = null; 
 	     
 	    // create path and map variables 
-	    String path = "/operando/core/logdbsearch/log/search"; 
+	    String path = "/operando/core/ldbsearch/log/search"; 
 	 
 	    // query params
 	    ArrayList<String> keyWords = new ArrayList<String>();
 	    keyWords.add("keyword1");
 	    String jsonKeyWords = new Gson().toJson(keyWords);
 	    List<Pair> queryParams = new ArrayList<Pair>();
-	    queryParams.add(new Pair ("dateFrom","2016-06-04 08:50:25"));
-	    queryParams.add(new Pair ("dateTo","2016-06-10 08:50:25"));
+	    queryParams.add(new Pair ("dateFrom","2016-07-04 08:50:25"));
+	    queryParams.add(new Pair ("dateTo","2016-07-10 08:50:25"));
 	    queryParams.add(new Pair ("logLevel",""));
 	    queryParams.add(new Pair ("requesterType",""));
 	    queryParams.add(new Pair ("requesterId",""));
