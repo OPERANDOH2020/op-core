@@ -31,7 +31,7 @@ import javax.ws.rs.*;
 @Consumes({ "application/json" })
 @Produces({ "application/json" })
 @io.swagger.annotations.Api(description = "the mc API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-07-03T20:04:20.000Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-07-06T21:13:34.473Z")
 public class McApi  {
    private final McApiService delegate = McApiServiceFactory.getMcApi();
 
@@ -73,13 +73,27 @@ public class McApi  {
     @io.swagger.annotations.ApiOperation(value = "", notes = "Function that returns all the jobs avaliable to the requester detailing those suscribed", response = OSPJobs.class, tags={ "Management Console",  })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "the osp_id exists", response = OSPJobs.class),
-        @io.swagger.annotations.ApiResponse(code = 404, message = "the osp_id does not exist", response = OSPJobs.class), 
-    	@io.swagger.annotations.ApiResponse(code = 500, message = "internal server error", response = OSPJobs.class) })
+        @io.swagger.annotations.ApiResponse(code = 404, message = "the osp_id does not exist", response = OSPJobs.class) })
     public Response mcOspOspIdJobsGet(
         @ApiParam(value = "The unqiue regulation ID for the new regulation created.",required=true) @PathParam("osp_id") BigDecimal ospId,
         @Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.mcOspOspIdJobsGet(ospId,securityContext);
+    }
+    @GET
+    @Path("/osp/{osp_id}/jobs/{job_id}/subscription")
+    @Consumes({ "application/json" })
+    @Produces({ "application/json" })
+    @io.swagger.annotations.ApiOperation(value = "", notes = "Function that allows to modify the subscription to a job", response = OSPJobs.class, tags={ "Management Console",  })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "the job subscription", response = OSPJobs.class),
+        @io.swagger.annotations.ApiResponse(code = 404, message = "the osp_id or job_id does not exist", response = OSPJobs.class) })
+    public Response mcOspOspIdJobsJobIdSubscriptionGet(
+        @ApiParam(value = "The unique ID for the osp.",required=true) @PathParam("osp_id") BigDecimal ospId,
+        @ApiParam(value = "The unique ID for the job.",required=true) @PathParam("job_id") BigDecimal jobId,
+        @Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.mcOspOspIdJobsJobIdSubscriptionGet(ospId,jobId,securityContext);
     }
     @PUT
     @Path("/osp/{osp_id}/jobs/{job_id}/subscription")

@@ -150,6 +150,90 @@ public class McApiServiceImpl extends McApiService {
 		return connection;
 	}
 
+	private BDAJob composeResultsFromResultSet2() throws SQLException {
+        BDAJob bDAJob=null;
+        
+		while (resultSet.next()){
+			bDAJob = new BDAJob();
+			bDAJob.setJobId(resultSet.getInt("job_Id"));
+ 			bDAJob.setJobName(resultSet.getString("name"));
+ 
+			Boolean subscribed=false;
+			subscribed=resultSet.getBoolean("subscribed");
+			bDAJob.setSubscribed(subscribed);
+			String downloadLink=resultSet.getString("downloadLink");
+			bDAJob.setDownloadLink(resultSet.getString("downloadLink"));
+			String status= null;
+			if (subscribed) 
+				if (downloadLink == null || downloadLink == "") status="pending";
+				else status="completed";
+			bDAJob.setStatus(status);
+		 }
+		
+		/*
+		 * | USER_ID  | DATED  | LOGGER | LEVEL | REQUESTERTYPE | REQUESTERID | LOGPRIORITY | KEYWORDS  | TITLE | MESSAGE 
+		 */
+		return bDAJob;
+	}
+
+	
+	private String composeSqlQuery(BigDecimal ospId) {
+		String strSelect;
+		strSelect = "SELECT * FROM usersjobs INNER JOIN jobs ON usersjobs.job_id=jobs.id WHERE user_id=\"" + ospId + "\";";    
+        return strSelect;
+	}	
+	private String composeSqlQuery2(BigDecimal ospId, BigDecimal jobId, OSPJobsSubscriptionRequest oSPJobsSubscriptionRequest) {
+		String strSelect;
+		strSelect = "UPDATE usersjobs SET subscribed=" + oSPJobsSubscriptionRequest.getSubscribed() + ", frequency=\"" + oSPJobsSubscriptionRequest.getFrequency() + "\" WHERE user_id=\"" + ospId + "\" and job_id=\"" + jobId + "\";";    
+        return strSelect;
+	}
+	
+	@Override
+	public Response mcOspOspIdJobsJobIdSubscriptionGet(BigDecimal ospId, BigDecimal jobId,
+			SecurityContext securityContext) throws NotFoundException {
+		String strSelect;
+		strSelect = composeSqlQuery3(ospId, jobId);    	
+	    
+    	//GBE added code to get db information form a properties file
+		Properties props;
+		props = loadDbProperties();
+		
+		connection = getDbConnection(props);
+			try {
+				statement = connection.createStatement();
+				resultSet = statement.executeQuery(strSelect);	
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return Response.status(500).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "Internal Server Error")).build();
+			}
+			 
+		   BDAJob bDAJob=null;   
+		   try {
+			   bDAJob = composeResultsFromResultSet2();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+				e.printStackTrace();
+				return Response.status(500).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "Internal Server Error")).build();
+			} finally{
+				try {
+					resultSet.close();		
+					statement.close();
+					connection.close();
+				} catch (SQLException e) {			
+					e.printStackTrace();
+				}
+			}
+		   if (bDAJob == null) return Response.status(404).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "no job with that id for that user")).build();	   
+		   return Response.ok().entity(bDAJob).build();
+	}
+	
+	private String composeSqlQuery3(BigDecimal ospId, BigDecimal jobId) {
+		String strSelect;
+		strSelect = "SELECT * FROM usersjobs INNER JOIN jobs ON usersjobs.job_id=jobs.id WHERE user_id=\"" + ospId + "\" AND job_id=\"" + jobId + "\";";    
+        return strSelect;
+	}
+	
 	private OSPJobs composeResultsFromResultSet() throws SQLException {
 		OSPJobs oSPJobs = new OSPJobs ();   	
         BDAJob bDAJob;
@@ -178,16 +262,5 @@ public class McApiServiceImpl extends McApiService {
 		return oSPJobs;
 	}
 
-	
-	private String composeSqlQuery(BigDecimal ospId) {
-		String strSelect;
-		strSelect = "SELECT * FROM usersjobs INNER JOIN jobs ON usersjobs.job_id=jobs.id WHERE user_id=\"" + ospId + "\";";    
-        return strSelect;
-	}	
-	private String composeSqlQuery2(BigDecimal ospId, BigDecimal jobId, OSPJobsSubscriptionRequest oSPJobsSubscriptionRequest) {
-		String strSelect;
-		strSelect = "UPDATE usersjobs SET subscribed=" + oSPJobsSubscriptionRequest.getSubscribed() + ", frequency=\"" + oSPJobsSubscriptionRequest.getFrequency() + "\" WHERE user_id=\"" + ospId + "\" and job_id=\"" + jobId + "\";";    
-        return strSelect;
-	}
 
 }

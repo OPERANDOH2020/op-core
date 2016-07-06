@@ -22,7 +22,7 @@ import com.sun.jersey.multipart.FormDataParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-07-03T20:04:20.000Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-07-06T21:13:34.473Z")
 public class McApiServiceImpl extends McApiService {
     @Override
     public Response mcJobSubscribeGet(RequestHeader requestHeader, String jobId, Date startDate, Date endDate, String period, SecurityContext securityContext)
@@ -38,6 +38,12 @@ public class McApiServiceImpl extends McApiService {
     }
     @Override
     public Response mcOspOspIdJobsGet(BigDecimal ospId, SecurityContext securityContext)
+    throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
+    public Response mcOspOspIdJobsJobIdSubscriptionGet(BigDecimal ospId, BigDecimal jobId, SecurityContext securityContext)
     throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();

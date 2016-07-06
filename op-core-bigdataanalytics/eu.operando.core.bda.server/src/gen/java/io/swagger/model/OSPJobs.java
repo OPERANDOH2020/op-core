@@ -15,7 +15,7 @@ import java.util.List;
  **/
 
 @ApiModel(description = "OSP job list")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-07-03T20:04:20.000Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-07-06T21:13:34.473Z")
 public class OSPJobs   {
   
   private List<BDAJob> jobs = new ArrayList<BDAJob>();
