@@ -137,8 +137,9 @@ public class LogApiServiceImpl extends LogApiService {
 	    String keyValue = "";
 	    boolean boolAnd = false;
 	    boolean boolOr = false;	    
-	    ArrayList<String> arrayListKeyWords = null;	    
-	    if (!((dateFrom=="") && (dateTo=="") && (logLevel=="") && (requesterType=="") && (requesterId=="") && (logPriority=="") && (title=="") && (keyWords==null))){
+	    ArrayList<String> arrayListKeyWords = null;
+	   
+	    if (!(((dateFrom=="")||(dateFrom==null)) && ((dateTo=="")||(dateTo==null)) && ((logLevel=="")||(logLevel==null)) && ((requesterType=="")||(requesterType==null)) && ((requesterId=="")||(requesterId==null)) && ((logPriority=="")||(logPriority==null)) && ((title=="")||(title==null)) && (keyWords==null))){
 	    	strBufferSelect.append(" WHERE ");
 	    	if ((dateFrom!=null)&(!dateFrom.equals(""))){
 	    		strBufferSelect.append("DATED >= '"+dateFrom+"'");
@@ -198,6 +199,7 @@ public class LogApiServiceImpl extends LogApiService {
 	    	}    	    	
 	    	strSelect = strBufferSelect.toString();
 	    }
+	    
         return strSelect;
 	}
     
