@@ -250,7 +250,6 @@ getUserDeals = function (userId, callback) {
                                 deal.voucher = deals[i].voucher;
                             }
                             userDeals.push(deal);
-                            console.log(deal);
                             break;
                         }
                     }
@@ -287,7 +286,6 @@ saveUserDeal = function (dealId, userId, callback) {
         },
 
         getDealsIndex: function (err, deals) {
-            console.log(deals);
             if (deals.length == 0) {
                 redisPersistence.filter("UserPfB", undefined, this.continue("saveDeal"));
 

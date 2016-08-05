@@ -51,8 +51,17 @@ getNextQuestion = function(current_settings){
 
 function mockDetermineNextQuestion(current_settings){
 
+
+
+    console.log("bau");
     var fs = require('fs')
     var mock_settings = JSON.parse(fs.readFileSync("./mockWizardSettings.json"))
+    console.log(mock_settings);
+    if(Object.keys(current_settings).length === 0){
+        console.log(current_settings);
+        current_settings = mock_settings.setting1;
+
+    }
 
     var setting = "setting1";
     if (current_settings["setting4"]){

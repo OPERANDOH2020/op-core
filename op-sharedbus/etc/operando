@@ -4,7 +4,7 @@
  "systemId": "operandoDemo",
  "Core":{
      "coreId":"operando",
-     "redisHost":"127.0.0.1",
+     "redisHost":"192.168.100.186",
      "redisPort":6379,
      "paths":[
         {"core":"etc/coreSwarms"      ,"enabled":true},
@@ -13,7 +13,8 @@
         {"folder":"admin/swarms"      ,"enabled":true},
         {"folder":"swarms"            ,"enabled":true},
         {"folder":"operando/swarms"   ,"enabled":true},
-        {"folder":"operando/swarms/PfB"   ,"enabled":true}
+        {"folder":"operando/swarms/PfB"   ,"enabled":true},
+        {"folder":"operando/swarms/WD"   ,"enabled":true}
      ]
   },
  "Logger":{},
@@ -24,7 +25,7 @@
             "serverAlias":"development",
             "watch":[
                         {"core":"etc/adapters/Core.js",                              "enabled":true, "step":1},
-                        {"core":"etc/relay/RedisRelay.js",                           "enabled":true, "args":["-n", "RESEARCH", "-r", "127.0.0.1", "-p", "6379" ], "step":2},
+                        {"core":"etc/relay/RedisRelay.js",                           "enabled":true, "args":["-n", "RESEARCH", "-r", "192.168.100.186", "-p", "6379" ], "step":2},
                         {"core":"etc/adapters/DefaultLogger.js",                     "enabled":true, "step":3},
                         {"node":"admin/adapters/UsersManager.js",                    "enabled":true  , "step":4},
                         {"node":"admin/adapters/SessionManager.js",                  "enabled":true  , "step":4},
@@ -37,6 +38,9 @@
                         {"node":"operando/adapters/RESTAdapter.js",                  "enabled":false  , "step":10},
                         {"core":"etc/adapters/WSServer.js",                          "enabled":true  , "step":10},
                         {"node":"operando/adapters/CBE/PrivacyForBenefitsAdapter.js",    "enabled":true  , "step":10},
+                        {"node":"operando/adapters/PrivacySettingsWizard.js",    "enabled":true  , "step":10},
+
+                        {"node":"operando/adapters/WD/SocialNetworkSettingsAdapter.js",    "enabled":true  , "step":10},
                         {"node":"admin/adapters/TestsManager.js",                    "enabled":false, "step":5}
 
 
