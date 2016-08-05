@@ -34,7 +34,7 @@ var privacyWizardSwarm = {
         node: "PrivacySettingsWizzard",
         code: function () {
             adjustAlgorithm(this.current_settings,this.provided_suggestions)
-            this.home("gotNewQuestion")
+            this.home("wizardCompleted")
         }
     }
 }
