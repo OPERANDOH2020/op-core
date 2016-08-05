@@ -1,15 +1,16 @@
 package io.swagger.client.model;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 
-
-
-
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-05-13T11:21:59.111Z")
+/**
+ * PolicyAttribute
+ */
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-27T09:46:52.939Z")
 public class PolicyAttribute   {
   
   private String attributeName = null;
@@ -32,7 +33,7 @@ public class PolicyAttribute   {
     this.attributeName = attributeName;
   }
 
-  
+
   /**
    **/
   public PolicyAttribute attributeValue(String attributeValue) {
@@ -49,7 +50,6 @@ public class PolicyAttribute   {
     this.attributeValue = attributeValue;
   }
 
-  
 
   @Override
   public boolean equals(java.lang.Object o) {

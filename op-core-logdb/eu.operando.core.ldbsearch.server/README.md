@@ -12,11 +12,18 @@ To run the server, please execute the following:
 ```
 mvn clean package jetty:run
 ```
+For deploying on Tomcat7 Web Server
+```
+mvn clean package tomcat7:run
+```
+Please, take into account that in order to deploy in tomcat it is neccesary to change the pom file given by default by swagger and include the tomcat plugin for maven.
+It will also be neccesary to change (or create) a settings.xml file on the root folder of maven repository to make it work taking into consideration the actual configuration
+of pom.xm related to tomcat.
 
 You can then view the swagger listing here:
 
 ```
-http://localhost:8080/operando/core/logdbsearch/swagger.json
+http://localhost:8080/operando/core/ldbsearch/swagger.json
 ```
 
 Note that if you have configured the `host` to be something other than localhost, the calls through

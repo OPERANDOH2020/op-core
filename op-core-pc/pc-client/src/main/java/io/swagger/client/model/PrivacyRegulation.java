@@ -1,5 +1,6 @@
 package io.swagger.client.model;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -7,20 +8,20 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 
-
 /**
- * A privacy rule that reflects a given privacy legislation as described\nby a particular set of laws in a given jurisdiction.\n
- **/
-
-@ApiModel(description = "A privacy rule that reflects a given privacy legislation as described\nby a particular set of laws in a given jurisdiction.\n")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-05-13T11:21:59.111Z")
+ * A privacy rule that reflects a given privacy legislation as described by a particular set of laws in a given jurisdiction. 
+ */
+@ApiModel(description = "A privacy rule that reflects a given privacy legislation as described by a particular set of laws in a given jurisdiction. ")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-27T09:46:52.939Z")
 public class PrivacyRegulation   {
   
   private String regId = null;
   private String legislationSector = null;
   private String privateInformationSource = null;
 
-
+  /**
+   * The type of private information; e.g. is it information that identifies the user (e.g. id number)? is it location information about the user? Is it about their activities? 
+   */
   public enum PrivateInformationTypeEnum {
     IDENTIFICATION("Identification"),
     SHARED_IDENTIFICATION("Shared Identification"),
@@ -41,14 +42,16 @@ public class PrivacyRegulation   {
     @Override
     @JsonValue
     public String toString() {
-      return value;
+      return String.valueOf(value);
     }
   }
 
   private PrivateInformationTypeEnum privateInformationType = null;
   private String action = null;
 
-
+  /**
+   * The type of consent that must be followed
+   */
   public enum RequiredConsentEnum {
     IN("opt-in"),
     OUT("opt-out");
@@ -62,7 +65,7 @@ public class PrivacyRegulation   {
     @Override
     @JsonValue
     public String toString() {
-      return value;
+      return String.valueOf(value);
     }
   }
 
@@ -85,16 +88,16 @@ public class PrivacyRegulation   {
     this.regId = regId;
   }
 
-  
+
   /**
-   * The identifier of the set of legislation rules this rule\nbelongs to e.g. the UK data protection act.\n
+   * The identifier of the set of legislation rules this rule belongs to e.g. the UK data protection act. 
    **/
   public PrivacyRegulation legislationSector(String legislationSector) {
     this.legislationSector = legislationSector;
     return this;
   }
   
-  @ApiModelProperty(example = "null", required = true, value = "The identifier of the set of legislation rules this rule\nbelongs to e.g. the UK data protection act.\n")
+  @ApiModelProperty(example = "null", required = true, value = "The identifier of the set of legislation rules this rule belongs to e.g. the UK data protection act. ")
   @JsonProperty("legislation_sector")
   public String getLegislationSector() {
     return legislationSector;
@@ -103,7 +106,7 @@ public class PrivacyRegulation   {
     this.legislationSector = legislationSector;
   }
 
-  
+
   /**
    * The source of the private data
    **/
@@ -121,16 +124,16 @@ public class PrivacyRegulation   {
     this.privateInformationSource = privateInformationSource;
   }
 
-  
+
   /**
-   * The type of private information; e.g. is it information that identifies the user (e.g. id number)? is it location information about the user? Is it about their activities?\n
+   * The type of private information; e.g. is it information that identifies the user (e.g. id number)? is it location information about the user? Is it about their activities? 
    **/
   public PrivacyRegulation privateInformationType(PrivateInformationTypeEnum privateInformationType) {
     this.privateInformationType = privateInformationType;
     return this;
   }
   
-  @ApiModelProperty(example = "null", value = "The type of private information; e.g. is it information that identifies the user (e.g. id number)? is it location information about the user? Is it about their activities?\n")
+  @ApiModelProperty(example = "null", value = "The type of private information; e.g. is it information that identifies the user (e.g. id number)? is it location information about the user? Is it about their activities? ")
   @JsonProperty("private_information_type")
   public PrivateInformationTypeEnum getPrivateInformationType() {
     return privateInformationType;
@@ -139,7 +142,7 @@ public class PrivacyRegulation   {
     this.privateInformationType = privateInformationType;
   }
 
-  
+
   /**
    * The action being carried out on the data
    **/
@@ -157,7 +160,7 @@ public class PrivacyRegulation   {
     this.action = action;
   }
 
-  
+
   /**
    * The type of consent that must be followed
    **/
@@ -175,7 +178,6 @@ public class PrivacyRegulation   {
     this.requiredConsent = requiredConsent;
   }
 
-  
 
   @Override
   public boolean equals(java.lang.Object o) {

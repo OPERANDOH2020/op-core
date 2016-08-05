@@ -5,16 +5,18 @@ import com.sun.jersey.api.client.GenericType;
 import io.swagger.client.ApiException;
 import io.swagger.client.ApiClient;
 import io.swagger.client.Configuration;
+import io.swagger.client.model.*;
 import io.swagger.client.Pair;
 
 import io.swagger.client.model.PolicyEvaluationReport;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-05-13T11:21:59.111Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-27T09:46:52.939Z")
 public class PolicyComplianceApi {
   private ApiClient apiClient;
 
@@ -34,10 +36,9 @@ public class PolicyComplianceApi {
     this.apiClient = apiClient;
   }
 
-  
   /**
    * Evaluate a set of OSP requests against the current legislation
-   * Method to run a new OSP registers with OPERANDO; or a an OSP changes its policy. The computational resource reads the sector information for the OSP (from the policy db) and then finds all the relevant regulations. Given the policy input, it then checks that this against the discovered regulation.\n
+   * Method to run a new OSP registers with OPERANDO; or a an OSP changes its policy. The computational resource reads the sector information for the OSP (from the policy db) and then finds all the relevant regulations. Given the policy input, it then checks that this against the discovered regulation. 
    * @param ospId OSP unique identifier (required)
    * @param ospRequest The set of requests that the OSP will carry out on a user&#39;s private data (required)
    * @return PolicyEvaluationReport
@@ -64,14 +65,10 @@ public class PolicyComplianceApi {
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    
     localVarQueryParams.addAll(apiClient.parameterToPairs("", "osp_id", ospId));
-    
 
     
-
     
-
     final String[] localVarAccepts = {
       "application/json"
     };
@@ -84,10 +81,7 @@ public class PolicyComplianceApi {
 
     String[] localVarAuthNames = new String[] {  };
 
-    
     GenericType<PolicyEvaluationReport> localVarReturnType = new GenericType<PolicyEvaluationReport>() {};
     return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
-    
-  }
-  
+      }
 }

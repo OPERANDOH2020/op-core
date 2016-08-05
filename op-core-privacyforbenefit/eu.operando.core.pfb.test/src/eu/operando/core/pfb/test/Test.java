@@ -19,6 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.runner.JUnitCore;
+
 import com.sun.jersey.api.client.GenericType;
 
 import io.swagger.client.ApiClient;
@@ -38,7 +40,7 @@ public class Test {
 	    byte[] postBinaryBody = null; 
 	     
 	    // create path and map variables 
-	    String path = "/offers"; 
+	    String path = "/operando/core/pfb/offers"; 
 	 
 	    // query params 
 	    List<Pair> queryParams = new ArrayList<Pair>(); 
@@ -94,7 +96,7 @@ public class Test {
 	    byte[] postBinaryBody = null; 
 	     
 	    // create path and map variables 
-	    String path = "/osps"; 
+	    String path = "/operando/core/pfb/osps"; 
 	 
 	    // query params 
 	    List<Pair> queryParams = new ArrayList<Pair>(); 
@@ -140,7 +142,7 @@ public class Test {
 	    byte[] postBinaryBody = null; 
 	     
 	    // create path and map variables 
-	    String path = "/deals"; 
+	    String path = "/operando/core/pfb/deals"; 
 	 
 	    // query params 
 	    List<Pair> queryParams = new ArrayList<Pair>(); 
@@ -183,7 +185,7 @@ public class Test {
 	    byte[] postBinaryBody = null; 
 	     
 	    // create path and map variables 
-	    String path = "/offers/search"; 
+	    String path = "/operando/core/pfb/offers/search"; 
 	 
 	    // query params 
 	    List<Pair> queryParams = new ArrayList<Pair>();
@@ -232,7 +234,7 @@ public class Test {
 	    byte[] postBinaryBody = null; 
 	     
 	    // create path and map variables 
-	    String path = "/deals/search"; 
+	    String path = "/operando/core/pfb/deals/search"; 
 	 
 	    // query params 
 	    List<Pair> queryParams = new ArrayList<Pair>();
@@ -275,7 +277,7 @@ public class Test {
 	    byte[] postBinaryBody = null; 
 	     
 	    // create path and map variables 
-	    String path = "/osps/{osp_id}/deals".replaceAll("\\{" + "osp_id" + "\\}", 
+	    String path = "/operando/core/pfb/osps/{osp_id}/deals".replaceAll("\\{" + "osp_id" + "\\}", 
 	    		apiClient.escapeString("1")); 
 	 
 	    // query params 
@@ -305,6 +307,10 @@ public class Test {
 		} catch (ApiException e) {			
 			e.printStackTrace();
 		}				
+	}
+	public static void main(String[] args) throws Exception {                    
+	       JUnitCore.main(
+	         "eu.operando.core.pfb.test.Test");            
 	}
 	
 

@@ -41,7 +41,7 @@
 
   <servlet-mapping>
     <servlet-name>jersey</servlet-name>
-    <url-pattern>/pc/*</url-pattern>
+    <url-pattern>/*</url-pattern>
   </servlet-mapping>
   <filter>
     <filter-name>ApiOriginFilter</filter-name>
