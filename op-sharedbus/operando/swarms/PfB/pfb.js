@@ -68,7 +68,6 @@ var privacyForBenefits = {
         //find & remove port number
         this.website = this.website.split(':')[0];
         this.tabId = _tabId;
-        console.log(this.website);
         this.swarm("websiteHasDeal");
     },
     websiteHasDeal: {

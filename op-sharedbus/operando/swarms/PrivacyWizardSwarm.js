@@ -15,6 +15,7 @@
 var privacyWizardSwarm = {
     getNextQuestion: function (current_settings) {
         this.current_settings = current_settings;
+        console.log(current_settings);
         this.swarm("getQuestion");
     },
     completeWizard:function(current_settings,provided_suggestions){
@@ -27,7 +28,6 @@ var privacyWizardSwarm = {
         node: "PrivacySettingsWizzard",
         code: function () {
             this.question = getNextQuestion(this.current_settings)
-            console.log("hsere");
             this.home("gotNewQuestion")
         }
     },

@@ -43,7 +43,7 @@ thisAdapter = core.createAdapter("PrivacySettingsWizzard");
 
 
 getNextQuestion = function(current_settings){
-    if (current_settings === undefined)
+    if (current_settings === undefined || current_settings ==null)
         current_settings={}
     return mockDetermineNextQuestion(current_settings);
 };
@@ -51,20 +51,13 @@ getNextQuestion = function(current_settings){
 
 function mockDetermineNextQuestion(current_settings){
 
-
-
-    console.log("bau");
     var fs = require('fs')
-    var mock_settings = JSON.parse(fs.readFileSync("./mockWizardSettings.json"))
-    console.log(mock_settings);
-    if(Object.keys(current_settings).length === 0){
-        console.log(current_settings);
-        current_settings = mock_settings.setting1;
+    var mock_settings = JSON.parse(fs.readFileSync("D:\\github\\OPERANDO GIT\\op-core\\op-sharedbus\\operando\\adapters\\mockWizardSettings.json"))
 
-    }
+    console.log(current_settings);
 
     var setting = "setting1";
-    if (current_settings["setting4"]){
+    if (current_settings.question_id=="setting1"){
         setting = "setting7";
     }
     else{
