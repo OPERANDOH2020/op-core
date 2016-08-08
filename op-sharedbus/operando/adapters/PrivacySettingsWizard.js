@@ -57,7 +57,7 @@ function mockDetermineNextQuestion(current_settings){
     console.log(current_settings);
 
     var setting = "setting1";
-    if (current_settings.question_id=="setting1"){
+    if (current_settings["setting4"]){
         setting = "setting7";
     }
     else{
