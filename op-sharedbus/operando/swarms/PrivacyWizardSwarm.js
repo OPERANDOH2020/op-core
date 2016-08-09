@@ -15,13 +15,17 @@
 var privacyWizardSwarm = {
     getNextQuestion: function (current_settings) {
         this.current_settings = current_settings;
-        console.log(current_settings);
         this.swarm("getQuestion");
     },
     completeWizard:function(current_settings,provided_suggestions){
         this.current_settings = current_settings;
         this.provided_suggestions = provided_suggestions;
         this.swarm("provideFeedback")
+    },
+
+    getSuggestedQuestions : function(suggestedOptions){
+        this.suggestedOptions = suggestedOptions;
+        this.swarm("retrieveQuestions");
     },
 
     getQuestion: {
@@ -36,6 +40,13 @@ var privacyWizardSwarm = {
         code: function () {
             adjustAlgorithm(this.current_settings,this.provided_suggestions)
             this.home("wizardCompleted")
+        }
+    },
+    retrieveQuestions:{
+        node: "PrivacySettingsWizzard",
+        code: function () {
+            this.questions = getSuggestedQuestions(this.suggestedOptions);
+            this.home("gotSuggestedQuestions");
         }
     }
 }

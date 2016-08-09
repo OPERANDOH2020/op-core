@@ -42,6 +42,12 @@ thisAdapter = core.createAdapter("PrivacySettingsWizzard");
  */
 
 
+
+var fs = require('fs');
+var mock_settings = JSON.parse(fs.readFileSync("D:\\github\\OPERANDO GIT\\op-core\\op-sharedbus\\operando\\adapters\\mockWizardSettings.json"));
+
+
+
 getNextQuestion = function(current_settings){
     if (current_settings === undefined || current_settings ==null)
         current_settings={}
@@ -50,9 +56,6 @@ getNextQuestion = function(current_settings){
 
 
 function mockDetermineNextQuestion(current_settings){
-
-    var fs = require('fs')
-    var mock_settings = JSON.parse(fs.readFileSync("D:\\github\\OPERANDO GIT\\op-core\\op-sharedbus\\operando\\adapters\\mockWizardSettings.json"))
 
     console.log(current_settings);
 
@@ -100,6 +103,30 @@ function mockDetermineNextQuestion(current_settings){
 }
 
 
+getSuggestedQuestions = function(suggestedOptions){
+
+    var questions = {};
+    suggestedOptions.forEach(function (suggestedOption) {
+        var questionFound = false;
+
+        for (var q in mock_settings) {
+            if(questionFound == true){
+                break;
+            }
+
+            for (var i = 0; i < mock_settings[q].length; i++) {
+                if (suggestedOption == mock_settings[q][i]) {
+                    questions[q] = mock_settings[q];
+                    questionFound = true;
+                    break;
+                }
+            }
+        }
+    });
+    return questions;
+
+
+}
 
 adjustAlgorithm = function(current_settings,provided_suggestions){
     console.log("Adjusting algorithm with ",current_settings," and ",provided_suggestions)
