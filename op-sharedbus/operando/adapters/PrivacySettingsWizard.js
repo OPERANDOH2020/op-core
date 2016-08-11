@@ -44,13 +44,12 @@ thisAdapter = core.createAdapter("PrivacySettingsWizzard");
 
 
 var fs = require('fs');
-var mock_settings = JSON.parse(fs.readFileSync("D:\\github\\OPERANDO GIT\\op-core\\op-sharedbus\\operando\\adapters\\mockWizardSettings.json"));
-
+var mock_settings = JSON.parse(fs.readFileSync(process.env.SWARM_PATH+"/"+process.env.SWARM_NODE_TYPE+"/adapters/mockWizardSettings.json"));
 
 
 getNextQuestion = function(current_settings){
-    if (current_settings === undefined || current_settings ==null)
-        current_settings={}
+    if (current_settings === undefined || current_settings == null)
+        current_settings = {}
     return mockDetermineNextQuestion(current_settings);
 };
 

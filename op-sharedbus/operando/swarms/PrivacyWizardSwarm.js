@@ -1,4 +1,3 @@
-
 /*
  * Copyright (c) 2016 ROMSOFT.
  * All rights reserved. This program and the accompanying materials
@@ -17,9 +16,10 @@ var privacyWizardSwarm = {
         this.current_settings = current_settings;
         this.swarm("getQuestion");
     },
-    completeWizard:function(current_settings,provided_suggestions){
+    completeWizard:function(current_settings, provided_suggestions){
         this.current_settings = current_settings;
         this.provided_suggestions = provided_suggestions;
+        console.log(provided_suggestions);
         this.swarm("provideFeedback")
     },
 
@@ -38,8 +38,8 @@ var privacyWizardSwarm = {
     provideFeedback:{
         node: "PrivacySettingsWizzard",
         code: function () {
-            adjustAlgorithm(this.current_settings,this.provided_suggestions)
-            this.home("wizardCompleted")
+            adjustAlgorithm(this.current_settings,this.provided_suggestions);
+            this.home("wizardCompleted");
         }
     },
     retrieveQuestions:{
