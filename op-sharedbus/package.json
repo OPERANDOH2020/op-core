@@ -1,0 +1,68 @@
+{
+  "name": "op-sharedbus",
+  "description": "op-sharedbus package | OPERANDOH2020 project",
+  "version": "0.1.0",
+  "homepage": "https://github.com/OPERANDOH2020/op-sharedbus",
+  "author": {
+    "name": "Alboaie Sinica",
+    "email": "salboaie@gmail.com"
+  },
+  "contributors": [
+    {
+      "name": "Mastaleru Rafael",
+      "email": "raf@rms.ro"
+    },
+	 {
+      "name": "Talmacel Ciprian",
+      "email": "tac@rms.ro"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/OPERANDOH2020/op-sharedbus.git"
+  },
+  "bugs": {
+    "email": "salboaie@gmail.com",
+    "url": "https://github.com/OPERANDOH2020/op-sharedbus/issues"
+  },
+  "directories": {
+    "lib": "./lib"
+  },
+  "engines": {
+    "node": ">=0.12.0"
+  },
+  "main": "./adapters/Core.js",
+  "licenses": [
+    {
+      "type": "GPL",
+      "url": "http://www.gnu.org/licenses/gpl.html"
+    }
+  ],
+  "_id": "op-sharedbus@0.1.0",
+  "dependencies" : {
+    "swarmcore"     :    ">=2.2.6",
+    "acl-magic"    :     ">=1.0.10",
+    "apersistence" :      ">=1.0.24",
+    "semantic-firewall" : ">=0.5.1",
+    "dateformat"      : ">=1.0.11",
+    "commander"       :   ">=2.8.1",
+    "moment"        : ">=2.10.3",
+    "rts"       :">=0.0.0",
+    "tmp"       :">=0.0.0",
+    "transrest" :">=0.5.0",
+    "callflow"  :">=0.5.4",
+    "whys" : ">=0.2.1",
+    "urlencode":">=1.1.0",
+    "windows-cpu":">=0.1.4",
+    "checksum" :">=0.1.0"
+
+  },
+  "optionalDependencies": {},
+  "_engineSupported": true,
+  "_npmVersion": "1.1.12",
+  "_nodeVersion": "v0.6.14",
+  "_defaultsLoaded": true,
+  "dist": {
+    
+  }
+}

@@ -1,34 +1,28 @@
-/*******************************************************************************
- *  * Copyright (c) 2016 {TECNALIA}.
- *  * All rights reserved. This program and the accompanying materials
- *  * are made available under the terms of the The MIT License (MIT).
- *  * which accompanies this distribution, and is available at
- *  * http://opensource.org/licenses/MIT
- *  *
- *  * Contributors:
- *  *    Gorka Mikel Echevarría {TECNALIA}
- *  * Initially developed in the context of OPERANDO EU project www.operando.eu
- *******************************************************************************/
 package io.swagger.client.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
+
 import io.swagger.annotations.ApiModelProperty;
 
 
-
-
-
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-04-07T07:27:55.093Z")
+/**
+ * LogRequest
+ */
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-09T09:48:30.419Z")
 public class LogRequest   {
   
 
-
+  /**
+   * Source type from which comes the request.
+   */
   public enum RequesterTypeEnum {
-    PROCESS_("Process."),
-    MODULE_("Module.");
+    PROCESS("PROCESS"),
+    MODULE("MODULE");
 
     private String value;
 
@@ -39,19 +33,21 @@ public class LogRequest   {
     @Override
     @JsonValue
     public String toString() {
-      return value;
+      return String.valueOf(value);
     }
   }
 
   private RequesterTypeEnum requesterType = null;
   private String requesterId = null;
 
-
+  /**
+   * Priority level of the data to be logged.
+   */
   public enum LogPriorityEnum {
-    LOW("Low"),
-    NORMAL("Normal"),
-    HIGH("High"),
-    CRITICAL("Critical");
+    LOW("LOW"),
+    NORMAL("NORMAL"),
+    HIGH("HIGH"),
+    CRITICAL("CRITICAL");
 
     private String value;
 
@@ -62,18 +58,20 @@ public class LogRequest   {
     @Override
     @JsonValue
     public String toString() {
-      return value;
+      return String.valueOf(value);
     }
   }
 
   private LogPriorityEnum logPriority = null;
 
-
+  /**
+   * Type of the data to be logged.
+   */
   public enum LogDataTypeEnum {
-    INFO("Info"),
-    WARN("Warn"),
-    ERROR("Error"),
-    FATAL("Fatal");
+    INFO("INFO"),
+    WARN("WARN"),
+    ERROS("ERROS"),
+    FATAL("FATAL");
 
     private String value;
 
@@ -84,13 +82,14 @@ public class LogRequest   {
     @Override
     @JsonValue
     public String toString() {
-      return value;
+      return String.valueOf(value);
     }
   }
 
   private LogDataTypeEnum logDataType = null;
   private String title = null;
   private String description = null;
+  private List<String> keywords = new ArrayList<String>();
 
   
   /**
@@ -110,7 +109,7 @@ public class LogRequest   {
     this.requesterType = requesterType;
   }
 
-  
+
   /**
    * Id of the requester (e.g the id of an OSP).
    **/
@@ -128,7 +127,7 @@ public class LogRequest   {
     this.requesterId = requesterId;
   }
 
-  
+
   /**
    * Priority level of the data to be logged.
    **/
@@ -146,7 +145,7 @@ public class LogRequest   {
     this.logPriority = logPriority;
   }
 
-  
+
   /**
    * Type of the data to be logged.
    **/
@@ -164,7 +163,7 @@ public class LogRequest   {
     this.logDataType = logDataType;
   }
 
-  
+
   /**
    * Subject of the event to be logged.
    **/
@@ -182,7 +181,7 @@ public class LogRequest   {
     this.title = title;
   }
 
-  
+
   /**
    * Description of the event to be logged.
    **/
@@ -200,7 +199,24 @@ public class LogRequest   {
     this.description = description;
   }
 
+
+  /**
+   * Array of keywords to facilitate search
+   **/
+  public LogRequest keywords(List<String> keywords) {
+    this.keywords = keywords;
+    return this;
+  }
   
+  @ApiModelProperty(example = "null", value = "Array of keywords to facilitate search")
+  @JsonProperty("keywords")
+  public List<String> getKeywords() {
+    return keywords;
+  }
+  public void setKeywords(List<String> keywords) {
+    this.keywords = keywords;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -216,12 +232,13 @@ public class LogRequest   {
         Objects.equals(this.logPriority, logRequest.logPriority) &&
         Objects.equals(this.logDataType, logRequest.logDataType) &&
         Objects.equals(this.title, logRequest.title) &&
-        Objects.equals(this.description, logRequest.description);
+        Objects.equals(this.description, logRequest.description) &&
+        Objects.equals(this.keywords, logRequest.keywords);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(requesterType, requesterId, logPriority, logDataType, title, description);
+    return Objects.hash(requesterType, requesterId, logPriority, logDataType, title, description, keywords);
   }
 
   @Override
@@ -235,6 +252,7 @@ public class LogRequest   {
     sb.append("    logDataType: ").append(toIndentedString(logDataType)).append("\n");
     sb.append("    title: ").append(toIndentedString(title)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
+    sb.append("    keywords: ").append(toIndentedString(keywords)).append("\n");
     sb.append("}");
     return sb.toString();
   }

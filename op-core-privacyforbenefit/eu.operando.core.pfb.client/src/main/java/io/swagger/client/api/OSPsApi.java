@@ -20,14 +20,14 @@ import io.swagger.client.Pair;
 
 import io.swagger.client.model.Error;
 import io.swagger.client.model.InlineResponse2004;
-import io.swagger.client.model.OSP;
+import io.swagger.client.model.OSPRequest;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-31T13:37:26.696Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-05-27T11:58:41.893Z")
 public class OSPsApi {
   private ApiClient apiClient;
 
@@ -103,7 +103,7 @@ public class OSPsApi {
    * @return String
    * @throws ApiException if fails to make API call
    */
-  public String registerOSP(OSP osp) throws ApiException {
+  public String registerOSP(OSPRequest osp) throws ApiException {
     Object localVarPostBody = osp;
     
     // verify the required parameter 'osp' is set

@@ -1,16 +1,6 @@
-/*******************************************************************************
- *  * Copyright (c) 2016 {TECNALIA}.
- *  * All rights reserved. This program and the accompanying materials
- *  * are made available under the terms of the The MIT License (MIT).
- *  * which accompanies this distribution, and is available at
- *  * http://opensource.org/licenses/MIT
- *  *
- *  * Contributors:
- *  *    Gorka Mikel Echevarría {TECNALIA}
- *  * Initially developed in the context of OPERANDO EU project www.operando.eu
- *******************************************************************************/
 package io.swagger.client.model;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
@@ -18,10 +8,10 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 
 
-
-
-
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-31T13:37:26.696Z")
+/**
+ * Deal
+ */
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-10T07:22:24.300Z")
 public class Deal   {
   
   private String id = null;
@@ -48,7 +38,7 @@ public class Deal   {
     this.id = id;
   }
 
-  
+
   /**
    * Unique ID of the offer.
    **/
@@ -66,7 +56,7 @@ public class Deal   {
     this.offerId = offerId;
   }
 
-  
+
   /**
    * Unique ID of the user.
    **/
@@ -84,7 +74,7 @@ public class Deal   {
     this.userId = userId;
   }
 
-  
+
   /**
    * Date when the deal was created (accepted).
    **/
@@ -102,7 +92,7 @@ public class Deal   {
     this.createdAt = createdAt;
   }
 
-  
+
   /**
    * Date when the deal was canceled.
    **/
@@ -120,7 +110,6 @@ public class Deal   {
     this.canceledAt = canceledAt;
   }
 
-  
 
   @Override
   public boolean equals(java.lang.Object o) {

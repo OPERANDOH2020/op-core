@@ -10,8 +10,8 @@
   <classpathentry kind="var" path="M2_REPO/javax/activation/activation/1.1/activation-1.1.jar"/>
   <classpathentry kind="var" path="M2_REPO/javax/servlet/servlet-api/2.5/servlet-api-2.5.jar"/>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-  <classpathentry kind="var" path="M2_REPO/io/swagger/swagger-jersey-jaxrs/1.5.7/swagger-jersey-jaxrs-1.5.7.jar"/>
-  <classpathentry kind="var" path="M2_REPO/io/swagger/swagger-jaxrs/1.5.7/swagger-jaxrs-1.5.7.jar"/>
+  <classpathentry kind="var" path="M2_REPO/io/swagger/swagger-jersey-jaxrs/1.5.8/swagger-jersey-jaxrs-1.5.8.jar"/>
+  <classpathentry kind="var" path="M2_REPO/io/swagger/swagger-jaxrs/1.5.8/swagger-jaxrs-1.5.8.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.4.5/jackson-dataformat-yaml-2.4.5.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/fasterxml/jackson/core/jackson-core/2.4.5/jackson-core-2.4.5.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/yaml/snakeyaml/1.12/snakeyaml-1.12.jar"/>
@@ -19,14 +19,14 @@
   <classpathentry kind="var" path="M2_REPO/com/fasterxml/jackson/core/jackson-databind/2.4.5/jackson-databind-2.4.5.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/fasterxml/jackson/module/jackson-module-jaxb-annotations/2.4.5/jackson-module-jaxb-annotations-2.4.5.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/codehaus/woodstox/stax2-api/3.1.4/stax2-api-3.1.4.jar"/>
-  <classpathentry kind="var" path="M2_REPO/io/swagger/swagger-core/1.5.7/swagger-core-1.5.7.jar"/>
+  <classpathentry kind="var" path="M2_REPO/io/swagger/swagger-core/1.5.8/swagger-core-1.5.8.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/commons/commons-lang3/3.2.1/commons-lang3-3.2.1.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.6.3/slf4j-api-1.6.3.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/fasterxml/jackson/core/jackson-annotations/2.4.5/jackson-annotations-2.4.5.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/fasterxml/jackson/datatype/jackson-datatype-joda/2.4.5/jackson-datatype-joda-2.4.5.jar"/>
   <classpathentry kind="var" path="M2_REPO/joda-time/joda-time/2.2/joda-time-2.2.jar"/>
-  <classpathentry kind="var" path="M2_REPO/io/swagger/swagger-models/1.5.7/swagger-models-1.5.7.jar"/>
-  <classpathentry kind="var" path="M2_REPO/io/swagger/swagger-annotations/1.5.7/swagger-annotations-1.5.7.jar"/>
+  <classpathentry kind="var" path="M2_REPO/io/swagger/swagger-models/1.5.8/swagger-models-1.5.8.jar"/>
+  <classpathentry kind="var" path="M2_REPO/io/swagger/swagger-annotations/1.5.8/swagger-annotations-1.5.8.jar"/>
   <classpathentry kind="var" path="M2_REPO/com/google/guava/guava/18.0/guava-18.0.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/reflections/reflections/0.9.10/reflections-0.9.10.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/javassist/javassist/3.19.0-GA/javassist-3.19.0-GA.jar"/>

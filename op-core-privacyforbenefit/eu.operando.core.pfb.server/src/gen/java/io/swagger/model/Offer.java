@@ -1,27 +1,17 @@
-/*******************************************************************************
- *  * Copyright (c) 2016 {TECNALIA}.
- *  * All rights reserved. This program and the accompanying materials
- *  * are made available under the terms of the The MIT License (MIT).
- *  * which accompanies this distribution, and is available at
- *  * http://opensource.org/licenses/MIT
- *  *
- *  * Contributors:
- *  *    Gorka Mikel Echevarría {TECNALIA}
- *  * Initially developed in the context of OPERANDO EU project www.operando.eu
- *******************************************************************************/
 package io.swagger.model;
 
-import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
+import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.swagger.annotations.ApiModelProperty;
 
 
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-03-31T13:37:20.076Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-06-16T10:39:31.522Z")
 public class Offer   {
   
   private String id = null;
@@ -29,11 +19,10 @@ public class Offer   {
   private String title = null;
   private String description = null;
   private String serviceWebsite = null;
-  private Boolean isEnabled = null;
+  private Integer isEnabled = null;
   private String ospCallbackUrl = null;
   private Date expirationDate = null;
 
-  
   /**
    * Id of the offer.
    **/
@@ -52,7 +41,6 @@ public class Offer   {
     this.id = id;
   }
 
-  
   /**
    * Id of the OSP to which belongs the offer.
    **/
@@ -71,7 +59,6 @@ public class Offer   {
     this.ospId = ospId;
   }
 
-  
   /**
    * Description of the offer.
    **/
@@ -90,7 +77,6 @@ public class Offer   {
     this.title = title;
   }
 
-  
   /**
    * Description of the offer.
    **/
@@ -109,7 +95,6 @@ public class Offer   {
     this.description = description;
   }
 
-  
   /**
    * Website of the offering.
    **/
@@ -128,11 +113,10 @@ public class Offer   {
     this.serviceWebsite = serviceWebsite;
   }
 
-  
   /**
    * Indication whether the offer is enabled or not.
    **/
-  public Offer isEnabled(Boolean isEnabled) {
+  public Offer isEnabled(Integer isEnabled) {
     this.isEnabled = isEnabled;
     return this;
   }
@@ -140,14 +124,13 @@ public class Offer   {
   
   @ApiModelProperty(value = "Indication whether the offer is enabled or not.")
   @JsonProperty("is_enabled")
-  public Boolean getIsEnabled() {
+  public Integer getIsEnabled() {
     return isEnabled;
   }
-  public void setIsEnabled(Boolean isEnabled) {
+  public void setIsEnabled(Integer isEnabled) {
     this.isEnabled = isEnabled;
   }
 
-  
   /**
    * Callback url.
    **/
@@ -166,7 +149,6 @@ public class Offer   {
     this.ospCallbackUrl = ospCallbackUrl;
   }
 
-  
   /**
    * Date when the offer expires.
    **/
@@ -185,7 +167,6 @@ public class Offer   {
     this.expirationDate = expirationDate;
   }
 
-  
 
   @Override
   public boolean equals(Object o) {

@@ -1,27 +1,17 @@
-/*******************************************************************************
- *  * Copyright (c) 2016 {TECNALIA}.
- *  * All rights reserved. This program and the accompanying materials
- *  * are made available under the terms of the The MIT License (MIT).
- *  * which accompanies this distribution, and is available at
- *  * http://opensource.org/licenses/MIT
- *  *
- *  * Contributors:
- *  *    Gorka Mikel Echevarría {TECNALIA}
- *  * Initially developed in the context of OPERANDO EU project www.operando.eu
- *******************************************************************************/
 package io.swagger.client.model;
 
-import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
+import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import io.swagger.annotations.ApiModelProperty;
 
 
 
 
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-03-31T13:37:26.696Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-06-16T10:39:31.522Z")
 public class Offer   {
   
   private String id = null;
@@ -29,11 +19,10 @@ public class Offer   {
   private String title = null;
   private String description = null;
   private String serviceWebsite = null;
-  private Boolean isEnabled = null;
+  private Integer isEnabled = null;
   private String ospCallbackUrl = null;
   private Date expirationDate = null;
 
-  
   /**
    * Id of the offer.
    **/
@@ -41,8 +30,9 @@ public class Offer   {
     this.id = id;
     return this;
   }
+
   
-  @ApiModelProperty(example = "null", value = "Id of the offer.")
+  @ApiModelProperty(value = "Id of the offer.")
   @JsonProperty("id")
   public String getId() {
     return id;
@@ -51,7 +41,6 @@ public class Offer   {
     this.id = id;
   }
 
-  
   /**
    * Id of the OSP to which belongs the offer.
    **/
@@ -59,8 +48,9 @@ public class Offer   {
     this.ospId = ospId;
     return this;
   }
+
   
-  @ApiModelProperty(example = "null", value = "Id of the OSP to which belongs the offer.")
+  @ApiModelProperty(value = "Id of the OSP to which belongs the offer.")
   @JsonProperty("osp_id")
   public String getOspId() {
     return ospId;
@@ -69,7 +59,6 @@ public class Offer   {
     this.ospId = ospId;
   }
 
-  
   /**
    * Description of the offer.
    **/
@@ -77,8 +66,9 @@ public class Offer   {
     this.title = title;
     return this;
   }
+
   
-  @ApiModelProperty(example = "null", value = "Description of the offer.")
+  @ApiModelProperty(value = "Description of the offer.")
   @JsonProperty("title")
   public String getTitle() {
     return title;
@@ -87,7 +77,6 @@ public class Offer   {
     this.title = title;
   }
 
-  
   /**
    * Description of the offer.
    **/
@@ -95,8 +84,9 @@ public class Offer   {
     this.description = description;
     return this;
   }
+
   
-  @ApiModelProperty(example = "null", value = "Description of the offer.")
+  @ApiModelProperty(value = "Description of the offer.")
   @JsonProperty("description")
   public String getDescription() {
     return description;
@@ -105,7 +95,6 @@ public class Offer   {
     this.description = description;
   }
 
-  
   /**
    * Website of the offering.
    **/
@@ -113,8 +102,9 @@ public class Offer   {
     this.serviceWebsite = serviceWebsite;
     return this;
   }
+
   
-  @ApiModelProperty(example = "null", value = "Website of the offering.")
+  @ApiModelProperty(value = "Website of the offering.")
   @JsonProperty("service_website")
   public String getServiceWebsite() {
     return serviceWebsite;
@@ -123,25 +113,24 @@ public class Offer   {
     this.serviceWebsite = serviceWebsite;
   }
 
-  
   /**
    * Indication whether the offer is enabled or not.
    **/
-  public Offer isEnabled(Boolean isEnabled) {
+  public Offer isEnabled(Integer isEnabled) {
     this.isEnabled = isEnabled;
     return this;
   }
+
   
-  @ApiModelProperty(example = "null", value = "Indication whether the offer is enabled or not.")
+  @ApiModelProperty(value = "Indication whether the offer is enabled or not.")
   @JsonProperty("is_enabled")
-  public Boolean getIsEnabled() {
+  public Integer getIsEnabled() {
     return isEnabled;
   }
-  public void setIsEnabled(Boolean isEnabled) {
+  public void setIsEnabled(Integer isEnabled) {
     this.isEnabled = isEnabled;
   }
 
-  
   /**
    * Callback url.
    **/
@@ -149,8 +138,9 @@ public class Offer   {
     this.ospCallbackUrl = ospCallbackUrl;
     return this;
   }
+
   
-  @ApiModelProperty(example = "null", value = "Callback url.")
+  @ApiModelProperty(value = "Callback url.")
   @JsonProperty("osp_callback_url")
   public String getOspCallbackUrl() {
     return ospCallbackUrl;
@@ -159,7 +149,6 @@ public class Offer   {
     this.ospCallbackUrl = ospCallbackUrl;
   }
 
-  
   /**
    * Date when the offer expires.
    **/
@@ -167,8 +156,9 @@ public class Offer   {
     this.expirationDate = expirationDate;
     return this;
   }
+
   
-  @ApiModelProperty(example = "null", value = "Date when the offer expires.")
+  @ApiModelProperty(value = "Date when the offer expires.")
   @JsonProperty("expiration_date")
   public Date getExpirationDate() {
     return expirationDate;
@@ -177,10 +167,9 @@ public class Offer   {
     this.expirationDate = expirationDate;
   }
 
-  
 
   @Override
-  public boolean equals(java.lang.Object o) {
+  public boolean equals(Object o) {
     if (this == o) {
       return true;
     }
@@ -188,14 +177,14 @@ public class Offer   {
       return false;
     }
     Offer offer = (Offer) o;
-    return Objects.equals(this.id, offer.id) &&
-        Objects.equals(this.ospId, offer.ospId) &&
-        Objects.equals(this.title, offer.title) &&
-        Objects.equals(this.description, offer.description) &&
-        Objects.equals(this.serviceWebsite, offer.serviceWebsite) &&
-        Objects.equals(this.isEnabled, offer.isEnabled) &&
-        Objects.equals(this.ospCallbackUrl, offer.ospCallbackUrl) &&
-        Objects.equals(this.expirationDate, offer.expirationDate);
+    return Objects.equals(id, offer.id) &&
+        Objects.equals(ospId, offer.ospId) &&
+        Objects.equals(title, offer.title) &&
+        Objects.equals(description, offer.description) &&
+        Objects.equals(serviceWebsite, offer.serviceWebsite) &&
+        Objects.equals(isEnabled, offer.isEnabled) &&
+        Objects.equals(ospCallbackUrl, offer.ospCallbackUrl) &&
+        Objects.equals(expirationDate, offer.expirationDate);
   }
 
   @Override
@@ -224,7 +213,7 @@ public class Offer   {
    * Convert the given object to string with each line indented by 4 spaces
    * (except the first line).
    */
-  private String toIndentedString(java.lang.Object o) {
+  private String toIndentedString(Object o) {
     if (o == null) {
       return "null";
     }
