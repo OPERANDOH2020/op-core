@@ -29,8 +29,8 @@ import eu.operando.ClientOperandoModuleTests;
 public class WatchdogClientTests extends ClientOperandoModuleTests
 {
 	private String emailAddressPrivacyAnalyst = "";
-	private WatchdogClient client = new WatchdogClient(PROTOCOL_AND_HOST_HTTP_LOCALHOST, PROTOCOL_AND_HOST_HTTP_LOCALHOST,
-			PROTOCOL_AND_HOST_HTTP_LOCALHOST, emailAddressPrivacyAnalyst);
+	private WatchdogClient client = new WatchdogClient(ORIGIN_WIREMOCK, ORIGIN_WIREMOCK,
+			ORIGIN_WIREMOCK, emailAddressPrivacyAnalyst);
 		
 	/**
 	 * UDE
@@ -141,7 +141,7 @@ public class WatchdogClientTests extends ClientOperandoModuleTests
 		String subject = "Privacy settings discrepancy";
 		
 		EmailNotification emailNotificationExpected = new EmailNotification(to, new Vector<String>(), new Vector<String>(), content, subject, new Vector<Attachment>());
-		verifyCorrectHttpRequestWithoutQueryParams(HttpMethod.POST, ENDPOINT_EMAIL_SERVICES_EMAIL_NOTIFICATION, emailNotificationExpected);
+		verifyCorrectHttpRequestNoQueryParams(HttpMethod.POST, ENDPOINT_EMAIL_SERVICES_EMAIL_NOTIFICATION, emailNotificationExpected);
 	}
 	
 	/**

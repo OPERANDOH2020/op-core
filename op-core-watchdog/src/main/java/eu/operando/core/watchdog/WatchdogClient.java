@@ -86,7 +86,7 @@ implements WatchdogClientI
 
 		@SuppressWarnings("serial")
 		Type type = new TypeToken<Vector<PrivacySetting>>(){}.getType();
-		return getObjectFromJsonFollowingOperandoConventions(strJson, type);
+		return createObjectFromJsonFollowingOperandoConventions(strJson, type);
 	}
 
 	/**
@@ -122,7 +122,7 @@ implements WatchdogClientI
 		
 		@SuppressWarnings("serial")
 		Type type = new TypeToken<Vector<PrivacyPolicy>>(){}.getType();
-		return getObjectFromJsonFollowingOperandoConventions(stringJson, type);
+		return createObjectFromJsonFollowingOperandoConventions(stringJson, type);
 	}
 
 	public void getOspPrivacyOptions()
