@@ -26,8 +26,7 @@ import eu.operando.ClientOperandoModule;
 /**
  * The WatchdogClient is used by the WatchdogApplication to make API calls
  */
-public class WatchdogClient extends ClientOperandoModule
-implements WatchdogClientI
+public class WatchdogClient extends ClientOperandoModule implements WatchdogClientI
 {
 	private String protocolAndHostUserDeviceEnforcement = "";
 	private String protocolAndHostOspEnforcement = "";
@@ -36,12 +35,13 @@ implements WatchdogClientI
 
 	private Client client = ClientBuilder.newClient();
 
-	public WatchdogClient(String protocolAndHostUserDeviceEnforcement, String protocolAndHostOspEnforcement, String protocolAndHostEmailServices, String emailAddressPrivacyAnalyst)
+	public WatchdogClient(String protocolAndHostUserDeviceEnforcement, String protocolAndHostOspEnforcement, String protocolAndHostEmailServices,
+			String emailAddressPrivacyAnalyst)
 	{
 		this.protocolAndHostUserDeviceEnforcement = protocolAndHostUserDeviceEnforcement;
 		this.protocolAndHostOspEnforcement = protocolAndHostOspEnforcement;
 		this.protocolAndHostEmailServices = protocolAndHostEmailServices;
-		this.emailAddressPrivacyAnalyst = emailAddressPrivacyAnalyst;	
+		this.emailAddressPrivacyAnalyst = emailAddressPrivacyAnalyst;
 	}
 
 	/**
@@ -50,7 +50,7 @@ implements WatchdogClientI
 	@Override
 	public Vector<PrivacySetting> getPrivacySettingsCurrent(int userId, int ospId)
 	{
-		//Create a web target for the correct url.
+		// Create a web target for the correct url.
 		WebTarget target = client.target(protocolAndHostUserDeviceEnforcement);
 		target = target.path(ENDPOINT_USER_DEVICE_ENFORCEMENT_PRIVACY_SETTINGS);
 		target = target.queryParam("user_id", userId);
@@ -65,7 +65,7 @@ implements WatchdogClientI
 	@Override
 	public Vector<PrivacySetting> getPrivacySettingsRequired(int userId, int ospId)
 	{
-		//Create a web target for the correct end-point.
+		// Create a web target for the correct end-point.
 		WebTarget target = client.target(protocolAndHostOspEnforcement);
 		String relativePath = String.format(ENDPOINT_OSP_ENFORCEMENT_PRIVACY_SETTINGS_VARIABLE_OSP_ID, ospId);
 		target = target.path(relativePath);
@@ -75,51 +75,57 @@ implements WatchdogClientI
 	}
 
 	/**
-	 * Send a request, which will return a body of JSON representing an array of privacy settings, to the appropriate target.
-	 * Interpret the response and return the result. 
+	 * Send a request, which will return a body of JSON representing an array of privacy settings, to the appropriate target. Interpret the response
+	 * and return the result.
 	 */
 	private Vector<PrivacySetting> sendRequestForPrivacySettingsAndConvertResponseJsonToPrivacySettings(WebTarget target)
 	{
-		//Send the request an get the response.
+		// Send the request an get the response.
 		Builder requestBuilder = target.request();
 		String strJson = requestBuilder.get(String.class);
 
 		@SuppressWarnings("serial")
-		Type type = new TypeToken<Vector<PrivacySetting>>(){}.getType();
+		Type type = new TypeToken<Vector<PrivacySetting>>()
+		{
+		}.getType();
 		return createObjectFromJsonFollowingOperandoConventions(strJson, type);
 	}
 
 	/**
-	 * Use the Email Services module to notify a privacy analyst about a discrepancy in current and required privacy settings. 
+	 * Use the Email Services module to notify a privacy analyst about a discrepancy in current and required privacy settings.
 	 */
 	@Override
 	public void notifyPrivacyAnalystAboutUserPrivacySettingDiscrepancy(int userId, int ospId)
 	{
 		Vector<String> to = new Vector<String>();
 		to.add(emailAddressPrivacyAnalyst);
-		String content = "The privacy settings for user " + userId+ " with OSP " + ospId + " are not as required. This requires action.";
+		String content = "The privacy settings for user "
+			+ userId
+			+ " with OSP "
+			+ ospId
+			+ " are not as required. This requires action.";
 		String subject = "Privacy settings discrepancy";
-		EmailNotification emailNotification = new EmailNotification(to, new Vector<String>(), new Vector<String>(), content, subject , new Vector<Attachment>());
+		EmailNotification emailNotification = new EmailNotification(to, new Vector<String>(), new Vector<String>(), content, subject, new Vector<Attachment>());
 
-		//Create a web target for the correct end-point.
+		// Create a web target for the correct end-point.
 		WebTarget target = client.target(protocolAndHostEmailServices);
 		target = target.path(ENDPOINT_EMAIL_SERVICES_EMAIL_NOTIFICATION);
 
-		//Send the request with the email encoded as JSON in the body.
+		// Send the request with the email encoded as JSON in the body.
 		Builder requestBuilder = target.request();
 		requestBuilder.post(createEntityStringJsonFromObject(emailNotification));
 	}
 
 	public Vector<PrivacyPolicy> getOspPrivacyPolicies()
 	{
-		//Create a web target for the correct end-point.
+		// Create a web target for the correct end-point.
 		WebTarget target = client.target(protocolAndHostEmailServices);
 		target = target.path(ENDPOINT_WEB_SERVICES_PRIVACY_POLICIES);
 
-		//Send the request.
+		// Send the request.
 		Builder requestBuilder = target.request();
 		String stringJson = requestBuilder.get(String.class);
-		
+
 		@SuppressWarnings("serial")
 		Type type = new TypeToken<Vector<PrivacyPolicy>>(){}.getType();
 		return createObjectFromJsonFollowingOperandoConventions(stringJson, type);
@@ -127,11 +133,11 @@ implements WatchdogClientI
 
 	public void getOspPrivacyOptions()
 	{
-		//Create a web target for the correct end-point.
+		// Create a web target for the correct end-point.
 		WebTarget target = client.target(protocolAndHostEmailServices);
 		target = target.path(ENDPOINT_WEB_SERVICES_PRIVACY_OPTIONS);
 
-		//Send the request.
+		// Send the request.
 		Builder requestBuilder = target.request();
 		requestBuilder.get();
 	}
