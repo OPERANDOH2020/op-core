@@ -28,6 +28,19 @@ var privacyWizardSwarm = {
         this.swarm("retrieveQuestions");
     },
 
+    getOSPSettings : function(){
+        this.swarm("retrieveOspSettingsFromServer");
+    },
+
+    retrieveOspSettingsFromServer:{
+        node: "PrivacySettingsWizzard",
+        code: function () {
+            this.ospSettings = getOspSettings();
+            this.home("gotOSPSettings")
+        }
+    },
+
+
     getQuestion: {
         node: "PrivacySettingsWizzard",
         code: function () {
