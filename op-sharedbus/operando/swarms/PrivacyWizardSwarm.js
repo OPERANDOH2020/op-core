@@ -12,56 +12,61 @@
 
 
 var privacyWizardSwarm = {
-    getNextQuestion: function (current_settings) {
-        this.current_settings = current_settings;
-        this.swarm("getQuestion");
-    },
-    completeWizard:function(current_settings, provided_suggestions){
-        this.current_settings = current_settings;
-        this.provided_suggestions = provided_suggestions;
-        console.log(provided_suggestions);
-        this.swarm("provideFeedback")
-    },
-
-    getSuggestedQuestions : function(suggestedOptions){
-        this.suggestedOptions = suggestedOptions;
-        this.swarm("retrieveQuestions");
-    },
 
     getOSPSettings : function(){
-        this.swarm("retrieveOspSettingsFromServer");
+        this.swarm("retrieveOSPSettingsFromServer");
     },
 
-    retrieveOspSettingsFromServer:{
+    retrieveOSPSettingsFromServer:{
         node: "PrivacySettingsWizzard",
         code: function () {
-            this.ospSettings = getOspSettings();
+            this.OSPSettings = getOspSettings();
             this.home("gotOSPSettings")
         }
     },
 
+    updateOSPSettings:function(newOspSettings){
+        this.ospSettings = newOspSettings;
+        this.swarm("updateOSPSettingsOnServer")
+    },
 
-    getQuestion: {
+    updateOSPSettingsOnServer:{
         node: "PrivacySettingsWizzard",
         code: function () {
-            this.question = getNextQuestion(this.current_settings)
-            this.home("gotNewQuestion")
+            var result = updateOspSettings(this.ospSettings);
+            if (result==="success"){
+                this.home("ospSettingsUpdated")
+            }else{
+                this.updateError = result;
+                this.home("ospSettingsUpdateFailed");
+            }
         }
     },
+
+    fetchReccomenderParams: function(){
+        this.swarm("getReccomenderParams");
+    },
+
+    getReccomenderParams:{
+        node: "PrivacySettingsWizzard",
+        code: function () {
+            this.reccomenderParams = getReccomenderParams();
+            this.home("gotReccomenderParams");
+        }
+    },
+
+    completeWizard:function(current_settings){
+        this.current_settings = current_settings;
+        this.swarm("provideFeedback")
+    },
+
     provideFeedback:{
         node: "PrivacySettingsWizzard",
         code: function () {
-            adjustAlgorithm(this.current_settings,this.provided_suggestions);
+            addFeedback(this.current_settings);
             this.home("wizardCompleted");
         }
-    },
-    retrieveQuestions:{
-        node: "PrivacySettingsWizzard",
-        code: function () {
-            this.questions = getSuggestedQuestions(this.suggestedOptions);
-            this.home("gotSuggestedQuestions");
-        }
     }
-}
+};
 
 privacyWizardSwarm;
