@@ -18,10 +18,14 @@ var privacyWizardSwarm = {
     },
 
     retrieveOSPSettingsFromServer:{
-        node: "PrivacySettingsWizzard",
+        node: "PrivacySettingsWizard",
+
         code: function () {
-            this.OSPSettings = getOspSettings();
-            this.home("gotOSPSettings")
+               // x = x.indexOf("\\uE2809C",0);
+               //x = x.replace("\uE2809D","");
+               this.ospSettings = getOspSettings();
+               //console.log(x);
+               this.home("gotOSPSettings");
         }
     },
 

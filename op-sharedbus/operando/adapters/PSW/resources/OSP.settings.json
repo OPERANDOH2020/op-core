@@ -1276,7 +1276,7 @@
         },
         "how_you_rank": {
             "read": {
-                "name": "Control showing “How You Rank”",
+                "name": "Control showing \"How You Rank\"",
                 "url": "https://www.linkedin.com/psettings/how-you-rank",
                 "jquery_selector": {
                     "element": "#setting-how-you-rank .state",
@@ -1605,7 +1605,7 @@
         },
         "allow_promoted_content": {
             "read": {
-                "name": "Allow/disallow Twitter to display ads about things you've already shown interest in (aka “promoted content”",
+                "name": "Allow/disallow Twitter to display ads about things you've already shown interest in (aka \"promoted content\"",
                 "url": "https://twitter.com/settings/security",
                 "jquery_selector": {
                     "element": "input[id='allow_ads_personalization']",

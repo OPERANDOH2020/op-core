@@ -6,7 +6,8 @@
 var fs = require('fs')
 
 
-var ospSettingsFile = "./resources/OSP.settings.json";
+var ospSettingsFile = process.env.SWARM_PATH+"/operando/adapters/PSW/resources/OSP.settings.json";
+
 var ospSettings = JSON.parse(fs.readFileSync(ospSettingsFile));
 
 exports.conditionalProbabilities = undefined;

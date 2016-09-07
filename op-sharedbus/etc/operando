@@ -38,7 +38,7 @@
                         {"node":"operando/adapters/RESTAdapter.js",                  "enabled":false  , "step":10},
                         {"core":"etc/adapters/WSServer.js",                          "enabled":true  , "step":10},
                         {"node":"operando/adapters/CBE/PrivacyForBenefitsAdapter.js",    "enabled":true  , "step":10},
-                        {"node":"operando/adapters/PrivacySettingsWizard.js",    "enabled":true  , "step":10},
+                        {"node":"operando/adapters/PSW/PrivacySettingsWizard.js",    "enabled":true  , "step":10},
 
                         {"node":"operando/adapters/WD/SocialNetworkSettingsAdapter.js",    "enabled":true  , "step":10},
                         {"node":"admin/adapters/TestsManager.js",                    "enabled":false, "step":5}

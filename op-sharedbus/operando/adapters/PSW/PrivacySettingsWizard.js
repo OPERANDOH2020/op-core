@@ -12,10 +12,10 @@
 
 var core = require("swarmcore");
 
-thisAdapter = core.createAdapter("PrivacySettingsWizzard");
+thisAdapter = core.createAdapter("PrivacySettingsWizard");
 
 var fs = require('fs');
-var storageFile = "./resources/userAnswers";
+var storageFile = process.env.SWARM_PATH+"/operando/adapters/PSW/resources/userAnswers";
 
 var utils = require('./utils');
 
