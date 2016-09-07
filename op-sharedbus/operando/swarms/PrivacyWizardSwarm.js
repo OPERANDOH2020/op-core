@@ -50,7 +50,7 @@ var privacyWizardSwarm = {
     getReccomenderParams:{
         node: "PrivacySettingsWizzard",
         code: function () {
-            this.reccomenderParams = getReccomenderParams();
+            this.reccomenderParameters = getReccomenderParams();
             this.home("gotReccomenderParams");
         }
     },

@@ -70,7 +70,8 @@
                 },
                 "data": {},
                 "recommended": "friends"
-            }
+            },
+            "id": 0
         },
         "who_can_contact": {
             "read": {
@@ -125,7 +126,8 @@
                 },
                 "data": {},
                 "recommended": "friends_of_friends"
-            }
+            },
+            "id": 1
         },
         "lookup_email": {
             "read": {
@@ -197,7 +199,8 @@
                 },
                 "data": {},
                 "recommended": "friends"
-            }
+            },
+            "id": 2
         },
         "lookup_phone": {
             "read": {
@@ -269,7 +272,8 @@
                 },
                 "data": {},
                 "recommended": "friends"
-            }
+            },
+            "id": 3
         },
         "search_engine": {
             "read": {
@@ -312,7 +316,8 @@
                 },
                 "data": {},
                 "recommended": "no"
-            }
+            },
+            "id": 4
         },
         "limit_timeline": {
             "read": {
@@ -353,7 +358,8 @@
                 },
                 "data": {},
                 "recommended": "only_me"
-            }
+            },
+            "id": 5
         },
         "control_timeline": {
             "read": {
@@ -394,7 +400,8 @@
                 },
                 "data": {},
                 "recommended": "enabled"
-            }
+            },
+            "id": 6
         },
         "timeline_posts_tags": {
             "read": {
@@ -499,7 +506,8 @@
                     }
                 },
                 "recommended": "only_me"
-            }
+            },
+            "id": 7
         },
         "timeline_other_posts": {
             "read": {
@@ -604,7 +612,8 @@
                     }
                 },
                 "recommended": "only_me"
-            }
+            },
+            "id": 8
         },
         "photo_tags_audience": {
             "read": {
@@ -658,7 +667,8 @@
                     }
                 },
                 "recommended": "only_me"
-            }
+            },
+            "id": 9
         },
         "control_followers": {
             "read": {
@@ -707,7 +717,8 @@
                     ]
                 },
                 "recommended": "friends"
-            }
+            },
+            "id": 10
         },
         "permissions_for_apps": {
             "read": {
@@ -746,11 +757,11 @@
                 "availableSettings": {
                     "disabled": {
                         "name": "Disalow",
-                        "index": 37
+                        "index": 31
                     },
                     "enabled": {
                         "name": "Allow",
-                        "index": 38
+                        "index": 32
                     }
                 },
                 "jquery_selector": {
@@ -783,7 +794,8 @@
                     }
                 },
                 "recommended": "disabled"
-            }
+            },
+            "id": 11
         },
         "control_personal_info": {
             "read": {
@@ -822,11 +834,11 @@
                 "availableSettings": {
                     "yes": {
                         "name": "Yes",
-                        "index": 45
+                        "index": 33
                     },
                     "no": {
                         "name": "No",
-                        "index": 46
+                        "index": 34
                     }
                 },
                 "jquery_selector": {
@@ -853,7 +865,8 @@
                     }
                 },
                 "recommended": "no"
-            }
+            },
+            "id": 12
         },
         "facebook_companies_ads": {
             "read": {
@@ -862,11 +875,11 @@
                 "availableSettings": {
                     "yes": {
                         "name": "Yes",
-                        "index": 47
+                        "index": 35
                     },
                     "no": {
                         "name": "No",
-                        "index": 48
+                        "index": 36
                     }
                 },
                 "jquery_selector": {
@@ -893,7 +906,8 @@
                     }
                 },
                 "recommended": "no"
-            }
+            },
+            "id": 13
         },
         "control_friends_ads": {
             "read": {
@@ -902,11 +916,11 @@
                 "availableSettings": {
                     "only_friends": {
                         "name": "Only my friends",
-                        "index": 49
+                        "index": 37
                     },
                     "no_one": {
                         "name": "No one",
-                        "index": 50
+                        "index": 38
                     }
                 },
                 "jquery_selector": {
@@ -933,7 +947,8 @@
                     }
                 },
                 "recommended": "no_one"
-            }
+            },
+            "id": 14
         },
         "control_preferences": {
             "read": {
@@ -1138,11 +1153,11 @@
                 "availableSettings": {
                     "yes": {
                         "name": "Yes",
-                        "index": 55
+                        "index": 39
                     },
                     "no": {
                         "name": "No",
-                        "index": 56
+                        "index": 40
                     }
                 },
                 "jquery_selector": {
@@ -1152,7 +1167,8 @@
             },
             "write": {
                 "recommended": "Do not allow your network to be notified of your profile changes"
-            }
+            },
+            "id": 15
         },
         "suggest_you_email": {
             "read": {

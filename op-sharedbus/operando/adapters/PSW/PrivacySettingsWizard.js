@@ -17,15 +17,14 @@ thisAdapter = core.createAdapter("PrivacySettingsWizzard");
 var fs = require('fs');
 var storageFile = "./resources/userAnswers";
 
-var ospSettings = JSON.parse(fs.readFileSync("./resources/OSP.settings.json"));
+var utils = require('./utils');
 
 
 getOspSettings = function(){
-    return ospSettings;
+    return utils.ospSettings;
 };
 
 updateOspSettings = function(newOspSettingsObject){
-    //check stuff here maybe and throw errors accordingly
     try {
         fs.writeFileSync("./resources/OSP.settings.json", JSON.stringify(newOspSettingsObject, null, 4));
         ospSettings = newOspSettingsObject;
@@ -37,7 +36,12 @@ updateOspSettings = function(newOspSettingsObject){
 };
 
 getReccomenderParams = function(){
-    //return the params used by the reccomender system
+    return {
+        "optionToSetting":utils.optionToSetting,
+        "settingToOptions":utils.settingToOptions,
+        "conditionalProbabilities":utils.conditionalProbabilities,
+        "optionProbabilities":utils.optionProbabilties
+    }
 }
 
 addFeedback = function(current_settings){
@@ -45,3 +49,5 @@ addFeedback = function(current_settings){
         console.log("Error: "+err+" occured for user choices: "+current_settings);
     });
 };
+
+
