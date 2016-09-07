@@ -16,8 +16,8 @@
 				<version>2.5.1</version>
 				<inherited>true</inherited>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.7</source>
+					<target>1.7</target>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -78,7 +78,13 @@
 			<artifactId>slf4j-simple</artifactId>
 			<version>1.6.2</version>
 		</dependency>
-    </dependencies>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-core</artifactId>
+			<version>1.10.19</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
     
     <properties>
         <jersey.version>2.2</jersey.version>

@@ -11,67 +11,81 @@
  */
 package eu.operando.core.watchdog;
 
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.Vector;
 
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
-import eu.operando.core.watchdog.PrivacySetting;
-import eu.operando.core.watchdog.WatchdogApplication;
+import eu.operando.api.model.PrivacySetting;
+import eu.operando.moduleclients.ClientEmailServices;
+import eu.operando.moduleclients.ClientOspEnforcement;
+import eu.operando.moduleclients.ClientUserDeviceEnforcement;
 
+@RunWith(MockitoJUnitRunner.class)
 public class WatchdogApplicationTests
 {
 	
-	private WatchdogClientStub clientStub = new WatchdogClientStub();
+	@Mock
+	private ClientUserDeviceEnforcement clientUserDeviceEnforcement;
 	
-	@Before
-	public void setUp()
-	{
-		clientStub = new WatchdogClientStub();
-	}
+	@Mock
+	private ClientOspEnforcement clientOspEnforcement;
+	
+	@Mock
+	private ClientEmailServices clientEmailServices;
+	
+	@InjectMocks
+	private WatchdogApplication application;
 	
 	@Test
 	public void testRunPrivacySettingsCheck_SettingsMatch_RequestToEmailAnalystNotSent()
 	{
 		//Set up
+		int userId = 1;
+		int ospId = 2;
+		
 		Vector<PrivacySetting> settingsCurrent = new Vector<PrivacySetting>();
 		settingsCurrent.add(new PrivacySetting(1, "description", "name", "settingKey", "settingValue"));
-		clientStub.setPrivacySettingsCurrent(settingsCurrent);
+		when(clientUserDeviceEnforcement.getPrivacySettingsCurrent(userId, ospId)).thenReturn(settingsCurrent);
 		
 		Vector<PrivacySetting> settingsRequired = new Vector<PrivacySetting>();
 		settingsRequired.add(new PrivacySetting(1, "description", "name", "settingKey", "settingValue"));
-		clientStub.setPrivacySettingsRequired(settingsRequired);
-		
-		WatchdogApplication application = new WatchdogApplication(clientStub);
+		when(clientOspEnforcement.getPrivacySettingsRequired(userId, ospId)).thenReturn(settingsRequired);
 		
 		//Exercise
 		application.runPrivacySettingsCheck(1, 2);
 		
 		//Verify
-		assertThat("Settings did match so no email should have been sent.", clientStub.getEmailSent(), is(false));
+		verify(clientEmailServices, never()).sendEmail(anyString(), anyString(), anyString());
 	}
 	
 	@Test
 	public void testRunPrivacySettingsCheck_SettingsDoNotMatch_RequestToEmailAnalyst()
 	{
 		//Set up
+		int userId = 1;
+		int ospId = 2;
+		
 		Vector<PrivacySetting> settingsCurrent = new Vector<PrivacySetting>();
 		settingsCurrent.add(new PrivacySetting(1, "description", "name", "settingKey", "settingValue"));
-		clientStub.setPrivacySettingsCurrent(settingsCurrent);
+		when(clientUserDeviceEnforcement.getPrivacySettingsCurrent(userId, ospId)).thenReturn(settingsCurrent);
 
 		Vector<PrivacySetting> settingsRequired = new Vector<PrivacySetting>();
-		settingsRequired.add(new PrivacySetting(1, "different description", "name", "settingKey", "settingValue"));
-		clientStub.setPrivacySettingsRequired(settingsRequired);
+		settingsRequired.add(new PrivacySetting(1, "different description", "name", "settingKey", "different settingValue"));
+		when(clientOspEnforcement.getPrivacySettingsRequired(userId, ospId)).thenReturn(settingsRequired);
 
-		WatchdogApplication application = new WatchdogApplication(clientStub);
-		
 		//Exercise
-		application.runPrivacySettingsCheck(1, 2);
+		application.runPrivacySettingsCheck(userId, ospId);
 
 		//Verify
-		assertThat("Settings did not match so an email should have been sent.", clientStub.getEmailSent(), is(true));
+		verify(clientEmailServices).sendEmail(anyString(), anyString(), anyString());
 	}
 }
