@@ -26,7 +26,7 @@ getOspSettings = function(){
 
 updateOspSettings = function(newOspSettingsObject){
     try {
-        fs.writeFileSync(process.env.SWARM_PATH+"/operando/adapters/PSW/resources/resources/OSP.settings2.json", JSON.stringify(newOspSettingsObject, null, 4));
+        fs.writeFileSync(process.env.SWARM_PATH+"/operando/adapters/PSW/resources/resources/OSP.settings3.json", JSON.stringify(newOspSettingsObject, null, 4));
         ospSettings = newOspSettingsObject;
     }catch(error){
         console.log("Update unsuccessful");
