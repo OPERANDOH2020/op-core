@@ -26,7 +26,7 @@ getOspSettings = function(){
 
 updateOspSettings = function(newOspSettingsObject){
     try {
-        fs.writeFileSync("./resources/OSP.settings.json", JSON.stringify(newOspSettingsObject, null, 4));
+        fs.writeFileSync(process.env.SWARM_PATH+"/operando/adapters/PSW/resources/resources/OSP.settings2.json", JSON.stringify(newOspSettingsObject, null, 4));
         ospSettings = newOspSettingsObject;
     }catch(error){
         console.log("Update unsuccessful");
@@ -36,11 +36,12 @@ updateOspSettings = function(newOspSettingsObject){
 };
 
 getReccomenderParams = function(){
+
     return {
-        "optionToSetting":utils.optionToSetting,
-        "settingToOptions":utils.settingToOptions,
-        "conditionalProbabilities":utils.conditionalProbabilities,
-        "optionProbabilities":utils.optionProbabilties
+        "optionsToSettings":utils.optionToSetting,
+        "settingsToOptions":utils.settingToOptions,
+        "conditionalProbabilitiesMatrix":utils.conditionalProbabilities,
+        "initialProbabilities":utils.optionProbabilties
     }
 }
 

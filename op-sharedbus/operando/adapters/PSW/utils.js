@@ -6,10 +6,9 @@
 var fs = require('fs')
 
 
-var ospSettingsFile = process.env.SWARM_PATH+"/operando/adapters/PSW/resources/OSP.settings.json";
+var ospSettingsFile = process.env.SWARM_PATH+"/operando/adapters/PSW/resources/OSP.settings2.json";
 
 var ospSettings = JSON.parse(fs.readFileSync(ospSettingsFile));
-
 exports.conditionalProbabilities = undefined;
 exports.optionProbabilties = undefined;
 exports.optionToSetting = undefined;
@@ -40,8 +39,7 @@ exports.indexOSPSettings = function(){
         }
     });
 
-
-    fs.writeFileSync("./resources/OSP.settings.json",JSON.stringify(ospSettings,null,4));
+    fs.writeFileSync(process.env.SWARM_PATH+"/operando/adapters/PSW/resources/OSP.settings2.json",JSON.stringify(ospSettings,null,4));
     init();
 
     function forEachSetting(applyOnSetting){

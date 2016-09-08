@@ -24,6 +24,7 @@ var privacyWizardSwarm = {
                // x = x.indexOf("\\uE2809C",0);
                //x = x.replace("\uE2809D","");
                this.ospSettings = getOspSettings();
+
                //console.log(x);
                this.home("gotOSPSettings");
         }
@@ -35,7 +36,7 @@ var privacyWizardSwarm = {
     },
 
     updateOSPSettingsOnServer:{
-        node: "PrivacySettingsWizzard",
+        node: "PrivacySettingsWizard",
         code: function () {
             var result = updateOspSettings(this.ospSettings);
             if (result==="success"){
@@ -52,7 +53,7 @@ var privacyWizardSwarm = {
     },
 
     getReccomenderParams:{
-        node: "PrivacySettingsWizzard",
+        node: "PrivacySettingsWizard",
         code: function () {
             this.reccomenderParameters = getReccomenderParams();
             this.home("gotReccomenderParams");
@@ -65,7 +66,7 @@ var privacyWizardSwarm = {
     },
 
     provideFeedback:{
-        node: "PrivacySettingsWizzard",
+        node: "PrivacySettingsWizard",
         code: function () {
             addFeedback(this.current_settings);
             this.home("wizardCompleted");
