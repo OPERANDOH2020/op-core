@@ -6,16 +6,13 @@
                 "url": "https://www.facebook.com/settings?tab=privacy",
                 "availableSettings": {
                     "public": {
-                        "name": "Public",
-                        "index": 0
+                        "name": "Public"
                     },
                     "friends": {
-                        "name": "Friends",
-                        "index": 1
+                        "name": "Friends"
                     },
                     "only_me": {
-                        "name": "Only Me",
-                        "index": 2
+                        "name": "Only Me"
                     }
                 },
                 "jquery_selector": {
@@ -70,8 +67,7 @@
                 },
                 "data": {},
                 "recommended": "friends"
-            },
-            "id": 0
+            }
         },
         "who_can_contact": {
             "read": {
@@ -79,12 +75,10 @@
                 "url": "https://www.facebook.com/settings?tab=privacy",
                 "availableSettings": {
                     "everyone": {
-                        "name": "Everyone",
-                        "index": 3
+                        "name": "Everyone"
                     },
                     "friends_of_friends": {
-                        "name": "Friends of Friends",
-                        "index": 4
+                        "name": "Friends of Friends"
                     }
                 },
                 "jquery_selector": {
@@ -126,8 +120,7 @@
                 },
                 "data": {},
                 "recommended": "friends_of_friends"
-            },
-            "id": 1
+            }
         },
         "lookup_email": {
             "read": {
@@ -135,16 +128,13 @@
                 "url": "https://www.facebook.com/settings?tab=privacy",
                 "availableSettings": {
                     "everyone": {
-                        "name": "Everyone",
-                        "index": 5
+                        "name": "Everyone"
                     },
                     "friends": {
-                        "name": "Friends",
-                        "index": 6
+                        "name": "Friends"
                     },
                     "friends_of_friends": {
-                        "name": "Friends of Friends",
-                        "index": 7
+                        "name": "Friends of Friends"
                     }
                 },
                 "jquery_selector": {
@@ -199,8 +189,7 @@
                 },
                 "data": {},
                 "recommended": "friends"
-            },
-            "id": 2
+            }
         },
         "lookup_phone": {
             "read": {
@@ -208,16 +197,13 @@
                 "url": "https://www.facebook.com/settings?tab=privacy",
                 "availableSettings": {
                     "everyone": {
-                        "name": "Everyone",
-                        "index": 8
+                        "name": "Everyone"
                     },
                     "friends": {
-                        "name": "Friends",
-                        "index": 9
+                        "name": "Friends"
                     },
                     "friends_of_friends": {
-                        "name": "Friends of Friends",
-                        "index": 10
+                        "name": "Friends of Friends"
                     }
                 },
                 "jquery_selector": {
@@ -272,8 +258,7 @@
                 },
                 "data": {},
                 "recommended": "friends"
-            },
-            "id": 3
+            }
         },
         "search_engine": {
             "read": {
@@ -281,12 +266,10 @@
                 "url": "https://www.facebook.com/settings?tab=privacy",
                 "availableSettings": {
                     "yes": {
-                        "name": "Yes",
-                        "index": 11
+                        "name": "Yes"
                     },
                     "no": {
-                        "name": "No",
-                        "index": 12
+                        "name": "No"
                     }
                 },
                 "jquery_selector": {
@@ -316,8 +299,7 @@
                 },
                 "data": {},
                 "recommended": "no"
-            },
-            "id": 4
+            }
         },
         "limit_timeline": {
             "read": {
@@ -325,12 +307,10 @@
                 "url": "https://www.facebook.com/settings?tab=timeline",
                 "availableSettings": {
                     "only_me": {
-                        "name": "Only Me",
-                        "index": 13
+                        "name": "Only Me"
                     },
                     "friends": {
-                        "name": "Friends",
-                        "index": 14
+                        "name": "Friends"
                     }
                 },
                 "jquery_selector": {
@@ -358,8 +338,7 @@
                 },
                 "data": {},
                 "recommended": "only_me"
-            },
-            "id": 5
+            }
         },
         "control_timeline": {
             "read": {
@@ -367,12 +346,10 @@
                 "url": "https://www.facebook.com/settings?tab=timeline",
                 "availableSettings": {
                     "enabled": {
-                        "name": "On",
-                        "index": 15
+                        "name": "On"
                     },
                     "disabled": {
-                        "name": "Off",
-                        "index": 16
+                        "name": "Off"
                     }
                 },
                 "jquery_selector": {
@@ -400,8 +377,7 @@
                 },
                 "data": {},
                 "recommended": "enabled"
-            },
-            "id": 6
+            }
         },
         "timeline_posts_tags": {
             "read": {
@@ -409,24 +385,19 @@
                 "url": "https://www.facebook.com/settings?tab=timeline",
                 "availableSettings": {
                     "everyone": {
-                        "name": "Everyone",
-                        "index": 17
+                        "name": "Everyone"
                     },
                     "friends_of_friends": {
-                        "name": "Friends of Friends",
-                        "index": 18
+                        "name": "Friends of Friends"
                     },
                     "friends": {
-                        "name": "Friends",
-                        "index": 19
+                        "name": "Friends"
                     },
                     "friends_except_acquaintances": {
-                        "name": "Friends except Acquaintances",
-                        "index": 20
+                        "name": "Friends except Acquaintances"
                     },
                     "only_me": {
-                        "name": "Only Me",
-                        "index": 21
+                        "name": "Only Me"
                     }
                 },
                 "jquery_selector": {
@@ -506,8 +477,7 @@
                     }
                 },
                 "recommended": "only_me"
-            },
-            "id": 7
+            }
         },
         "timeline_other_posts": {
             "read": {
@@ -515,24 +485,19 @@
                 "url": "https://www.facebook.com/settings?tab=timeline",
                 "availableSettings": {
                     "everyone": {
-                        "name": "Everyone",
-                        "index": 22
+                        "name": "Everyone"
                     },
                     "friends_of_friends": {
-                        "name": "Friends of Friends",
-                        "index": 23
+                        "name": "Friends of Friends"
                     },
                     "friends": {
-                        "name": "Friends",
-                        "index": 24
+                        "name": "Friends"
                     },
                     "friends_except_acquaintances": {
-                        "name": "Friends except Acquaintances",
-                        "index": 25
+                        "name": "Friends except Acquaintances"
                     },
                     "only_me": {
-                        "name": "Only Me",
-                        "index": 26
+                        "name": "Only Me"
                     }
                 },
                 "jquery_selector": {
@@ -612,8 +577,7 @@
                     }
                 },
                 "recommended": "only_me"
-            },
-            "id": 8
+            }
         },
         "photo_tags_audience": {
             "read": {
@@ -621,12 +585,10 @@
                 "url": "https://www.facebook.com/settings?tab=timeline",
                 "availableSettings": {
                     "friends": {
-                        "name": "Friends",
-                        "index": 27
+                        "name": "Friends"
                     },
                     "only_me": {
-                        "name": "Only Me",
-                        "index": 28
+                        "name": "Only Me"
                     }
                 },
                 "jquery_selector": {
@@ -667,8 +629,7 @@
                     }
                 },
                 "recommended": "only_me"
-            },
-            "id": 9
+            }
         },
         "control_followers": {
             "read": {
@@ -676,12 +637,10 @@
                 "url": "https://www.facebook.com/settings?tab=followers",
                 "availableSettings": {
                     "friends": {
-                        "name": "Friends",
-                        "index": 29
+                        "name": "Friends"
                     },
                     "public": {
-                        "name": "Public",
-                        "index": 30
+                        "name": "Public"
                     }
                 },
                 "jquery_selector": {
@@ -717,8 +676,7 @@
                     ]
                 },
                 "recommended": "friends"
-            },
-            "id": 10
+            }
         },
         "permissions_for_apps": {
             "read": {
@@ -756,12 +714,10 @@
                 "url": "https://www.facebook.com/settings?tab=applications",
                 "availableSettings": {
                     "disabled": {
-                        "name": "Disalow",
-                        "index": 31
+                        "name": "Disalow"
                     },
                     "enabled": {
-                        "name": "Allow",
-                        "index": 32
+                        "name": "Allow"
                     }
                 },
                 "jquery_selector": {
@@ -794,8 +750,7 @@
                     }
                 },
                 "recommended": "disabled"
-            },
-            "id": 11
+            }
         },
         "control_personal_info": {
             "read": {
@@ -833,12 +788,10 @@
                 "url": "https://www.facebook.com/settings?tab=ads",
                 "availableSettings": {
                     "yes": {
-                        "name": "Yes",
-                        "index": 33
+                        "name": "Yes"
                     },
                     "no": {
-                        "name": "No",
-                        "index": 34
+                        "name": "No"
                     }
                 },
                 "jquery_selector": {
@@ -865,8 +818,7 @@
                     }
                 },
                 "recommended": "no"
-            },
-            "id": 12
+            }
         },
         "facebook_companies_ads": {
             "read": {
@@ -874,12 +826,10 @@
                 "url": "https://www.facebook.com/settings?tab=ads&view",
                 "availableSettings": {
                     "yes": {
-                        "name": "Yes",
-                        "index": 35
+                        "name": "Yes"
                     },
                     "no": {
-                        "name": "No",
-                        "index": 36
+                        "name": "No"
                     }
                 },
                 "jquery_selector": {
@@ -906,8 +856,7 @@
                     }
                 },
                 "recommended": "no"
-            },
-            "id": 13
+            }
         },
         "control_friends_ads": {
             "read": {
@@ -915,12 +864,10 @@
                 "url": "https://www.facebook.com/settings?tab=ads",
                 "availableSettings": {
                     "only_friends": {
-                        "name": "Only my friends",
-                        "index": 37
+                        "name": "Only my friends"
                     },
                     "no_one": {
-                        "name": "No one",
-                        "index": 38
+                        "name": "No one"
                     }
                 },
                 "jquery_selector": {
@@ -947,8 +894,7 @@
                     }
                 },
                 "recommended": "no_one"
-            },
-            "id": 14
+            }
         },
         "control_preferences": {
             "read": {
@@ -1113,20 +1059,16 @@
                 "url": "https://www.linkedin.com/psettings/profile-photo-visibility",
                 "availableSettings": {
                     "No_One": {
-                        "name": "No One",
-                        "index": 39
+                        "name": "No One"
                     },
                     "Your_Connections": {
-                        "name": "Your Connections",
-                        "index": 40
+                        "name": "Your Connections"
                     },
                     "Your_Network": {
-                        "name": "Your Network",
-                        "index": 41
+                        "name": "Your Network"
                     },
                     "Everyone": {
-                        "name": "Everyone",
-                        "index": 42
+                        "name": "Everyone"
                     }
                 },
                 "jquery_selector": {
@@ -1167,8 +1109,7 @@
                 },
                 "data": {},
                 "recommended": "No One"
-            },
-            "id": 15
+            }
         },
         "control_third_party": {
             "read": {
@@ -1224,12 +1165,10 @@
                 "url": "https://www.linkedin.com/psettings/connections-visibility",
                 "availableSettings": {
                     "Only_you": {
-                        "name": "Only you",
-                        "index": 43
+                        "name": "Only you"
                     },
                     "Your_Connections": {
-                        "name": "Your Connections",
-                        "index": 44
+                        "name": "Your Connections"
                     }
                 },
                 "jquery_selector": {
@@ -1258,8 +1197,7 @@
                 },
                 "data": {},
                 "recommended": "Only you"
-            },
-            "id": 16
+            }
         },
         "how_you_rank": {
             "read": {
@@ -1267,12 +1205,10 @@
                 "url": "https://www.linkedin.com/psettings/how-you-rank",
                 "availableSettings": {
                     "Yes": {
-                        "name": "Yes",
-                        "index": 45
+                        "name": "Yes"
                     },
                     "No": {
-                        "name": "No",
-                        "index": 46
+                        "name": "No"
                     }
                 },
                 "jquery_selector": {
@@ -1301,8 +1237,7 @@
                 },
                 "data": {},
                 "recommended": "No"
-            },
-            "id": 17
+            }
         },
         "profile_viewers_feature": {
             "read": {
@@ -1310,12 +1245,10 @@
                 "url": "https://www.linkedin.com/psettings/browse-map",
                 "availableSettings": {
                     "Yes": {
-                        "name": "Yes",
-                        "index": 47
+                        "name": "Yes"
                     },
                     "No": {
-                        "name": "No",
-                        "index": 48
+                        "name": "No"
                     }
                 },
                 "jquery_selector": {
@@ -1344,8 +1277,7 @@
                 },
                 "data": {},
                 "recommended": "No"
-            },
-            "id": 18
+            }
         },
         "share_edits": {
             "read": {
@@ -1353,12 +1285,10 @@
                 "url": "https://www.linkedin.com/psettings/activity-broadcast",
                 "availableSettings": {
                     "Yes": {
-                        "name": "Yes",
-                        "index": 49
+                        "name": "Yes"
                     },
                     "No": {
-                        "name": "No",
-                        "index": 50
+                        "name": "No"
                     }
                 },
                 "jquery_selector": {
@@ -1387,8 +1317,7 @@
                 },
                 "data": {},
                 "recommended": "No"
-            },
-            "id": 19
+            }
         },
         "profile_viewing_options": {
             "read": {
@@ -1396,16 +1325,13 @@
                 "url": "https://www.linkedin.com/psettings/profile-visibility",
                 "availableSettings": {
                     "Full_profile": {
-                        "name": "Full profile",
-                        "index": 51
+                        "name": "Full profile"
                     },
                     "Characteristics": {
-                        "name": "Characteristics",
-                        "index": 52
+                        "name": "Characteristics"
                     },
                     "Private_mode": {
-                        "name": "Private mode",
-                        "index": 53
+                        "name": "Private mode"
                     }
                 },
                 "jquery_selector": {
@@ -1440,8 +1366,7 @@
                 },
                 "data": {},
                 "recommended": "Private_mode"
-            },
-            "id": 20
+            }
         },
         "share_you_news": {
             "read": {
@@ -1449,12 +1374,10 @@
                 "url": "https://www.linkedin.com/psettings/news-mention-broadcast",
                 "availableSettings": {
                     "Yes": {
-                        "name": "Yes",
-                        "index": 54
+                        "name": "Yes"
                     },
                     "No": {
-                        "name": "No",
-                        "index": 55
+                        "name": "No"
                     }
                 },
                 "jquery_selector": {
@@ -1483,8 +1406,7 @@
                 },
                 "data": {},
                 "recommended": "No"
-            },
-            "id": 21
+            }
         },
         "control_followers": {
             "read": {
@@ -1492,12 +1414,10 @@
                 "url": "https://www.linkedin.com/psettings/allow-follow",
                 "availableSettings": {
                     "Your_Connections": {
-                        "name": "Your Connections",
-                        "index": 56
+                        "name": "Your Connections"
                     },
                     "Everyone": {
-                        "name": "Everyone",
-                        "index": 57
+                        "name": "Everyone"
                     }
                 },
                 "jquery_selector": {
@@ -1526,8 +1446,7 @@
                 },
                 "data": {},
                 "recommended": "Your_Connections"
-            },
-            "id": 22
+            }
         },
         "suggest_you_email": {
             "read": {
@@ -1535,16 +1454,13 @@
                 "url": "https://www.linkedin.com/psettings/visibility/email",
                 "availableSettings": {
                     "Everyone": {
-                        "name": "Everyone",
-                        "index": 58
+                        "name": "Everyone"
                     },
                     "second_degree": {
-                        "name": "2nd degree",
-                        "index": 59
+                        "name": "2nd degree"
                     },
                     "Nobody": {
-                        "name": "Nobody",
-                        "index": 60
+                        "name": "Nobody"
                     }
                 },
                 "jquery_selector": {
@@ -1583,8 +1499,7 @@
                     "handleType": "EMAIL"
                 },
                 "recommended": "connections"
-            },
-            "id": 23
+            }
         },
         "suggest_you_phone": {
             "read": {
@@ -1592,16 +1507,13 @@
                 "url": "https://www.linkedin.com/psettings/visibility/phone",
                 "availableSettings": {
                     "Everyone": {
-                        "name": "Everyone",
-                        "index": 61
+                        "name": "Everyone"
                     },
                     "second_degree": {
-                        "name": "2nd degree",
-                        "index": 62
+                        "name": "2nd degree"
                     },
                     "Nobody": {
-                        "name": "Nobody",
-                        "index": 63
+                        "name": "Nobody"
                     }
                 },
                 "jquery_selector": {
@@ -1640,8 +1552,7 @@
                     "handleType": "PHONE"
                 },
                 "recommended": "connections"
-            },
-            "id": 24
+            }
         },
         "meet_the_team": {
             "read": {
@@ -1649,12 +1560,10 @@
                 "url": "https://www.linkedin.com/psettings/meet-the-team",
                 "availableSettings": {
                     "Yes": {
-                        "name": "Yes",
-                        "index": 64
+                        "name": "Yes"
                     },
                     "No": {
-                        "name": "No",
-                        "index": 65
+                        "name": "No"
                     }
                 },
                 "jquery_selector": {
@@ -1683,8 +1592,7 @@
                 },
                 "data": {},
                 "recommended": "No"
-            },
-            "id": 25
+            }
         },
         "share_data_with_third_party_applications": {
             "read": {
@@ -1692,12 +1600,10 @@
                 "url": "https://www.linkedin.com/psettings/data-sharing",
                 "availableSettings": {
                     "Yes": {
-                        "name": "Yes",
-                        "index": 66
+                        "name": "Yes"
                     },
                     "No": {
-                        "name": "No",
-                        "index": 67
+                        "name": "No"
                     }
                 },
                 "jquery_selector": {
@@ -1726,8 +1632,7 @@
                 },
                 "data": {},
                 "recommended": "No"
-            },
-            "id": 26
+            }
         },
         "share_data_with_third_party_platforms": {
             "read": {
@@ -1735,12 +1640,10 @@
                 "url": "https://www.linkedin.com/psettings/data-sharing",
                 "availableSettings": {
                     "Yes": {
-                        "name": "Yes",
-                        "index": 68
+                        "name": "Yes"
                     },
                     "No": {
-                        "name": "No",
-                        "index": 69
+                        "name": "No"
                     }
                 },
                 "jquery_selector": {
@@ -1770,8 +1673,7 @@
                 },
                 "data": {},
                 "recommended": "No"
-            },
-            "id": 27
+            }
         },
         "cookie_personalised_ads": {
             "read": {
@@ -1779,12 +1681,10 @@
                 "url": "https://www.linkedin.com/psettings/enhanced-advertising",
                 "availableSettings": {
                     "Yes": {
-                        "name": "Yes",
-                        "index": 70
+                        "name": "Yes"
                     },
                     "No": {
-                        "name": "No",
-                        "index": 71
+                        "name": "No"
                     }
                 },
                 "jquery_selector": {
@@ -1813,8 +1713,7 @@
                 },
                 "data": {},
                 "recommended": "No"
-            },
-            "id": 28
+            }
         },
         "control_messages_invitations": {
             "read": {
@@ -1822,12 +1721,10 @@
                 "url": "https://www.linkedin.com/psettings/email-controls",
                 "availableSettings": {
                     "On": {
-                        "name": "On",
-                        "index": 72
+                        "name": "On"
                     },
                     "Off": {
-                        "name": "Off",
-                        "index": 73
+                        "name": "Off"
                     }
                 },
                 "jquery_selector": {
@@ -1904,8 +1801,7 @@
                 },
                 "data": {},
                 "recommended": "Off"
-            },
-            "id": 29
+            }
         },
         "control_messages_messages": {
             "read": {
@@ -1913,12 +1809,10 @@
                 "url": "https://www.linkedin.com/psettings/email-controls",
                 "availableSettings": {
                     "On": {
-                        "name": "On",
-                        "index": 74
+                        "name": "On"
                     },
                     "Off": {
-                        "name": "Off",
-                        "index": 75
+                        "name": "Off"
                     }
                 },
                 "jquery_selector": {
@@ -1995,8 +1889,7 @@
                 },
                 "data": {},
                 "recommended": "Off"
-            },
-            "id": 30
+            }
         },
         "control_messages_notifications": {
             "read": {
@@ -2004,12 +1897,10 @@
                 "url": "https://www.linkedin.com/psettings/email-controls",
                 "availableSettings": {
                     "On": {
-                        "name": "On",
-                        "index": 76
+                        "name": "On"
                     },
                     "Off": {
-                        "name": "Off",
-                        "index": 77
+                        "name": "Off"
                     }
                 },
                 "jquery_selector": {
@@ -2110,8 +2001,7 @@
                 },
                 "data": {},
                 "recommended": "Off"
-            },
-            "id": 31
+            }
         },
         "control_messages_network_updates": {
             "read": {
@@ -2119,12 +2009,10 @@
                 "url": "https://www.linkedin.com/psettings/email-controls",
                 "availableSettings": {
                     "On": {
-                        "name": "On",
-                        "index": 78
+                        "name": "On"
                     },
                     "Off": {
-                        "name": "Off",
-                        "index": 79
+                        "name": "Off"
                     }
                 },
                 "jquery_selector": {
@@ -2209,8 +2097,7 @@
                 },
                 "data": {},
                 "recommended": "Off"
-            },
-            "id": 32
+            }
         },
         "control_messages_jobs_and_opportunities": {
             "read": {
@@ -2218,12 +2105,10 @@
                 "url": "https://www.linkedin.com/psettings/email-controls",
                 "availableSettings": {
                     "On": {
-                        "name": "On",
-                        "index": 80
+                        "name": "On"
                     },
                     "Off": {
-                        "name": "Off",
-                        "index": 81
+                        "name": "Off"
                     }
                 },
                 "jquery_selector": {
@@ -2308,8 +2193,7 @@
                     "topLevelNodeId": "root"
                 },
                 "recommended": "Off"
-            },
-            "id": 33
+            }
         },
         "control_messages_news": {
             "read": {
@@ -2317,12 +2201,10 @@
                 "url": "https://www.linkedin.com/psettings/email-controls",
                 "availableSettings": {
                     "On": {
-                        "name": "On",
-                        "index": 82
+                        "name": "On"
                     },
                     "Off": {
-                        "name": "Off",
-                        "index": 83
+                        "name": "Off"
                     }
                 },
                 "jquery_selector": {
@@ -2391,8 +2273,7 @@
                     "topLevelNodeId": "root"
                 },
                 "recommended": "Off"
-            },
-            "id": 34
+            }
         },
         "control_messages_from_linkedIn": {
             "read": {
@@ -2400,12 +2281,10 @@
                 "url": "https://www.linkedin.com/psettings/email-controls",
                 "availableSettings": {
                     "On": {
-                        "name": "On",
-                        "index": 84
+                        "name": "On"
                     },
                     "Off": {
-                        "name": "Off",
-                        "index": 85
+                        "name": "Off"
                     }
                 },
                 "jquery_selector": {
@@ -2466,8 +2345,7 @@
                     "topLevelNodeId": "root"
                 },
                 "recommended": "Off"
-            },
-            "id": 35
+            }
         },
         "control_messages_from_linkedIn_learning": {
             "read": {
@@ -2475,12 +2353,10 @@
                 "url": "https://www.linkedin.com/psettings/email-controls",
                 "availableSettings": {
                     "On": {
-                        "name": "On",
-                        "index": 86
+                        "name": "On"
                     },
                     "Off": {
-                        "name": "Off",
-                        "index": 87
+                        "name": "Off"
                     }
                 },
                 "jquery_selector": {
@@ -2541,8 +2417,7 @@
                     "topLevelNodeId": "root"
                 },
                 "recommended": "Off"
-            },
-            "id": 36
+            }
         },
         "who_can_invite_you": {
             "read": {
@@ -2550,16 +2425,13 @@
                 "url": "https://www.linkedin.com/psettings/invite-receive",
                 "availableSettings": {
                     "Everyone": {
-                        "name": "Everyone",
-                        "index": 88
+                        "name": "Everyone"
                     },
                     "Email_and_Imported_contacts": {
-                        "name": "Email and Imported contacts",
-                        "index": 89
+                        "name": "Email and Imported contacts"
                     },
                     "Imported_contacts": {
-                        "name": "Imported contacts",
-                        "index": 90
+                        "name": "Imported contacts"
                     }
                 },
                 "jquery_selector": {
@@ -2594,8 +2466,7 @@
                 },
                 "data": {},
                 "recommended": "Imported contacts"
-            },
-            "id": 37
+            }
         },
         "enable_group_invitations": {
             "read": {
@@ -2603,12 +2474,10 @@
                 "url": "https://www.linkedin.com/psettings/group-invitations",
                 "availableSettings": {
                     "Yes": {
-                        "name": "Yes",
-                        "index": 91
+                        "name": "Yes"
                     },
                     "No": {
-                        "name": "No",
-                        "index": 92
+                        "name": "No"
                     }
                 },
                 "jquery_selector": {
@@ -2637,8 +2506,7 @@
                 },
                 "data": {},
                 "recommended": "No"
-            },
-            "id": 38
+            }
         },
         "enable_group_notifications": {
             "read": {
@@ -2646,12 +2514,10 @@
                 "url": "https://www.linkedin.com/psettings/group-join-notifications",
                 "availableSettings": {
                     "Yes": {
-                        "name": "Yes",
-                        "index": 93
+                        "name": "Yes"
                     },
                     "No": {
-                        "name": "No",
-                        "index": 94
+                        "name": "No"
                     }
                 },
                 "jquery_selector": {
@@ -2680,8 +2546,7 @@
                 },
                 "data": {},
                 "recommended": "No"
-            },
-            "id": 39
+            }
         },
         "enable_research_invitations": {
             "read": {
@@ -2689,12 +2554,10 @@
                 "url": "https://www.linkedin.com/psettings/research-invitations",
                 "availableSettings": {
                     "Yes": {
-                        "name": "Yes",
-                        "index": 95
+                        "name": "Yes"
                     },
                     "No": {
-                        "name": "No",
-                        "index": 96
+                        "name": "No"
                     }
                 },
                 "jquery_selector": {
@@ -2723,8 +2586,7 @@
                 },
                 "data": {},
                 "recommended": "No"
-            },
-            "id": 40
+            }
         },
         "allow_partner_inmail": {
             "read": {
@@ -2732,12 +2594,10 @@
                 "url": "https://www.linkedin.com/psettings/partner-inmail",
                 "availableSettings": {
                     "Yes": {
-                        "name": "Yes",
-                        "index": 97
+                        "name": "Yes"
                     },
                     "No": {
-                        "name": "No",
-                        "index": 98
+                        "name": "No"
                     }
                 },
                 "jquery_selector": {
@@ -2772,8 +2632,7 @@
                 },
                 "data": {},
                 "recommended": "No"
-            },
-            "id": 41
+            }
         },
         "allow_hiring_campaign_partner_inmail": {
             "read": {
@@ -2781,12 +2640,10 @@
                 "url": "https://www.linkedin.com/psettings/partner-inmail",
                 "availableSettings": {
                     "Yes": {
-                        "name": "Yes",
-                        "index": 99
+                        "name": "Yes"
                     },
                     "No": {
-                        "name": "No",
-                        "index": 100
+                        "name": "No"
                     }
                 },
                 "jquery_selector": {
@@ -2820,8 +2677,7 @@
                 },
                 "data": {},
                 "recommended": "No"
-            },
-            "id": 42
+            }
         }
     },
     "twitter": {
@@ -2835,19 +2691,16 @@
                 },
                 "availableSettings": {
                     "allow": {
-                        "name": "Allow",
-                        "index": 101
+                        "name": "Allow"
                     },
                     "disallow": {
-                        "name": "Disallow",
-                        "index": 102
+                        "name": "Disallow"
                     }
                 }
             },
             "write": {
                 "recommended": "allow"
-            },
-            "id": 43
+            }
         },
         "allow_password_reset": {
             "read": {
@@ -2859,19 +2712,16 @@
                 },
                 "availableSettings": {
                     "true": {
-                        "name": "Allow",
-                        "index": 103
+                        "name": "Allow"
                     },
                     "false": {
-                        "name": "Disallow",
-                        "index": 104
+                        "name": "Disallow"
                     }
                 }
             },
             "write": {
                 "recommended": true
-            },
-            "id": 44
+            }
         },
         "allow_login_with_code": {
             "read": {
@@ -2883,19 +2733,16 @@
                 },
                 "availableSettings": {
                     "on": {
-                        "name": "Allow my account to log in with either a password or login code",
-                        "index": 105
+                        "name": "Allow my account to log in with either a password or login code"
                     },
                     "off": {
-                        "name": "Always require a password to log in to my account",
-                        "index": 106
+                        "name": "Always require a password to log in to my account"
                     }
                 }
             },
             "write": {
                 "recommended": "off"
-            },
-            "id": 45
+            }
         },
         "allow_photo_tag": {
             "read": {
@@ -2907,23 +2754,19 @@
                 },
                 "availableSettings": {
                     "all": {
-                        "name": "Allow anyone to tag me in photos",
-                        "index": 107
+                        "name": "Allow anyone to tag me in photos"
                     },
                     "following": {
-                        "name": "Only allow people I follow to tag me in photos",
-                        "index": 108
+                        "name": "Only allow people I follow to tag me in photos"
                     },
                     "none": {
-                        "name": "Do not allow anyone to tag me in photos",
-                        "index": 109
+                        "name": "Do not allow anyone to tag me in photos"
                     }
                 }
             },
             "write": {
                 "recommended": "none"
-            },
-            "id": 46
+            }
         },
         "tweet_privacy": {
             "read": {
@@ -2935,19 +2778,16 @@
                 },
                 "availableSettings": {
                     "0": {
-                        "name": "Off",
-                        "index": 110
+                        "name": "Off"
                     },
                     "1": {
-                        "name": "On",
-                        "index": 111
+                        "name": "On"
                     }
                 }
             },
             "write": {
                 "recommended": "0"
-            },
-            "id": 47
+            }
         },
         "allow_location": {
             "read": {
@@ -2959,19 +2799,16 @@
                 },
                 "availableSettings": {
                     "0": {
-                        "name": "Off",
-                        "index": 112
+                        "name": "Off"
                     },
                     "1": {
-                        "name": "On",
-                        "index": 113
+                        "name": "On"
                     }
                 }
             },
             "write": {
                 "recommended": "0"
-            },
-            "id": 48
+            }
         },
         "allow_email_search": {
             "read": {
@@ -2983,19 +2820,16 @@
                 },
                 "availableSettings": {
                     "0": {
-                        "name": "Off",
-                        "index": 114
+                        "name": "Off"
                     },
                     "1": {
-                        "name": "On",
-                        "index": 115
+                        "name": "On"
                     }
                 }
             },
             "write": {
                 "recommended": 0
-            },
-            "id": 49
+            }
         },
         "allow_phone_search": {
             "read": {
@@ -3007,19 +2841,16 @@
                 },
                 "availableSettings": {
                     "0": {
-                        "name": "Off",
-                        "index": 116
+                        "name": "Off"
                     },
                     "1": {
-                        "name": "On",
-                        "index": 117
+                        "name": "On"
                     }
                 }
             },
             "write": {
                 "recommended": 0
-            },
-            "id": 50
+            }
         },
         "allow_promoted_content": {
             "read": {
@@ -3031,19 +2862,16 @@
                 },
                 "availableSettings": {
                     "0": {
-                        "name": "Off",
-                        "index": 118
+                        "name": "Off"
                     },
                     "1": {
-                        "name": "On",
-                        "index": 119
+                        "name": "On"
                     }
                 }
             },
             "write": {
                 "recommended": 0
-            },
-            "id": 51
+            }
         },
         "allow_tweetdeck": {
             "read": {
@@ -3055,23 +2883,19 @@
                 },
                 "availableSettings": {
                     "all": {
-                        "name": "Allow anyone to add me to their team",
-                        "index": 120
+                        "name": "Allow anyone to add me to their team"
                     },
                     "following": {
-                        "name": "Only allow people I follow to add me to their team",
-                        "index": 121
+                        "name": "Only allow people I follow to add me to their team"
                     },
                     "none": {
-                        "name": "Do not allow anyone to add me to their team",
-                        "index": 122
+                        "name": "Do not allow anyone to add me to their team"
                     }
                 }
             },
             "write": {
                 "recommended": "none"
-            },
-            "id": 52
+            }
         },
         "allow_direct_message": {
             "read": {
@@ -3083,19 +2907,16 @@
                 },
                 "availableSettings": {
                     "0": {
-                        "name": "Off",
-                        "index": 123
+                        "name": "Off"
                     },
                     "1": {
-                        "name": "On",
-                        "index": 124
+                        "name": "On"
                     }
                 }
             },
             "write": {
                 "recommended": "0"
-            },
-            "id": 53
+            }
         }
     }
 }
