@@ -24,32 +24,22 @@ var privacyForBenefits = {
         action: null
     },
 
-    viewDeal: function () {
-        //TODO
-        //Implement viewDeal ctor
-    },
-
 
     getActiveDeals:function(){
 
         this.action = "listAvailableDeals";
-        this.swarm("checkUser");
+        this.swarm("getAllDealsSwarm");
     },
 
     getMyDeals: function () {
         this.action = "listMyDeals";
-        this.swarm("checkUser");
+        this.swarm("listMyDeals");
     },
 
     acceptDeal: function (dealId) {
         this.dealId = dealId;
         this.action = "acceptPfBDeal";
-        this.swarm("checkUser");
-    },
-
-    refuseDeal: function () {
-        //TODO
-        //Implement refuseDeal ctor
+        this.swarm("acceptPfBDeal");
     },
 
     getWebsiteDeal: function (_website, _tabId) {
@@ -75,7 +65,7 @@ var privacyForBenefits = {
         code: function () {
             if (websiteHasPfBDeal(this.website)) {
                 this.action="getWebsitePfBDeal";
-                this.swarm("checkUser");
+                this.swarm("getWebsitePfBDeal");
             }
             else {
                 this.home("no_pfb");
@@ -87,7 +77,7 @@ var privacyForBenefits = {
         code: function () {
             var self = this;
 
-            getPfBDeal(self.userId, self.website, S(function(err, deal){
+            getPfBDeal(self.meta.userId, self.website, S(function(err, deal){
 
                 if (deal != null) {
                     self.deal = deal;
@@ -100,43 +90,11 @@ var privacyForBenefits = {
         }
     },
 
-
-    checkUser: {
-        node: "SessionManager",
-        code: function () {
-            var self = this;
-            getUserBySession(this.getSessionId(), S(function (err, userId) {
-
-                if (err != null) {
-                    self.error.message = err.message;
-                    self.swarm("error");
-                }
-                else {
-                    self.userId = userId;
-                    switch (self.action) {
-                        case "acceptPfBDeal":
-                            self.swarm("acceptPfBDeal");
-                            break;
-                        case "listMyDeals":
-                            self.swarm("listMyDeals");
-                            break;
-                        case "listAvailableDeals":
-                            self.swarm("getAllDealsSwarm");
-                            break;
-                        case "getWebsitePfBDeal":
-                            self.swarm("getWebsitePfBDeal");
-                    }
-                }
-            }));
-        }
-    },
-
-
     acceptPfBDeal: {
         node: "PrivacyForBenefitsManager",
         code: function () {
             var self = this;
-            saveUserDeal(self.dealId, self.userId,function(err, deal){
+            saveUserDeal(self.dealId, self.meta.userId,function(err, deal){
                 console.log(deal);
             })
         }
@@ -146,7 +104,7 @@ var privacyForBenefits = {
         node: "PrivacyForBenefitsManager",
         code: function () {
             var self = this;
-            getUserDeals(self.userId, S(function(err, deals){
+            getUserDeals(self.meta.userId, S(function(err, deals){
                 if(deals){
                     self.deals = deals;
                     self.home("gotMyDeals");
@@ -159,7 +117,7 @@ var privacyForBenefits = {
         node: "PrivacyForBenefitsManager",
         code: function () {
             var self = this;
-            getAllDeals(self.userId,S(function (err, deals) {
+            getAllDeals(self.meta.userId,S(function (err, deals) {
                 if (deals) {
                     self.deals = deals;
                     self.home("gotActiveDeals");
