@@ -197,6 +197,7 @@ updateUser = function (userJsonObj, callback) {
                     callback(new Error("User with id " + userJsonObj.userId + " does not exist"), null);
                 }
                 else {
+                    redisPersistence.delete(user);
                     redisPersistence.externalUpdate(user, userJsonObj);
                     redisPersistence.saveObject(user, this.continue("updateReport"));
                 }
@@ -433,25 +434,22 @@ function bootSystem() {
             else {
                 createUser({
                     userId: "zeev",
-                    "password": "operando",
+                    password: "operando",
+                    email:"zeev@arteevo.com",
                     userName: "Zeev Pritzker",
                     organisationId: organisation.organisationId
                 }, saveCallbackFn);
                 createUser({
                     userId: "admin",
-                    "password": "swarm",
+                    password: "swarm",
+                    email:"admin@operando.eu",
                     userName: "Admin",
                     organisationId: organisation.organisationId
                 }, saveCallbackFn);
                 createUser({
-                    userId: "rafael",
-                    "password": "swarm",
-                    userName: "Rafael",
-                    organisationId: organisation.organisationId
-                }, saveCallbackFn);
-                createUser({
                     userId: "rafa",
-                    "password": "swarm",
+                    password: "swarm",
+                    email:"raf@rms.ro",
                     userName: "Rafael Mastaleru",
                     organisationId: organisation.organisationId
                 }, saveCallbackFn);

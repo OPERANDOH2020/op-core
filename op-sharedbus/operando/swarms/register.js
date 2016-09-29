@@ -22,6 +22,7 @@ var registerSwarming = {
     },
 
     registeNewUser: function (newUserData) {
+        console.log(newUserData);
         console.log("New user register request", newUserData);
         this.newUser = newUserData;
         this.swarm("verifyUserData");
@@ -49,23 +50,6 @@ var registerSwarming = {
             }))
         }
     },
-
-/*    saveNewUser: {
-        node: "UserManager",
-        code: function () {
-            var self = this;
-            createUser(this.newUser, S(function (err, user) {
-                if (err) {
-                    console.log("ERR");
-                    self.error = self.err,
-                        self.swarm("error");
-                } else {
-
-                    self.swarm("success");
-                }
-            }));
-        }
-    },*/
 
     generateValidationCode: {
         node: "UsersManager",

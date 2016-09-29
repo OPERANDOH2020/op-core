@@ -27,22 +27,22 @@ var loginSwarming = {
     },
     userLogin: function (userId, authorisationToken) {
         this.sessionId = this.getSessionId();
-        this.authenticated = false;
-        this.userId = userId;
-        if (!userId) {
-            this.swarm('failed');
-            return;
-        }
-        this.authorisationToken = authorisationToken;
-        this.clientAdapter = thisAdapter.nodeName;
-        this.swarm('checkPassword');
+            this.authenticated = false;
+            this.userId = userId;
+            if (!userId) {
+                this.swarm('failed');
+                return;
+            }
+            this.authorisationToken = authorisationToken;
+            this.clientAdapter = thisAdapter.nodeName;
+            this.swarm('checkPassword');
 
-    },
-    checkPassword: {
-        node: "UsersManager",
-        code: function () {
+        },
+        checkPassword: {
+            node: "UsersManager",
+            code: function () {
 
-            var valid = validPassword.async(this.userId, this.authorisationToken);
+                var valid = validPassword.async(this.userId, this.authorisationToken);
             var self = this;
             (function (valid) {
                 if (valid) {

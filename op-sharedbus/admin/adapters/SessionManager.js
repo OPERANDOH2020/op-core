@@ -6,7 +6,8 @@ var container = require("safebox").container;
 
 var myCfg = getMyConfig("SessionManager");
 
-var sessionMaxIdleTime = 8640;//one day
+var sessionMaxIdleTime = 94608000;//one year
+var sessionMinIdleTime = 8640;//one day
 
 if (myCfg.sessionTime != undefined) {
     sessionMaxIdleTime = myCfg.sessionTime;

@@ -18,8 +18,6 @@ var identitySwarming = {
 
     vars: {
         identity: null,
-        userId: null,
-        action: null,
         error:{}
     },
 
@@ -27,27 +25,16 @@ var identitySwarming = {
         console.log("Swarm extension started");
     },
 
-    generateIdentity: function(sessionId){
-        if (sessionId) {
-            this.setSessionId(sessionId);
-            this.action = "generateIdentity";
-            this.swarm("checkUser");
-        }
+    generateIdentity: function(){
+            this.action = "generateIdentity"
+            this.swarm("generateIdentityPhase");
     },
 
-    createIdentity: function (sessionId, identity) {
-
-        if (sessionId) {
-            this.setSessionId(sessionId);
-        }
-        else {
-            this.error = new Error("Session id was not provided for create");
-            this.swarm("error");
-        }
+    createIdentity: function (identity) {
         if (identity) {
             this.identity = identity;
             this.action = "createIdentity";
-            this.swarm("checkUser");
+            this.swarm("checkUserIdentities");
         }
         else {
             this.error = new Error("Identity data was not provided for create");
@@ -55,30 +42,17 @@ var identitySwarming = {
         }
     },
 
-    getMyIdentities: function (sessionId) {
-        if (sessionId) {
-            this.setSessionId(sessionId);
+    getMyIdentities: function () {
             this.action = "getMyIdentities";
-            this.swarm("checkUser");
-        }
-        else {
-            this.error = new Error("Session id was not provided for create");
-            this.swarm("error");
-        }
+            this.swarm("getUserIdentities");
     },
 
-    removeIdentity: function(sessionId, identity){
-        if (sessionId) {
-            this.setSessionId(sessionId);
-        }
-        else {
-            this.error = new Error("Session id was not provided for create");
-            this.swarm("error");
-        }
+    removeIdentity: function(identity){
+
         if (identity) {
             this.identity = identity;
             this.action = "deleteIdentity";
-            this.swarm("checkUser");
+            this.swarm("deleteIdentity");
         }
         else {
             this.error = new Error("identity id (email) was not provided for create");
@@ -86,42 +60,11 @@ var identitySwarming = {
         }
     },
 
-    checkUser: {
-        node: "SessionManager", //TODO remove rthis and use getUserId
-        code: function () {
-            var self = this;
-            getUserBySession(this.getSessionId(), S(function (err, userId) {
-
-                if (err != null) {
-                    self.error.message = err.message;
-                    self.swarm("error");
-                }
-                else {
-                    self.userId = userId;
-                    switch (self.action) {
-                        case "createIdentity":
-                            self.swarm("addIdentity");
-                            break;
-                        case "deleteIdentity":
-                            self.swarm("deleteIdentity");
-                            break;
-                        case "getMyIdentities":
-                            self.swarm("getUserIdentities");
-                            break;
-                        case "generateIdentity":
-                            self.swarm("generateIdentityPhase");
-                            break;
-                    }
-                }
-            }));
-        }
-    },
-
     addIdentity: {
         node: "IdentityManager",
         code: function () {
             var self = this;
-            self.identity['userId'] = this.userId;
+            self.identity['userId'] = this.meta.userId;
             createIdentity(self.identity, S(function (err, identity) {
                 if (err) {
                     self.error.message = err.message;
@@ -136,11 +79,35 @@ var identitySwarming = {
         }
     },
 
+    checkUserIdentities:{
+        node:"IdentityManager",
+        code: function(){
+            var self = this;
+            getIdentities(self.meta.userId, S(function (err, identities) {
+                if (err) {
+                    self.error.message = err.message;
+                    self.swarm("error");
+                }
+                else {
+                    self.identities = identities;
+
+                    if(self.identities.length >= 20){
+                        self.error.message = "You reached the maximum number of substitute identities!";
+                        self.swarm("error");
+                    }
+                    else{
+                        self.swarm("addIdentity");
+                    }
+                }
+            }))
+        }
+    },
+
     deleteIdentity:{
         node: "IdentityManager",
         code: function () {
             var self = this;
-            self.identity['userId'] = this.userId;
+            self.identity['userId'] = this.meta.userId;
             deleteIdentity(self.identity, S(function (err, identity) {
                 if (err) {
                     self.error.message = err.message;
@@ -158,7 +125,7 @@ var identitySwarming = {
         node:"IdentityManager",
         code: function(){
             var self = this;
-            getIdentities(self.userId, S(function (err, identities) {
+            getIdentities(self.meta.userId, S(function (err, identities) {
                     if (err) {
                         self.error.message = err.message;
                         self.swarm("error");

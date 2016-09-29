@@ -55,6 +55,28 @@ var userInfoSwarming =
         }
     },
 
+    updateUserInfo:function(updatedInfo){
+        console.log("new request", updatedInfo);
+        this.updatedInfo = updatedInfo;
+        this.swarm("updateUserAccount");
+    },
+
+    updateUserAccount:{
+        node:"UsersManager",
+        code: function(){
+            this.updatedInfo.userId=this.meta.userId;
+            var user = updateUser.async(this.updatedInfo);
+            var self = this;
+            (function(user){
+                self.user = user;
+                self.home("updatedUserInfo");
+            }).swait(user, function(err){
+                console.log(err);
+                self.home("userUpdateFailed");
+            });
+        }
+    },
+
     error:{
         node:"Core",
         code:function(){
