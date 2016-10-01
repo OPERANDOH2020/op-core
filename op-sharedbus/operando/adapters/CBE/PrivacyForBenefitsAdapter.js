@@ -193,7 +193,6 @@ getPfBDeal = function (userId, website, callback) {
 
 getAllDeals = function(userId, callback){
     var availableDeals = dummyVendors.slice(0);
-
     flow.create("getAllDeals", {
         begin: function(){
             if (!userId) {
@@ -213,6 +212,7 @@ getAllDeals = function(userId, callback){
                     for (var k = 0; k < deals.length; k++) {
                         if (availableDeals[i].serviceId == deals[k].pfbId) {
                             availableDeals.splice(i, 1);
+                            break;
                         }
                     }
                 }
@@ -278,50 +278,86 @@ saveUserDeal = function (dealId, userId, callback) {
                             pfbId: dealId
                         }
 
-                        redisPersistence.filter("UserPfB", deal, this.continue("getDealsIndex"));
+                        redisPersistence.filter("UserPfB", deal, this.continue("saveDeal"));
                         break;
                     }
                 }
             }
         },
 
-        getDealsIndex: function (err, deals) {
-            if (deals.length == 0) {
-                redisPersistence.filter("UserPfB", undefined, this.continue("saveDeal"));
+        saveDeal: function (err) {
+
+            if(!err){
+
+                redisPersistence.lookup("UserPfB", generateUUID(), function (err, deal) {
+
+                    if (redisPersistence.isFresh(deal)) {
+                        deal.userId = userId;
+                        deal.pfbId = dealId;
+                        deal.voucher = voucher_codes.generate({
+                            pattern: "##-####-##-####-####-##",
+                            charset: voucher_codes.charset("numbers")
+                        })[0];
+                        redisPersistence.saveObject(deal, callback)
+                    }
+                })
 
             }
-        },
-
-        saveDeal: function (err, deals) {
-            var index = 0;
-            var self = this;
-            console.log(err);
-            if (deals != undefined) {
-                index = deals.length;
+            else{
+                console.log("Save deal error",err);
             }
 
-            redisPersistence.lookup("UserPfB", index + 1, function (err, deal) {
 
-                console.log(deal);
-                if (redisPersistence.isFresh(deal)) {
-                    deal.userId = userId;
-                    deal.pfbId = dealId;
-                    deal.voucher = voucher_codes.generate({
-                        pattern: "##-####-##-####-####-##",
-                        charset: voucher_codes.charset("numbers")
-                    })[0];
-                    redisPersistence.save(deal, self.continue("returnDeal"))
-                }
-            })
-        },
-
-
-        returnDeal: function (err, deal) {
-            console.log(deal);
         }
 
     })();
 }
+
+
+removeUserDeal = function(dealId, userId, callback){
+    flow.create("remove pfb deal",{
+        begin:function(){
+            for (var i = 0; i < dummyVendors.length; i++) {
+                var deal = dummyVendors[i];
+
+                if (deal.serviceId == dealId) {
+                    var dealData = {
+                        userId: userId,
+                        pfbId: deal.serviceId
+                    }
+
+                    redisPersistence.filter("UserPfB", dealData, this.continue("removeDeal"));
+                    break;
+                }
+            }
+        },
+        removeDeal:function(err, deals){
+            if(err){
+                callback(err, null);
+            }
+            else{
+                deals.forEach(function(deal){
+                    redisPersistence.delete(deal);
+                    callback(null,deal);
+                })
+            }
+        }
+
+    })();
+}
+
+
+
+function generateUUID() {
+    var d = new Date().getTime();
+    var uuid = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = (d + Math.random()*16)%16 | 0;
+        d = Math.floor(d/16);
+        return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+    });
+    return uuid;
+}
+
 
 
 container.declareDependency("PrivacyForBenefitsManager", ["redisPersistence"], function (outOfService, redisPersistence) {

@@ -27,19 +27,21 @@ var privacyForBenefits = {
 
     getActiveDeals:function(){
 
-        this.action = "listAvailableDeals";
         this.swarm("getAllDealsSwarm");
     },
 
     getMyDeals: function () {
-        this.action = "listMyDeals";
         this.swarm("listMyDeals");
     },
 
     acceptDeal: function (dealId) {
         this.dealId = dealId;
-        this.action = "acceptPfBDeal";
         this.swarm("acceptPfBDeal");
+    },
+
+    unsubscribeDeal:function(dealId){
+        this.dealId = dealId;
+        this.swarm("unsubcribePfBDeal");
     },
 
     getWebsiteDeal: function (_website, _tabId) {
@@ -64,7 +66,6 @@ var privacyForBenefits = {
         node: "PrivacyForBenefitsManager",
         code: function () {
             if (websiteHasPfBDeal(this.website)) {
-                this.action="getWebsitePfBDeal";
                 this.swarm("getWebsitePfBDeal");
             }
             else {
@@ -85,7 +86,6 @@ var privacyForBenefits = {
                 } else {
                     self.home("no_pfb");
                 }
-
             }));
         }
     },
@@ -94,9 +94,28 @@ var privacyForBenefits = {
         node: "PrivacyForBenefitsManager",
         code: function () {
             var self = this;
-            saveUserDeal(self.dealId, self.meta.userId,function(err, deal){
-                console.log(deal);
-            })
+            saveUserDeal(self.dealId, self.meta.userId,S(function(err, deal){
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    self.deal = deal;
+                    self.home("dealAccepted");
+                }
+            }));
+        }
+    },
+
+    unsubcribePfBDeal:{
+        node: "PrivacyForBenefitsManager",
+        code: function () {
+            var self = this;
+            removeUserDeal(self.dealId, self.meta.userId,S(function(err, deal){
+                if(!err){
+                    this.deal = deal;
+                    self.home("dealUnsubscribed");
+                }
+            }));
         }
     },
 
