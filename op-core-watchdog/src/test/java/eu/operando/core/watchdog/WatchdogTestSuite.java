@@ -14,11 +14,21 @@ package eu.operando.core.watchdog;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
+import eu.operando.moduleclients.ClientEmailServicesTests;
+import eu.operando.moduleclients.ClientOspEnforcementTests;
+import eu.operando.moduleclients.ClientUserDeviceEnforcementTests;
+
 @RunWith(Suite.class)
 @Suite.SuiteClasses
 ({
-	WatchdogApplicationTests.class,
-	WatchdogClientTests.class
+	WdAppTests.class,
+	WdTaskSchedulerTests.class,
+	WdTaskOspPrivacyPoliciesCheckTests.class,
+	WdTaskOspPrivacyOptionsCheckTests.class,
+	WdTaskUserPrivacySettingsCheckTests.class,
+	ClientUserDeviceEnforcementTests.class,
+	ClientOspEnforcementTests.class,
+	ClientEmailServicesTests.class
 })
 public class WatchdogTestSuite
 {
