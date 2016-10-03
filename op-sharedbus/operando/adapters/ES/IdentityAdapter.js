@@ -36,7 +36,12 @@ apersistence.registerModel("Identity", "Redis", {
         domain:{
             type: "string",
             index: "true"
+        },
+        isDefault:{
+            type:"boolean",
+            default:false
         }
+
 
     },
     function (err, model) {
@@ -130,6 +135,47 @@ getIdentities = function (userId, callback) {
     else {
         redisPersistence.filter("Identity", {"userId": userId}, callback);
     }
+}
+
+setDefaultIdentity = function(identity, callback){
+
+    flow.create("set default identity",{
+        begin:function(){
+            if(!identity){
+                callback(new Error("No identity provided"), null);
+            }
+            else {
+                redisPersistence.filter("Identity", {isDefault:true, userId:identity.userId}, this.continue("clearCurrentDefaultIdentity"));
+            }
+        },
+
+        clearCurrentDefaultIdentity:function(err, identities){
+            if(identities){
+                identities.forEach(function(identity){
+                    identity.isDefault = false;
+                    redisPersistence.saveObject(identity, function(){
+                        //TODO refactor this
+                    });
+                });
+            }
+
+            this.next("retrieveCurrentIdentity");
+        },
+
+        retrieveCurrentIdentity:function(){
+            redisPersistence.findById("Identity", identity.email, this.continue("updateNewIdentity"));
+        },
+        updateNewIdentity:function(err, identity){
+            if(err){
+               callback(err, null);
+            }
+            else{
+                identity.isDefault = true;
+                redisPersistence.saveObject(identity, callback);
+            }
+        }
+    })();
+
 }
 
 

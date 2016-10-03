@@ -47,6 +47,14 @@ var identitySwarming = {
             this.swarm("getUserIdentities");
     },
 
+
+    updateDefaultSubstituteIdentity:function(identity){
+        this.identity = identity;
+        this.action = "updateDefaultSubstituteIdentity";
+        this.swarm("updateDefaultSubstituteIdentityPhase");
+    },
+
+
     removeIdentity: function(identity){
 
         if (identity) {
@@ -151,6 +159,23 @@ var identitySwarming = {
                 else{
                     self.generatedIdentity = identity;
                     self.swarm("success");
+                }
+            }));
+        }
+    },
+
+    updateDefaultSubstituteIdentityPhase: {
+        node: "IdentityManager",
+        code: function () {
+            var self = this;
+            setDefaultIdentity(self.identity, S(function (err, identity) {
+                if (err) {
+                    self.error = err;
+                    self.swarm("error");
+                }
+                else {
+                    self.identity = identity;
+                    self.home("defaultIdentityUpdated");
                 }
             }));
         }
