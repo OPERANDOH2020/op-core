@@ -51,7 +51,10 @@ public class McApiServiceImpl extends McApiService {
     @Override
     public Response mcOspOspIdJobsGet(BigDecimal ospId, SecurityContext securityContext)
     throws NotFoundException {
-		String strSelect;
+    	//if (true) return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+
+    	
+    	String strSelect;
 		strSelect = composeSqlQuery(ospId);    	
 	    
     	//GBE added code to get db information form a properties file
