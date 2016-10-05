@@ -15,7 +15,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>eu.operando.core</groupId>
-  <artifactId>eu.operando.core.python</artifactId>
+  <artifactId>eu.operando.core.python.server</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
