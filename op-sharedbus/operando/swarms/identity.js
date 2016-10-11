@@ -11,7 +11,6 @@
  */
 
 var identitySwarming = {
-
     meta: {
         name: "identity.js"
     },
@@ -26,8 +25,8 @@ var identitySwarming = {
     },
 
     generateIdentity: function(){
-            this.action = "generateIdentity"
-            this.swarm("generateIdentityPhase");
+        this.action = "generateIdentity"
+        this.swarm("generateIdentityPhase");
     },
 
     createIdentity: function (identity) {
@@ -43,8 +42,8 @@ var identitySwarming = {
     },
 
     getMyIdentities: function () {
-            this.action = "getMyIdentities";
-            this.swarm("getUserIdentities");
+        this.action = "getMyIdentities";
+        this.swarm("getUserIdentities");
     },
 
 
@@ -181,6 +180,44 @@ var identitySwarming = {
         }
     },
 
+    getRealEmail:function(proxy){
+        this.proxy = proxy;
+        this.swarm("getUserIdWithProxy");
+    },
+
+    getUserIdWithProxy:{
+        node: "IdentityManager",
+        code: function () {
+            var self = this;
+            getUserId(this.proxy,S(function(err, userId){
+                if(err){
+                    self.error.message = err.message;
+                    self.swarm("error");
+                }
+                else{
+                    self.userId = userId;
+                    self.swarm("getUserEmail");
+                }
+            }));
+        }
+    },
+
+    getUserEmail:{
+        node: "UsersManager",
+        code: function () {
+            var self = this;
+            getUserInfo(this.userId,S(function(err, userInfo){
+                if(err){
+                    self.error = err;
+                }
+                else{
+                    self.realEmail = userInfo.email;
+                }
+                self.home("gotRealEmail");
+            }));
+        }
+    },
+
     success: {
         node: "Core",
         code: function () {
@@ -195,9 +232,6 @@ var identitySwarming = {
             this.home(this.action + "_error");
         }
     }
-
-
-
-}
+};
 
 identitySwarming;

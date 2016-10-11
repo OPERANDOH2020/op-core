@@ -19,12 +19,7 @@ var container = require("safebox").container;
 var flow = require("callflow");
 
 apersistence.registerModel("Identity", "Redis", {
-
         userId: {
-            type: "string",
-            index: "true"
-        },
-        name: {
             type: "string",
             index: "true"
         },
@@ -33,20 +28,11 @@ apersistence.registerModel("Identity", "Redis", {
             index: "true",
             pk: "true"
         },
-        domain:{
-            type: "string",
-            index: "true"
-        },
-        isDefault:{
-            type:"boolean",
-            default:false
-        }
-
 
     },
     function (err, model) {
         if (err) {
-            console.log(model);
+            console.log(err);
         }
     }
 );
@@ -63,7 +49,7 @@ container.declareDependency("IdentityManager", ["redisPersistence"], function (o
 createIdentity = function (identityData, callback) {
     flow.create("create identity", {
         begin: function () {
-                redisPersistence.lookup.async("Identity", identityData.email, this.continue("createIdentity"));
+            redisPersistence.lookup.async("Identity", identityData.email, this.continue("createIdentity"));
         },
         createIdentity: function (err, identity) {
 
@@ -71,7 +57,6 @@ createIdentity = function (identityData, callback) {
                 callback(err, null);
             }
             else {
-
                 if (!redisPersistence.isFresh(identity)) {
                     callback(new Error("Identity email should be unique"), null);
                 }
@@ -81,9 +66,9 @@ createIdentity = function (identityData, callback) {
 
                 }
             }
-        },
+        }
     })();
-}
+};
 
 generateIdentity = function(callback){
     flow.create("generateIdentity",{
@@ -94,15 +79,14 @@ generateIdentity = function(callback){
         },
         generateIdentity: function(err, identity){
             if(redisPersistence.isFresh(identity)){
-               callback(null, identity);
+                callback(null, identity);
             }
             else{
                 this.begin();
             }
         }
     })();
-}
-
+};
 
 deleteIdentity = function (identityData, callback) {
     flow.create("delete identity", {
@@ -126,7 +110,7 @@ deleteIdentity = function (identityData, callback) {
 
         }
     })();
-}
+};
 
 getIdentities = function (userId, callback) {
     if (!userId) {
@@ -135,7 +119,7 @@ getIdentities = function (userId, callback) {
     else {
         redisPersistence.filter("Identity", {"userId": userId}, callback);
     }
-}
+};
 
 setDefaultIdentity = function(identity, callback){
 
@@ -167,7 +151,7 @@ setDefaultIdentity = function(identity, callback){
         },
         updateNewIdentity:function(err, identity){
             if(err){
-               callback(err, null);
+                callback(err, null);
             }
             else{
                 identity.isDefault = true;
@@ -178,6 +162,19 @@ setDefaultIdentity = function(identity, callback){
 
 }
 
+getUserId = function(proxyEmail,callback){
+    redisPersistence.findById("Identity",proxyEmail,function(err,result){
+        if(err){
+            callback(err);
+            return;
+        }
+        if(result===null){
+            callback(new Error("Proxy "+proxyEmail+" is not registered"));
+            return;
+        }
+        callback(err,result.userId);
+    })
+};
 
 function generateString(){
     return Math.floor((1 + Math.random()) * 0x100000000000000)
