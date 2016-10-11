@@ -260,6 +260,32 @@ getUserDeals = function (userId, callback) {
     })();
 }
 
+getAllPfbDeals = function(userId, callback){
+    var allDeals = dummyVendors;
+
+    for(var i = 0; i<allDeals.length; i++){
+        allDeals[i].subscribed = false;
+    }
+
+    getUserDeals(userId, function(err, deals){
+
+
+      for (var i = 0; i<deals.length; i++){
+          for(var j = 0; j<allDeals.length; j++){
+              if(deals[i].serviceId === allDeals[j].serviceId)
+              {
+                  allDeals[j].subscribed = true;
+                  break;
+              }
+          }
+      }
+        console.log(allDeals);
+
+        callback(null,allDeals);
+
+    });
+}
+
 
 saveUserDeal = function (dealId, userId, callback) {
     flow.create("store pfb deal", {

@@ -34,6 +34,10 @@ var privacyForBenefits = {
         this.swarm("listMyDeals");
     },
 
+    getAllDeals:function(){
+      this.swarm("listAllPfbDeals");
+    },
+
     acceptDeal: function (dealId) {
         this.dealId = dealId;
         this.swarm("acceptPfBDeal");
@@ -85,6 +89,23 @@ var privacyForBenefits = {
                     self.home("success");
                 } else {
                     self.home("no_pfb");
+                }
+            }));
+        }
+    },
+
+    listAllPfbDeals: {
+        node: "PrivacyForBenefitsManager",
+        code:function(){
+            var self = this;
+            getAllPfbDeals(self.meta.userId, S(function(err, deals){
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    self.deals = deals;
+
+                    self.home("gotAllDeals");
                 }
             }));
         }
