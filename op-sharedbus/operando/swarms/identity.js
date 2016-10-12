@@ -67,6 +67,19 @@ var identitySwarming = {
         }
     },
 
+    listDomains: function(){
+        var availableDomains = [];
+        for (var i = 0; i < 6; i++) {
+            var domain = {
+                id: "op" + i,
+                name: "operando" + i + ".eu"
+            }
+            availableDomains.push(domain);
+        }
+        this.domains = availableDomains;
+        this.home("gotDomains");
+    },
+
     addIdentity: {
         node: "IdentityManager",
         code: function () {

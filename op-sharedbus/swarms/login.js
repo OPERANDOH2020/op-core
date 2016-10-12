@@ -42,7 +42,7 @@ var loginSwarming = {
             node: "UsersManager",
             code: function () {
 
-                var valid = validPassword.async(this.userId, this.authorisationToken);
+            var valid = validPassword.async(this.userId, this.authorisationToken);
             var self = this;
             (function (valid) {
                 if (valid) {

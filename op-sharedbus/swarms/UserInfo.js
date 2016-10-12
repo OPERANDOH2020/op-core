@@ -72,6 +72,7 @@ var userInfoSwarming =
                 self.home("updatedUserInfo");
             }).swait(user, function(err){
                 console.log(err);
+                self.error = err;
                 self.home("userUpdateFailed");
             });
         }
@@ -85,7 +86,6 @@ var userInfoSwarming =
         }
 
     }
-
 
 };
 

@@ -21,7 +21,7 @@ var registerSwarming = {
         erorr: null
     },
 
-    registeNewUser: function (newUserData) {
+    registerNewUser: function (newUserData) {
         console.log(newUserData);
         console.log("New user register request", newUserData);
         this.newUser = newUserData;
@@ -56,9 +56,7 @@ var registerSwarming = {
         code: function () {
             this.home("success");
         }
-    },
-
-
+    }
 }
 
 registerSwarming;
