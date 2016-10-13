@@ -25,7 +25,7 @@ var identitySwarming = {
     },
 
     generateIdentity: function(){
-        this.action = "generateIdentity"
+        this.action = "generateIdentity";
         this.swarm("generateIdentityPhase");
     },
 

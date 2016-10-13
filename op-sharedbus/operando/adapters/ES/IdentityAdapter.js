@@ -28,7 +28,10 @@ apersistence.registerModel("Identity", "Redis", {
             index: "true",
             pk: "true"
         },
-
+        isDefault:{
+            type: "boolean",
+            default: false
+        }
     },
     function (err, model) {
         if (err) {
@@ -107,7 +110,6 @@ deleteIdentity = function (identityData, callback) {
             else if (identity != null) {
                 redisPersistence.delete(identity, callback);
             }
-
         }
     })();
 };
@@ -134,16 +136,22 @@ setDefaultIdentity = function(identity, callback){
         },
 
         clearCurrentDefaultIdentity:function(err, identities){
-            if(identities){
-                identities.forEach(function(identity){
-                    identity.isDefault = false;
-                    redisPersistence.saveObject(identity, function(){
-                        //TODO refactor this
-                    });
+            var self = this;
+            if(identities.length>0){
+                identities.forEach(function(_identity, index){
+                    _identity.isDefault = false;
+                    (function (index) {
+                        redisPersistence.saveObject(_identity, function () {
+                            if (index == identities.length-1) {
+                                self.next("retrieveCurrentIdentity");
+                            }
+                        })
+                    })(index);
                 });
             }
-
-            this.next("retrieveCurrentIdentity");
+            else {
+                self.next("retrieveCurrentIdentity");
+            }
         },
 
         retrieveCurrentIdentity:function(){
@@ -159,7 +167,6 @@ setDefaultIdentity = function(identity, callback){
             }
         }
     })();
-
 }
 
 getUserId = function(proxyEmail,callback){
