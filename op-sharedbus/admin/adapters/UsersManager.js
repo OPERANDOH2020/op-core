@@ -411,8 +411,8 @@ function bootSystem() {
     flow.create("bootSystem", {
         begin: function () {
             redisPersistence.lookup("Organisation", "SystemAdministrators", this.continue("createOrganisation"));
-
             redisPersistence.lookup("Organisation", "Public", this.continue("createPublicOrganisation"));
+            redisPersistence.lookup("Organisation", "Analysts", this.continue("createAnalystOrganisation"));
 
         },
         createPublicOrganisation: function (err, organisation) {
@@ -467,9 +467,36 @@ function bootSystem() {
                     organisationId: organisation.organisationId
                 }, saveCallbackFn);
             }
+        },
+
+        createAnalystOrganisation:function(err, organisation){
+            if (redisPersistence.isFresh(organisation)) {
+                organisation.displayName = "OPERANDO ANALYSTS";
+                redisPersistence.saveObject(organisation, this.continue("createAnalystUser"));
+            }
+        },
+
+        createAnalystUser:function(err, organisation){
+            if(err){
+                console.log("Error when creating OPERANDO ANALYSTS organisation");
+            }
+            else{
+                createUser({
+                    userId: "analyst",
+                    password: hashThisPassword("analyst"),
+                    email:"analyst@rms.ro",
+                    userName: "Analyst Guru",
+                    organisationId: organisation.organisationId
+                }, saveCallbackFn);
+            }
         }
 
     })();
+}
+
+function hashThisPassword(password){
+    //TODO choose encryption method
+    return password;
 }
 
 

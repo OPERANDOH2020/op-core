@@ -26,6 +26,7 @@ var loginSwarming = {
         userId: null
     },
     userLogin: function (userId, authorisationToken) {
+        console.log("here");
         this.sessionId = this.getSessionId();
             this.authenticated = false;
             this.userId = userId;
