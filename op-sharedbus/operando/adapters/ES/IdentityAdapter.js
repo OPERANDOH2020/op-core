@@ -61,7 +61,7 @@ createIdentity = function (identityData, callback) {
             }
             else {
                 if (!redisPersistence.isFresh(identity)) {
-                    callback(new Error("Identity email should be unique"), null);
+                    callback(new Error("identity_email_should_be_unique"), null);
                 }
                 else {
                     redisPersistence.externalUpdate(identity, identityData);
@@ -95,7 +95,7 @@ deleteIdentity = function (identityData, callback) {
     flow.create("delete identity", {
         begin: function () {
             if (!identityData.email) {
-                callback(new Error("empty email"), null);
+                callback(new Error("empty_email"), null);
             }
             else {
 
@@ -110,13 +110,18 @@ deleteIdentity = function (identityData, callback) {
             else if (identity != null) {
                 redisPersistence.delete(identity, callback);
             }
+            else{
+                if(identity == null){
+                    callback(new Error("identity_not_exists"), null);
+                }
+            }
         }
     })();
 };
 
 getIdentities = function (userId, callback) {
     if (!userId) {
-        callback(new Error("userId is required"), null);
+        callback(new Error("userId_is_required"), null);
     }
     else {
         redisPersistence.filter("Identity", {"userId": userId}, callback);
@@ -128,7 +133,7 @@ setDefaultIdentity = function(identity, callback){
     flow.create("set default identity",{
         begin:function(){
             if(!identity){
-                callback(new Error("No identity provided"), null);
+                callback(new Error("no_identity_provided"), null);
             }
             else {
                 redisPersistence.filter("Identity", {isDefault:true, userId:identity.userId}, this.continue("clearCurrentDefaultIdentity"));
