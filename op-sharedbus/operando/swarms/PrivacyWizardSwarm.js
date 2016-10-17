@@ -24,7 +24,6 @@ var privacyWizardSwarm = {
                // x = x.indexOf("\\uE2809C",0);
                //x = x.replace("\uE2809D","");
                this.ospSettings = getOspSettings();
-
                //console.log(x);
                this.home("gotOSPSettings");
         }
@@ -48,19 +47,20 @@ var privacyWizardSwarm = {
         }
     },
 
-    fetchReccomenderParams: function(){
-        this.swarm("getReccomenderParams");
+    fetchRecommenderParams: function(){
+        this.swarm("getRecommenderParams");
     },
 
-    getReccomenderParams:{
+    getRecommenderParams:{
         node: "PrivacySettingsWizard",
         code: function () {
-            this.reccomenderParameters = getReccomenderParams();
-            this.home("gotReccomenderParams");
+            this.recommenderParameters = getRecommenderParams();
+            this.home("gotRecommenderParams");
         }
     },
 
     completeWizard:function(current_settings){
+        console.log(current_settings);
         this.current_settings = current_settings;
         this.swarm("provideFeedback")
     },

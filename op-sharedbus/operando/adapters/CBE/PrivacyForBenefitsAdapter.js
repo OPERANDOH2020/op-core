@@ -279,8 +279,6 @@ getAllPfbDeals = function(userId, callback){
               }
           }
       }
-        console.log(allDeals);
-
         callback(null,allDeals);
 
     });

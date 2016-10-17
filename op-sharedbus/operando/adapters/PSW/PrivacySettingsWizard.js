@@ -35,7 +35,7 @@ updateOspSettings = function(newOspSettingsObject){
     return "success";
 };
 
-getReccomenderParams = function(){
+getRecommenderParams = function(){
 
     return {
         "optionsToSettings":utils.optionToSetting,
@@ -47,7 +47,9 @@ getReccomenderParams = function(){
 
 addFeedback = function(current_settings){
     fs.appendFile(storageFile,current_settings,function(err){
-        console.log("Error: "+err+" occured for user choices: "+current_settings);
+        if(err){
+            console.log("Error: "+err+" occured for user choices: "+current_settings);
+        }
     });
 };
 
