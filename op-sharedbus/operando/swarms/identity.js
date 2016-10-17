@@ -195,6 +195,7 @@ var identitySwarming = {
 
     getRealEmail:function(proxy){
         this.proxy = proxy;
+        this.action = "getRealEmail";
         this.swarm("getUserIdWithProxy");
     },
 

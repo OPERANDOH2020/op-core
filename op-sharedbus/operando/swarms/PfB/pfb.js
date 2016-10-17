@@ -24,9 +24,7 @@ var privacyForBenefits = {
         action: null
     },
 
-
     getActiveDeals:function(){
-
         this.swarm("getAllDealsSwarm");
     },
 

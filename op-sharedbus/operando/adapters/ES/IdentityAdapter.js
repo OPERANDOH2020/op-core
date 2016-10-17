@@ -108,7 +108,13 @@ deleteIdentity = function (identityData, callback) {
                 callback(err, null);
             }
             else if (identity != null) {
-                redisPersistence.delete(identity, callback);
+                if(identity.isDefault == true){
+                    callback(new Error("could_not_delete_default_identity"), null);
+                }
+                else{
+                    redisPersistence.delete(identity, callback);
+                }
+
             }
             else{
                 if(identity == null){
