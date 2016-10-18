@@ -18,7 +18,7 @@ var privacyWizardSwarm = {
     },
 
     retrieveOSPSettingsFromServer:{
-        node: "PrivacySettingsWizard",
+        node: "WatchDogAdapter",
 
         code: function () {
                // x = x.indexOf("\\uE2809C",0);
@@ -35,7 +35,7 @@ var privacyWizardSwarm = {
     },
 
     updateOSPSettingsOnServer:{
-        node: "PrivacySettingsWizard",
+        node: "WatchDogAdapter",
         code: function () {
             var result = updateOspSettings(this.ospSettings);
             if (result==="success"){
@@ -52,7 +52,7 @@ var privacyWizardSwarm = {
     },
 
     getRecommenderParams:{
-        node: "PrivacySettingsWizard",
+        node: "WatchDogAdapter",
         code: function () {
             this.recommenderParameters = getRecommenderParams();
             this.home("gotRecommenderParams");
@@ -66,7 +66,7 @@ var privacyWizardSwarm = {
     },
 
     provideFeedback:{
-        node: "PrivacySettingsWizard",
+        node: "WatchDogAdapter",
         code: function () {
             addFeedback(this.current_settings);
             this.home("wizardCompleted");
