@@ -1,5 +1,22 @@
 package io.swagger.api.impl;
 
+import io.swagger.api.*;
+import io.swagger.model.*;
+
+import com.sun.jersey.multipart.FormDataParam;
+
+import io.swagger.model.Error;
+import io.swagger.model.InlineResponse2003;
+
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import io.swagger.api.NotFoundException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -7,11 +24,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import com.sun.jersey.core.header.FormDataContentDisposition;
+import com.sun.jersey.multipart.FormDataParam;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -20,17 +35,13 @@ import org.deidentifier.arx.ARXAnonymizer;
 import org.deidentifier.arx.ARXConfiguration;
 import org.deidentifier.arx.ARXResult;
 import org.deidentifier.arx.AttributeType;
-import org.deidentifier.arx.AttributeType.Hierarchy;
-import org.deidentifier.arx.AttributeType.Hierarchy.DefaultHierarchy;
 import org.deidentifier.arx.Data;
 import org.deidentifier.arx.DataHandle;
 import org.deidentifier.arx.DataSource;
 import org.deidentifier.arx.DataType;
+import org.deidentifier.arx.AttributeType.Hierarchy;
+import org.deidentifier.arx.AttributeType.Hierarchy.DefaultHierarchy;
 import org.deidentifier.arx.criteria.KAnonymity;
-
-import io.swagger.api.ApiResponseMessage;
-import io.swagger.api.NotFoundException;
-import io.swagger.api.PersonaldataApiService;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-05-10T09:36:15.284Z")
 public class PersonaldataApiServiceImpl extends PersonaldataApiService {
@@ -125,7 +136,7 @@ public class PersonaldataApiServiceImpl extends PersonaldataApiService {
         data.getDefinition().setAttributeType("EMAIL_ADDRESS", AttributeType.IDENTIFYING_ATTRIBUTE);
         data.getDefinition().setAttributeType("GENDER", AttributeType.INSENSITIVE_ATTRIBUTE);
         data.getDefinition().setAttributeType("RACE", AttributeType.INSENSITIVE_ATTRIBUTE);
-        data.getDefinition().setAttributeType("DATE_OF_BIRTH", AttributeType.QUASI_IDENTIFYING_ATTRIBUTE);        
+        data.getDefinition().setAttributeType("DATE_OF_BIRTH", AttributeType.IDENTIFYING_ATTRIBUTE);        
         data.getDefinition().setAttributeType("COUNTRY", NATIVE_COUNTRY); 
         data.getDefinition().setAttributeType("MARITAL_STATUS", AttributeType.INSENSITIVE_ATTRIBUTE);
         data.getDefinition().setAttributeType("NUMBER_OF_CHILDREN", AttributeType.INSENSITIVE_ATTRIBUTE);
