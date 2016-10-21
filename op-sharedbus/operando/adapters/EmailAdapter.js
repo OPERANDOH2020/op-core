@@ -86,8 +86,6 @@ removeConversation = function(conversationUUID,callback){
     persistence.deleteById('conversation',conversationUUID,callback);
 };
 
-
-
 var emailPort = process.argv.indexOf("-port");
 if(emailPort===-1){
     emailPort = 25;

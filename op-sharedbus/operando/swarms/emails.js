@@ -16,10 +16,12 @@ var emailsSwarming = {
         this['receiver'] = receiver;
         this.swarm('register');
     },
+
     getConversation:function(conversationUUID){
         this['conversationUUID'] = conversationUUID;
         this.swarm('get');
     },
+
     removeConversation:function(conversationUUID){
         this['conversationUUID'] = conversationUUID;
         this.swarm('remove');
@@ -32,6 +34,11 @@ var emailsSwarming = {
         this['content'] = content;
         this.swarm('deliverEmail');
 
+    },
+
+    resetPassword:function(email){
+        this['email'] = email;
+        this.swarm('changePassword');
     },
 
     register: {
@@ -48,6 +55,7 @@ var emailsSwarming = {
             }))
         }
     },
+
     get: {
         node: "EmailAdapter",
         code: function () {
@@ -64,6 +72,7 @@ var emailsSwarming = {
 
         }
     },
+
     remove: {
         node: "EmailAdapter",
         code: function () {
@@ -78,6 +87,42 @@ var emailsSwarming = {
             }))
         }
     },
+
+    changePassword:{
+        node:'UsersManager',
+        code:function(){
+            var newPassword = this['newPassword'];
+            var self = this;
+            if(!newPassword){
+                newPassword = require('node-uuid').v1();
+            }
+
+            filterUsers({"email":this.email},S(function(err,users){
+                if(err){
+                    self.error = err;
+                    self.home('error');
+                }else{
+                    var user = users[0];
+                    user['password'] = newPassword;
+                    updateUser(user,S(function(err,result){
+                        if(err){
+                            self.error = err;
+                            self.home('error');
+                        }else{
+                            self['to'] = user['email'];
+                            self['from'] = "operando@privatesky.xyz";
+                            self['subject'] = "Reset password";
+                            self['content'] =   "Your password has been changed \n"+
+                                                "Your new password is "+newPassword;
+                            self.swarm('deliverEmail');
+                    }
+                    })
+                    )
+                }
+            }))
+        }
+    },
+
     deliverEmail:{
         node: "EmailAdapter",
         code: function () {
@@ -85,10 +130,11 @@ var emailsSwarming = {
             sendEmail(this['from'],this['to'],this['subject'],this['content'],S(function(err,deliveryResult){
                 if(err){
                     self.error = err;
+                    self.home('error');
                 }else{
                     self.deliveryResult = deliveryResult;
+                    self.home('deliverySuccessful');
                 }
-                self.home('deliveryResult');
             }))
         }
     }

@@ -147,6 +147,15 @@ createUser = function (userData, callback) {
     })();
 }
 
+
+
+/*
+Filtreaza utilizatorii
+ */
+filterUsers = function(filters,callback){
+    apersistence.filter("DefaultUser",filters,callback);
+};
+
 /*
  Sterge un utilizator
  */
@@ -160,7 +169,7 @@ deleteUser = function (userData) {
             callback(err, obj);
         }
     })();
-}
+};
 
 
 /*
