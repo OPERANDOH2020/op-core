@@ -3,7 +3,7 @@
  */
 
 var mysql      = require('mysql');
-/*
+
 var core = require("swarmcore");
 thisAdapter = core.createAdapter("EmailAdapter");
 
@@ -14,13 +14,15 @@ var mysqlConnection = mysql.createConnection({
     password : thisAdapter.config.Core.mysqlDatabasePassword,
     database : thisAdapter.config.Core.mysqlDatabaseName
 });
-*/
 
+/*
 var mysqlConnection = mysql.createConnection({
     user     : 'root',
     password : 'operando',
     database : 'operando'
 });
+*/
+
 var uuid = require('node-uuid');
 var apersistence = require('apersistence');
 var persistence = apersistence.createMySqlPersistence(mysqlConnection);
@@ -46,7 +48,7 @@ persistence.registerModel("conversation",conversationModel,function(err,result){
     if(err){
         console.log(err);
     }else {
-        startHaraka();
+        //startHaraka();
     }
 });
 
@@ -84,9 +86,28 @@ removeConversation = function(conversationUUID,callback){
     persistence.deleteById('conversation',conversationUUID,callback);
 };
 
+
+
+var emailPort = process.argv.indexOf("-port");
+if(emailPort===-1){
+    emailPort = 25;
+}else{
+    emailPort = process.argv[emailPort+1];
+}
+
+var emailHost = process.argv.indexOf("-host");
+if(emailPort===-1){
+    emailHost = "localhost";
+}else{
+    emailHost = process.argv[emailHost+1];
+}
+
+
+
 const mailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
-var transporter = mailer.createTransport(smtpTransport({host: '127.0.0.1', port: 25}));
+var transporter = mailer.createTransport(smtpTransport({host:emailHost, port: emailPort}));
+
 sendEmail = function(from,to,subject,text,callback){
     transporter.sendMail({
         "from": from,
@@ -95,15 +116,3 @@ sendEmail = function(from,to,subject,text,callback){
         "text": text
     }, callback)
 };
-
-
-function startHaraka(){
-    var pathToHaraka ="/home/ciprian/storage/Workspace/op-interfaces/op-interfaces-email-services/op-haraka-server";
-    var spawn = require('child_process').spawn;
-    var haraka_server;
-    haraka_server = spawn("haraka", ['-c',pathToHaraka],{'detached':true});
-    haraka_server.stdout.on('data',(data)=>{
-        console.log(data.toString());
-    });
-}
-

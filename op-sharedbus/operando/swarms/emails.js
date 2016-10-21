@@ -24,6 +24,16 @@ var emailsSwarming = {
         this['conversationUUID'] = conversationUUID;
         this.swarm('remove');
     },
+
+    sendEmail:function(from,to,subject,content){
+        this['from'] = from;
+        this['to'] = to;
+        this['subject'] = subject;
+        this['content'] = content;
+        this.swarm('deliverEmail');
+
+    },
+
     register: {
         node: "EmailAdapter",
         code: function () {
@@ -65,6 +75,20 @@ var emailsSwarming = {
                     self.result = removalResult;
                 }
                 self.home('conversationRemoved');
+            }))
+        }
+    },
+    deliverEmail:{
+        node: "EmailAdapter",
+        code: function () {
+            var self = this;
+            sendEmail(this['from'],this['to'],this['subject'],this['content'],S(function(err,deliveryResult){
+                if(err){
+                    self.error = err;
+                }else{
+                    self.deliveryResult = deliveryResult;
+                }
+                self.home('deliveryResult');
             }))
         }
     }

@@ -10,8 +10,6 @@
      "mysqlPort":"3306",
      "mysqlDatabasePassword":"operando",
      "mysqlDatabaseName":"operando",
-     "emailHost":"37.48.73.247",
-     "emailPort":25,
      "paths":[
         {"core":"etc/coreSwarms"      ,"enabled":true},
 	    {"core":"etc/xSwarms"         ,"enabled":false},
@@ -45,7 +43,7 @@
                         {"core":"etc/adapters/WSServer.js",                          "enabled":true  , "step":10},
                         {"node":"operando/adapters/CBE/PrivacyForBenefitsAdapter.js","enabled":true  , "step":10},
                         {"node":"operando/adapters/PSW/WatchDogAdapter.js",          "enabled":true  , "step":10},
-                        {"node":"operando/adapters/EmailAdapter.js",                   "enabled":true  , "step":10},
+                        {"node":"operando/adapters/EmailAdapter.js",                   "enabled":true  ,"args":["-host", "37.48.73.247", "-port", "25" ], "step":10},
                         {"node":"operando/adapters/WD/SocialNetworkSettingsAdapter.js","enabled":true  , "step":10},
                         {"node":"admin/adapters/TestsManager.js",                      "enabled":false, "step":5}
             ]
