@@ -76,7 +76,7 @@ deleteNotification = function (notificationId, callback) {
             callback(err, obj);
         }
     })();
-}
+};
 
 
 

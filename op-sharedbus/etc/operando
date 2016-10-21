@@ -6,6 +6,12 @@
      "coreId":"operando",
      "redisHost":"localhost",
      "redisPort":6379,
+     "mysqlHost":"localhost",
+     "mysqlPort":"3306",
+     "mysqlDatabasePassword":"operando",
+     "mysqlDatabaseName":"operando",
+     "emailHost":"37.48.73.247",
+     "emailPort":25,
      "paths":[
         {"core":"etc/coreSwarms"      ,"enabled":true},
 	    {"core":"etc/xSwarms"         ,"enabled":false},
@@ -29,7 +35,7 @@
                         {"core":"etc/adapters/DefaultLogger.js",                     "enabled":true, "step":3},
                         {"node":"admin/adapters/UsersManager.js",                    "enabled":true  , "step":4},
                         {"node":"admin/adapters/SessionManager.js",                  "enabled":true  , "step":4},
-                        {"node":"operando/adapters/ES/IdentityAdapter.js",              "enabled":true  , "step":4},
+                        {"node":"operando/adapters/ES/IdentityAdapter.js",           "enabled":true  , "step":4},
                         {"node":"admin/adapters/SwarmMonitor.js",                    "enabled":true  , "step":5},
                         {"core":"etc/adapters/ClientAdapter.js",                     "enabled":true  , "step":6},
                         {"node":"operando/adapters/GuardianAdapter.js",              "enabled":false  , "step":7},
@@ -37,13 +43,11 @@
                         {"node":"operando/adapters/PAAdapter.js",                    "enabled":false  , "step":9},
                         {"node":"operando/adapters/RESTAdapter.js",                  "enabled":false  , "step":10},
                         {"core":"etc/adapters/WSServer.js",                          "enabled":true  , "step":10},
-                        {"node":"operando/adapters/CBE/PrivacyForBenefitsAdapter.js",    "enabled":true  , "step":10},
-                        {"node":"operando/adapters/PSW/WatchDogAdapter.js",    "enabled":true  , "step":10},
-
-                        {"node":"operando/adapters/WD/SocialNetworkSettingsAdapter.js",    "enabled":true  , "step":10},
-                        {"node":"admin/adapters/TestsManager.js",                    "enabled":false, "step":5}
-
-
+                        {"node":"operando/adapters/CBE/PrivacyForBenefitsAdapter.js","enabled":true  , "step":10},
+                        {"node":"operando/adapters/PSW/WatchDogAdapter.js",          "enabled":true  , "step":10},
+                        {"node":"operando/adapters/EmailAdapter.js",                   "enabled":true  , "step":10},
+                        {"node":"operando/adapters/WD/SocialNetworkSettingsAdapter.js","enabled":true  , "step":10},
+                        {"node":"admin/adapters/TestsManager.js",                      "enabled":false, "step":5}
             ]
    },
   "ClientAdapter":{

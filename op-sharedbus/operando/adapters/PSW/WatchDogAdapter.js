@@ -12,7 +12,7 @@
 
 var core = require("swarmcore");
 
-thisAdapter = core.createAdapter("PrivacySettingsWizard");
+thisAdapter = core.createAdapter("WatchDogAdapter");
 
 var fs = require('fs');
 var storageFile = process.env.SWARM_PATH+"/operando/adapters/PSW/resources/userAnswers";

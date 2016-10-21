@@ -2,21 +2,19 @@
  * Created by ciprian on 26.09.2016.
  */
 
+var mysql      = require('mysql');
 /*
 var core = require("swarmcore");
 thisAdapter = core.createAdapter("EmailAdapter");
-*/
 
-var mysql      = require('mysql');
-
-/*
 var mysqlConnection = mysql.createConnection({
     host     : thisAdapter.config.Core.mysqlHost,
     port     : thisAdapter.config.Core.mysqlPort,
     user     : 'root',
     password : thisAdapter.config.Core.mysqlDatabasePassword,
     database : thisAdapter.config.Core.mysqlDatabaseName
-});*/
+});
+*/
 
 var mysqlConnection = mysql.createConnection({
     user     : 'root',
@@ -24,8 +22,6 @@ var mysqlConnection = mysql.createConnection({
     database : 'operando'
 });
 var uuid = require('node-uuid');
-
-
 var apersistence = require('apersistence');
 var persistence = apersistence.createMySqlPersistence(mysqlConnection);
 var conversationModel = {
@@ -41,7 +37,6 @@ var conversationModel = {
         type:'string'
     }
 };
-
 /*
 Initialize the database connection then
 Start Haraka
@@ -88,6 +83,19 @@ getConversation = function(uuid,callback){
 removeConversation = function(conversationUUID,callback){
     persistence.deleteById('conversation',conversationUUID,callback);
 };
+
+const mailer = require('nodemailer');
+var smtpTransport = require('nodemailer-smtp-transport');
+var transporter = mailer.createTransport(smtpTransport({host: '127.0.0.1', port: 25}));
+sendEmail = function(from,to,subject,text,callback){
+    transporter.sendMail({
+        "from": from,
+        "to": to,
+        "subject": subject,
+        "text": text
+    }, callback)
+};
+
 
 function startHaraka(){
     var pathToHaraka ="/home/ciprian/storage/Workspace/op-interfaces/op-interfaces-email-services/op-haraka-server";
