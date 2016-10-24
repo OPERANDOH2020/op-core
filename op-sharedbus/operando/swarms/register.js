@@ -55,6 +55,7 @@ var registerSwarming = {
     setUserNotifications:{
           node:"NotificationUAM",
           code:function(){
+              var self = this;
               generateSignupNotifications(this.user.email, S(function(err, notifications){
                   if(err){
                       console.log(err);
