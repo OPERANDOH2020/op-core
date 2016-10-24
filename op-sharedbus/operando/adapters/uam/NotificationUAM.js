@@ -19,11 +19,42 @@ var flow = require("callflow");
 var uuid = require('uuid');
 
 
+var signupNotifications = {
+
+    privacy_questionnaire: {
+        sender: "WatchDog",
+        title: "Privacy Questionnaire!",
+        description: "You have not filled the privacy questionnaire yet. Doing so will tailor your social network privacy settings to your preferences.  You can also skip the questionnaire and optimize your social network privacy settings in a single click <br/><a href='#'>Take me to privacy questionnaire</a> <a href='#'>Take me to single click privacy</a>.",
+        action: ["privacy-questionnaire", "single-click-privacy"],
+        type: "info-notification"
+    },
+
+    identity: {
+        sender: "WatchDog",
+        title: "Add identity",
+        description: "You have not yet generated alternative email identities. Doing so will enable you to sign up on websites without disclosing your real email.<br/> <a href='#'>Go to email identities.</a>",
+        action: "identity",
+        type: "info-notification"
+    },
+
+    deals: {
+        sender: "WatchDog",
+        title: "Privacy deals!",
+        description: "You have not yet accepted any privacy deals. Privacy deals enable you to trade some of your privacy for valuable benefits.<br/> <a href='#'> Go to deals</a>",
+        action: "privacy-for-benefits",
+        type: "info-notification"
+    }
+
+}
+
 apersistence.registerModel("Notification","Redis",{
     notificationId:{
         type:"string",
         pk:true,
         index:true
+    },
+    sender:{
+        type: "string",
     },
     forUser:{
         type: "string",
@@ -32,6 +63,9 @@ apersistence.registerModel("Notification","Redis",{
     type:{
         type: "string",
         index: true
+    },
+    action:{
+        type:"string"
     },
     title:{
         type: "string"
@@ -45,8 +79,17 @@ apersistence.registerModel("Notification","Redis",{
     date:{
         type: "date"
     },
+    dismissed:{
+        type: "boolean",
+        default: false
+    },
     ctor: function(){
 
+    }
+
+}, function (err, model) {
+    if (err) {
+        console.log(err);
     }
 });
 
@@ -54,14 +97,10 @@ apersistence.registerModel("Notification","Redis",{
 getNotifications = function (userId, callback) {
     flow.create("Get notifications for user", {
         begin: function () {
-            redisPersistence.filter("Notification", {"forUser": userId}, this.continue("getNotifications"));
+            redisPersistence.filter("Notification", {forUser: userId, dismissed:false}, this.continue("getNotifications"));
         },
         getNotifications: function (err, notifications) {
-            var list = [];
-            notifications.forEach(function (n) {
-                    list.push(user);
-            });
-            callback(err, list);
+            callback(err, notifications);
         }
     })();
 }
@@ -80,7 +119,7 @@ deleteNotification = function (notificationId, callback) {
 
 
 
-createNotification = function (userId, type, title, description, callback) {
+createNotification = function (sender, userId, type, title, description, callback) {
 
     flow.create("Create Notification", {
         begin: function () {
@@ -95,10 +134,12 @@ createNotification = function (userId, type, title, description, callback) {
             if (!redisPersistence.isFresh(notification)) {
                 callback(new Error("notification with identical id " + notification.notificationId + " already exists"), null);
             } else {
+                notification.sender        = sender;
                 notification.forUser        = userId;
-                notification.type           = type;
                 notification.title          = title;
                 notification.description    = description;
+                notification.type           = type;
+                notification.action         = action;
 
                 redisPersistence.save(notification, callback);
             }
@@ -119,12 +160,70 @@ updateNotification = function (notificationDump, callback) {
             }
 
             else if (redisPersistence.isFresh(notification)) {
-                callback(new Error("Organisation with id " + notification.notificationId + " was not found"), null);
+                callback(new Error("Notification with id " + notification.notificationId + " was not found"), null);
             }
             else {
-                redisPersistence.externalUpdate(organisation, notificationDump);
-                redisPersistence.saveObject(organisation, callback);
+                redisPersistence.externalUpdate(notification, notificationDump);
+                redisPersistence.saveObject(notification, callback);
             }
         }
     })();
 };
+
+generateSignupNotifications = function (userId, callback) {
+    flow.create("createSignupNotifications", {
+        begin: function () {
+            this.notifications = [];
+            this.next("iterateNotifications");
+        },
+
+        iterateNotifications: function () {
+            //this does not work
+            //Object.keys(signupNotifications).forEach(this.continue("createNotification"));
+
+            var self = this;
+            Object.keys(signupNotifications).forEach(function(key, index){
+                self.next("createNotification",undefined,key, index);
+            });
+
+        },
+        createNotification: function (key, index) {
+            var self = this;
+            redisPersistence.lookup("Notification", uuid.v1(), function (err, notification) {
+
+                if (err) {
+                    callback(err, null);
+                }
+                else {
+                    for (var i in signupNotifications[key]) {
+                        notification[i] = signupNotifications[key][i];
+                    }
+                    notification.forUser = userId;
+                    redisPersistence.save(notification, self.continue("notificationCreated"));
+                }
+
+            });
+        },
+        notificationCreated:function(err, notification){
+            console.log(uuid.v1());
+            this.notifications.push(notification);
+        },
+        end:{
+            join:"notificationCreated",
+            code:function(){
+                console.log("Generated ", this.notifications.length, " notifications");
+                callback(null, this.notifications);
+            }
+        }
+
+    })();
+}
+
+
+container.declareDependency("NotificationUAMAdapter", ["redisPersistence"], function (outOfService, redisPersistence) {
+    if (!outOfService) {
+        console.log("Enabling persistence...", redisPersistence);
+    } else {
+        console.log("Disabling persistence...");
+    }
+})

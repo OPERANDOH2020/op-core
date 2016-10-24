@@ -42,13 +42,26 @@ var registerSwarming = {
                     console.log(err);
                     self.status = "error";
                     self.error = err.message;
-                    self.newUser = {}
+                    self.newUser = {};
                     self.home("error");
                 } else {
-                    self.swarm("generateValidationCode");
+                    self.user = user;
+                    self.swarm("setUserNotifications");
                 }
             }))
         }
+    },
+
+    setUserNotifications:{
+          node:"NotificationUAM",
+          code:function(){
+              generateSignupNotifications(this.user.email, S(function(err, notifications){
+                  if(err){
+                      console.log(err);
+                  }
+                  self.swarm("generateValidationCode");
+              }));
+          }
     },
 
     generateValidationCode: {
