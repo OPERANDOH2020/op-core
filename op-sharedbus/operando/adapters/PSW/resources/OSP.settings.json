@@ -71,7 +71,10 @@
                 "data": {},
                 "recommended": "friends"
             },
-            "id": 0
+            "id": 0,
+            "tags": [
+                "exposure"
+            ]
         },
         "who_can_contact": {
             "read": {
@@ -127,7 +130,11 @@
                 "data": {},
                 "recommended": "friends_of_friends"
             },
-            "id": 1
+            "id": 1,
+            "tags": [
+                "contact",
+                "control"
+            ]
         },
         "lookup_email": {
             "read": {
@@ -138,12 +145,12 @@
                         "name": "Everyone",
                         "index": 5
                     },
-                    "friends": {
-                        "name": "Friends",
-                        "index": 6
-                    },
                     "friends_of_friends": {
                         "name": "Friends of Friends",
+                        "index": 6
+                    },
+                    "friends": {
+                        "name": "Friends",
                         "index": 7
                     }
                 },
@@ -200,7 +207,12 @@
                 "data": {},
                 "recommended": "friends"
             },
-            "id": 2
+            "id": 2,
+            "tags": [
+                "contact",
+                "discovery",
+                "control"
+            ]
         },
         "lookup_phone": {
             "read": {
@@ -211,12 +223,12 @@
                         "name": "Everyone",
                         "index": 8
                     },
-                    "friends": {
-                        "name": "Friends",
-                        "index": 9
-                    },
                     "friends_of_friends": {
                         "name": "Friends of Friends",
+                        "index": 9
+                    },
+                    "friends": {
+                        "name": "Friends",
                         "index": 10
                     }
                 },
@@ -273,7 +285,12 @@
                 "data": {},
                 "recommended": "friends"
             },
-            "id": 3
+            "id": 3,
+            "tags": [
+                "contact",
+                "discovery",
+                "control"
+            ]
         },
         "search_engine": {
             "read": {
@@ -317,19 +334,24 @@
                 "data": {},
                 "recommended": "no"
             },
-            "id": 4
+            "id": 4,
+            "tags": [
+                "contact",
+                "discovery",
+                "control"
+            ]
         },
         "limit_timeline": {
             "read": {
                 "name": "Limit who can add things to your timeline",
                 "url": "https://www.facebook.com/settings?tab=timeline",
                 "availableSettings": {
-                    "only_me": {
-                        "name": "Only Me",
-                        "index": 13
-                    },
                     "friends": {
                         "name": "Friends",
+                        "index": 13
+                    },
+                    "only_me": {
+                        "name": "Only Me",
                         "index": 14
                     }
                 },
@@ -359,19 +381,23 @@
                 "data": {},
                 "recommended": "only_me"
             },
-            "id": 5
+            "id": 5,
+            "tags": [
+                "exposure",
+                "control"
+            ]
         },
         "control_timeline": {
             "read": {
                 "name": "Review tags people add to your own posts before the tags appear on Facebook",
                 "url": "https://www.facebook.com/settings?tab=timeline",
                 "availableSettings": {
-                    "enabled": {
-                        "name": "On",
-                        "index": 15
-                    },
                     "disabled": {
                         "name": "Off",
+                        "index": 15
+                    },
+                    "enabled": {
+                        "name": "On",
                         "index": 16
                     }
                 },
@@ -401,7 +427,11 @@
                 "data": {},
                 "recommended": "enabled"
             },
-            "id": 6
+            "id": 6,
+            "tags": [
+                "exposure",
+                "control"
+            ]
         },
         "timeline_posts_tags": {
             "read": {
@@ -507,7 +537,10 @@
                 },
                 "recommended": "only_me"
             },
-            "id": 7
+            "id": 7,
+            "tags": [
+                "exposure"
+            ]
         },
         "timeline_other_posts": {
             "read": {
@@ -613,7 +646,10 @@
                 },
                 "recommended": "only_me"
             },
-            "id": 8
+            "id": 8,
+            "tags": [
+                "exposure"
+            ]
         },
         "photo_tags_audience": {
             "read": {
@@ -668,19 +704,23 @@
                 },
                 "recommended": "only_me"
             },
-            "id": 9
+            "id": 9,
+            "tags": [
+                "exposure",
+                "control"
+            ]
         },
         "control_followers": {
             "read": {
                 "name": "Control who can be your follower.",
                 "url": "https://www.facebook.com/settings?tab=followers",
                 "availableSettings": {
-                    "friends": {
-                        "name": "Friends",
-                        "index": 29
-                    },
                     "public": {
                         "name": "Public",
+                        "index": 29
+                    },
+                    "friends": {
+                        "name": "Friends",
                         "index": 30
                     }
                 },
@@ -718,7 +758,12 @@
                 },
                 "recommended": "friends"
             },
-            "id": 10
+            "id": 10,
+            "tags": [
+                "contact",
+                "control",
+                "exposure"
+            ]
         },
         "permissions_for_apps": {
             "read": {
@@ -755,12 +800,12 @@
                 "name": "Allow or disallow use of apps, plugins, games and websites on Facebook and elsewhere.",
                 "url": "https://www.facebook.com/settings?tab=applications",
                 "availableSettings": {
-                    "disabled": {
-                        "name": "Disalow",
-                        "index": 31
-                    },
                     "enabled": {
                         "name": "Allow",
+                        "index": 31
+                    },
+                    "disabled": {
+                        "name": "Disalow",
                         "index": 32
                     }
                 },
@@ -795,7 +840,12 @@
                 },
                 "recommended": "disabled"
             },
-            "id": 11
+            "id": 11,
+            "tags": [
+                "applications",
+                "control",
+                "personal data"
+            ]
         },
         "control_personal_info": {
             "read": {
@@ -866,7 +916,13 @@
                 },
                 "recommended": "no"
             },
-            "id": 12
+            "id": 12,
+            "tags": [
+                "advertising",
+                "profiling",
+                "personal data",
+                "control"
+            ]
         },
         "facebook_companies_ads": {
             "read": {
@@ -907,7 +963,13 @@
                 },
                 "recommended": "no"
             },
-            "id": 13
+            "id": 13,
+            "tags": [
+                "personal_data",
+                "profiling",
+                "advertising",
+                "control"
+            ]
         },
         "control_friends_ads": {
             "read": {
@@ -948,7 +1010,14 @@
                 },
                 "recommended": "no_one"
             },
-            "id": 14
+            "id": 14,
+            "tags": [
+                "personal_data",
+                "profiling",
+                "advertising",
+                "control",
+                "exposure"
+            ]
         },
         "control_preferences": {
             "read": {
@@ -979,145 +1048,89 @@
             }
         }
     },
-    "google": {
-        "keep_app_activity": {
-            "read": {
-                "name": "Delete or keep all Web and app activity",
-                "url": "https://myaccount.google.com/activitycontrols?pli=1",
-                "jquery_selector": {
-                    "element": "div[data-aid='search'] div",
-                    "valueType": "attrValue",
-                    "attrValue": "aria-checked"
-                }
-            },
-            "write": {
-                "recommended": "false"
-            }
-        },
-        "keep_audiovideo_activity": {
-            "read": {
-                "name": "Delete or keep all Voice and Audio activity",
-                "url": "https://myaccount.google.com/activitycontrols?pli=1",
-                "jquery_selector": {
-                    "element": "div[data-aid='audio'] div",
-                    "valueType": "attrValue",
-                    "attrValue": "aria-checked"
-                }
-            },
-            "write": {
-                "recommended": "false"
-            }
-        },
-        "keep_device_activity": {
-            "read": {
-                "name": "Delete or keep device activity info",
-                "url": "https://myaccount.google.com/activitycontrols?pli=1",
-                "jquery_selector": {
-                    "element": "div[data-aid='device'] div",
-                    "valueType": "attrValue",
-                    "attrValue": "aria-checked"
-                }
-            },
-            "write": {
-                "recommended": "false"
-            }
-        },
-        "keep_location_history": {
-            "read": {
-                "name": "Delete or keep your entire location history",
-                "url": "https://myaccount.google.com/activitycontrols?pli=1",
-                "jquery_selector": {
-                    "element": "div[data-aid='location'] div",
-                    "valueType": "attrValue",
-                    "attrValue": "aria-checked"
-                }
-            },
-            "write": {
-                "recommended": "false"
-            }
-        },
-        "keep_youtube_history": {
-            "read": {
-                "name": "Delete or keep YouTube watch history",
-                "url": "https://myaccount.google.com/activitycontrols?pli=1",
-                "jquery_selector": {
-                    "element": "div[data-aid='youtubeWatch'] div",
-                    "valueType": "attrValue",
-                    "attrValue": "aria-checked"
-                }
-            },
-            "write": {
-                "recommended": "false"
-            }
-        },
-        "keep_youtube_searches": {
-            "read": {
-                "name": "Delete or keep YouTube search history",
-                "url": "https://myaccount.google.com/activitycontrols?pli=1",
-                "jquery_selector": {
-                    "element": "div[data-aid='youtubeSearch'] div",
-                    "valueType": "attrValue",
-                    "attrValue": "aria-checked"
-                }
-            },
-            "write": {
-                "recommended": "false"
-            }
-        },
-        "check_unused_apps": {
-            "read": {
-                "name": "Apps connected to your acccount ",
-                "url": "https://security.google.com/settings/security/permissions",
-                "jquery_selector": {
-                    "element": "div.Y5KHCd",
-                    "valueType": "length"
-                }
-            },
-            "write": {
-                "recommended": "Revoke access by unused applications"
-            }
-        },
-        "pause_location_tracking": {
-            "read": {
-                "name": "Pause Google and related apps tracking your location. ",
-                "url": "https://myaccount.google.com/activitycontrols/location",
-                "jquery_selector": {
-                    "element": "div[data-aid='location'] div",
-                    "valueType": "attrValue",
-                    "attrValue": "aria-checked"
-                }
-            },
-            "write": {
-                "recommended": "false"
-            }
-        },
-        "turn_off_adds_based_on_your_interest": {
-            "read": {
-                "name": "Turn off ads based on your interest",
-                "url": "https://www.google.com/settings/u/0/ads/authenticated",
-                "jquery_selector": {
-                    "element": "div.Pu > span.iI > div[aria-checked]",
-                    "valueType": "attrValue",
-                    "attrValue": "aria-checked"
-                }
-            },
-            "write": {
-                "recommended": "false"
-            }
-        }
-    },
     "linkedin": {
+        "control_profile_photo": {
+            "read": {
+                "name": "Control your profile photo and visibility.",
+                "url": "https://www.linkedin.com/psettings/profile-photo-visibility",
+                "availableSettings": {
+                    "Everyone": {
+                        "name": "Everyone",
+                        "index": 39
+                    },
+                    "Your_Network": {
+                        "name": "Your Network",
+                        "index": 40
+                    },
+                    "Your_Connections": {
+                        "name": "Your Connections",
+                        "index": 41
+                    },
+                    "No_One": {
+                        "name": "No One",
+                        "index": 42
+                    }
+                },
+                "jquery_selector": {
+                    "element": "#setting-profile-photo-visibility .state",
+                    "valueType": "inner"
+                }
+            },
+            "write": {
+                "name": "Control your profile photo and visibility.",
+                "page": "https://www.linkedin.com/psettings/profile-photo-visibility",
+                "url_template": "https://www.linkedin.com/psettings/profile-photo-visibility",
+                "type": "multipart/form-data",
+                "availableSettings": {
+                    "No_One": {
+                        "data": {
+                            "profilePhotoVisibility": "HIDE"
+                        },
+                        "name": "No One"
+                    },
+                    "Your_Connections": {
+                        "data": {
+                            "profilePhotoVisibility": "CONNECTIONS"
+                        },
+                        "name": "Your Connections"
+                    },
+                    "Your_Network": {
+                        "data": {
+                            "profilePhotoVisibility": "NETWORK"
+                        },
+                        "name": "Your Network"
+                    },
+                    "Everyone": {
+                        "data": {
+                            "profilePhotoVisibility": "EVERYONE"
+                        },
+                        "name": "Everyone"
+                    }
+                },
+                "data": {},
+                "recommended": "No One"
+            },
+            "id": 15,
+            "tags": [
+                "exposure",
+                "personal data",
+                "control"
+            ]
+        },
         "control_third_party": {
             "read": {
                 "name": "Third party apps",
-                "url": "https://www.linkedin.com/psettings/account",
+                "url": "https://www.linkedin.com/psettings/third-party-applications",
                 "jquery_selector": {
                     "element": "li[id='setting-third-party-applications'] .state",
                     "valueType": "inner"
                 }
             },
             "write": {
-                "recommended": "Manual review and removal of redundant apps"
+                "name": "Third party apps",
+                "page": "https://www.linkedin.com/psettings/profile-photo-visibility",
+                "data": {},
+                "recommended": "0 connected apps"
             }
         },
         "manage_twitter": {
@@ -1130,543 +1143,1747 @@
                 }
             },
             "write": {
-                "recommended": "Do not connect to Twitter"
+                "name": "Manage your Twitter info and activity on your LinkedIn account",
+                "page": "https://www.linkedin.com/psettings/account",
+                "data": {},
+                "recommended": "Not connected"
             }
         },
         "manage_wechat": {
             "read": {
                 "name": "setting-wechat",
-                "url": "https://www.linkedin.com/psettings/account",
+                "url": "https://www.linkedin.com/psettings/wechat-accounts",
                 "jquery_selector": {
                     "element": "li[id='setting-wechat'] .state",
                     "valueType": "inner"
                 }
             },
             "write": {
+                "name": "setting-wechat",
+                "page": "https://www.linkedin.com/psettings/wechat-accounts",
+                "data": {},
                 "recommended": "Not connected"
-            }
-        },
-        "share_edits": {
-            "read": {
-                "name": "Sharing profile edits?",
-                "url": "https://www.linkedin.com/psettings/activity-broadcast",
-                "availableSettings": {
-                    "yes": {
-                        "name": "Yes",
-                        "index": 39
-                    },
-                    "no": {
-                        "name": "No",
-                        "index": 40
-                    }
-                },
-                "jquery_selector": {
-                    "element": "input[id='option-broadcast']",
-                    "valueType": "checkbox"
-                }
-            },
-            "write": {
-                "recommended": "Do not allow your network to be notified of your profile changes"
-            },
-            "id": 15
-        },
-        "suggest_you_email": {
-            "read": {
-                "name": "Suggesting you on the connection based on your email address",
-                "url": "https://www.linkedin.com/psettings/visibility/email",
-                "jquery_selector": {
-                    "element": "#setting-visibility-email .state",
-                    "valueType": "inner"
-                }
-            },
-            "write": {
-                "recommended": "Nobody"
-            }
-        },
-        "suggest_you_phone": {
-            "read": {
-                "name": "Suggesting you as a connection based on your phone number",
-                "url": "https://www.linkedin.com/psettings/visibility/phone",
-                "jquery_selector": {
-                    "element": "#setting-visibility-phone .state",
-                    "valueType": "inner"
-                }
-            },
-            "write": {
-                "recommended": "Nobody"
-            }
-        },
-        "share_data_with_third_party_applications": {
-            "read": {
-                "name": "Sharing data with third parties applications",
-                "url": "https://www.linkedin.com/psettings/data-sharing",
-                "jquery_selector": {
-                    "element": "input[id='option-block-applications']",
-                    "valueType": "checkbox"
-                }
-            },
-            "write": {
-                "recommended": "false"
-            }
-        },
-        "share_data_with_third_party_platforms": {
-            "read": {
-                "name": "Sharing data with third parties platforms",
-                "url": "https://www.linkedin.com/psettings/data-sharing",
-                "jquery_selector": {
-                    "element": "input[id='option-block-platforms']",
-                    "valueType": "checkbox"
-                }
-            },
-            "write": {
-                "recommended": "no"
-            }
-        },
-        "cookie_personalised_ads": {
-            "read": {
-                "name": "Use cookies to personalize ads",
-                "url": "https://www.linkedin.com/psettings/enhanced-advertising",
-                "jquery_selector": {
-                    "element": "input[id='option-ads-choices']",
-                    "valueType": "checkbox"
-                }
-            },
-            "write": {
-                "recommended": "false"
-            }
-        },
-        "share_you_news": {
-            "read": {
-                "name": "Allow or disallow your connections and followers to know when you are mentioned in the news.",
-                "url": "https://www.linkedin.com/psettings/news-mention-broadcast",
-                "jquery_selector": {
-                    "element": "input[id='option-news-mention']",
-                    "valueType": "checkbox"
-                }
-            },
-            "write": {
-                "recommended": "false"
-            }
-        },
-        "broadcast_activity": {
-            "read": {
-                "name": "Allow or disallow your activity broadcasts.",
-                "url": "https://www.linkedin.com/psettings/activity-broadcast",
-                "jquery_selector": {
-                    "element": "input[id='option-broadcast']",
-                    "valueType": "checkbox"
-                }
-            },
-            "write": {
-                "recommended": "false"
-            }
-        },
-        "control_broadcast": {
-            "read": {
-                "name": "Control who can see your activity broadcast.",
-                "url": "https://www.linkedin.com/psettings/allow-follow",
-                "jquery_selector": {
-                    "element": "#setting-allow-follow .state",
-                    "valueType": "inner"
-                }
-            },
-            "write": {
-                "recommended": "Connections"
-            }
-        },
-        "how_you_rank": {
-            "read": {
-                "name": "Control showing \"How You Rank\"",
-                "url": "https://www.linkedin.com/psettings/how-you-rank",
-                "jquery_selector": {
-                    "element": "#setting-how-you-rank .state",
-                    "valueType": "inner"
-                }
-            },
-            "write": {
-                "recommended": "No"
             }
         },
         "see_connections_list": {
             "read": {
                 "name": "Select who can see your list of connections.",
                 "url": "https://www.linkedin.com/psettings/connections-visibility",
+                "availableSettings": {
+                    "Your_Connections": {
+                        "name": "Your Connections",
+                        "index": 43
+                    },
+                    "Only_you": {
+                        "name": "Only you",
+                        "index": 44
+                    }
+                },
                 "jquery_selector": {
                     "element": "#setting-connections-visibility .state",
                     "valueType": "inner"
                 }
             },
             "write": {
+                "name": "Select who can see your list of connections.",
+                "page": "https://www.linkedin.com/psettings/connections-visibility",
+                "url_template": "https://www.linkedin.com/psettings/connections-visibility",
+                "type": "multipart/form-data",
+                "availableSettings": {
+                    "Only_you": {
+                        "data": {
+                            "isAllowConnectionsBrowse": false
+                        },
+                        "name": "Only you"
+                    },
+                    "Your_Connections": {
+                        "data": {
+                            "isAllowConnectionsBrowse": true
+                        },
+                        "name": "Your Connections"
+                    }
+                },
+                "data": {},
                 "recommended": "Only you"
-            }
-        },
-        "linkedin_control_followers": {
-            "read": {
-                "name": "Control who can follow your updates.",
-                "url": "https://www.linkedin.com/psettings/allow-follow",
-                "jquery_selector": {
-                    "element": "option",
-                    "valueType": "selected"
-                }
             },
-            "write": {
-                "recommended": "Limit to your connections"
-            }
+            "id": 16,
+            "tags": [
+                "exposure",
+                "control"
+            ]
         },
-        "control_profile_photo": {
+        "how_you_rank": {
             "read": {
-                "name": "Control your profile photo and visibility.",
-                "url": "https://www.linkedin.com/psettings/profile-photo-visibility",
+                "name": "Control showing \"How You Rank\"",
+                "url": "https://www.linkedin.com/psettings/how-you-rank",
+                "availableSettings": {
+                    "No": {
+                        "name": "No",
+                        "index": 45
+                    },
+                    "Yes": {
+                        "name": "Yes",
+                        "index": 46
+                    }
+                },
                 "jquery_selector": {
-                    "element": "#setting-profile-photo-visibility .state",
+                    "element": "#setting-how-you-rank .state",
                     "valueType": "inner"
                 }
             },
             "write": {
-                "recommended": "Connections"
-            }
+                "name": "Control showing \"How You Rank\"",
+                "page": "https://www.linkedin.com/psettings/how-you-rank",
+                "url_template": "https://www.linkedin.com/psettings/how-you-rank",
+                "type": "multipart/form-data",
+                "availableSettings": {
+                    "Yes": {
+                        "data": {
+                            "showLeaderBoard": true
+                        },
+                        "name": "Yes"
+                    },
+                    "No": {
+                        "data": {
+                            "showLeaderBoard": false
+                        },
+                        "name": "No"
+                    }
+                },
+                "data": {},
+                "recommended": "No"
+            },
+            "id": 17,
+            "tags": [
+                "personal data",
+                "control"
+            ]
+        },
+        "profile_viewers_feature": {
+            "read": {
+                "name": "Control the feature \"Viewers of this profile also viewed\"",
+                "url": "https://www.linkedin.com/psettings/browse-map",
+                "availableSettings": {
+                    "No": {
+                        "name": "No",
+                        "index": 47
+                    },
+                    "Yes": {
+                        "name": "Yes",
+                        "index": 48
+                    }
+                },
+                "jquery_selector": {
+                    "element": "#setting-browse-map .state",
+                    "valueType": "inner"
+                }
+            },
+            "write": {
+                "name": "Control the feature \"Viewers of this profile also viewed\"",
+                "page": "https://www.linkedin.com/psettings/browse-map",
+                "url_template": "https://www.linkedin.com/psettings/browse-map",
+                "type": "multipart/form-data",
+                "availableSettings": {
+                    "Yes": {
+                        "data": {
+                            "showBrowseMap": true
+                        },
+                        "name": "Yes"
+                    },
+                    "No": {
+                        "data": {
+                            "showBrowseMap": false
+                        },
+                        "name": "No"
+                    }
+                },
+                "data": {},
+                "recommended": "No"
+            },
+            "id": 18,
+            "tags": [
+                "exposure",
+                "control"
+            ]
+        },
+        "share_edits": {
+            "read": {
+                "name": "Sharing profile edits",
+                "url": "https://www.linkedin.com/psettings/activity-broadcast",
+                "availableSettings": {
+                    "Yes": {
+                        "name": "Yes",
+                        "index": 49
+                    },
+                    "No": {
+                        "name": "No",
+                        "index": 50
+                    }
+                },
+                "jquery_selector": {
+                    "element": "#setting-activity-broadcast .state",
+                    "valueType": "inner"
+                }
+            },
+            "write": {
+                "name": "Sharing profile edits",
+                "page": "https://www.linkedin.com/psettings/activity-broadcast",
+                "url_template": "https://www.linkedin.com/psettings/activity-broadcast",
+                "type": "multipart/form-data",
+                "availableSettings": {
+                    "Yes": {
+                        "data": {
+                            "isAutoNetworkUpdatesPrefs": true
+                        },
+                        "name": "Yes"
+                    },
+                    "No": {
+                        "data": {
+                            "isAutoNetworkUpdatesPrefs": false
+                        },
+                        "name": "No"
+                    }
+                },
+                "data": {},
+                "recommended": "No"
+            },
+            "id": 19,
+            "tags": [
+                "exposure",
+                "control"
+            ]
+        },
+        "profile_viewing_options": {
+            "read": {
+                "name": "Control what others see when you have viewed their profile",
+                "url": "https://www.linkedin.com/psettings/profile-visibility",
+                "availableSettings": {
+                    "Full_profile": {
+                        "name": "Full profile",
+                        "index": 51
+                    },
+                    "Characteristics": {
+                        "name": "Characteristics",
+                        "index": 52
+                    },
+                    "Private_mode": {
+                        "name": "Private mode",
+                        "index": 53
+                    }
+                },
+                "jquery_selector": {
+                    "element": "#setting-profile-visibility .state",
+                    "valueType": "inner"
+                }
+            },
+            "write": {
+                "name": "Control what others see when you have viewed their profile",
+                "page": "https://www.linkedin.com/psettings/profile-visibility",
+                "url_template": "https://www.linkedin.com/psettings/profile-visibility",
+                "type": "multipart/form-data",
+                "availableSettings": {
+                    "Full_profile": {
+                        "data": {
+                            "discloseAsProfileViewer": "DISCLOSE_FULL"
+                        },
+                        "name": "Full profile"
+                    },
+                    "Characteristics": {
+                        "data": {
+                            "discloseAsProfileViewer": "DISCLOSE_ANONYMOUS"
+                        },
+                        "name": "Characteristics"
+                    },
+                    "Private_mode": {
+                        "data": {
+                            "discloseAsProfileViewer": "HIDE"
+                        },
+                        "name": "Private mode"
+                    }
+                },
+                "data": {},
+                "recommended": "Private_mode"
+            },
+            "id": 20,
+            "tags": [
+                "personal data",
+                "control"
+            ]
+        },
+        "share_you_news": {
+            "read": {
+                "name": "Allow or disallow your connections and followers to know when you are mentioned in the news.",
+                "url": "https://www.linkedin.com/psettings/news-mention-broadcast",
+                "availableSettings": {
+                    "Yes": {
+                        "name": "Yes",
+                        "index": 54
+                    },
+                    "No": {
+                        "name": "No",
+                        "index": 55
+                    }
+                },
+                "jquery_selector": {
+                    "element": "#setting-news-mention-broadcast .state",
+                    "valueType": "inner"
+                }
+            },
+            "write": {
+                "name": "Allow or disallow your connections and followers to know when you are mentioned in the news.",
+                "page": "https://www.linkedin.com/psettings/news-mention-broadcast",
+                "url_template": "https://www.linkedin.com/psettings/news-mention-broadcast",
+                "type": "multipart/form-data",
+                "availableSettings": {
+                    "Yes": {
+                        "data": {
+                            "newsMentionBroadcasts": true
+                        },
+                        "name": "Yes"
+                    },
+                    "No": {
+                        "data": {
+                            "newsMentionBroadcasts": false
+                        },
+                        "name": "No"
+                    }
+                },
+                "data": {},
+                "recommended": "No"
+            },
+            "id": 21,
+            "tags": [
+                "exposure",
+                "control"
+            ]
+        },
+        "control_followers": {
+            "read": {
+                "name": "Control who can follow you and see your public updates.",
+                "url": "https://www.linkedin.com/psettings/allow-follow",
+                "availableSettings": {
+                    "Everyone": {
+                        "name": "Everyone",
+                        "index": 56
+                    },
+                    "Your_Connections": {
+                        "name": "Your Connections",
+                        "index": 57
+                    }
+                },
+                "jquery_selector": {
+                    "element": "#setting-allow-follow .state",
+                    "valueType": "inner"
+                }
+            },
+            "write": {
+                "name": "Control who can follow you and see your public updates.",
+                "page": "https://www.linkedin.com/psettings/allow-follow",
+                "url_template": "https://www.linkedin.com/psettings/allow-follow",
+                "type": "multipart/form-data",
+                "availableSettings": {
+                    "Your_Connections": {
+                        "data": {
+                            "isAllowPublicToFollow": false
+                        },
+                        "name": "Your Connections"
+                    },
+                    "Everyone": {
+                        "data": {
+                            "isAllowPublicToFollow": true
+                        },
+                        "name": "Everyone"
+                    }
+                },
+                "data": {},
+                "recommended": "Your_Connections"
+            },
+            "id": 22,
+            "tags": [
+                "contact",
+                "control",
+                "exposure"
+            ]
+        },
+        "suggest_you_email": {
+            "read": {
+                "name": "Suggesting you on the connection based on your email address",
+                "url": "https://www.linkedin.com/psettings/visibility/email",
+                "availableSettings": {
+                    "Everyone": {
+                        "name": "Everyone",
+                        "index": 58
+                    },
+                    "second_degree": {
+                        "name": "2nd degree",
+                        "index": 59
+                    },
+                    "Nobody": {
+                        "name": "Nobody",
+                        "index": 60
+                    }
+                },
+                "jquery_selector": {
+                    "element": "#setting-visibility-email .state",
+                    "valueType": "inner"
+                }
+            },
+            "write": {
+                "name": "Suggesting you on the connection based on your email address",
+                "page": "https://www.linkedin.com/psettings/visibility/email",
+                "url_template": "https://www.linkedin.com/psettings/visibility/email",
+                "type": "multipart/form-data",
+                "availableSettings": {
+                    "Everyone": {
+                        "data": {
+                            "visibilitySetting": "EVERYONE"
+                        },
+                        "name": "Everyone"
+                    },
+                    "second_degree": {
+                        "data": {
+                            "visibilitySetting": "SECOND_DEGREE_CONNECTIONS"
+                        },
+                        "name": "2nd degree"
+                    },
+                    "Nobody": {
+                        "data": {
+                            "visibilitySetting": "FIRST_DEGREE_CONNECTIONS"
+                        },
+                        "name": "Nobody"
+                    }
+                },
+                "data": {
+                    "tab": "privacy",
+                    "visibilityOptions": "FIRST_DEGREE_CONNECTIONS,SECOND_DEGREE_CONNECTIONS,EVERYONE,$UNKNOWN",
+                    "handleType": "EMAIL"
+                },
+                "recommended": "connections"
+            },
+            "id": 23,
+            "tags": [
+                "contact",
+                "personal data",
+                "discovery"
+            ]
+        },
+        "suggest_you_phone": {
+            "read": {
+                "name": "Suggesting you as a connection based on your phone number",
+                "url": "https://www.linkedin.com/psettings/visibility/phone",
+                "availableSettings": {
+                    "Everyone": {
+                        "name": "Everyone",
+                        "index": 61
+                    },
+                    "second_degree": {
+                        "name": "2nd degree",
+                        "index": 62
+                    },
+                    "Nobody": {
+                        "name": "Nobody",
+                        "index": 63
+                    }
+                },
+                "jquery_selector": {
+                    "element": "#setting-visibility-phone .state",
+                    "valueType": "inner"
+                }
+            },
+            "write": {
+                "name": "Suggesting you as a connection based on your phone number",
+                "page": "https://www.linkedin.com/psettings/visibility/phone",
+                "url_template": "https://www.linkedin.com/psettings/visibility/phone",
+                "type": "multipart/form-data",
+                "availableSettings": {
+                    "Everyone": {
+                        "data": {
+                            "visibilitySetting": "EVERYONE"
+                        },
+                        "name": "Everyone"
+                    },
+                    "second_degree": {
+                        "data": {
+                            "visibilitySetting": "SECOND_DEGREE_CONNECTIONS"
+                        },
+                        "name": "2nd degree"
+                    },
+                    "Nobody": {
+                        "data": {
+                            "visibilitySetting": "FIRST_DEGREE_CONNECTIONS"
+                        },
+                        "name": "Nobody"
+                    }
+                },
+                "data": {
+                    "tab": "privacy",
+                    "visibilityOptions": "FIRST_DEGREE_CONNECTIONS,SECOND_DEGREE_CONNECTIONS,EVERYONE,$UNKNOWN",
+                    "handleType": "PHONE"
+                },
+                "recommended": "connections"
+            },
+            "id": 24,
+            "tags": [
+                "contact",
+                "personal data",
+                "discovery"
+            ]
+        },
+        "meet_the_team": {
+            "read": {
+                "name": "Control if linkedin can show your profile information on your employer's pages",
+                "url": "https://www.linkedin.com/psettings/meet-the-team",
+                "availableSettings": {
+                    "Yes": {
+                        "name": "Yes",
+                        "index": 64
+                    },
+                    "No": {
+                        "name": "No",
+                        "index": 65
+                    }
+                },
+                "jquery_selector": {
+                    "element": "#setting-meet-the-team .state",
+                    "valueType": "inner"
+                }
+            },
+            "write": {
+                "name": "Control if linkedin can show your profile information on your employer's pages",
+                "page": "https://www.linkedin.com/psettings/meet-the-team",
+                "url_template": "https://www.linkedin.com/psettings/meet-the-team",
+                "type": "multipart/form-data",
+                "availableSettings": {
+                    "Yes": {
+                        "data": {
+                            "isAllowShownInMeetTheTeam": true
+                        },
+                        "name": "Yes"
+                    },
+                    "No": {
+                        "data": {
+                            "isAllowShownInMeetTheTeam": false
+                        },
+                        "name": "No"
+                    }
+                },
+                "data": {},
+                "recommended": "No"
+            },
+            "id": 25,
+            "tags": [
+                "control",
+                "exposure",
+                "personal data"
+            ]
+        },
+        "share_data_with_third_party_applications": {
+            "read": {
+                "name": "Sharing data with third parties applications",
+                "url": "https://www.linkedin.com/psettings/data-sharing",
+                "availableSettings": {
+                    "Yes": {
+                        "name": "Yes",
+                        "index": 66
+                    },
+                    "No": {
+                        "name": "No",
+                        "index": 67
+                    }
+                },
+                "jquery_selector": {
+                    "element": "#setting-data-sharing .state",
+                    "valueType": "inner"
+                }
+            },
+            "write": {
+                "name": "Sharing data with third parties applications",
+                "page": "https://www.linkedin.com/psettings/data-sharing",
+                "url_template": "https://www.linkedin.com/psettings/data-sharing",
+                "type": "multipart/form-data",
+                "availableSettings": {
+                    "Yes": {
+                        "data": {
+                            "blockThirdPartyDataSharing": false
+                        },
+                        "name": "Yes"
+                    },
+                    "No": {
+                        "data": {
+                            "blockThirdPartyDataSharing": true
+                        },
+                        "name": "No"
+                    }
+                },
+                "data": {},
+                "recommended": "No"
+            },
+            "id": 26,
+            "tags": [
+                "applications",
+                "personal data",
+                "profiling"
+            ]
+        },
+        "share_data_with_third_party_platforms": {
+            "read": {
+                "name": "Sharing data with third parties platforms",
+                "url": "https://www.linkedin.com/psettings/data-sharing",
+                "availableSettings": {
+                    "Yes": {
+                        "name": "Yes",
+                        "index": 68
+                    },
+                    "No": {
+                        "name": "No",
+                        "index": 69
+                    }
+                },
+                "jquery_selector": {
+                    "element": "input[id='option-block-platforms']",
+                    "valueType": "checkbox"
+                }
+            },
+            "write": {
+                "name": "Sharing data with third parties platforms",
+                "page": "https://www.linkedin.com/psettings/data-sharing",
+                "url_template": "https://www.linkedin.com/psettings/data-sharing",
+                "availableSettings": {
+                    "Yes": {
+                        "data": {
+                            "blockThirdPartyDataSharing": false,
+                            "blockThirdPartyContactDataSharing": false
+                        },
+                        "name": "Yes"
+                    },
+                    "No": {
+                        "data": {
+                            "blockThirdPartyDataSharing": true,
+                            "blockThirdPartyContactDataSharing": true
+                        },
+                        "name": "No"
+                    }
+                },
+                "data": {},
+                "recommended": "No"
+            },
+            "id": 27,
+            "tags": [
+                "personal data",
+                "profiling"
+            ]
+        },
+        "cookie_personalised_ads": {
+            "read": {
+                "name": "Use cookies to personalize ads",
+                "url": "https://www.linkedin.com/psettings/enhanced-advertising",
+                "availableSettings": {
+                    "Yes": {
+                        "name": "Yes",
+                        "index": 70
+                    },
+                    "No": {
+                        "name": "No",
+                        "index": 71
+                    }
+                },
+                "jquery_selector": {
+                    "element": "#setting-enhanced-advertising .state",
+                    "valueType": "inner"
+                }
+            },
+            "write": {
+                "name": "Use cookies to personalize ads",
+                "page": "https://www.linkedin.com/psettings/enhanced-advertising",
+                "url_template": "https://www.linkedin.com/psettings/enhanced-advertising",
+                "type": "multipart/form-data",
+                "availableSettings": {
+                    "Yes": {
+                        "data": {
+                            "isAllowLANTargeting": true
+                        },
+                        "name": "Yes"
+                    },
+                    "No": {
+                        "data": {
+                            "isAllowLANTargeting": false
+                        },
+                        "name": "No"
+                    }
+                },
+                "data": {},
+                "recommended": "No"
+            },
+            "id": 28,
+            "tags": [
+                "advertising",
+                "profiling",
+                "personal data",
+                "control"
+            ]
         },
         "control_messages_invitations": {
             "read": {
                 "name": "Control whether you're willing to receive invitations to join your network.",
                 "url": "https://www.linkedin.com/psettings/email-controls",
+                "availableSettings": {
+                    "On": {
+                        "name": "On",
+                        "index": 72
+                    },
+                    "Off": {
+                        "name": "Off",
+                        "index": 73
+                    }
+                },
                 "jquery_selector": {
                     "element": "input[id='invitationsGroup']",
                     "valueType": "checkbox"
                 }
             },
-            "write": {}
+            "write": {
+                "name": "Control whether you're willing to receive invitations to join your network.",
+                "page": "https://www.linkedin.com/psettings/email-controls",
+                "url_template": "https://www.linkedin.com/psettings/email-controls/updateSettings?csrfToken={CSRF_TOKEN}",
+                "type": "application/json",
+                "availableSettings": {
+                    "On": {
+                        "params": {
+                            "csrfToken": {
+                                "placeholder": "CSRF_TOKEN",
+                                "type": "dynamic"
+                            }
+                        },
+                        "data": {
+                            "topLevelNodeId": "root",
+                            "changedNodes": [
+                                {
+                                    "nodeId": "invitationPrefs",
+                                    "newValue": "AUTOMATIC"
+                                },
+                                {
+                                    "nodeId": "groupInvitationPrefs",
+                                    "newValue": "AUTOMATIC"
+                                },
+                                {
+                                    "nodeId": "inviteAcceptNotification",
+                                    "newValue": "AUTOMATIC"
+                                },
+                                {
+                                    "nodeId": "invitationsGroup",
+                                    "newValue": true
+                                }
+                            ]
+                        },
+                        "name": "On"
+                    },
+                    "Off": {
+                        "params": {
+                            "csrfToken": {
+                                "placeholder": "CSRF_TOKEN",
+                                "type": "dynamic"
+                            }
+                        },
+                        "data": {
+                            "topLevelNodeId": "root",
+                            "changedNodes": [
+                                {
+                                    "nodeId": "invitationPrefs",
+                                    "newValue": false
+                                },
+                                {
+                                    "nodeId": "groupInvitationPrefs",
+                                    "newValue": false
+                                },
+                                {
+                                    "nodeId": "inviteAcceptNotification",
+                                    "newValue": false
+                                },
+                                {
+                                    "nodeId": "invitationsGroup",
+                                    "newValue": false
+                                }
+                            ]
+                        },
+                        "name": "Off"
+                    }
+                },
+                "data": {},
+                "recommended": "Off"
+            },
+            "id": 29,
+            "tags": [
+                "contact",
+                "control"
+            ]
         },
         "control_messages_messages": {
             "read": {
                 "name": "Control whether you're willing to receive messages from other LinkedIn members.",
                 "url": "https://www.linkedin.com/psettings/email-controls",
+                "availableSettings": {
+                    "On": {
+                        "name": "On",
+                        "index": 74
+                    },
+                    "Off": {
+                        "name": "Off",
+                        "index": 75
+                    }
+                },
                 "jquery_selector": {
-                    "element": "input[id='messagesGroup']",
+                    "element": "input[id='invitationsGroup']",
                     "valueType": "checkbox"
                 }
             },
-            "write": {}
+            "write": {
+                "name": "Control whether you're willing to receive messages from other LinkedIn members.",
+                "page": "https://www.linkedin.com/psettings/email-controls",
+                "url_template": "https://www.linkedin.com/psettings/email-controls/updateSettings?csrfToken={CSRF_TOKEN}",
+                "type": "application/json",
+                "availableSettings": {
+                    "On": {
+                        "params": {
+                            "csrfToken": {
+                                "placeholder": "CSRF_TOKEN",
+                                "type": "dynamic"
+                            }
+                        },
+                        "data": {
+                            "topLevelNodeId": "root",
+                            "changedNodes": [
+                                {
+                                    "nodeId": "repliesPreference",
+                                    "newValue": "AUTOMATIC"
+                                },
+                                {
+                                    "nodeId": "inmailNotification",
+                                    "newValue": "AUTOMATIC"
+                                },
+                                {
+                                    "nodeId": "profileForwardsPrefs",
+                                    "newValue": true
+                                },
+                                {
+                                    "nodeId": "messagesGroup",
+                                    "newValue": true
+                                }
+                            ]
+                        },
+                        "name": "On"
+                    },
+                    "Off": {
+                        "params": {
+                            "csrfToken": {
+                                "placeholder": "CSRF_TOKEN",
+                                "type": "dynamic"
+                            }
+                        },
+                        "data": {
+                            "topLevelNodeId": "root",
+                            "changedNodes": [
+                                {
+                                    "nodeId": "repliesPreference",
+                                    "newValue": false
+                                },
+                                {
+                                    "nodeId": "inmailNotification",
+                                    "newValue": false
+                                },
+                                {
+                                    "nodeId": "profileForwardsPrefs",
+                                    "newValue": false
+                                },
+                                {
+                                    "nodeId": "messagesGroup",
+                                    "newValue": false
+                                }
+                            ]
+                        },
+                        "name": "Off"
+                    }
+                },
+                "data": {},
+                "recommended": "Off"
+            },
+            "id": 30,
+            "tags": [
+                "contact",
+                "control"
+            ]
         },
         "control_messages_notifications": {
             "read": {
                 "name": "Control whether you're willing to receive news and activity related to your profile and what you share.",
                 "url": "https://www.linkedin.com/psettings/email-controls",
+                "availableSettings": {
+                    "On": {
+                        "name": "On",
+                        "index": 76
+                    },
+                    "Off": {
+                        "name": "Off",
+                        "index": 77
+                    }
+                },
                 "jquery_selector": {
-                    "element": "input[id='notificationsGroup']",
+                    "element": "input[id='invitationsGroup']",
                     "valueType": "checkbox"
                 }
             },
-            "write": {}
+            "write": {
+                "name": "Control whether you're willing to receive news and activity related to your profile and what you share.",
+                "page": "https://www.linkedin.com/psettings/email-controls",
+                "url_template": "https://www.linkedin.com/psettings/email-controls/updateSettings?csrfToken={CSRF_TOKEN}",
+                "type": "application/json",
+                "availableSettings": {
+                    "On": {
+                        "params": {
+                            "csrfToken": {
+                                "placeholder": "CSRF_TOKEN",
+                                "type": "dynamic"
+                            }
+                        },
+                        "data": {
+                            "topLevelNodeId": "root",
+                            "changedNodes": [
+                                {
+                                    "nodeId": "endorsementPrefs",
+                                    "newValue": "AUTOMATIC"
+                                },
+                                {
+                                    "nodeId": "professionalIdentityDigest",
+                                    "newValue": "AUTOMATIC"
+                                },
+                                {
+                                    "nodeId": "mentionsPrefs",
+                                    "newValue": "AUTOMATIC"
+                                },
+                                {
+                                    "nodeId": "statusDiscussionNotificationPref",
+                                    "newValue": "AUTOMATIC"
+                                },
+                                {
+                                    "nodeId": "notificationDigestPrefs",
+                                    "newValue": true
+                                },
+                                {
+                                    "nodeId": "starUpdate",
+                                    "newValue": true
+                                },
+                                {
+                                    "nodeId": "notificationsGroup",
+                                    "newValue": true
+                                }
+                            ]
+                        },
+                        "name": "On"
+                    },
+                    "Off": {
+                        "params": {
+                            "csrfToken": {
+                                "placeholder": "CSRF_TOKEN",
+                                "type": "dynamic"
+                            }
+                        },
+                        "data": {
+                            "topLevelNodeId": "root",
+                            "changedNodes": [
+                                {
+                                    "nodeId": "endorsementPrefs",
+                                    "newValue": false
+                                },
+                                {
+                                    "nodeId": "professionalIdentityDigest",
+                                    "newValue": false
+                                },
+                                {
+                                    "nodeId": "mentionsPrefs",
+                                    "newValue": false
+                                },
+                                {
+                                    "nodeId": "statusDiscussionNotificationPref",
+                                    "newValue": false
+                                },
+                                {
+                                    "nodeId": "notificationDigestPrefs",
+                                    "newValue": false
+                                },
+                                {
+                                    "nodeId": "starUpdate",
+                                    "newValue": false
+                                },
+                                {
+                                    "nodeId": "notificationsGroup",
+                                    "newValue": false
+                                }
+                            ]
+                        },
+                        "name": "Off"
+                    }
+                },
+                "data": {},
+                "recommended": "Off"
+            },
+            "id": 31,
+            "tags": [
+                "profiling",
+                "control"
+            ]
         },
         "control_messages_network_updates": {
             "read": {
                 "name": "Control whether you're willing to receive Updates about your connections.",
                 "url": "https://www.linkedin.com/psettings/email-controls",
+                "availableSettings": {
+                    "On": {
+                        "name": "On",
+                        "index": 78
+                    },
+                    "Off": {
+                        "name": "Off",
+                        "index": 79
+                    }
+                },
                 "jquery_selector": {
                     "element": "input[id='updatesFromNetworkGroup']",
                     "valueType": "checkbox"
                 }
             },
-            "write": {}
+            "write": {
+                "name": "Control whether you're willing to receive Updates about your connections.",
+                "page": "https://www.linkedin.com/psettings/email-controls",
+                "url_template": "https://www.linkedin.com/psettings/email-controls/updateSettings?csrfToken={CSRF_TOKEN}",
+                "type": "application/json",
+                "availableSettings": {
+                    "On": {
+                        "params": {
+                            "csrfToken": {
+                                "placeholder": "CSRF_TOKEN",
+                                "type": "dynamic"
+                            }
+                        },
+                        "data": {
+                            "topLevelNodeId": "root",
+                            "changedNodes": [
+                                {
+                                    "nodeId": "networkUpdatesCommPrefs",
+                                    "newValue": "AUTOMATIC"
+                                },
+                                {
+                                    "nodeId": "peopleInTheNewsDigest",
+                                    "newValue": "AUTOMATIC"
+                                },
+                                {
+                                    "nodeId": "connectionSuggestionPrefs",
+                                    "newValue": "AUTOMATIC"
+                                },
+                                {
+                                    "nodeId": "contactJoinNotificationPrefs",
+                                    "newValue": "AUTOMATIC"
+                                },
+                                {
+                                    "nodeId": "updatesFromNetworkGroup",
+                                    "newValue": true
+                                }
+                            ]
+                        },
+                        "name": "On"
+                    },
+                    "Off": {
+                        "params": {
+                            "csrfToken": {
+                                "placeholder": "CSRF_TOKEN",
+                                "type": "dynamic"
+                            }
+                        },
+                        "data": {
+                            "topLevelNodeId": "root",
+                            "changedNodes": [
+                                {
+                                    "nodeId": "networkUpdatesCommPrefs",
+                                    "newValue": false
+                                },
+                                {
+                                    "nodeId": "peopleInTheNewsDigest",
+                                    "newValue": false
+                                },
+                                {
+                                    "nodeId": "connectionSuggestionPrefs",
+                                    "newValue": false
+                                },
+                                {
+                                    "nodeId": "contactJoinNotificationPrefs",
+                                    "newValue": false
+                                },
+                                {
+                                    "nodeId": "updatesFromNetworkGroup",
+                                    "newValue": false
+                                }
+                            ]
+                        },
+                        "name": "Off"
+                    }
+                },
+                "data": {},
+                "recommended": "Off"
+            },
+            "id": 32,
+            "tags": [
+                "profiling",
+                "control"
+            ]
         },
         "control_messages_jobs_and_opportunities": {
             "read": {
                 "name": "Control whether you're willing to receive Updates about Jobs and opportunities.",
                 "url": "https://www.linkedin.com/psettings/email-controls",
+                "availableSettings": {
+                    "On": {
+                        "name": "On",
+                        "index": 80
+                    },
+                    "Off": {
+                        "name": "Off",
+                        "index": 81
+                    }
+                },
                 "jquery_selector": {
                     "element": "input[id='jobSeekerGroup']",
                     "valueType": "checkbox"
                 }
             },
-            "write": {}
+            "write": {
+                "name": "Control whether you're willing to receive Updates about Jobs and opportunities.",
+                "page": "https://www.linkedin.com/psettings/email-controls",
+                "url_template": "https://www.linkedin.com/psettings/email-controls/updateSettings?csrfToken={CSRF_TOKEN}",
+                "type": "application/json",
+                "availableSettings": {
+                    "On": {
+                        "params": {
+                            "csrfToken": {
+                                "placeholder": "CSRF_TOKEN",
+                                "type": "dynamic"
+                            }
+                        },
+                        "data": {
+                            "changedNodes": [
+                                {
+                                    "nodeId": "jymbiiEmailFrequency",
+                                    "newValue": "PERIODIC"
+                                },
+                                {
+                                    "nodeId": "referralCenterEmailsPref",
+                                    "newValue": "AUTOMATIC"
+                                },
+                                {
+                                    "nodeId": "jobBroadcastsCommPrefs",
+                                    "newValue": true
+                                },
+                                {
+                                    "nodeId": "jobApplicationConfirmationEmail",
+                                    "newValue": true
+                                },
+                                {
+                                    "nodeId": "jobSeekerGroup",
+                                    "newValue": true
+                                }
+                            ]
+                        },
+                        "name": "On"
+                    },
+                    "Off": {
+                        "params": {
+                            "csrfToken": {
+                                "placeholder": "CSRF_TOKEN",
+                                "type": "dynamic"
+                            }
+                        },
+                        "data": {
+                            "changedNodes": [
+                                {
+                                    "nodeId": "jymbiiEmailFrequency",
+                                    "newValue": false
+                                },
+                                {
+                                    "nodeId": "referralCenterEmailsPref",
+                                    "newValue": false
+                                },
+                                {
+                                    "nodeId": "jobBroadcastsCommPrefs",
+                                    "newValue": false
+                                },
+                                {
+                                    "nodeId": "jobApplicationConfirmationEmail",
+                                    "newValue": false
+                                },
+                                {
+                                    "nodeId": "jobSeekerGroup",
+                                    "newValue": false
+                                }
+                            ]
+                        },
+                        "name": "Off"
+                    }
+                },
+                "data": {
+                    "topLevelNodeId": "root"
+                },
+                "recommended": "Off"
+            },
+            "id": 33,
+            "tags": [
+                "profiling",
+                "control"
+            ]
         },
         "control_messages_news": {
             "read": {
                 "name": "Control whether you're willing to receive News and articles relevant to you.",
                 "url": "https://www.linkedin.com/psettings/email-controls",
+                "availableSettings": {
+                    "On": {
+                        "name": "On",
+                        "index": 82
+                    },
+                    "Off": {
+                        "name": "Off",
+                        "index": 83
+                    }
+                },
                 "jquery_selector": {
                     "element": "input[id='newsGroup']",
                     "valueType": "checkbox"
                 }
             },
-            "write": {}
-        },
-        "control_messages_group_updates": {
-            "read": {
-                "name": "Control whether you're willing to receive News about what's going on in your groups.",
-                "url": "https://www.linkedin.com/psettings/email-controls",
-                "jquery_selector": {
-                    "element": "input[id='groupsNode']",
-                    "valueType": "checkbox"
-                }
+            "write": {
+                "name": "Control whether you're willing to receive News and articles relevant to you.",
+                "page": "https://www.linkedin.com/psettings/email-controls",
+                "url_template": "https://www.linkedin.com/psettings/email-controls/updateSettings?csrfToken={CSRF_TOKEN}",
+                "type": "application/json",
+                "availableSettings": {
+                    "On": {
+                        "params": {
+                            "csrfToken": {
+                                "placeholder": "CSRF_TOKEN",
+                                "type": "dynamic"
+                            }
+                        },
+                        "data": {
+                            "changedNodes": [
+                                {
+                                    "nodeId": "topArticlesNewsDigest",
+                                    "newValue": "AUTOMATIC"
+                                },
+                                {
+                                    "nodeId": "editorialAuthorOutreachEmail",
+                                    "newValue": true
+                                },
+                                {
+                                    "nodeId": "newsGroup",
+                                    "newValue": true
+                                }
+                            ]
+                        },
+                        "name": "On"
+                    },
+                    "Off": {
+                        "params": {
+                            "csrfToken": {
+                                "placeholder": "CSRF_TOKEN",
+                                "type": "dynamic"
+                            }
+                        },
+                        "data": {
+                            "changedNodes": [
+                                {
+                                    "nodeId": "topArticlesNewsDigest",
+                                    "newValue": false
+                                },
+                                {
+                                    "nodeId": "editorialAuthorOutreachEmail",
+                                    "newValue": false
+                                },
+                                {
+                                    "nodeId": "newsGroup",
+                                    "newValue": false
+                                }
+                            ]
+                        },
+                        "name": "Off"
+                    }
+                },
+                "data": {
+                    "topLevelNodeId": "root"
+                },
+                "recommended": "Off"
             },
-            "write": {}
+            "id": 34,
+            "tags": [
+                "profiling",
+                "control"
+            ]
         },
         "control_messages_from_linkedIn": {
             "read": {
                 "name": "Control whether you're willing to receive occasional emails with tips and offers to help you get the most out of LinkedIn.",
                 "url": "https://www.linkedin.com/psettings/email-controls",
+                "availableSettings": {
+                    "On": {
+                        "name": "On",
+                        "index": 84
+                    },
+                    "Off": {
+                        "name": "Off",
+                        "index": 85
+                    }
+                },
                 "jquery_selector": {
                     "element": "input[id='messagesFromLinkedinGroup']",
                     "valueType": "checkbox"
                 }
             },
-            "write": {}
+            "write": {
+                "name": "Control whether you're willing to receive occasional emails with tips and offers to help you get the most out of LinkedIn.",
+                "page": "https://www.linkedin.com/psettings/email-controls",
+                "url_template": "https://www.linkedin.com/psettings/email-controls/updateSettings?csrfToken={CSRF_TOKEN}",
+                "type": "application/json",
+                "availableSettings": {
+                    "On": {
+                        "params": {
+                            "csrfToken": {
+                                "placeholder": "CSRF_TOKEN",
+                                "type": "dynamic"
+                            }
+                        },
+                        "data": {
+                            "changedNodes": [
+                                {
+                                    "nodeId": "marketingEmailPref",
+                                    "newValue": true
+                                },
+                                {
+                                    "nodeId": "messagesFromLinkedinGroup",
+                                    "newValue": true
+                                }
+                            ]
+                        },
+                        "name": "On"
+                    },
+                    "Off": {
+                        "params": {
+                            "csrfToken": {
+                                "placeholder": "CSRF_TOKEN",
+                                "type": "dynamic"
+                            }
+                        },
+                        "data": {
+                            "changedNodes": [
+                                {
+                                    "nodeId": "marketingEmailPref",
+                                    "newValue": false
+                                },
+                                {
+                                    "nodeId": "messagesFromLinkedinGroup",
+                                    "newValue": false
+                                }
+                            ]
+                        },
+                        "name": "Off"
+                    }
+                },
+                "data": {
+                    "topLevelNodeId": "root"
+                },
+                "recommended": "Off"
+            },
+            "id": 35,
+            "tags": [
+                "profiling",
+                "control",
+                "contact"
+            ]
         },
         "control_messages_from_linkedIn_learning": {
             "read": {
                 "name": "Control whether you're willing to receive recommendations to help you get the most out of LinkedIn Learning.",
                 "url": "https://www.linkedin.com/psettings/email-controls",
+                "availableSettings": {
+                    "On": {
+                        "name": "On",
+                        "index": 86
+                    },
+                    "Off": {
+                        "name": "Off",
+                        "index": 87
+                    }
+                },
                 "jquery_selector": {
                     "element": "input[id='messagesFromLearningGroup']",
                     "valueType": "checkbox"
                 }
             },
-            "write": {}
+            "write": {
+                "name": "Control whether you're willing to receive recommendations to help you get the most out of LinkedIn Learning.",
+                "page": "https://www.linkedin.com/psettings/email-controls",
+                "url_template": "https://www.linkedin.com/psettings/email-controls/updateSettings?csrfToken={CSRF_TOKEN}",
+                "type": "application/json",
+                "availableSettings": {
+                    "On": {
+                        "params": {
+                            "csrfToken": {
+                                "placeholder": "CSRF_TOKEN",
+                                "type": "dynamic"
+                            }
+                        },
+                        "data": {
+                            "changedNodes": [
+                                {
+                                    "nodeId": "learningDigestEmail",
+                                    "newValue": true
+                                },
+                                {
+                                    "nodeId": "messagesFromLearningGroup",
+                                    "newValue": true
+                                }
+                            ]
+                        },
+                        "name": "On"
+                    },
+                    "Off": {
+                        "params": {
+                            "csrfToken": {
+                                "placeholder": "CSRF_TOKEN",
+                                "type": "dynamic"
+                            }
+                        },
+                        "data": {
+                            "changedNodes": [
+                                {
+                                    "nodeId": "learningDigestEmail",
+                                    "newValue": false
+                                },
+                                {
+                                    "nodeId": "messagesFromLearningGroup",
+                                    "newValue": false
+                                }
+                            ]
+                        },
+                        "name": "Off"
+                    }
+                },
+                "data": {
+                    "topLevelNodeId": "root"
+                },
+                "recommended": "Off"
+            },
+            "id": 36,
+            "tags": [
+                "profiling",
+                "control",
+                "contact"
+            ]
         },
         "who_can_invite_you": {
             "read": {
                 "name": "Select who can send you invitations",
                 "url": "https://www.linkedin.com/psettings/invite-receive",
+                "availableSettings": {
+                    "Everyone": {
+                        "name": "Everyone",
+                        "index": 88
+                    },
+                    "Email_and_Imported_contacts": {
+                        "name": "Email and Imported contacts",
+                        "index": 89
+                    },
+                    "Imported_contacts": {
+                        "name": "Imported contacts",
+                        "index": 90
+                    }
+                },
                 "jquery_selector": {
-                    "element": "li[id='setting-invite-receive'] .state",
+                    "element": "#setting-invite-receive .state",
                     "valueType": "inner"
                 }
             },
-            "write": {}
+            "write": {
+                "name": "Select who can send you invitations",
+                "page": "https://www.linkedin.com/psettings/invite-receive",
+                "url_template": "https://www.linkedin.com/psettings/invite-receive",
+                "type": "multipart/form-data",
+                "availableSettings": {
+                    "Everyone": {
+                        "data": {
+                            "inviteReceiveParam": "BLOCK_NO_INVITATIONS"
+                        },
+                        "name": "Everyone"
+                    },
+                    "Email_and_Imported_contacts": {
+                        "data": {
+                            "inviteReceiveParam": "BLOCK_RECONNECT_ACCEPT_STD"
+                        },
+                        "name": "Email and Imported contacts"
+                    },
+                    "Imported_contacts": {
+                        "data": {
+                            "inviteReceiveParam": "BLOCK_ALL"
+                        },
+                        "name": "Imported contacts"
+                    }
+                },
+                "data": {},
+                "recommended": "Imported contacts"
+            },
+            "id": 37,
+            "tags": [
+                "contact",
+                "control"
+            ]
         },
         "enable_group_invitations": {
             "read": {
                 "name": "Choose whether you want to receive invitations to join groups",
                 "url": "https://www.linkedin.com/psettings/group-invitations",
+                "availableSettings": {
+                    "Yes": {
+                        "name": "Yes",
+                        "index": 91
+                    },
+                    "No": {
+                        "name": "No",
+                        "index": 92
+                    }
+                },
                 "jquery_selector": {
                     "element": "#setting-group-invitations .state",
                     "valueType": "inner"
                 }
             },
-            "write": {}
+            "write": {
+                "name": "Choose whether you want to receive invitations to join groups",
+                "page": "https://www.linkedin.com/psettings/group-invitations",
+                "url_template": "https://www.linkedin.com/psettings/group-invitations",
+                "type": "multipart/form-data",
+                "availableSettings": {
+                    "Yes": {
+                        "data": {
+                            "receiveGroupInvitations": true
+                        },
+                        "name": "Yes"
+                    },
+                    "No": {
+                        "data": {
+                            "receiveGroupInvitations": false
+                        },
+                        "name": "No"
+                    }
+                },
+                "data": {},
+                "recommended": "No"
+            },
+            "id": 38,
+            "tags": [
+                "contact",
+                "control"
+            ]
         },
         "enable_group_notifications": {
             "read": {
                 "name": "Choose whether we notify your network when you join a group",
                 "url": "https://www.linkedin.com/psettings/group-join-notifications",
+                "availableSettings": {
+                    "Yes": {
+                        "name": "Yes",
+                        "index": 93
+                    },
+                    "No": {
+                        "name": "No",
+                        "index": 94
+                    }
+                },
                 "jquery_selector": {
                     "element": "#setting-group-join-notifications .state",
                     "valueType": "inner"
                 }
             },
-            "write": {}
+            "write": {
+                "name": "Choose whether we notify your network when you join a group",
+                "page": "https://www.linkedin.com/psettings/group-join-notifications",
+                "url_template": "https://www.linkedin.com/psettings/group-join-notifications",
+                "type": "multipart/form-data",
+                "availableSettings": {
+                    "Yes": {
+                        "data": {
+                            "sendGroupJoinNotifications": true
+                        },
+                        "name": "Yes"
+                    },
+                    "No": {
+                        "data": {
+                            "sendGroupJoinNotifications": false
+                        },
+                        "name": "No"
+                    }
+                },
+                "data": {},
+                "recommended": "No"
+            },
+            "id": 39,
+            "tags": [
+                "exposure",
+                "control"
+            ]
         },
         "enable_research_invitations": {
             "read": {
                 "name": "Turn on/off invitations to participate in research",
                 "url": "https://www.linkedin.com/psettings/research-invitations",
+                "availableSettings": {
+                    "Yes": {
+                        "name": "Yes",
+                        "index": 95
+                    },
+                    "No": {
+                        "name": "No",
+                        "index": 96
+                    }
+                },
                 "jquery_selector": {
                     "element": "#setting-research-invitations .state",
                     "valueType": "inner"
                 }
             },
             "write": {
+                "name": "Turn on/off invitations to participate in research",
+                "page": "https://www.linkedin.com/psettings/research-invitations",
+                "url_template": "https://www.linkedin.com/psettings/research-invitations",
+                "type": "multipart/form-data",
+                "availableSettings": {
+                    "Yes": {
+                        "data": {
+                            "researchInvitation": true
+                        },
+                        "name": "Yes"
+                    },
+                    "No": {
+                        "data": {
+                            "researchInvitation": false
+                        },
+                        "name": "No"
+                    }
+                },
+                "data": {},
                 "recommended": "No"
-            }
+            },
+            "id": 40,
+            "tags": [
+                "contact"
+            ]
         },
         "allow_partner_inmail": {
             "read": {
                 "name": "Allow or disallow Partner InMail",
                 "url": "https://www.linkedin.com/psettings/partner-inmail",
+                "availableSettings": {
+                    "Yes": {
+                        "name": "Yes",
+                        "index": 97
+                    },
+                    "No": {
+                        "name": "No",
+                        "index": 98
+                    }
+                },
                 "jquery_selector": {
                     "element": "input[id='option-partner-inmail-marketing']",
                     "valueType": "checkbox"
                 }
             },
             "write": {
-                "recommended": "false"
-            }
+                "name": "Allow or disallow Partner InMail",
+                "page": "https://www.linkedin.com/psettings/partner-inmail",
+                "url_template": "https://www.linkedin.com/psettings/partner-inmail",
+                "type": "multipart/form-data",
+                "availableSettings": {
+                    "Yes": {
+                        "data": {
+                            "openToMarketingPartnerMessages": true,
+                            "hasMarketingSuccess": true,
+                            "openToJobOpportunitiesPartnerMessages": true,
+                            "hasHiringSuccess": false
+                        },
+                        "name": "Yes"
+                    },
+                    "No": {
+                        "data": {
+                            "openToMarketingPartnerMessages": false,
+                            "hasMarketingSuccess": false,
+                            "openToJobOpportunitiesPartnerMessages": false,
+                            "hasHiringSuccess": false
+                        },
+                        "name": "No"
+                    }
+                },
+                "data": {},
+                "recommended": "No"
+            },
+            "id": 41,
+            "tags": [
+                "contact"
+            ]
         },
         "allow_hiring_campaign_partner_inmail": {
             "read": {
                 "name": "Allow or disallow hiring campaign Partner InMail",
                 "url": "https://www.linkedin.com/psettings/partner-inmail",
+                "availableSettings": {
+                    "Yes": {
+                        "name": "Yes",
+                        "index": 99
+                    },
+                    "No": {
+                        "name": "No",
+                        "index": 100
+                    }
+                },
                 "jquery_selector": {
-                    "element": "input[id='option-partner-inmail-hiring']",
+                    "element": "input[id='option-partner-inmail-marketing']",
                     "valueType": "checkbox"
                 }
             },
             "write": {
-                "recommended": "false"
-            }
-        }
-    },
-    "twitter": {
-        "allow_login_verification": {
-            "read": {
-                "name": "Allow/disallow Login verification (a phone must be added first).",
-                "url": "https://twitter.com/settings/security",
-                "jquery_selector": {
-                    "element": "input[id='login_verification']",
-                    "valueType": "checkbox"
-                }
+                "name": "Allow or disallow hiring campaign Partner InMail",
+                "page": "https://www.linkedin.com/psettings/partner-inmail",
+                "url_template": "https://www.linkedin.com/psettings/partner-inmail",
+                "availableSettings": {
+                    "Yes": {
+                        "data": {
+                            "openToJobOpportunitiesPartnerMessages": true,
+                            "hasHiringSuccess": true,
+                            "openToMarketingPartnerMessages": true,
+                            "hasMarketingSuccess": false
+                        },
+                        "name": "Yes"
+                    },
+                    "No": {
+                        "data": {
+                            "openToJobOpportunitiesPartnerMessages": false,
+                            "hasHiringSuccess": false,
+                            "openToMarketingPartnerMessages": false,
+                            "hasMarketingSuccess": false
+                        },
+                        "name": "No"
+                    }
+                },
+                "data": {},
+                "recommended": "No"
             },
-            "write": {
-                "recommended": "Allow"
-            }
-        },
-        "allow_password_reset": {
-            "read": {
-                "name": "Allow/disallow further personal information for Password reset.",
-                "url": "https://twitter.com/settings/security",
-                "jquery_selector": {
-                    "element": "input[id='user_no_username_only_password_reset']",
-                    "valueType": "checkbox"
-                }
-            },
-            "write": {
-                "recommended": "Allow"
-            }
-        },
-        "allow_login_with_code_1": {
-            "read": {
-                "name": "Allow/disallow login to your account with either a password or login code.",
-                "url": "https://twitter.com/settings/security",
-                "jquery_selector": {
-                    "element": "input[id='one_factor_optout_settings_off']",
-                    "valueType": "checkbox"
-                }
-            },
-            "write": {
-                "recommended": "Disallow"
-            }
-        },
-        "allow_login_with_code_2": {
-            "read": {
-                "name": "Allow/disallow to always require a password to log to your account.",
-                "url": "https://twitter.com/settings/security",
-                "jquery_selector": {
-                    "element": "input[id='one_factor_optout_settings_on']",
-                    "valueType": "checkbox"
-                }
-            },
-            "write": {
-                "recommended": "Allow"
-            }
-        },
-        "tweet_privacy": {
-            "read": {
-                "name": "Allow/disallow only those you approve to receive your Tweets.",
-                "url": "https://twitter.com/settings/security",
-                "jquery_selector": {
-                    "element": "input[id='user_protected']",
-                    "valueType": "checkbox"
-                }
-            },
-            "write": {
-                "recommended": "Allow"
-            }
-        },
-        "allow_location": {
-            "read": {
-                "name": "Enable Twitter to add your location to your tweets.",
-                "url": "https://twitter.com/settings/security",
-                "jquery_selector": {
-                    "element": "input[id='user_geo_enabled']",
-                    "valueType": "checkbox"
-                }
-            },
-            "write": {
-                "recommended": "Disabled"
-            }
-        },
-        "allow_email_search": {
-            "read": {
-                "name": "Allow/disallow others find you by your email address",
-                "url": "https://twitter.com/settings/security",
-                "jquery_selector": {
-                    "element": "input[id='user_discoverable_by_email']",
-                    "valueType": "checkbox"
-                }
-            },
-            "write": {
-                "recommended": "Disallow"
-            }
-        },
-        "allow_phone_search": {
-            "read": {
-                "name": "Allow/disallow others find you by your phone number",
-                "url": "https://twitter.com/settings/security",
-                "jquery_selector": {
-                    "element": "input[id='user_mobile_discoverable']",
-                    "valueType": "checkbox"
-                }
-            },
-            "write": {
-                "recommended": "Disallow"
-            }
-        },
-        "allow_promoted_content": {
-            "read": {
-                "name": "Allow/disallow Twitter to display ads about things you've already shown interest in (aka \"promoted content\"",
-                "url": "https://twitter.com/settings/security",
-                "jquery_selector": {
-                    "element": "input[id='allow_ads_personalization']",
-                    "valueType": "checkbox"
-                }
-            },
-            "write": {
-                "recommended": "Disallow"
-            }
-        },
-        "allow_tweetdeck_1": {
-            "read": {
-                "name": "Allow/disallow organizations to invite anyone to tweet from their account using the teams feature in TweetDeck (1 option).",
-                "url": "https://twitter.com/settings/security",
-                "jquery_selector": {
-                    "element": "input[id='allow_contributor_request_all']",
-                    "valueType": "checkbox"
-                }
-            },
-            "write": {
-                "recommended": "Disallow"
-            }
-        },
-        "allow_tweetdeck_2": {
-            "read": {
-                "name": "Allow/disallow organizations to invite anyone to tweet from their account using the teams feature in TweetDeck (1 option).",
-                "url": "https://twitter.com/settings/security",
-                "jquery_selector": {
-                    "element": "input[id='allow_contributor_request_following']",
-                    "valueType": "checkbox"
-                }
-            },
-            "write": {
-                "recommended": "Disallow"
-            }
-        },
-        "allow_tweetdeck_3": {
-            "read": {
-                "name": "Allow/disallow organizations to invite anyone to tweet from their account using the teams feature in TweetDeck (1 option).",
-                "url": "https://twitter.com/settings/security",
-                "jquery_selector": {
-                    "element": "input[id='allow_contributor_request_none']",
-                    "valueType": "checkbox"
-                }
-            },
-            "write": {
-                "recommended": "Allow"
-            }
-        },
-        "allow_direct_message": {
-            "read": {
-                "name": "Allow/disallow any Twitter user to send you a direct message even if you do not follow them",
-                "url": "https://twitter.com/settings/security",
-                "jquery_selector": {
-                    "element": "input[id='allow_dms_from_anyone']",
-                    "valueType": "checkbox"
-                }
-            },
-            "write": {
-                "recommended": "Disallow"
-            }
+            "id": 42,
+            "tags": [
+                "contact",
+                "advertising"
+            ]
         }
     }
 }

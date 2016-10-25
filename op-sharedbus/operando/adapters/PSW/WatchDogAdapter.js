@@ -16,7 +16,6 @@ thisAdapter = core.createAdapter("WatchDogAdapter");
 
 var fs = require('fs');
 var storageFile = process.env.SWARM_PATH+"/operando/adapters/PSW/resources/userAnswers";
-
 var utils = require('./utils');
 
 
@@ -26,7 +25,7 @@ getOspSettings = function(){
 
 updateOspSettings = function(newOspSettingsObject){
     try {
-        fs.writeFileSync(process.env.SWARM_PATH+"/operando/adapters/PSW/resources/resources/OSP.settings3.json", JSON.stringify(newOspSettingsObject, null, 4));
+        fs.writeFileSync(process.env.SWARM_PATH+"/operando/adapters/PSW/resources/resources/OSP.settings.json", JSON.stringify(newOspSettingsObject, null, 4));
         ospSettings = newOspSettingsObject;
     }catch(error){
         console.log("Update unsuccessful");
@@ -36,7 +35,6 @@ updateOspSettings = function(newOspSettingsObject){
 };
 
 getRecommenderParams = function(){
-
     return {
         "optionsToSettings":utils.optionToSetting,
         "settingsToOptions":utils.settingToOptions,

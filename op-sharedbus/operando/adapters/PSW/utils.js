@@ -6,17 +6,22 @@
 var fs = require('fs')
 
 
-var ospSettingsFile = process.env.SWARM_PATH+"/operando/adapters/PSW/resources/OSP.settings3.json";
+process.env.SWARM_PATH = "/home/ciprian/storage/Workspace/op-core/op-sharedbus";
+
+var ospSettingsFile = process.env.SWARM_PATH+"/operando/adapters/PSW/resources/OSP.settings.json";
 
 var ospSettings = JSON.parse(fs.readFileSync(ospSettingsFile));
+
 exports.conditionalProbabilities = undefined;
 exports.optionProbabilties = undefined;
 exports.optionToSetting = undefined;
 exports.settingToOptions = undefined;
-exports.ospSettings = undefined;
+exports.ospSettings = ospSettings;
+
+var numOptions ;
+var numSettings ;
 
 exports.indexOSPSettings = function(){
-
     try{
         ospSettings = JSON.parse(fs.readFileSync(ospSettingsFile));
     }catch(e){
@@ -39,43 +44,30 @@ exports.indexOSPSettings = function(){
         }
     });
 
-    fs.writeFileSync(process.env.SWARM_PATH+"/operando/adapters/PSW/resources/OSP.settings3.json",JSON.stringify(ospSettings,null,4));
+    fs.writeFileSync(process.env.SWARM_PATH+"/operando/adapters/PSW/resources/OSP.settings.json",JSON.stringify(ospSettings,null,4));
     init();
-
-    function forEachSetting(applyOnSetting){
-        for(var network in ospSettings){
-            var settings = ospSettings[network];
-            for(var setting in settings){
-                applyOnSetting(settings[setting],setting);
-            }
-        }
-    }
-
-    function forEachOption(applyOnOption){
-        forEachSetting(function(settingObj){
-            var options = settingObj['read']['availableSettings'];
-            if(Array.isArray(options)!==true){
-                for(var option in options){
-                    applyOnOption(options[option],option)
-                }
-            }
-        })
-    }
 };
-
-//exports.indexOSPSettings();
-
 
 init();
 function init(){
     exports.settingToOptions = extractOptionsForSettings();
-    var numOptions = exports.settingToOptions.reduce(function(prev,options){return prev+options.length;},0);
+
+    numOptions = exports.settingToOptions.reduce(function(prev,options){return prev+options.length;},0);
+
+    numSettings = exports.settingToOptions.length;
 
     exports.optionToSetting = new Array(numOptions);
+
     exports.settingToOptions.forEach(function(options,setting){options.forEach(function(option){exports.optionToSetting[option] = setting;})});
-    exports.conditionalProbabilities = computeConditionalProbabilities(exports.settingToOptions);
-    exports.optionProbabilties = computeOptionProbabilities(exports.settingToOptions);
-    exports.ospSettings = ospSettings;
+
+    exports.optionProbabilties = exports.settingToOptions.reduce(function(prev,optionsArray){return prev.concat(new Array(optionsArray.length).fill(1/optionsArray.length));},[]);
+
+    exports.conditionalProbabilities = JSON.parse(fs.readFileSync(process.env.SWARM_PATH+"/operando/adapters/PSW/resources/conditionalProbabilities.json")).map(function(arr){
+        return arr.map(function(nr){
+            return parseFloat(nr);
+        })
+    });
+
 
     function extractOptionsForSettings(){
         var settingToOptions = [];
@@ -94,34 +86,119 @@ function init(){
         }
         return settingToOptions
     }
+}
 
-    function computeOptionProbabilities(settingsToOptions) {
-        var optionProbabilities = new Array(numOptions);
-        settingsToOptions.forEach(function(options){
-            var normalizer = 0;
-            options.forEach(function(option){
-                optionProbabilities[option] = Math.random();
-                normalizer+=optionProbabilities[option];
+console.log(exports.conditionalProbabilities);
+
+
+exports.recomputeConditionalProbabilitites = function(){
+    var correlation_matrix = computeCorrelationMatrix();
+    var conditionalProbabilities = computeConditionalProbabilities().map(function(arr){
+        return arr.map(function(nr){
+            return nr.toFixed(3);
+        })
+    });
+
+    fs.writeFileSync(process.env.SWARM_PATH+"/operando/adapters/PSW/resources/conditionalProbabilities.json",JSON.stringify(conditionalProbabilities));
+
+    function computeCorrelationMatrix() {
+        var jaccardDistances = computeJaccardTagDistances();
+        var privacyIndexes = computePrivacyIndexes();//.map(function(x){return x-0.5});
+        return combineJaccardAndPrivacyIndex(jaccardDistances,privacyIndexes);
+
+        function computeJaccardTagDistances() {
+            var tags = {};
+            var nr_of_tags = 0;
+
+            forEachSetting(function (settingObj) {
+                if (settingObj.tags) {
+                    settingObj.tags.forEach(function (tag) {
+                        if (!tags[tag]) {
+                            tags[tag] = []
+                        }
+                        tags[tag].push(settingObj.id)
+                    })
+                }
+            });
+
+            for (tag in tags) {
+                nr_of_tags++;
+            }
+
+            var intersectionCardinals = [], psedoReunionCardinals = [], jaccardDistances = []; //jaccard index between sets of tags
+            for (var row = 0; row < numSettings; row++) {
+                intersectionCardinals.push([]);
+                psedoReunionCardinals.push([]);
+                jaccardDistances.push([]);
+                for (var column = 0; column < numSettings; column++) {
+                    intersectionCardinals[row].push(0);
+                    psedoReunionCardinals[row].push(0);
+                    jaccardDistances[row].push(0);
+                }
+            }
+
+            for (tag in tags) {
+                tags[tag].forEach(function (setting) {
+                    tags[tag].forEach(function (otherSetting) {
+                        intersectionCardinals[setting][otherSetting]++
+                    });
+                })
+            }
+            for (tag in tags) {
+                tags[tag].forEach(function (setting) {
+                    for (var otherSetting = 0; otherSetting < numSettings; otherSetting++) {
+                        psedoReunionCardinals[setting][otherSetting]++;
+                        psedoReunionCardinals[otherSetting][setting]++;
+                    }
+                })
+            }
+            for (var setting = 0; setting < exports.settingToOptions.length; setting++) {
+                for (var otherSetting = 0; otherSetting < exports.settingToOptions.length; otherSetting++) {
+                    var intCard = intersectionCardinals[setting][otherSetting];
+                    var reuCard = psedoReunionCardinals[setting][otherSetting] - intCard;
+                    jaccardDistances[setting][otherSetting] = (intCard / reuCard)
+                }
+            }
+            return jaccardDistances
+        }
+
+        function computePrivacyIndexes(){
+            var privacyIndexes = new Array(numOptions);
+            exports.settingToOptions.forEach(function(optionArray){
+                var privacyStep = 1/(optionArray.length-1);
+                optionArray.forEach(function(option,optionIndex){
+                    privacyIndexes[option] = privacyStep*optionIndex;
+                })
             })
-            options.forEach(function(option){
-                optionProbabilities[option]/=normalizer;
-            })
-        });
-        return optionProbabilities;
+            return privacyIndexes
+        }
+
+        function combineJaccardAndPrivacyIndex(jaccardDistances,privacyIndexes){
+            var correlationMatrix = [];
+            for(var option=0;option<numOptions;option++){
+                correlationMatrix.push([]);
+                for(var other_option=0;other_option<numOptions;other_option++){
+                    var correlation = jaccardDistances[exports.optionToSetting[option]][exports.optionToSetting[other_option]];
+                    correlation *= 1-Math.abs(privacyIndexes[option]-privacyIndexes[other_option])
+                    correlationMatrix[option].push(correlation);
+                }
+            }
+
+            return correlationMatrix;
+        }
     }
 
-    function computeConditionalProbabilities(settingToOptions){
-        var conditionalProbabilities = []
-        var allNormalizers = []
+
+    function computeConditionalProbabilities(){
+        var conditionalProbabilities = [];
+        var allNormalizers = [];
 
         for(var option=0;option<numOptions;option++) {
-            var rands = new Array(numOptions)
-            var normalizers = new Array(settingToOptions.length).fill(0);
+            conditionalProbabilities.push(correlation_matrix[option]);
+            var normalizers = new Array(numSettings).fill(0);
             for (var otherOption = 0; otherOption < numOptions; otherOption++) {
-                rands[otherOption] = Math.random()
-                normalizers[exports.optionToSetting[otherOption]]+=rands[otherOption]
+                normalizers[exports.optionToSetting[otherOption]]+=correlation_matrix[option][otherOption]
             }
-            conditionalProbabilities.push(rands);
             allNormalizers.push(normalizers);
         }
 
@@ -135,43 +212,38 @@ function init(){
                     conditionalProbabilities[option][otherOption]=0;
                     continue;
                 }
-                conditionalProbabilities[option][otherOption]/=allNormalizers[option][exports.optionToSetting[otherOption]]
+
+                var normalizer = allNormalizers[option][exports.optionToSetting[otherOption]];
+                if(normalizer===0){
+                    conditionalProbabilities[option][otherOption] = exports.optionProbabilties[option];
+                }else {
+                    conditionalProbabilities[option][otherOption] /= normalizer
+                }
             }
         }
+
         return conditionalProbabilities;
+    }
+
+    return conditionalProbabilities;
+}
+
+function forEachSetting(applyOnSetting){
+    for(var network in ospSettings){
+        var settings = ospSettings[network];
+        for(var setting in settings){
+            applyOnSetting(settings[setting],setting);
+        }
     }
 }
 
-
-
-
-
-exports.vecMatrixMultiplication = function(vector,matrix){
-    var result = new Array(matrix[0].length).fill(0);
-    for(var i=0;i<vector.length;i++){
-        for (var j=0;j<vector.length;j++){
-                result[i]+=vector[j]*matrix[j][i]
+function forEachOption(applyOnOption){
+    forEachSetting(function(settingObj){
+        var options = settingObj['read']['availableSettings'];
+        if(Array.isArray(options)!==true){
+            for(var option in options){
+                applyOnOption(options[option],option)
             }
         }
-    return result;
-}
-
-
-exports.argSort = function(array){
-    //the equivalent of argsort from numpy
-    var args = new Array(array.length);
-    var argsOfValues = {}
-    array.forEach(function (value,index) {
-            if (argsOfValues[value]){
-                argsOfValues[value].push(index);
-            }else{
-                argsOfValues[value] = [index]
-            }
-        }
-    )
-    array.sort();
-    array.forEach(function(value,index){
-        args[index] = argsOfValues[value].shift();
-    });
-    return args
+    })
 }

@@ -7,15 +7,15 @@
                 "availableSettings": {
                     "public": {
                         "name": "Public",
-                        "index": 0
+                        "index": 11
                     },
                     "friends": {
                         "name": "Friends",
-                        "index": 1
+                        "index": 11
                     },
                     "only_me": {
                         "name": "Only Me",
-                        "index": 2
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -71,7 +71,10 @@
                 "data": {},
                 "recommended": "friends"
             },
-            "id": 0
+            "id": 0,
+            "tags": [
+                "exposure"
+            ]
         },
         "who_can_contact": {
             "read": {
@@ -80,11 +83,11 @@
                 "availableSettings": {
                     "everyone": {
                         "name": "Everyone",
-                        "index": 3
+                        "index": 11
                     },
                     "friends_of_friends": {
                         "name": "Friends of Friends",
-                        "index": 4
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -127,7 +130,11 @@
                 "data": {},
                 "recommended": "friends_of_friends"
             },
-            "id": 1
+            "id": 1,
+            "tags": [
+                "contact",
+                "control"
+            ]
         },
         "lookup_email": {
             "read": {
@@ -136,15 +143,15 @@
                 "availableSettings": {
                     "everyone": {
                         "name": "Everyone",
-                        "index": 5
-                    },
-                    "friends": {
-                        "name": "Friends",
-                        "index": 6
+                        "index": 11
                     },
                     "friends_of_friends": {
                         "name": "Friends of Friends",
-                        "index": 7
+                        "index": 11
+                    },
+                    "friends": {
+                        "name": "Friends",
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -200,7 +207,12 @@
                 "data": {},
                 "recommended": "friends"
             },
-            "id": 2
+            "id": 2,
+            "tags": [
+                "contact",
+                "discovery",
+                "control"
+            ]
         },
         "lookup_phone": {
             "read": {
@@ -209,15 +221,15 @@
                 "availableSettings": {
                     "everyone": {
                         "name": "Everyone",
-                        "index": 8
-                    },
-                    "friends": {
-                        "name": "Friends",
-                        "index": 9
+                        "index": 11
                     },
                     "friends_of_friends": {
                         "name": "Friends of Friends",
-                        "index": 10
+                        "index": 11
+                    },
+                    "friends": {
+                        "name": "Friends",
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -273,7 +285,12 @@
                 "data": {},
                 "recommended": "friends"
             },
-            "id": 3
+            "id": 3,
+            "tags": [
+                "contact",
+                "discovery",
+                "control"
+            ]
         },
         "search_engine": {
             "read": {
@@ -286,7 +303,7 @@
                     },
                     "no": {
                         "name": "No",
-                        "index": 12
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -317,20 +334,25 @@
                 "data": {},
                 "recommended": "no"
             },
-            "id": 4
+            "id": 4,
+            "tags": [
+                "contact",
+                "discovery",
+                "control"
+            ]
         },
         "limit_timeline": {
             "read": {
                 "name": "Limit who can add things to your timeline",
                 "url": "https://www.facebook.com/settings?tab=timeline",
                 "availableSettings": {
-                    "only_me": {
-                        "name": "Only Me",
-                        "index": 13
-                    },
                     "friends": {
                         "name": "Friends",
-                        "index": 14
+                        "index": 11
+                    },
+                    "only_me": {
+                        "name": "Only Me",
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -359,20 +381,24 @@
                 "data": {},
                 "recommended": "only_me"
             },
-            "id": 5
+            "id": 5,
+            "tags": [
+                "exposure",
+                "control"
+            ]
         },
         "control_timeline": {
             "read": {
                 "name": "Review tags people add to your own posts before the tags appear on Facebook",
                 "url": "https://www.facebook.com/settings?tab=timeline",
                 "availableSettings": {
-                    "enabled": {
-                        "name": "On",
-                        "index": 15
-                    },
                     "disabled": {
                         "name": "Off",
-                        "index": 16
+                        "index": 11
+                    },
+                    "enabled": {
+                        "name": "On",
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -401,7 +427,11 @@
                 "data": {},
                 "recommended": "enabled"
             },
-            "id": 6
+            "id": 6,
+            "tags": [
+                "exposure",
+                "control"
+            ]
         },
         "timeline_posts_tags": {
             "read": {
@@ -410,23 +440,23 @@
                 "availableSettings": {
                     "everyone": {
                         "name": "Everyone",
-                        "index": 17
+                        "index": 11
                     },
                     "friends_of_friends": {
                         "name": "Friends of Friends",
-                        "index": 18
+                        "index": 11
                     },
                     "friends": {
                         "name": "Friends",
-                        "index": 19
+                        "index": 11
                     },
                     "friends_except_acquaintances": {
                         "name": "Friends except Acquaintances",
-                        "index": 20
+                        "index": 11
                     },
                     "only_me": {
                         "name": "Only Me",
-                        "index": 21
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -507,7 +537,10 @@
                 },
                 "recommended": "only_me"
             },
-            "id": 7
+            "id": 7,
+            "tags": [
+                "exposure"
+            ]
         },
         "timeline_other_posts": {
             "read": {
@@ -516,23 +549,23 @@
                 "availableSettings": {
                     "everyone": {
                         "name": "Everyone",
-                        "index": 22
+                        "index": 11
                     },
                     "friends_of_friends": {
                         "name": "Friends of Friends",
-                        "index": 23
+                        "index": 11
                     },
                     "friends": {
                         "name": "Friends",
-                        "index": 24
+                        "index": 11
                     },
                     "friends_except_acquaintances": {
                         "name": "Friends except Acquaintances",
-                        "index": 25
+                        "index": 11
                     },
                     "only_me": {
                         "name": "Only Me",
-                        "index": 26
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -613,7 +646,10 @@
                 },
                 "recommended": "only_me"
             },
-            "id": 8
+            "id": 8,
+            "tags": [
+                "exposure"
+            ]
         },
         "photo_tags_audience": {
             "read": {
@@ -622,11 +658,11 @@
                 "availableSettings": {
                     "friends": {
                         "name": "Friends",
-                        "index": 27
+                        "index": 11
                     },
                     "only_me": {
                         "name": "Only Me",
-                        "index": 28
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -668,20 +704,24 @@
                 },
                 "recommended": "only_me"
             },
-            "id": 9
+            "id": 9,
+            "tags": [
+                "exposure",
+                "control"
+            ]
         },
         "control_followers": {
             "read": {
                 "name": "Control who can be your follower.",
                 "url": "https://www.facebook.com/settings?tab=followers",
                 "availableSettings": {
-                    "friends": {
-                        "name": "Friends",
-                        "index": 29
-                    },
                     "public": {
                         "name": "Public",
-                        "index": 30
+                        "index": 11
+                    },
+                    "friends": {
+                        "name": "Friends",
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -718,7 +758,12 @@
                 },
                 "recommended": "friends"
             },
-            "id": 10
+            "id": 10,
+            "tags": [
+                "contact",
+                "control",
+                "exposure"
+            ]
         },
         "permissions_for_apps": {
             "read": {
@@ -755,13 +800,13 @@
                 "name": "Allow or disallow use of apps, plugins, games and websites on Facebook and elsewhere.",
                 "url": "https://www.facebook.com/settings?tab=applications",
                 "availableSettings": {
-                    "disabled": {
-                        "name": "Disalow",
-                        "index": 31
-                    },
                     "enabled": {
                         "name": "Allow",
-                        "index": 32
+                        "index": 11
+                    },
+                    "disabled": {
+                        "name": "Disalow",
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -795,7 +840,12 @@
                 },
                 "recommended": "disabled"
             },
-            "id": 11
+            "id": 11,
+            "tags": [
+                "applications",
+                "control",
+                "personal data"
+            ]
         },
         "control_personal_info": {
             "read": {
@@ -834,11 +884,11 @@
                 "availableSettings": {
                     "yes": {
                         "name": "Yes",
-                        "index": 33
+                        "index": 11
                     },
                     "no": {
                         "name": "No",
-                        "index": 34
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -866,7 +916,13 @@
                 },
                 "recommended": "no"
             },
-            "id": 12
+            "id": 12,
+            "tags": [
+                "advertising",
+                "profiling",
+                "personal data",
+                "control"
+            ]
         },
         "facebook_companies_ads": {
             "read": {
@@ -875,11 +931,11 @@
                 "availableSettings": {
                     "yes": {
                         "name": "Yes",
-                        "index": 35
+                        "index": 11
                     },
                     "no": {
                         "name": "No",
-                        "index": 36
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -907,7 +963,13 @@
                 },
                 "recommended": "no"
             },
-            "id": 13
+            "id": 13,
+            "tags": [
+                "personal_data",
+                "profiling",
+                "advertising",
+                "control"
+            ]
         },
         "control_friends_ads": {
             "read": {
@@ -916,11 +978,11 @@
                 "availableSettings": {
                     "only_friends": {
                         "name": "Only my friends",
-                        "index": 37
+                        "index": 11
                     },
                     "no_one": {
                         "name": "No one",
-                        "index": 38
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -948,7 +1010,14 @@
                 },
                 "recommended": "no_one"
             },
-            "id": 14
+            "id": 14,
+            "tags": [
+                "personal_data",
+                "profiling",
+                "advertising",
+                "control",
+                "exposure"
+            ]
         },
         "control_preferences": {
             "read": {
@@ -979,154 +1048,27 @@
             }
         }
     },
-    "google": {
-        "keep_app_activity": {
-            "read": {
-                "name": "Delete or keep all Web and app activity",
-                "url": "https://myaccount.google.com/activitycontrols?pli=1",
-                "jquery_selector": {
-                    "element": "div[data-aid='search'] div",
-                    "valueType": "attrValue",
-                    "attrValue": "aria-checked"
-                }
-            },
-            "write": {
-                "recommended": "false"
-            }
-        },
-        "keep_audiovideo_activity": {
-            "read": {
-                "name": "Delete or keep all Voice and Audio activity",
-                "url": "https://myaccount.google.com/activitycontrols?pli=1",
-                "jquery_selector": {
-                    "element": "div[data-aid='audio'] div",
-                    "valueType": "attrValue",
-                    "attrValue": "aria-checked"
-                }
-            },
-            "write": {
-                "recommended": "false"
-            }
-        },
-        "keep_device_activity": {
-            "read": {
-                "name": "Delete or keep device activity info",
-                "url": "https://myaccount.google.com/activitycontrols?pli=1",
-                "jquery_selector": {
-                    "element": "div[data-aid='device'] div",
-                    "valueType": "attrValue",
-                    "attrValue": "aria-checked"
-                }
-            },
-            "write": {
-                "recommended": "false"
-            }
-        },
-        "keep_location_history": {
-            "read": {
-                "name": "Delete or keep your entire location history",
-                "url": "https://myaccount.google.com/activitycontrols?pli=1",
-                "jquery_selector": {
-                    "element": "div[data-aid='location'] div",
-                    "valueType": "attrValue",
-                    "attrValue": "aria-checked"
-                }
-            },
-            "write": {
-                "recommended": "false"
-            }
-        },
-        "keep_youtube_history": {
-            "read": {
-                "name": "Delete or keep YouTube watch history",
-                "url": "https://myaccount.google.com/activitycontrols?pli=1",
-                "jquery_selector": {
-                    "element": "div[data-aid='youtubeWatch'] div",
-                    "valueType": "attrValue",
-                    "attrValue": "aria-checked"
-                }
-            },
-            "write": {
-                "recommended": "false"
-            }
-        },
-        "keep_youtube_searches": {
-            "read": {
-                "name": "Delete or keep YouTube search history",
-                "url": "https://myaccount.google.com/activitycontrols?pli=1",
-                "jquery_selector": {
-                    "element": "div[data-aid='youtubeSearch'] div",
-                    "valueType": "attrValue",
-                    "attrValue": "aria-checked"
-                }
-            },
-            "write": {
-                "recommended": "false"
-            }
-        },
-        "check_unused_apps": {
-            "read": {
-                "name": "Apps connected to your acccount ",
-                "url": "https://security.google.com/settings/security/permissions",
-                "jquery_selector": {
-                    "element": "div.Y5KHCd",
-                    "valueType": "length"
-                }
-            },
-            "write": {
-                "recommended": "Revoke access by unused applications"
-            }
-        },
-        "pause_location_tracking": {
-            "read": {
-                "name": "Pause Google and related apps tracking your location. ",
-                "url": "https://myaccount.google.com/activitycontrols/location",
-                "jquery_selector": {
-                    "element": "div[data-aid='location'] div",
-                    "valueType": "attrValue",
-                    "attrValue": "aria-checked"
-                }
-            },
-            "write": {
-                "recommended": "false"
-            }
-        },
-        "turn_off_adds_based_on_your_interest": {
-            "read": {
-                "name": "Turn off ads based on your interest",
-                "url": "https://www.google.com/settings/u/0/ads/authenticated",
-                "jquery_selector": {
-                    "element": "div.Pu > span.iI > div[aria-checked]",
-                    "valueType": "attrValue",
-                    "attrValue": "aria-checked"
-                }
-            },
-            "write": {
-                "recommended": "false"
-            }
-        }
-    },
     "linkedin": {
         "control_profile_photo": {
             "read": {
                 "name": "Control your profile photo and visibility.",
                 "url": "https://www.linkedin.com/psettings/profile-photo-visibility",
                 "availableSettings": {
-                    "No_One": {
-                        "name": "No One",
-                        "index": 39
-                    },
-                    "Your_Connections": {
-                        "name": "Your Connections",
-                        "index": 40
+                    "Everyone": {
+                        "name": "Everyone",
+                        "index": 11
                     },
                     "Your_Network": {
                         "name": "Your Network",
-                        "index": 41
+                        "index": 11
                     },
-                    "Everyone": {
-                        "name": "Everyone",
-                        "index": 42
+                    "Your_Connections": {
+                        "name": "Your Connections",
+                        "index": 11
+                    },
+                    "No_One": {
+                        "name": "No One",
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -1168,7 +1110,12 @@
                 "data": {},
                 "recommended": "No One"
             },
-            "id": 15
+            "id": 15,
+            "tags": [
+                "exposure",
+                "personal data",
+                "control"
+            ]
         },
         "control_third_party": {
             "read": {
@@ -1223,13 +1170,13 @@
                 "name": "Select who can see your list of connections.",
                 "url": "https://www.linkedin.com/psettings/connections-visibility",
                 "availableSettings": {
-                    "Only_you": {
-                        "name": "Only you",
-                        "index": 43
-                    },
                     "Your_Connections": {
                         "name": "Your Connections",
-                        "index": 44
+                        "index": 11
+                    },
+                    "Only_you": {
+                        "name": "Only you",
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -1259,20 +1206,24 @@
                 "data": {},
                 "recommended": "Only you"
             },
-            "id": 16
+            "id": 16,
+            "tags": [
+                "exposure",
+                "control"
+            ]
         },
         "how_you_rank": {
             "read": {
                 "name": "Control showing \"How You Rank\"",
                 "url": "https://www.linkedin.com/psettings/how-you-rank",
                 "availableSettings": {
-                    "Yes": {
-                        "name": "Yes",
-                        "index": 45
-                    },
                     "No": {
                         "name": "No",
-                        "index": 46
+                        "index": 11
+                    },
+                    "Yes": {
+                        "name": "Yes",
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -1302,20 +1253,24 @@
                 "data": {},
                 "recommended": "No"
             },
-            "id": 17
+            "id": 17,
+            "tags": [
+                "personal data",
+                "control"
+            ]
         },
         "profile_viewers_feature": {
             "read": {
                 "name": "Control the feature \"Viewers of this profile also viewed\"",
                 "url": "https://www.linkedin.com/psettings/browse-map",
                 "availableSettings": {
-                    "Yes": {
-                        "name": "Yes",
-                        "index": 47
-                    },
                     "No": {
                         "name": "No",
-                        "index": 48
+                        "index": 11
+                    },
+                    "Yes": {
+                        "name": "Yes",
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -1345,7 +1300,11 @@
                 "data": {},
                 "recommended": "No"
             },
-            "id": 18
+            "id": 18,
+            "tags": [
+                "exposure",
+                "control"
+            ]
         },
         "share_edits": {
             "read": {
@@ -1354,11 +1313,11 @@
                 "availableSettings": {
                     "Yes": {
                         "name": "Yes",
-                        "index": 49
+                        "index": 11
                     },
                     "No": {
                         "name": "No",
-                        "index": 50
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -1388,7 +1347,11 @@
                 "data": {},
                 "recommended": "No"
             },
-            "id": 19
+            "id": 19,
+            "tags": [
+                "exposure",
+                "control"
+            ]
         },
         "profile_viewing_options": {
             "read": {
@@ -1397,15 +1360,15 @@
                 "availableSettings": {
                     "Full_profile": {
                         "name": "Full profile",
-                        "index": 51
+                        "index": 11
                     },
                     "Characteristics": {
                         "name": "Characteristics",
-                        "index": 52
+                        "index": 11
                     },
                     "Private_mode": {
                         "name": "Private mode",
-                        "index": 53
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -1441,7 +1404,11 @@
                 "data": {},
                 "recommended": "Private_mode"
             },
-            "id": 20
+            "id": 20,
+            "tags": [
+                "personal data",
+                "control"
+            ]
         },
         "share_you_news": {
             "read": {
@@ -1450,11 +1417,11 @@
                 "availableSettings": {
                     "Yes": {
                         "name": "Yes",
-                        "index": 54
+                        "index": 11
                     },
                     "No": {
                         "name": "No",
-                        "index": 55
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -1484,20 +1451,24 @@
                 "data": {},
                 "recommended": "No"
             },
-            "id": 21
+            "id": 21,
+            "tags": [
+                "exposure",
+                "control"
+            ]
         },
         "control_followers": {
             "read": {
                 "name": "Control who can follow you and see your public updates.",
                 "url": "https://www.linkedin.com/psettings/allow-follow",
                 "availableSettings": {
-                    "Your_Connections": {
-                        "name": "Your Connections",
-                        "index": 56
-                    },
                     "Everyone": {
                         "name": "Everyone",
-                        "index": 57
+                        "index": 11
+                    },
+                    "Your_Connections": {
+                        "name": "Your Connections",
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -1527,7 +1498,12 @@
                 "data": {},
                 "recommended": "Your_Connections"
             },
-            "id": 22
+            "id": 22,
+            "tags": [
+                "contact",
+                "control",
+                "exposure"
+            ]
         },
         "suggest_you_email": {
             "read": {
@@ -1536,15 +1512,15 @@
                 "availableSettings": {
                     "Everyone": {
                         "name": "Everyone",
-                        "index": 58
+                        "index": 11
                     },
                     "second_degree": {
                         "name": "2nd degree",
-                        "index": 59
+                        "index": 11
                     },
                     "Nobody": {
                         "name": "Nobody",
-                        "index": 60
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -1584,7 +1560,12 @@
                 },
                 "recommended": "connections"
             },
-            "id": 23
+            "id": 23,
+            "tags": [
+                "contact",
+                "personal data",
+                "discovery"
+            ]
         },
         "suggest_you_phone": {
             "read": {
@@ -1593,15 +1574,15 @@
                 "availableSettings": {
                     "Everyone": {
                         "name": "Everyone",
-                        "index": 61
+                        "index": 11
                     },
                     "second_degree": {
                         "name": "2nd degree",
-                        "index": 62
+                        "index": 11
                     },
                     "Nobody": {
                         "name": "Nobody",
-                        "index": 63
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -1641,7 +1622,12 @@
                 },
                 "recommended": "connections"
             },
-            "id": 24
+            "id": 24,
+            "tags": [
+                "contact",
+                "personal data",
+                "discovery"
+            ]
         },
         "meet_the_team": {
             "read": {
@@ -1650,11 +1636,11 @@
                 "availableSettings": {
                     "Yes": {
                         "name": "Yes",
-                        "index": 64
+                        "index": 11
                     },
                     "No": {
                         "name": "No",
-                        "index": 65
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -1684,7 +1670,12 @@
                 "data": {},
                 "recommended": "No"
             },
-            "id": 25
+            "id": 25,
+            "tags": [
+                "control",
+                "exposure",
+                "personal data"
+            ]
         },
         "share_data_with_third_party_applications": {
             "read": {
@@ -1693,11 +1684,11 @@
                 "availableSettings": {
                     "Yes": {
                         "name": "Yes",
-                        "index": 66
+                        "index": 11
                     },
                     "No": {
                         "name": "No",
-                        "index": 67
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -1727,7 +1718,12 @@
                 "data": {},
                 "recommended": "No"
             },
-            "id": 26
+            "id": 26,
+            "tags": [
+                "applications",
+                "personal data",
+                "profiling"
+            ]
         },
         "share_data_with_third_party_platforms": {
             "read": {
@@ -1736,11 +1732,11 @@
                 "availableSettings": {
                     "Yes": {
                         "name": "Yes",
-                        "index": 68
+                        "index": 11
                     },
                     "No": {
                         "name": "No",
-                        "index": 69
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -1771,7 +1767,11 @@
                 "data": {},
                 "recommended": "No"
             },
-            "id": 27
+            "id": 27,
+            "tags": [
+                "personal data",
+                "profiling"
+            ]
         },
         "cookie_personalised_ads": {
             "read": {
@@ -1780,11 +1780,11 @@
                 "availableSettings": {
                     "Yes": {
                         "name": "Yes",
-                        "index": 70
+                        "index": 11
                     },
                     "No": {
                         "name": "No",
-                        "index": 71
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -1814,7 +1814,13 @@
                 "data": {},
                 "recommended": "No"
             },
-            "id": 28
+            "id": 28,
+            "tags": [
+                "advertising",
+                "profiling",
+                "personal data",
+                "control"
+            ]
         },
         "control_messages_invitations": {
             "read": {
@@ -1823,11 +1829,11 @@
                 "availableSettings": {
                     "On": {
                         "name": "On",
-                        "index": 72
+                        "index": 11
                     },
                     "Off": {
                         "name": "Off",
-                        "index": 73
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -1905,7 +1911,11 @@
                 "data": {},
                 "recommended": "Off"
             },
-            "id": 29
+            "id": 29,
+            "tags": [
+                "contact",
+                "control"
+            ]
         },
         "control_messages_messages": {
             "read": {
@@ -1914,11 +1924,11 @@
                 "availableSettings": {
                     "On": {
                         "name": "On",
-                        "index": 74
+                        "index": 11
                     },
                     "Off": {
                         "name": "Off",
-                        "index": 75
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -1996,7 +2006,11 @@
                 "data": {},
                 "recommended": "Off"
             },
-            "id": 30
+            "id": 30,
+            "tags": [
+                "contact",
+                "control"
+            ]
         },
         "control_messages_notifications": {
             "read": {
@@ -2005,11 +2019,11 @@
                 "availableSettings": {
                     "On": {
                         "name": "On",
-                        "index": 76
+                        "index": 11
                     },
                     "Off": {
                         "name": "Off",
-                        "index": 77
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -2111,7 +2125,11 @@
                 "data": {},
                 "recommended": "Off"
             },
-            "id": 31
+            "id": 31,
+            "tags": [
+                "profiling",
+                "control"
+            ]
         },
         "control_messages_network_updates": {
             "read": {
@@ -2120,11 +2138,11 @@
                 "availableSettings": {
                     "On": {
                         "name": "On",
-                        "index": 78
+                        "index": 11
                     },
                     "Off": {
                         "name": "Off",
-                        "index": 79
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -2210,7 +2228,11 @@
                 "data": {},
                 "recommended": "Off"
             },
-            "id": 32
+            "id": 32,
+            "tags": [
+                "profiling",
+                "control"
+            ]
         },
         "control_messages_jobs_and_opportunities": {
             "read": {
@@ -2219,11 +2241,11 @@
                 "availableSettings": {
                     "On": {
                         "name": "On",
-                        "index": 80
+                        "index": 11
                     },
                     "Off": {
                         "name": "Off",
-                        "index": 81
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -2309,7 +2331,11 @@
                 },
                 "recommended": "Off"
             },
-            "id": 33
+            "id": 33,
+            "tags": [
+                "profiling",
+                "control"
+            ]
         },
         "control_messages_news": {
             "read": {
@@ -2318,11 +2344,11 @@
                 "availableSettings": {
                     "On": {
                         "name": "On",
-                        "index": 82
+                        "index": 11
                     },
                     "Off": {
                         "name": "Off",
-                        "index": 83
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -2392,7 +2418,11 @@
                 },
                 "recommended": "Off"
             },
-            "id": 34
+            "id": 34,
+            "tags": [
+                "profiling",
+                "control"
+            ]
         },
         "control_messages_from_linkedIn": {
             "read": {
@@ -2401,11 +2431,11 @@
                 "availableSettings": {
                     "On": {
                         "name": "On",
-                        "index": 84
+                        "index": 11
                     },
                     "Off": {
                         "name": "Off",
-                        "index": 85
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -2467,7 +2497,12 @@
                 },
                 "recommended": "Off"
             },
-            "id": 35
+            "id": 35,
+            "tags": [
+                "profiling",
+                "control",
+                "contact"
+            ]
         },
         "control_messages_from_linkedIn_learning": {
             "read": {
@@ -2476,11 +2511,11 @@
                 "availableSettings": {
                     "On": {
                         "name": "On",
-                        "index": 86
+                        "index": 11
                     },
                     "Off": {
                         "name": "Off",
-                        "index": 87
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -2542,7 +2577,12 @@
                 },
                 "recommended": "Off"
             },
-            "id": 36
+            "id": 36,
+            "tags": [
+                "profiling",
+                "control",
+                "contact"
+            ]
         },
         "who_can_invite_you": {
             "read": {
@@ -2551,15 +2591,15 @@
                 "availableSettings": {
                     "Everyone": {
                         "name": "Everyone",
-                        "index": 88
+                        "index": 11
                     },
                     "Email_and_Imported_contacts": {
                         "name": "Email and Imported contacts",
-                        "index": 89
+                        "index": 11
                     },
                     "Imported_contacts": {
                         "name": "Imported contacts",
-                        "index": 90
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -2595,7 +2635,11 @@
                 "data": {},
                 "recommended": "Imported contacts"
             },
-            "id": 37
+            "id": 37,
+            "tags": [
+                "contact",
+                "control"
+            ]
         },
         "enable_group_invitations": {
             "read": {
@@ -2604,11 +2648,11 @@
                 "availableSettings": {
                     "Yes": {
                         "name": "Yes",
-                        "index": 91
+                        "index": 11
                     },
                     "No": {
                         "name": "No",
-                        "index": 92
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -2638,7 +2682,11 @@
                 "data": {},
                 "recommended": "No"
             },
-            "id": 38
+            "id": 38,
+            "tags": [
+                "contact",
+                "control"
+            ]
         },
         "enable_group_notifications": {
             "read": {
@@ -2647,11 +2695,11 @@
                 "availableSettings": {
                     "Yes": {
                         "name": "Yes",
-                        "index": 93
+                        "index": 11
                     },
                     "No": {
                         "name": "No",
-                        "index": 94
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -2681,7 +2729,11 @@
                 "data": {},
                 "recommended": "No"
             },
-            "id": 39
+            "id": 39,
+            "tags": [
+                "exposure",
+                "control"
+            ]
         },
         "enable_research_invitations": {
             "read": {
@@ -2690,11 +2742,11 @@
                 "availableSettings": {
                     "Yes": {
                         "name": "Yes",
-                        "index": 95
+                        "index": 11
                     },
                     "No": {
                         "name": "No",
-                        "index": 96
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -2724,7 +2776,10 @@
                 "data": {},
                 "recommended": "No"
             },
-            "id": 40
+            "id": 40,
+            "tags": [
+                "contact"
+            ]
         },
         "allow_partner_inmail": {
             "read": {
@@ -2733,11 +2788,11 @@
                 "availableSettings": {
                     "Yes": {
                         "name": "Yes",
-                        "index": 97
+                        "index": 11
                     },
                     "No": {
                         "name": "No",
-                        "index": 98
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -2773,7 +2828,10 @@
                 "data": {},
                 "recommended": "No"
             },
-            "id": 41
+            "id": 41,
+            "tags": [
+                "contact"
+            ]
         },
         "allow_hiring_campaign_partner_inmail": {
             "read": {
@@ -2782,11 +2840,11 @@
                 "availableSettings": {
                     "Yes": {
                         "name": "Yes",
-                        "index": 99
+                        "index": 11
                     },
                     "No": {
                         "name": "No",
-                        "index": 100
+                        "index": 11
                     }
                 },
                 "jquery_selector": {
@@ -2821,281 +2879,11 @@
                 "data": {},
                 "recommended": "No"
             },
-            "id": 42
-        }
-    },
-    "twitter": {
-        "allow_login_verification": {
-            "read": {
-                "name": "Allow/disallow Login verification (a phone must be added first).",
-                "url": "https://twitter.com/settings/security",
-                "jquery_selector": {
-                    "element": "input[id='login_verification']",
-                    "valueType": "checkbox"
-                },
-                "availableSettings": {
-                    "allow": {
-                        "name": "Allow",
-                        "index": 101
-                    },
-                    "disallow": {
-                        "name": "Disallow",
-                        "index": 102
-                    }
-                }
-            },
-            "write": {
-                "recommended": "allow"
-            },
-            "id": 43
-        },
-        "allow_password_reset": {
-            "read": {
-                "name": "Allow/disallow further personal information for Password reset.",
-                "url": "https://twitter.com/settings/security",
-                "jquery_selector": {
-                    "element": "input[id='user_no_username_only_password_reset']",
-                    "valueType": "checkbox"
-                },
-                "availableSettings": {
-                    "true": {
-                        "name": "Allow",
-                        "index": 103
-                    },
-                    "false": {
-                        "name": "Disallow",
-                        "index": 104
-                    }
-                }
-            },
-            "write": {
-                "recommended": true
-            },
-            "id": 44
-        },
-        "allow_login_with_code": {
-            "read": {
-                "name": "Allow/disallow login to your account with either a password or login code.",
-                "url": "https://twitter.com/settings/security",
-                "jquery_selector": {
-                    "element": "input[name='user[one_factor_optout_settings]']",
-                    "valueType": "radio"
-                },
-                "availableSettings": {
-                    "on": {
-                        "name": "Allow my account to log in with either a password or login code",
-                        "index": 105
-                    },
-                    "off": {
-                        "name": "Always require a password to log in to my account",
-                        "index": 106
-                    }
-                }
-            },
-            "write": {
-                "recommended": "off"
-            },
-            "id": 45
-        },
-        "allow_photo_tag": {
-            "read": {
-                "name": "Allow/disallow anyone to tag you in photos.",
-                "url": "https://twitter.com/settings/security",
-                "jquery_selector": {
-                    "element": "input[name='user[allow_media_tagging]']",
-                    "valueType": "radio"
-                },
-                "availableSettings": {
-                    "all": {
-                        "name": "Allow anyone to tag me in photos",
-                        "index": 107
-                    },
-                    "following": {
-                        "name": "Only allow people I follow to tag me in photos",
-                        "index": 108
-                    },
-                    "none": {
-                        "name": "Do not allow anyone to tag me in photos",
-                        "index": 109
-                    }
-                }
-            },
-            "write": {
-                "recommended": "none"
-            },
-            "id": 46
-        },
-        "tweet_privacy": {
-            "read": {
-                "name": "Allow/disallow only those you approve to receive your Tweets.",
-                "url": "https://twitter.com/settings/security",
-                "jquery_selector": {
-                    "element": "input[id='user_protected']",
-                    "valueType": "checkbox"
-                },
-                "availableSettings": {
-                    "0": {
-                        "name": "Off",
-                        "index": 110
-                    },
-                    "1": {
-                        "name": "On",
-                        "index": 111
-                    }
-                }
-            },
-            "write": {
-                "recommended": "0"
-            },
-            "id": 47
-        },
-        "allow_location": {
-            "read": {
-                "name": "Enable Twitter to add your location to your tweets.",
-                "url": "https://twitter.com/settings/security",
-                "jquery_selector": {
-                    "element": "input[id='user_geo_enabled']",
-                    "valueType": "checkbox"
-                },
-                "availableSettings": {
-                    "0": {
-                        "name": "Off",
-                        "index": 112
-                    },
-                    "1": {
-                        "name": "On",
-                        "index": 113
-                    }
-                }
-            },
-            "write": {
-                "recommended": "0"
-            },
-            "id": 48
-        },
-        "allow_email_search": {
-            "read": {
-                "name": "Allow/disallow others find you by your email address",
-                "url": "https://twitter.com/settings/security",
-                "jquery_selector": {
-                    "element": "input[id='user_discoverable_by_email']",
-                    "valueType": "checkbox"
-                },
-                "availableSettings": {
-                    "0": {
-                        "name": "Off",
-                        "index": 114
-                    },
-                    "1": {
-                        "name": "On",
-                        "index": 115
-                    }
-                }
-            },
-            "write": {
-                "recommended": 0
-            },
-            "id": 49
-        },
-        "allow_phone_search": {
-            "read": {
-                "name": "Allow/disallow others find you by your phone number",
-                "url": "https://twitter.com/settings/security",
-                "jquery_selector": {
-                    "element": "input[id='user_mobile_discoverable']",
-                    "valueType": "checkbox"
-                },
-                "availableSettings": {
-                    "0": {
-                        "name": "Off",
-                        "index": 116
-                    },
-                    "1": {
-                        "name": "On",
-                        "index": 117
-                    }
-                }
-            },
-            "write": {
-                "recommended": 0
-            },
-            "id": 50
-        },
-        "allow_promoted_content": {
-            "read": {
-                "name": "Allow/disallow Twitter to display ads about things you've already shown interest in (aka \"promoted content\"",
-                "url": "https://twitter.com/settings/security",
-                "jquery_selector": {
-                    "element": "input[id='allow_ads_personalization']",
-                    "valueType": "checkbox"
-                },
-                "availableSettings": {
-                    "0": {
-                        "name": "Off",
-                        "index": 118
-                    },
-                    "1": {
-                        "name": "On",
-                        "index": 119
-                    }
-                }
-            },
-            "write": {
-                "recommended": 0
-            },
-            "id": 51
-        },
-        "allow_tweetdeck": {
-            "read": {
-                "name": "Allow/disallow organizations to invite anyone to tweet from their account using the teams feature in TweetDeck ?",
-                "url": "https://twitter.com/settings/security",
-                "jquery_selector": {
-                    "element": "input[name='user[allow_contributor_request]']",
-                    "valueType": "radio"
-                },
-                "availableSettings": {
-                    "all": {
-                        "name": "Allow anyone to add me to their team",
-                        "index": 120
-                    },
-                    "following": {
-                        "name": "Only allow people I follow to add me to their team",
-                        "index": 121
-                    },
-                    "none": {
-                        "name": "Do not allow anyone to add me to their team",
-                        "index": 122
-                    }
-                }
-            },
-            "write": {
-                "recommended": "none"
-            },
-            "id": 52
-        },
-        "allow_direct_message": {
-            "read": {
-                "name": "Allow/disallow any Twitter user to send you a direct message even if you do not follow them",
-                "url": "https://twitter.com/settings/security",
-                "jquery_selector": {
-                    "element": "input[id='allow_dms_from_anyone']",
-                    "valueType": "checkbox"
-                },
-                "availableSettings": {
-                    "0": {
-                        "name": "Off",
-                        "index": 123
-                    },
-                    "1": {
-                        "name": "On",
-                        "index": 124
-                    }
-                }
-            },
-            "write": {
-                "recommended": "0"
-            },
-            "id": 53
+            "id": 42,
+            "tags": [
+                "contact",
+                "advertising"
+            ]
         }
     }
 }
