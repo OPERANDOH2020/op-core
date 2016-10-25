@@ -5,9 +5,6 @@
 
 var fs = require('fs')
 
-
-process.env.SWARM_PATH = "/home/ciprian/storage/Workspace/op-core/op-sharedbus";
-
 var ospSettingsFile = process.env.SWARM_PATH+"/operando/adapters/PSW/resources/OSP.settings.json";
 
 var ospSettings = JSON.parse(fs.readFileSync(ospSettingsFile));
