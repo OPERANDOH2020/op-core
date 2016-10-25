@@ -56,13 +56,29 @@ var registerSwarming = {
           node:"NotificationUAM",
           code:function(){
               var self = this;
-              generateSignupNotifications(this.user.email, S(function(err, notifications){
+              generateSignupNotifications(this.user.userId, S(function(err, notifications){
                   if(err){
                       console.log(err);
                   }
-                  self.swarm("generateValidationCode");
+                  self.swarm("setRealIdentity");
               }));
           }
+    },
+
+    setRealIdentity :{
+        node:"IdentityManager",
+        code:function(){
+            var self = this;
+            setRealIdentity(this.user, S(function(err, identity){
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    console.log("Real identity added", identity);
+                    self.swarm("generateValidationCode");
+                }
+            }));
+        }
     },
 
     generateValidationCode: {

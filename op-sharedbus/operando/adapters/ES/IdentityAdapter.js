@@ -31,6 +31,10 @@ apersistence.registerModel("Identity", "Redis", {
         isDefault:{
             type: "boolean",
             default: false
+        },
+        isReal:{
+            type: "boolean",
+            default: false
         }
     },
     function (err, model) {
@@ -111,6 +115,9 @@ deleteIdentity = function (identityData, callback) {
                 if(identity.isDefault == true){
                     callback(new Error("could_not_delete_default_identity"), null);
                 }
+                if(identity.isReal == true){
+                    callback(new Error("could_not_delete_your_real_identity"), null);
+                }
                 else{
                     redisPersistence.delete(identity, callback);
                 }
@@ -177,6 +184,35 @@ setDefaultIdentity = function(identity, callback){
                 redisPersistence.saveObject(identity, callback);
             }
         }
+    })();
+}
+
+setRealIdentity = function(user, callback){
+
+    flow.create("add real identity",{
+
+        begin:function(){
+            redisPersistence.lookup.async("Identity", user.email, this.continue("addRealIdentity"));
+        },
+
+        addRealIdentity:function(err, identity){
+            if(err){
+                callback(err, null);
+            }
+            else{
+                if (!redisPersistence.isFresh(identity)) {
+                    callback(new Error("This identity already exists"), null);
+                }
+                else{
+                    identity.isReal = true;
+                    identity.isDefault = true;
+                    identity.email = user.email
+                    identity.userId = user.userId;
+                    redisPersistence.saveObject(identity, callback);
+                }
+            }
+        }
+
     })();
 }
 

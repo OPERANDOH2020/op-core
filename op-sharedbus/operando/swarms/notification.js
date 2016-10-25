@@ -56,7 +56,6 @@ var notificationSwarming = {
                 }
                 else{
                     self.notifications = notifications;
-                    console.log(notifications);
                     self.home("gotNotifications");
                 }
             }));
@@ -71,7 +70,6 @@ var notificationSwarming = {
                 notificationId:this.notificationId,
                 dismissed:this.dismissed
             }
-            console.log(notificationData);
             updateNotification(notificationData, S(function(err, notification){
                 if(err){
                     console.log("Error on dismissing notification",err);
