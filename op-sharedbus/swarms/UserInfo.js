@@ -19,8 +19,8 @@ var userInfoSwarming =
         userId:null,
         organisationId:null
     },
-    info:function(userId){
-        this.userId = userId;
+    info:function(){
+        this.userId = this.meta.userId;
         this.swarm("getUserInfo");
     },
 
@@ -47,16 +47,20 @@ var userInfoSwarming =
         node:"UsersManager",
         code : function (){
             var self = this;
-            var user = getUserInfo.async(self.userId);
-            (function(user){
-                self.result = user;
-                self.home("result");
-            }).swait(user);
+            var user = getUserInfo(self.userId, S(function(err, user){
+                if(err){
+                    console.log(err);
+                }
+                else{
+
+                    self.result = user;
+                    self.home("result");
+                }
+            }));
         }
     },
 
     updateUserInfo:function(updatedInfo){
-        console.log("new request", updatedInfo);
         this.updatedInfo = updatedInfo;
         this.swarm("updateUserAccount");
     },
@@ -65,16 +69,18 @@ var userInfoSwarming =
         node:"UsersManager",
         code: function(){
             this.updatedInfo.userId=this.meta.userId;
-            var user = updateUser.async(this.updatedInfo);
             var self = this;
-            (function(user){
-                self.user = user;
-                self.home("updatedUserInfo");
-            }).swait(user, function(err){
-                console.log(err);
-                self.error = err;
-                self.home("userUpdateFailed");
-            });
+            updateUser(this.updatedInfo, S(function(err, user){
+                if(err){
+                    console.log(err);
+                    self.error = err;
+                    self.home("userUpdateFailed");
+                }
+                else{
+                    self.user = user;
+                    self.home("updatedUserInfo");
+                }
+            }));
         }
     },
 

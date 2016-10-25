@@ -28,9 +28,13 @@ var notificationSwarming = {
 
 
     getNotifications: function () {
-        //TODO
-        //Implement sendNotification ctor
-        this.swarm("success");
+        this.swarm("getUserNotifications");
+    },
+
+    dismissNotification:function(notificationId, dismissed){
+        this.notificationId = notificationId;
+        this.dismissed = dismissed;
+        this.swarm("dismissUserNotification");
     },
 
     sendNotification:function(){
@@ -41,6 +45,46 @@ var notificationSwarming = {
         //TODO
         //Implement deleteNotification ctor
     },
+
+    getUserNotifications:{
+        node:"NotificationUAM",
+        code:function(){
+            var self  = this;
+            getNotifications(this.meta.userId, S(function(err, notifications){
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    self.notifications = notifications;
+                    console.log(notifications);
+                    self.home("gotNotifications");
+                }
+            }));
+        }
+    },
+
+    dismissUserNotification:{
+        node:"NotificationUAM",
+        code:function(){
+            var self = this;
+            var notificationData = {
+                notificationId:this.notificationId,
+                dismissed:this.dismissed
+            }
+            console.log(notificationData);
+            updateNotification(notificationData, S(function(err, notification){
+                if(err){
+                    console.log("Error on dismissing notification",err);
+                }
+                else{
+                    self.home("notificationDismissed");
+                }
+            }));
+
+        }
+    },
+
+
 
     success: {
         node: "Core",

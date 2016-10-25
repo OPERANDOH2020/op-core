@@ -16,7 +16,6 @@ var identitySwarming = {
     },
 
     vars: {
-        identity: null,
         error:{}
     },
 
@@ -30,6 +29,7 @@ var identitySwarming = {
     },
 
     createIdentity: function (identity) {
+        console.log(identity);
         if (identity) {
             this.identity = identity;
             this.action = "createIdentity";
@@ -180,6 +180,7 @@ var identitySwarming = {
         node: "IdentityManager",
         code: function () {
             var self = this;
+            self.identity['userId'] = this.meta.userId;
             setDefaultIdentity(self.identity, S(function (err, identity) {
                 if (err) {
                     self.error = err;
@@ -249,3 +250,11 @@ var identitySwarming = {
 };
 
 identitySwarming;
+
+(function(){
+    for (var i = 0; i <5; i++) {
+        setTimeout(function(i){
+            console.log(i)
+        }(i),0);
+    }
+})()
