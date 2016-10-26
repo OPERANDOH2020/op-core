@@ -183,7 +183,6 @@ getPfBDeal = function (userId, website, callback) {
                 callback(null, deal);
             }
 
-
         }
 
     })();
@@ -330,7 +329,6 @@ saveUserDeal = function (dealId, userId, callback) {
             else{
                 console.log("Save deal error",err);
             }
-
 
         }
 

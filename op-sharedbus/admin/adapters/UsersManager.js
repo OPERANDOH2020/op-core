@@ -275,7 +275,7 @@ newUserIsValid = function (newUser, callback) {
                 }
                 else {
                     createUser({
-                        userId: newUser.username,
+                        userId: newUser.email,
                         password: newUser.password,
                         userName: newUser.username,
                         email: newUser.email,
