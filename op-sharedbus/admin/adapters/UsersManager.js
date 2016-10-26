@@ -9,19 +9,12 @@ var core = require("swarmcore");
 /*
  usersmanager este un adaptor swarm care gestioneaza organizatiile si utilizatorii
 
- */
+*/
 
 core.createAdapter("UsersManager");
-var mysql = require('mysql')
-var mysqlConnection = mysql.createConnection({
-    host     : thisAdapter.config.Core.mysqlHost,
-    port     : thisAdapter.config.Core.mysqlPort,
-    user     : 'root',
-    password : thisAdapter.config.Core.mysqlDatabasePassword,
-    database : thisAdapter.config.Core.mysqlDatabaseName
-});
 
-var persistence = require('apersistence').createMySqlPersistence(mysqlConnection);
+
+var apersistence = require('apersistence');
 
 
 var container = require("safebox").container;
@@ -34,13 +27,16 @@ var saveCallbackFn = function (err, obj) {
     if (err) {
         console.log(err);
     }
-};
+}
 
 /*
  Model de date pentru organizatie
+
  */
 
-var organisationModel = {
+apersistence.registerModel("Organisation", "Redis", {
+    ctor: function () {
+    },
     organisationId: {
         type: "string",
         pk: true,
@@ -53,20 +49,26 @@ var organisationModel = {
         /* numele de grup al agentului */
         type: "string"
     }
-};
+}, function (err, model) {
+    if (err) {
+        console.log(err);
+    }
+
+});
 
 /*
  Default User model
  */
 
-var userModel = {
+apersistence.registerModel("DefaultUser", "Redis", {
     userId: {
         type: "string",
         pk: true,
-        index: "true"
+        index: true
     },
     userName: {
-        type: "string"
+        type: "string",
+        pk: true
     },
     organisationId: {
         type: "string",
@@ -91,7 +93,8 @@ var userModel = {
         type: "string"
     },
     email: {
-        type: "string"
+        type: "string",
+        pk: true
     },
     address: {
         type: "string"
@@ -105,44 +108,66 @@ var userModel = {
     is_active: {
         type: "boolean"
     }
-};
+}, function (err, model) {
+    if (err) {
+        console.log(err);
+    }
+});
+
 /*
  Creeaza un utilizator
-*/
+ */
 
 createUser = function (userData, callback) {
-    persistence.lookup("DefaultUser", userData.userId, function (err, user) {
-        if (err) {
-            callback(err);
-        } else {
-            if (user.__meta.freshRawObject !== true) {
+
+    flow.create("create user", {
+        begin: function () {
+            if (!userData.userId) {
+                callback(new Error('Empty userId'), null);
+            }
+            else {
+                redisPersistence.lookup("DefaultUser", userData.userId, this.continue("createUser"));
+            }
+        },
+        createUser: function (err, user) {
+            if (!redisPersistence.isFresh(user)) {
                 callback(new Error("User with identical id " + userData.userId + " already exists"), null);
             } else {
-                persistence.externalUpdate(user, userData);
-                persistence.saveObject(user, function(err,result){
-                    if(user.password && !err){
-                        delete user['password'];
-                    }
-                    callback(err,result);
-                });
+                redisPersistence.externalUpdate(user, userData);
+                redisPersistence.save(user, this.continue("createReport"));
             }
+        },
+        createReport: function (err, user) {
+            if (user.password) {
+                delete user['password'];
+            }
+            callback(err, user);
         }
-    })
-};
+    })();
+}
+
+
 
 /*
 Filtreaza utilizatorii
  */
-
 filterUsers = function(filters,callback){
-    persistence.filter("DefaultUser",filters,callback);
+    apersistence.filter("DefaultUser",filters,callback);
 };
+
 /*
  Sterge un utilizator
  */
 
-deleteUser = function (userId,callback) {
-    persistence.deleteById("DefaultUser",userId,callback);
+deleteUser = function (userData) {
+    flow.create("delete user", {
+        begin: function () {
+            redisPersistence.deleteById("DefaultUser", userData.userId, this.continue("deleteReport"));
+        },
+        deleteReport: function (err, obj) {
+            callback(err, obj);
+        }
+    })();
 };
 
 
@@ -151,9 +176,15 @@ deleteUser = function (userId,callback) {
  */
 
 
-deleteOrganisation = function (organisationId,callback) {
-    persistence.deleteById("Organisation",organisationId,callback);
-
+deleteOrganisation = function (organisationId) {
+    flow.create("delete organisation", {
+        begin: function () {
+            redisPersistence.deleteById("Organisation", organisationId, this.continue("deleteReport"));
+        },
+        deleteReport: function (err, obj) {
+            callback(err, obj);
+        }
+    })();
 }
 
 /*
@@ -161,17 +192,29 @@ deleteOrganisation = function (organisationId,callback) {
  */
 
 updateUser = function (userJsonObj, callback) {
-    persistence.lookup("DefaultUser",userJsonObj.userId,function(err,user){
-        if (!err && persistence.isFresh(user)) {
-            err = new Error("User with id " + userJsonObj.userId + " does not exist")
+    flow.create("update user", {
+        begin: function () {
+            redisPersistence.lookup.async("DefaultUser", userJsonObj.userId, this.continue("updateUser"));
+        },
+        updateUser: function (err, user) {
+            if (err) {
+                callback(err, null);
+            }
+            else {
+                if (redisPersistence.isFresh(user)) {
+                    callback(new Error("User with id " + userJsonObj.userId + " does not exist"), null);
+                }
+                else {
+                    redisPersistence.delete(user);
+                    redisPersistence.externalUpdate(user, userJsonObj);
+                    redisPersistence.saveObject(user, this.continue("updateReport"));
+                }
+            }
+        },
+        updateReport: function (err, user) {
+            callback(err, user);
         }
-        if(err){
-            callback(err);
-        }else{
-            persistence.externalUpdate(user, userJsonObj);
-            persistence.saveObject(user,callback);
-        }
-    })
+    })();
 }
 
 /*
@@ -181,7 +224,7 @@ updateUser = function (userJsonObj, callback) {
 queryUsers = function (organisationId, callback) {
     flow.create("get organisation users", {
         begin: function () {
-            persistence.filter("DefaultUser", {"organisationId": organisationId}, this.continue("getOrganisationUsers"));
+            redisPersistence.filter("DefaultUser", {"organisationId": organisationId}, this.continue("getOrganisationUsers"));
         },
         getOrganisationUsers: function (err, users) {
             var organizationUsers = [];
@@ -203,18 +246,29 @@ queryUsers = function (organisationId, callback) {
  */
 
 createOrganisation = function (organisationDump, callback) {
-    persistence.lookup("Organisation", organisationDump.organisationId, function (err, organisation) {
-        if (err) {
-            callback(err);
-        } else {
-            if (organisation.__meta.freshRawObject !== true) {
-                callback(new Error("Organisation with id " + organisationDump.organisationId + " already exists"), null);
-            } else {
-                persistence.externalUpdate(organisation, organisationDump);
-                persistence.saveObject(organisation, callback);
+    flow.create("create organisation", {
+        begin: function () {
+            redisPersistence.lookup("Organisation", organisationDump.organisationId, this.continue("createOrganisation"));
+        },
+        createOrganisation: function (err, organisation) {
+            if (err) {
+                callback(err, null);
             }
+            else {
+                if (!redisPersistence.isFresh(organisation)) {
+                    callback(new Error("Organisation with id " + organisationDump.organisationId + " already exists"), null);
+                }
+                else {
+                    redisPersistence.externalUpdate(organisation, organisationDump);
+                    redisPersistence.saveObject(organisation, this.continue("createReport"));
+                }
+            }
+
+        },
+        createReport: function (err, organisation) {
+            callback(err, organisation);
         }
-    })
+    })();
 }
 
 /*
@@ -224,7 +278,7 @@ createOrganisation = function (organisationDump, callback) {
 updateOrganisation = function (organisationDump, callback) {
     flow.create("update organization", {
         begin: function () {
-            persistence.lookup("Organisation", organisationDump.organisationId, this.continue("updateOrganisation"));
+            redisPersistence.lookup("Organisation", organisationDump.organisationId, this.continue("updateOrganisation"));
         },
 
         updateOrganisation: function (err, organisation) {
@@ -232,12 +286,12 @@ updateOrganisation = function (organisationDump, callback) {
                 callback(err, null);
             }
 
-            else if (persistence.isFresh(organisation)) {
+            else if (redisPersistence.isFresh(organisation)) {
                 callback(new Error("Organisation with id " + organisationDump.organisationId + " was not found"), null);
             }
             else {
-                persistence.externalUpdate(organisation, organisationDump);
-                persistence.saveObject(organisation, this.continue("updateReport"));
+                redisPersistence.externalUpdate(organisation, organisationDump);
+                redisPersistence.saveObject(organisation, this.continue("updateReport"));
             }
         },
         updateReport: function (err, organisation) {
@@ -250,23 +304,41 @@ updateOrganisation = function (organisationDump, callback) {
 newUserIsValid = function (newUser, callback) {
     flow.create("user is valid", {
         begin: function () {
-            persistence.lookup("DefaultUser", newUser.username, this.continue("verifyEmail"))
+
+            if(!newUser.email){
+                callback(new Error("Email is invalid!"));
+            }
+            else
+
+            if(!newUser.username || newUser.username.length < 4){
+                callback(new Error("Username is too short!"));
+            }
+            else
+
+            if(!newUser.password || newUser.password.length < 4){
+                callback(new Error("Password must contain at least 4 characters"));
+            }
+
+            else{
+                redisPersistence.lookup("DefaultUser", newUser.username, this.continue("verifyEmail"))
+            }
+
         },
         verifyEmail: function (err, user) {
             if (err) {
                 callback(err);
-            } else if (!persistence.isFresh(user)) {
+            } else if (!redisPersistence.isFresh(user)) {
                 callback(new Error("Username is unavailable"));
             }
             else {
-                persistence.lookup("DefaultUser", newUser.email, this.continue("verifyPasswords"))
+                redisPersistence.lookup("DefaultUser", newUser.email, this.continue("verifyPasswords"))
             }
         },
         verifyPasswords: function (err, user) {
             if (err) {
                 callback(err);
             }
-            else if (!persistence.isFresh(user)) {
+            else if (!redisPersistence.isFresh(user)) {
                 callback(new Error("Email is unavailable"));
             }
             else {
@@ -290,10 +362,8 @@ newUserIsValid = function (newUser, callback) {
                         callback(err, user);
                     });
                 }
-
             }
         }
-
     })();
 }
 
@@ -305,13 +375,13 @@ newUserIsValid = function (newUser, callback) {
 getOrganisations = function (callback) {
     flow.create("get all organizations", {
         begin: function () {
-            persistence.filter("Organisation", this.continue("info"));
+            redisPersistence.filter("Organisation", this.continue("info"));
         },
         info: function (err, result) {
             callback(err, result);
         }
     })();
-};
+}
 
 
 /*
@@ -338,13 +408,14 @@ getUserInfo = function (userId, callback) {
         }
 
     })();
-};
+}
 
 
 validPassword = function (userId, pass, callback) {
+
     flow.create("Validate Password", {
         begin: function () {
-            persistence.findById("DefaultUser", userId, this.continue("validatePassword"));
+            redisPersistence.findById("DefaultUser", userId, this.continue("validatePassword"));
         },
         validatePassword: function (err, user) {
             if (err) {
@@ -357,91 +428,94 @@ validPassword = function (userId, pass, callback) {
             }
         }
     })();
-};
 
-bootSystem();
+}
 
 function bootSystem() {
-    persistence.registerModel("Organisation", organisationModel, function (err, model) {
-        if (err) {
-            console.log(err,err.stack);
-        }else{
-            persistence.registerModel("DefaultUser", userModel, function (err, model) {
-                if (err) {
-                    console.log(err,err.stack);
-                }
-                else{
-                    createOrganisation({"organisationId":"SystemAdministrators","displayName":"System Administrators"},function(err,result){
-                        if(!err || err.message.match("already exists")){
-                            createAdministrators();
-                        }else{
-                            console.log("Failed to create organisation SystemAdministrators",err)
-                        }
-                    });
+    flow.create("bootSystem", {
+        begin: function () {
+            redisPersistence.lookup("Organisation", "SystemAdministrators", this.continue("createOrganisation"));
+            redisPersistence.lookup("Organisation", "Public", this.continue("createPublicOrganisation"));
+            redisPersistence.lookup("Organisation", "Analysts", this.continue("createAnalystOrganisation"));
 
-                    createOrganisation({"organisationId":"Public","displayName":"OPERANDO PUBLIC"},function(err,result) {
-                        if(!err || err.message.match("already exists")){
-                            createGuests();
-                        }else{
-                            console.log("Failed to create organisation Public",err)
-                        }
-                    });
+        },
+        createPublicOrganisation: function (err, organisation) {
+            if (redisPersistence.isFresh(organisation)) {
+                organisation.displayName = "OPERANDO PUBLIC";
+                redisPersistence.saveObject(organisation, this.continue("createGuestUser"));
+            }
+        },
+        createOrganisation: function (err, organisation) {
+            if (redisPersistence.isFresh(organisation)) {
+                organisation.displayName = "System Administrators";
+                redisPersistence.saveObject(organisation, this.continue("createAdministrators"));
+            }
+        },
+        createAdministrators: function (err, organisation) {
+            if (err) {
+                console.log("Error occurred on creating organisation", err);
+            }
+            else {
+                createUser({
+                    userId: "zeev",
+                    password: "operando",
+                    email:"zeev@arteevo.com",
+                    userName: "Zeev Pritzker",
+                    organisationId: organisation.organisationId
+                }, saveCallbackFn);
+                createUser({
+                    userId: "admin",
+                    password: "swarm",
+                    email:"admin@operando.eu",
+                    userName: "Admin",
+                    organisationId: organisation.organisationId
+                }, saveCallbackFn);
+                createUser({
+                    userId: "rafa",
+                    password: "swarm",
+                    email:"raf@rms.ro",
+                    userName: "Rafael Mastaleru",
+                    organisationId: organisation.organisationId
+                }, saveCallbackFn);
+            }
+        },
+        createGuestUser: function (err, organisation) {
+            if (err) {
+                console.log("Error occurred on creating organisation", err);
+            }
+            else {
+                createUser({
+                    userId: "guest",
+                    "password": "guest",
+                    userName: "Guest User",
+                    organisationId: organisation.organisationId
+                }, saveCallbackFn);
+            }
+        },
 
-                    createOrganisation({"organisationId":"Analysts","displayName":"OPERANDO ANALYSTS"},function(err,result){
-                        if(!err || err.message.match("already exists")){
-                            createAnalists();
-                        }else{
-                            console.log("Failed to create organisation Analysts",err)
-                        }
-                    })
-                }
+        createAnalystOrganisation:function(err, organisation){
+            if (redisPersistence.isFresh(organisation)) {
+                organisation.displayName = "OPERANDO ANALYSTS";
+                redisPersistence.saveObject(organisation, this.continue("createAnalystUser"));
+            }
+        },
 
-            });
+        createAnalystUser:function(err, organisation){
+            if(err){
+                console.log("Error when creating OPERANDO ANALYSTS organisation");
+            }
+            else{
+                createUser({
+                    userId: "analyst",
+                    password: hashThisPassword("analyst"),
+                    email:"analyst@rms.ro",
+                    userName: "Analyst Guru",
+                    organisationId: organisation.organisationId
+                }, saveCallbackFn);
+            }
         }
-    });
 
-    function createAdministrators(){
-        console.log("Creating administrators");
-        createUser({
-            userId: "zeev",
-            password: "operando",
-            email:"zeev@arteevo.com",
-            userName: "Zeev Pritzker",
-            organisationId: "SystemAdministrators"
-        }, saveCallbackFn);
-        createUser({
-            userId: "admin",
-            password: "swarm",
-            email:"admin@operando.eu",
-            userName: "Admin",
-            organisationId: "SystemAdministrators"
-        }, saveCallbackFn);
-        createUser({
-            userId: "rafa",
-            password: "swarm",
-            email:"raf@rms.ro",
-            userName: "Rafael Mastaleru",
-            organisationId: "SystemAdministrators"
-        }, saveCallbackFn);
-    }
-
-    function createGuests(){
-        createUser({
-            userId: "guest",
-            password: "guest",
-            userName: "Guest User",
-            organisationId: "Public"
-        }, saveCallbackFn);
-    }
-    function createAnalists(){
-        createUser({
-            userId: "analyst",
-            password: hashThisPassword("analyst"),
-            email:"analyst@rms.ro",
-            userName: "Analyst Guru",
-            organisationId:"Analysts"
-        }, saveCallbackFn);
-    }
+    })();
 }
 
 function hashThisPassword(password){
@@ -450,14 +524,12 @@ function hashThisPassword(password){
 }
 
 
-
-/*
-
-container.declareDependency("UsersManagerAdapter", ["persistence"], function (outOfService, persistence) {
+container.declareDependency("UsersManagerAdapter", ["redisPersistence"], function (outOfService, redisPersistence) {
     if (!outOfService) {
-        console.log("Enabling persistence...", persistence);
+        console.log("Enabling persistence...", redisPersistence);
         bootSystem();
     } else {
         console.log("Disabling persistence...");
     }
-})*/
+})
+

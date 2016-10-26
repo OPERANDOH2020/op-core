@@ -60,7 +60,6 @@ var privacyWizardSwarm = {
     },
 
     completeWizard:function(current_settings){
-        console.log(current_settings);
         this.current_settings = current_settings;
         this.swarm("provideFeedback")
     },

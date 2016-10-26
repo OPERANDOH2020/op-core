@@ -85,7 +85,7 @@ function init(){
     }
 }
 
-console.log(exports.conditionalProbabilities);
+//console.log(exports.conditionalProbabilities);
 
 
 exports.recomputeConditionalProbabilitites = function(){

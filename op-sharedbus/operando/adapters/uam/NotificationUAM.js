@@ -24,7 +24,7 @@ var signupNotifications = {
     privacy_questionnaire: {
         sender: "WatchDog",
         title: "Privacy Questionnaire!",
-        description: "You have not filled the privacy questionnaire yet. Doing so will tailor your social network privacy settings to your preferences.  You can also skip the questionnaire and optimize your social network privacy settings in a single click <br/><a href='#'>Take me to privacy questionnaire</a> <a href='#'>Take me to single click privacy</a>.",
+        description: "You have not filled the privacy questionnaire yet. Doing so will tailor your social network privacy settings to your preferences.  You can also skip the questionnaire and optimize your social network privacy settings in a single click <br/><a href='#'>Privacy questionnaire</a> <a href='#'>Single click privacy</a>",
         action: ["privacy-questionnaire", "single-click-privacy"],
         type: "info-notification"
     },
