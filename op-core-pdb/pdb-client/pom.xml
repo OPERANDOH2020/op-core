@@ -1,8 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>io.swagger</groupId>
-  <artifactId>pdb-client</artifactId>
+  <groupId>eu.operando</groupId>
   <packaging>jar</packaging>
   <name>pdb-client</name>
   <version>1.0.0</version>
@@ -170,7 +169,7 @@
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
-      <artifactId>common-model</artifactId>
+      <artifactId>eu.operando.core.pdb.common-model</artifactId>
       <version>${project.version}</version>
     </dependency>
   </dependencies>
@@ -183,4 +182,5 @@
     <maven-plugin-version>1.0.0</maven-plugin-version>
     <junit-version>4.12</junit-version>
   </properties>
+  <artifactId>eu.operando.core.pdb.client</artifactId>
 </project>
