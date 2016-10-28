@@ -5,8 +5,8 @@ FROM phpmyadmin/phpmyadmin
 ENV MYSQL_ROOT_PASSWORD root
 ENV PMA_HOST 10.0.0.5
 ENV PMA_PORT 3306
-ENV PMA_USER operando
-ENV PMA_PASSWORD winteriscomming
+ENV PMA_USER root
+ENV PMA_PASSWORD root
 
 EXPOSE 80
 
