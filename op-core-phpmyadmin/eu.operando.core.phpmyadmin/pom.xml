@@ -32,7 +32,7 @@
 							<env>
 							</env>
 							<ports>
-                                 <port>${docker.mono.port}:8084</port>
+                                 <port>${docker.mono.port}:80</port>
 							</ports>
 						</run>
 					</image>
@@ -46,7 +46,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <docker.registry.name>localhost:5000/</docker.registry.name><!-- leave empty for docker hub; use e.g. "localhost:5000/" for a local docker registry -->
     <docker.repository.name>${docker.registry.name}tecnalia/${project.artifactId}</docker.repository.name>
-    <docker.mono.port>8121</docker.mono.port>
+    <docker.mono.port>8104</docker.mono.port>
   </properties>
 
 </project>
