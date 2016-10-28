@@ -46,7 +46,7 @@ var emailsSwarming = {
 	this['newPassword'] = newPassword
 	this['email'] = email
 	this.swarm('changePassword');	
-    }
+    },
 
     register: {
         node: "EmailAdapter",
@@ -104,17 +104,15 @@ var emailsSwarming = {
         code:function(){
             var newPassword = this['newPassword'];
             var self = this;
-	    console.log("Change password");
             filterUsers({"email":this.email},S(function(err,users){
-                console.log("Filtering",arguments);
 		if(err){
                     self.error = err;
                     self.home('error');
-                }else{
+                }else
+                if(users.length>0){
                     var user = users[0];
                     user['password'] = newPassword;
                     updateUser(user,S(function(err,result){
-			console.log("Updateing",arguments)
                         if(err){
                             self.error = err;
                             self.home('error');
@@ -128,6 +126,9 @@ var emailsSwarming = {
                     }
                     })
                     )
+                }else{
+                    self.error = new Error("No such email!");
+                    self.home("resetPasswordFailed");
                 }
             }))
         }
@@ -136,7 +137,6 @@ var emailsSwarming = {
     deliverEmail:{
         node: "EmailAdapter",
         code: function () {
-	    console.log("Delivering an email to ",this['to']);
             var self = this;
             sendEmail(this['from'],this['to'],this['subject'],this['content'],S(function(err,deliveryResult){
                 if(err){
