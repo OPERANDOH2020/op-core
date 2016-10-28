@@ -10,4 +10,4 @@ PMA_PASSWORD = winteriscomming
 
 EXPOSE 80
 
-CMD [ "phpmyadmin/phpmyadmin" ]
+# CMD [ "phpmyadmin/phpmyadmin" ]
