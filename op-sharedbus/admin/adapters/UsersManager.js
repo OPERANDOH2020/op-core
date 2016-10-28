@@ -9,7 +9,7 @@ var core = require("swarmcore");
 /*
  usersmanager este un adaptor swarm care gestioneaza organizatiile si utilizatorii
 
-*/
+ */
 
 core.createAdapter("UsersManager");
 
@@ -149,10 +149,10 @@ createUser = function (userData, callback) {
 
 
 /*
-Filtreaza utilizatorii
+ Filtreaza utilizatorii
  */
-filterUsers = function(filters,callback){
-    apersistence.filter("DefaultUser",filters,callback);
+filterUsers = function(conditions,callback){
+    redisPersistence.filter("DefaultUser",conditions,callback);
 };
 
 /*

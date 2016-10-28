@@ -21,12 +21,12 @@ var flow = require("callflow");
 apersistence.registerModel("Identity", "Redis", {
         userId: {
             type: "string",
-            index: "true"
+            index: true
         },
         email: {
             type: "string",
-            index: "true",
-            pk: "true"
+            index: true,
+            pk: true
         },
         isDefault:{
             type: "boolean",

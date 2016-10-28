@@ -55,7 +55,7 @@ persistence.registerModel("conversation",conversationModel,function(err,result){
 
 registerConversation = function(sender,proxy,callback){
     var newConversationUUID = uuid.v1();
-    newConversationUUID = new Buffer(newConversationUUID).toString('base64');
+    newConversationUUID = new Buffer(newConversationUUID).toString('base64').slice(0,20);
     var conversation = apersistence.createRawObject('conversation',newConversationUUID);
     conversation['sender'] = sender;
     conversation['receiver'] = proxy;

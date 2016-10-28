@@ -37,9 +37,16 @@ var emailsSwarming = {
     },
 
     resetPassword:function(email){
-        this['email'] = email;
+        console.log("Resetting password for email:"+email);
+	this['newPassword'] = new Buffer(require('node-uuid').v1()).toString('base64').slice(0,20);
+       	this['email'] = email;
         this.swarm('changePassword');
     },
+    setNewPassword:function(email,newPassword){
+	this['newPassword'] = newPassword
+	this['email'] = email
+	this.swarm('changePassword');	
+    }
 
     register: {
         node: "EmailAdapter",
@@ -49,6 +56,7 @@ var emailsSwarming = {
                 if(err){
                     self.error = err;
                 }else{
+		    self.error = undefined;
                     self.conversationUUID = newConversationUUID;
                 }
                 self.home('conversationRegistered');
@@ -61,9 +69,11 @@ var emailsSwarming = {
         code: function () {
             var self = this;
             getConversation(self.conversationUUID,S(function(err,requestedConversation){
-                if(err){
+                
+		if(!requestedConversation.sender){
                     self.error = err;
                 }else{
+		    self.error = undefined;
                     self.conversation = requestedConversation;
                 }
                 self.home('gotConversation');
@@ -81,6 +91,7 @@ var emailsSwarming = {
                 if(err){
                     self.error = err;
                 }else{
+                    self.error = undefined;
                     self.result = removalResult;
                 }
                 self.home('conversationRemoved');
@@ -93,18 +104,17 @@ var emailsSwarming = {
         code:function(){
             var newPassword = this['newPassword'];
             var self = this;
-            if(!newPassword){
-                newPassword = require('node-uuid').v1();
-            }
-
+	    console.log("Change password");
             filterUsers({"email":this.email},S(function(err,users){
-                if(err){
+                console.log("Filtering",arguments);
+		if(err){
                     self.error = err;
                     self.home('error');
                 }else{
                     var user = users[0];
                     user['password'] = newPassword;
                     updateUser(user,S(function(err,result){
+			console.log("Updateing",arguments)
                         if(err){
                             self.error = err;
                             self.home('error');
@@ -126,6 +136,7 @@ var emailsSwarming = {
     deliverEmail:{
         node: "EmailAdapter",
         code: function () {
+	    console.log("Delivering an email to ",this['to']);
             var self = this;
             sendEmail(this['from'],this['to'],this['subject'],this['content'],S(function(err,deliveryResult){
                 if(err){
@@ -133,7 +144,7 @@ var emailsSwarming = {
                     self.home('error');
                 }else{
                     self.deliveryResult = deliveryResult;
-                    self.home('deliverySuccessful');
+                    self.home('emailDeliverySuccessful');
                 }
             }))
         }

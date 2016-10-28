@@ -68,14 +68,15 @@ var identitySwarming = {
     },
 
     listDomains: function(){
-        var availableDomains = [];
+        var availableDomains = [{name:"privatesky.xyz",id:"privatesky"}];
+	/*
         for (var i = 0; i < 6; i++) {
             var domain = {
                 id: "op" + i,
-                name: "operando" + i + ".eu"
+                name: "" + i + ".eu"
             }
             availableDomains.push(domain);
-        }
+        }*/
         this.domains = availableDomains;
         this.home("gotDomains");
     },
