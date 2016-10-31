@@ -22,7 +22,6 @@
 //      Created for Project :   OPERANDO
 //
 /////////////////////////////////////////////////////////////////////////
-
 package eu.operando.core.pdb;
 
 import com.mongodb.BasicDBObject;
@@ -36,13 +35,12 @@ import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
 import io.swagger.model.OSPPrivacyPolicy;
 import io.swagger.model.OSPPrivacyPolicyInput;
+import io.swagger.model.OSPReasonPolicy;
+import io.swagger.model.OSPReasonPolicyInput;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Properties;
-
 import org.bson.types.ObjectId;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.DeserializationConfig;
@@ -62,19 +60,16 @@ public class OSPPrivacyPolicyMongo {
     private MongoClient mongo;
     private DB db;
     private DBCollection ospTable;
+    private DBCollection ospPPTable;
 
     public OSPPrivacyPolicyMongo() {
-    	//GBE added to externalize db properties
-    	Properties props;
-    	props = loadDbProperties();
-
         try {
-        	//this.mongo = new MongoClient("localhost", 27017);
-        	this.mongo = new MongoClient(props.getProperty("mongo.host"), Integer.parseInt(props.getProperty("mongo.port")));
+            this.mongo = new MongoClient("localhost", 27017);
             // get database
             this.db = mongo.getDB("pdb");
             // get collection
             this.ospTable = db.getCollection("osp");
+            this.ospPPTable = db.getCollection("pp");
 
             //} catch (UnknownHostException e) {
             //    e.printStackTrace();
@@ -110,11 +105,6 @@ public class OSPPrivacyPolicyMongo {
 
         System.out.println("filter expression: " + filter);
 
-        if(filter == null) {
-			filter = "{'_id':'*'}";
-            System.out.println("filter expression converted to *");
-		}
-
         try {
             JSONObject obj = new JSONObject(filter);
             Iterator<String> keys = obj.keys();
@@ -136,7 +126,7 @@ public class OSPPrivacyPolicyMongo {
 
         while (cursor.hasNext()) {
             BasicDBObject regObj = (BasicDBObject) cursor.next();
-            System.out.println("Adding result " + regObj.toString());
+            System.out.println("Adding result " + regObj.toString() + "obj id:" + regObj.getObjectId("_id").toString());
             arrPRObj.add(getOSP(regObj));
         }
 
@@ -162,6 +152,8 @@ public class OSPPrivacyPolicyMongo {
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             ospObj = mapper.readValue(regObj.toString(), OSPPrivacyPolicy.class);
+            //add policy id
+            ospObj.setOspPolicyId(regObj.get("_id").toString());
 
         } catch (JsonGenerationException e) {
             e.printStackTrace();
@@ -176,6 +168,7 @@ public class OSPPrivacyPolicyMongo {
     public String getOSPById(String ospId) {
         OSPPrivacyPolicy ospObj;
         String jsonInString = null;
+        System.out.println("getOSPById(" + ospId + ");");
 
         // find 
         BasicDBObject searchQuery = new BasicDBObject();
@@ -191,6 +184,8 @@ public class OSPPrivacyPolicyMongo {
         if (result != null) {
 
             ospObj = getOSP(result);
+            // add policy id
+            ospObj.setOspPolicyId(ospId);
 
             try {
                 ObjectMapper mapper = new ObjectMapper();
@@ -207,7 +202,6 @@ public class OSPPrivacyPolicyMongo {
 
         return jsonInString;
     }
-
 
     public boolean updateOSP(String ospId, OSPPrivacyPolicyInput regulation) {
         boolean result = false;
@@ -265,20 +259,96 @@ public class OSPPrivacyPolicyMongo {
         }
         return result;
     }
-    
-    
-	private Properties loadDbProperties() {
-		Properties props;
-		props = new Properties();
-		
-		InputStream fis = null;
-		try {
-		    fis = this.getClass().getClassLoader().getResourceAsStream("/db.properties");
-		    props.load(fis);
-		}     catch (IOException e) {
-		    // TODO Auto-generated catch block
-		    e.printStackTrace();
-		}		
-		return props;
-	}	
+
+    public boolean updatePolicyOSP(String ospId, OSPReasonPolicyInput ospPolicyInput) {
+        boolean result = false;
+        OSPReasonPolicy ospPolicy = new OSPReasonPolicy();
+        ospPolicy.setOspPolicyId(ospId);
+        ospPolicy.setPolicies(ospPolicyInput.getPolicies());
+
+        System.out.println("update privacy policies");
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            String jsonInString = mapper.writeValueAsString(ospPolicy);
+            Object obj = JSON.parse(jsonInString);
+            DBObject document = (DBObject) obj;
+
+            BasicDBObject searchQuery = new BasicDBObject();
+            try {
+                searchQuery.put("ospPolicyId", ospId);
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+                return result;
+            }
+
+            WriteResult wr = ospPPTable.update(searchQuery, document, true, false);
+
+            result = wr.isUpdateOfExisting();
+
+        } catch (JsonGenerationException e) {
+            e.printStackTrace();
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    private OSPReasonPolicy getReasonPolicy(DBObject regObj) {
+        //System.out.println("regObj: " + regObj.toString());
+        OSPReasonPolicy prObj = null;
+        try {
+
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            prObj = mapper.readValue(regObj.toString(), OSPReasonPolicy.class);
+            //System.out.println("prObj: " + prObj.toString());
+
+        } catch (JsonGenerationException e) {
+            e.printStackTrace();
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return prObj;
+    }
+
+    public String getPolicyOSPById(String ospId) {
+        OSPReasonPolicy ospRPObj;
+        String jsonInString = null;
+        System.out.println("getPolicyOSPById(" + ospId + ");");
+
+        // find 
+        BasicDBObject searchQuery = new BasicDBObject();
+        try {
+            searchQuery.put("ospPolicyId", ospId);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return jsonInString;
+        }
+
+        DBObject result = this.ospPPTable.findOne(searchQuery);
+
+        if (result != null) {
+
+            ospRPObj = getReasonPolicy(result);
+
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.getSerializationConfig().enable(SerializationConfig.Feature.WRITE_ENUMS_USING_TO_STRING);
+                mapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
+
+                jsonInString = mapper.writeValueAsString(ospRPObj);
+            } catch (JsonMappingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return jsonInString;
+    }
+
 }

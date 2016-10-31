@@ -26,16 +26,29 @@
 package io.swagger.api.impl;
 
 import io.swagger.api.*;
+import io.swagger.model.*;
+
+import io.swagger.model.OSPPrivacyPolicy;
+import io.swagger.model.OSPReasonPolicy;
+import io.swagger.model.OSPReasonPolicyInput;
 import io.swagger.model.OSPPrivacyPolicyInput;
 
+import java.util.List;
 import io.swagger.api.NotFoundException;
 
-import eu.operando.core.pdb.OSPPrivacyPolicyMongo;
-import javax.ws.rs.core.MediaType;
+import java.io.InputStream;
+
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
+
+import eu.operando.core.pdb.OSPPrivacyPolicyMongo;
+import javax.ws.rs.core.MediaType;
+
+
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-10-28T08:28:40.436Z")
 public class OSPApiServiceImpl extends OSPApiService {
 
     @Override
@@ -85,6 +98,34 @@ public class OSPApiServiceImpl extends OSPApiService {
         return Response.ok(ospString, MediaType.APPLICATION_JSON).build();
     }
 
+    @Override
+    public Response oSPOspIdPrivacyPolicyGet(String ospId, SecurityContext securityContext) throws NotFoundException {
+        // do some magic!
+        //return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+        OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
+        String ospString = regdb.getPolicyOSPById(ospId);
+        if(ospString == null){
+            return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, 
+                   "Error - the reason policy does not exist")).build(); 
+        }
+
+        //return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, ospString)).build();
+        return Response.ok(ospString, MediaType.APPLICATION_JSON).build();
+    }
+
+    @Override
+    public Response oSPOspIdPrivacyPolicyPut(String ospId, OSPReasonPolicyInput ospPolicy, SecurityContext securityContext) throws NotFoundException {
+        // do some magic!
+        OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
+        boolean updateAction = regdb.updatePolicyOSP(ospId, ospPolicy);
+        if (!updateAction) {
+            return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                    "Error. No document exists to be updated.")).build();
+        }
+
+        return Response.status(Response.Status.NO_CONTENT).entity(new ApiResponseMessage(ApiResponseMessage.OK,
+                "The document (OSPBehaviour) was successfully updated in the database.")).build();
+    }
     @Override
     public Response oSPOspIdPut(String ospId, OSPPrivacyPolicyInput ospPolicy, SecurityContext securityContext)
             throws NotFoundException {
