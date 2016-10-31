@@ -2,8 +2,8 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>eu.operando.core.dba</groupId>
-  <artifactId>test</artifactId>
+  <groupId>eu.operando</groupId>
+  <artifactId>eu.operando.core.dba.test</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
@@ -22,8 +22,8 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-    	<groupId>eu.operando.core.dba</groupId>
-    	<artifactId>client</artifactId>
+    	<groupId>eu.operando</groupId>
+    	<artifactId>eu.operando.core.dba.client</artifactId>
     	<version>1.0.0</version>
     </dependency>
   </dependencies>
