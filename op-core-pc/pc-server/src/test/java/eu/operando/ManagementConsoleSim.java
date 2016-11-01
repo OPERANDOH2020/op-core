@@ -30,6 +30,8 @@ import io.swagger.client.ApiException;
 import io.swagger.client.api.UPPApi;
 import io.swagger.model.UserPreference;
 import io.swagger.model.UserPrivacyPolicy;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Simulation of the Management Consoles usage of the PC and related OPERANDO
@@ -41,6 +43,29 @@ public class ManagementConsoleSim {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+
+        try {
+            String category = XSDParser.getElementDataType("http://services.odata.org/g2cosp/patient('russellwhyte')/personal_information/full_name");
+            System.out.println("cat =" +  category );
+        } catch (InvalidPreferenceException ex) {
+            Logger.getLogger(ManagementConsoleSim.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+//        PolicyEvaluationService pS = new PolicyEvaluationService();
+//        // Set the userId and OspId of the requests
+//            String userId = "pjgrace";
+//            String ospId = "Hospital OSP";
+//
+//            // Create a single request
+//            List<OSPDataRequest> ospRequest = new ArrayList<OSPDataRequest>();
+//            OSPDataRequest osD = new OSPDataRequest();
+//            osD.setAction(OSPDataRequest.ActionEnum.ACCESS);
+//            osD.setRequesterId("Hospital OSP");
+//            osD.setSubject("Doctor");
+//            osD.requestedUrl("http://services.odata.org/TripPinRESTierService/patient('russellwhyte')/Gender");
+//            ospRequest.add(osD);
+//
+//            String reply = pS.evaluate(ospId, userId, ospRequest);
 
         // The user subscribes to OPERANDO. The MC calls the PDB to create a UPP
         UPPApi manConRecp = new UPPApi();
@@ -54,7 +79,7 @@ public class ManagementConsoleSim {
 
         // User enters preferences into the privacy dashboard.
         UserPreference nPref = new UserPreference();
-        
+
         nPref.setPreference(UserPreference.PreferenceEnum.MEDIUM);
 
     }

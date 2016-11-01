@@ -63,7 +63,7 @@ public class DemoClient {
             osD.setAction(OSPDataRequest.ActionEnum.ACCESS);
             osD.setRequesterId("Hospital OSP");
             osD.setSubject("Doctor");
-            osD.requestedUrl("Weight");
+            osD.requestedUrl("http://services.odata.org/TripPinRESTierService/People('russellwhyte')/Gender");
             ospRequest.add(osD);
 
             PolicyEvaluationReport response = pApi.ospPolicyEvaluatorPost(userId, ospId, ospRequest);
