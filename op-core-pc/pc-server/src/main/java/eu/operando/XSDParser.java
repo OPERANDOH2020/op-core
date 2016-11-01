@@ -24,24 +24,33 @@
 //  License : GNU Lesser General Public License, version 3
 //
 /////////////////////////////////////////////////////////////////////////
-package io.swagger.api.impl;
 
-import io.swagger.api.*;
-import io.swagger.model.UserPreference;
+package eu.operando;
 
-import java.util.List;
-import io.swagger.api.NotFoundException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
+/**
+ *
+ * @author pjg
+ */
+public class XSDParser {
 
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
-
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-06-27T09:46:42.374Z")
-public class OspPolicyComputerApiServiceImpl extends OspPolicyComputerApiService {
-    @Override
-    public Response ospPolicyComputerPost(String userId, String ospId, List<UserPreference> ospPrefs, SecurityContext securityContext)
-    throws NotFoundException {
-        // do some magic!
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    public static String getElementDataType(String resourcePath) throws InvalidPreferenceException{
+        try {
+            String Category="Medical Information";
+            URL url = new URL(resourcePath);
+            String path = url.getPath();
+            int loc = path.indexOf(")/");
+            String ca = path.substring(loc+2);
+            int loc2 = ca.indexOf('/');
+            Category = ca.substring(0, loc2);
+            return Category;
+        } catch (MalformedURLException ex) {
+            throw new InvalidPreferenceException(ex.getMessage());
+        }
     }
+
+
+
 }
