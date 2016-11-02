@@ -1,9 +1,6 @@
 package io.swagger.model;
 
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.model.RequestEvaluation;
 import java.util.ArrayList;
@@ -105,8 +102,8 @@ public class PolicyEvaluationReport   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class PolicyEvaluationReport {\n");
-    
+    sb.append("PolicyEvaluationReport {\n");
+
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    compliance: ").append(toIndentedString(compliance)).append("\n");
     sb.append("    evaluations: ").append(toIndentedString(evaluations)).append("\n");

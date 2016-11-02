@@ -27,9 +27,7 @@
 
 package io.swagger.api.impl;
 
-import com.jayway.jsonpath.JsonPath;
-import eu.operando.InvalidPreferenceException;
-import eu.operando.XSDParser;
+import eu.operando.PolicyEvaluationService;
 import io.swagger.api.*;
 
 import io.swagger.model.OSPDataRequest;
@@ -39,20 +37,12 @@ import java.util.List;
 import java.util.Properties;
 
 import io.swagger.api.NotFoundException;
-import io.swagger.model.RequestEvaluation;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.ws.rs.core.MediaType;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-import net.minidev.json.JSONArray;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 
 /**
  * Implementation of the Policy Evaluation API of the Policy Computation
@@ -72,12 +62,17 @@ public class OspPolicyEvaluatorApiServiceImpl extends OspPolicyEvaluatorApiServi
     private String PDB_BASEURL = null;
 
     /**
+     * Reference to the core implementation of this API
+     */
+    private final PolicyEvaluationService policyService;
+
+    /**
      * The configuration of local state for the API object. Simply creates
-     * the reusable referece to the PDB.
+     * the reusable reference to the PDB.
      */
     public OspPolicyEvaluatorApiServiceImpl() {
         super();
-
+        policyService = new PolicyEvaluationService();
 	Properties props;
     	props = loadDbProperties();
 
@@ -123,111 +118,8 @@ public class OspPolicyEvaluatorApiServiceImpl extends OspPolicyEvaluatorApiServi
      */
     public Response ospPolicyEvaluatorPost(String userId, String ospId, List<OSPDataRequest> ospRequest, SecurityContext securityContext)
             throws NotFoundException {
-
-        try {
-            System.out.println("New Evaluation Request");
-            System.out.println("--------------------------------------------------");
-            System.out.println("Evaluating User Policy: " + userId);
-            System.out.println("Request from: " + ospId);
-
-            /**
-             * The response to be sent - yes/no along with a report of why something
-             * has been denied.
-             */
-            PolicyEvaluationReport rp = new PolicyEvaluationReport();
-
-            /**
-             * Get the UPP from the PDB.
-             */
-            CloseableHttpClient httpclient = HttpClients.createDefault();
-            HttpGet httpget = new HttpGet(PDB_BASEURL + userId);
-            CloseableHttpResponse response1 = httpclient.execute(httpget);
-
-            /**
-             * If there is no UPP, then it returns an non-compliance report
-             * with a NO_POLICY statement.
-             */
-            HttpEntity entity = response1.getEntity();
-            System.out.println(response1.getStatusLine().getStatusCode());
-            if(response1.getStatusLine().getStatusCode()==404) {
-                rp.setStatus("false");
-                rp.setCompliance("NO_POLICY");
-                return Response.ok(rp.toString(), MediaType.APPLICATION_JSON).build();
-            }
-            String msg = EntityUtils.toString(entity);
-            System.out.println(msg);
-
-            boolean permit = true;
-            /**
-             * Evaluate the oData field request against the UPP user access policies
-             */
-            for (OSPDataRequest r: ospRequest) {
-                String oDataURL = r.getRequestedUrl();
-                String Category = XSDParser.getElementDataType(oDataURL);
-                System.out.println("OSP - "+ospId+" Category - "+Category);
-                JSONArray access_policies = JsonPath.read(msg, "$.subscribed_osp_policies[?(@.osp_id=='"+ospId+"')].access_policies[?(@.resource=='"+ Category +"')]");
-                boolean found = false;
-                // For each of the access requests in the list
-                for(Object aP: access_policies) {
-                    String subject = JsonPath.read(aP, "$.subject");
-                    System.out.println("Data user in request - " + subject);
-                    System.out.println("Data user in the UPP - " + r.getSubject());
-                    if(subject.equalsIgnoreCase(r.getSubject())) { // Check the subject
-                        found=true;
-
-                        if (JsonPath.read(aP, "$.action").toString().equalsIgnoreCase(r.getAction().name())){ // Check the action
-                            boolean perm = JsonPath.read(aP, "$.permission");
-                            RequestEvaluation rEv = new RequestEvaluation();
-                                rEv.setDatauser(r.getSubject());
-                                rEv.setDatafield(oDataURL);
-                                rEv.setAction(r.getAction().name());
-                            if(!perm) {
-                                rEv.setResult(false);
-                                rp.addEvaluationsItem(rEv);
-                            }
-                            else{
-                                rEv.setResult(true);
-                                rp.addEvaluationsItem(rEv);
-                            }
-                        }
-                        else {
-                            permit = false;
-                            RequestEvaluation rEv = new RequestEvaluation();
-                                rEv.setDatauser(r.getSubject());
-                                rEv.setDatafield(oDataURL);
-                                rEv.setAction(r.getAction().name());
-                                rEv.setResult(false);
-                                rp.addEvaluationsItem(rEv);
-                        }
-                    }
-                }
-                if(!found){
-                    permit = false;
-                    RequestEvaluation rEv = new RequestEvaluation();
-                                rEv.setDatauser(r.getSubject());
-                                rEv.setDatafield(oDataURL);
-                                rEv.setAction(r.getAction().name());
-                                rEv.setResult(false);
-                                rp.addEvaluationsItem(rEv);
-                }
-            }
-
-            if(permit) {
-                rp.setStatus("true");
-                rp.setCompliance("VALID");
-            }
-            else {
-                rp.setStatus("false");
-                rp.setCompliance("PREFS_CONFLICT");
-            }
-
-            String policyReport = rp.toString();
-            System.out.println(policyReport);
-            return Response.ok(policyReport, MediaType.APPLICATION_JSON).build();
-        } catch (IOException ex) {
-            return Response.serverError().build();
-        }   catch (InvalidPreferenceException ex) {
-                return Response.serverError().build();
-            }
+            System.out.println("POST Called"+userId);
+            PolicyEvaluationReport rp = policyService.evaluate(ospId, userId, ospRequest, PDB_BASEURL);
+            return Response.ok(rp.toString(), MediaType.APPLICATION_JSON).build();
     }
 }

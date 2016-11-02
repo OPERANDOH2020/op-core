@@ -121,7 +121,7 @@
 	<resources>
      	<resource>
         <directory>src/main/resources/config</directory>
-        <filtering>true</filtering>
+        <filtering>false</filtering>
      	</resource>
 	</resources>  
   </build>
@@ -243,7 +243,9 @@
  	    <pdb.baseurl>http://localhost:8080/pdb-server/pdb/user_privacy_policy/</pdb.baseurl>
 	    <packaging.type>jar</packaging.type>
         <!-- end of addition -->
-	</properties>
+    <maven.compiler.source>1.7</maven.compiler.source>
+    <maven.compiler.target>1.7</maven.compiler.target>
+  </properties>
 	<profiles>
 		<profile>
 		  <id>jenkins-dev</id>

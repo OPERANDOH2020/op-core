@@ -1,0 +1,165 @@
+{
+    "user_id": "user1",
+    "user_preferences": [{
+        "information_type": "/contact_information",
+        "category": "Medical",
+        "preference": "7",
+        "role": "health_care_professional",
+        "action": "ACCESS",
+        "purpose": "Primary Care",
+        "recipient": "none"
+    }, 
+    {
+        "information_type": "ANY",
+        "category": "Medical",
+        "preference": "8",
+        "role": "health_care_professional",
+        "action": "ACCESS",
+        "purpose": "Primary Care",
+        "recipient": "none"
+    },
+    {
+        "information_type": "ANY",
+        "category": "Medical",
+        "preference": "2",
+        "role": "other",
+        "action": "ACCESS",
+        "purpose": "Primary Care",
+        "recipient": "none"
+    },{
+        "information_type": "/anthropometric_data",
+        "category": "Medical",
+        "preference": "8",
+        "role": "health_care_professional",
+        "action": "ACCESS",
+        "purpose": "Primary Care",
+        "recipient": "none"
+    }, {
+        "information_type": "/personal_information",
+        "category": "Medical",
+        "preference": "8",
+        "role": "health_care_professional",
+        "action": "ACCESS",
+        "purpose": "Primary Care",
+        "recipient": "none"
+    }],
+    "subscribed_osp_policies": [{
+        "osp_id": "osp1",
+        "access_policies": [{
+            "subject": "doctor",
+            "permission": "true",
+            "action": "ACCESS",
+            "resource": "/personal_information/gender",
+            "attributes": [{
+                "attribute_name": "policy attribute name1",
+                "attribute_value": "policy attribute value1"
+            }, {
+                "attribute_name": "policy attribute name2",
+                "attribute_value": "policy attribute value2"
+            }]
+        }, {
+            "subject": "pharmacist",
+            "permission": "false",
+            "action": "Access",
+            "resource": "/personal_information/anthropometric_data/weight",
+            "attributes": [{
+                "attribute_name": "policy attribute name1a",
+                "attribute_value": "policy attribute value1a"
+            }, {
+                "attribute_name": "policy attribute name2a",
+                "attribute_value": "policy attribute value2a"
+            }]
+        }]
+    }, {
+        "osp_id": "pmel_osp_id_b",
+        "access_policies": [{
+            "subject": "web example b",
+            "permission": "True",
+            "action": "Access",
+            "resource": "http://my.example.com/b",
+            "attributes": [{
+                "attribute_name": "policy attribute name1b",
+                "attribute_value": "policy attribute value1b"
+            }, {
+                "attribute_name": "policy attribute name2b",
+                "attribute_value": "policy attribute value2b"
+            }]
+        }, {
+            "subject": "web example ba",
+            "permission": "True",
+            "action": "Access",
+            "resource": "http://my.example.com/ba",
+            "attributes": [{
+                "attribute_name": "policy attribute name1ba",
+                "attribute_value": "policy attribute value1ba"
+            }, {
+                "attribute_name": "policy attribute name2ba",
+                "attribute_value": "policy attribute value2ba"
+            }]
+        }]
+    }],
+        "subscribed_osp_settings": [{
+            "osp_id": "example osp_id ospsSettings",
+            "osp_settings": [{
+                "id": "1234",
+                "description": "privacy setting example",
+                "name": "visibility",
+                "setting_key": "target setting key",
+                "setting_value": "key value"
+            }, {
+                "id": "1235",
+                "description": "privacy setting example 2a",
+                "name": "visibility a",
+                "setting_key": "target setting key a",
+                "setting_value": "key value a"
+            }]
+        }, {
+            "osp_id": "example osp_id ospsSettings b",
+            "osp_settings": [{
+                "id": "1236",
+                "description": "privacy setting example b",
+                "name": "visibility",
+                "setting_key": "target setting key 1b ",
+                "setting_value": "key value 1b"
+            }, {
+                "id": "1237",
+                "description": "privacy setting example 2b",
+                "name": "visibility b",
+                "setting_key": "target setting key 2b",
+                "setting_value": "key value 2b"
+            }]
+        }, {
+            "osp_id": "fb_osp",
+            "osp_settings": [
+            {
+                "id": "1231",
+                "description": "Keep/delete your activity log Your activity log includes a list of the things you search for on Facebook.",
+                "name": "Delete activity log",
+                "setting_key": "Delete",
+                "setting_value": "Delete"
+            },
+            {
+                "id": "1232",
+                "description": "Choose if only Friends or also Friends of Friends can see your Facebook data",
+                "name": "facebook data",
+                "setting_key": "Limit to Friends",
+                "setting_value": "Limit to Friends"
+            },
+            {
+                "id": "1233",
+                "description": "Limit viewing content on your timeline you have shared with Friends of Friends or Public, to Friends only.",
+                "name": "Limit to Friends only",
+                "setting_key": "Limit to Friends only",
+                "setting_value": "Limit to Friends only"
+            },
+            {
+                "id": "1234",
+                "description": "Choose who can contact you/send you friend requests",
+                "name": "friend requests",
+                "setting_key": "Limit to Friends of Friends",
+                "setting_value": "Limit to Friends of Friends"
+            }
+            ]
+        }
+    ]
+}

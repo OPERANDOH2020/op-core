@@ -26,10 +26,15 @@
 /////////////////////////////////////////////////////////////////////////
 package eu.operando;
 
+import io.swagger.api.NotFoundException;
 import io.swagger.client.ApiException;
 import io.swagger.client.api.UPPApi;
+import io.swagger.model.OSPDataRequest;
+import io.swagger.model.PolicyEvaluationReport;
 import io.swagger.model.UserPreference;
 import io.swagger.model.UserPrivacyPolicy;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -44,28 +49,67 @@ public class ManagementConsoleSim {
      */
     public static void main(String[] args) {
 
+        PolicyEvaluationService pS = new PolicyEvaluationService();
+
         try {
-            String category = XSDParser.getElementDataType("http://services.odata.org/g2cosp/patient('russellwhyte')/personal_information/full_name");
-            System.out.println("cat =" +  category );
+            ODATAPolicies odata = new ODATAPolicies();
+            String category = odata.getElementDataPath("http://services.odata.org/g2cosp/patient('user1')/personal_information/gender");
+            int weighting = odata.getPreferenceRank(pS.getUPP("user1"), category, "health_care_professional");
+            weighting = odata.getPreferenceRank(pS.getUPP("user1"), "/valid_data/contact", "health_care_professional");
+            boolean grant = odata.grantOnWeighting(pS.getUPP("user1"), "Medical", "other", 6);
+            grant = odata.grantOnWeighting(pS.getUPP("user1"), "Medical", "health_care_professional", 6);
+            System.out.println("cat =" +  category + " weighting = " + weighting + grant);
         } catch (InvalidPreferenceException ex) {
             Logger.getLogger(ManagementConsoleSim.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-//        PolicyEvaluationService pS = new PolicyEvaluationService();
-//        // Set the userId and OspId of the requests
-//            String userId = "pjgrace";
-//            String ospId = "Hospital OSP";
-//
-//            // Create a single request
-//            List<OSPDataRequest> ospRequest = new ArrayList<OSPDataRequest>();
-//            OSPDataRequest osD = new OSPDataRequest();
-//            osD.setAction(OSPDataRequest.ActionEnum.ACCESS);
-//            osD.setRequesterId("Hospital OSP");
-//            osD.setSubject("Doctor");
-//            osD.requestedUrl("http://services.odata.org/TripPinRESTierService/patient('russellwhyte')/Gender");
-//            ospRequest.add(osD);
-//
-//            String reply = pS.evaluate(ospId, userId, ospRequest);
+        // Set the userId and OspId of the requests
+            String userId = "user1";
+            String ospId = "osp1";
+
+            // Create a single request
+            List<OSPDataRequest> ospRequest = new ArrayList<OSPDataRequest>();
+            OSPDataRequest osD = new OSPDataRequest();
+            osD.setAction(OSPDataRequest.ActionEnum.ACCESS);
+            osD.setRequesterId("osp1");
+            osD.setSubject("doctor");
+            osD.requestedUrl("http://services.odata.org/TripPinRESTierService/patient('user1')/personal_information/gender");
+            ospRequest.add(osD);
+
+            OSPDataRequest osD2 = new OSPDataRequest();
+            osD2.setAction(OSPDataRequest.ActionEnum.ACCESS);
+            osD2.setRequesterId("osp1");
+            osD2.setSubject("pharmacist");
+            osD2.requestedUrl("http://services.odata.org/TripPinRESTierService/patient('user1')/personal_information/anthropometric_data/weight");
+            ospRequest.add(osD2);
+
+            OSPDataRequest osD3 = new OSPDataRequest();
+            osD3.setAction(OSPDataRequest.ActionEnum.COLLECT);
+            osD3.setRequesterId("osp1");
+            osD3.setSubject("pharmacist");
+            osD3.requestedUrl("http://services.odata.org/TripPinRESTierService/patient('user1')/personal_information/anthropometric_data/weight");
+            ospRequest.add(osD3);
+
+            OSPDataRequest osD4 = new OSPDataRequest();
+            osD4.setAction(OSPDataRequest.ActionEnum.ACCESS);
+            osD4.setRequesterId("osp1");
+            osD4.setSubject("pharmacist");
+            osD4.requestedUrl("http://services.odata.org/TripPinRESTierService/patient('user1')/personal_information/anthropometric_data/height");
+            ospRequest.add(osD4);
+
+            OSPDataRequest osD5 = new OSPDataRequest();
+            osD5.setAction(OSPDataRequest.ActionEnum.ACCESS);
+            osD5.setRequesterId("osp1");
+            osD5.setSubject("admin");
+            osD5.requestedUrl("http://services.odata.org/TripPinRESTierService/patient('user1')/personal_information/anthropometric_data/height");
+            ospRequest.add(osD5);
+
+        try {
+            PolicyEvaluationReport reply = pS.evaluate(ospId, userId, ospRequest, null);
+            System.out.println(reply.toString());
+        } catch (NotFoundException ex) {
+            Logger.getLogger(ManagementConsoleSim.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         // The user subscribes to OPERANDO. The MC calls the PDB to create a UPP
         UPPApi manConRecp = new UPPApi();

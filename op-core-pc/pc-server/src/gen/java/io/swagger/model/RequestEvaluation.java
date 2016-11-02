@@ -1,9 +1,6 @@
 package io.swagger.model;
 
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 
@@ -28,7 +25,7 @@ public class RequestEvaluation   {
   }
 
    /**
-   * The user of the data in the request to be evaluated 
+   * The user of the data in the request to be evaluated
    * @return datauser
   **/
   @ApiModelProperty(value = "The user of the data in the request to be evaluated ")
@@ -46,7 +43,7 @@ public class RequestEvaluation   {
   }
 
    /**
-   * The oData field requested by the data user. 
+   * The oData field requested by the data user.
    * @return datafield
   **/
   @ApiModelProperty(value = "The oData field requested by the data user. ")
@@ -64,7 +61,7 @@ public class RequestEvaluation   {
   }
 
    /**
-   * The usage type of the data 
+   * The usage type of the data
    * @return action
   **/
   @ApiModelProperty(value = "The usage type of the data ")
@@ -82,7 +79,7 @@ public class RequestEvaluation   {
   }
 
    /**
-   * Whether the request type is granted based on the UPP 
+   * Whether the request type is granted based on the UPP
    * @return result
   **/
   @ApiModelProperty(value = "Whether the request type is granted based on the UPP ")
@@ -118,8 +115,8 @@ public class RequestEvaluation   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class RequestEvaluation {\n");
-    
+    sb.append("RequestEvaluation {\n");
+
     sb.append("    datauser: ").append(toIndentedString(datauser)).append("\n");
     sb.append("    datafield: ").append(toIndentedString(datafield)).append("\n");
     sb.append("    action: ").append(toIndentedString(action)).append("\n");
