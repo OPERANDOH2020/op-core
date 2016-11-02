@@ -34,7 +34,8 @@ There is one POST method available
 
 **osp_policy_evaluator**
 ----
-  Returns a json report describing if the data subject (defined by the unique OPERANDO ID) allows
+
+Returns a json report describing if the data subject (defined by the unique OPERANDO ID) allows
 or denies a set of requests .
 
 * **URL**
@@ -49,33 +50,35 @@ or denies a set of requests .
 
    **Required:**
     The OPERANDO generated unique identifier of an OSP that is requesting access to data.
+
    `osp_id=[string]`
 
     The OPERANDO generated unique identifier of a data subject (user).
+
    `user_id=[string]`
 
 * **Data Params**
 
     **Required:**
-    Json data describing the list of access requests. These are a list of oData fields being requested by
+    
+ Json data describing the list of access requests. These are a list of oData fields being requested by
     an OSP subject (ie. data user). For example, a doctor wants to access a patient's weight field.
 
-    `{
-        [{
-            requester_id: [string], 
-            subject: [string], 
-            requested_url: [string], 
-            "action": [string], 
-            "attributes": [json array]
-         },{
-            requester_id: [string], 
-            subject: [string], 
-            requested_url: [string], 
-            "action": [string], 
-            "attributes": [json array]
-         },
-        ]
-    }`
+    
+                                                              
+    ``{[{requester_id: [string],
+        subject: [string],
+        requested_url: [string],
+        "action": [string],
+        "attributes": [json array]
+    }, {
+        requester_id: [string],
+        subject: [string],
+        requested_url: [string],
+        "action": [string],
+        "attributes": [json array]
+    }, ]
+    }``
   
 * **Success Response:**
 
@@ -83,22 +86,20 @@ or denies a set of requests .
     **Content:** 
     Json data describing the evaluation report:
 
-    `{ 
-        status : [string],      // All requests allowed or not? "true" or "false"
+    ``{ status : [string], // All requests allowed or not? "true" or "false"
         compliance : string,    // If true: "VALID" otherwise Reason for false - "NO_POLICY", "PREFS_CONFLICT"
         [{
-            datauser: [string]  // e.g. doctor
-            datafield: [url]    // oData field being accessed
-            action: [string]    // Action being carried out by the datauser
-            result: [string]    // "true","false" if this request is allowed
-
+         datauser: [string]  // e.g. doctor        
+         datafield: [url]    // oData field being accessed     
+         action: [string]    // Action being carried out by the datauser                  
+         result: [string]    // "true","false" if this request is allowed
         },{
             datauser: 
             datafield:
             action: 
             result:
         }] 
-    }`
+    }``
  
 * **Error Response:**
 
