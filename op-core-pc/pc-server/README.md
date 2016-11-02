@@ -48,26 +48,52 @@ or denies a set of requests .
 *  **QUERY PARAMS**
 
    **Required:**
- 
+    The OPERANDO generated unique identifier of an OSP that is requesting access to data.
    `osp_id=[string]`
+
+    The OPERANDO generated unique identifier of a data subject (user).
    `user_id=[string]`
 
 * **Data Params**
 
     **Required:**
-    [{requester_id: [string], subject: [string], requested_url: [string], "action": [string], "attributes": [json array]}]
-  None
-
+    Json data describing the list of access requests. These are a list of oData fields being requested by
+    an OSP subject (ie. data user). For example, a doctor wants to access a patient's weight field.
+    [{
+        requester_id: [string], 
+        subject: [string], 
+        requested_url: [string], 
+        "action": [string], 
+        "attributes": [json array]
+     },{
+        requester_id: [string], 
+        subject: [string], 
+        requested_url: [string], 
+        "action": [string], 
+        "attributes": [json array]
+     },
+    ]
+  
 * **Success Response:**
 
   * **Code:** 200 <br />
     **Content:** 
-    `{ status : "false", compliance : "PREFS_CONFLICT", [{datauser: doctor
-        datafield: http://services.odata.org/osp/patient('ospuser3')/personal_information/anthropometric_data/body_circumference
-        action: ACCESS
-        result: true},{{datauser: nurse
-        datafield: http://services.odata.org/osp/patient('ospuser3')/personal_information/anthropometric_data/weight
-        action: COLLECT}] }`
+    Json data describing the evaluation report:
+
+    `{ status : [string],   // All requests allowed or not? "true" or "false"
+       compliance : string, // If true: "VALID" otherwise Reason for false - "NO_POLICY", "PREFS_CONFLICT"
+       [{
+            datauser: [string] // e.g. doctor
+            datafield: [url]   // oData field being accessed
+            action: [string]    // Action being carried out by the datauser
+            result: [string]    // "true","false" if this request is allowed
+        },{
+            datauser: 
+            datafield:
+            action: 
+            result
+        }] 
+    }`
  
 * **Error Response:**
 
