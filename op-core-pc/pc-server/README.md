@@ -59,7 +59,8 @@ or denies a set of requests .
     **Required:**
     Json data describing the list of access requests. These are a list of oData fields being requested by
     an OSP subject (ie. data user). For example, a doctor wants to access a patient's weight field.
-    [{
+
+    `[{
         requester_id: [string], 
         subject: [string], 
         requested_url: [string], 
@@ -72,7 +73,7 @@ or denies a set of requests .
         "action": [string], 
         "attributes": [json array]
      },
-    ]
+    ]`
   
 * **Success Response:**
 
@@ -81,18 +82,31 @@ or denies a set of requests .
     Json data describing the evaluation report:
 
     `{ status : [string],   // All requests allowed or not? "true" or "false"
+
        compliance : string, // If true: "VALID" otherwise Reason for false - "NO_POLICY", "PREFS_CONFLICT"
+
        [{
+
             datauser: [string] // e.g. doctor
+
             datafield: [url]   // oData field being accessed
+
             action: [string]    // Action being carried out by the datauser
+
             result: [string]    // "true","false" if this request is allowed
+
         },{
+
             datauser: 
+
             datafield:
+
             action: 
+
             result
+
         }] 
+
     }`
  
 * **Error Response:**
