@@ -115,10 +115,10 @@ public class PolicyEvaluationService {
      * Core implementation of the policy evaluation service. Evaluates if a set
      * of requests matches a user's privacy preferences.
      *
-     * @param ospId
-     * @param userId
-     * @param ospRequest
-     * @param pdbURL
+     * @param ospId The ID of the OSP. This is used to identify existing user policies already computed.
+     * @param userId The unique OPERANDO id of the user, obtained when they register with the OPERANDO dashboard.
+     * @param ospRequest The array of individual ODATA field requests.
+     * @param pdbURL The URL of the PDB server where UPPs are deployed.
      * @return
      * @throws NotFoundException
      */
@@ -138,6 +138,14 @@ public class PolicyEvaluationService {
             String uppProfile = "";
             if(userId.startsWith("_demo_")) {
                 uppProfile = getUPP(userId);
+                /**
+                 * If someone sends an idiot demo request then fail the request
+                 */
+                if (uppProfile==null) {
+                    rp.setStatus("false");
+                    rp.setCompliance("NO_POLICY");
+                    return rp;
+                }
             }
             else{
                 /**
@@ -170,14 +178,11 @@ public class PolicyEvaluationService {
             for (OSPDataRequest r: ospRequest) {
                 String oDataURL = r.getRequestedUrl();
                 String Category = odata.getElementDataPath(oDataURL);
-                System.out.println("OSP - "+ospId+" Category - "+Category);
                 JSONArray access_policies = JsonPath.read(uppProfile, "$.subscribed_osp_policies[?(@.osp_id=='"+ospId+"')].access_policies[?(@.resource=='"+ Category +"')]");
                 boolean found = false;
                 // For each of the access requests in the list
                 for(Object aP: access_policies) {
                     String subject = JsonPath.read(aP, "$.subject");
-                    System.out.println("Data user in request - " + subject);
-                    System.out.println("Data user in the UPP - " + r.getSubject());
                     if(subject.equalsIgnoreCase(r.getSubject())) { // Check the subject
                         found=true;
 

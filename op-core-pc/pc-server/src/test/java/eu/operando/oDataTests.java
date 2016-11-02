@@ -104,28 +104,28 @@ public class oDataTests {
             List<OSPDataRequest> ospRequest = new ArrayList<OSPDataRequest>();
             OSPDataRequest osD = new OSPDataRequest();
             osD.setAction(OSPDataRequest.ActionEnum.COLLECT);
-            osD.setRequesterId("osp1");
+            osD.setRequesterId("osp2");
             osD.setSubject("doctor");
             osD.requestedUrl("http://services.odata.org/TripPinRESTierService/patient('user1')/medical_problems/problems/problem");
             ospRequest.add(osD);
 
             OSPDataRequest osD2 = new OSPDataRequest();
             osD2.setAction(OSPDataRequest.ActionEnum.ACCESS);
-            osD2.setRequesterId("osp1");
+            osD2.setRequesterId("osp2");
             osD2.setSubject("nurse");
             osD2.requestedUrl("http://services.odata.org/TripPinRESTierService/patient('user1')/medical_problems/problems/problem/problem_description");
             ospRequest.add(osD2);
 
             OSPDataRequest osD3 = new OSPDataRequest();
             osD3.setAction(OSPDataRequest.ActionEnum.COLLECT);
-            osD3.setRequesterId("osp1");
+            osD3.setRequesterId("osp2");
             osD3.setSubject("doctor");
             osD3.requestedUrl("http://services.odata.org/TripPinRESTierService/patient('user1')/medication_summary/medicine");
             ospRequest.add(osD3);
 
             OSPDataRequest osD4 = new OSPDataRequest();
             osD4.setAction(OSPDataRequest.ActionEnum.ACCESS);
-            osD4.setRequesterId("osp1");
+            osD4.setRequesterId("osp2");
             osD4.setSubject("pharmacist");
             osD4.requestedUrl("http://services.odata.org/TripPinRESTierService/patient('user1')/medication_summary/medicine");
             ospRequest.add(osD4);
@@ -154,6 +154,7 @@ public class oDataTests {
             reply = pS.evaluate(ospId, userId, createRequestThree(), null);
             System.out.println(reply.toString());
 
+            ospId = "osp2";
             reply = pS.evaluate(ospId, userId, createRequestFour(), null);
             System.out.println(reply.toString());
 
@@ -170,6 +171,7 @@ public class oDataTests {
             reply = pS.evaluate(ospId, userId, createRequestThree(), null);
             System.out.println(reply.toString());
 
+            ospId = "osp2";
             reply = pS.evaluate(ospId, userId, createRequestFour(), null);
             System.out.println(reply.toString());
 
@@ -186,10 +188,13 @@ public class oDataTests {
             reply = pS.evaluate(ospId, userId, createRequestThree(), null);
             System.out.println(reply.toString());
 
+            ospId = "osp2";
             reply = pS.evaluate(ospId, userId, createRequestFour(), null);
             System.out.println(reply.toString());
 
-
+            ospId = "osp3";
+            reply = pS.evaluate(ospId, userId, createRequestOne(), null);
+            System.out.println(reply.toString());
         } catch (NotFoundException ex) {
             Logger.getLogger(oDataTests.class.getName()).log(Level.SEVERE, null, ex);
         }
