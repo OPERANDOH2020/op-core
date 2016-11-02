@@ -1,1 +1,2 @@
-curl -H "Content-Type: application/json" -X POST -d "[{\"requester_id\": \"osp1\",\"subject\": \"doctor\",\"requested_url\": \"http://services.odata.org/TripPinRESTierService/patient('user1')/personal_information/gender\",\"action\": \"Access\",\"attributes\": []}]" http://localhost:8080/osp-core-pc-1.0.0/pc/osp_policy_evaluator?user_id=_demo_user1&osp_id=osp1
+
+curl -H "Content-Type: application/json" -X POST -d "[{\"requester_id\": \"osp1\",\"subject\": \"doctor\",\"requested_url\": \"http://services.odata.org/TripPinRESTierService/patient('user1')/personal_information/gender\",\"action\": \"Access\",\"attributes\": []}]" "http://localhost:8081/osp_policy_evaluator?user_id=_demo_user1&osp_id=osp1"
