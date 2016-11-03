@@ -15,10 +15,6 @@ var userInfoSwarming =
     meta:{
         name:"UserInfo.js"
     },
-    vars:{
-        userId:null,
-        organisationId:null
-    },
     info:function(){
         this.userId = this.meta.userId;
         this.swarm("getUserInfo");
@@ -65,6 +61,13 @@ var userInfoSwarming =
         this.swarm("updateUserAccount");
     },
 
+    changePassword:function(currentPassword, newPassword){
+        this.currentPassword = currentPassword;
+        this.newPassword = newPassword;
+        console.log(currentPassword,newPassword);
+        this.swarm("changeUserPassword");
+    },
+
     updateUserAccount:{
         node:"UsersManager",
         code: function(){
@@ -84,13 +87,22 @@ var userInfoSwarming =
         }
     },
 
-    error:{
-        node:"Core",
+    changeUserPassword:{
+        node:"UsersManager",
         code:function(){
-            self.err = err;
-            this.home("error");
+            var self = this;
+            changeUserPassword(this.meta.userId, this.currentPassword, this.newPassword, S(function (err, user) {
+                delete self.currentPassword;
+                delete self.newPassword;
+                if (err) {
+                    self.error = err.message;
+                    self.home("passwordChangeFailure");
+                }
+                else {
+                    self.home("passwordSuccessfullyChanged");
+                }
+            }));
         }
-
     }
 
 };

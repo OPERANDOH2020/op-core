@@ -22,6 +22,8 @@ var container = require("safebox").container;
 
 var flow = require("callflow");
 
+var passwordMinLength = 4;
+var usernameMinLength = 4;
 
 var saveCallbackFn = function (err, obj) {
     if (err) {
@@ -310,13 +312,13 @@ newUserIsValid = function (newUser, callback) {
             }
             else
 
-            if(!newUser.username || newUser.username.length < 4){
+            if(!newUser.username || newUser.username.length < usernameMinLength){
                 callback(new Error("Username is too short!"));
             }
             else
 
-            if(!newUser.password || newUser.password.length < 4){
-                callback(new Error("Password must contain at least 4 characters"));
+            if(!newUser.password || newUser.password.length < passwordMinLength){
+                callback(new Error("Password must contain at least "+passwordMinLength+" characters"));
             }
 
             else{
@@ -429,6 +431,36 @@ validPassword = function (userId, pass, callback) {
         }
     })();
 
+}
+
+changeUserPassword = function(userId, currentPassword, newPassword, callback){
+    flow.create("Validate Password", {
+        begin: function () {
+
+            if (newPassword === currentPassword) {
+                callback(new Error("You should enter different passwords"), false);
+            }
+            else if (newPassword.length < passwordMinLength) {
+                callback(new Error("Your new password it too short! It should have at least " + passwordMinLength + " characters "), false);
+            }
+            else{
+                redisPersistence.findById("DefaultUser", userId, this.continue("validatePassword"));
+            }
+        },
+        validatePassword: function (err, user) {
+            if (err) {
+                callback(err, null);
+            }
+            else if (user && user.password != currentPassword) {
+                callback(new Error("Your current password does not match our records!"));
+            }
+            else {
+                user.password = newPassword;
+                console.log("Am ajuns aici!");
+                redisPersistence.saveObject(user, callback);
+            }
+        }
+    })();
 }
 
 function bootSystem() {
