@@ -1108,7 +1108,7 @@
                     }
                 },
                 "data": {},
-                "recommended": "No One"
+                "recommended": "No_One"
             },
             "id": 15,
             "tags": [
@@ -1204,7 +1204,7 @@
                     }
                 },
                 "data": {},
-                "recommended": "Only you"
+                "recommended": "Only_you"
             },
             "id": 16,
             "tags": [
@@ -1558,7 +1558,7 @@
                     "visibilityOptions": "FIRST_DEGREE_CONNECTIONS,SECOND_DEGREE_CONNECTIONS,EVERYONE,$UNKNOWN",
                     "handleType": "EMAIL"
                 },
-                "recommended": "connections"
+                "recommended": "Nobody"
             },
             "id": 23,
             "tags": [
@@ -1620,7 +1620,7 @@
                     "visibilityOptions": "FIRST_DEGREE_CONNECTIONS,SECOND_DEGREE_CONNECTIONS,EVERYONE,$UNKNOWN",
                     "handleType": "PHONE"
                 },
-                "recommended": "connections"
+                "recommended": "Nobody"
             },
             "id": 24,
             "tags": [
@@ -2633,7 +2633,7 @@
                     }
                 },
                 "data": {},
-                "recommended": "Imported contacts"
+                "recommended": "Imported_contacts"
             },
             "id": 37,
             "tags": [

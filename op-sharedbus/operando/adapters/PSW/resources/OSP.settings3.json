@@ -1108,7 +1108,7 @@
                     }
                 },
                 "data": {},
-                "recommended": "No One"
+                "recommended": "No_One"
             },
             "id": 15,
             "tags": [
@@ -1204,7 +1204,7 @@
                     }
                 },
                 "data": {},
-                "recommended": "Only you"
+                "recommended": "Only_you"
             },
             "id": 16,
             "tags": [

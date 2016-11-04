@@ -412,7 +412,6 @@ getUserInfo = function (userId, callback) {
     })();
 }
 
-
 validPassword = function (userId, pass, callback) {
 
     flow.create("Validate Password", {
