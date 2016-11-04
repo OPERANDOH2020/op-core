@@ -104,32 +104,38 @@ var emailsSwarming = {
         code:function(){
             var newPassword = this['newPassword'];
             var self = this;
+            console.log("Change password");
             filterUsers({"email":this.email},S(function(err,users){
-		if(err){
+                if(err){
                     self.error = err;
-                    self.home('error');
-                }else
-                if(users.length>0){
-                    var user = users[0];
-                    user['password'] = newPassword;
-                    updateUser(user,S(function(err,result){
+                    self.home('resetPasswordFailed');
+                    return;
+                }
+                if(users.length===0){
+                    self.error = new Error("No such user! Aborting...");
+                    self.home('resetPasswordFailed');
+                    return;
+                }
+
+
+                var user = users[0];
+                user['password'] = newPassword;
+                updateUser(user,S(function(err,result){
+                        delete self['newPassword']
                         if(err){
                             self.error = err;
-                            self.home('error');
+                            self.home('resetPasswordFailed');
                         }else{
                             self['to'] = user['email'];
                             self['from'] = "operando@privatesky.xyz";
                             self['subject'] = "Reset password";
                             self['content'] =   "Your password has been changed \n"+
-                                                "Your new password is "+newPassword;
+                                "Your new password is "+newPassword;
                             self.swarm('deliverEmail');
-                    }
+                        }
                     })
-                    )
-                }else{
-                    self.error = new Error("No such email!");
-                    self.home("resetPasswordFailed");
-                }
+                )
+
             }))
         }
     },
@@ -137,11 +143,17 @@ var emailsSwarming = {
     deliverEmail:{
         node: "EmailAdapter",
         code: function () {
+            console.log("Delivering an email to ",this['to']);
             var self = this;
             sendEmail(this['from'],this['to'],this['subject'],this['content'],S(function(err,deliveryResult){
+                delete this['from']
+                delete this['to']
+                delete this['subject']
+                delete this['content']
+
                 if(err){
                     self.error = err;
-                    self.home('error');
+                    self.home('emailDeliveryUnsuccessful');
                 }else{
                     self.deliveryResult = deliveryResult;
                     self.home('emailDeliverySuccessful');
