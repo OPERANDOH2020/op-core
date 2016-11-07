@@ -263,7 +263,7 @@ getUserDeals = function (userId, callback) {
 getDealDetails = function(pfbId, callback){
 
     var allDeals = dummyVendors;
-
+    console.log(pfbId);
     var service = allDeals.filter(function(value){
         return value.serviceId === pfbId;
     });
