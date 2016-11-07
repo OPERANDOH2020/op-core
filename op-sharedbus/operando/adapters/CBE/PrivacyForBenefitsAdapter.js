@@ -375,7 +375,7 @@ removeUserDeal = function(dealId, userId, callback){
             if(err){
                 callback(err, null);
             }
-            else{
+            else{console.log(deals);
                 deals.forEach(function(deal){
                     redisPersistence.delete(deal);
                     callback(null,deal);
