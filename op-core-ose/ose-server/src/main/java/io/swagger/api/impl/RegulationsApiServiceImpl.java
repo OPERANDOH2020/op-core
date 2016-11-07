@@ -39,7 +39,16 @@ import javax.ws.rs.core.SecurityContext;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-04-25T15:37:02.222Z")
 public class RegulationsApiServiceImpl extends RegulationsApiService {
-    
+
+    /**
+     * Enter a new regulation into the system. Store the regulation in the Policy DB
+     * and then call the PC component to do a compliance check. From the output, store
+     * an OSP compliance report.
+     * @param regulation The new regulation.
+     * @param securityContext
+     * @return
+     * @throws NotFoundException
+     */
     @Override
     public Response regulationsPost(PrivacyRegulation regulation, SecurityContext securityContext)
     throws NotFoundException {
@@ -53,7 +62,16 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
         return Response.status(Response.Status.CREATED).entity(new ApiResponseMessage(ApiResponseMessage.OK,
                 storeAction)).build();
     }
-    
+
+    /**
+     * Update an existing regulation. Store it in the Policy DB, run compliance checks using
+     * the PC component, and then create compliance reports stored in the log DB.
+     * @param regId
+     * @param regulation
+     * @param securityContext
+     * @return
+     * @throws NotFoundException
+     */
     @Override
     public Response regulationsRegIdPut(String regId, PrivacyRegulationInput regulation, SecurityContext securityContext)
     throws NotFoundException {
@@ -68,5 +86,5 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
         return Response.status(Response.Status.OK).entity(new ApiResponseMessage(ApiResponseMessage.OK,
                 "Successful response. The regulation has been added.")).build();
     }
-    
+
 }

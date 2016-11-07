@@ -55,6 +55,22 @@ import org.apache.http.util.EntityUtils;
  */
 public class PolicyEvaluationService {
 
+    /**
+     * This is a singleton class, that can be used as one instance by all
+     * REST APIs of the PC component.
+     */
+    private static PolicyEvaluationService instance = null;
+
+    /**
+     * Operation to use to enforce singleton pattern.
+     * @return The singleton instance.
+     */
+    public static PolicyEvaluationService getInstance() {
+      if(instance == null) {
+         instance = new PolicyEvaluationService();
+      }
+      return instance;
+   }
 
     /**
      * The set of demo UPP profiles; that can be queried for unit testing of
@@ -94,21 +110,33 @@ public class PolicyEvaluationService {
      * Initiate the evaluation service component, and create a set of three
      * example users for unit testing.
      */
-    public PolicyEvaluationService() {
+    protected  PolicyEvaluationService() {
         UppDB = new HashMap<String, String>();
         loadDemoUPP("_demo_user1", "upp1.json");
         loadDemoUPP("_demo_user2", "upp2.json");
         loadDemoUPP("_demo_user3", "upp3.json");
+        loadDemoUPP("osp1", "osp1.json");
     }
 
     /**
      * Retrieve a demo user privacy profile (UPP) from the set of in-memory
      * test cases.
-     * @param id The user id of the
-     * @return
+     * @param id The user id of the UPP requested
+     * @return The UPP file in json format.
      */
     public String getUPP(String id) {
         return UppDB.get(id);
+    }
+
+    /**
+     * Update a demo user privacy profile (UPP) from the set of in-memory
+     * test cases.
+     * @param id The user id of the
+     * @param upp The new policy
+     * @return
+     */
+    public String putUPP(String id, String upp) {
+        return UppDB.put(id, upp);
     }
 
     /**

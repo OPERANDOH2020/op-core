@@ -49,9 +49,7 @@ import javax.ws.rs.core.SecurityContext;
  * Component. This is a single method, that evaluates a given set of access
  * requests to user data, that is evaluated against user preferences to
  * then provide feedback about whether the request should be granted or not.
- *
  */
-
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-06-27T09:46:42.374Z")
 public class OspPolicyEvaluatorApiServiceImpl extends OspPolicyEvaluatorApiService {
 
@@ -72,7 +70,7 @@ public class OspPolicyEvaluatorApiServiceImpl extends OspPolicyEvaluatorApiServi
      */
     public OspPolicyEvaluatorApiServiceImpl() {
         super();
-        policyService = new PolicyEvaluationService();
+        policyService = PolicyEvaluationService.getInstance();
 	Properties props;
     	props = loadDbProperties();
 
@@ -102,7 +100,6 @@ public class OspPolicyEvaluatorApiServiceImpl extends OspPolicyEvaluatorApiServi
 
         return props;
     }
-
 
     @Override
     /**

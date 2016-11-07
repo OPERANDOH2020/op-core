@@ -27,12 +27,10 @@
 package eu.operando;
 
 import io.swagger.api.NotFoundException;
-import io.swagger.client.ApiException;
-import io.swagger.client.api.UPPApi;
+//import io.swagger.client.ApiException;
+//import io.swagger.client.api.UPPApi;
 import io.swagger.model.OSPDataRequest;
 import io.swagger.model.PolicyEvaluationReport;
-import io.swagger.model.UserPreference;
-import io.swagger.model.UserPrivacyPolicy;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -49,7 +47,7 @@ public class ManagementConsoleSim {
      */
     public static void main(String[] args) {
 
-        PolicyEvaluationService pS = new PolicyEvaluationService();
+        PolicyEvaluationService pS = PolicyEvaluationService.getInstance();
 
         try {
             ODATAPolicies odata = new ODATAPolicies();
@@ -112,19 +110,19 @@ public class ManagementConsoleSim {
         }
 
         // The user subscribes to OPERANDO. The MC calls the PDB to create a UPP
-        UPPApi manConRecp = new UPPApi();
-        UserPrivacyPolicy upp = new UserPrivacyPolicy();
-        upp.setUserId("operandoUser1278546");
-        try {
-            manConRecp.userPrivacyPolicyPost(upp);
-        } catch (ApiException ex) {
-            System.err.println("Post fail when creating a new user: " + ex.getLocalizedMessage());
-        }
-
-        // User enters preferences into the privacy dashboard.
-        UserPreference nPref = new UserPreference();
-
-        nPref.setPreference(UserPreference.PreferenceEnum.MEDIUM);
+//        UPPApi manConRecp = new UPPApi();
+//        UserPrivacyPolicy upp = new UserPrivacyPolicy();
+//        upp.setUserId("operandoUser1278546");
+//        try {
+//            manConRecp.userPrivacyPolicyPost(upp);
+//        } catch (ApiException ex) {
+//            System.err.println("Post fail when creating a new user: " + ex.getLocalizedMessage());
+//        }
+//
+//        // User enters preferences into the privacy dashboard.
+//        UserPreference nPref = new UserPreference();
+//
+//        nPref.setPreference(UserPreference.PreferenceEnum.MEDIUM);
 
     }
 

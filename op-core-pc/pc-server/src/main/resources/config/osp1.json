@@ -1,0 +1,73 @@
+{
+    "osp_policy_id": "0",
+    "policy_text": "Demo OSP Policy",
+    "policy_url": "n/a",
+    "workflow": [
+    {
+        "requester_id": "doctor1",
+        "subject": "doctor",
+        "requested_url": "/personal_information/anthropometric_data/weight",
+        "action": "Access",
+        "attributes": [
+        {
+            "attribute_name": "my attribute name",
+            "attribute_value": "my attribute value"
+        },
+        {
+            "attribute_name": "my attribute nameA",
+            "attribute_value": "my attribute valueA"
+        }
+        ]
+    },
+    {
+        "requester_id": "nurse1",
+        "subject": "nurse",
+        "requested_url": "/personal_information/anthropometric_data/weight",
+        "action": "Collect",
+        "attributes": [
+        {
+            "attribute_name": "my second attribute name",
+            "attribute_value": "my second attribute value"
+        },
+        {
+            "attribute_name": "my second attribute nameA",
+            "attribute_value": "my second attribute valueA"
+        }
+        ]
+    }
+    ],
+        "policies": [
+        {
+            "subject": "doctor",
+            "permission": "True",
+            "action": "Access",
+            "resource": "/personal_information/anthropometric_data/weight",
+            "attributes": [
+            {
+                "attribute_name": "my attribute name",
+                "attribute_value": "my attribute value"
+            },
+            {
+                "attribute_name": "my attribute nameA",
+                "attribute_value": "my attribute valueA"
+            }
+            ]
+        },
+        {
+            "subject": "nurse",
+            "permission": "True",
+            "action": "Collect",
+            "resource": "/personal_information/anthropometric_data/weight",
+            "attributes": [
+            {
+                "attribute_name": "my sec attribute name",
+                "attribute_value": "my sec attribute value"
+            },
+            {
+                "attribute_name": "my sec attribute nameA",
+                "attribute_value": "my sec attribute valueA"
+            }
+            ]
+        }
+    ]
+}
