@@ -359,7 +359,7 @@ removeUserDeal = function(dealId, userId, callback){
         begin:function(){
             for (var i = 0; i < dummyVendors.length; i++) {
                 var deal = dummyVendors[i];
-
+                console.log(deal);
                 if (deal.serviceId === dealId) {
                     var dealData = {
                         userId: userId,
@@ -375,7 +375,7 @@ removeUserDeal = function(dealId, userId, callback){
             if(err){
                 callback(err, null);
             }
-            else{console.log(deals);
+            else{//console.log(deals);
                 deals.forEach(function(deal){
                     redisPersistence.delete(deal);
                     callback(null,deal);
