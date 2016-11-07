@@ -146,10 +146,10 @@ var emailsSwarming = {
             console.log("Delivering an email to ",this['to']);
             var self = this;
             sendEmail(this['from'],this['to'],this['subject'],this['content'],S(function(err,deliveryResult){
-                delete this['from']
-                delete this['to']
-                delete this['subject']
-                delete this['content']
+                delete self['from']
+                delete self['to']
+                delete self['subject']
+                delete self['content']
 
                 if(err){
                     self.error = err;
