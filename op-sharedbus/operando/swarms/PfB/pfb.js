@@ -148,7 +148,7 @@ var privacyForBenefits = {
         code: function () {
             this['from']="pfb@operando.eu";
             this['to'] = this.meta.userId;
-            this['subject'] = "[OPERANDO] Deal from"+this.service.website;
+            this['subject'] = "[OPERANDO] Deal from "+this.service.website;
 
            if(this.action == "subscribed"){
                 this['content'] = "You have successfully subscribed to " + this.service.website;
