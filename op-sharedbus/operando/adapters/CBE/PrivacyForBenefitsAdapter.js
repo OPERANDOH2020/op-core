@@ -359,13 +359,14 @@ removeUserDeal = function(dealId, userId, callback){
         begin:function(){
             for (var i = 0; i < dummyVendors.length; i++) {
                 var deal = dummyVendors[i];
-                console.log(deal);
-                console.log(dealId);
+
                 if (deal.serviceId === dealId) {
                     var dealData = {
                         userId: userId,
                         pfbId: deal.serviceId
                     }
+
+                    console.log(dealData);
 
                     redisPersistence.filter("UserPfB", dealData, this.continue("removeDeal"));
                     break;
