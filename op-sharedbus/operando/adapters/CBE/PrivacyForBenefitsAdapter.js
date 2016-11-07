@@ -13,7 +13,7 @@
 
 var dummyVendors = [
     {
-        serviceId: 0,
+        serviceId: 1,
         website: "9gag.com",
         benefit: "5 &euro;",
         identifier: ".btn-connect-option.facebook.badge-facebook-connect",
@@ -21,7 +21,7 @@ var dummyVendors = [
         logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/9GAG_new_logo.svg/2000px-9GAG_new_logo.svg.png"
     },
     {
-        serviceId: 1,
+        serviceId: 2,
         website: "nytimes.com",
         benefit: "2 &euro;",
         identifier: "#facebook-oauth-button-registration-modal, #facebook-oauth-button-login-modal",
@@ -29,7 +29,7 @@ var dummyVendors = [
         logo:"https://upload.wikimedia.org/wikipedia/commons/4/40/New_York_Times_logo_variation.jpg"
     },
     {
-        serviceId: 2,
+        serviceId: 3,
         website: "dribbble.com",
         benefit: "2 &euro;",
         identifier: ".sign-connections .auth-twitter, .signup-twitter .auth-twitter",
@@ -37,7 +37,7 @@ var dummyVendors = [
         logo:"http://www.userlogos.org/files/logos/jumpordie/dribbble_01.png"
     },
     {
-        serviceId: 3,
+        serviceId: 4,
         website: "ssl.bbc.com",
         benefit: "free content",
         identifier: ".bbcid-facebook-com",
@@ -45,14 +45,14 @@ var dummyVendors = [
         logo:"https://upload.wikimedia.org/wikipedia/en/thumb/f/ff/BBC_News.svg/1280px-BBC_News.svg.png"
     },
     {
-        serviceId: 4,
+        serviceId: 5,
         website: "flightradar24.com",
         benefit: "free content",
         identifier: ".fr24-icon-facebook",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         logo:"https://lh3.googleusercontent.com/P0aVrLO7Wxob0dIBx80m85wUyHFiK3-Xw7Xw_6CDFAogdeoRR0YWnSjkFNOR4M7nIA=w300"
     },{
-        serviceId: 5,
+        serviceId: 6,
         website: "etsy.com",
         benefit: "free content",
         identifier: ".google-connect-button",
@@ -61,14 +61,14 @@ var dummyVendors = [
 
 
     },{
-        serviceId: 6,
+        serviceId: 7,
         website: "viagogo.fr",
         benefit: "Get 20% off your first ticket price!",
         identifier: "#ExternalLoginForm div button, #ExternalLoginFormNewCustomer div button",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus dolor diam, pharetra vel velit in, finibus mollis purus. ",
         logo:"http://www.limerickpost.ie/site/wp-content/uploads/viagogo-logo.jpg"
     },{
-        serviceId: 7,
+        serviceId: 8,
         website: "dating.telegraph.co.uk",
         benefit: "Get first date free",
         identifier: ".joinBtn.fbJoinButton",
@@ -98,7 +98,7 @@ apersistence.registerModel("PrivacyForBenefitsService", "Redis", {
         benefit: {
             type: "string"
 
-        },
+        }
     },
     function (err, model) {
         if (err) {
@@ -365,8 +365,6 @@ removeUserDeal = function(dealId, userId, callback){
                         userId: userId,
                         pfbId: deal.serviceId
                     }
-
-                    console.log(dealData);
 
                     redisPersistence.filter("UserPfB", dealData, this.continue("removeDeal"));
                     break;
