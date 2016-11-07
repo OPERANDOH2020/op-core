@@ -360,6 +360,7 @@ removeUserDeal = function(dealId, userId, callback){
             for (var i = 0; i < dummyVendors.length; i++) {
                 var deal = dummyVendors[i];
                 console.log(deal);
+                console.log(dealId);
                 if (deal.serviceId === dealId) {
                     var dealData = {
                         userId: userId,
