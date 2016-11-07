@@ -259,6 +259,24 @@ getUserDeals = function (userId, callback) {
     })();
 }
 
+
+getDealDetails = function(pfbId, callback){
+
+    var allDeals = dummyVendors;
+
+    var service = allDeals.filter(function(value){
+        return value.serviceId === pfbId;
+    });
+
+    if(service.length == 0){
+        callback(new Error("Service not found"), null);
+    }
+    else{
+        callback(null, service[0]);
+    }
+
+}
+
 getAllPfbDeals = function(userId, callback){
     var allDeals = dummyVendors;
 
@@ -298,7 +316,7 @@ saveUserDeal = function (dealId, userId, callback) {
                     if (deal.serviceId == dealId) {
                         var deal = {
                             userId: userId,
-                            pfbId: dealId
+                            pfbId: dealId,
                         }
 
                         redisPersistence.filter("UserPfB", deal, this.continue("saveDeal"));

@@ -102,7 +102,6 @@ var privacyForBenefits = {
                 }
                 else{
                     self.deals = deals;
-
                     self.home("gotAllDeals");
                 }
             }));
@@ -119,9 +118,59 @@ var privacyForBenefits = {
                 }
                 else {
                     self.deal = deal;
+                    self.action="subscribed";
+                    self.swarm("getService");
                     self.home("dealAccepted");
                 }
             }));
+        }
+    },
+
+
+    getService:{
+        node:"PrivacyForBenefitsManager",
+        code:function(){
+            var self = this;
+            getDealDetails(this.deal.pfbId, S(function(err, service){
+                 if(err){
+                     console.log(err);
+                 }
+                else{
+                     self.service = service;
+                     self.swarm("notifyUserByEmail");
+                 }
+            }));
+        }
+    },
+
+    notifyUserByEmail:{
+        node: "EmailAdapter",
+        code: function () {
+            this['from']="pfb@operando.eu";
+            this['to'] = this.meta.userId;
+            this['subject'] = "[OPERANDO] Deal from"+this.service.website;
+
+           if(this.action == "subscribed"){
+                this['content'] = "You have successfully subscribed to " + this.service.website;
+            }
+            else{
+                this['content'] = "You have successfully unsubscribed to " + this.service.website;
+            }
+
+            var self = this;
+            sendEmail(self['from'],self['to'],self['subject'],self['content'],S(function(err, deliveryResult){
+                delete self['from'];
+                delete self['to'];
+                delete self['subject'];
+                delete self['content'];
+
+                if(err){
+                    self.error = err;
+                    console.log(err);
+                }else{
+                    console.log("Pfb email successfully sent");
+                }
+            }))
         }
     },
 
@@ -131,7 +180,9 @@ var privacyForBenefits = {
             var self = this;
             removeUserDeal(self.dealId, self.meta.userId,S(function(err, deal){
                 if(!err){
-                    this.deal = deal;
+                    self.deal = deal;
+                    self.action = "unsubscribed";
+                    self.swarm("getService");
                     self.home("dealUnsubscribed");
                 }
             }));
