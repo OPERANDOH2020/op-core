@@ -198,12 +198,6 @@
 			<version>${servlet-api-version}</version>
 		</dependency>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit-version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>com.sun.jersey</groupId>
 			<artifactId>jersey-client</artifactId>
 			<version>${jersey-version}</version>
@@ -218,11 +212,6 @@
 			<groupId>org.glassfish.jersey.media</groupId>
 			<artifactId>jersey-media-multipart</artifactId>
 			<version>${jersey2-version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.mongodb</groupId>
-			<artifactId>mongo-java-driver</artifactId>
-			<version>3.2.2</version>
 		</dependency>
 		<dependency>
 			<groupId>eu.operando</groupId>
@@ -285,7 +274,7 @@
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 		<swagger-core-version>1.5.8</swagger-core-version>
 		<jetty-version>9.2.9.v20150224</jetty-version>
-		<jersey-version>2.22.2</jersey-version>
+		<jersey-version>1.18</jersey-version>
 		<slf4j-version>1.6.3</slf4j-version>
 		<junit-version>4.12</junit-version>
 		<logback-version>1.1.7</logback-version>
