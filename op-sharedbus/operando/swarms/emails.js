@@ -33,7 +33,6 @@ var emailsSwarming = {
         this['subject'] = subject;
         this['content'] = content;
         this.swarm('deliverEmail');
-
     },
 
     resetPassword:function(email){
@@ -42,10 +41,11 @@ var emailsSwarming = {
        	this['email'] = email;
         this.swarm('changePassword');
     },
+
     setNewPassword:function(email,newPassword){
-	this['newPassword'] = newPassword
-	this['email'] = email
-	this.swarm('changePassword');	
+        this['newPassword'] = newPassword;
+        this['email'] = email;
+        this.swarm('changePassword');
     },
 
     register: {
@@ -78,8 +78,6 @@ var emailsSwarming = {
                 }
                 self.home('gotConversation');
             }))
-
-
         }
     },
 
@@ -117,7 +115,6 @@ var emailsSwarming = {
                     return;
                 }
 
-
                 var user = users[0];
                 user['password'] = newPassword;
                 updateUser(user,S(function(err,result){
@@ -130,7 +127,7 @@ var emailsSwarming = {
                             self['from'] = "operando@privatesky.xyz";
                             self['subject'] = "Reset password";
                             self['content'] =   "Your password has been changed \n"+
-                                "Your new password is "+newPassword;
+                                                "Your new password is "+newPassword;
                             self.swarm('deliverEmail');
                         }
                     })
