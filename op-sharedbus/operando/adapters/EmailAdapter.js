@@ -53,12 +53,12 @@ persistence.registerModel("conversation",conversationModel,function(err,result){
 });
 
 
-registerConversation = function(sender,proxy,callback){
+registerConversation = function(sender,receiver,callback){
     var newConversationUUID = uuid.v1();
     newConversationUUID = new Buffer(newConversationUUID).toString('base64').slice(0,20);
     var conversation = apersistence.createRawObject('conversation',newConversationUUID);
     conversation['sender'] = sender;
-    conversation['receiver'] = proxy;
+    conversation['receiver'] = receiver;
     persistence.save(conversation,function(err,res){
         if(err){
             callback(err);
@@ -107,10 +107,12 @@ var smtpTransport = require('nodemailer-smtp-transport');
 var transporter = mailer.createTransport(smtpTransport({host:emailHost, port: emailPort}));
 
 sendEmail = function(from,to,subject,text,callback){
-    transporter.sendMail({
-        "from": from,
-        "to": to,
-        "subject": subject,
-        "text": text
-    }, callback)
+    registerConversation(to,from,function(err,result){
+        transporter.sendMail({
+            "from": from,
+            "to": result+"@privatesky.xyz",
+            "subject": subject,
+            "text": text
+        }, callback)
+    })
 };
