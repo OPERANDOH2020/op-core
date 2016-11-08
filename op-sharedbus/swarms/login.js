@@ -30,8 +30,8 @@ var loginSwarming = {
         this.sessionId = this.getSessionId();
             this.authenticated = false;
             this.userId = userId;
-            if (!userId) {
-                this.swarm('failed');
+            if (!userId||userId.length === 0) {
+                this.swarm('failed', this.getEntryAdapter());
                 return;
             }
             this.authorisationToken = authorisationToken;
