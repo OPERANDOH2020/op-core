@@ -61,7 +61,7 @@ var privacyWizardSwarm = {
 
     completeWizard:function(current_settings){
         this.current_settings = current_settings;
-        this.swarm("provideFeedback")
+        this.swarm("provideFeedback");
     },
 
     provideFeedback:{
@@ -69,6 +69,18 @@ var privacyWizardSwarm = {
         code: function () {
             addFeedback(this.current_settings);
             this.home("wizardCompleted");
+            this.swarm("updateNotifications");
+        }
+    },
+
+    dismissPrivacyNotifications:function(){
+        this.swarm("updateNotifications");
+    },
+
+    updateNotifications:{
+        node:"NotificationUAM",
+        code:function(){
+            clearPrivacyQuestionnaire(this.meta.userId);
         }
     }
 };

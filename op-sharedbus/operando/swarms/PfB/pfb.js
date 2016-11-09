@@ -121,8 +121,16 @@ var privacyForBenefits = {
                     self.action="subscribed";
                     self.swarm("getService");
                     self.home("dealAccepted");
+                    self.swarm("checkUserNotifications");
                 }
             }));
+        }
+    },
+
+    checkUserNotifications:{
+        node:"NotificationUAM",
+        code:function(){
+            clearDealsNotifications(this.meta.userId);
         }
     },
 

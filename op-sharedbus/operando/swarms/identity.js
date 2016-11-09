@@ -86,9 +86,17 @@ var identitySwarming = {
                 else {
                     self.identity = identity;
                     self.swarm("success");
+                    self.swarm("checkUserNotifications");
                 }
             }));
 
+        }
+    },
+
+    checkUserNotifications:{
+        node:"NotificationUAM",
+        code:function(){
+            clearIdentityNotifications(this.meta.userId);
         }
     },
 
@@ -214,6 +222,7 @@ var identitySwarming = {
         node: "UsersManager",
         code: function () {
             var self = this;
+            console.log("Cautare");
             getUserInfo(this.userId,S(function(err, userInfo){
                 if(err){
                     self.error = err;

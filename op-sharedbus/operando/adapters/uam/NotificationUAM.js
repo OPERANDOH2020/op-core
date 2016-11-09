@@ -23,26 +23,30 @@ var signupNotifications = {
 
     privacy_questionnaire: {
         sender: "WatchDog",
-        title: "Privacy Questionnaire!",
+        title: "Privacy Questionnaire",
         description: "You have not filled the privacy questionnaire yet. Doing so will tailor your social network privacy settings to your preferences.  You can also skip the questionnaire and optimize your social network privacy settings in a single click <br/><a href='#'>Privacy questionnaire</a> <a href='#'>Single click privacy</a>",
         action: ["privacy-questionnaire", "single-click-privacy"],
-        type: "info-notification"
+        type: "info-notification",
+        category:"privacy-questionnaire"
+
     },
 
     identity: {
         sender: "WatchDog",
         title: "Add identity",
-        description: "You have not yet generated alternative email identities. Doing so will enable you to sign up on websites without disclosing your real email.<br/> <a href='#'>Go to email identities.</a>",
-        action: "identity",
-        type: "info-notification"
+        description: "You have not yet generated alternative email identities. Doing so will enable you to sign up on websites without disclosing your real email.<br/> <a href='#'>Go to email identities</a>",
+        action: ["identity"],
+        type: "info-notification",
+        category:"identity"
     },
 
     deals: {
         sender: "WatchDog",
-        title: "Privacy deals!",
+        title: "Privacy deals",
         description: "You have not yet accepted any privacy deals. Privacy deals enable you to trade some of your privacy for valuable benefits.<br/> <a href='#'> Go to deals</a>",
-        action: "privacy-for-benefits",
-        type: "info-notification"
+        action: ["privacy-for-benefits"],
+        type: "info-notification",
+        category:"deals"
     }
 
 }
@@ -63,6 +67,9 @@ apersistence.registerModel("Notification","Redis",{
     type:{
         type: "string",
         index: true
+    },
+    category:{
+        type:"string"
     },
     action:{
         type:"string"
@@ -119,7 +126,7 @@ deleteNotification = function (notificationId, callback) {
 
 
 
-createNotification = function (sender, userId, type, title, description, callback) {
+createNotification = function (sender, userId, type, category, title, description, callback) {
 
     flow.create("Create Notification", {
         begin: function () {
@@ -127,10 +134,10 @@ createNotification = function (sender, userId, type, title, description, callbac
                 callback(new Error('Empty userId'), null);
             }
             else {
-                redisPersistence.lookup("Notification", uuid.v1(), this.continue("createUser"));
+                redisPersistence.lookup("Notification", uuid.v1(), this.continue("createNotification"));
             }
         },
-        createUser: function (err, notification) {
+        createNotification: function (err, notification) {
             if (!redisPersistence.isFresh(notification)) {
                 callback(new Error("notification with identical id " + notification.notificationId + " already exists"), null);
             } else {
@@ -140,6 +147,7 @@ createNotification = function (sender, userId, type, title, description, callbac
                 notification.description    = description;
                 notification.type           = type;
                 notification.action         = action;
+                notification.category       = category;
 
                 redisPersistence.save(notification, callback);
             }
@@ -213,6 +221,64 @@ generateSignupNotifications = function (userId, callback) {
             code:function(){
                 console.log("Generated ", this.notifications.length, " notifications");
                 callback(null, this.notifications);
+            }
+        }
+
+    })();
+};
+
+
+clearIdentityNotifications = function(userId){
+    clearNotification(userId,signupNotifications.identity.category);
+}
+
+clearDealsNotifications = function(userId){
+    clearNotification(userId,signupNotifications.deals.category);
+}
+
+clearPrivacyQuestionnaire = function(userId){
+    clearNotification(userId,signupNotifications.privacy_questionnaire.category);
+}
+
+
+clearNotification = function(userId, category){
+    flow.create("dismissIdentitiesNotifications", {
+
+        begin:function(){
+            if(!userId){
+                console.log(new Error("userId is invalid"));
+            }
+            else{
+                console.log(userId);
+                console.log(signupNotifications.identity.category);
+                redisPersistence.filter("Notification", {forUser: userId, category:category}, this.continue("dismissNotifications"));
+            }
+        },
+        dismissNotifications:function(err,notifications){
+            if(err){
+                console.log(err);
+            }
+            else{
+                var self = this;
+                notifications.forEach(function(notification){
+
+                    var notificationDump = {
+                        notificationId:notification.notificationId,
+                        dismissed:true
+                    }
+                    updateNotification(notificationDump, self.notificationUpdated("end"))
+                })
+            }
+        },
+
+        notificationUpdated:function(){
+
+        },
+
+        end:{
+            join:"notificationUpdated",
+            code:function(){
+                console.log(category +" notifications dismissed");
             }
         }
 
