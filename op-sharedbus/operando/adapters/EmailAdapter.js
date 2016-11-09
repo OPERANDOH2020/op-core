@@ -108,11 +108,16 @@ var transporter = mailer.createTransport(smtpTransport({host:emailHost, port: em
 
 sendEmail = function(from,to,subject,text,callback){
     registerConversation(to,from,function(err,result){
-        transporter.sendMail({
-            "from": from,
-            "to": result+"@privatesky.xyz",
-            "subject": subject,
-            "text": text
-        }, callback)
+        if(err){
+            console.log("Could not register conversation from "+from+" to "+to);
+            callback(err);
+        }else {
+            transporter.sendMail({
+                "from": from,
+                "to": result + "@privatesky.xyz",
+                "subject": subject,
+                "text": text
+            }, callback)
+        }
     })
 };
