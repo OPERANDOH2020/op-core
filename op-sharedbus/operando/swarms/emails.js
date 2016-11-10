@@ -116,9 +116,8 @@ var emailsSwarming = {
                 }
 
                 var user = users[0];
-                user['password'] = newPassword;
-                updateUser(user,S(function(err,result){
-                        delete self['newPassword']
+                changeUserPassword(user.userId,user['password'],newPassword,S(function(err,result){
+                        delete self['newPassword'];
                         if(err){
                             self.error = err;
                             self.home('resetPasswordFailed');

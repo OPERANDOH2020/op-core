@@ -15,6 +15,7 @@ core.createAdapter("UsersManager");
 
 
 var apersistence = require('apersistence');
+const crypto = require('crypto');
 
 
 var container = require("safebox").container;
@@ -69,8 +70,7 @@ apersistence.registerModel("DefaultUser", "Redis", {
         index: true
     },
     userName: {
-        type: "string",
-        pk: true
+        type: "string"
     },
     organisationId: {
         type: "string",
@@ -96,7 +96,7 @@ apersistence.registerModel("DefaultUser", "Redis", {
     },
     email: {
         type: "string",
-        pk: true
+        index:true
     },
     address: {
         type: "string"
@@ -109,6 +109,9 @@ apersistence.registerModel("DefaultUser", "Redis", {
     },
     is_active: {
         type: "boolean"
+    },
+    salt:{
+        type:"string"
     }
 }, function (err, model) {
     if (err) {
@@ -121,23 +124,29 @@ apersistence.registerModel("DefaultUser", "Redis", {
  */
 
 createUser = function (userData, callback) {
-
     flow.create("create user", {
         begin: function () {
             if (!userData.userId) {
                 callback(new Error('Empty userId'), null);
             }
             else {
-                redisPersistence.lookup("DefaultUser", userData.userId, this.continue("createUser"));
+                redisPersistence.lookup("DefaultUser", userData.userId, this.continue("createPassword"));
             }
         },
-        createUser: function (err, user) {
-            if (!redisPersistence.isFresh(user)) {
+        createPassword:function(err,user){
+            if(!redisPersistence.isFresh(user)){
                 callback(new Error("User with identical id " + userData.userId + " already exists"), null);
-            } else {
-                redisPersistence.externalUpdate(user, userData);
-                redisPersistence.save(user, this.continue("createReport"));
+            }else{
+                this.user = user;
+                userData.salt = crypto.randomBytes(48).toString('base64');
+                hashThisPassword(userData.password,userData.salt,this.continue('createUser'));
             }
+        },
+        createUser: function (err, hashedPassword) {
+            userData.password = hashedPassword;
+            console.log("Creating user:",userData);
+            redisPersistence.externalUpdate(this.user, userData);
+            redisPersistence.save(this.user, this.continue("createReport"));
         },
         createReport: function (err, user) {
             if (user.password) {
@@ -146,7 +155,9 @@ createUser = function (userData, callback) {
             callback(err, user);
         }
     })();
-}
+};
+
+
 
 
 
@@ -265,7 +276,6 @@ createOrganisation = function (organisationDump, callback) {
                     redisPersistence.saveObject(organisation, this.continue("createReport"));
                 }
             }
-
         },
         createReport: function (err, organisation) {
             callback(err, organisation);
@@ -360,7 +370,6 @@ newUserIsValid = function (newUser, callback) {
                                 delete user['password'];
                             }
                         }
-
                         callback(err, user);
                     });
                 }
@@ -401,6 +410,7 @@ getUserInfo = function (userId, callback) {
             } else if (user) {
                 if (user.password) {
                     delete user['password'];
+                    delete user['salt'];
                 }
                 callback(null, user);
             }
@@ -408,28 +418,32 @@ getUserInfo = function (userId, callback) {
                 callback(null, null);
             }
         }
-
     })();
 }
 
 validPassword = function (userId, pass, callback) {
-
     flow.create("Validate Password", {
         begin: function () {
             redisPersistence.findById("DefaultUser", userId, this.continue("validatePassword"));
         },
         validatePassword: function (err, user) {
-            if (err) {
+            if (err || !user) {
                 callback(err, null);
             }
-            else if (user && user.password == pass) {
-                callback(null, true);
-            } else {
-                callback(null, false);
+            else{
+                hashThisPassword(pass,user.salt,function(err,hashedPassword){
+                    if(err){
+                        callback(err);
+                    }
+                    else if(hashedPassword===user.password){
+                        callback(null,true);
+                    }else{
+                        callback(null,false);
+                    }
+                })
             }
         }
     })();
-
 }
 
 changeUserPassword = function(userId, currentPassword, newPassword, callback){
@@ -447,17 +461,26 @@ changeUserPassword = function(userId, currentPassword, newPassword, callback){
             }
         },
         validatePassword: function (err, user) {
-            if (err) {
+            var self = this;
+            if (err || ! user) {
                 callback(err, null);
             }
-            else if (user && user.password != currentPassword) {
-                callback(new Error("Your current password does not match our records!"));
+            else{
+                hashThisPassword(currentPassword,user.salt,function(err,hashedPassowrd){
+                    if(hashedPassowrd===user.password){
+                        self.storeNewPassword(user,newPassword);
+                    }else{
+                        callback("The password you provided does not match our records")
+                    }
+                })
             }
-            else {
-                user.password = newPassword;
-                console.log("Am ajuns aici!");
-                redisPersistence.saveObject(user, callback);
-            }
+        },
+        storeNewPassword:function(user,newPassword){
+            user.salt = crypto.randomBytes(48).toString('base64');
+            hashThisPassword(newPassword,user.salt,function(err,hashedPassword){
+                user.password = hashedPassword;
+                redisPersistence.saveObject(user,callback);
+            });
         }
     })();
 }
@@ -503,7 +526,7 @@ function bootSystem() {
             else {
                 createUser({
                     userId: "guest",
-                    "password": "guest",
+                    password: "guest",
                     userName: "Guest User",
                     organisationId: organisation.organisationId
                 }, saveCallbackFn);
@@ -524,7 +547,7 @@ function bootSystem() {
             else{
                 createUser({
                     userId: "analyst",
-                    password: hashThisPassword("analyst"),
+                    password: "analyst",
                     email:"analyst@rms.ro",
                     userName: "Analyst Guru",
                     organisationId: organisation.organisationId
@@ -535,11 +558,16 @@ function bootSystem() {
     })();
 }
 
-function hashThisPassword(password){
-    //TODO choose encryption method
-    return password;
+function hashThisPassword(plainPassword,salt,callback){
+    return crypto.pbkdf2(plainPassword, salt, 100000, 512, 'sha512',function(err,res){
+        if(err){
+            callback(err)
+        }
+        else{
+            callback(undefined,res.toString('base64'));
+        }
+    });
 }
-
 
 container.declareDependency("UsersManagerAdapter", ["redisPersistence"], function (outOfService, redisPersistence) {
     if (!outOfService) {
@@ -548,5 +576,4 @@ container.declareDependency("UsersManagerAdapter", ["redisPersistence"], functio
     } else {
         console.log("Disabling persistence...");
     }
-})
-
+});
