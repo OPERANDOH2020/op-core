@@ -32,18 +32,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
-
-
 public class UserPrivacyPolicy   {
-  
+
   private String userId = null;
   private List<UserPreference> userPreferences = new ArrayList<UserPreference>();
   private List<OSPConsents> subscribedOspPolicies = new ArrayList<OSPConsents>();
   private List<OSPSettings> subscribedOspSettings = new ArrayList<OSPSettings>();
 
-  
   /**
    * The unique operando id of the user this policy is about. Each OPERANDO user has one and only one UPP.
    **/
@@ -52,7 +47,6 @@ public class UserPrivacyPolicy   {
     return this;
   }
 
-  
   @ApiModelProperty(value = "The unique operando id of the user this policy is about. Each OPERANDO user has one and only one UPP.")
   @JsonProperty("user_id")
   public String getUserId() {
@@ -62,7 +56,6 @@ public class UserPrivacyPolicy   {
     this.userId = userId;
   }
 
-  
   /**
    * User stated preferences (questionnaire answers)
    **/
@@ -71,7 +64,6 @@ public class UserPrivacyPolicy   {
     return this;
   }
 
-  
   @ApiModelProperty(value = "User stated preferences (questionnaire answers)")
   @JsonProperty("user_preferences")
   public List<UserPreference> getUserPreferences() {
@@ -81,7 +73,7 @@ public class UserPrivacyPolicy   {
     this.userPreferences = userPreferences;
   }
 
-  
+
   /**
    * The user policies for each OSP they subscribe to.
    **/
@@ -90,7 +82,6 @@ public class UserPrivacyPolicy   {
     return this;
   }
 
-  
   @ApiModelProperty(value = "The user policies for each OSP they subscribe to.")
   @JsonProperty("subscribed_osp_policies")
   public List<OSPConsents> getSubscribedOspPolicies() {
@@ -100,7 +91,7 @@ public class UserPrivacyPolicy   {
     this.subscribedOspPolicies = subscribedOspPolicies;
   }
 
-  
+
   /**
    * The user settings for each of their services
    **/
@@ -109,7 +100,7 @@ public class UserPrivacyPolicy   {
     return this;
   }
 
-  
+
   @ApiModelProperty(value = "The user settings for each of their services")
   @JsonProperty("subscribed_osp_settings")
   public List<OSPSettings> getSubscribedOspSettings() {
@@ -119,7 +110,7 @@ public class UserPrivacyPolicy   {
     this.subscribedOspSettings = subscribedOspSettings;
   }
 
-  
+
 
   @Override
   public boolean equals(Object o) {
@@ -145,7 +136,7 @@ public class UserPrivacyPolicy   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class UserPrivacyPolicy {\n");
-    
+
     sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
     sb.append("    userPreferences: ").append(toIndentedString(userPreferences)).append("\n");
     sb.append("    subscribedOspPolicies: ").append(toIndentedString(subscribedOspPolicies)).append("\n");

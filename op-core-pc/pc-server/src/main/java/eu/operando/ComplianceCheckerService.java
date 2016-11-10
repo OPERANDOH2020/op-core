@@ -24,40 +24,34 @@
 //  License : GNU Lesser General Public License, version 3
 //
 /////////////////////////////////////////////////////////////////////////
+package eu.operando;
 
-package io.swagger.api.impl;
-
-import io.swagger.api.*;
-import java.math.BigDecimal;
-import io.swagger.model.PrivacyRegulation;
-
-import java.util.List;
 import io.swagger.api.NotFoundException;
+import io.swagger.model.OSPReasonPolicy;
 
+/**
+ * Core implementation of compliance check functionality.
+ * Essentially, checking that a given OSP privacy policy in terms of
+ * statements about usage of data is in line with the relevant privacy
+ * regulations.
 
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
+ */
+public class ComplianceCheckerService {
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-06-27T09:46:42.374Z")
-public class RegulationsApiServiceImpl extends RegulationsApiService {
+    public ComplianceCheckerService() {
 
+    }
     /**
-     * Called by the OSE to create a compliance check for a given
-     * @param regId
-     * @param securityContext
+     *
+     * @param reg_id
+     * @param PDB_URL
      * @return
      * @throws NotFoundException
      */
-    @Override
-    public Response regulationsRegIdPost(BigDecimal regId, SecurityContext securityContext)
-    throws NotFoundException {
-        // do some magic!
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
-    }
-    @Override
-    public Response regulationsRegIdPut(BigDecimal regId, List<PrivacyRegulation> regulation, SecurityContext securityContext)
-    throws NotFoundException {
-        // do some magic!
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    public String ospComplianceCheck(String reg_id, OSPReasonPolicy ospRequest, String PDB_URL, PolicyEvaluationService policyService)
+        throws NotFoundException {
+
+        return null;
+
     }
 }

@@ -17,13 +17,13 @@
 // PURPOSE, except where stated in the Licence Agreement supplied with
 // the software.
 //
-//      Created By :            Panos Melas
-//      Created Date :          2016-04-28
+//      Created By :            Panos Melas/Paul Grace
+//      Created Date :          2016-10-28
 //      Created for Project :   OPERANDO
 //
 /////////////////////////////////////////////////////////////////////////
 
-package eu.operando.core.pdb;
+package eu.operando.core.udb;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -34,7 +34,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoException;
 import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
-import io.swagger.model.UserPrivacyPolicy;
+import io.swagger.model.UserAccount;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -50,57 +50,68 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 
 /**
+ * Set of Mongo operations to update and manage the user accounts in
+ * the Mongo database.
  *
- * @author sysman
+ * The user account information is stored in a mongo collection called 'udb'
  */
-public class UPPMongo {
+public class UserAccountMongo {
 
     private MongoClient mongo;
-    private UserPrivacyPolicy upp;
     private DB db;
-    private DBCollection uppTable;
+    private DBCollection userTable;
 
-    public UPPMongo() {
+    /**
+     * Set up the client interactions with the UDB collection in the mongo
+     * database.
+     */
+    public UserAccountMongo() {
         try {
             this.mongo = new MongoClient("localhost", 27017);
-            
+
             // get database
-            this.db = mongo.getDB("pdb");
+            this.db = mongo.getDB("udb");
 
             // get collection
-            this.uppTable = db.getCollection("upp");
-            System.out.println(this.uppTable.toString());
+            this.userTable = db.getCollection("users");
 
-            this.upp = new UserPrivacyPolicy();
-            //} catch (UnknownHostException e) {
-            //  e.printStackTrace();
         } catch (MongoException e) {
             e.printStackTrace();
         }
     }
 
-    public boolean deleteUPPById(String uppId) {
+    /**
+     * Remove a user account from the 'udb' collection.
+     * @param userId the operando user id
+     * @return whether the user account object was deleted from the collection.
+     */
+    public boolean deleteUserById(String userId) {
         boolean res = false;
         BasicDBObject searchQuery = new BasicDBObject();
         try {
-            searchQuery.put("userId", uppId);
+            searchQuery.put("userid", userId);
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
             return res;
         }
 
-        DBObject result = this.uppTable.findOne(searchQuery);
+        DBObject result = this.userTable.findOne(searchQuery);
 
         if (result == null) {
             res = false;
         } else {
-            this.uppTable.remove(result);
+            this.userTable.remove(result);
             res = true;
         }
         return res;
     }
 
-    public String getUPPByFilter(String filter) {
+    /**
+     * Search the collection of users with a given json fileter and return
+     * a JSON list of the results.
+     * @param filter the query in json format.
+     * @return A list of json objects that match the query. This is a single json document of this result.
+     */
+    public String getUserByFilter(String filter) {
         String result = null;
         BasicDBObject query = new BasicDBObject();
 
@@ -111,23 +122,26 @@ public class UPPMongo {
             Iterator<String> keys = obj.keys();
             while (keys.hasNext()) {
                 String key = keys.next();
-                System.out.println("found key " + key);
-                System.out.println("value " + obj.getString(key));
                 query.put(key, java.util.regex.Pattern.compile(obj.getString(key)));
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            return null;
         }
 
         System.out.println("Query: " + query.toString());
 
-        List<UserPrivacyPolicy> arrUPPObj = new ArrayList<UserPrivacyPolicy>();
+        List<UserAccount> arrUPPObj = new ArrayList<>();
 
-        DBCursor cursor = this.uppTable.find(query);
+        DBCursor cursor = this.userTable.find(query);
+        boolean found = false;
         while (cursor.hasNext()) {
             BasicDBObject regObj = (BasicDBObject) cursor.next();
-            System.out.println("Adding result " + regObj.toString());
-            arrUPPObj.add(getUPP(regObj));
+            arrUPPObj.add(getUser(regObj));
+            found = true;
+        }
+
+        if (!found) {
+            return null;
         }
 
         try {
@@ -137,9 +151,9 @@ public class UPPMongo {
 
             result = mapper.writeValueAsString(arrUPPObj);
         } catch (JsonMappingException e) {
-            e.printStackTrace();
+            result = null;
         } catch (IOException e) {
-            e.printStackTrace();
+            result = null;
         }
 
         System.out.println("getUPPByFilter RESULT (list): " + result);
@@ -147,42 +161,46 @@ public class UPPMongo {
         return result;
     }
 
-    private UserPrivacyPolicy getUPP(DBObject regObj) {
+    /**
+     * Get a user object from the database.
+     * @param regObj The object to retrieve
+     * @return The user account object in java object format.
+     */
+    private UserAccount getUser(DBObject regObj) {
         //System.out.println("regObj: " + regObj.toString());
-        UserPrivacyPolicy prObj = null;
+        UserAccount prObj = null;
         try {
-
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            prObj = mapper.readValue(regObj.toString(), UserPrivacyPolicy.class);
-            //System.out.println("prObj: " + prObj.toString());
+            prObj = mapper.readValue(regObj.toString(), UserAccount.class);
 
         } catch (JsonGenerationException e) {
-            e.printStackTrace();
         } catch (JsonMappingException e) {
-            e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
         }
         return prObj;
     }
 
-    public String getUPPById(String uppId) {
-        UserPrivacyPolicy uppObj;
+    /**
+     * Retrieve a user account from the database using the operando id.
+     * @param userId The unique Operando ID.
+     * @return The json version of the user account object.
+     */
+    public String getUserById(String userId) {
+        UserAccount uppObj;
         String jsonInString = null;
 
         // find
         BasicDBObject searchQuery = new BasicDBObject();
         try {
-            searchQuery.put("userId", uppId);
+            searchQuery.put("userid", userId);
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
             return jsonInString;
         }
 
-        DBObject result = this.uppTable.findOne(searchQuery);
+        DBObject result = this.userTable.findOne(searchQuery);
         if (result != null) {
-            uppObj = getUPP(result);
+            uppObj = getUser(result);
             try {
                 ObjectMapper mapper = new ObjectMapper();
                 mapper.getSerializationConfig().enable(SerializationConfig.Feature.WRITE_ENUMS_USING_TO_STRING);
@@ -190,69 +208,79 @@ public class UPPMongo {
 
                 jsonInString = mapper.writeValueAsString(uppObj);
             } catch (JsonMappingException e) {
-                e.printStackTrace();
             } catch (IOException e) {
-                e.printStackTrace();
             }
 
         }
         return jsonInString;
     }
 
-    public boolean updateUPP(String regId, UserPrivacyPolicy upp) {
+    /**
+     * Update the user account information in the object in the collection.
+     * @param userId The id of the user
+     * @param userAcc The updated account information.
+     * @return Whether the object was updated or not.
+     */
+    public boolean updateUser(String userId, UserAccount userAcc) {
         boolean result = false;
         //upp.setUserPolicyID(regId);
         try {
             ObjectMapper mapper = new ObjectMapper();
-            String jsonInString = mapper.writeValueAsString(upp);
+            String jsonInString = mapper.writeValueAsString(userAcc);
             Object obj = JSON.parse(jsonInString);
             DBObject document = (DBObject) obj;
 
             BasicDBObject searchQuery;
             try {
-                searchQuery = new BasicDBObject().append("_id", new ObjectId(regId));
+                searchQuery = new BasicDBObject();
+                searchQuery.put("userid", userId);
             } catch (IllegalArgumentException e) {
                 e.printStackTrace();
                 return result;
             }
-
-            WriteResult wr = uppTable.update(searchQuery, document);
-
+            WriteResult wr = userTable.update(searchQuery, document);
             result = wr.isUpdateOfExisting();
 
         } catch (JsonGenerationException e) {
-            e.printStackTrace();
+            result = false;
         } catch (JsonMappingException e) {
-            e.printStackTrace();
+            result = false;
         } catch (IOException e) {
-            e.printStackTrace();
+            result = false;
         }
         return result;
     }
 
-    public String storeUPP(UserPrivacyPolicy upp) {
+    /**
+     * Store a new user account in the collection.
+     * @param userAcc The user to add
+     * @return Error message
+     */
+    public String storeUser(UserAccount userAcc) {
         String result = null;
-        //upp.setUserPolicyID(uppId);
+
         try {
             ObjectMapper mapper = new ObjectMapper();
-            String jsonInString = mapper.writeValueAsString(upp);
+            String jsonInString = mapper.writeValueAsString(userAcc);
             Object obj = JSON.parse(jsonInString);
             DBObject document = (DBObject) obj;
-
-            uppTable.insert(document);
+            result = getUserByFilter("{\"userid\": \"" + document.get("userid") + "\"}");
+            if (result != null) {
+                return null;
+            }
+            userTable.insert(document);
             ObjectId id = (ObjectId) document.get("_id");
-            System.out.println("stored upp in " + id.toString() + document.get("userId"));
-            result = getUPPById(document.get("userId").toString());
+            System.out.println("stored user in " + id.toString() + document.get("userid"));
+            result = getUserById(document.get("userid").toString());
 
         } catch (MongoException e) {
             result = null;
-            e.printStackTrace();
         } catch (JsonGenerationException e) {
-            e.printStackTrace();
+            result = null;
         } catch (JsonMappingException e) {
-            e.printStackTrace();
+            result = null;
         } catch (IOException e) {
-            e.printStackTrace();
+            result = null;
         }
         return result;
     }

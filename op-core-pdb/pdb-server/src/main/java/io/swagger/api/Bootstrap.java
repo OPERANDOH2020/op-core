@@ -3,7 +3,6 @@ package io.swagger.api;
 import io.swagger.jaxrs.config.SwaggerContextService;
 import io.swagger.models.*;
 
-import io.swagger.models.auth.*;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.ServletContext;

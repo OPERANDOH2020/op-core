@@ -153,6 +153,7 @@ public class PolicyEvaluationService {
     public PolicyEvaluationReport evaluate(String ospId, String userId, List<OSPDataRequest> ospRequest, String pdbURL) throws NotFoundException {
 
         try {
+
             System.out.println("New Evaluation Request");
             System.out.println("--------------------------------------------------");
             System.out.println("Evaluating User Policy: " + userId);
@@ -180,7 +181,7 @@ public class PolicyEvaluationService {
                  * Get the UPP from the PDB.
                  */
                 CloseableHttpClient httpclient = HttpClients.createDefault();
-                HttpGet httpget = new HttpGet(pdbURL + userId);
+                HttpGet httpget = new HttpGet(pdbURL + "/user_privacy_policy/"+userId);
                 CloseableHttpResponse response1 = httpclient.execute(httpget);
 
                 /**
