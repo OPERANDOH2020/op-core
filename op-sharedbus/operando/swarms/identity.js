@@ -16,7 +16,7 @@ var identitySwarming = {
     },
 
     vars: {
-        error:{}
+        error:{},
     },
 
     start: function () {
@@ -55,7 +55,6 @@ var identitySwarming = {
 
 
     removeIdentity: function(identity){
-
         if (identity) {
             this.identity = identity;
             this.action = "deleteIdentity";
@@ -129,13 +128,13 @@ var identitySwarming = {
         code: function () {
             var self = this;
             self.identity['userId'] = this.meta.userId;
-            deleteIdentity(self.identity, S(function (err, identity) {
+            deleteIdentity(self.identity, S(function (err, defaultIdentity) {
                 if (err) {
                     self.error.message = err.message;
                     self.swarm("error");
                 }
                 else {
-                    self.identity = identity;
+                    self.default_identity = defaultIdentity;
                     self.swarm("success");
                 }
             }));

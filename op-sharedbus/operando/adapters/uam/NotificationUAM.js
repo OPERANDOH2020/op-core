@@ -266,7 +266,7 @@ clearNotification = function(userId, category){
                         notificationId:notification.notificationId,
                         dismissed:true
                     }
-                    updateNotification(notificationDump, self.notificationUpdated("end"))
+                    updateNotification(notificationDump, self.continue("notificationUpdated"));
                 })
             }
         },

@@ -25,12 +25,12 @@ var loginSwarming = {
         sessionId: null,
         userId: null
     },
-    userLogin: function (userId, authorisationToken) {
-        console.log(userId);
+    userLogin: function (email, authorisationToken) {
+        console.log(email);
         this.sessionId = this.getSessionId();
             this.authenticated = false;
-            this.userId = userId;
-            if (!userId||userId.length === 0) {
+            this.email = email;
+            if (!email||email.length === 0) {
                 this.swarm('failed', this.getEntryAdapter());
                 return;
             }
@@ -42,18 +42,19 @@ var loginSwarming = {
         checkPassword: {
             node: "UsersManager",
             code: function () {
-
-            var valid = validPassword.async(this.userId, this.authorisationToken);
+            var userId = validPassword.async(this.email, this.authorisationToken);
             var self = this;
-            (function (valid) {
-                if (valid) {
+            (function (userId) {
+                if (userId) {
+
+                    self.userId = userId;
                     self.authenticated = true;
                     self.swarm("createOrUpdateSession");
 
                 } else {
                     self.swarm("failed", self.getEntryAdapter());
                 }
-            }).swait(valid);
+            }).swait(userId);
         }
     },
 
@@ -81,6 +82,7 @@ var loginSwarming = {
     },
 
     restoreSession: function (userId, clientSessionId) {
+        console.log(this.meta.sessionId, clientSessionId);
         if (clientSessionId == null || clientSessionId == undefined) {
             this.home("restoreFailed");
         }
@@ -122,7 +124,6 @@ var loginSwarming = {
                     }
                 }));
             }
-
 
         }
     }
@@ -175,6 +176,8 @@ var loginSwarming = {
     enableSwarms: {   //phase that is never executed... given as documentation
         node: "EntryPoint",
         code: function () {
+            console.log("swarms enabled",this.userId);
+            this.meta.userId = this.userId;
             var outlet = sessionsRegistry.getTemporarily(this.meta.outletId);
             sessionsRegistry.registerOutlet(outlet);
             enableOutlet(this);
@@ -214,7 +217,6 @@ var loginSwarming = {
                     self.swarm("enableSwarms", self.getEntryAdapter());
                 }
             }));
-
         }
     }
 };
