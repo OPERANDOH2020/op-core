@@ -1,0 +1,73 @@
+{
+    "osp_policy_id": "0",
+    "policy_text": "DEMO OSP",
+    "policy_url": "http://my.demo.osp",
+    "workflow": [
+    {
+        "requester_id": "my requester id",
+        "subject": "my example subject",
+        "requested_url": "my requested URL",
+        "action": "Access",
+        "attributes": [
+        {
+            "attribute_name": "my attribute name",
+            "attribute_value": "my attribute value"
+        },
+        {
+            "attribute_name": "my attribute nameA",
+            "attribute_value": "my attribute valueA"
+        }
+        ]
+    },
+    {
+        "requester_id": "my second requester id",
+        "subject": "my second example subject",
+        "requested_url": "my second requested URL",
+        "action": "Collect",
+        "attributes": [
+        {
+            "attribute_name": "my second attribute name",
+            "attribute_value": "my second attribute value"
+        },
+        {
+            "attribute_name": "my second attribute nameA",
+            "attribute_value": "my second attribute valueA"
+        }
+        ]
+    }
+    ],
+        "policies": [
+        {
+            "subject": "Accountant",
+            "permission": "True",
+            "action": "Use",
+            "resource": "Invoice Acc1",
+            "attributes": [
+            {
+                "attribute_name": "my attribute name",
+                "attribute_value": "my attribute value"
+            },
+            {
+                "attribute_name": "my attribute nameA",
+                "attribute_value": "my attribute valueA"
+            }
+            ]
+        },
+        {
+            "subject": "Secretary",
+            "permission": "False",
+            "action": "Disclose",
+            "resource": "Employee Personal Info",
+            "attributes": [
+            {
+                "attribute_name": "my sec attribute name",
+                "attribute_value": "my sec attribute value"
+            },
+            {
+                "attribute_name": "my sec attribute nameA",
+                "attribute_value": "my sec attribute valueA"
+            }
+            ]
+        }
+    ]
+}
