@@ -246,7 +246,7 @@
         <docker.repository.name>${docker.registry.name}tecnalia/eu.operando.core.pc.server</docker.repository.name>
         <docker.logdb.port>8095</docker.logdb.port>
  	    <user.warName>operando#core#pc</user.warName>
- 	    <pdb.baseurl>http://localhost:8080/pdb-server/pdb/user_privacy_policy/</pdb.baseurl>
+ 	    <pdb.baseurl>http://localhost:8080/pdb-server/pdb/</pdb.baseurl>
 	    <packaging.type>jar</packaging.type>
         <!-- end of addition -->
     <maven.compiler.source>1.7</maven.compiler.source>

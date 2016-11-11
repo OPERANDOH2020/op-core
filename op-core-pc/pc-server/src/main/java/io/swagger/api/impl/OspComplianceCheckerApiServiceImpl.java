@@ -27,17 +27,18 @@
 package io.swagger.api.impl;
 
 import io.swagger.api.*;
+
+import io.swagger.model.OSPReasonPolicy;
 import io.swagger.api.NotFoundException;
 
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-06-27T09:46:42.374Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-11-07T12:10:42.971Z")
 public class OspComplianceCheckerApiServiceImpl extends OspComplianceCheckerApiService {
     @Override
-    public Response ospComplianceCheckerPost(String ospId, Object ospRequest, SecurityContext securityContext)
-    throws NotFoundException {
+    public Response ospComplianceCheckerPost(String ospId, String regId, OSPReasonPolicy ospRequest, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }

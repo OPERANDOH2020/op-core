@@ -1,11 +1,11 @@
 {
-    "user_id": "user2",
+    "user_id": "demo_user2",
     "user_preferences": [{
         "information_type": "/contact_information",
         "category": "Medical",
         "preference": "9",
         "role": "health_care_professional",
-        "action": "ACCESS",
+        "action": "Access",
         "purpose": "Primary Care",
         "recipient": "none"
     }, 
@@ -14,7 +14,7 @@
         "category": "Medical",
         "preference": "9",
         "role": "health_care_professional",
-        "action": "ACCESS",
+        "action": "Access",
         "purpose": "Primary Care",
         "recipient": "none"
     },
@@ -23,7 +23,7 @@
         "category": "Medical",
         "preference": "8",
         "role": "other",
-        "action": "ACCESS",
+        "action": "Access",
         "purpose": "Primary Care",
         "recipient": "none"
     },{
@@ -31,7 +31,7 @@
         "category": "Medical",
         "preference": "8",
         "role": "health_care_professional",
-        "action": "ACCESS",
+        "action": "Access",
         "purpose": "Primary Care",
         "recipient": "none"
     }, {
@@ -39,7 +39,7 @@
         "category": "Medical",
         "preference": "8",
         "role": "health_care_professional",
-        "action": "ACCESS",
+        "action": "Access",
         "purpose": "Primary Care",
         "recipient": "none"
     }],
@@ -48,7 +48,7 @@
         "access_policies": [{
             "subject": "doctor",
             "permission": "true",
-            "action": "ACCESS",
+            "action": "Access",
             "resource": "/personal_information/gender",
             "attributes": [{
                 "attribute_name": "policy attribute name1",

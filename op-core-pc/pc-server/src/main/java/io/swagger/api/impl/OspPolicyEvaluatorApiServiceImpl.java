@@ -116,7 +116,7 @@ public class OspPolicyEvaluatorApiServiceImpl extends OspPolicyEvaluatorApiServi
     public Response ospPolicyEvaluatorPost(String userId, String ospId, List<OSPDataRequest> ospRequest, SecurityContext securityContext)
             throws NotFoundException {
             System.out.println("POST Called"+userId);
-            PolicyEvaluationReport rp = policyService.evaluate(ospId, userId, ospRequest, PDB_BASEURL);
+            PolicyEvaluationReport rp = policyService.evaluate(ospId, userId, ospRequest, PDB_BASEURL+"/user_privacy_policy/");
             return Response.ok(rp.toString(), MediaType.APPLICATION_JSON).build();
     }
 }

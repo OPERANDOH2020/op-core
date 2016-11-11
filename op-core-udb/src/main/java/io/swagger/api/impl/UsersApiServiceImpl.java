@@ -17,52 +17,34 @@
 // PURPOSE, except where stated in the Licence Agreement supplied with
 // the software.
 //
-//      Created By :            Panos Melas
-//      Created Date :          2016-04-28
+//      Created By :            Panos Melas/Paul Grace
+//      Created Date :          2016-10-28
 //      Created for Project :   OPERANDO
 //
 /////////////////////////////////////////////////////////////////////////
 
 package io.swagger.api.impl;
 
+import eu.operando.core.udb.UserAccountMongo;
 import io.swagger.api.*;
 
-import io.swagger.model.UserPrivacyPolicy;
+import io.swagger.model.UserAccount;
 
 import io.swagger.api.NotFoundException;
 
-import eu.operando.core.pdb.UPPMongo;
 import javax.ws.rs.core.MediaType;
+
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-
-public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService {
-
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-11-09T15:56:18.842Z")
+public class UsersApiServiceImpl extends UsersApiService {
     @Override
-    public Response userPrivacyPolicyGet(String filter, SecurityContext securityContext)
-    throws NotFoundException {
-        // do some magic!
-           System.out.println("upp get " + filter);
-        UPPMongo uppMongo = new UPPMongo();
-        String getString = uppMongo.getUPPByFilter(filter);
-        if(getString == null){
-            return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
-                   "Error - the user does not exist")).build();
-        }
+    public Response usersPost(UserAccount user, SecurityContext securityContext) throws NotFoundException {
 
-        //return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, getString)).build();
-        return Response.ok(getString, MediaType.APPLICATION_JSON).build();
-    }
-
-    @Override
-    public Response userPrivacyPolicyPost(UserPrivacyPolicy upp, SecurityContext securityContext)
-    throws NotFoundException {
-        // do some magic!
-        //System.out.println("UPP:" + upp.toString());
-        UPPMongo uppMongo = new UPPMongo();
-        String storeAction = uppMongo.storeUPP(upp);
+        UserAccountMongo uppMongo = new UserAccountMongo();
+        String storeAction = uppMongo.storeUser(user);
         if(storeAction == null) {
             return Response.status(405).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                    "Error. The document (UPP) at this id has previously been created in the database.")).build();
@@ -70,14 +52,10 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
         return Response.status(Response.Status.CREATED).entity(new ApiResponseMessage(ApiResponseMessage.OK,
                 storeAction)).build();
     }
-
     @Override
-    public Response userPrivacyPolicyUserIdDelete(String userId, SecurityContext securityContext)
-    throws NotFoundException {
-        // do some magic!
-
-        UPPMongo uppMongo = new UPPMongo();
-        boolean delAction = uppMongo.deleteUPPById(userId);
+    public Response usersUserIdDelete(String userId, SecurityContext securityContext) throws NotFoundException {
+        UserAccountMongo uppMongo = new UserAccountMongo();
+        boolean delAction = uppMongo.deleteUserById(userId);
         if (!delAction) {
             System.out.println("cannot delete UPP " + userId);
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -87,31 +65,23 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
         return Response.status(Response.Status.NO_CONTENT).entity(new ApiResponseMessage(ApiResponseMessage.OK,
                 "The document (UPP) was successfully deleted from the database.")).build();
     }
-
     @Override
-    public Response userPrivacyPolicyUserIdGet(String userId, SecurityContext securityContext)
-    throws NotFoundException {
+    public Response usersUserIdGet(String userId, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
-
         System.out.println("upp get " + userId);
-        UPPMongo uppMongo = new UPPMongo();
-        String getString = uppMongo.getUPPById(userId);
+        UserAccountMongo uppMongo = new UserAccountMongo();
+        String getString = uppMongo.getUserByFilter("{\"userid\": \"" +userId +"\"}");
         if(getString == null){
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                    "Error - the user does not exist")).build();
         }
-
         //return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, getString)).build();
         return Response.ok(getString, MediaType.APPLICATION_JSON).build();
     }
-
     @Override
-    public Response userPrivacyPolicyUserIdPut(String userId, UserPrivacyPolicy upp, SecurityContext securityContext)
-    throws NotFoundException {
-        // do some magic!
-
-        UPPMongo uppMongo = new UPPMongo();
-        boolean updateAction = uppMongo.updateUPP(userId, upp);
+    public Response usersUserIdPut(String userId, UserAccount upp, SecurityContext securityContext) throws NotFoundException {
+        UserAccountMongo uppMongo = new UserAccountMongo();
+        boolean updateAction = uppMongo.updateUser(userId, upp);
         if(!updateAction){
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                    "Error. No document exists to be updated.")).build();
@@ -120,5 +90,4 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
         return Response.status(Response.Status.NO_CONTENT).entity(new ApiResponseMessage(ApiResponseMessage.OK,
                 "The document (UPP) was successfully updated in the database.")).build();
     }
-
 }
