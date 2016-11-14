@@ -178,7 +178,6 @@ updateUser = function (userJsonObj, callback) {
                     callback(new Error("User with id " + userJsonObj.userId + " does not exist"), null);
                 }
                 else {
-                    redisPersistence.delete(user);
                     redisPersistence.externalUpdate(user, userJsonObj);
                     redisPersistence.saveObject(user, this.continue("updateReport"));
                 }
@@ -365,7 +364,7 @@ getUserInfo = function (userId, callback) {
     })();
 }
 
-validPassword = function (email, pass, callback) {
+validatePassword = function (email, pass, callback) {
     flow.create("Validate Password", {
         begin: function () {
             redisPersistence.filter("DefaultUser", {email: email}, this.continue("validatePassword"));
@@ -390,8 +389,7 @@ validPassword = function (email, pass, callback) {
             }
 
             else {
-                var err = new Error("Invalid email");
-                callback(err, null);
+                callback( new Error("Invalid credentials"), null);
             }
         }
     })();

@@ -30,7 +30,6 @@ var signupNotifications = {
         category:"privacy-questionnaire"
 
     },
-
     identity: {
         sender: "WatchDog",
         title: "Add identity",

@@ -57,6 +57,7 @@ var userInfoSwarming =
     },
 
     updateUserInfo:function(updatedInfo){
+        console.log(updatedInfo);
         this.updatedInfo = updatedInfo;
         this.swarm("updateUserAccount");
     },

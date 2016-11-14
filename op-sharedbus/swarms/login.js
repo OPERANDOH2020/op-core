@@ -28,33 +28,33 @@ var loginSwarming = {
     userLogin: function (email, authorisationToken) {
         console.log(email);
         this.sessionId = this.getSessionId();
-            this.authenticated = false;
-            this.email = email;
-            if (!email||email.length === 0) {
-                this.swarm('failed', this.getEntryAdapter());
-                return;
-            }
-            this.authorisationToken = authorisationToken;
-            this.clientAdapter = thisAdapter.nodeName;
-            this.swarm('checkPassword');
+        this.authenticated = false;
+        this.email = email;
+        if (!email || email.length === 0) {
+            this.swarm('failed', this.getEntryAdapter());
+            return;
+        }
+        this.authorisationToken = authorisationToken;
+        this.clientAdapter = thisAdapter.nodeName;
+        this.swarm('checkPassword');
 
-        },
-        checkPassword: {
-            node: "UsersManager",
-            code: function () {
-            var userId = validPassword.async(this.email, this.authorisationToken);
+    },
+    checkPassword: {
+        node: "UsersManager",
+        code: function () {
             var self = this;
-            (function (userId) {
-                if (userId) {
+            validatePassword(this.email, this.authorisationToken, S(function (err, userId) {
 
+                if (err) {
+                    self.swarm("failed", self.getEntryAdapter());
+                }
+                else if (userId) {
+                    console.log(userId);
                     self.userId = userId;
                     self.authenticated = true;
                     self.swarm("createOrUpdateSession");
-
-                } else {
-                    self.swarm("failed", self.getEntryAdapter());
                 }
-            }).swait(userId);
+            }));
         }
     },
 
