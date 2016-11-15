@@ -74,7 +74,7 @@ apersistence.registerModel("DefaultUser", "Redis", {
     },
     organisationId: {
         type: "string",
-        index: "true"
+        index: true
     },
     password: {
         type: "string"
@@ -144,7 +144,6 @@ createUser = function (userData, callback) {
         },
         createUser: function (err, hashedPassword) {
             userData.password = hashedPassword;
-            console.log("Creating user:",userData);
             redisPersistence.externalUpdate(this.user, userData);
             redisPersistence.save(this.user, this.continue("createReport"));
         },
@@ -218,8 +217,12 @@ updateUser = function (userJsonObj, callback) {
                     callback(new Error("User with id " + userJsonObj.userId + " does not exist"), null);
                 }
                 else {
-                    redisPersistence.delete(user);
-                    redisPersistence.externalUpdate(user, userJsonObj);
+                    //redisPersistence.delete(user);
+                    //redisPersistence.externalUpdate(user, userJsonObj);
+
+                    for(var field in userJsonObj){
+                        user[field] = userJsonObj[field];
+                    }
                     redisPersistence.saveObject(user, this.continue("updateReport"));
                 }
             }
@@ -577,3 +580,7 @@ container.declareDependency("UsersManagerAdapter", ["redisPersistence"], functio
         console.log("Disabling persistence...");
     }
 });
+
+setTimeout(function(){
+    updateUser({userId:"admin",organisationId:"Public"},console.log)
+},2000);

@@ -30,7 +30,8 @@ apersistence.registerModel("Identity", "Redis", {
         },
         isDefault:{
             type: "boolean",
-            default: false
+            default: false,
+            index:true
         },
         isReal:{
             type: "boolean",
@@ -50,7 +51,7 @@ container.declareDependency("IdentityManager", ["redisPersistence"], function (o
     } else {
         console.log("Disabling persistence...");
     }
-})
+});
 
 
 createIdentity = function (identityData, callback) {
@@ -142,7 +143,6 @@ getIdentities = function (userId, callback) {
 };
 
 setDefaultIdentity = function(identity, callback){
-
     flow.create("set default identity",{
         begin:function(){
             if(!identity){
@@ -155,6 +155,7 @@ setDefaultIdentity = function(identity, callback){
 
         clearCurrentDefaultIdentity:function(err, identities){
             var self = this;
+            console.log(identities);
             if(identities.length>0){
                 identities.forEach(function(_identity, index){
                     _identity.isDefault = false;
@@ -214,7 +215,7 @@ setRealIdentity = function(user, callback){
         }
 
     })();
-}
+};
 
 getUserId = function(proxyEmail,callback){
     redisPersistence.findById("Identity",proxyEmail,function(err,result){
