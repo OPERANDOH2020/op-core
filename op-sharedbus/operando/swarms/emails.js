@@ -44,10 +44,14 @@ var emailsSwarming = {
             var self = this;
             console.log("Getting conversation "+self.conversationUUID);
             getConversation(self.conversationUUID,S(function(err,requestedConversation){
-                if(err){
+                if(err ){
                     self.error = err;
                     self.home("Failed")
-                }else{
+                }else if (!requestedConversation.sender || !requestedConversation.receiver){
+                    self.error = new Error("Conversation "+self.conversationUUID+" does not exist");
+                    self.home("Failed")
+                } else
+                {
                     self.conversation = requestedConversation;
                     self.swarm('getEmailsForConversation');
                 }
@@ -143,6 +147,7 @@ var emailsSwarming = {
             var self = this;
             console.log("Change password");
             filterUsers({"email":self.email},S(function(err,users){
+                console.log(arguments);
                 if(err){
                     self.error = err;
                     self.home('resetPasswordFailed');
@@ -152,6 +157,7 @@ var emailsSwarming = {
                 }else {
                     var user = users[0];
                     changeUserPassword(user.userId, user['password'], newPassword, S(function (err, result) {
+                        console.log(arguments);
                         delete self['newPassword'];
                         if (err) {
                             self.error = err;
