@@ -87,7 +87,7 @@ var emailsSwarming = {
                  If it is an email, use the email;
                  If it is an id, use the associated email address (the email address of the user)
                  */
-                var emailRegularExpression = " /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/ ";
+                var emailRegularExpression = "@";
                 if(id.match(emailRegularExpression)){
                     console.log("Is email: "+id)
                     callback(null,id);
