@@ -76,6 +76,7 @@ var emailsSwarming = {
         node: "EmailAdapter",
         code: function () {
             var self = this;
+            console.log("Getting conversation "+self.conversationUUID);
             getConversation(self.conversationUUID,S(function(err,requestedConversation){
                 if(err){
                     self.error = err;
@@ -91,7 +92,7 @@ var emailsSwarming = {
         node:"UsersManager",
         code:function(){
             var self = this;
-
+            console.log("Getting emails for "+self.conversation.receiverId+" and "+self.conversation.senderId);
             getUserEmail(self.conversation.receiverId,S(function(err,user){
                 if(err){
                     self.error = err;
