@@ -48,8 +48,8 @@ registerConversation = function(sender,receiver,callback){
     var newConversationUUID = uuid.v1();
     newConversationUUID = new Buffer(newConversationUUID).toString('base64').slice(0,20);
     var conversation = apersistence.createRawObject('conversation',newConversationUUID);
-    conversation['senderId'] = sender;
-    conversation['receiverId'] = receiver;
+    conversation['sender'] = sender;
+    conversation['receiver'] = receiver;
     persistence.save(conversation,function(err,res){
         if(err){
             callback(err);
