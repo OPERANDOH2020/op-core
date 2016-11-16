@@ -30,13 +30,20 @@ apersistence.registerModel("Identity", "Redis", {
         },
         isDefault:{
             type: "boolean",
-            default: false,
-            index:true
+            index: true,
+            default: false
         },
         isReal:{
             type: "boolean",
-            default: false
+            default: false,
+            index: true
+        },
+        deleted:{
+            type: "string",
+            default: "no",
+            index:true
         }
+
     },
     function (err, model) {
         if (err) {
@@ -97,37 +104,66 @@ generateIdentity = function(callback){
 };
 
 deleteIdentity = function (identityData, callback) {
-    flow.create("delete identity", {
+    flow.create("remove identity", {
         begin: function () {
             if (!identityData.email) {
                 callback(new Error("empty_email"), null);
             }
             else {
-
-                redisPersistence.findById("Identity", identityData.email, this.continue("deleteIdentity"));
+                redisPersistence.findById("Identity", identityData.email, this.continue("markAsDeleted"));
             }
         },
 
-        deleteIdentity: function (err, identity) {
+        markAsDeleted: function (err, identity) {
             if (err) {
                 callback(err, null);
             }
             else if (identity != null) {
-                if(identity.isDefault == true){
-                    callback(new Error("could_not_delete_default_identity"), null);
-                }
-                if(identity.isReal == true){
+                if(identity.isReal === true){
                     callback(new Error("could_not_delete_your_real_identity"), null);
                 }
                 else{
-                    redisPersistence.delete(identity, callback);
-                }
+                    var markDeletedData={
+                        deleted:"yes",
+                        isDefault:false
+                    }
 
+                    redisPersistence.externalUpdate(identity,markDeletedData);
+                    redisPersistence.saveObject(identity, this.continue("getDefaultIdentity"));
+                }
             }
             else{
                 if(identity == null){
                     callback(new Error("identity_not_exists"), null);
                 }
+            }
+        },
+        getDefaultIdentity:function(err, identity){
+            redisPersistence.filter("Identity", {isDefault:true, userId:identityData.userId, deleted:"no"}, this.continue("returnDefaultIdentity"));
+        },
+        returnDefaultIdentity:function(err, identities){
+            if(err){
+                console.log(err);
+            }
+            else{
+               if(identities.length === 0){
+                   redisPersistence.filter("Identity", {isReal:true, userId:identityData.userId, deleted:"no"}, this.continue("returnRealIdentity"));
+               }
+                else{
+                   callback(null, identities[0]);
+               }
+            }
+        },
+        returnRealIdentity:function(err, identities){
+            if(err){
+                console.log(err);
+            }
+            else if(identities.length === 0){
+                callback(new Error("User has no real identity"), null);
+            }
+            else{
+                identities[0].isDefault = true;
+                redisPersistence.saveObject(identities[0], callback);
             }
         }
     })();
@@ -138,24 +174,24 @@ getIdentities = function (userId, callback) {
         callback(new Error("userId_is_required"), null);
     }
     else {
-        redisPersistence.filter("Identity", {"userId": userId}, callback);
+        redisPersistence.filter("Identity", {userId: userId, deleted:"no"}, callback);
     }
 };
 
 setDefaultIdentity = function(identity, callback){
+
     flow.create("set default identity",{
         begin:function(){
             if(!identity){
                 callback(new Error("no_identity_provided"), null);
             }
             else {
-                redisPersistence.filter("Identity", {isDefault:true, userId:identity.userId}, this.continue("clearCurrentDefaultIdentity"));
+                redisPersistence.filter("Identity", {isDefault:true, userId:identity.userId, deleted:"no"}, this.continue("clearCurrentDefaultIdentity"));
             }
         },
 
         clearCurrentDefaultIdentity:function(err, identities){
             var self = this;
-            console.log(identities);
             if(identities.length>0){
                 identities.forEach(function(_identity, index){
                     _identity.isDefault = false;
@@ -207,7 +243,7 @@ setRealIdentity = function(user, callback){
                 else{
                     identity.isReal = true;
                     identity.isDefault = true;
-                    identity.email = user.email
+                    identity.email = user.email;
                     identity.userId = user.userId;
                     redisPersistence.saveObject(identity, callback);
                 }

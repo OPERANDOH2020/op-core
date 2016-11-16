@@ -20,7 +20,7 @@ apersistence.registerModel("DefaultSession", "Redis", {
     },
     userId: {
         type: "string",
-        index :"true"
+        index :true
     },
     sessionId: {
         type: "string",

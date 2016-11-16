@@ -111,16 +111,16 @@ apersistence.registerModel("PrivacyForBenefitsService", "Redis", {
 apersistence.registerModel("UserPfB", "Redis", {
         id: {
             type: "string",
-            index: "true",
-            pk: "true"
+            index: true,
+            pk: true
         },
         userId: {
             type: "string",
-            index: "true"
+            index: true
         },
         pfbId: {
             type: "string",
-            index: "true"
+            index: true
         },
         voucher:{
             type: "string"
@@ -317,7 +317,6 @@ saveUserDeal = function (dealId, userId, callback) {
                             userId: userId,
                             pfbId: dealId,
                         }
-
                         redisPersistence.filter("UserPfB", deal, this.continue("saveDeal"));
                         break;
                     }
@@ -326,7 +325,6 @@ saveUserDeal = function (dealId, userId, callback) {
         },
 
         saveDeal: function (err) {
-
             if(!err){
 
                 redisPersistence.lookup("UserPfB", generateUUID(), function (err, deal) {
@@ -338,7 +336,7 @@ saveUserDeal = function (dealId, userId, callback) {
                             pattern: "##-####-##-####-####-##",
                             charset: voucher_codes.charset("numbers")
                         })[0];
-                        redisPersistence.saveObject(deal, callback)
+                        redisPersistence.saveObject(deal, callback);
                     }
                 })
 

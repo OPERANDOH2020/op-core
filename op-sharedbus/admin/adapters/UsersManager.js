@@ -1,30 +1,15 @@
-/**
- * Created by salboaie on 3/24/15.
- */
 
-/*
- Default UsersManager adapter. Punct de integrare cu alte sisteme, gen casa de sanatate.
- */
 var core = require("swarmcore");
-/*
- usersmanager este un adaptor swarm care gestioneaza organizatiile si utilizatorii
-
- */
-
 core.createAdapter("UsersManager");
-
 
 var apersistence = require('apersistence');
 const crypto = require('crypto');
 
 
 var container = require("safebox").container;
-
-
 var flow = require("callflow");
-
+var uuid = require('uuid');
 var passwordMinLength = 4;
-var usernameMinLength = 4;
 
 var saveCallbackFn = function (err, obj) {
     if (err) {
@@ -69,9 +54,6 @@ apersistence.registerModel("DefaultUser", "Redis", {
         pk: true,
         index: true
     },
-    userName: {
-        type: "string"
-    },
     organisationId: {
         type: "string",
         index: true
@@ -79,36 +61,14 @@ apersistence.registerModel("DefaultUser", "Redis", {
     password: {
         type: "string"
     },
-    birthYear: {
-        type: "string"
-    },
-    birthMonth: {
-        type: "string"
-    },
-    birthDay: {
-        type: "string"
-    },
-    sex: {
-        type: "string"
-    },
-    phone: {
-        type: "string"
-    },
+
     email: {
         type: "string",
         index:true
     },
-    address: {
-        type: "string"
-    },
-    city: {
-        type: "string"
-    },
-    zip_code: {
-        type: "string"
-    },
     is_active: {
-        type: "boolean"
+        type: "boolean",
+        default:true
     },
     salt:{
         type:"string"
@@ -217,12 +177,7 @@ updateUser = function (userJsonObj, callback) {
                     callback(new Error("User with id " + userJsonObj.userId + " does not exist"), null);
                 }
                 else {
-                    //redisPersistence.delete(user);
-                    //redisPersistence.externalUpdate(user, userJsonObj);
-
-                    for(var field in userJsonObj){
-                        user[field] = userJsonObj[field];
-                    }
+                    redisPersistence.externalUpdate(user, userJsonObj);
                     redisPersistence.saveObject(user, this.continue("updateReport"));
                 }
             }
@@ -325,35 +280,20 @@ newUserIsValid = function (newUser, callback) {
             }
             else
 
-            if(!newUser.username || newUser.username.length < usernameMinLength){
-                callback(new Error("Username is too short!"));
-            }
-            else
-
             if(!newUser.password || newUser.password.length < passwordMinLength){
                 callback(new Error("Password must contain at least "+passwordMinLength+" characters"));
             }
 
             else{
-                redisPersistence.lookup("DefaultUser", newUser.username, this.continue("verifyEmail"))
+                redisPersistence.filter("DefaultUser", {email:newUser.email}, this.continue("verifyPasswords"))
             }
 
         },
-        verifyEmail: function (err, user) {
-            if (err) {
-                callback(err);
-            } else if (!redisPersistence.isFresh(user)) {
-                callback(new Error("Username is unavailable"));
-            }
-            else {
-                redisPersistence.lookup("DefaultUser", newUser.email, this.continue("verifyPasswords"))
-            }
-        },
-        verifyPasswords: function (err, user) {
+        verifyPasswords: function (err, users) {
             if (err) {
                 callback(err);
             }
-            else if (!redisPersistence.isFresh(user)) {
+            else if (users.length > 0) {
                 callback(new Error("Email is unavailable"));
             }
             else {
@@ -362,9 +302,8 @@ newUserIsValid = function (newUser, callback) {
                 }
                 else {
                     createUser({
-                        userId: newUser.email,
+                        userId: uuid.v1(),
                         password: newUser.password,
-                        userName: newUser.username,
                         email: newUser.email,
                         organisationId: "Public"
                     }, function (err, user) {
@@ -424,29 +363,61 @@ getUserInfo = function (userId, callback) {
     })();
 }
 
-validPassword = function (userId, pass, callback) {
+validatePassword = function (email, pass, callback) {
     flow.create("Validate Password", {
         begin: function () {
-            redisPersistence.findById("DefaultUser", userId, this.continue("validatePassword"));
+            redisPersistence.filter("DefaultUser", {email: email}, this.continue("validatePassword"));
         },
-        validatePassword: function (err, user) {
-            if (err || !user) {
+        validatePassword: function (err, users) {
+            if (err || !users) {
                 callback(err, null);
             }
-            else{
-                hashThisPassword(pass,user.salt,function(err,hashedPassword){
-                    if(err){
+            else if (users.length === 1) {
+                var user = users[0];
+
+                hashThisPassword(pass, user.salt, function (err, hashedPassword) {
+                    if (err) {
                         callback(err);
                     }
-                    else if(hashedPassword===user.password){
-                        callback(null,true);
-                    }else{
-                        callback(null,false);
+                    else if (hashedPassword === user.password) {
+                        callback(null, user.userId);
+                    } else {
+                        callback(null, false);
                     }
-                })
+                });
+            }
+
+            else {
+                callback( new Error("Invalid credentials"), null);
             }
         }
     })();
+}
+
+getUserId = function(email, callback){
+
+    flow.create("get user uuid",{
+        begin:function(){
+            if(!email){
+                callback(new Error("Email cannot be empty"), null);
+            }
+            else{
+                redisPersistence.filter("DefaultUser", {email:email}, this.continue("getUserId"));
+            }
+        },
+        getUserId:function(err, users){
+            if (err) {
+                callback(err, null);
+            }
+            else if (users.length === 1) {
+                callback(null, users[0].userId);
+            }
+            else {
+                callback(new Error("User not found"), null);
+            }
+        }
+    })();
+
 }
 
 changeUserPassword = function(userId, currentPassword, newPassword, callback){
@@ -514,10 +485,9 @@ function bootSystem() {
             }
             else {
                 createUser({
-                    userId: "admin",
+                    userId: uuid.v1(),
                     password: "swarm",
                     email:"admin@operando.eu",
-                    userName: "Admin",
                     organisationId: organisation.organisationId
                 }, saveCallbackFn);
             }
@@ -528,9 +498,9 @@ function bootSystem() {
             }
             else {
                 createUser({
-                    userId: "guest",
+                    userId: uuid.v1(),
                     password: "guest",
-                    userName: "Guest User",
+                    email:"guest@operando.eu",
                     organisationId: organisation.organisationId
                 }, saveCallbackFn);
             }
@@ -549,10 +519,9 @@ function bootSystem() {
             }
             else{
                 createUser({
-                    userId: "analyst",
+                    userId: uuid.v1(),
                     password: "analyst",
                     email:"analyst@rms.ro",
-                    userName: "Analyst Guru",
                     organisationId: organisation.organisationId
                 }, saveCallbackFn);
             }
@@ -580,7 +549,3 @@ container.declareDependency("UsersManagerAdapter", ["redisPersistence"], functio
         console.log("Disabling persistence...");
     }
 });
-
-setTimeout(function(){
-    updateUser({userId:"admin",organisationId:"Public"},console.log)
-},2000);

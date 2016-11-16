@@ -22,15 +22,15 @@ apersistence.registerModel("DataProtectionFilter", "Redis", {
         filterId:{
           type:"string",
           index: "true",
-          pk:"true"
+          pk:true
         },
         filterName: {
             type: "string",
-            index: "true"
+            index: true
         },
         filterType: {
             type: "string",
-            index: "true"
+            index: true
         },
         filterEndPoint: {
             type: "string",

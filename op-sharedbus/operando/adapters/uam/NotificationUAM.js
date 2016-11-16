@@ -30,7 +30,6 @@ var signupNotifications = {
         category:"privacy-questionnaire"
 
     },
-
     identity: {
         sender: "WatchDog",
         title: "Add identity",
@@ -266,7 +265,7 @@ clearNotification = function(userId, category){
                         notificationId:notification.notificationId,
                         dismissed:true
                     }
-                    updateNotification(notificationDump, self.notificationUpdated("end"))
+                    updateNotification(notificationDump, self.continue("notificationUpdated"));
                 })
             }
         },

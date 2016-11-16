@@ -24,14 +24,6 @@ var privacyForBenefits = {
         action: null
     },
 
-    getActiveDeals:function(){
-        this.swarm("getAllDealsSwarm");
-    },
-
-    getMyDeals: function () {
-        this.swarm("listMyDeals");
-    },
-
     getAllDeals:function(){
       this.swarm("listAllPfbDeals");
     },
@@ -197,31 +189,5 @@ var privacyForBenefits = {
         }
     },
 
-    listMyDeals: {
-        node: "PrivacyForBenefitsManager",
-        code: function () {
-            var self = this;
-            getUserDeals(self.meta.userId, S(function(err, deals){
-                if(deals){
-                    self.deals = deals;
-                    self.home("gotMyDeals");
-                }
-            }));
-        }
-    },
-
-    getAllDealsSwarm: {
-        node: "PrivacyForBenefitsManager",
-        code: function () {
-            var self = this;
-            getAllDeals(self.meta.userId,S(function (err, deals) {
-                if (deals) {
-                    self.deals = deals;
-                    self.home("gotActiveDeals");
-                }
-            }));
-
-        }
-    }
 }
 privacyForBenefits;

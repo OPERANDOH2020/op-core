@@ -25,35 +25,36 @@ var loginSwarming = {
         sessionId: null,
         userId: null
     },
-    userLogin: function (userId, authorisationToken) {
-        console.log(userId);
+    userLogin: function (email, authorisationToken) {
+        console.log(email);
         this.sessionId = this.getSessionId();
-            this.authenticated = false;
-            this.userId = userId;
-            if (!userId||userId.length === 0) {
-                this.swarm('failed', this.getEntryAdapter());
-                return;
-            }
-            this.authorisationToken = authorisationToken;
-            this.clientAdapter = thisAdapter.nodeName;
-            this.swarm('checkPassword');
+        this.authenticated = false;
+        this.email = email;
+        if (!email || email.length === 0) {
+            this.swarm('failed', this.getEntryAdapter());
+            return;
+        }
+        this.authorisationToken = authorisationToken;
+        this.clientAdapter = thisAdapter.nodeName;
+        this.swarm('checkPassword');
 
-        },
-        checkPassword: {
-            node: "UsersManager",
-            code: function () {
-
-            var valid = validPassword.async(this.userId, this.authorisationToken);
+    },
+    checkPassword: {
+        node: "UsersManager",
+        code: function () {
             var self = this;
-            (function (valid) {
-                if (valid) {
-                    self.authenticated = true;
-                    self.swarm("createOrUpdateSession");
+            validatePassword(this.email, this.authorisationToken, S(function (err, userId) {
 
-                } else {
+                if (err) {
                     self.swarm("failed", self.getEntryAdapter());
                 }
-            }).swait(valid);
+                else if (userId) {
+                    console.log(userId);
+                    self.userId = userId;
+                    self.authenticated = true;
+                    self.swarm("createOrUpdateSession");
+                }
+            }));
         }
     },
 
@@ -81,6 +82,7 @@ var loginSwarming = {
     },
 
     restoreSession: function (userId, clientSessionId) {
+        console.log(this.meta.sessionId, clientSessionId);
         if (clientSessionId == null || clientSessionId == undefined) {
             this.home("restoreFailed");
         }
@@ -122,7 +124,6 @@ var loginSwarming = {
                     }
                 }));
             }
-
 
         }
     }
@@ -175,6 +176,8 @@ var loginSwarming = {
     enableSwarms: {   //phase that is never executed... given as documentation
         node: "EntryPoint",
         code: function () {
+            console.log("swarms enabled",this.userId);
+            this.meta.userId = this.userId;
             var outlet = sessionsRegistry.getTemporarily(this.meta.outletId);
             sessionsRegistry.registerOutlet(outlet);
             enableOutlet(this);
@@ -214,7 +217,6 @@ var loginSwarming = {
                     self.swarm("enableSwarms", self.getEntryAdapter());
                 }
             }));
-
         }
     }
 };
