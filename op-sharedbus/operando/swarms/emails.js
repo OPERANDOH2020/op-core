@@ -58,7 +58,7 @@ var emailsSwarming = {
         node:"UsersManager",
         code:function(){
             var self = this;
-            console.log("Getting emails for "+self.conversation.receiverId+" and "+self.conversation.senderId);
+            console.log("Getting emails for "+self.conversation.receiver+" and "+self.conversation.sender);
 
             getUserEmail(self.conversation.receiver,S(function(err,email){
                 if(err){
@@ -74,6 +74,7 @@ var emailsSwarming = {
                             self.home("Failed");
                         }else{
                             self.conversation.sender = email;
+                            console.log("Final conversation is: ",self.conversation);
                             self.home("gotConversation");
                         }}))
                 }}));
