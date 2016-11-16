@@ -94,18 +94,63 @@ var userInfoSwarming =
             var self = this;
             changeUserPassword(this.meta.userId, this.currentPassword, this.newPassword, S(function (err, user) {
                 delete self.currentPassword;
-                delete self.newPassword;
                 if (err) {
                     self.error = err.message;
                     self.home("passwordChangeFailure");
                 }
                 else {
-                    self.home("passwordSuccessfullyChanged");
+                    var newPassword = self['newPassword'];
+                    delete self['newPassword'];
+                    startSwarm("emails.js",
+                        "sendEmail",
+                        "operando@privatesky.xyz",
+                        user['email'],
+                        "Changed password",
+                        "Your password has been changed \nYour new password is " + newPassword);
                 }
             }));
         }
-    }
+    },
+    
+    resetPassword:function(email){
+        console.log("Resetting password for email:"+email);
+        this['newPassword'] = new Buffer(require('node-uuid').v1()).toString('base64').slice(0,20);
+        this['email'] = email;
+        this.swarm('setNewPassword');
+    },
+    setNewPassword: {
+        node: "UsersManager",
+        code: function () {
+            var self = this;
+            filterUsers({"email": self.email}, S(function (err, users) {
+                if (err) {
+                    self.error = err;
+                    self.home('resetPasswordFailed');
+                } else if (users.length === 0) {
+                    self.error = new Error("No such user! Aborting...");
+                    self.home('resetPasswordFailed');
+                }
+                else {
+                    setNewPassword(users[0], self['newPassword'], S(function (err, res) {
+                        if(err){
+                            self.error = err;
+                            self.home('resetPasswordFailed');
+                        }else{
+                            var newPassword = self['newPassword'];
+                            delete self['newPassword'];
+                            startSwarm("emails.js",
+                                "sendEmail",
+                                "operando@privatesky.xyz",
+                                user['email'],
+                                "Reset password",
+                                "Your password has been changed \nYour new password is " + newPassword);
+                        }
 
-};
+                    }))
+                }
+            }))
+        }
+    }
+}
 
 userInfoSwarming;

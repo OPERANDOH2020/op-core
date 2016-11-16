@@ -129,53 +129,6 @@ var emailsSwarming = {
         }
     },
 
-    resetPassword:function(email){
-        console.log("Resetting password for email:"+email);
-	    this['newPassword'] = new Buffer(require('node-uuid').v1()).toString('base64').slice(0,20);
-       	this['email'] = email;
-        this.swarm('changePassword');
-    },
-    setNewPassword:function(email,newPassword){
-        this['newPassword'] = newPassword;
-        this['email'] = email;
-        this.swarm('changePassword');
-    },
-    changePassword:{
-        node:'UsersManager',
-        code:function(){
-            var newPassword = this['newPassword'];
-            var self = this;
-            console.log("Change password");
-            filterUsers({"email":self.email},S(function(err,users){
-                console.log("\n\n\n\n",arguments,"\n\n\n\n");
-                if(err){
-                    self.error = err;
-                    self.home('resetPasswordFailed');
-                } else if(users.length===0){
-                    self.error = new Error("No such user! Aborting...");
-                    self.home('resetPasswordFailed');
-                }else {
-                    var user = users[0];
-                    changeUserPassword(user.userId, user.password, newPassword, S(function (err, result) {
-                        console.log(arguments);
-                        delete self['newPassword'];
-                        if (err) {
-                            self.error = err;
-                            self.home('resetPasswordFailed');
-                        } else {
-                            startSwarm("emails.js",
-                                "sendEmail",
-                                "operando@privatesky.xyz",
-                                user['email'],
-                                "Reset password",
-                                "Your password has been changed \nYour new password is " + newPassword)
-                        }
-                    }))
-                }
-            }))
-        }
-    },
-
     sendEmail:function(from,to,subject,content){
         this['from'] = from;
         this['to'] = to;

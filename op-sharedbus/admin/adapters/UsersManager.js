@@ -417,11 +417,9 @@ getUserId = function(email, callback){
             }
         }
     })();
-
 }
 
 changeUserPassword = function(userId, currentPassword, newPassword, callback){
-    console.log("\n\n\n\nChange user password",arguments,"\n\n\n\n");
     flow.create("Validate Password", {
         begin: function () {
 
@@ -443,22 +441,25 @@ changeUserPassword = function(userId, currentPassword, newPassword, callback){
             else{
                 hashThisPassword(currentPassword,user.salt,function(err,hashedPassowrd){
                     if(hashedPassowrd===user.password){
-                        self.storeNewPassword(user,newPassword);
+                        self.storeNewPassword(user,newPassword,callback);
                     }else{
                         callback("The password you provided does not match our records")
                     }
                 })
             }
         },
-        storeNewPassword:function(user,newPassword){
-            user.salt = crypto.randomBytes(48).toString('base64');
-            hashThisPassword(newPassword,user.salt,function(err,hashedPassword){
-                user.password = hashedPassword;
-                redisPersistence.saveObject(user,callback);
-            });
-        }
+        storeNewPassword:setNewPassword
     })();
 }
+
+setNewPassword = function(user,newPassword,callback){
+    user.salt = crypto.randomBytes(48).toString('base64');
+    hashThisPassword(newPassword,user.salt,function(err,hashedPassword){
+        user.password = hashedPassword;
+        redisPersistence.saveObject(user,callback);
+    });
+}
+
 
 function bootSystem() {
     flow.create("bootSystem", {
