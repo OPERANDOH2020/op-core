@@ -78,6 +78,7 @@ var emailsSwarming = {
             var self = this;
             console.log("Getting conversation "+self.conversationUUID);
             getConversation(self.conversationUUID,S(function(err,requestedConversation){
+                console.log(arguments);
                 if(err){
                     self.error = err;
                     self.home("Failed")
