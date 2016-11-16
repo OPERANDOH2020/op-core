@@ -61,6 +61,7 @@ var emailsSwarming = {
             console.log("Getting emails for ",self.conversation);
 
             getUserEmail(self.conversation.receiver,S(function(err,email){
+                console.log(arguments);
                 if(err){
                     self.error = err;
                     console.log("User with id "+self.conversation.receiver+" could not be retrieved\n",err);
@@ -68,6 +69,7 @@ var emailsSwarming = {
                 }else{
                     self.conversation.receiver = email;
                     getUserEmail(self.conversation.sender,S(function(err,email){
+                        console.log(arguments);
                         if(err){
                             self.error = err;
                             console.log("User with id "+self.conversation.sender+" could not be retrieved\n",err);
@@ -87,8 +89,10 @@ var emailsSwarming = {
                  */
                 var emailRegularExpression = " /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/ ";
                 if(id.match(emailRegularExpression)){
+                    console.log("Is email: "+id)
                     callback(null,id);
                 }else{
+                    console.log("Is not email: "+id)
                     getUserInfo(id,S(function(err,user){
                         if(err){
                             callback(err);
