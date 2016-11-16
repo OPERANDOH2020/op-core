@@ -124,7 +124,7 @@ var userInfoSwarming =
             var self = this;
             filterUsers({"email": self.email}, S(function (err, users) {
                 if (err) {
-                    self.error = err;
+                    self.error = err.message;
                     self.home('resetPasswordFailed');
                 } else if (users.length === 0) {
                     self.error = new Error("No such user! Aborting...");
@@ -133,7 +133,7 @@ var userInfoSwarming =
                 else {
                     setNewPassword(users[0], self['newPassword'], S(function (err, res) {
                         if(err){
-                            self.error = err;
+                            self.error = err.message;
                             self.home('resetPasswordFailed');
                         }else{
                             var newPassword = self['newPassword'];

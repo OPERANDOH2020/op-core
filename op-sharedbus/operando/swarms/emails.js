@@ -142,7 +142,7 @@ var emailsSwarming = {
             var self = this;
             filterUsers({"email":self.to},S(function(err,users){
                 if(err ){
-                    self.error = err;
+                    self.error = err.message;
                     self.home("emailDeliveryUnsuccessful")
                 }else if(users.length===0){
                     self['receiverId'] = self.to; //if sending emails to non-users
@@ -158,7 +158,7 @@ var emailsSwarming = {
             var self = this;
             registerConversation(self.from,self.receiverId,S(function(err,conversationUUID) {
                 if(err){
-                    self.error = err;
+                    self.error = err.message;
                     self.home("emailDeliveryUnsuccessful");
                 }else{
                     sendEmail(self['from'], conversationUUID+"@privatesky.xyz", self['subject'], self['content'], S(function (err, deliveryResult) {
@@ -169,7 +169,7 @@ var emailsSwarming = {
                         delete self['receiverId'];
 
                         if (err) {
-                            self.error = err;
+                            self.error = err.message;
                             self.home('emailDeliveryUnsuccessful');
                         } else {
                             self.deliveryResult = deliveryResult;
