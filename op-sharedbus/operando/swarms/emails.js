@@ -11,76 +11,128 @@
  */
 
 var emailsSwarming = {
+
     registerConversation: function(sender,receiver){
-        this['sender'] = sender;
-        this['receiver'] = receiver;
-        this.swarm('register');
+        this['senderEmail'] = sender;
+        this['receiverEmail'] = receiver;
+        this.swarm('getIdsForConversation');
+    },
+    getIdsForConversation:{
+        /*
+            There may be conversations between an outside entity (say Facebook) and one of our users.
+            That entity will not have an id in our database.
+            In this case we will register it usingthe email address.
+        */
+        node:"UsersManager",
+        code:function(){
+            var self = this;
+            filterUsers({"email":self.senderEmail},S(function(err,users){
+                if(err ){
+                    self.error = err;
+                    self.home("Failed")
+                }else{
+                    if(users.length===0){
+                        self['senderId'] = self.senderEmail;
+                    }else{
+                        self['senderId'] = users[0].userId;
+                    }
+                    filterUsers({"email":self.receiverEmail},S(function(err,users){
+                        if(err ){
+                            self.error = err;
+                            self.home("Failed")
+                        }else{
+                            if(users.length===0){
+                                self['receiverId'] = self.receiverEmail;
+                            }else{
+                                self['receiverId'] = users[0].userId;
+                            }
+                            self.swarm("register");
+                        }}))
+                }}))
+        }
+    },
+    register: {
+        node: "EmailAdapter",
+        code: function () {
+            var self = this;
+            registerConversation(self.senderId,self.receiverId,S(function(err,newConversationUUID){
+                if(err){
+                    self.error = new Error("Could not register conversation from "+self.senderEmail+" to "+self.receiverEmail);
+                    self.home("Failed");
+                }else{
+                    self.conversationUUID = newConversationUUID;
+                    self.home('conversationRegistered');
+                }
+            }))
+        }
     },
 
     getConversation:function(conversationUUID){
         this['conversationUUID'] = conversationUUID;
         this.swarm('get');
     },
-
-    removeConversation:function(conversationUUID){
-        this['conversationUUID'] = conversationUUID;
-        this.swarm('remove');
-    },
-
-    sendEmail:function(from,to,subject,content){
-        this['from'] = from;
-        this['to'] = to;
-        this['subject'] = subject;
-        this['content'] = content;
-        this.swarm('deliverEmail');
-    },
-
-    resetPassword:function(email){
-        console.log("Resetting password for email:"+email);
-	    this['newPassword'] = new Buffer(require('node-uuid').v1()).toString('base64').slice(0,20);
-       	this['email'] = email;
-        this.swarm('changePassword');
-    },
-
-    setNewPassword:function(email,newPassword){
-        this['newPassword'] = newPassword;
-        this['email'] = email;
-        this.swarm('changePassword');
-    },
-
-    register: {
-        node: "EmailAdapter",
-        code: function () {
-            var self = this;
-            registerConversation(self.sender,self.receiver,S(function(err,newConversationUUID){
-                if(err){
-                    self.error = err;
-                }else{
-		    self.error = undefined;
-                    self.conversationUUID = newConversationUUID;
-                }
-                self.home('conversationRegistered');
-            }))
-        }
-    },
-
     get: {
         node: "EmailAdapter",
         code: function () {
             var self = this;
             getConversation(self.conversationUUID,S(function(err,requestedConversation){
-                
-		if(!requestedConversation.sender){
+                if(err){
                     self.error = err;
+                    self.home("Failed")
                 }else{
-		    self.error = undefined;
                     self.conversation = requestedConversation;
+                    self.swarm('getEmailsForConversation');
                 }
-                self.home('gotConversation');
             }))
         }
     },
+    getEmailsForConversation:{
+        node:"UsersManager",
+        code:function(){
+            var self = this;
 
+            getUserEmail(self.conversation.receiverId,S(function(err,user){
+                if(err){
+                    self.error = new Error("User with id "+self.conversation.receiverId+" does not exist");
+                    self.home("Failed");
+                }else{
+                    if(user ===null){
+
+                    }else{
+                        self['receiverEmail'] = user.email;
+                    }
+                    getUserEmail(self.conversation.senderId,S(function(err,user){
+                        if(err){
+                            self.error = new Error("User with id "+self.conversation.senderId+" does not exist");
+                            self.home("Failed");
+                        }else{
+                            self['senderEmail'] = user.email;
+                            self.home("gotConversation");
+                        }}))
+                }}))
+
+
+            function getUserEmail(id,callback){
+                if(is.indexOf("@")>-1){
+                    callback(null,id);
+                }else{
+                    getUserInfo(id,S(function(err,user){
+                        if(err){
+                            callback(err);
+                        }else{
+                            callback(err,user.email)
+                        }
+                    }))
+                }
+            }
+
+        }
+    },
+
+    removeConversation:function(conversationUUID){
+        this['conversationUUID'] = conversationUUID;
+        this.swarm('remove');
+    },
     remove: {
         node: "EmailAdapter",
         code: function () {
@@ -88,22 +140,34 @@ var emailsSwarming = {
             removeConversation(self.conversationUUID,S(function(err,removalResult){
                 if(err){
                     self.error = err;
+                    self.home('Failed')
                 }else{
-                    self.error = undefined;
                     self.result = removalResult;
+                    self.home('conversationRemoved');
                 }
-                self.home('conversationRemoved');
             }))
         }
     },
 
+
+    resetPassword:function(email){
+        console.log("Resetting password for email:"+email);
+	    this['newPassword'] = new Buffer(require('node-uuid').v1()).toString('base64').slice(0,20);
+       	this['email'] = email;
+        this.swarm('changePassword');
+    },
+    setNewPassword:function(email,newPassword){
+        this['newPassword'] = newPassword;
+        this['email'] = email;
+        this.swarm('changePassword');
+    },
     changePassword:{
         node:'UsersManager',
         code:function(){
             var newPassword = this['newPassword'];
             var self = this;
             console.log("Change password");
-            filterUsers({"email":this.email},S(function(err,users){
+            filterUsers({"email":self.email},S(function(err,users){
                 if(err){
                     self.error = err;
                     self.home('resetPasswordFailed');
@@ -122,37 +186,83 @@ var emailsSwarming = {
                             self.error = err;
                             self.home('resetPasswordFailed');
                         }else{
-                            self['to'] = user['email'];
-                            self['from'] = "operando@privatesky.xyz";
-                            self['subject'] = "Reset password";
-                            self['content'] =   "Your password has been changed \n"+
-                                                "Your new password is "+newPassword;
-                            self.swarm('deliverEmail');
+                            startSwarm("emails.js",
+                                "sendEmail",
+                                "operando@privatesky.xyz",
+                                user['email'],
+                                "Reset password",
+                                "Your password has been changed \nYour new password is "+newPassword)
                         }
                     }))
             }))
         }
     },
 
+    sendEmail:function(from,to,subject,content){
+        this['from'] = from;
+        this['to'] = to;
+        this['subject'] = subject;
+        this['content'] = content;
+        this.swarm('prepareEmailDelivery');
+    },
+    prepareEmailDelivery:{
+        node:"UsersManager",
+        code:function(){
+            var self = this;
+            filterUsers({"email":self.from},S(function(err,users){
+                if(err || users.length!==1){
+                    if(err){
+                        self.error = err;
+                    }else {
+                        self.error = new Error("User with email " + self.from + " does not exist");
+                    }
+                    self.home("Failed")
+                }else{
+                    self['senderId'] = users[0].userId;
+                    filterUsers({"email":self.to},S(function(err,users){
+                        if(err || users.length!==1){
+                            if(err){
+                                self.error = err;
+                            }else {
+                                self.error = new Error("User with email " + self.to + " does not exist");
+                            }
+                            self.home("Failed")
+                        }else{
+                            self['receiverId'] = users[0].userId;
+                            self.swarm("deliverEmail");
+                        }}))
+                }}))    
+        }
+    },
     deliverEmail:{
         node: "EmailAdapter",
         code: function () {
             console.log("Delivering an email to ",this['to']);
             var self = this;
-            sendEmail(this['from'],this['to'],this['subject'],this['content'],S(function(err,deliveryResult){
-                delete self['from']
-                delete self['to']
-                delete self['subject']
-                delete self['content']
-
+            registerConversation(self['senderId'],self['receiverId'],S(function(err,conversationUUID) {
                 if(err){
                     self.error = err;
-                    self.home('emailDeliveryUnsuccessful');
+                    self.home("Failed");
                 }else{
-                    self.deliveryResult = deliveryResult;
-                    self.home('emailDeliverySuccessful');
+                    sendEmail(self['from'], conversationUUID+"@privatesky.xyz", self['subject'], self['content'], S(function (err, deliveryResult) {
+                        delete self['from'];
+                        delete self['to'];
+                        delete self['subject'];
+                        delete self['content'];
+                        delete self['senderId'];
+                        delete self['receiverId'];
+
+                        if (err) {
+                            self.error = err;
+                            self.home('emailDeliveryUnsuccessful');
+                        } else {
+                            self.deliveryResult = deliveryResult;
+                            self.home('emailDeliverySuccessful');
+                        }
+                    }))
                 }
             }))
+
         }
     }
 };
