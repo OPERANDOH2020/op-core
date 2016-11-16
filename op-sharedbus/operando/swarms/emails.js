@@ -57,7 +57,8 @@ var emailsSwarming = {
             var self = this;
             registerConversation(self.senderId,self.receiverId,S(function(err,newConversationUUID){
                 if(err){
-                    self.error = new Error("Could not register conversation from "+self.senderEmail+" to "+self.receiverEmail);
+                    self.error = err;
+                    console.log("Could not register conversation from "+self.senderEmail+" to "+self.receiverEmail+"\n",err);
                     self.home("Failed");
                 }else{
                     self.conversationUUID = newConversationUUID;
@@ -93,24 +94,21 @@ var emailsSwarming = {
 
             getUserEmail(self.conversation.receiverId,S(function(err,user){
                 if(err){
-                    self.error = new Error("User with id "+self.conversation.receiverId+" does not exist");
+                    self.error = err;
+                    console.log("User with id "+self.conversation.receiverId+" could not be retrieved\n",err);
                     self.home("Failed");
                 }else{
-                    if(user ===null){
-
-                    }else{
-                        self['receiverEmail'] = user.email;
-                    }
+                    self['receiverEmail'] = user.email;
                     getUserEmail(self.conversation.senderId,S(function(err,user){
                         if(err){
-                            self.error = new Error("User with id "+self.conversation.senderId+" does not exist");
+                            self.error = err;
+                            console.log("User with id "+self.conversation.senderId+" could not be retrieved\n",err);
                             self.home("Failed");
                         }else{
                             self['senderEmail'] = user.email;
                             self.home("gotConversation");
                         }}))
-                }}))
-
+                }}));
 
             function getUserEmail(id,callback){
                 if(is.indexOf("@")>-1){
@@ -125,7 +123,6 @@ var emailsSwarming = {
                     }))
                 }
             }
-
         }
     },
 
@@ -171,29 +168,26 @@ var emailsSwarming = {
                 if(err){
                     self.error = err;
                     self.home('resetPasswordFailed');
-                    return;
-                }
-                if(users.length===0){
+                } else if(users.length===0){
                     self.error = new Error("No such user! Aborting...");
                     self.home('resetPasswordFailed');
-                    return;
-                }
-
-                var user = users[0];
-                changeUserPassword(user.userId,user['password'],newPassword,S(function(err,result){
+                }else {
+                    var user = users[0];
+                    changeUserPassword(user.userId, user['password'], newPassword, S(function (err, result) {
                         delete self['newPassword'];
-                        if(err){
+                        if (err) {
                             self.error = err;
                             self.home('resetPasswordFailed');
-                        }else{
+                        } else {
                             startSwarm("emails.js",
                                 "sendEmail",
                                 "operando@privatesky.xyz",
                                 user['email'],
                                 "Reset password",
-                                "Your password has been changed \nYour new password is "+newPassword)
+                                "Your password has been changed \nYour new password is " + newPassword)
                         }
                     }))
+                }
             }))
         }
     },
@@ -210,28 +204,28 @@ var emailsSwarming = {
         code:function(){
             var self = this;
             filterUsers({"email":self.from},S(function(err,users){
-                if(err || users.length!==1){
-                    if(err){
-                        self.error = err;
-                    }else {
-                        self.error = new Error("User with email " + self.from + " does not exist");
-                    }
+                if(err ){
+                    self.error = err;
                     self.home("Failed")
                 }else{
-                    self['senderId'] = users[0].userId;
+                    if(users.length===0){
+                        self['senderId'] = self.senderEmail;
+                    }else{
+                        self['senderId'] = users[0].userId;
+                    }
                     filterUsers({"email":self.to},S(function(err,users){
-                        if(err || users.length!==1){
-                            if(err){
-                                self.error = err;
-                            }else {
-                                self.error = new Error("User with email " + self.to + " does not exist");
-                            }
+                        if(err ){
+                            self.error = err;
                             self.home("Failed")
                         }else{
-                            self['receiverId'] = users[0].userId;
+                            if(users.length===0){
+                                self['receiverId'] = self.receiverEmail;
+                            }else{
+                                self['receiverId'] = users[0].userId;
+                            }
                             self.swarm("deliverEmail");
                         }}))
-                }}))    
+                }}))
         }
     },
     deliverEmail:{

@@ -15,7 +15,7 @@ var saveCallbackFn = function (err, obj) {
     if (err) {
         console.log(err);
     }
-}
+};
 
 /*
  Model de date pentru organizatie
@@ -490,6 +490,12 @@ function bootSystem() {
                     email:"admin@operando.eu",
                     organisationId: organisation.organisationId
                 }, saveCallbackFn);
+                createUser({
+                    userId: uuid.v1(),
+                    password: "swarm",
+                    email:"operando@privatesky.xyz",
+                    organisationId: organisation.organisationId
+                }, saveCallbackFn);
             }
         },
         createGuestUser: function (err, organisation) {
@@ -526,7 +532,6 @@ function bootSystem() {
                 }, saveCallbackFn);
             }
         }
-
     })();
 }
 

@@ -3,7 +3,6 @@
  */
 
 var mysql      = require('mysql');
-
 var core = require("swarmcore");
 thisAdapter = core.createAdapter("EmailAdapter");
 
@@ -15,14 +14,6 @@ var mysqlConnection = mysql.createConnection({
     database : thisAdapter.config.Core.mysqlDatabaseName
 });
 
-/*
-var mysqlConnection = mysql.createConnection({
-    user     : 'root',
-    password : 'operando',
-    database : 'operando'
-});
-*/
-
 var uuid = require('node-uuid');
 var apersistence = require('apersistence');
 var persistence = apersistence.createMySqlPersistence(mysqlConnection);
@@ -32,10 +23,10 @@ var conversationModel = {
         pk:true
 
     },
-    sender:{
+    senderId:{
         type:'string'
     },
-    receiver:{
+    receiverId:{
         type:'string'
     }
 };
@@ -100,24 +91,15 @@ if(emailPort===-1){
     emailHost = process.argv[emailHost+1];
 }
 
-
-
 const mailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 var transporter = mailer.createTransport(smtpTransport({host:emailHost, port: emailPort}));
 
 sendEmail = function(from,to,subject,text,callback){
-    registerConversation(to,from,function(err,result){
-        if(err){
-            console.log("Could not register conversation from "+from+" to "+to);
-            callback(err);
-        }else {
-            transporter.sendMail({
-                "from": from,
-                "to": result + "@privatesky.xyz",
-                "subject": subject,
-                "text": text
-            }, callback)
-        }
-    })
+    transporter.sendMail({
+        "from": from,
+        "to": result + "@privatesky.xyz",
+        "subject": subject,
+        "text": text
+    }, callback)
 };
