@@ -147,7 +147,7 @@ var emailsSwarming = {
             var self = this;
             console.log("Change password");
             filterUsers({"email":self.email},S(function(err,users){
-                console.log(arguments);
+                console.log("\n\n\n\n",arguments,"\n\n\n\n");
                 if(err){
                     self.error = err;
                     self.home('resetPasswordFailed');
@@ -156,8 +156,7 @@ var emailsSwarming = {
                     self.home('resetPasswordFailed');
                 }else {
                     var user = users[0];
-                    console.log(user);
-                    changeUserPassword(user.userId, user['password'], newPassword, S(function (err, result) {
+                    changeUserPassword(user.userId, user.password, newPassword, S(function (err, result) {
                         console.log(arguments);
                         delete self['newPassword'];
                         if (err) {
