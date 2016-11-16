@@ -26,6 +26,8 @@ var emailsSwarming = {
         node:"UsersManager",
         code:function(){
             var self = this;
+
+            console.log("Searching ids for "+self.senderEmail+" and "+ self.receiverEmail)
             filterUsers({"email":self.senderEmail},S(function(err,users){
                 if(err ){
                     self.error = err;
@@ -55,6 +57,9 @@ var emailsSwarming = {
         node: "EmailAdapter",
         code: function () {
             var self = this;
+
+            console.log("Registering conversation between :",self.senderId,self.receiverId);
+
             registerConversation(self.senderId,self.receiverId,S(function(err,newConversationUUID){
                 if(err){
                     self.error = err;
