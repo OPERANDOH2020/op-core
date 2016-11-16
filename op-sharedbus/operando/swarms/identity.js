@@ -199,7 +199,6 @@ var identitySwarming = {
         this.action = "getRealEmail";
         this.swarm("getUserIdWithProxy");
     },
-
     getUserIdWithProxy:{
         node: "IdentityManager",
         code: function () {
@@ -216,12 +215,10 @@ var identitySwarming = {
             }));
         }
     },
-
     getUserEmail:{
         node: "UsersManager",
         code: function () {
             var self = this;
-            console.log("Cautare");
             getUserInfo(this.userId,S(function(err, userInfo){
                 if(err){
                     self.error = err;
