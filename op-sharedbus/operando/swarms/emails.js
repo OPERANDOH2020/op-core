@@ -58,7 +58,7 @@ var emailsSwarming = {
         node:"UsersManager",
         code:function(){
             var self = this;
-            console.log("Getting emails for "+self.conversation.receiver+" and "+self.conversation.sender);
+            console.log("Getting emails for ",self.conversation);
 
             getUserEmail(self.conversation.receiver,S(function(err,email){
                 if(err){
