@@ -156,6 +156,7 @@ var emailsSwarming = {
                     self.home('resetPasswordFailed');
                 }else {
                     var user = users[0];
+                    console.log(user);
                     changeUserPassword(user.userId, user['password'], newPassword, S(function (err, result) {
                         console.log(arguments);
                         delete self['newPassword'];
