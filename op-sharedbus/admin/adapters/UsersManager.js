@@ -421,6 +421,7 @@ getUserId = function(email, callback){
 }
 
 changeUserPassword = function(userId, currentPassword, newPassword, callback){
+    console.log("\n\n\n\nChange user password",arguments,"\n\n\n\n");
     flow.create("Validate Password", {
         begin: function () {
 
