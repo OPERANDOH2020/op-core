@@ -155,14 +155,13 @@ var emailsSwarming = {
     deliverEmail:{
         node: "EmailAdapter",
         code: function () {
-            console.log("Delivering an email to ",this['to'],this);
             var self = this;
             registerConversation(self.from,self.receiverId,S(function(err,conversationUUID) {
-                console.log("\n\n",arguments,"\n\n");
                 if(err){
                     self.error = err.message;
                     self.home("emailDeliveryUnsuccessful");
                 }else{
+                    console.log("Delivering an email to ",conversationUUID+"@privatesky.xyz");
                     sendEmail(self['from'], conversationUUID+"@privatesky.xyz", self['subject'], self['content'], S(function (err, deliveryResult) {
                         console.log("\n\n",arguments,"\n\n");
                         delete self['from'];
