@@ -147,7 +147,6 @@ deleteUser = function (userData) {
  Sterge o organizatie
  */
 
-
 deleteOrganisation = function (organisationId) {
     flow.create("delete organisation", {
         begin: function () {
@@ -157,7 +156,7 @@ deleteOrganisation = function (organisationId) {
             callback(err, obj);
         }
     })();
-}
+};
 
 /*
  Updateaza informatiile unui utilizator
@@ -186,7 +185,7 @@ updateUser = function (userJsonObj, callback) {
             callback(err, user);
         }
     })();
-}
+};
 
 /*
  queryUsers returneaza lista utilizatorilor apartinind de o organizatie

@@ -161,7 +161,6 @@ var emailsSwarming = {
                     self.error = err.message;
                     self.home("emailDeliveryUnsuccessful");
                 }else{
-                    console.log("Delivering an email to ",conversationUUID+"@privatesky.xyz");
                     sendEmail(self['from'], conversationUUID+"@privatesky.xyz", self['subject'], self['content'], S(function (err, deliveryResult) {
                         console.log("\n\n",arguments,"\n\n");
                         delete self['from'];
