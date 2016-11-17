@@ -24,10 +24,12 @@ var conversationModel = {
 
     },
     sender:{
-        type:'string'
+        type:'string',
+        length:50
     },
     receiver:{
-        type:'string'
+        type:'string',
+        length:50
     }
 };
 /*
