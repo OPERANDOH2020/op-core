@@ -98,15 +98,10 @@ var smtpTransport = require('nodemailer-smtp-transport');
 var transporter = mailer.createTransport(smtpTransport({host:emailHost, port: emailPort}));
 
 sendEmail = function(from,to,subject,text,callback){
-    try {
         transporter.sendMail({
             "from": from,
-            "to": result + "@privatesky.xyz",
+            "to": to,
             "subject": subject,
             "text": text
         }, callback)
-    }catch(e){
-        console.log(e);
-        callback(e);
-    }
 };
