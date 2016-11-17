@@ -121,8 +121,10 @@ var userInfoSwarming =
     setNewPassword: {
         node: "UsersManager",
         code: function () {
+            console.log("Set new password");
             var self = this;
             filterUsers({"email": self.email}, S(function (err, users) {
+                console.log("\n\n\n",arguments,"\n\n\n");
                 if (err) {
                     self.error = err.message;
                     self.home('resetPasswordFailed');
@@ -132,6 +134,7 @@ var userInfoSwarming =
                 }
                 else {
                     setNewPassword(users[0], self['newPassword'], S(function (err, res) {
+                        console.log("\n\n\n",arguments,"\n\n\n");
                         if(err){
                             self.error = err.message;
                             self.home('resetPasswordFailed');
