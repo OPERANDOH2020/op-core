@@ -104,6 +104,7 @@ var emailsSwarming = {
         this['conversationUUID'] = conversationUUID;
         this.swarm('remove');
     },
+
     remove: {
         node: "EmailAdapter",
         code: function () {
@@ -159,6 +160,8 @@ var emailsSwarming = {
                         delete self['subject'];
                         delete self['content'];
                         delete self['receiverId'];
+
+                        console.log("Delivered",arguments,self);
 
                         if (err) {
                             self.error = err.message;
