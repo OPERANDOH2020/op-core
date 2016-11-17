@@ -80,7 +80,7 @@ var privacyWizardSwarm = {
     updateNotifications:{
         node:"NotificationUAM",
         code:function(){
-            clearPrivacyQuestionnaire(this.meta.userId);
+            clearSocialNetwork(this.meta.userId);
         }
     }
 };

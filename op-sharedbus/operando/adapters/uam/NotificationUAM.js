@@ -24,8 +24,8 @@ var signupNotifications = {
     privacy_questionnaire: {
         sender: "WatchDog",
         title: "Privacy Questionnaire",
-        description: "You have not filled the privacy questionnaire yet. Doing so will tailor your social network privacy settings to your preferences.  You can also skip the questionnaire and optimize your social network privacy settings in a single click <br/><a href='#'>Privacy questionnaire</a> <a href='#'>Single click privacy</a>",
-        action: ["privacy-questionnaire", "single-click-privacy"],
+        description: "You have not filled all your social network privacy settings yet. Doing so will tailor your social network privacy settings to your preferences. You can also optimize your social network privacy settings in a single click, using settings recommended by PrivacyPlus.<br/> <a href='#'>Optimize my social network privacy</a>",
+        actions: ["social-network-privacy"],
         type: "info-notification",
         category:"privacy-questionnaire"
 
@@ -57,7 +57,7 @@ apersistence.registerModel("Notification","Redis",{
         index:true
     },
     sender:{
-        type: "string",
+        type: "string"
     },
     forUser:{
         type: "string",
@@ -235,7 +235,7 @@ clearDealsNotifications = function(userId){
     clearNotification(userId,signupNotifications.deals.category);
 }
 
-clearPrivacyQuestionnaire = function(userId){
+clearSocialNetwork = function(userId){
     clearNotification(userId,signupNotifications.privacy_questionnaire.category);
 }
 
