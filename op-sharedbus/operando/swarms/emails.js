@@ -137,6 +137,7 @@ var emailsSwarming = {
         this['content'] = content;
         this.swarm('prepareEmailDelivery');
     },
+    
     prepareEmailDelivery:{
         node:"UsersManager",
         code:function(){
