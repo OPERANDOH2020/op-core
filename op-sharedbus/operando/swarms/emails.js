@@ -130,6 +130,7 @@ var emailsSwarming = {
     },
 
     sendEmail:function(from,to,subject,content){
+        console.log("Sending email to "+to);
         this['from'] = from;
         this['to'] = to;
         this['subject'] = subject;
@@ -141,6 +142,7 @@ var emailsSwarming = {
         code:function(){
             var self = this;
             filterUsers({"email":self.to},S(function(err,users){
+                console.log("\n\n",arguments,"\n\n");
                 if(err ){
                     self.error = err.message;
                     self.home("emailDeliveryUnsuccessful")
@@ -182,7 +184,6 @@ var emailsSwarming = {
     },
 
     resetPassword:function(email){
-        console.log("Resetting password for "+email);
         startSwarm("UserInfo.js","resetPassword",email);
     }
 
