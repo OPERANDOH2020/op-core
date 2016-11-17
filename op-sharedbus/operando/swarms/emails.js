@@ -11,7 +11,6 @@
  */
 
 var emailsSwarming = {
-
     registerConversation: function(sender,receiver){
         this['sender'] = sender;
         this['receiver'] = receiver;
@@ -42,7 +41,6 @@ var emailsSwarming = {
         node: "EmailAdapter",
         code: function () {
             var self = this;
-            console.log("Getting conversation "+self.conversationUUID);
             getConversation(self.conversationUUID,S(function(err,requestedConversation){
                 if(err ){
                     self.error = err;
@@ -62,10 +60,7 @@ var emailsSwarming = {
         node:"UsersManager",
         code:function(){
             var self = this;
-            console.log("Getting emails for ",self.conversation);
-
             getUserEmail(self.conversation.receiver,S(function(err,email){
-                console.log(arguments);
                 if(err){
                     self.error = err;
                     console.log("User with id "+self.conversation.receiver+" could not be retrieved\n",err);
@@ -73,7 +68,6 @@ var emailsSwarming = {
                 }else{
                     self.conversation.receiver = email;
                     getUserEmail(self.conversation.sender,S(function(err,email){
-                        console.log(arguments);
                         if(err){
                             self.error = err;
                             console.log("User with id "+self.conversation.sender+" could not be retrieved\n",err);
@@ -93,10 +87,8 @@ var emailsSwarming = {
                  */
                 var emailRegularExpression = "@";
                 if(id.match(emailRegularExpression)){
-                    console.log("Is email: "+id)
                     callback(null,id);
                 }else{
-                    console.log("Is not email: "+id)
                     getUserInfo(id,S(function(err,user){
                         if(err){
                             callback(err);
@@ -136,7 +128,6 @@ var emailsSwarming = {
         this['content'] = content;
         this.swarm('prepareEmailDelivery');
     },
-
     prepareEmailDelivery:{
         node:"UsersManager",
         code:function(){
@@ -150,22 +141,20 @@ var emailsSwarming = {
                 }else{
                     self['receiverId'] = users[0].userId;
                 }
-                self.swarm("deliverEmail");}))}
+                self.swarm("deliverEmail");
+            }))
+        }
     },
     deliverEmail:{
         node: "EmailAdapter",
         code: function () {
             var self = this;
             registerConversation(self.from,self.receiverId,S(function(err,conversationUUID) {
-
-                console.log("\n\n",arguments,"\n\n");
-
                 if(err){
                     self.error = err.message;
                     self.home("emailDeliveryUnsuccessful");
                 }else{
                     sendEmail(self['from'], conversationUUID+"@privatesky.xyz", self['subject'], self['content'], S(function (err, deliveryResult) {
-                        console.log("\n\n",arguments,"\n\n");
                         delete self['from'];
                         delete self['to'];
                         delete self['subject'];

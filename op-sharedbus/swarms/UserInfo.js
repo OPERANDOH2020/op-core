@@ -43,7 +43,7 @@ var userInfoSwarming =
         node:"UsersManager",
         code : function (){
             var self = this;
-            var user = getUserInfo(self.userId, S(function(err, user){
+            getUserInfo(self.userId, S(function(err, user){
                 if(err){
                     console.log(err);
                 }
@@ -65,7 +65,6 @@ var userInfoSwarming =
     changePassword:function(currentPassword, newPassword){
         this.currentPassword = currentPassword;
         this.newPassword = newPassword;
-        console.log(currentPassword,newPassword);
         this.swarm("changeUserPassword");
     },
 
