@@ -136,7 +136,6 @@ var userInfoSwarming =
                             self.error = err.message;
                             self.home('resetPasswordFailed');
                         }else{
-                            console.log("Starting new emails swarm");
                             var newPassword = self['newPassword'];
                             delete self['newPassword'];
                             startSwarm("emails.js",

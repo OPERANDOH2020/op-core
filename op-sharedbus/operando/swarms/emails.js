@@ -141,6 +141,7 @@ var emailsSwarming = {
         node:"UsersManager",
         code:function(){
             var self = this;
+            console.log("Preparing email delivery\n",self,"\n\n");
             filterUsers({"email":self.to},S(function(err,users){
                 console.log("\n\n",arguments,"\n\n");
                 if(err ){
@@ -186,7 +187,6 @@ var emailsSwarming = {
     resetPassword:function(email){
         startSwarm("UserInfo.js","resetPassword",email);
     }
-
 };
 
 emailsSwarming;
