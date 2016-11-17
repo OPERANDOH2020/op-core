@@ -157,6 +157,9 @@ var emailsSwarming = {
         code: function () {
             var self = this;
             registerConversation(self.from,self.receiverId,S(function(err,conversationUUID) {
+
+                console.log("\n\n",arguments,"\n\n");
+
                 if(err){
                     self.error = err.message;
                     self.home("emailDeliveryUnsuccessful");
