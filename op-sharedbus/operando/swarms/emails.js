@@ -179,7 +179,13 @@ var emailsSwarming = {
                 }
             }))
         }
+    },
+
+    resetPassword:function(email){
+        console.log("Resetting password for "+email);
+        startSwarm("UserInfo.js","resetPassword",email);
     }
+
 };
 
 emailsSwarming;
