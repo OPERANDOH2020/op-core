@@ -139,14 +139,17 @@ var userInfoSwarming =
                             console.log("Starting new emails swarm");
                             var newPassword = self['newPassword'];
                             delete self['newPassword'];
-                            startSwarm("emails.js",
-                                "sendEmail",
-                                "operando@privatesky.xyz",
-                                user['email'],
-                                "Reset password",
-                                "Your password has been changed \nYour new password is " + newPassword);
+                            try {
+                                startSwarm("emails.js",
+                                    "sendEmail",
+                                    "operando@privatesky.xyz",
+                                    user['email'],
+                                    "Reset password",
+                                    "Your password has been changed \nYour new password is " + newPassword);
+                            }catch(e){
+                                console.log(e);
+                            }
                         }
-
                     }))
                 }
             }))
