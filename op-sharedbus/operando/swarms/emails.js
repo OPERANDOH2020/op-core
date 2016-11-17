@@ -74,7 +74,6 @@ var emailsSwarming = {
                             self.home("Failed");
                         }else{
                             self.conversation.sender = email;
-                            console.log("Final conversation is: ",self.conversation);
                             self.home("gotConversation");
                         }}))
                 }}));
