@@ -130,21 +130,18 @@ var emailsSwarming = {
     },
 
     sendEmail:function(from,to,subject,content){
-        console.log("Sending email to "+to);
         this['from'] = from;
         this['to'] = to;
         this['subject'] = subject;
         this['content'] = content;
         this.swarm('prepareEmailDelivery');
     },
-    
+
     prepareEmailDelivery:{
         node:"UsersManager",
         code:function(){
             var self = this;
-            console.log("Preparing email delivery\n",self,"\n\n");
             filterUsers({"email":self.to},S(function(err,users){
-                console.log("\n\n",arguments,"\n\n");
                 if(err ){
                     self.error = err.message;
                     self.home("emailDeliveryUnsuccessful")
@@ -158,14 +155,16 @@ var emailsSwarming = {
     deliverEmail:{
         node: "EmailAdapter",
         code: function () {
-            console.log("Delivering an email to ",this['to']);
+            console.log("Delivering an email to ",this['to'],this);
             var self = this;
             registerConversation(self.from,self.receiverId,S(function(err,conversationUUID) {
+                console.log("\n\n",arguments,"\n\n");
                 if(err){
                     self.error = err.message;
                     self.home("emailDeliveryUnsuccessful");
                 }else{
                     sendEmail(self['from'], conversationUUID+"@privatesky.xyz", self['subject'], self['content'], S(function (err, deliveryResult) {
+                        console.log("\n\n",arguments,"\n\n");
                         delete self['from'];
                         delete self['to'];
                         delete self['subject'];
