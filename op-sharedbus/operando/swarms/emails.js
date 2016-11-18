@@ -122,6 +122,7 @@ var emailsSwarming = {
     },
 
     sendEmail:function(from,to,subject,content){
+        console.log("SEND EMAIL\n",this);
         this['from'] = from;
         this['to'] = to;
         this['subject'] = subject;
@@ -160,9 +161,7 @@ var emailsSwarming = {
                         delete self['subject'];
                         delete self['content'];
                         delete self['receiverId'];
-
-                        console.log("Delivered",arguments,self);
-
+                        
                         if (err) {
                             self.error = err.message;
                             self.home('emailDeliveryUnsuccessful');
