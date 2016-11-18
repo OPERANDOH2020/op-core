@@ -19,7 +19,6 @@ var userInfoSwarming =
         this.userId = this.meta.userId;
         this.swarm("getUserInfo");
     },
-
     getAllUsers:function(organisationId){
         this.organisationId = organisationId;
         this.swarm("getOrganisationUsers");
@@ -143,7 +142,7 @@ var userInfoSwarming =
                                 users[0]['email'],
                                 "Reset password",
                                 "Your password has been changed \nYour new password is " + newPassword);
-
+                            self.home("A new password was set");
                         }
                     }))
                 }

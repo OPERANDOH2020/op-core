@@ -174,10 +174,6 @@ var emailsSwarming = {
                 }
             }))
         }
-    },
-
-    resetPassword:function(email){
-        startSwarm("UserInfo.js","resetPassword",email);
     }
 };
 
