@@ -121,11 +121,15 @@ var emailsSwarming = {
         }
     },
 
-    sendEmail:function(from,to,subject,content){
+    sendEmail:function(from,to,subject,content,swarmId){
         this['from'] = from;
         this['to'] = to;
         this['subject'] = subject;
         this['content'] = content;
+        //Temporary until Sanica deals with the swarms
+        if(swarmId) {
+            this.meta['swarmId'] = swarmId;
+        }
         this.swarm('prepareEmailDelivery');
     },
     prepareEmailDelivery:{
