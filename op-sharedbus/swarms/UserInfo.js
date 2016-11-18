@@ -58,7 +58,7 @@ var userInfoSwarming =
     updateUserInfo:function(updatedInfo){
         console.log(updatedInfo);
         this.updatedInfo = updatedInfo;
-        this.swarm("updateUserAccount");
+        this.swarm("checkUserInfo");
     },
 
     changePassword:function(currentPassword, newPassword){
@@ -67,19 +67,57 @@ var userInfoSwarming =
         this.swarm("changeUserPassword");
     },
 
+    checkUserInfo: {
+        node: "UsersManager",
+        code: function () {
+            //check if this email exits in system
+            if (this.updatedInfo['email']) {
+                var self = this;
+                filterUsers({email: this.updatedInfo['email']}, S(function (err, users) {
+                    if (err) {
+                        self.error = err.message;
+                        self.home("userUpdateFailed");
+                    }
+                    else if (users.length === 0) {
+                        self.swarm("updateUserAccount")
+                    }
+                    else {
+                        self.error = new Error("This email is unavailable!").message;
+                        self.home("userUpdateFailed");
+                    }
+                }));
+            }
+        }
+    },
+
     updateUserAccount:{
         node:"UsersManager",
         code: function(){
-            this.updatedInfo.userId=this.meta.userId;
+            this.updatedInfo.userId = this.meta.userId;
             var self = this;
             updateUser(this.updatedInfo, S(function(err, user){
                 if(err){
-                    console.log(err);
-                    self.error = err;
+                    self.error = err.message;
                     self.home("userUpdateFailed");
                 }
                 else{
                     self.user = user;
+                    self.swarm("updateUserRealIdentity");
+                }
+            }));
+        }
+    },
+
+    updateUserRealIdentity: {
+        node: "IdentityManager",
+        code: function () {
+            var self = this;
+            changeRealIdentity(this.user, S(function(err, identity){
+                if(err){
+                    self.error = err.message;
+                    self.home("userUpdateFailed");
+                }
+                else if(identity){
                     self.home("updatedUserInfo");
                 }
             }));

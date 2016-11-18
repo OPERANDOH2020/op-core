@@ -333,7 +333,10 @@ saveUserDeal = function (dealId, userId, callback) {
                         deal.userId = userId;
                         deal.pfbId = dealId;
                         deal.voucher = voucher_codes.generate({
-                            pattern: "##-####-##-####-####-##",
+                            pattern: "###",
+                            charset: voucher_codes.charset("alphabetic")
+                        })[0].toUpperCase()+" "+voucher_codes.generate({
+                            pattern: "#### #### #### #### ####",
                             charset: voucher_codes.charset("numbers")
                         })[0];
                         redisPersistence.saveObject(deal, callback);

@@ -39,8 +39,8 @@ apersistence.registerModel("Identity", "Redis", {
             index: true
         },
         deleted:{
-            type: "string",
-            default: "no",
+            type: "boolean",
+            default: false,
             index:true
         }
 
@@ -124,7 +124,7 @@ deleteIdentity = function (identityData, callback) {
                 }
                 else{
                     var markDeletedData={
-                        deleted:"yes",
+                        deleted:true,
                         isDefault:false
                     }
 
@@ -139,7 +139,7 @@ deleteIdentity = function (identityData, callback) {
             }
         },
         getDefaultIdentity:function(err, identity){
-            redisPersistence.filter("Identity", {isDefault:true, userId:identityData.userId, deleted:"no"}, this.continue("returnDefaultIdentity"));
+            redisPersistence.filter("Identity", {isDefault:true, userId:identityData.userId, deleted:false}, this.continue("returnDefaultIdentity"));
         },
         returnDefaultIdentity:function(err, identities){
             if(err){
@@ -147,7 +147,7 @@ deleteIdentity = function (identityData, callback) {
             }
             else{
                if(identities.length === 0){
-                   redisPersistence.filter("Identity", {isReal:true, userId:identityData.userId, deleted:"no"}, this.continue("returnRealIdentity"));
+                   redisPersistence.filter("Identity", {isReal:true, userId:identityData.userId, deleted:false}, this.continue("returnRealIdentity"));
                }
                 else{
                    callback(null, identities[0]);
@@ -174,7 +174,7 @@ getIdentities = function (userId, callback) {
         callback(new Error("userId_is_required"), null);
     }
     else {
-        redisPersistence.filter("Identity", {userId: userId, deleted:"no"}, callback);
+        redisPersistence.filter("Identity", {userId: userId, deleted:false}, callback);
     }
 };
 
@@ -186,7 +186,7 @@ setDefaultIdentity = function(identity, callback){
                 callback(new Error("no_identity_provided"), null);
             }
             else {
-                redisPersistence.filter("Identity", {isDefault:true, userId:identity.userId, deleted:"no"}, this.continue("clearCurrentDefaultIdentity"));
+                redisPersistence.filter("Identity", {isDefault:true, userId:identity.userId, deleted:false}, this.continue("clearCurrentDefaultIdentity"));
             }
         },
 
@@ -252,6 +252,31 @@ setRealIdentity = function(user, callback){
 
     })();
 };
+
+changeRealIdentity = function(user, callback){
+    flow.create("change real identity",{
+       begin: function(){
+           var filter = {
+               userId:user.userId,
+               isReal:true,
+               deleted:false
+           }
+           redisPersistence.filter("Identity", filter, this.continue("changeRealIdentity"));
+       },
+        changeRealIdentity:function(err, identities){
+            if(err){
+                callback(err, null);
+            }
+            else if(identities.length>0){
+                var identity = identities[0];
+                redisPersistence.delete(identity,function(){
+                    identity.email = user.email;
+                    redisPersistence.saveObject(identity, callback);
+                });
+            }
+        }
+    })();
+}
 
 getUserId = function(proxyEmail,callback){
     redisPersistence.findById("Identity",proxyEmail,function(err,result){
