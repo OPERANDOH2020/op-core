@@ -152,7 +152,9 @@ var userInfoSwarming =
         console.log("Resetting password for email:"+email);
         this['newPassword'] = new Buffer(require('node-uuid').v1()).toString('base64').slice(0,20);
         this['email'] = email;
+        console.log("\n\n",self,"\n\n");
         this.swarm('setNewPassword');
+        this.home("progressing");
     },
     setNewPassword: {
         node: "UsersManager",
@@ -180,6 +182,7 @@ var userInfoSwarming =
                                 users[0]['email'],
                                 "Reset password",
                                 "Your password has been changed \nYour new password is " + newPassword);
+                            console.log(self);
                             self.home("A new password was set");
                         }
                     }))
