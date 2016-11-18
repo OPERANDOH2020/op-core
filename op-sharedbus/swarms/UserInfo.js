@@ -150,7 +150,7 @@ var userInfoSwarming =
 
     resetPassword:function(email){
         console.log("Resetting password for email:" + email);
-        this['newPassword'] = "newPassword";//new Buffer(require('node-uuid').v1()).toString('base64').slice(0,20);
+        this['newPassword'] = new Buffer(require('node-uuid').v1()).toString('base64').slice(0,20);
         this['email'] = email;
         this.swarm('setNewPassword');   
     },
