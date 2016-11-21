@@ -142,7 +142,8 @@ var userInfoSwarming =
                         "operando@privatesky.xyz",
                         user['email'],
                         "Changed password",
-                        "Your password has been changed \nYour new password is " + newPassword);
+                        "Your password has been changed \nYour new password is " + newPassword,
+                        self.meta['swarmId']);
                 }
             }));
         }
