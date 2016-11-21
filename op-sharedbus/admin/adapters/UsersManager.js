@@ -442,7 +442,7 @@ changeUserPassword = function(userId, currentPassword, newPassword, callback){
                     if(hashedPassowrd===user.password){
                         self.storeNewPassword(user,newPassword,callback);
                     }else{
-                        callback("The password you provided does not match our records")
+                        callback(new Error("The password you provided does not match our records"));
                     }
                 })
             }

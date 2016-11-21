@@ -132,6 +132,7 @@ var userInfoSwarming =
                 delete self.currentPassword;
                 if (err) {
                     self.error = err.message;
+                    delete self['newPassword'];
                     self.home("passwordChangeFailure");
                 }
                 else {
