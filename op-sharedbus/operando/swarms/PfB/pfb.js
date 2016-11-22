@@ -163,7 +163,8 @@ var privacyForBenefits = {
             this['subject'] = "[OPERANDO] Deal from "+this.service.website;
 
            if(this.action == "subscribed"){
-                this['content'] = "You have successfully subscribed to " + this.service.website;
+               this['content'] = "You have successfully subscribed to " + this.service.website+". ";
+               this['content'] += "Your voucher is " + this.deal.voucher;
             }
             else{
                 this['content'] = "You have successfully unsubscribed to " + this.service.website;
