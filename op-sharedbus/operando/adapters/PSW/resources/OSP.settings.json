@@ -752,8 +752,7 @@
                 "data": {
                     "location": 44,
                     "hideable_ids": [
-                        "#following_plugin_item",
-                        "#following_editor_item"
+                        "#following_plugin_item"
                     ]
                 },
                 "recommended": "friends"

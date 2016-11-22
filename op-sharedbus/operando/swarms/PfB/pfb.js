@@ -159,7 +159,7 @@ var privacyForBenefits = {
     notifyUserByEmail:{
         node: "EmailAdapter",
         code: function () {
-            this['from']="pfb@operando.eu";
+            this['from']="deals@operando.eu";
             this['subject'] = "[OPERANDO] Deal from "+this.service.website;
 
            if(this.action == "subscribed"){
@@ -183,7 +183,7 @@ var privacyForBenefits = {
                 }else{
                     console.log("Pfb email successfully sent");
                 }
-            }))
+            }));
         }
     },
 
