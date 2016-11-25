@@ -157,7 +157,7 @@ var emailsSwarming = {
                     self.error = err.message;
                     self.home("emailDeliveryUnsuccessful");
                 }else{
-                    sendEmail(self['from'], conversationUUID, self['subject'], self['content'], S(function (err, deliveryResult) {
+                    sendEmail(self['from'], conversationUUID+"@"+thisAdapter.config.Core.operandoHost, self['subject'], self['content'], S(function (err, deliveryResult) {
                         delete self['from'];
                         delete self['to'];
                         delete self['subject'];

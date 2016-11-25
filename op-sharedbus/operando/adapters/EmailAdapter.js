@@ -101,7 +101,7 @@ sendEmail = function(from,to,subject,text,callback){
     
     transporter.sendMail({
         "from": from,
-        "to": to+"@"+thisAdapter.config.Core.operandoHost,
+        "to": to,
         "subject": subject,
         "text": text
     }, callback)
