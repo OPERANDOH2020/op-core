@@ -67,7 +67,10 @@ var identitySwarming = {
     },
 
     listDomains: function(){
-        var availableDomains = [{name:"privatesky.xyz",id:"privatesky"}];
+        var availableDomains = [{
+                name:thisAdapter.config.Core.operandoHost,
+                id:thisAdapter.config.Core.operandoHost.split(".")[0]
+            }];
         this.domains = availableDomains;
         this.home("gotDomains");
     },
