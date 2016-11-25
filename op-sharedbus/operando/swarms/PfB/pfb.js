@@ -137,8 +137,21 @@ var privacyForBenefits = {
                  }
                 else{
                      self.service = service;
-                     self.swarm("notifyUserByEmail");
+                     self.swarm("getUserEmail");
                  }
+            }));
+        }
+    },
+
+    getUserEmail:{
+        node:"UsersManager",
+        code:function(){
+            var self = this;
+            getUserInfo(this.meta.userId, S(function(err, userInfo){
+                if(userInfo && userInfo.email){
+                    self['to'] = userInfo.email;
+                    self.swarm("notifyUserByEmail");
+                }
             }));
         }
     },
@@ -146,12 +159,12 @@ var privacyForBenefits = {
     notifyUserByEmail:{
         node: "EmailAdapter",
         code: function () {
-            this['from']="pfb@operando.eu";
-            this['to'] = this.meta.userId;
+            this['from']="deals@operando.eu";
             this['subject'] = "[OPERANDO] Deal from "+this.service.website;
 
            if(this.action == "subscribed"){
-                this['content'] = "You have successfully subscribed to " + this.service.website;
+               this['content'] = "You have successfully subscribed to " + this.service.website+". ";
+               this['content'] += "Your voucher is " + this.deal.voucher;
             }
             else{
                 this['content'] = "You have successfully unsubscribed to " + this.service.website;
@@ -170,7 +183,7 @@ var privacyForBenefits = {
                 }else{
                     console.log("Pfb email successfully sent");
                 }
-            }))
+            }));
         }
     },
 
