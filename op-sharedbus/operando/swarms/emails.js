@@ -104,7 +104,6 @@ var emailsSwarming = {
         this['conversationUUID'] = conversationUUID;
         this.swarm('remove');
     },
-
     remove: {
         node: "EmailAdapter",
         code: function () {
@@ -158,7 +157,7 @@ var emailsSwarming = {
                     self.error = err.message;
                     self.home("emailDeliveryUnsuccessful");
                 }else{
-                    sendEmail(self['from'], conversationUUID+"@privatesky.xyz", self['subject'], self['content'], S(function (err, deliveryResult) {
+                    sendEmail(self['from'], conversationUUID, self['subject'], self['content'], S(function (err, deliveryResult) {
                         delete self['from'];
                         delete self['to'];
                         delete self['subject'];

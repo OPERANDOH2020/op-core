@@ -98,10 +98,10 @@ var smtpTransport = require('nodemailer-smtp-transport');
 var transporter = mailer.createTransport(smtpTransport({host:emailHost, port: emailPort}));
 
 sendEmail = function(from,to,subject,text,callback){
-
+    
     transporter.sendMail({
         "from": from,
-        "to": to,
+        "to": to+"@"+thisAdapter.config.Core.operandoHost,
         "subject": subject,
         "text": text
     }, callback)

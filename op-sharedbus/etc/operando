@@ -10,6 +10,7 @@
      "mysqlPort":"3306",
      "mysqlDatabasePassword":"operando",
      "mysqlDatabaseName":"operando",
+     "operandoHost":"plusprivacy.com",
      "paths":[
         {"core":"etc/coreSwarms"      ,"enabled":true},
 	    {"core":"etc/xSwarms"         ,"enabled":false},
