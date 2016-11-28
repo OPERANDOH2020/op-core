@@ -25,11 +25,11 @@ var conversationModel = {
     },
     sender:{
         type:'string',
-        length:50
+        length:254
     },
     receiver:{
         type:'string',
-        length:50
+        length:254
     }
 };
 /*
