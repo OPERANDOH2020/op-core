@@ -63,7 +63,7 @@ public class UPPMongo {
     public UPPMongo() {
         try {
             this.mongo = new MongoClient("localhost", 27017);
-            
+
             // get database
             this.db = mongo.getDB("pdb");
 
@@ -103,6 +103,10 @@ public class UPPMongo {
     public String getUPPByFilter(String filter) {
         String result = null;
         BasicDBObject query = new BasicDBObject();
+
+        if (filter == null) {
+            return "Input error: No UPP ID provided";
+        }
 
         System.out.println("filter expression: " + filter);
 
