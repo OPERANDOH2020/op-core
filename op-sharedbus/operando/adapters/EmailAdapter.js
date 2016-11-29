@@ -6,7 +6,8 @@ var mysql      = require('mysql');
 var core = require("swarmcore");
 thisAdapter = core.createAdapter("EmailAdapter");
 
-var mysqlConnection = mysql.createConnection({
+var mysqlConnection = mysql.createPool({
+    connectionLimit:10,
     host     : thisAdapter.config.Core.mysqlHost,
     port     : thisAdapter.config.Core.mysqlPort,
     user     : 'root',
