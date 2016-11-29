@@ -26,19 +26,11 @@
 package io.swagger.api.impl;
 
 import io.swagger.api.*;
-import io.swagger.model.*;
-
-import io.swagger.model.OSPPrivacyPolicy;
-import io.swagger.model.OSPReasonPolicy;
 import io.swagger.model.OSPReasonPolicyInput;
 import io.swagger.model.OSPPrivacyPolicyInput;
 
-import java.util.List;
 import io.swagger.api.NotFoundException;
 
-import java.io.InputStream;
-
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -58,8 +50,8 @@ public class OSPApiServiceImpl extends OSPApiService {
         OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
         String ospString = regdb.getOSPByFilter(filter);
         if(ospString == null){
-            return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, 
-                   "Error - the regulation does not exist")).build(); 
+            return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                   "Error - the regulation does not exist")).build();
         }
 
         //return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, ospString)).build();
@@ -86,12 +78,12 @@ public class OSPApiServiceImpl extends OSPApiService {
     public Response oSPOspIdGet(String ospId, SecurityContext securityContext)
             throws NotFoundException {
         // do some magic!
-           
+
         OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
         String ospString = regdb.getOSPById(ospId);
         if(ospString == null){
-            return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, 
-                   "Error - the regulation does not exist")).build(); 
+            return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                   "Error - the regulation does not exist")).build();
         }
 
         //return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, ospString)).build();
@@ -105,8 +97,8 @@ public class OSPApiServiceImpl extends OSPApiService {
         OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
         String ospString = regdb.getPolicyOSPById(ospId);
         if(ospString == null){
-            return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, 
-                   "Error - the reason policy does not exist")).build(); 
+            return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                   "Error - the reason policy does not exist")).build();
         }
 
         //return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, ospString)).build();
@@ -130,7 +122,7 @@ public class OSPApiServiceImpl extends OSPApiService {
     public Response oSPOspIdPut(String ospId, OSPPrivacyPolicyInput ospPolicy, SecurityContext securityContext)
             throws NotFoundException {
         // do some magic!
-        
+
         OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
         boolean updateAction = regdb.updateOSP(ospId, ospPolicy);
         if (!updateAction) {
@@ -146,14 +138,14 @@ public class OSPApiServiceImpl extends OSPApiService {
     public Response oSPPost(OSPPrivacyPolicyInput ospPolicy, SecurityContext securityContext)
             throws NotFoundException {
         // do some magic!
-                             
+
         OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
         String storeAction = regdb.storeOSP(ospPolicy);
         if(storeAction == null) {
-            return Response.status(405).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, 
+            return Response.status(405).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                    "Error. The document (OSPBehaviour) at this id has previously been created in the database.")).build();
         }
-        return Response.status(Response.Status.CREATED).entity(new ApiResponseMessage(ApiResponseMessage.OK, 
+        return Response.status(Response.Status.CREATED).entity(new ApiResponseMessage(ApiResponseMessage.OK,
                 storeAction)).build();
     }
 
