@@ -108,7 +108,7 @@ var loginSwarming = {
                 sessionIsValid(self.outletSession, self.sessionId, self.userId, S(function (err, newSession) {
 
                     if (err) {
-                        console.log(err);
+                        console.log(err.message);
                         self.home("restoreFailed");
                     }
                     else {

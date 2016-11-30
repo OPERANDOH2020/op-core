@@ -24,8 +24,13 @@ var signupNotifications = {
     privacy_questionnaire: {
         sender: "WatchDog",
         title: "Privacy Questionnaire",
-        description: "You have not filled all your social network privacy settings yet. Doing so will tailor your social network privacy settings to your preferences. You can also optimize your social network privacy settings in a single click, using settings recommended by PrivacyPlus.<br/> <a href='#'>Optimize my social network privacy</a>",
-        actions: ["social-network-privacy"],
+        description: "You have not filled all your social network privacy settings yet. Doing so will tailor your social network privacy settings to your preferences. You can also optimize your social network privacy settings in a single click, using settings recommended by PrivacyPlus.",
+        actions: [
+            {
+                key:"social-network-privacy",
+                title:"Optimize my social network privacy"
+            }
+        ],
         type: "info-notification",
         category:"privacy-questionnaire"
 
@@ -33,8 +38,11 @@ var signupNotifications = {
     identity: {
         sender: "WatchDog",
         title: "Add identity",
-        description: "You have not yet generated alternative email identities. Doing so will enable you to sign up on websites without disclosing your real email.<br/> <a href='#'>Go to email identities</a>",
-        action: ["identity"],
+        description: "You have not yet generated alternative email identities. Doing so will enable you to sign up on websites without disclosing your real email.",
+        actions: [{
+            key: "identity",
+            title: "Go to email identities"
+        }],
         type: "info-notification",
         category:"identity"
     },
@@ -42,8 +50,8 @@ var signupNotifications = {
     deals: {
         sender: "WatchDog",
         title: "Privacy deals",
-        description: "You have not yet accepted any privacy deals. Privacy deals enable you to trade some of your privacy for valuable benefits.<br/> <a href='#'> Go to deals</a>",
-        action: ["privacy-for-benefits"],
+        description: "You have not yet accepted any privacy deals. Privacy deals enable you to trade some of your privacy for valuable benefits.",
+        actions: [{key: "privacy-for-benefits", title: "Go to deals"}],
         type: "info-notification",
         category:"deals"
     }
@@ -70,7 +78,7 @@ apersistence.registerModel("Notification","Redis",{
     category:{
         type:"string"
     },
-    action:{
+    actions:{
         type:"string"
     },
     title:{
