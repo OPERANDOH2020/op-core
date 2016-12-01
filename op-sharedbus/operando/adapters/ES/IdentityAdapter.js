@@ -284,8 +284,12 @@ getUserId = function(proxyEmail,callback){
             callback(err);
             return;
         }
-        if(result===null){
+        if(result===null ){
             callback(new Error("Proxy "+proxyEmail+" is not registered"));
+            return;
+        }
+        if(result.deleted===true ){
+            callback(new Error("Proxy "+proxyEmail+" was deleted"));
             return;
         }
         callback(err,result.userId);
