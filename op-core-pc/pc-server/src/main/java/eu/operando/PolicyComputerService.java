@@ -27,9 +27,9 @@
 package eu.operando;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
+//import com.sun.jersey.api.client.Client;
+//import com.sun.jersey.api.client.ClientResponse;
+//import com.sun.jersey.api.client.WebResource;
 import io.swagger.api.NotFoundException;
 import io.swagger.model.AccessPolicy;
 
@@ -53,11 +53,16 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 /**
+ * Set of operations for the User Privacy Policy Computation. Based upon a
+ * set of inputs from questionnaires, and information from OSP about their
+ * workflow and behaviour, the UPP entry is computed and updated in the PDB.
  *
- * @author pjg
  */
 public class PolicyComputerService {
 
+    /**
+     * Placeholder for service state
+     */
     public PolicyComputerService() {
 
     }
@@ -67,6 +72,7 @@ public class PolicyComputerService {
      * @param ospId
      * @param ospPrefs
      * @param PDB_URL
+     * @param policyService
      * @return
      * @throws NotFoundException
      */
@@ -156,20 +162,20 @@ public class PolicyComputerService {
                 policyService.putUPP(userId, obj.toString());
             }
             else {
-                Client client = new Client();
-                WebResource webResourcePDB = client.resource(PDB_URL+"/user_privacy_policy/"+userId);
+//                Client client = new Client();
+//                WebResource webResourcePDB = client.resource(PDB_URL+"/user_privacy_policy/"+userId);
+//
+//            ClientResponse policyResponse = webResourcePDB.type("application/json").put(ClientResponse.class,
+//                    obj.toString());
 
-            ClientResponse policyResponse = webResourcePDB.type("application/json").put(ClientResponse.class,
-                    obj.toString());
-
-            if (policyResponse.getStatus() != 200) {
-                throw new RuntimeException("Failed : HTTP error code : "
-                        + policyResponse.toString());
-            }
+//            if (policyResponse.getStatus() != 200) {
+//                throw new RuntimeException("Failed : HTTP error code : "
+//                        + policyResponse.toString());
+//            }
             }
 
             return  subscribedOspPolicies.toString();
-        } catch (IOException ex) {
+        } catch (Exception ex) {
             Logger.getLogger(PolicyComputerService.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }

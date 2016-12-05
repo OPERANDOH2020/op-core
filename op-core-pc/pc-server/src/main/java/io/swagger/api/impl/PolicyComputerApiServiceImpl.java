@@ -42,9 +42,6 @@ import java.util.Properties;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
 import io.swagger.model.ComputationResult;
 
 /**
@@ -132,20 +129,20 @@ public class PolicyComputerApiServiceImpl extends PolicyComputerApiService {
             policyService.putUPP(userId, serializedString);
         }
         else {
-            /**
-             * Create a Jersey client for call the PDB APIs.
-             */
-            Client client = Client.create();
-            WebResource webResourcePDB = client.resource(PDB_BASEURL + "/");
-
-            ClientResponse policyResponse = webResourcePDB.type("application/json").
-                    post(ClientResponse.class, serializedString);
-
-            if (policyResponse.getStatus() != 200) {
-                Cr.setStatus("false");
-                throw new NotFoundException(400, "Failed to create user UPP : "
-                        + policyResponse.toString());
-            }
+//            /**
+//             * Create a Jersey client for call the PDB APIs.
+//             */
+//            Client client = Client.create();
+//            WebResource webResourcePDB = client.resource(PDB_BASEURL + "/");
+//
+//            ClientResponse policyResponse = webResourcePDB.type("application/json").
+//                    post(ClientResponse.class, serializedString);
+//
+//            if (policyResponse.getStatus() != 200) {
+//                Cr.setStatus("false");
+//                throw new NotFoundException(400, "Failed to create user UPP : "
+//                        + policyResponse.toString());
+//            }
         }
 
         Cr.setStatus("true");
