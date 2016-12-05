@@ -27,9 +27,9 @@
 package eu.operando;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-//import com.sun.jersey.api.client.Client;
-//import com.sun.jersey.api.client.ClientResponse;
-//import com.sun.jersey.api.client.WebResource;
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
 import io.swagger.api.NotFoundException;
 import io.swagger.model.AccessPolicy;
 
@@ -162,20 +162,20 @@ public class PolicyComputerService {
                 policyService.putUPP(userId, obj.toString());
             }
             else {
-//                Client client = new Client();
-//                WebResource webResourcePDB = client.resource(PDB_URL+"/user_privacy_policy/"+userId);
-//
-//            ClientResponse policyResponse = webResourcePDB.type("application/json").put(ClientResponse.class,
-//                    obj.toString());
+                Client client = new Client();
+                WebResource webResourcePDB = client.resource(PDB_URL+"/user_privacy_policy/"+userId);
 
-//            if (policyResponse.getStatus() != 200) {
-//                throw new RuntimeException("Failed : HTTP error code : "
-//                        + policyResponse.toString());
-//            }
+            ClientResponse policyResponse = webResourcePDB.type("application/json").put(ClientResponse.class,
+                    obj.toString());
+
+            if (policyResponse.getStatus() != 200) {
+                throw new RuntimeException("Failed : HTTP error code : "
+                        + policyResponse.toString());
+            }
             }
 
             return  subscribedOspPolicies.toString();
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             Logger.getLogger(PolicyComputerService.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
