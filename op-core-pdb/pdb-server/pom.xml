@@ -87,6 +87,37 @@
           </execution>
         </executions>
       </plugin>
+      <!-- added to support docker image creation -->
+			<plugin>
+				<groupId>org.jolokia</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.13.9</version> <!--  last version in https://mvnrepository.com/artifact/org.jolokia/docker-maven-plugin -->
+				<configuration>
+					<images>
+						<image>
+							<alias>eu.operando.core.pdb.server</alias>
+							<name>${docker.repository.name}:${project.version}</name>
+							<build>
+								<from>tomcat:7</from> <!-- in our case we start from tomcat image -->
+								<assembly>
+								    <basedir>/</basedir>
+									<descriptor>docker-assembly.xml</descriptor>
+								</assembly>
+								<ports>
+									<port>8080</port>
+								</ports>
+							</build>
+							<run>
+								<namingStrategy>alias</namingStrategy>
+								<ports>
+									<port>${docker.logdb.port}:8080</port>
+								</ports>
+							</run>
+						</image>
+					</images>
+				</configuration>
+			</plugin>
+			<!-- end of addition -->
     </plugins>
   </build>
   <dependencies>
@@ -161,6 +192,7 @@
       <groupId>com.sun.jersey</groupId>
       <artifactId>jersey-server</artifactId>
       <version>${jersey-version}</version>
+
     </dependency>
     <dependency>
       <groupId>javax.servlet</groupId>
