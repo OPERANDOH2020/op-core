@@ -289,7 +289,7 @@
 		<docker.repository.name>${docker.registry.name}tecnalia/eu.operando.core.pdb.server</docker.repository.name>
 		<docker.logdb.port>8096</docker.logdb.port>
 		<user.warName>operando#core#pdb</user.warName>
-		<mongo.host>mongo.integration.operando.dmz.lab.esilab.org</mongo.host>
+		<mongo.host>localhost</mongo.host>
 		<mongo.port>27017</mongo.port>
 		<packaging.type>jar</packaging.type>
 		<artifactId.name>jar</artifactId.name>
@@ -304,7 +304,7 @@
 				</property>
 			</activation>
 			<properties>
-				<mongo.host>mongo.integration.operando.dmz.lab.esilab.org</mongo.host>
+				<mongo.host>localhost</mongo.host>
 				<packaging.type>war</packaging.type>
 				<artifactId.name>jar</artifactId.name>
 			</properties>
