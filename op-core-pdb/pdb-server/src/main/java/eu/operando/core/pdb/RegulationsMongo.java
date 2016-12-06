@@ -63,7 +63,7 @@ public class RegulationsMongo {
 
     public RegulationsMongo() {
         try {
-            this.mongo = new MongoClient("localhost", 27017);
+            this.mongo = new MongoClient("mongo.integration.operando.dmz.lab.esilab.org", 27017);
             // get database
             this.db = mongo.getDB("pdb");
             // get collection
@@ -168,7 +168,7 @@ public class RegulationsMongo {
         String jsonInString = null;
         System.out.println("Searching for " + regId);
 
-        // find 
+        // find
         BasicDBObject searchQuery = new BasicDBObject();
         try {
             searchQuery.put("_id", new ObjectId(regId));
@@ -236,9 +236,9 @@ public class RegulationsMongo {
             //mapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
 
             String jsonInString = mapper.writeValueAsString(reg);
-            
+
             System.out.println("jsonInString: " + jsonInString);
-            
+
             Object obj = JSON.parse(jsonInString);
             DBObject document = (DBObject) obj;
 

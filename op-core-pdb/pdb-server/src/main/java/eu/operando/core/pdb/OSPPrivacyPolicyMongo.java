@@ -64,7 +64,7 @@ public class OSPPrivacyPolicyMongo {
 
     public OSPPrivacyPolicyMongo() {
         try {
-            this.mongo = new MongoClient("localhost", 27017);
+            this.mongo = new MongoClient("mongo.integration.operando.dmz.lab.esilab.org", 27017);
             // get database
             this.db = mongo.getDB("pdb");
             // get collection
@@ -170,7 +170,7 @@ public class OSPPrivacyPolicyMongo {
         String jsonInString = null;
         System.out.println("getOSPById(" + ospId + ");");
 
-        // find 
+        // find
         BasicDBObject searchQuery = new BasicDBObject();
         try {
             searchQuery.put("_id", new ObjectId(ospId));
@@ -320,7 +320,7 @@ public class OSPPrivacyPolicyMongo {
         String jsonInString = null;
         System.out.println("getPolicyOSPById(" + ospId + ");");
 
-        // find 
+        // find
         BasicDBObject searchQuery = new BasicDBObject();
         try {
             searchQuery.put("ospPolicyId", ospId);
