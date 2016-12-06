@@ -304,7 +304,7 @@
 				</property>
 			</activation>
 			<properties>
-				<mongo.host>localhost</mongo.host>
+				<mongo.host>mongo.integration.operando.dmz.lab.esilab.org</mongo.host>
 				<packaging.type>war</packaging.type>
 				<artifactId.name>jar</artifactId.name>
 			</properties>
