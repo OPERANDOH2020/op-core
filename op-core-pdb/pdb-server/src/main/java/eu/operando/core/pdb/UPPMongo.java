@@ -60,9 +60,10 @@ public class UPPMongo {
     private DB db;
     private DBCollection uppTable;
 
+
     public UPPMongo() {
         try {
-            this.mongo = new MongoClient("localhost", 27017);
+            this.mongo = new MongoClient("mongo.integration.operando.dmz.lab.esilab.org", 27017);
 
             // get database
             this.db = mongo.getDB("pdb");
@@ -80,6 +81,7 @@ public class UPPMongo {
     }
 
     public boolean deleteUPPById(String uppId) {
+        System.out.println("deleting: " + uppId);
         boolean res = false;
         BasicDBObject searchQuery = new BasicDBObject();
         try {
@@ -212,9 +214,10 @@ public class UPPMongo {
             Object obj = JSON.parse(jsonInString);
             DBObject document = (DBObject) obj;
 
-            BasicDBObject searchQuery;
+            BasicDBObject searchQuery = new BasicDBObject();;
             try {
-                searchQuery = new BasicDBObject().append("_id", new ObjectId(regId));
+//                searchQuery = new BasicDBObject().append("_id", new ObjectId(regId));
+                  searchQuery.put("userId", regId);
             } catch (IllegalArgumentException e) {
                 e.printStackTrace();
                 return result;
