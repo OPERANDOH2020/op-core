@@ -84,45 +84,41 @@ apersistence.registerModel("DefaultUser", "Redis", {
  */
 
 createUser = function (userData, callback) {
-    flow.create("create user", {
-        begin: function () {
-            if (!userData.userId) {
-                callback(new Error('Empty userId'), null);
-            }
-            else {
-                redisPersistence.lookup("DefaultUser", userData.userId, this.continue("createPassword"));
-            }
-        },
-        createPassword:function(err,user){
-            if(!redisPersistence.isFresh(user)){
-                callback(new Error("User with identical id " + userData.userId + " already exists"), null);
-            }else{
-                this.user = user;
-                userData.salt = crypto.randomBytes(48).toString('base64');
-                hashThisPassword(userData.password,userData.salt,this.continue('createUser'));
-            }
-        },
-        createUser: function (err, hashedPassword) {
-            userData.password = hashedPassword;
-            redisPersistence.externalUpdate(this.user, userData);
-            redisPersistence.save(this.user, this.continue("createReport"));
-        },
-        createReport: function (err, user) {
-            if (user.password) {
-                delete user['password'];
-            }
-            callback(err, user);
+    redisPersistence.filter("DefaultUser",{"email":userData.email},function(err,result){
+        if(err){
+            callback(new Error("Could not filter users by email"))
+        }else if(result.length>0){
+            callback(new Error("User with email "+userData.email+" already exists"));
+        }else{
+            redisPersistence.lookup("DefaultUser", userData.userId, function(err,user){
+                if(err){
+                    callback(new Error("Could not retrieve user by id"))
+                }else if(!redisPersistence.isFresh(user)){
+                    callback(new Error("User with id "+userData.userId+" already exists"));
+                }else{
+                    userData.salt = crypto.randomBytes(48).toString('base64');
+                    hashThisPassword(userData.password,userData.salt,function(err,hashedPassword){
+                        userData.password = hashedPassword;
+                        redisPersistence.externalUpdate(user,userData);
+                        redisPersistence.save(user,function(err,user){
+                            if(err){
+                                callback(new Error("Could not create user"))
+                            }else{
+                                delete user['password'];
+                                callback(undefined,user);
+                            }
+                        })
+                    });
+                }
+            });
         }
-    })();
+    });
 };
-
-
-
-
 
 /*
  Filtreaza utilizatorii
  */
+
 filterUsers = function(conditions,callback){
     redisPersistence.filter("DefaultUser",conditions,callback);
 };
@@ -141,7 +137,6 @@ deleteUser = function (userData) {
         }
     })();
 };
-
 
 /*
  Sterge o organizatie
@@ -269,7 +264,6 @@ updateOrganisation = function (organisationDump, callback) {
     })();
 };
 
-
 newUserIsValid = function (newUser, callback) {
     flow.create("user is valid", {
         begin: function () {
@@ -319,7 +313,6 @@ newUserIsValid = function (newUser, callback) {
     })();
 }
 
-
 /*
  Returneaza lista de organizatii
  */
@@ -334,7 +327,6 @@ getOrganisations = function (callback) {
         }
     })();
 }
-
 
 /*
  Returneaza informatii despre un utilizator
@@ -394,28 +386,15 @@ validatePassword = function (email, pass, callback) {
 }
 
 getUserId = function(email, callback){
-
-    flow.create("get user uuid",{
-        begin:function(){
-            if(!email){
-                callback(new Error("Email cannot be empty"), null);
-            }
-            else{
-                redisPersistence.filter("DefaultUser", {email:email}, this.continue("getUserId"));
-            }
-        },
-        getUserId:function(err, users){
-            if (err) {
-                callback(err, null);
-            }
-            else if (users.length === 1) {
-                callback(null, users[0].userId);
-            }
-            else {
-                callback(new Error("User not found"), null);
-            }
+    redisPersistence.filter("DefaultUser",{"email":email},function(err,result){
+        if(err){
+            callback(err);
+        }else if(result.length>1){
+            callback(new Error("Multiple users with email "+email));
+        }else{
+            callback(undefined,result[0]);
         }
-    })();
+    });
 }
 
 changeUserPassword = function(userId, currentPassword, newPassword, callback){
@@ -459,83 +438,6 @@ setNewPassword = function(user,newPassword,callback){
     });
 }
 
-
-function bootSystem() {
-    flow.create("bootSystem", {
-        begin: function () {
-            redisPersistence.lookup("Organisation", "SystemAdministrators", this.continue("createOrganisation"));
-            redisPersistence.lookup("Organisation", "Public", this.continue("createPublicOrganisation"));
-            redisPersistence.lookup("Organisation", "Analysts", this.continue("createAnalystOrganisation"));
-
-        },
-        createPublicOrganisation: function (err, organisation) {
-            if (redisPersistence.isFresh(organisation)) {
-                organisation.displayName = "OPERANDO PUBLIC";
-                redisPersistence.saveObject(organisation, this.continue("createGuestUser"));
-            }
-        },
-        createOrganisation: function (err, organisation) {
-            if (redisPersistence.isFresh(organisation)) {
-                organisation.displayName = "System Administrators";
-                redisPersistence.saveObject(organisation, this.continue("createAdministrators"));
-            }
-        },
-        createAdministrators: function (err, organisation) {
-            if (err) {
-                console.log("Error occurred on creating organisation", err);
-            }
-            else {
-                createUser({
-                    userId: uuid.v1(),
-                    password: "swarm",
-                    email:"admin@operando.eu",
-                    organisationId: organisation.organisationId
-                }, saveCallbackFn);
-                createUser({
-                    userId: uuid.v1(),
-                    password: "swarm",
-                    email:"operando@privatesky.xyz",
-                    organisationId: organisation.organisationId
-                }, saveCallbackFn);
-            }
-        },
-        createGuestUser: function (err, organisation) {
-            if (err) {
-                console.log("Error occurred on creating organisation", err);
-            }
-            else {
-                createUser({
-                    userId: uuid.v1(),
-                    password: "guest",
-                    email:"guest@operando.eu",
-                    organisationId: organisation.organisationId
-                }, saveCallbackFn);
-            }
-        },
-
-        createAnalystOrganisation:function(err, organisation){
-            if (redisPersistence.isFresh(organisation)) {
-                organisation.displayName = "OPERANDO ANALYSTS";
-                redisPersistence.saveObject(organisation, this.continue("createAnalystUser"));
-            }
-        },
-
-        createAnalystUser:function(err, organisation){
-            if(err){
-                console.log("Error when creating OPERANDO ANALYSTS organisation");
-            }
-            else{
-                createUser({
-                    userId: uuid.v1(),
-                    password: "analyst",
-                    email:"analyst@rms.ro",
-                    organisationId: organisation.organisationId
-                }, saveCallbackFn);
-            }
-        }
-    })();
-}
-
 function hashThisPassword(plainPassword,salt,callback){
     return crypto.pbkdf2(plainPassword, salt, 100000, 512, 'sha512',function(err,res){
         if(err){
@@ -550,8 +452,12 @@ function hashThisPassword(plainPassword,salt,callback){
 container.declareDependency("UsersManagerAdapter", ["redisPersistence"], function (outOfService, redisPersistence) {
     if (!outOfService) {
         console.log("Enabling persistence...", redisPersistence);
-        bootSystem();
+
     } else {
         console.log("Disabling persistence...");
     }
 });
+
+setTimeout(function() {
+    startSwarm("initOperando.js", "init");
+},2000);

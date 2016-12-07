@@ -19,11 +19,11 @@ var userInfoSwarming =
         this.userId = this.meta.userId;
         this.swarm("getUserInfo");
     },
+
     getAllUsers:function(organisationId){
         this.organisationId = organisationId;
         this.swarm("getOrganisationUsers");
     },
-
     getOrganisationUsers:{
         node:"UsersManager",
         code: function(){
@@ -37,7 +37,6 @@ var userInfoSwarming =
             }));
         }
     },
-
     getUserInfo:{
         node:"UsersManager",
         code : function (){
@@ -183,6 +182,7 @@ var userInfoSwarming =
                                 "Reset password",
                                 "Your password has been changed \nYour new password is " + newPassword,
                                 self.meta['swarmId']);
+                            self.home("New password was set");
                         }
                     }))
                 }

@@ -234,6 +234,27 @@ var identitySwarming = {
         }
     },
 
+    getId:function(email){
+        this.email = email;
+        this.swarm("getIdForEmail");
+    },
+
+    getIdForEmail:{
+        node: "UsersManager",
+        code: function () {
+            var self = this;
+            getUserId(this.email,S(function(err, userInfo){
+                if(err){
+                    self.error = err;
+                }
+                else{
+                    self.id = userInfo.id;
+                }
+                self.home("gotId");
+            }));
+        }
+    },
+
     success: {
         node: "Core",
         code: function () {

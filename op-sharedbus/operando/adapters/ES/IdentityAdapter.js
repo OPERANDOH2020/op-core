@@ -48,6 +48,7 @@ apersistence.registerModel("Identity", "Redis", {
     function (err, model) {
         if (err) {
             console.log(err);
+        }else{
         }
     }
 );
@@ -73,7 +74,7 @@ createIdentity = function (identityData, callback) {
             }
             else {
                 if (!redisPersistence.isFresh(identity)) {
-                    callback(new Error("identity_email_should_be_unique"), null);
+                    callback(new Error("Identity already exists"), null);
                 }
                 else {
                     redisPersistence.externalUpdate(identity, identityData);
@@ -295,6 +296,9 @@ getUserId = function(proxyEmail,callback){
         callback(err,result.userId);
     })
 };
+
+
+
 
 function generateString(){
     return Math.floor((1 + Math.random()) * 0x100000000000000)

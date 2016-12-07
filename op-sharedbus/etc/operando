@@ -11,6 +11,7 @@
      "mysqlDatabasePassword":"operando",
      "mysqlDatabaseName":"operando",
      "operandoHost":"plusprivacy.com",
+     "adminEmail":"zeev@artevo.com",
      "paths":[
         {"core":"etc/coreSwarms"      ,"enabled":true},
 	    {"core":"etc/xSwarms"         ,"enabled":false},
