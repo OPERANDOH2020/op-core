@@ -182,7 +182,7 @@ var userInfoSwarming =
                                 "Reset password",
                                 "Your password has been changed \nYour new password is " + newPassword,
                                 self.meta['swarmId']);
-                            self.home("New password was set");
+                            self.home("newPasswordWasSet");
                         }
                     }))
                 }
