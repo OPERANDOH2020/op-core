@@ -68,7 +68,6 @@ createIdentity = function (identityData, callback) {
             redisPersistence.lookup.async("Identity", identityData.email, this.continue("createIdentity"));
         },
         createIdentity: function (err, identity) {
-
             if (err) {
                 callback(err, null);
             }

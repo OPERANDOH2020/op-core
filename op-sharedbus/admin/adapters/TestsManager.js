@@ -34,7 +34,7 @@ runTests = function(tests,callback){
                 "test":test,
                 result:"Terminated"
             })
-        })
+        });
         worker.terminated = false;
 
         setTimeout(function(){

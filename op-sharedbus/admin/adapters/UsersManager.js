@@ -392,7 +392,7 @@ getUserId = function(email, callback){
         }else if(result.length>1){
             callback(new Error("Multiple users with email "+email));
         }else{
-            callback(undefined,result[0]);
+            callback(undefined,result[0].userId);
         }
     });
 }
