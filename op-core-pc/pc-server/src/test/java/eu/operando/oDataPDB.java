@@ -1,8 +1,29 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/////////////////////////////////////////////////////////////////////////
+//
+// © University of Southampton IT Innovation Centre, 2016
+//
+// Copyright in this library belongs to the University of Southampton
+// University Road, Highfield, Southampton, UK, SO17 1BJ
+//
+// This software may not be used, sold, licensed, transferred, copied
+// or reproduced in whole or in part in any manner or form or in or
+// on any media by any person other than in accordance with the terms
+// of the Licence Agreement supplied with the software, or otherwise
+// without the prior written consent of the copyright owners.
+//
+// This software is distributed WITHOUT ANY WARRANTY, without even the
+// implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+// PURPOSE, except where stated in the Licence Agreement supplied with
+// the software.
+//
+// Created By : Paul Grace
+// Created for Project : OPERANDO (http://www.operando.eu)
+//
+/////////////////////////////////////////////////////////////////////////
+//
+//  License : GNU Lesser General Public License, version 3
+//
+/////////////////////////////////////////////////////////////////////////
 package eu.operando;
 
 import com.google.common.base.Charsets;
@@ -34,8 +55,7 @@ import org.apache.http.util.EntityUtils;
  */
 public class oDataPDB {
 
-    private static final String PDB_URL = "http://localhost:8080/pdb/policy_database";
-
+    private static final String PDB_URL = "http://integration.operando.esilab.org:8096/operando/core/pdb/policy_database";
 
     /**
      * Constructor for stateful method calls.
@@ -183,6 +203,7 @@ public class oDataPDB {
                     content);
 
             if (policyResponse.getStatus() != 201) {
+                System.err.println(policyResponse.getEntity(String.class));
                 throw new RuntimeException("Failed : HTTP error code : "
                         + policyResponse.toString());
             }

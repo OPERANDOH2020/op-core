@@ -181,7 +181,7 @@ public class PolicyEvaluationService {
                  * Get the UPP from the PDB.
                  */
                 CloseableHttpClient httpclient = HttpClients.createDefault();
-                HttpGet httpget = new HttpGet(pdbURL + "/user_privacy_policy/"+userId);
+                HttpGet httpget = new HttpGet(pdbURL + userId);
                 CloseableHttpResponse response1 = httpclient.execute(httpget);
 
                 /**

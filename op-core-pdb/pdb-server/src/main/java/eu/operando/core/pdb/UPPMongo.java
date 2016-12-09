@@ -241,6 +241,15 @@ public class UPPMongo {
         String result = null;
         //upp.setUserPolicyID(uppId);
         try {
+            // find if the upp already added - then reject the post
+            BasicDBObject searchQuery = new BasicDBObject();
+            searchQuery.put("userId", upp.getUserId());
+
+            DBObject dbObj = this.uppTable.findOne(searchQuery);
+            if (dbObj != null) {
+                return null;
+            }
+
             ObjectMapper mapper = new ObjectMapper();
             String jsonInString = mapper.writeValueAsString(upp);
             Object obj = JSON.parse(jsonInString);

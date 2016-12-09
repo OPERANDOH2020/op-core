@@ -1,9 +1,32 @@
+/////////////////////////////////////////////////////////////////////////
+//
+// © University of Southampton IT Innovation Centre, 2016
+//
+// Copyright in this library belongs to the University of Southampton
+// University Road, Highfield, Southampton, UK, SO17 1BJ
+//
+// This software may not be used, sold, licensed, transferred, copied
+// or reproduced in whole or in part in any manner or form or in or
+// on any media by any person other than in accordance with the terms
+// of the Licence Agreement supplied with the software, or otherwise
+// without the prior written consent of the copyright owners.
+//
+// This software is distributed WITHOUT ANY WARRANTY, without even the
+// implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+// PURPOSE, except where stated in the Licence Agreement supplied with
+// the software.
+//
+// Created By : Paul Grace
+// Created for Project : OPERANDO (http://www.operando.eu)
+//
+/////////////////////////////////////////////////////////////////////////
+//
+//  License : GNU Lesser General Public License, version 3
+//
+/////////////////////////////////////////////////////////////////////////
 package io.swagger.model;
 
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 
@@ -30,7 +53,7 @@ public class ComplianceEvaluation   {
   }
 
    /**
-   * The user of the data in the request to be evaluated 
+   * The user of the data in the request to be evaluated
    * @return datauser
   **/
   @ApiModelProperty(value = "The user of the data in the request to be evaluated ")
@@ -48,7 +71,7 @@ public class ComplianceEvaluation   {
   }
 
    /**
-   * The oData field requested by the data user. 
+   * The oData field requested by the data user.
    * @return datafield
   **/
   @ApiModelProperty(value = "The oData field requested by the data user. ")
@@ -66,7 +89,7 @@ public class ComplianceEvaluation   {
   }
 
    /**
-   * The usage type of the data 
+   * The usage type of the data
    * @return action
   **/
   @ApiModelProperty(value = "The usage type of the data ")
@@ -84,7 +107,7 @@ public class ComplianceEvaluation   {
   }
 
    /**
-   * The reason for this privacy policy action 
+   * The reason for this privacy policy action
    * @return reason
   **/
   @ApiModelProperty(value = "The reason for this privacy policy action ")
@@ -102,7 +125,7 @@ public class ComplianceEvaluation   {
   }
 
    /**
-   * Whether the request complies with the regulation 
+   * Whether the request complies with the regulation
    * @return result
   **/
   @ApiModelProperty(value = "Whether the request complies with the regulation ")
@@ -140,7 +163,7 @@ public class ComplianceEvaluation   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ComplianceEvaluation {\n");
-    
+
     sb.append("    datauser: ").append(toIndentedString(datauser)).append("\n");
     sb.append("    datafield: ").append(toIndentedString(datafield)).append("\n");
     sb.append("    action: ").append(toIndentedString(action)).append("\n");

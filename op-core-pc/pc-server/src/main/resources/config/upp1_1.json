@@ -1,0 +1,103 @@
+{
+    "user_id": "demo_user1",
+    "user_preferences": [{
+        "informationtype": "/contact_information",
+        "category": "Medical",
+        "preference": "3",
+        "role": "health_care_professional",
+        "action": "ACCESS",
+        "purpose": "Primary Care",
+        "recipient": "none"
+    }, 
+    {
+        "informationtype": "ANY",
+        "category": "Medical",
+        "preference": "6",
+        "role": "health_care_professional",
+        "action": "Access",
+        "purpose": "Primary Care",
+        "recipient": "none"
+    },
+    {
+        "informationtype": "ANY",
+        "category": "Medical",
+        "preference": "2",
+        "role": "other",
+        "action": "Access",
+        "purpose": "Primary Care",
+        "recipient": "none"
+    },{
+        "informationtype": "/anthropometric_data",
+        "category": "Medical",
+        "preference": "7",
+        "role": "health_care_professional",
+        "action": "Access",
+        "purpose": "Primary Care",
+        "recipient": "none"
+    }, {
+        "informationtype": "/personal_information",
+        "category": "Medical",
+        "preference": "6",
+        "role": "health_care_professional",
+        "action": "Access",
+        "purpose": "Primary Care",
+        "recipient": "none"
+    }],
+    "subscribed_osp_policies": [{
+        "osp_id": "osp1",
+        "access_policies": [{
+            "subject": "doctor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "/personal_information/gender",
+            "attributes": [{
+                "attribute_name": "policy attribute name1",
+                "attribute_value": "policy attribute value1"
+            }, {
+                "attribute_name": "policy attribute name2",
+                "attribute_value": "policy attribute value2"
+            }]
+        }, {
+            "subject": "pharmacist",
+            "permission": "false",
+            "action": "Access",
+            "resource": "/personal_information/anthropometric_data/weight",
+            "attributes": [{
+                "attribute_name": "policy attribute name1a",
+                "attribute_value": "policy attribute value1a"
+            }, {
+                "attribute_name": "policy attribute name2a",
+                "attribute_value": "policy attribute value2a"
+            }]
+        }]
+    }, {
+        "osp_id": "osp2",
+        "access_policies": [{
+            "subject": "doctor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "/medical_problems/problems/problem",
+            "attributes": [{
+                "attribute_name": "policy attribute name1b",
+                "attribute_value": "policy attribute value1b"
+            }, {
+                "attribute_name": "policy attribute name2b",
+                "attribute_value": "policy attribute value2b"
+            }]
+        }, {
+            "subject": "pharmacist",
+            "permission": "True",
+            "action": "Access",
+            "resource": "/medication_summary/medicine",
+            "attributes": [{
+                "attribute_name": "policy attribute name1ba",
+                "attribute_value": "policy attribute value1ba"
+            }, {
+                "attribute_name": "policy attribute name2ba",
+                "attribute_value": "policy attribute value2ba"
+            }]
+        }]
+    }],
+        "subscribed_osp_settings": [{}
+    ]
+}
