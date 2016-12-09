@@ -182,7 +182,12 @@ var loginSwarming = {
             sessionsRegistry.registerOutlet(outlet);
             enableOutlet(this);
             console.log("Success !");
-            this.home("success");
+            if(this.email==="guest@operando.eu"){
+                this.home("success_guest");
+            }
+            else{
+                this.home("success");
+            }
         }
     },
     restoreSwarms: {   //phase that is never executed... given as documentation
