@@ -360,7 +360,7 @@ validatePassword = function (email, pass, callback) {
             redisPersistence.filter("DefaultUser", {email: email}, this.continue("validatePassword"));
         },
         validatePassword: function (err, users) {
-            if (err || !users) {
+            if (err || !users ||!pass) {
                 callback(err, null);
             }
             else if (users.length === 1) {

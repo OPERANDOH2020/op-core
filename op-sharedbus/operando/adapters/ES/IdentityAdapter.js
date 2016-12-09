@@ -62,7 +62,7 @@ container.declareDependency("IdentityManager", ["redisPersistence"], function (o
 });
 
 
-createIdentity = function (identityData, callback) {
+createIdentity = function (identityData, callback){
     flow.create("create identity", {
         begin: function () {
             redisPersistence.lookup.async("Identity", identityData.email, this.continue("createIdentity"));

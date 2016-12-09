@@ -171,6 +171,15 @@ var initOperando = {
                     return identity;
                 });
 
+                identities.push({
+                    "email": thisAdapter.config.Core.adminEmail,
+                    "userId": self.adminId,
+                    "isReal": true,
+                    "isDefault": false,
+                    "deleted": false
+                })
+
+
                 var errors=[];
                 var createdIdentities = [];
                 identities.forEach(function(identity){
