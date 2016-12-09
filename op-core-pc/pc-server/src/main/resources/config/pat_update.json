@@ -73,7 +73,7 @@
         },
         {
             "subject": "Receptionist",
-            "permission": "false",
+            "permission": "true",
             "action": "Access",
             "resource": "/personal_information/anthropometric_data",
             "attributes": [{
@@ -99,7 +99,7 @@
         }, 
         {
             "subject": "WebsiteAdmins",
-            "permission": "false",
+            "permission": "true",
             "action": "Access",
             "resource": "/personal_information/anthropometric_data",
             "attributes": [{

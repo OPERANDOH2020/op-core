@@ -61,9 +61,9 @@ public class YellowPagesTest {
      * two endpoints to test that the two modules hosted at these endpoints
      * integrate correctly with one another.
      */
-    private static final String PDB_URL = "http://localhost:8080/pdb";
+    private static final String PDB_URL = "http://integration.operando.esilab.org:8096/operando/core/pdb";
 
-    private static final String PC_URL = "http://localhost:8081";
+    private static final String PC_URL = "http://integration.operando.esilab.org:8095/operando/core/pc";
 
     /**
      * Constructor for stateful method calls.
@@ -161,7 +161,7 @@ public class YellowPagesTest {
      * Build a request for a doctor at yellow pages to access
      * the user data - both
      */
-    private static List<OSPDataRequest> createRequestOne() {
+    private static String createRequestOne() {
         List<OSPDataRequest> ospRequest = new ArrayList<OSPDataRequest>();
             OSPDataRequest osD = new OSPDataRequest();
             osD.setAction(OSPDataRequest.ActionEnum.ACCESS);
@@ -176,14 +176,15 @@ public class YellowPagesTest {
             osD2.setSubject("Doctor");
             osD2.requestedUrl("/personal_information/anthropometric_data");
             ospRequest.add(osD2);
-        return ospRequest;
+
+        return toJSONRequest(ospRequest);
     }
 
     /**
      * Personal information - 2 request
      * @return The data values list.
      */
-    private static List<OSPDataRequest> createRequestTwo() {
+    private static String createRequestTwo() {
         List<OSPDataRequest> ospRequest = new ArrayList<OSPDataRequest>();
             OSPDataRequest osD = new OSPDataRequest();
             osD.setAction(OSPDataRequest.ActionEnum.ACCESS);
@@ -198,7 +199,7 @@ public class YellowPagesTest {
             osD2.setSubject("Receptionist");
             osD2.requestedUrl("/personal_information/anthropometric_data");
             ospRequest.add(osD2);
-        return ospRequest;
+        return toJSONRequest(ospRequest);
     }
 
     /**
@@ -212,7 +213,7 @@ public class YellowPagesTest {
      * @param name The name of the user id to load into memory.
      * @param fileLoc The filename in the resources directory.
      */
-    private void loadDemoUPP(String name, String fileLoc, String PDB_URL) {
+    private void loadDemoUPP(String name, String fileLoc) {
 
         InputStream fis = null;
         try {
@@ -253,6 +254,48 @@ public class YellowPagesTest {
         }
     }
 
+    private boolean deleteUPP(String userId) {
+
+            String urlUser = PDB_URL+"/user_privacy_policy/" + userId;
+            Client client = new Client();
+            WebResource webResourcePDB = client.resource(urlUser);
+
+            ClientResponse policyResponse = webResourcePDB.type("application/json").delete(ClientResponse.class);
+
+            if (policyResponse.getStatus() != 200) {
+                System.err.println(policyResponse.getEntity(String.class));
+                return false;
+            }
+
+        return true;
+    }
+
+    private boolean updateUPP(String user, String fileLoc) {
+
+        InputStream fis = null;
+        try {
+            fis = this.getClass().getClassLoader().getResourceAsStream(fileLoc);
+            String content = CharStreams.toString(new InputStreamReader(fis, Charsets.UTF_8));
+            Closeables.closeQuietly(fis);
+            String urlUser = PDB_URL+"/user_privacy_policy/"+user;
+            Client client = new Client();
+            WebResource webResourcePDB = client.resource(urlUser);
+
+            ClientResponse policyResponse = webResourcePDB.type("application/json").put(ClientResponse.class,
+                    content);
+
+            if (policyResponse.getStatus() != 200) {
+                System.err.println(policyResponse.getEntity(String.class));
+                return false;
+            }
+        } catch (IOException e) {
+            // Display to console for debugging purposes.
+            System.err.println("Error creating UPP in db");
+
+        }
+        return true;
+    }
+
     /**
      * This is the workflow that describes and validates the integration
      * of the PC and PDB components.
@@ -260,6 +303,20 @@ public class YellowPagesTest {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        YellowPagesTest odpdb = new YellowPagesTest();
+        if(odpdb.deleteUPP("pete")){
+            System.out.println("Pete UPP was in PDB - now deleted");
+        }
+        else {
+            System.out.println("PDB does not contain Pete UPP");
+        }
+
+        if(odpdb.deleteUPP("pat2")){
+            System.out.println("Pat2 UPP was in PDB - now deleted");
+        }
+        else {
+            System.out.println("PDB does not contain Pat2 UPP");
+        }
 
         /**
          * First call the PC API to evaluate a request to use Pat's data.
@@ -269,7 +326,7 @@ public class YellowPagesTest {
         String accessRequest = createRequest();
         System.out.println(accessRequest);
 
-        String jsonResponse = evaluatePC("pat", "YellowPages", accessRequest);
+        String jsonResponse = evaluatePC("pat2", "YellowPages", accessRequest);
         System.out.println(jsonResponse);
 
         if(!readPolicyReport("status", jsonResponse).equalsIgnoreCase("false")){
@@ -278,33 +335,145 @@ public class YellowPagesTest {
         }
 
         if(!readPolicyReport("compliance", jsonResponse).equalsIgnoreCase("NO_POLICY")){
-            System.err.println("Integration test faild: Status must be false");
+            System.err.println("Integration test faild: Compliance must be NO_POLICY");
             System.exit(-1);
         }
 
         // Directly using the CORE service
 
-        YellowPagesTest odpdb = new YellowPagesTest();
-        odpdb.loadDemoUPP("pat", "pat.json", PDB_URL);
-        odpdb.loadDemoUPP("pete", "pete.json", PDB_URL);
+        odpdb.loadDemoUPP("pat2", "pat.json");
+        odpdb.loadDemoUPP("pete", "pete.json");
 
         /**
-         * The first data subject is a pragmatist.
+         * Single Request
          */
-        jsonResponse = evaluatePC("pat", "YellowPages", accessRequest);
+        jsonResponse = evaluatePC("pete", "YellowPages", accessRequest);
         System.out.println(jsonResponse);
 
         if(!readPolicyReport("status", jsonResponse).equalsIgnoreCase("true")){
-            System.err.println("Integration test faild: Status must be false");
+            System.err.println("Integration test faild: Status must be true");
             System.exit(-1);
         }
 
         if(!readPolicyReport("compliance", jsonResponse).equalsIgnoreCase("VALID")){
+            System.err.println("Integration test faild: Compliance must be VALID");
+            System.exit(-1);
+        }
+
+        jsonResponse = evaluatePC("pat2", "YellowPages", accessRequest);
+        System.out.println(jsonResponse);
+
+        if(!readPolicyReport("status", jsonResponse).equalsIgnoreCase("true")){
+            System.err.println("Integration test faild: Status must be true");
+            System.exit(-1);
+        }
+
+        if(!readPolicyReport("compliance", jsonResponse).equalsIgnoreCase("VALID")){
+            System.err.println("Integration test faild: Compliance must be VALID");
+            System.exit(-1);
+        }
+
+        /**
+         * Double request by doctor.
+         */
+
+        String accessRequest2 = createRequestOne();
+        System.out.println(accessRequest2);
+
+        jsonResponse = evaluatePC("pete", "YellowPages", accessRequest2);
+        System.out.println(jsonResponse);
+
+        if(!readPolicyReport("status", jsonResponse).equalsIgnoreCase("true")){
+            System.err.println("Integration test faild: Status must be true");
+            System.exit(-1);
+        }
+
+        if(!readPolicyReport("compliance", jsonResponse).equalsIgnoreCase("VALID")){
+            System.err.println("Integration test faild: Compliance must be VALID");
+            System.exit(-1);
+        }
+
+        jsonResponse = evaluatePC("pat2", "YellowPages", accessRequest2);
+        System.out.println(jsonResponse);
+
+        if(!readPolicyReport("status", jsonResponse).equalsIgnoreCase("true")){
+            System.err.println("Integration test faild: Status must be true");
+            System.exit(-1);
+        }
+
+        if(!readPolicyReport("compliance", jsonResponse).equalsIgnoreCase("VALID")){
+            System.err.println("Integration test faild: Compliance must be VALID");
+            System.exit(-1);
+        }
+
+        /**
+         * Double request by receptionist.
+         */
+
+        String accessRequest3 = createRequestTwo();
+        System.out.println(accessRequest3);
+
+        jsonResponse = evaluatePC("pete", "YellowPages", accessRequest3);
+        System.out.println(jsonResponse);
+
+        if(!readPolicyReport("status", jsonResponse).equalsIgnoreCase("true")){
+            System.err.println("Integration test faild: Status must be true");
+            System.exit(-1);
+        }
+
+        if(!readPolicyReport("compliance", jsonResponse).equalsIgnoreCase("VALID")){
+            System.err.println("Integration test faild: Compliance must be VALID");
+            System.exit(-1);
+        }
+
+        jsonResponse = evaluatePC("pat2", "YellowPages", accessRequest3);
+        System.out.println(jsonResponse);
+
+        if(!readPolicyReport("status", jsonResponse).equalsIgnoreCase("false")){
             System.err.println("Integration test faild: Status must be false");
             System.exit(-1);
         }
 
+        if(!readPolicyReport("compliance", jsonResponse).equalsIgnoreCase("PREFS_CONFLICT")){
+            System.err.println("Integration test faild: Compliance must be PREFS_CONFLICT");
+            System.exit(-1);
+        }
 
+        /**
+         * Update the UPPs.
+         */
+        odpdb.updateUPP("pat2", "pat_update.json");
+        odpdb.updateUPP("pete", "pete_update.json");
+
+         /**
+         * Double request by receptionist.
+         */
+
+        jsonResponse = evaluatePC("pat2", "YellowPages", accessRequest3);
+        System.out.println(jsonResponse);
+
+        if(!readPolicyReport("status", jsonResponse).equalsIgnoreCase("true")){
+            System.err.println("Integration test faild: Status must be true");
+            System.exit(-1);
+        }
+
+        if(!readPolicyReport("compliance", jsonResponse).equalsIgnoreCase("VALID")){
+            System.err.println("Integration test faild: Compliance must be VALID");
+            System.exit(-1);
+        }
+
+        jsonResponse = evaluatePC("pete", "YellowPages", accessRequest3);
+        System.out.println(jsonResponse);
+
+        if(!readPolicyReport("status", jsonResponse).equalsIgnoreCase("false")){
+            System.err.println("Integration test faild: Status must be false");
+            System.exit(-1);
+        }
+
+        if(!readPolicyReport("compliance", jsonResponse).equalsIgnoreCase("PREFS_CONFLICT")){
+            System.err.println("Integration test faild: Compliance must be PREFS_CONFLICT");
+            System.exit(-1);
+        }
     }
 
 }

@@ -1,5 +1,5 @@
 {
-    "user_id": "pat2",
+    "user_id": "pete",
     "user_preferences": [{
         "informationtype": "/personal_information/full_name/given_name",
         "category": "Medical",
@@ -21,13 +21,13 @@
     {
         "informationtype": "ANY",
         "category": "Medical",
-        "preference": "2",
+        "preference": "7",
         "role": "other",
         "action": "Access",
         "purpose": "Other",
         "recipient": "none"
     },{
-        "informationtype": "/personal_information/anthropometric_data",
+        "informationtype": "/anthropometric_data",
         "category": "Medical",
         "preference": "7",
         "role": "health_care_professional",
@@ -35,7 +35,7 @@
         "purpose": "Primary Care",
         "recipient": "none"
     }, {
-        "informationtype": "/personal_information/anthropometric_data",
+        "informationtype": "/anthropometric_data",
         "category": "Medical",
         "preference": "2",
         "role": "other",
@@ -99,7 +99,7 @@
         }, 
         {
             "subject": "WebsiteAdmins",
-            "permission": "false",
+            "permission": "true",
             "action": "Access",
             "resource": "/personal_information/anthropometric_data",
             "attributes": [{
