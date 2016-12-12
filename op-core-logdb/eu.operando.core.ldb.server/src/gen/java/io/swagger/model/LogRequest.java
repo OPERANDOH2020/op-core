@@ -70,7 +70,7 @@ public class LogRequest   {
   public enum LogDataTypeEnum {
     INFO("INFO"),
     WARN("WARN"),
-    ERROS("ERROS"),
+    ERROR("ERROR"),
     FATAL("FATAL");
 
     private String value;

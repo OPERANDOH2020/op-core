@@ -69,7 +69,7 @@ public class LogResponse   {
   public enum LogLevelEnum {
     INFO("INFO"),
     WARN("WARN"),
-    ERROS("ERROS"),
+    ERROR("ERROR"),
     FATAL("FATAL");
 
     private String value;

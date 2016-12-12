@@ -12,7 +12,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 /**
  * LogRequest
- */
+ *
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-09T09:48:30.419Z")
 public class LogRequest   {
   
@@ -70,7 +70,7 @@ public class LogRequest   {
   public enum LogDataTypeEnum {
     INFO("INFO"),
     WARN("WARN"),
-    ERROS("ERROS"),
+    ERROR("ERROR"),
     FATAL("FATAL");
 
     private String value;

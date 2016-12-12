@@ -106,8 +106,8 @@ public class LogRequest {
     @SerializedName("WARN")
     WARN("WARN"),
     
-    @SerializedName("ERROS")
-    ERROS("ERROS"),
+    @SerializedName("ERROR")
+    ERROR("ERROR"),
     
     @SerializedName("FATAL")
     FATAL("FATAL");
