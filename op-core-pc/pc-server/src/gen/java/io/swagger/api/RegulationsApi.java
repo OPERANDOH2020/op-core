@@ -1,25 +1,44 @@
+/////////////////////////////////////////////////////////////////////////
+//
+// © University of Southampton IT Innovation Centre, 2016
+//
+// Copyright in this library belongs to the University of Southampton
+// University Road, Highfield, Southampton, UK, SO17 1BJ
+//
+// This software may not be used, sold, licensed, transferred, copied
+// or reproduced in whole or in part in any manner or form or in or
+// on any media by any person other than in accordance with the terms
+// of the Licence Agreement supplied with the software, or otherwise
+// without the prior written consent of the copyright owners.
+//
+// This software is distributed WITHOUT ANY WARRANTY, without even the
+// implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+// PURPOSE, except where stated in the Licence Agreement supplied with
+// the software.
+//
+// Created By : Paul Grace
+// Created for Project : OPERANDO (http://www.operando.eu)
+//
+/////////////////////////////////////////////////////////////////////////
+//
+//  License : GNU Lesser General Public License, version 3
+//
+/////////////////////////////////////////////////////////////////////////
 package io.swagger.api;
 
-import io.swagger.model.*;
 import io.swagger.api.RegulationsApiService;
 import io.swagger.api.factories.RegulationsApiServiceFactory;
 
 import io.swagger.annotations.ApiParam;
 
-import com.sun.jersey.multipart.FormDataParam;
 
 import io.swagger.model.ComputationResult;
 import java.math.BigDecimal;
 import io.swagger.model.PrivacyRegulation;
-import java.util.List;
 
 import java.util.List;
 import io.swagger.api.NotFoundException;
 
-import java.io.InputStream;
-
-import com.sun.jersey.core.header.FormDataContentDisposition;
-import com.sun.jersey.multipart.FormDataParam;
 
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -39,7 +58,7 @@ public class RegulationsApi  {
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @io.swagger.annotations.ApiOperation(value = "", notes = "Called by the Regulator API after a   new regulation is entered into OPERANDO. The regulation is first created and stored by the policy DB. Existing UPPs are then evaluated to see if they comply with the regulation. The report is then created at /regulations/{reg_id}/report in the policy db and the url is returned to the user in order that they can retrieve this report. ", response = ComputationResult.class, tags={ "Privacy Regulations",  })
-    @io.swagger.annotations.ApiResponses(value = { 
+    @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Successful response. The regulation has evaluated and report produced.", response = ComputationResult.class),
         @io.swagger.annotations.ApiResponse(code = 404, message = "Error occured. The resource resource doesn't exist to evaluate. ", response = ComputationResult.class) })
     public Response regulationsRegIdPost(
@@ -53,7 +72,7 @@ public class RegulationsApi  {
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @io.swagger.annotations.ApiOperation(value = "", notes = "Called by the Regulator API. An updated regulation is entered into OPERANDO. The regulation is stored in the policy DB. Existing UPPs are then evaluated to see if they comply with the regulation. The report is then updated at /regulations/{reg_id}/report in the policy db and the url is returned to the user in order that they can retrieve this report. Pre-condition -- The regulation must have been written to the system. ", response = ComputationResult.class, tags={ "Privacy Regulations", "PUT" })
-    @io.swagger.annotations.ApiResponses(value = { 
+    @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Successful response. The regulation has evaluated and report produced.", response = ComputationResult.class),
         @io.swagger.annotations.ApiResponse(code = 404, message = "Error occured. The resource resource doesn't exist to evaluate. ", response = ComputationResult.class) })
     public Response regulationsRegIdPut(

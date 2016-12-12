@@ -25,18 +25,10 @@
 
 package io.swagger.api;
 
-import io.swagger.api.*;
-import io.swagger.model.*;
-
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
-
-import io.swagger.model.PrivacyRegulation;
 import io.swagger.model.PrivacyRegulationInput;
 
-import java.util.List;
 import io.swagger.api.NotFoundException;
 
-import java.io.InputStream;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;

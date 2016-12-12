@@ -1,3 +1,30 @@
+/////////////////////////////////////////////////////////////////////////
+//
+// © University of Southampton IT Innovation Centre, 2016
+//
+// Copyright in this library belongs to the University of Southampton
+// University Road, Highfield, Southampton, UK, SO17 1BJ
+//
+// This software may not be used, sold, licensed, transferred, copied
+// or reproduced in whole or in part in any manner or form or in or
+// on any media by any person other than in accordance with the terms
+// of the Licence Agreement supplied with the software, or otherwise
+// without the prior written consent of the copyright owners.
+//
+// This software is distributed WITHOUT ANY WARRANTY, without even the
+// implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+// PURPOSE, except where stated in the Licence Agreement supplied with
+// the software.
+//
+// Created By : Paul Grace
+// Created for Project : OPERANDO (http://www.operando.eu)
+//
+/////////////////////////////////////////////////////////////////////////
+//
+//  License : GNU Lesser General Public License, version 3
+//
+/////////////////////////////////////////////////////////////////////////
+
 package io.swagger.model;
 
 import java.util.Objects;
@@ -115,12 +142,12 @@ public class RequestEvaluation   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("RequestEvaluation {\n");
+    sb.append("{\n");
 
-    sb.append("    datauser: ").append(toIndentedString(datauser)).append("\n");
-    sb.append("    datafield: ").append(toIndentedString(datafield)).append("\n");
-    sb.append("    action: ").append(toIndentedString(action)).append("\n");
-    sb.append("    result: ").append(toIndentedString(result)).append("\n");
+    sb.append("    \"datauser\": \"").append(toIndentedString(datauser)).append("\",\n");
+    sb.append("    \"datafield\": \"").append(toIndentedString(datafield)).append("\",\n");
+    sb.append("    \"action: \"").append(toIndentedString(action)).append("\",\n");
+    sb.append("    \"result: \"").append(toIndentedString(result)).append("\"\n");
     sb.append("}");
     return sb.toString();
   }

@@ -55,6 +55,22 @@ import org.apache.http.util.EntityUtils;
  */
 public class PolicyEvaluationService {
 
+    /**
+     * This is a singleton class, that can be used as one instance by all
+     * REST APIs of the PC component.
+     */
+    private static PolicyEvaluationService instance = null;
+
+    /**
+     * Operation to use to enforce singleton pattern.
+     * @return The singleton instance.
+     */
+    public static PolicyEvaluationService getInstance() {
+      if(instance == null) {
+         instance = new PolicyEvaluationService();
+      }
+      return instance;
+   }
 
     /**
      * The set of demo UPP profiles; that can be queried for unit testing of
@@ -94,37 +110,50 @@ public class PolicyEvaluationService {
      * Initiate the evaluation service component, and create a set of three
      * example users for unit testing.
      */
-    public PolicyEvaluationService() {
+    protected  PolicyEvaluationService() {
         UppDB = new HashMap<String, String>();
         loadDemoUPP("_demo_user1", "upp1.json");
         loadDemoUPP("_demo_user2", "upp2.json");
         loadDemoUPP("_demo_user3", "upp3.json");
+        loadDemoUPP("osp1", "osp1.json");
     }
 
     /**
      * Retrieve a demo user privacy profile (UPP) from the set of in-memory
      * test cases.
-     * @param id The user id of the
-     * @return
+     * @param id The user id of the UPP requested
+     * @return The UPP file in json format.
      */
     public String getUPP(String id) {
         return UppDB.get(id);
     }
 
     /**
+     * Update a demo user privacy profile (UPP) from the set of in-memory
+     * test cases.
+     * @param id The user id of the
+     * @param upp The new policy
+     * @return
+     */
+    public String putUPP(String id, String upp) {
+        return UppDB.put(id, upp);
+    }
+
+    /**
      * Core implementation of the policy evaluation service. Evaluates if a set
      * of requests matches a user's privacy preferences.
      *
-     * @param ospId
-     * @param userId
-     * @param ospRequest
-     * @param pdbURL
+     * @param ospId The ID of the OSP. This is used to identify existing user policies already computed.
+     * @param userId The unique OPERANDO id of the user, obtained when they register with the OPERANDO dashboard.
+     * @param ospRequest The array of individual ODATA field requests.
+     * @param pdbURL The URL of the PDB server where UPPs are deployed.
      * @return
      * @throws NotFoundException
      */
     public PolicyEvaluationReport evaluate(String ospId, String userId, List<OSPDataRequest> ospRequest, String pdbURL) throws NotFoundException {
 
         try {
+
             System.out.println("New Evaluation Request");
             System.out.println("--------------------------------------------------");
             System.out.println("Evaluating User Policy: " + userId);
@@ -138,6 +167,14 @@ public class PolicyEvaluationService {
             String uppProfile = "";
             if(userId.startsWith("_demo_")) {
                 uppProfile = getUPP(userId);
+                /**
+                 * If someone sends an idiot demo request then fail the request
+                 */
+                if (uppProfile==null) {
+                    rp.setStatus("false");
+                    rp.setCompliance("NO_POLICY");
+                    return rp;
+                }
             }
             else{
                 /**
@@ -170,14 +207,11 @@ public class PolicyEvaluationService {
             for (OSPDataRequest r: ospRequest) {
                 String oDataURL = r.getRequestedUrl();
                 String Category = odata.getElementDataPath(oDataURL);
-                System.out.println("OSP - "+ospId+" Category - "+Category);
                 JSONArray access_policies = JsonPath.read(uppProfile, "$.subscribed_osp_policies[?(@.osp_id=='"+ospId+"')].access_policies[?(@.resource=='"+ Category +"')]");
                 boolean found = false;
                 // For each of the access requests in the list
                 for(Object aP: access_policies) {
                     String subject = JsonPath.read(aP, "$.subject");
-                    System.out.println("Data user in request - " + subject);
-                    System.out.println("Data user in the UPP - " + r.getSubject());
                     if(subject.equalsIgnoreCase(r.getSubject())) { // Check the subject
                         found=true;
 

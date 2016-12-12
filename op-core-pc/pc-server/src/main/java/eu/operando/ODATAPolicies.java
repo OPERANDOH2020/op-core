@@ -124,8 +124,13 @@ public class ODATAPolicies {
      */
     public String getElementDataPath(String resourcePath) throws InvalidPreferenceException {
         try {
-            URL url = new URL(resourcePath);
-            String path = url.getPath();
+            String path = "";
+            if(resourcePath.startsWith("http")){
+                URL url = new URL(resourcePath);
+                path = url.getPath();
+            } else {
+                path = resourcePath;
+            }
             if (path.contains("(")) {
                 int idLocation = path.indexOf(")/");
                 return path.substring(idLocation + 1);

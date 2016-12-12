@@ -34,149 +34,22 @@ import io.swagger.annotations.ApiModelProperty;
 /**
  * UserPreference
  */
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-10-28T10:18:38.563Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-11-03T13:32:54.440Z")
 public class UserPreference   {
-  /**
-   * The type of private information; e.g. is it information that identifies the user (e.g. id number)? is it location information about the user? Is it about their activities? 
-   */
-  public enum InformationtypeEnum {
-    @SerializedName("Identification")
-    IDENTIFICATION("Identification"),
-    
-    @SerializedName("Shared Identification")
-    SHARED_IDENTIFICATION("Shared Identification"),
-    
-    @SerializedName("Geographic")
-    GEOGRAPHIC("Geographic"),
-    
-    @SerializedName("Temporal")
-    TEMPORAL("Temporal"),
-    
-    @SerializedName("Network and relationships")
-    NETWORK_AND_RELATIONSHIPS("Network and relationships"),
-    
-    @SerializedName("Objects")
-    OBJECTS("Objects"),
-    
-    @SerializedName("Behavioural")
-    BEHAVIOURAL("Behavioural"),
-    
-    @SerializedName("Beliefs")
-    BELIEFS("Beliefs"),
-    
-    @SerializedName("Measurements")
-    MEASUREMENTS("Measurements");
-
-    private String value;
-
-    InformationtypeEnum(String value) {
-      this.value = value;
-    }
-
-    @Override
-    public String toString() {
-      return String.valueOf(value);
-    }
-  }
-
   @SerializedName("informationtype")
-  private InformationtypeEnum informationtype = null;
-
-  /**
-   * The category of the service invading the privacy of the user. 
-   */
-  public enum CategoryEnum {
-    @SerializedName("Healthcare")
-    HEALTHCARE("Healthcare"),
-    
-    @SerializedName("Finance")
-    FINANCE("Finance"),
-    
-    @SerializedName("Web")
-    WEB("Web"),
-    
-    @SerializedName("Social Network")
-    SOCIAL_NETWORK("Social Network");
-
-    private String value;
-
-    CategoryEnum(String value) {
-      this.value = value;
-    }
-
-    @Override
-    public String toString() {
-      return String.valueOf(value);
-    }
-  }
+  private String informationtype = null;
 
   @SerializedName("category")
-  private CategoryEnum category = null;
-
-  /**
-   * The user's privacy preference. High means they are sensitive to disclosing private information. Medium they have concerns; and low means they have few privacy concerns with this question. 
-   */
-  public enum PreferenceEnum {
-    @SerializedName("High")
-    HIGH("High"),
-    
-    @SerializedName("Medium")
-    MEDIUM("Medium"),
-    
-    @SerializedName("Low")
-    LOW("Low");
-
-    private String value;
-
-    PreferenceEnum(String value) {
-      this.value = value;
-    }
-
-    @Override
-    public String toString() {
-      return String.valueOf(value);
-    }
-  }
+  private String category = null;
 
   @SerializedName("preference")
-  private PreferenceEnum preference = null;
+  private String preference = null;
 
   @SerializedName("role")
   private String role = null;
 
-  /**
-   * The action being carried out on the private date e.g. accessing, disclosing to a third party. This is an optional parameter in the case where users drill down to more detailed preferences.  
-   */
-  public enum ActionEnum {
-    @SerializedName("Collect")
-    COLLECT("Collect"),
-    
-    @SerializedName("Access")
-    ACCESS("Access"),
-    
-    @SerializedName("Use")
-    USE("Use"),
-    
-    @SerializedName("Disclose")
-    DISCLOSE("Disclose"),
-    
-    @SerializedName("Archive")
-    ARCHIVE("Archive");
-
-    private String value;
-
-    ActionEnum(String value) {
-      this.value = value;
-    }
-
-    @Override
-    public String toString() {
-      return String.valueOf(value);
-    }
-  }
-
   @SerializedName("action")
-  private ActionEnum action = null;
+  private String action = null;
 
   @SerializedName("purpose")
   private String purpose = null;
@@ -184,7 +57,7 @@ public class UserPreference   {
   @SerializedName("recipient")
   private String recipient = null;
 
-  public UserPreference informationtype(InformationtypeEnum informationtype) {
+  public UserPreference informationtype(String informationtype) {
     this.informationtype = informationtype;
     return this;
   }
@@ -194,15 +67,15 @@ public class UserPreference   {
    * @return informationtype
   **/
   @ApiModelProperty(example = "null", value = "The type of private information; e.g. is it information that identifies the user (e.g. id number)? is it location information about the user? Is it about their activities? ")
-  public InformationtypeEnum getInformationtype() {
+  public String getInformationtype() {
     return informationtype;
   }
 
-  public void setInformationtype(InformationtypeEnum informationtype) {
+  public void setInformationtype(String informationtype) {
     this.informationtype = informationtype;
   }
 
-  public UserPreference category(CategoryEnum category) {
+  public UserPreference category(String category) {
     this.category = category;
     return this;
   }
@@ -212,15 +85,15 @@ public class UserPreference   {
    * @return category
   **/
   @ApiModelProperty(example = "null", value = "The category of the service invading the privacy of the user. ")
-  public CategoryEnum getCategory() {
+  public String getCategory() {
     return category;
   }
 
-  public void setCategory(CategoryEnum category) {
+  public void setCategory(String category) {
     this.category = category;
   }
 
-  public UserPreference preference(PreferenceEnum preference) {
+  public UserPreference preference(String preference) {
     this.preference = preference;
     return this;
   }
@@ -230,11 +103,11 @@ public class UserPreference   {
    * @return preference
   **/
   @ApiModelProperty(example = "null", value = "The user's privacy preference. High means they are sensitive to disclosing private information. Medium they have concerns; and low means they have few privacy concerns with this question. ")
-  public PreferenceEnum getPreference() {
+  public String getPreference() {
     return preference;
   }
 
-  public void setPreference(PreferenceEnum preference) {
+  public void setPreference(String preference) {
     this.preference = preference;
   }
 
@@ -256,7 +129,7 @@ public class UserPreference   {
     this.role = role;
   }
 
-  public UserPreference action(ActionEnum action) {
+  public UserPreference action(String action) {
     this.action = action;
     return this;
   }
@@ -266,11 +139,11 @@ public class UserPreference   {
    * @return action
   **/
   @ApiModelProperty(example = "null", value = "The action being carried out on the private date e.g. accessing, disclosing to a third party. This is an optional parameter in the case where users drill down to more detailed preferences.  ")
-  public ActionEnum getAction() {
+  public String getAction() {
     return action;
   }
 
-  public void setAction(ActionEnum action) {
+  public void setAction(String action) {
     this.action = action;
   }
 

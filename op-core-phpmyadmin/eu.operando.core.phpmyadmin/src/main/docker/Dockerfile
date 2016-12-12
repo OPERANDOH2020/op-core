@@ -3,7 +3,7 @@
 FROM phpmyadmin/phpmyadmin
 
 ENV MYSQL_ROOT_PASSWORD root
-ENV PMA_HOST 10.0.0.5
+ENV PMA_HOST mysql.integration.operando.dmz.lab.esilab.org
 ENV PMA_PORT 3306
 ENV PMA_USER root
 ENV PMA_PASSWORD root

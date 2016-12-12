@@ -40,6 +40,14 @@ import javax.ws.rs.core.SecurityContext;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-06-27T09:46:42.374Z")
 public class RegulationsApiServiceImpl extends RegulationsApiService {
+
+    /**
+     * Called by the OSE to create a compliance check for a given
+     * @param regId
+     * @param securityContext
+     * @return
+     * @throws NotFoundException
+     */
     @Override
     public Response regulationsRegIdPost(BigDecimal regId, SecurityContext securityContext)
     throws NotFoundException {

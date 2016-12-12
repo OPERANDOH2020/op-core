@@ -1,8 +1,29 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+/////////////////////////////////////////////////////////////////////////
+//
+// © University of Southampton IT Innovation Centre, 2016
+//
+// Copyright in this library belongs to the University of Southampton
+// University Road, Highfield, Southampton, UK, SO17 1BJ
+//
+// This software may not be used, sold, licensed, transferred, copied
+// or reproduced in whole or in part in any manner or form or in or
+// on any media by any person other than in accordance with the terms
+// of the Licence Agreement supplied with the software, or otherwise
+// without the prior written consent of the copyright owners.
+//
+// This software is distributed WITHOUT ANY WARRANTY, without even the
+// implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
+// PURPOSE, except where stated in the Licence Agreement supplied with
+// the software.
+//
+// Created By : Paul Grace
+// Created for Project : OPERANDO (http://www.operando.eu)
+//
+/////////////////////////////////////////////////////////////////////////
+//
+//  License : GNU Lesser General Public License, version 3
+//
+/////////////////////////////////////////////////////////////////////////
 package eu.operando;
 
 import io.swagger.api.NotFoundException;
@@ -104,28 +125,28 @@ public class oDataTests {
             List<OSPDataRequest> ospRequest = new ArrayList<OSPDataRequest>();
             OSPDataRequest osD = new OSPDataRequest();
             osD.setAction(OSPDataRequest.ActionEnum.COLLECT);
-            osD.setRequesterId("osp1");
+            osD.setRequesterId("osp2");
             osD.setSubject("doctor");
             osD.requestedUrl("http://services.odata.org/TripPinRESTierService/patient('user1')/medical_problems/problems/problem");
             ospRequest.add(osD);
 
             OSPDataRequest osD2 = new OSPDataRequest();
             osD2.setAction(OSPDataRequest.ActionEnum.ACCESS);
-            osD2.setRequesterId("osp1");
+            osD2.setRequesterId("osp2");
             osD2.setSubject("nurse");
             osD2.requestedUrl("http://services.odata.org/TripPinRESTierService/patient('user1')/medical_problems/problems/problem/problem_description");
             ospRequest.add(osD2);
 
             OSPDataRequest osD3 = new OSPDataRequest();
             osD3.setAction(OSPDataRequest.ActionEnum.COLLECT);
-            osD3.setRequesterId("osp1");
+            osD3.setRequesterId("osp2");
             osD3.setSubject("doctor");
             osD3.requestedUrl("http://services.odata.org/TripPinRESTierService/patient('user1')/medication_summary/medicine");
             ospRequest.add(osD3);
 
             OSPDataRequest osD4 = new OSPDataRequest();
             osD4.setAction(OSPDataRequest.ActionEnum.ACCESS);
-            osD4.setRequesterId("osp1");
+            osD4.setRequesterId("osp2");
             osD4.setSubject("pharmacist");
             osD4.requestedUrl("http://services.odata.org/TripPinRESTierService/patient('user1')/medication_summary/medicine");
             ospRequest.add(osD4);
@@ -154,6 +175,7 @@ public class oDataTests {
             reply = pS.evaluate(ospId, userId, createRequestThree(), null);
             System.out.println(reply.toString());
 
+            ospId = "osp2";
             reply = pS.evaluate(ospId, userId, createRequestFour(), null);
             System.out.println(reply.toString());
 
@@ -170,6 +192,7 @@ public class oDataTests {
             reply = pS.evaluate(ospId, userId, createRequestThree(), null);
             System.out.println(reply.toString());
 
+            ospId = "osp2";
             reply = pS.evaluate(ospId, userId, createRequestFour(), null);
             System.out.println(reply.toString());
 
@@ -186,10 +209,13 @@ public class oDataTests {
             reply = pS.evaluate(ospId, userId, createRequestThree(), null);
             System.out.println(reply.toString());
 
+            ospId = "osp2";
             reply = pS.evaluate(ospId, userId, createRequestFour(), null);
             System.out.println(reply.toString());
 
-
+            ospId = "osp3";
+            reply = pS.evaluate(ospId, userId, createRequestOne(), null);
+            System.out.println(reply.toString());
         } catch (NotFoundException ex) {
             Logger.getLogger(oDataTests.class.getName()).log(Level.SEVERE, null, ex);
         }

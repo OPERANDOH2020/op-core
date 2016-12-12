@@ -60,13 +60,17 @@ public class UPPMongo {
     private DB db;
     private DBCollection uppTable;
 
+
     public UPPMongo() {
         try {
-            this.mongo = new MongoClient("localhost", 27017);
+            this.mongo = new MongoClient("mongo.integration.operando.dmz.lab.esilab.org", 27017);
+
             // get database
             this.db = mongo.getDB("pdb");
+
             // get collection
             this.uppTable = db.getCollection("upp");
+            System.out.println(this.uppTable.toString());
 
             this.upp = new UserPrivacyPolicy();
             //} catch (UnknownHostException e) {
@@ -77,6 +81,7 @@ public class UPPMongo {
     }
 
     public boolean deleteUPPById(String uppId) {
+        System.out.println("deleting: " + uppId);
         boolean res = false;
         BasicDBObject searchQuery = new BasicDBObject();
         try {
@@ -100,7 +105,11 @@ public class UPPMongo {
     public String getUPPByFilter(String filter) {
         String result = null;
         BasicDBObject query = new BasicDBObject();
-        
+
+        if (filter == null) {
+            return "Input error: No UPP ID provided";
+        }
+
         System.out.println("filter expression: " + filter);
 
         try {
@@ -138,9 +147,9 @@ public class UPPMongo {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+
         System.out.println("getUPPByFilter RESULT (list): " + result);
-        
+
         return result;
     }
 
@@ -168,7 +177,7 @@ public class UPPMongo {
         UserPrivacyPolicy uppObj;
         String jsonInString = null;
 
-        // find 
+        // find
         BasicDBObject searchQuery = new BasicDBObject();
         try {
             searchQuery.put("userId", uppId);
@@ -205,9 +214,10 @@ public class UPPMongo {
             Object obj = JSON.parse(jsonInString);
             DBObject document = (DBObject) obj;
 
-            BasicDBObject searchQuery;
+            BasicDBObject searchQuery = new BasicDBObject();;
             try {
-                searchQuery = new BasicDBObject().append("_id", new ObjectId(regId));
+//                searchQuery = new BasicDBObject().append("_id", new ObjectId(regId));
+                  searchQuery.put("userId", regId);
             } catch (IllegalArgumentException e) {
                 e.printStackTrace();
                 return result;
@@ -231,6 +241,15 @@ public class UPPMongo {
         String result = null;
         //upp.setUserPolicyID(uppId);
         try {
+            // find if the upp already added - then reject the post
+            BasicDBObject searchQuery = new BasicDBObject();
+            searchQuery.put("userId", upp.getUserId());
+
+            DBObject dbObj = this.uppTable.findOne(searchQuery);
+            if (dbObj != null) {
+                return null;
+            }
+
             ObjectMapper mapper = new ObjectMapper();
             String jsonInString = mapper.writeValueAsString(upp);
             Object obj = JSON.parse(jsonInString);
