@@ -22,61 +22,116 @@
 //      Created for Project :   OPERANDO
 //
 /////////////////////////////////////////////////////////////////////////
-
 package io.swagger.api.impl;
 
+import eu.operando.core.ldb.client.ApiClient;
+import eu.operando.core.ldb.client.api.LogApi;
+import eu.operando.core.ldb.client.model.LogRequest;
 import io.swagger.api.*;
-import io.swagger.model.*;
-
-import io.swagger.model.OSPPrivacyPolicy;
-import io.swagger.model.OSPReasonPolicy;
 import io.swagger.model.OSPReasonPolicyInput;
 import io.swagger.model.OSPPrivacyPolicyInput;
 
-import java.util.List;
 import io.swagger.api.NotFoundException;
-
-import java.io.InputStream;
-
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-
 import eu.operando.core.pdb.OSPPrivacyPolicyMongo;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.core.MediaType;
-
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-10-28T08:28:40.436Z")
 public class OSPApiServiceImpl extends OSPApiService {
 
+    ApiClient apiClient;
+    LogApi logApi;
+
+    public OSPApiServiceImpl() {
+        this.apiClient = new ApiClient();
+        this.apiClient.setBasePath("http://integration.operando.esilab.org:8090");
+        this.logApi = new LogApi(this.apiClient);
+    }
+
+    private void logRequest(String userId, String operation, String description,
+            ArrayList<String> keywords) {
+
+        LogRequest logReq = new LogRequest();
+        logReq.setRequesterType(LogRequest.RequesterTypeEnum.PROCESS);
+        logReq.setRequesterId(userId);
+        logReq.setLogPriority(LogRequest.LogPriorityEnum.LOW);
+        logReq.setTitle("OSP " + operation);
+        logReq.setDescription(description);
+        logReq.setKeywords(keywords);
+
+        try {
+            String response = this.logApi.lodDB(logReq);
+            Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, response);
+        } catch (eu.operando.core.ldb.client.ApiException ex) {
+            Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.SEVERE, "failed to log", ex);
+        }
+    }
+
     @Override
     public Response oSPGet(String filter, SecurityContext securityContext)
             throws NotFoundException {
-        // do some magic!
+
+        Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP GET {0}", filter);
+
+        logRequest("OSP GET", "GET",
+                "OSP GET received",
+                new ArrayList<String>(Arrays.asList("one", "two")));
+
         OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
         String ospString = regdb.getOSPByFilter(filter);
-        if(ospString == null){
-            return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, 
-                   "Error - the regulation does not exist")).build(); 
+
+        if (ospString == null) {
+
+            logRequest("OSP GET", "GET",
+                    "OSP GET failed",
+                    new ArrayList<String>(Arrays.asList("one", "two")));
+
+            return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                    "Error - the regulation does not exist")).build();
         }
 
-        //return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, ospString)).build();
+        logRequest("OSP GET", "GET",
+                "OSP GET ok",
+                new ArrayList<String>(Arrays.asList("one", "two")));
+
         return Response.ok(ospString, MediaType.APPLICATION_JSON).build();
     }
 
     @Override
     public Response oSPOspIdDelete(String ospId, SecurityContext securityContext)
             throws NotFoundException {
-        // do some magic!
+
+        Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP DELETE {0}", ospId);
+
+        logRequest("OSP DELETE", "DELETE",
+                "OSP DELETE received",
+                new ArrayList<String>(Arrays.asList("one", "two")));
+
         OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
         boolean delAction = regdb.deleteOSPById(ospId);
+
         if (!delAction) {
+
             System.out.println("cannot delete regulation " + ospId);
+
+            logRequest("OSP DELETE", "DELETE",
+                    "OSP DELETE failed",
+                    new ArrayList<String>(Arrays.asList("one", "two")));
+
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. No document exits to be deleted")).build();
         }
+
+        logRequest("OSP DELETE", "DELETE",
+                "OSP DELETE complete",
+                new ArrayList<String>(Arrays.asList("one", "two")));
 
         return Response.status(Response.Status.NO_CONTENT).entity(new ApiResponseMessage(ApiResponseMessage.OK,
                 "The document (OSPBehaviour) was successfully deleted from the database.")).build();
@@ -85,58 +140,119 @@ public class OSPApiServiceImpl extends OSPApiService {
     @Override
     public Response oSPOspIdGet(String ospId, SecurityContext securityContext)
             throws NotFoundException {
-        // do some magic!
-           
+
+        Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP GET {0}", ospId);
+
+        logRequest("OSP GET", "GET",
+                "OSP GET received",
+                new ArrayList<String>(Arrays.asList("one", "two")));
+
         OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
         String ospString = regdb.getOSPById(ospId);
-        if(ospString == null){
-            return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, 
-                   "Error - the regulation does not exist")).build(); 
+
+        if (ospString == null) {
+
+            logRequest("OSP GET", "GET",
+                    "OSP GET failed",
+                    new ArrayList<String>(Arrays.asList("one", "two")));
+
+            return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                    "Error - the regulation does not exist")).build();
         }
 
-        //return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, ospString)).build();
+        logRequest("OSP GET", "GET",
+                "OSP GET complete",
+                new ArrayList<String>(Arrays.asList("one", "two")));
+
         return Response.ok(ospString, MediaType.APPLICATION_JSON).build();
     }
 
     @Override
     public Response oSPOspIdPrivacyPolicyGet(String ospId, SecurityContext securityContext) throws NotFoundException {
-        // do some magic!
-        //return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+
+        Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP GET {0}", ospId);
+
+        logRequest("OSP GET", "GET",
+                "OSP GET received",
+                new ArrayList<String>(Arrays.asList("one", "two")));
+
         OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
         String ospString = regdb.getPolicyOSPById(ospId);
-        if(ospString == null){
-            return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, 
-                   "Error - the reason policy does not exist")).build(); 
+
+        if (ospString == null) {
+
+            logRequest("OSP GET", "GET",
+                    "OSP GET failed",
+                    new ArrayList<String>(Arrays.asList("one", "two")));
+
+            return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                    "Error - the reason policy does not exist")).build();
         }
 
-        //return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, ospString)).build();
+        logRequest("OSP GET", "GET",
+                "OSP GET complete",
+                new ArrayList<String>(Arrays.asList("one", "two")));
+
         return Response.ok(ospString, MediaType.APPLICATION_JSON).build();
     }
 
     @Override
-    public Response oSPOspIdPrivacyPolicyPut(String ospId, OSPReasonPolicyInput ospPolicy, SecurityContext securityContext) throws NotFoundException {
-        // do some magic!
+    public Response oSPOspIdPrivacyPolicyPut(String ospId, OSPReasonPolicyInput ospPolicy,
+            SecurityContext securityContext) throws NotFoundException {
+
+        Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP PUT {0}", ospId);
+
+        logRequest("OSP PUT", "PUT",
+                "OSP PUT received",
+                new ArrayList<String>(Arrays.asList("one", "two")));
+
         OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
         boolean updateAction = regdb.updatePolicyOSP(ospId, ospPolicy);
+
         if (!updateAction) {
+
+            logRequest("OSP PUT", "PUT",
+                    "OSP PUT received",
+                    new ArrayList<String>(Arrays.asList("one", "two")));
+
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. No document exists to be updated.")).build();
         }
 
+        logRequest("OSP PUT", "PUT",
+                "OSP PUT received",
+                new ArrayList<String>(Arrays.asList("one", "two")));
+
         return Response.status(Response.Status.NO_CONTENT).entity(new ApiResponseMessage(ApiResponseMessage.OK,
                 "The document (OSPBehaviour) was successfully updated in the database.")).build();
     }
+
     @Override
     public Response oSPOspIdPut(String ospId, OSPPrivacyPolicyInput ospPolicy, SecurityContext securityContext)
             throws NotFoundException {
-        // do some magic!
-        
+
+        Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP PUT {0}", ospId);
+
+        logRequest("OSP PUT", "PUT",
+                "OSP PUT received",
+                new ArrayList<String>(Arrays.asList("one", "two")));
+
         OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
         boolean updateAction = regdb.updateOSP(ospId, ospPolicy);
+
         if (!updateAction) {
+
+            logRequest("OSP PUT", "PUT",
+                    "OSP PUT failed",
+                    new ArrayList<String>(Arrays.asList("one", "two")));
+
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. No document exists to be updated.")).build();
         }
+
+        logRequest("OSP PUT", "PUT",
+                "OSP PUT complete",
+                new ArrayList<String>(Arrays.asList("one", "two")));
 
         return Response.status(Response.Status.NO_CONTENT).entity(new ApiResponseMessage(ApiResponseMessage.OK,
                 "The document (OSPBehaviour) was successfully updated in the database.")).build();
@@ -145,15 +261,31 @@ public class OSPApiServiceImpl extends OSPApiService {
     @Override
     public Response oSPPost(OSPPrivacyPolicyInput ospPolicy, SecurityContext securityContext)
             throws NotFoundException {
-        // do some magic!
-                             
+
+        Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP POST {0}", ospPolicy.toString());
+
+        logRequest("OSP POST", "POST",
+                "OSP POST received",
+                new ArrayList<String>(Arrays.asList("one", "two")));
+
         OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
         String storeAction = regdb.storeOSP(ospPolicy);
-        if(storeAction == null) {
-            return Response.status(405).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, 
-                   "Error. The document (OSPBehaviour) at this id has previously been created in the database.")).build();
+
+        if (storeAction == null) {
+
+            logRequest("OSP POST", "POST",
+                    "OSP POST failed",
+                    new ArrayList<String>(Arrays.asList("one", "two")));
+
+            return Response.status(405).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                    "Error. The document (OSPBehaviour) at this id has previously been created in the database.")).build();
         }
-        return Response.status(Response.Status.CREATED).entity(new ApiResponseMessage(ApiResponseMessage.OK, 
+
+        logRequest("OSP POST", "POST",
+                "OSP POST complete",
+                new ArrayList<String>(Arrays.asList("one", "two")));
+
+        return Response.status(Response.Status.CREATED).entity(new ApiResponseMessage(ApiResponseMessage.OK,
                 storeAction)).build();
     }
 
