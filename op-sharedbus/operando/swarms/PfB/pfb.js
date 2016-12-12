@@ -159,8 +159,8 @@ var privacyForBenefits = {
     notifyUserByEmail:{
         node: "EmailAdapter",
         code: function () {
-            this['from']="deals@operando.eu";
-            this['subject'] = "[OPERANDO] Deal from "+this.service.website;
+            this['from']="deals@PlusPrivacy.com";
+            this['subject'] = "PlusPrivacy deal: "+this.service.website;
 
            if(this.action == "subscribed"){
                this['content'] = "You have successfully subscribed to " + this.service.website+". ";
