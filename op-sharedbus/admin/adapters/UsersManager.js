@@ -373,7 +373,7 @@ validatePassword = function (email, pass, callback) {
                     else if (hashedPassword === user.password) {
                         callback(null, user.userId);
                     } else {
-                        callback(null, false);
+                        callback(new Error("Invalid credentials"));
                     }
                 });
             }
