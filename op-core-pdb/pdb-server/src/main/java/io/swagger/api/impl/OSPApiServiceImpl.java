@@ -86,7 +86,6 @@ public class OSPApiServiceImpl extends OSPApiService {
 
         OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
         String ospString = regdb.getOSPByFilter(filter);
-<<<<<<< HEAD
 
         if (ospString == null) {
 
@@ -96,11 +95,6 @@ public class OSPApiServiceImpl extends OSPApiService {
 
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error - the regulation does not exist")).build();
-=======
-        if(ospString == null){
-            return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
-                   "Error - the regulation does not exist")).build();
->>>>>>> fb090d48da6643237020862ac083b50784a7735b
         }
 
         logRequest("OSP GET", "GET",
@@ -146,7 +140,6 @@ public class OSPApiServiceImpl extends OSPApiService {
     @Override
     public Response oSPOspIdGet(String ospId, SecurityContext securityContext)
             throws NotFoundException {
-<<<<<<< HEAD
 
         Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP GET {0}", ospId);
 
@@ -165,15 +158,6 @@ public class OSPApiServiceImpl extends OSPApiService {
 
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error - the regulation does not exist")).build();
-=======
-        // do some magic!
-
-        OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
-        String ospString = regdb.getOSPById(ospId);
-        if(ospString == null){
-            return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
-                   "Error - the regulation does not exist")).build();
->>>>>>> fb090d48da6643237020862ac083b50784a7735b
         }
 
         logRequest("OSP GET", "GET",
@@ -194,7 +178,6 @@ public class OSPApiServiceImpl extends OSPApiService {
 
         OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
         String ospString = regdb.getPolicyOSPById(ospId);
-<<<<<<< HEAD
 
         if (ospString == null) {
 
@@ -204,11 +187,6 @@ public class OSPApiServiceImpl extends OSPApiService {
 
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error - the reason policy does not exist")).build();
-=======
-        if(ospString == null){
-            return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
-                   "Error - the reason policy does not exist")).build();
->>>>>>> fb090d48da6643237020862ac083b50784a7735b
         }
 
         logRequest("OSP GET", "GET",
@@ -252,16 +230,12 @@ public class OSPApiServiceImpl extends OSPApiService {
     @Override
     public Response oSPOspIdPut(String ospId, OSPPrivacyPolicyInput ospPolicy, SecurityContext securityContext)
             throws NotFoundException {
-<<<<<<< HEAD
 
         Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP PUT {0}", ospId);
 
         logRequest("OSP PUT", "PUT",
                 "OSP PUT received",
                 new ArrayList<String>(Arrays.asList("one", "two")));
-=======
-        // do some magic!
->>>>>>> fb090d48da6643237020862ac083b50784a7735b
 
         OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
         boolean updateAction = regdb.updateOSP(ospId, ospPolicy);
@@ -287,7 +261,6 @@ public class OSPApiServiceImpl extends OSPApiService {
     @Override
     public Response oSPPost(OSPPrivacyPolicyInput ospPolicy, SecurityContext securityContext)
             throws NotFoundException {
-<<<<<<< HEAD
 
         Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP POST {0}", ospPolicy.toString());
 
@@ -312,16 +285,6 @@ public class OSPApiServiceImpl extends OSPApiService {
                 "OSP POST complete",
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-=======
-        // do some magic!
-
-        OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
-        String storeAction = regdb.storeOSP(ospPolicy);
-        if(storeAction == null) {
-            return Response.status(405).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
-                   "Error. The document (OSPBehaviour) at this id has previously been created in the database.")).build();
-        }
->>>>>>> fb090d48da6643237020862ac083b50784a7735b
         return Response.status(Response.Status.CREATED).entity(new ApiResponseMessage(ApiResponseMessage.OK,
                 storeAction)).build();
     }
