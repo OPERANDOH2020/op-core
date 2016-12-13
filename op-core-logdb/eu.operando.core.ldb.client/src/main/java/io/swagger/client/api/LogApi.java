@@ -8,7 +8,6 @@ import io.swagger.client.Configuration;
 import io.swagger.client.Pair;
 
 import io.swagger.client.model.LogRequest;
-import io.swagger.client.model.Error;
 
 import java.util.ArrayList;
 import java.util.HashMap;
