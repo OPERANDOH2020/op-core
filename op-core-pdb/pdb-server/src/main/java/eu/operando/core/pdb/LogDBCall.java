@@ -58,19 +58,21 @@ public class LogDBCall {
 
 
 	    LogRequest logRequest = new LogRequest();
-	    logRequest.setDescription("PDB log for testing purposes");
+	    logRequest.setUserId("003");
+	    logRequest.setDescription("UPP GET");
 	    logRequest.setLogDataType(LogDataTypeEnum.INFO);
-	    logRequest.setTitle("PDB log");
+	    logRequest.setTitle("Log on 07/12");
 	    logRequest.setLogPriority(LogPriorityEnum.LOW);
-	    logRequest.setRequesterId("12341");
+	    logRequest.setRequesterId("1007");
 	    logRequest.setRequesterType(RequesterTypeEnum.MODULE);
 	    ArrayList<String> keywords = new ArrayList<String> ();
-	    keywords.add("keyword1");
-	    keywords.add("keyword2");
-	    keywords.add("keyword3");
+	    keywords.add("keywordA");
+	    keywords.add("keywordB");
+	    keywords.add("keywordC");
 		logRequest.setKeywords(keywords );
 
 		Object postBody = logRequest;
+		System.out.println(postBody);
 		String str = "";
 		try {
 			str = apiClient.invokeAPI(path,"POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
@@ -79,6 +81,6 @@ public class LogDBCall {
 			e.printStackTrace();
 		}
 		System.out.println(str);
-	}
+    }
 
 }
