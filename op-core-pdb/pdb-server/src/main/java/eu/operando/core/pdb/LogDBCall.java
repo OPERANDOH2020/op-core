@@ -53,11 +53,11 @@ public class LogDBCall {
 
 
 	    LogRequest logRequest = new LogRequest();
-	    logRequest.setDescription("First log for testing purposes");
+	    logRequest.setDescription("PDB log for testing purposes");
 	    logRequest.setLogDataType(LogDataTypeEnum.INFO);
-	    logRequest.setTitle("First log");
+	    logRequest.setTitle("PDB log");
 	    logRequest.setLogPriority(LogPriorityEnum.LOW);
-	    logRequest.setRequesterId("1001");
+	    logRequest.setRequesterId("12341");
 	    logRequest.setRequesterType(RequesterTypeEnum.MODULE);
 	    ArrayList<String> keywords = new ArrayList<String> ();
 	    keywords.add("keyword1");
