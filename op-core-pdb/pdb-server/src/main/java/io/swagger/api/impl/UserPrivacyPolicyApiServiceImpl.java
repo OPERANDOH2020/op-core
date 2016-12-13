@@ -48,9 +48,6 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
         // do some magic!
         System.out.println("upp get " + filter);
 
-        LogDBCall ldbC = new LogDBCall();
-        ldbC.test();
-
         UPPMongo uppMongo = new UPPMongo();
         String getString = uppMongo.getUPPByFilter(filter);
         if(getString == null){
@@ -100,6 +97,11 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
         // do some magic!
 
         System.out.println("upp get " + userId);
+
+        LogDBCall ldbC = new LogDBCall();
+        System.out.println("upp get " + ldbC);
+        ldbC.test();
+
         UPPMongo uppMongo = new UPPMongo();
         String getString = uppMongo.getUPPById(userId);
         if(getString == null){

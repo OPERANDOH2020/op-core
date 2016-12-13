@@ -24,9 +24,14 @@ import java.util.Map;
  */
 public class LogDBCall {
 
-    public void test() {
-		ApiClient apiClient = new ApiClient();
+    public LogDBCall() {
 
+    }
+
+    public void test() {
+        System.out.println("Calling ldb");
+		ApiClient apiClient = new ApiClient();
+                apiClient.setBasePath("http://integration.operando.esilab.org:8090");
 	    byte[] postBinaryBody = null;
 
 	    // create path and map variables
