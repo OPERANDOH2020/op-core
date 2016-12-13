@@ -23,7 +23,7 @@
 //
 /////////////////////////////////////////////////////////////////////////
 
-package eu.operando.core.ose;
+package eu.operando.core.ose.mongo;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;

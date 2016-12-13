@@ -23,10 +23,10 @@
 //
 /////////////////////////////////////////////////////////////////////////
 
-package io.swagger.api.factories;
+package eu.operando.core.ose.api.factories;
 
 import io.swagger.api.RegulationsApiService;
-import io.swagger.api.impl.RegulationsApiServiceImpl;
+import eu.operando.core.ose.api.impl.RegulationsApiServiceImpl;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-04-25T15:37:02.222Z")
 public class RegulationsApiServiceFactory {

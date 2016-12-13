@@ -181,6 +181,11 @@
             <artifactId>common-model</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>eu.operando</groupId>
+            <artifactId>eu.operando.core.ldb.client</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
     <repositories>
         <repository>
