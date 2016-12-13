@@ -23,7 +23,7 @@
 //
 /////////////////////////////////////////////////////////////////////////
 
-package io.swagger.model;
+package eu.operando.core.pdb.common.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -37,11 +37,10 @@ import java.util.List;
 
 
 
-public class OSPDataRequest   {
+public class AccessPolicy   {
   
-  private String requesterId = null;
   private String subject = null;
-  private String requestedUrl = null;
+  private Boolean permission = null;
 
 
   public enum ActionEnum {
@@ -65,32 +64,14 @@ public class OSPDataRequest   {
   }
 
   private ActionEnum action = null;
+  private String resource = null;
   private List<PolicyAttribute> attributes = new ArrayList<PolicyAttribute>();
-
-  
-  /**
-   * Id of the requester (typically the id of an OSP).
-   **/
-  public OSPDataRequest requesterId(String requesterId) {
-    this.requesterId = requesterId;
-    return this;
-  }
-
-  
-  @ApiModelProperty(value = "Id of the requester (typically the id of an OSP).")
-  @JsonProperty("requester_id")
-  public String getRequesterId() {
-    return requesterId;
-  }
-  public void setRequesterId(String requesterId) {
-    this.requesterId = requesterId;
-  }
 
   
   /**
    * A description of the subject who the policies grants/doesn't grant to carry out.\n
    **/
-  public OSPDataRequest subject(String subject) {
+  public AccessPolicy subject(String subject) {
     this.subject = subject;
     return this;
   }
@@ -107,28 +88,28 @@ public class OSPDataRequest   {
 
   
   /**
-   * The Requested URL of the data.\n
+   * Grant or deny the subject access to the resource via the operation defined in this policy\n
    **/
-  public OSPDataRequest requestedUrl(String requestedUrl) {
-    this.requestedUrl = requestedUrl;
+  public AccessPolicy permission(Boolean permission) {
+    this.permission = permission;
     return this;
   }
 
   
-  @ApiModelProperty(value = "The Requested URL of the data.\n")
-  @JsonProperty("requested_url")
-  public String getRequestedUrl() {
-    return requestedUrl;
+  @ApiModelProperty(value = "Grant or deny the subject access to the resource via the operation defined in this policy\n")
+  @JsonProperty("permission")
+  public Boolean getPermission() {
+    return permission;
   }
-  public void setRequestedUrl(String requestedUrl) {
-    this.requestedUrl = requestedUrl;
+  public void setPermission(Boolean permission) {
+    this.permission = permission;
   }
 
   
   /**
    * The action being carried out on the private date e.g. accessing, disclosing to a third party. \n
    **/
-  public OSPDataRequest action(ActionEnum action) {
+  public AccessPolicy action(ActionEnum action) {
     this.action = action;
     return this;
   }
@@ -145,9 +126,28 @@ public class OSPDataRequest   {
 
   
   /**
+   * The identifier of the resource that the policy concerns (e.g. URL)\n
+   **/
+  public AccessPolicy resource(String resource) {
+    this.resource = resource;
+    return this;
+  }
+
+  
+  @ApiModelProperty(value = "The identifier of the resource that the policy concerns (e.g. URL)\n")
+  @JsonProperty("resource")
+  public String getResource() {
+    return resource;
+  }
+  public void setResource(String resource) {
+    this.resource = resource;
+  }
+
+  
+  /**
    * The set of context attributes attached to the policy (e.g. subject role, subject purpose)\n
    **/
-  public OSPDataRequest attributes(List<PolicyAttribute> attributes) {
+  public AccessPolicy attributes(List<PolicyAttribute> attributes) {
     this.attributes = attributes;
     return this;
   }
@@ -172,28 +172,28 @@ public class OSPDataRequest   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    OSPDataRequest oSPDataRequest = (OSPDataRequest) o;
-    return Objects.equals(requesterId, oSPDataRequest.requesterId) &&
-        Objects.equals(subject, oSPDataRequest.subject) &&
-        Objects.equals(requestedUrl, oSPDataRequest.requestedUrl) &&
-        Objects.equals(action, oSPDataRequest.action) &&
-        Objects.equals(attributes, oSPDataRequest.attributes);
+    AccessPolicy accessPolicy = (AccessPolicy) o;
+    return Objects.equals(subject, accessPolicy.subject) &&
+        Objects.equals(permission, accessPolicy.permission) &&
+        Objects.equals(action, accessPolicy.action) &&
+        Objects.equals(resource, accessPolicy.resource) &&
+        Objects.equals(attributes, accessPolicy.attributes);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(requesterId, subject, requestedUrl, action, attributes);
+    return Objects.hash(subject, permission, action, resource, attributes);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class OSPDataRequest {\n");
+    sb.append("class AccessPolicy {\n");
     
-    sb.append("    requesterId: ").append(toIndentedString(requesterId)).append("\n");
     sb.append("    subject: ").append(toIndentedString(subject)).append("\n");
-    sb.append("    requestedUrl: ").append(toIndentedString(requestedUrl)).append("\n");
+    sb.append("    permission: ").append(toIndentedString(permission)).append("\n");
     sb.append("    action: ").append(toIndentedString(action)).append("\n");
+    sb.append("    resource: ").append(toIndentedString(resource)).append("\n");
     sb.append("    attributes: ").append(toIndentedString(attributes)).append("\n");
     sb.append("}");
     return sb.toString();

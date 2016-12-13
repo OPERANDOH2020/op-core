@@ -23,7 +23,7 @@
 //
 /////////////////////////////////////////////////////////////////////////
 
-package io.swagger.model;
+package eu.operando.core.pdb.common.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -36,9 +36,8 @@ import java.util.List;
 
 
 
-public class OSPPrivacyPolicy   {
+public class OSPPrivacyPolicyInput   {
   
-  private String ospPolicyId = null;
   private String policyText = null;
   private String policyUrl = null;
   private List<OSPDataRequest> workflow = new ArrayList<OSPDataRequest>();
@@ -46,27 +45,9 @@ public class OSPPrivacyPolicy   {
 
   
   /**
-   **/
-  public OSPPrivacyPolicy ospPolicyId(String ospPolicyId) {
-    this.ospPolicyId = ospPolicyId;
-    return this;
-  }
-
-  
-  @ApiModelProperty(value = "")
-  @JsonProperty("osp_policy_id")
-  public String getOspPolicyId() {
-    return ospPolicyId;
-  }
-  public void setOspPolicyId(String ospPolicyId) {
-    this.ospPolicyId = ospPolicyId;
-  }
-
-  
-  /**
    * The content of the OSP privacy policy, textually described and published. It is\na the full text adverstised by the OSP.\n
    **/
-  public OSPPrivacyPolicy policyText(String policyText) {
+  public OSPPrivacyPolicyInput policyText(String policyText) {
     this.policyText = policyText;
     return this;
   }
@@ -85,7 +66,7 @@ public class OSPPrivacyPolicy   {
   /**
    * The url location of the privacy policy of the OSP\n
    **/
-  public OSPPrivacyPolicy policyUrl(String policyUrl) {
+  public OSPPrivacyPolicyInput policyUrl(String policyUrl) {
     this.policyUrl = policyUrl;
     return this;
   }
@@ -104,7 +85,7 @@ public class OSPPrivacyPolicy   {
   /**
    * The sequence of requests that this OSP makes (simple ordered array list\nin this version). The requests describes the operations that the OSP may\ncarry out on the data. This can be used for compliance checking and computation\nof user policies.\n
    **/
-  public OSPPrivacyPolicy workflow(List<OSPDataRequest> workflow) {
+  public OSPPrivacyPolicyInput workflow(List<OSPDataRequest> workflow) {
     this.workflow = workflow;
     return this;
   }
@@ -123,7 +104,7 @@ public class OSPPrivacyPolicy   {
   /**
    * The list of rights that the OSP intends to follow e.g. give X access to Y data for Z purpose. This\ninformation can then be used in calculation of the policy and in compliance checking.\n
    **/
-  public OSPPrivacyPolicy policies(List<AccessPolicy> policies) {
+  public OSPPrivacyPolicyInput policies(List<AccessPolicy> policies) {
     this.policies = policies;
     return this;
   }
@@ -148,25 +129,23 @@ public class OSPPrivacyPolicy   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    OSPPrivacyPolicy oSPPrivacyPolicy = (OSPPrivacyPolicy) o;
-    return Objects.equals(ospPolicyId, oSPPrivacyPolicy.ospPolicyId) &&
-        Objects.equals(policyText, oSPPrivacyPolicy.policyText) &&
-        Objects.equals(policyUrl, oSPPrivacyPolicy.policyUrl) &&
-        Objects.equals(workflow, oSPPrivacyPolicy.workflow) &&
-        Objects.equals(policies, oSPPrivacyPolicy.policies);
+    OSPPrivacyPolicyInput oSPPrivacyPolicyInput = (OSPPrivacyPolicyInput) o;
+    return Objects.equals(policyText, oSPPrivacyPolicyInput.policyText) &&
+        Objects.equals(policyUrl, oSPPrivacyPolicyInput.policyUrl) &&
+        Objects.equals(workflow, oSPPrivacyPolicyInput.workflow) &&
+        Objects.equals(policies, oSPPrivacyPolicyInput.policies);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(ospPolicyId, policyText, policyUrl, workflow, policies);
+    return Objects.hash(policyText, policyUrl, workflow, policies);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class OSPPrivacyPolicy {\n");
+    sb.append("class OSPPrivacyPolicyInput {\n");
     
-    sb.append("    ospPolicyId: ").append(toIndentedString(ospPolicyId)).append("\n");
     sb.append("    policyText: ").append(toIndentedString(policyText)).append("\n");
     sb.append("    policyUrl: ").append(toIndentedString(policyUrl)).append("\n");
     sb.append("    workflow: ").append(toIndentedString(workflow)).append("\n");

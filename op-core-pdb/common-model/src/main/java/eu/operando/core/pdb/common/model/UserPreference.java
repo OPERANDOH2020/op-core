@@ -24,7 +24,7 @@
 /////////////////////////////////////////////////////////////////////////
 
 
-package io.swagger.model;
+package eu.operando.core.pdb.common.model;
 
 import java.util.Objects;
 import com.google.gson.annotations.SerializedName;

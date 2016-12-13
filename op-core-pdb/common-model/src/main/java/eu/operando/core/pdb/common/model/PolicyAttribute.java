@@ -23,60 +23,56 @@
 //
 /////////////////////////////////////////////////////////////////////////
 
-package io.swagger.model;
+package eu.operando.core.pdb.common.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.ArrayList;
-import java.util.List;
 
 
 
 
 
-
-public class OSPSettings   {
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-03-30T12:50:20.171Z")
+public class PolicyAttribute   {
   
-  private String ospId = null;
-  private List<PrivacySetting> ospSettings = new ArrayList<PrivacySetting>();
+  private String attributeName = null;
+  private String attributeValue = null;
 
   
   /**
-   * The unique ID of the OSP user is subscribed to and these settings concern. \n
    **/
-  public OSPSettings ospId(String ospId) {
-    this.ospId = ospId;
+  public PolicyAttribute attributeName(String attributeName) {
+    this.attributeName = attributeName;
     return this;
   }
 
   
-  @ApiModelProperty(value = "The unique ID of the OSP user is subscribed to and these settings concern. \n")
-  @JsonProperty("osp_id")
-  public String getOspId() {
-    return ospId;
+  @ApiModelProperty(value = "")
+  @JsonProperty("attribute_name")
+  public String getAttributeName() {
+    return attributeName;
   }
-  public void setOspId(String ospId) {
-    this.ospId = ospId;
+  public void setAttributeName(String attributeName) {
+    this.attributeName = attributeName;
   }
 
   
   /**
-   * The list of privacy settings at an OSP
    **/
-  public OSPSettings ospSettings(List<PrivacySetting> ospSettings) {
-    this.ospSettings = ospSettings;
+  public PolicyAttribute attributeValue(String attributeValue) {
+    this.attributeValue = attributeValue;
     return this;
   }
 
   
-  @ApiModelProperty(value = "The list of privacy settings at an OSP")
-  @JsonProperty("osp_settings")
-  public List<PrivacySetting> getOspSettings() {
-    return ospSettings;
+  @ApiModelProperty(value = "")
+  @JsonProperty("attribute_value")
+  public String getAttributeValue() {
+    return attributeValue;
   }
-  public void setOspSettings(List<PrivacySetting> ospSettings) {
-    this.ospSettings = ospSettings;
+  public void setAttributeValue(String attributeValue) {
+    this.attributeValue = attributeValue;
   }
 
   
@@ -89,23 +85,23 @@ public class OSPSettings   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    OSPSettings oSPSettings = (OSPSettings) o;
-    return Objects.equals(ospId, oSPSettings.ospId) &&
-        Objects.equals(ospSettings, oSPSettings.ospSettings);
+    PolicyAttribute policyAttribute = (PolicyAttribute) o;
+    return Objects.equals(attributeName, policyAttribute.attributeName) &&
+        Objects.equals(attributeValue, policyAttribute.attributeValue);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(ospId, ospSettings);
+    return Objects.hash(attributeName, attributeValue);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class OSPSettings {\n");
+    sb.append("class PolicyAttribute {\n");
     
-    sb.append("    ospId: ").append(toIndentedString(ospId)).append("\n");
-    sb.append("    ospSettings: ").append(toIndentedString(ospSettings)).append("\n");
+    sb.append("    attributeName: ").append(toIndentedString(attributeName)).append("\n");
+    sb.append("    attributeValue: ").append(toIndentedString(attributeValue)).append("\n");
     sb.append("}");
     return sb.toString();
   }
