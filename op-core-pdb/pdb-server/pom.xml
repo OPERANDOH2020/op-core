@@ -254,7 +254,6 @@
 	    <groupId>eu.operando</groupId>
 	    <artifactId>eu.operando.core.ldb.client</artifactId>
 	    <version>1.0.0</version>
-	    <scope>compile</scope>
 	</dependency>
 
 
