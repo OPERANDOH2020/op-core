@@ -173,6 +173,38 @@ public class UPPMongo {
         return prObj;
     }
 
+    /**
+     * List all the records of the users who have subscribed to a given
+     * OSP in the system.
+     * @param ospId The Operando Id of the OSP being searched for.
+     * @return A list of UPP
+     */
+    public List<String> getUPPByOSPId(String ospId) {
+        List<String> jsonInString = new ArrayList<>();
+
+        BasicDBObject whereQuery = new BasicDBObject();
+        whereQuery.put("ospId", ospId);
+        DBCursor cursor = this.uppTable.find(whereQuery);
+        while(cursor.hasNext()) {
+            DBObject result = cursor.next();
+            if (result != null) {
+                try {
+                    UserPrivacyPolicy uppObj = getUPP(result);
+                    ObjectMapper mapper = new ObjectMapper();
+                    mapper.getSerializationConfig().enable(SerializationConfig.Feature.WRITE_ENUMS_USING_TO_STRING);
+                    mapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
+
+                    jsonInString.add(mapper.writeValueAsString(uppObj));
+                } catch (JsonMappingException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return jsonInString;
+    }
+
     public String getUPPById(String uppId) {
         UserPrivacyPolicy uppObj;
         String jsonInString = null;
