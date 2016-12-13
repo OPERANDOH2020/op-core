@@ -5,7 +5,6 @@ import javax.ws.rs.core.SecurityContext;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.MDC;
-import org.apache.log4j.PropertyConfigurator;
 
 import io.swagger.api.ApiResponseMessage;
 import io.swagger.api.LogApiService;
@@ -28,7 +27,7 @@ public class LogApiServiceImpl extends LogApiService {
     	//GBE I comment this because in tomcat the file is not there, what I do instead is to put a copy of the file with log4j.properties
     	//PropertyConfigurator.configure(classLoader.getResource("config/log4jMySql.properties"));
     	//GBE end
-  	  	MDC.put("userName", "username");
+  	  	MDC.put("userName", request.getUserId());
   	  	MDC.put("requesterType",request.getRequesterType() );
   	  	MDC.put("requesterId", request.getRequesterId());
   	  	MDC.put("logPriority", request.getLogPriority());
