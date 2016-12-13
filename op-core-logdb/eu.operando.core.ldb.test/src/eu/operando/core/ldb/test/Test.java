@@ -61,19 +61,21 @@ public class Test {
 		
 
 	    LogRequest logRequest = new LogRequest();
-	    logRequest.setDescription("First log for testing purposes");
+	    logRequest.setUserId("003");
+	    logRequest.setDescription("Log on 07/12 for testing purposes");
 	    logRequest.setLogDataType(LogDataTypeEnum.INFO);
-	    logRequest.setTitle("First log");
+	    logRequest.setTitle("Log on 07/12");
 	    logRequest.setLogPriority(LogPriorityEnum.LOW);
-	    logRequest.setRequesterId("1001");
+	    logRequest.setRequesterId("1007");
 	    logRequest.setRequesterType(RequesterTypeEnum.MODULE);
 	    ArrayList<String> keywords = new ArrayList<String> ();
-	    keywords.add("keyword1");
-	    keywords.add("keyword2");
-	    keywords.add("keyword3");
+	    keywords.add("keywordA");
+	    keywords.add("keywordB");
+	    keywords.add("keywordC");
 		logRequest.setKeywords(keywords );
 		
 		Object postBody = logRequest;
+		System.out.println(postBody);
 		String str = "";
 		try {
 			str = apiClient.invokeAPI(path,"POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);			
