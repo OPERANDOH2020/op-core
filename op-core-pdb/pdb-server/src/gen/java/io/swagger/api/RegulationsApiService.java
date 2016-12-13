@@ -25,7 +25,7 @@
 
 package io.swagger.api;
 
-import io.swagger.model.PrivacyRegulationInput;
+import eu.operando.core.pdb.common.model.PrivacyRegulationInput;
 
 import io.swagger.api.NotFoundException;
 

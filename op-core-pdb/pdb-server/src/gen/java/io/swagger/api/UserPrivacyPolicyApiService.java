@@ -26,7 +26,7 @@
 package io.swagger.api;
 
 
-import io.swagger.model.UserPrivacyPolicy;
+import eu.operando.core.pdb.common.model.UserPrivacyPolicy;
 
 import io.swagger.api.NotFoundException;
 

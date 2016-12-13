@@ -22,7 +22,7 @@
 //      Created for Project :   OPERANDO
 //
 /////////////////////////////////////////////////////////////////////////
-package eu.operando.core.pdb;
+package eu.operando.core.pdb.mongo;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -33,10 +33,10 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoException;
 import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
-import io.swagger.model.OSPPrivacyPolicy;
-import io.swagger.model.OSPPrivacyPolicyInput;
-import io.swagger.model.OSPReasonPolicy;
-import io.swagger.model.OSPReasonPolicyInput;
+import eu.operando.core.pdb.common.model.OSPPrivacyPolicy;
+import eu.operando.core.pdb.common.model.OSPPrivacyPolicyInput;
+import eu.operando.core.pdb.common.model.OSPReasonPolicy;
+import eu.operando.core.pdb.common.model.OSPReasonPolicyInput;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;

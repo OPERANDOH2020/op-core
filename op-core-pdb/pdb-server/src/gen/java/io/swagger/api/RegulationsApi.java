@@ -26,12 +26,12 @@
 package io.swagger.api;
 
 import io.swagger.api.RegulationsApiService;
-import io.swagger.api.factories.RegulationsApiServiceFactory;
+import eu.operando.core.pdb.api.factories.RegulationsApiServiceFactory;
 
 import io.swagger.annotations.ApiParam;
 
-import io.swagger.model.PrivacyRegulation;
-import io.swagger.model.PrivacyRegulationInput;
+import eu.operando.core.pdb.common.model.PrivacyRegulation;
+import eu.operando.core.pdb.common.model.PrivacyRegulationInput;
 
 import io.swagger.api.NotFoundException;
 

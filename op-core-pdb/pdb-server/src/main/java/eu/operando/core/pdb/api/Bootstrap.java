@@ -1,4 +1,4 @@
-package io.swagger.api;
+package eu.operando.core.pdb.api;
 
 import io.swagger.jaxrs.config.SwaggerContextService;
 import io.swagger.models.*;

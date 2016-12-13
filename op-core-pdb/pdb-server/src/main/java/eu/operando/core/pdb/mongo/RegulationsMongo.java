@@ -1,4 +1,4 @@
-/////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
 //
 // © University of Southampton IT Innovation Centre, 2016
 //
@@ -23,7 +23,7 @@
 //
 /////////////////////////////////////////////////////////////////////////
 
-package eu.operando.core.pdb;
+package eu.operando.core.pdb.mongo;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
@@ -34,7 +34,8 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoException;
 import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
-import io.swagger.model.UserPrivacyPolicy;
+import eu.operando.core.pdb.common.model.PrivacyRegulation;
+import eu.operando.core.pdb.common.model.PrivacyRegulationInput;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -53,62 +54,53 @@ import org.codehaus.jettison.json.JSONObject;
  *
  * @author sysman
  */
-public class UPPMongo {
+public class RegulationsMongo {
 
     private MongoClient mongo;
-    private UserPrivacyPolicy upp;
+    private PrivacyRegulation regulation;
     private DB db;
-    private DBCollection uppTable;
+    private DBCollection regulationTable;
 
-
-    public UPPMongo() {
+    public RegulationsMongo() {
         try {
             this.mongo = new MongoClient("mongo.integration.operando.dmz.lab.esilab.org", 27017);
-
             // get database
             this.db = mongo.getDB("pdb");
-
             // get collection
-            this.uppTable = db.getCollection("upp");
-            System.out.println(this.uppTable.toString());
+            this.regulationTable = db.getCollection("regulations");
 
-            this.upp = new UserPrivacyPolicy();
+            this.regulation = new PrivacyRegulation();
             //} catch (UnknownHostException e) {
-            //  e.printStackTrace();
+            //    e.printStackTrace();
         } catch (MongoException e) {
             e.printStackTrace();
         }
     }
 
-    public boolean deleteUPPById(String uppId) {
-        System.out.println("deleting: " + uppId);
+    public boolean deleteRegulationById(String regId) {
         boolean res = false;
         BasicDBObject searchQuery = new BasicDBObject();
         try {
-            searchQuery.put("userId", uppId);
+            searchQuery.put("_id", new ObjectId(regId));
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
             return res;
         }
 
-        DBObject result = this.uppTable.findOne(searchQuery);
+        DBObject result = this.regulationTable.findOne(searchQuery);
 
         if (result == null) {
             res = false;
         } else {
-            this.uppTable.remove(result);
+            this.regulationTable.remove(result);
             res = true;
         }
         return res;
     }
 
-    public String getUPPByFilter(String filter) {
+    public String getRegulationByFilter(String filter) {
         String result = null;
         BasicDBObject query = new BasicDBObject();
-
-        if (filter == null) {
-            return "Input error: No UPP ID provided";
-        }
 
         System.out.println("filter expression: " + filter);
 
@@ -127,13 +119,13 @@ public class UPPMongo {
 
         System.out.println("Query: " + query.toString());
 
-        List<UserPrivacyPolicy> arrUPPObj = new ArrayList<UserPrivacyPolicy>();
+        List<PrivacyRegulation> arrPRObj = new ArrayList<PrivacyRegulation>();
 
-        DBCursor cursor = this.uppTable.find(query);
+        DBCursor cursor = this.regulationTable.find(query);
         while (cursor.hasNext()) {
             BasicDBObject regObj = (BasicDBObject) cursor.next();
             System.out.println("Adding result " + regObj.toString());
-            arrUPPObj.add(getUPP(regObj));
+            arrPRObj.add(getRegulation(regObj));
         }
 
         try {
@@ -141,27 +133,25 @@ public class UPPMongo {
             mapper.getSerializationConfig().enable(SerializationConfig.Feature.WRITE_ENUMS_USING_TO_STRING);
             mapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
 
-            result = mapper.writeValueAsString(arrUPPObj);
+            result = mapper.writeValueAsString(arrPRObj);
         } catch (JsonMappingException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        System.out.println("getUPPByFilter RESULT (list): " + result);
+        System.out.println("RESULT (list): " + result);
 
         return result;
     }
 
-    private UserPrivacyPolicy getUPP(DBObject regObj) {
-        //System.out.println("regObj: " + regObj.toString());
-        UserPrivacyPolicy prObj = null;
+    private PrivacyRegulation getRegulation(DBObject regObj) {
+        PrivacyRegulation prObj = null;
         try {
-
             ObjectMapper mapper = new ObjectMapper();
             mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            prObj = mapper.readValue(regObj.toString(), UserPrivacyPolicy.class);
-            //System.out.println("prObj: " + prObj.toString());
+            prObj = mapper.readValue(regObj.toString(), PrivacyRegulation.class);
+            prObj.setRegId(regObj.get("_id").toString());
 
         } catch (JsonGenerationException e) {
             e.printStackTrace();
@@ -173,89 +163,58 @@ public class UPPMongo {
         return prObj;
     }
 
-    /**
-     * List all the records of the users who have subscribed to a given
-     * OSP in the system.
-     * @param ospId The Operando Id of the OSP being searched for.
-     * @return A list of UPP
-     */
-    public List<String> getUPPByOSPId(String ospId) {
-        List<String> jsonInString = new ArrayList<>();
-
-        BasicDBObject whereQuery = new BasicDBObject();
-        whereQuery.put("ospId", ospId);
-        DBCursor cursor = this.uppTable.find(whereQuery);
-        while(cursor.hasNext()) {
-            DBObject result = cursor.next();
-            if (result != null) {
-                try {
-                    UserPrivacyPolicy uppObj = getUPP(result);
-                    ObjectMapper mapper = new ObjectMapper();
-                    mapper.getSerializationConfig().enable(SerializationConfig.Feature.WRITE_ENUMS_USING_TO_STRING);
-                    mapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
-
-                    jsonInString.add(mapper.writeValueAsString(uppObj));
-                } catch (JsonMappingException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return jsonInString;
-    }
-
-    public String getUPPById(String uppId) {
-        UserPrivacyPolicy uppObj;
+    public String getRegulationById(String regId) {
+        PrivacyRegulation prObj;
         String jsonInString = null;
+        System.out.println("Searching for " + regId);
 
         // find
         BasicDBObject searchQuery = new BasicDBObject();
         try {
-            searchQuery.put("userId", uppId);
+            searchQuery.put("_id", new ObjectId(regId));
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
             return jsonInString;
         }
 
-        DBObject result = this.uppTable.findOne(searchQuery);
+        DBObject result = this.regulationTable.findOne(searchQuery);
         if (result != null) {
-            uppObj = getUPP(result);
+            prObj = getRegulation(result);
             try {
                 ObjectMapper mapper = new ObjectMapper();
                 mapper.getSerializationConfig().enable(SerializationConfig.Feature.WRITE_ENUMS_USING_TO_STRING);
                 mapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
 
-                jsonInString = mapper.writeValueAsString(uppObj);
+                jsonInString = mapper.writeValueAsString(prObj);
+                result.removeField("_id");
+                System.out.println("FOOOOO " + mapper.writeValueAsString(result));
             } catch (JsonMappingException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
+
         return jsonInString;
     }
 
-    public boolean updateUPP(String regId, UserPrivacyPolicy upp) {
+    public boolean updateRegulation(String regId, PrivacyRegulationInput reg) {
         boolean result = false;
-        //upp.setUserPolicyID(regId);
         try {
             ObjectMapper mapper = new ObjectMapper();
-            String jsonInString = mapper.writeValueAsString(upp);
+            String jsonInString = mapper.writeValueAsString(reg);
             Object obj = JSON.parse(jsonInString);
             DBObject document = (DBObject) obj;
+            BasicDBObject searchQuery;
 
-            BasicDBObject searchQuery = new BasicDBObject();;
             try {
-//                searchQuery = new BasicDBObject().append("_id", new ObjectId(regId));
-                  searchQuery.put("userId", regId);
+                searchQuery = new BasicDBObject().append("_id", new ObjectId(regId));
             } catch (IllegalArgumentException e) {
                 e.printStackTrace();
                 return result;
             }
 
-            WriteResult wr = uppTable.update(searchQuery, document);
+            WriteResult wr = regulationTable.update(searchQuery, document);
 
             result = wr.isUpdateOfExisting();
 
@@ -269,29 +228,22 @@ public class UPPMongo {
         return result;
     }
 
-    public String storeUPP(UserPrivacyPolicy upp) {
-        String result = null;
-        //upp.setUserPolicyID(uppId);
+    public ObjectId storeRegulationDirect(PrivacyRegulationInput reg) {
+        ObjectId result = null;
         try {
-            // find if the upp already added - then reject the post
-            BasicDBObject searchQuery = new BasicDBObject();
-            searchQuery.put("userId", upp.getUserId());
-
-            DBObject dbObj = this.uppTable.findOne(searchQuery);
-            if (dbObj != null) {
-                return null;
-            }
-
             ObjectMapper mapper = new ObjectMapper();
-            String jsonInString = mapper.writeValueAsString(upp);
+            //mapper.getSerializationConfig().enable(SerializationConfig.Feature.WRITE_ENUMS_USING_TO_STRING);
+            //mapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
+
+            String jsonInString = mapper.writeValueAsString(reg);
+
+            System.out.println("jsonInString: " + jsonInString);
+
             Object obj = JSON.parse(jsonInString);
             DBObject document = (DBObject) obj;
 
-            uppTable.insert(document);
-            ObjectId id = (ObjectId) document.get("_id");
-            System.out.println("stored upp in " + id.toString() + document.get("userId"));
-            result = getUPPById(document.get("userId").toString());
-
+            regulationTable.insert(document);
+            result = (ObjectId) document.get("_id");
         } catch (MongoException e) {
             result = null;
             e.printStackTrace();
@@ -301,6 +253,15 @@ public class UPPMongo {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        return result;
+    }
+
+    public String storeRegulation(PrivacyRegulationInput reg) {
+        String result = null;
+        ObjectId id = storeRegulationDirect(reg);
+        if (id != null) {
+            result = getRegulationById(id.toString());
         }
         return result;
     }

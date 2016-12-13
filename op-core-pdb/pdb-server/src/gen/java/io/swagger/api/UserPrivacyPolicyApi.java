@@ -26,11 +26,11 @@
 package io.swagger.api;
 
 import io.swagger.api.UserPrivacyPolicyApiService;
-import io.swagger.api.factories.UserPrivacyPolicyApiServiceFactory;
+import eu.operando.core.pdb.api.factories.UserPrivacyPolicyApiServiceFactory;
 
 import io.swagger.annotations.ApiParam;
 
-import io.swagger.model.UserPrivacyPolicy;
+import eu.operando.core.pdb.common.model.UserPrivacyPolicy;
 
 import io.swagger.api.NotFoundException;
 

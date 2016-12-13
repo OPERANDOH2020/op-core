@@ -42,7 +42,7 @@
 
     <servlet>
         <servlet-name>Bootstrap</servlet-name>
-        <servlet-class>io.swagger.api.Bootstrap</servlet-class>
+        <servlet-class>eu.operando.core.pdb.api.Bootstrap</servlet-class>
         <load-on-startup>2</load-on-startup>
     </servlet>
     <servlet-mapping>
