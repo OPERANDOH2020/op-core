@@ -8,7 +8,6 @@ import io.swagger.client.Configuration;
 import io.swagger.client.Pair;
 
 import io.swagger.client.model.LogRequest;
-import io.swagger.client.model.Error;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +34,7 @@ public class LogApi {
     this.apiClient = apiClient;
   }
 
-  
+
   /**
    * Inserts received data to the database.
    * Inserts received data to the database by using Log4j.
@@ -45,12 +44,12 @@ public class LogApi {
    */
   public String lodDB(LogRequest request) throws ApiException {
     Object localVarPostBody = request;
-    
+
     // verify the required parameter 'request' is set
     if (request == null) {
       throw new ApiException(400, "Missing the required parameter 'request' when calling lodDB");
     }
-    
+
     // create path and map variables
     String localVarPath = "/log".replaceAll("\\{format\\}","json");
 
@@ -59,11 +58,11 @@ public class LogApi {
     Map<String, String> localVarHeaderParams = new HashMap<String, String>();
     Map<String, Object> localVarFormParams = new HashMap<String, Object>();
 
-    
 
-    
 
-    
+
+
+
 
     final String[] localVarAccepts = {
       "application/json"
@@ -77,10 +76,10 @@ public class LogApi {
 
     String[] localVarAuthNames = new String[] {  };
 
-    
+
     GenericType<String> localVarReturnType = new GenericType<String>() {};
     return apiClient.invokeAPI(localVarPath, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, localVarReturnType);
-    
+
   }
-  
+
 }
