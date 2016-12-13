@@ -249,13 +249,14 @@
             </exclusion>
         </exclusions>
     </dependency>
-    <!-- 
-    <dependency>
-        <groupId>eu.operando.core.ldb</groupId>
-        <artifactId>ldb-client</artifactId>
-        <version>1.0.0</version>
-    </dependency>
--->
+
+	<dependency>
+	    <groupId>eu.operando</groupId>
+	    <artifactId>eu.operando.core.ldb.client</artifactId>
+	    <version>1.0.0</version>
+	</dependency>
+
+
     <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-log4j12</artifactId>
