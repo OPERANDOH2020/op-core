@@ -44,7 +44,7 @@ import io.swagger.client.auth.OAuth;
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-05-16T12:28:12.243Z")
 public class ApiClient {
   private Map<String, String> defaultHeaderMap = new HashMap<String, String>();
-  private String basePath = "http://localhost:8080";
+  private String basePath = "http://integration.operando.esilab.org:8090";
   private boolean debugging = false;
   private int connectionTimeout = 0;
 
