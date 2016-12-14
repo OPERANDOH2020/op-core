@@ -52,7 +52,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
 
     public UserPrivacyPolicyApiServiceImpl() {
         this.apiClient = new ApiClient();
-        this.apiClient.setBasePath("http://integration.operando.esilab.org:8090");
+        this.apiClient.setBasePath("http://integration.operando.esilab.org:8090/operando/core/ldb");
         this.logApi = new LogApi(this.apiClient);
     }
 
@@ -220,6 +220,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
         try {
             String response = this.logApi.lodDB(logReq);
             Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.INFO, response);
+
         } catch (ApiException ex) {
             Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.SEVERE, "failed to log", ex);
         }
