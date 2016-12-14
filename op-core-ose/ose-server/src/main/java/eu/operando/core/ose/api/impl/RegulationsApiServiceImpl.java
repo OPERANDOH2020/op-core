@@ -52,24 +52,28 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
 
     public RegulationsApiServiceImpl() {
         this.apiClient = new ApiClient();
-        this.apiClient.setBasePath("http://integration.operando.esilab.org:8090");
+        this.apiClient.setBasePath("http://integration.operando.esilab.org:8090/operando/core/ldb");
         this.logApi = new LogApi(this.apiClient);
     }
 
-    private void logRequest(String userId, String operation, String description,
+    private void logRequest(String requesterId, String title, String description,
             ArrayList<String> keywords) {
 
-        LogRequest logReq = new LogRequest();
-        logReq.setRequesterType(LogRequest.RequesterTypeEnum.PROCESS);
-        logReq.setRequesterId(userId);
-        logReq.setLogPriority(LogRequest.LogPriorityEnum.LOW);
-        logReq.setTitle("PDB user privacy policy" + operation);
-        logReq.setDescription(description);
-        logReq.setKeywords(keywords);
+        LogRequest logRequest = new LogRequest();
+        logRequest.setUserId("003");
+        logRequest.setDescription(description);
+        logRequest.setLogDataType(LogRequest.LogDataTypeEnum.INFO);
+        logRequest.setTitle("OSE" + title);
+        logRequest.setLogPriority(LogRequest.LogPriorityEnum.LOW);
+        logRequest.setRequesterId(requesterId);
+        logRequest.setRequesterType(LogRequest.RequesterTypeEnum.PROCESS);
+
+        logRequest.setKeywords(keywords);
 
         try {
-            String response = this.logApi.lodDB(logReq);
+            String response = this.logApi.lodDB(logRequest);
             Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.INFO, response);
+
         } catch (ApiException ex) {
             Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.SEVERE, "failed to log", ex);
         }

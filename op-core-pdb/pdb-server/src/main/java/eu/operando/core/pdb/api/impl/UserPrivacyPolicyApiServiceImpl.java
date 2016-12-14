@@ -24,7 +24,6 @@
 /////////////////////////////////////////////////////////////////////////
 package eu.operando.core.pdb.api.impl;
 
-import eu.operando.core.pdb.LogDBCall;
 import io.swagger.api.*;
 
 import eu.operando.core.pdb.common.model.UserPrivacyPolicy;
@@ -34,8 +33,8 @@ import io.swagger.api.NotFoundException;
 import eu.operando.core.pdb.mongo.UPPMongo;
 import io.swagger.client.ApiClient;
 import io.swagger.client.api.LogApi;
-import io.swagger.client.ApiException;
 import io.swagger.client.model.LogRequest;
+import io.swagger.client.ApiException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
@@ -54,6 +53,28 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
         this.apiClient = new ApiClient();
         this.apiClient.setBasePath("http://integration.operando.esilab.org:8090/operando/core/ldb");
         this.logApi = new LogApi(this.apiClient);
+    }
+
+    private void logRequest(String requesterId, String title, String description,
+            ArrayList<String> keywords) {
+
+        LogRequest logRequest = new LogRequest();
+        logRequest.setUserId("003");
+        logRequest.setDescription(description);
+        logRequest.setLogDataType(LogRequest.LogDataTypeEnum.INFO);
+        logRequest.setTitle("PDB" + title);
+        logRequest.setLogPriority(LogRequest.LogPriorityEnum.LOW);
+        logRequest.setRequesterId(requesterId);
+        logRequest.setRequesterType(LogRequest.RequesterTypeEnum.PROCESS);
+
+        logRequest.setKeywords(keywords);
+
+        try {
+            String response = this.logApi.lodDB(logRequest);
+            Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.INFO, response);
+        } catch (ApiException ex) {
+            Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.SEVERE, "failed to log", ex);
+        }
     }
 
     @Override
@@ -206,41 +227,4 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
                 "The document (UPP) was successfully updated in the database.")).build();
     }
 
-    private void logRequest(String userId, String operation, String description,
-            ArrayList<String> keyword2s) {
-
-//        LogRequest logReq = new LogRequest();
-//        logReq.setRequesterType(LogRequest.RequesterTypeEnum.PROCESS);
-//        logReq.setRequesterId(userId);
-//        logReq.setLogPriority(LogRequest.LogPriorityEnum.LOW);
-//        logReq.setTitle("PDB user privacy policy" + operation);
-//        logReq.setDescription(description);
-//        logReq.setKeywords(keywords);
-
-
-            LogRequest logRequest = new LogRequest();
-	    logRequest.setUserId("003");
-	    logRequest.setDescription(description + " user: " + userId);
-	    logRequest.setLogDataType(LogRequest.LogDataTypeEnum.INFO);
-	    logRequest.setTitle("PDB user privacy policy" + operation);
-	    logRequest.setLogPriority(LogRequest.LogPriorityEnum.LOW);
-	    logRequest.setRequesterId(userId);
-	    logRequest.setRequesterType(LogRequest.RequesterTypeEnum.PROCESS);
-	    ArrayList<String> keywords = new ArrayList<String> ();
-	    keywords.add("UPP");
-	    keywords.add("keywordB");
-	    keywords.add("keywordC");
-		logRequest.setKeywords(keywords );
-
-        try {
-            LogDBCall ldbC = new LogDBCall();
-            ldbC.pushLog(logRequest);
-            String response = this.logApi.lodDB(logRequest);
-            Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.INFO, response);
-
-        } catch (ApiException ex) {
-            Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.SEVERE, "failed to log", ex);
-        }
-
-    }
 }
