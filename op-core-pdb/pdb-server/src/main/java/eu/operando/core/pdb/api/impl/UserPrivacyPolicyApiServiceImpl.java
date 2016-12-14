@@ -25,7 +25,6 @@
 package eu.operando.core.pdb.api.impl;
 
 
-import eu.operando.core.pdb.LogDBCall;
 import io.swagger.api.*;
 
 import eu.operando.core.pdb.common.model.UserPrivacyPolicy;
@@ -208,7 +207,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
     }
 
     private void logRequest(String userId, String operation, String description,
-            ArrayList<String> keyword2s) {
+            ArrayList<String> keywords) {
 
 //        LogRequest logReq = new LogRequest();
 //        logReq.setRequesterType(LogRequest.RequesterTypeEnum.PROCESS);
@@ -220,21 +219,17 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
 
             LogRequest logRequest = new LogRequest();
 	    logRequest.setUserId("003");
-	    logRequest.setDescription("Log on 07/12 for testing purposes");
+	    logRequest.setDescription(description);
 	    logRequest.setLogDataType(LogRequest.LogDataTypeEnum.INFO);
-	    logRequest.setTitle("Log on 07/12");
+	    logRequest.setTitle("PDB user privacy policy" + operation);
 	    logRequest.setLogPriority(LogRequest.LogPriorityEnum.LOW);
-	    logRequest.setRequesterId("1007");
-	    logRequest.setRequesterType(LogRequest.RequesterTypeEnum.MODULE);
-	    ArrayList<String> keywords = new ArrayList<String> ();
-	    keywords.add("keywordA");
-	    keywords.add("keywordB");
-	    keywords.add("keywordC");
-		logRequest.setKeywords(keywords );
+	    logRequest.setRequesterId(userId);
+	    logRequest.setRequesterType(LogRequest.RequesterTypeEnum.PROCESS);
+	    logRequest.setKeywords(keywords );
 
         try {
-            LogDBCall ldbC = new LogDBCall();
-            ldbC.pushLog(logRequest);
+//            LogDBCall ldbC = new LogDBCall();
+//            ldbC.pushLog(logRequest);
             String response = this.logApi.lodDB(logRequest);
             Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.INFO, response);
 
