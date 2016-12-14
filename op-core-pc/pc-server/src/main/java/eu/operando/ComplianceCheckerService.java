@@ -27,7 +27,7 @@
 package eu.operando;
 
 import io.swagger.api.NotFoundException;
-import io.swagger.model.OSPReasonPolicy;
+import eu.operando.core.pdb.common.model.OSPReasonPolicy;
 
 /**
  * Core implementation of compliance check functionality.

@@ -35,8 +35,8 @@ import io.swagger.model.UserPreference;
 
 import java.util.List;
 import io.swagger.api.NotFoundException;
-import io.swagger.model.OSPConsents;
-import io.swagger.model.UserPrivacyPolicy;
+import eu.operando.core.pdb.common.model.OSPConsents;
+import eu.operando.core.pdb.common.model.UserPrivacyPolicy;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;

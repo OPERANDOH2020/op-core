@@ -26,8 +26,8 @@
 /////////////////////////////////////////////////////////////////////////
 package io.swagger.api;
 
-import io.swagger.model.UserPreference;
 
+import eu.operando.core.pdb.common.model.UserPreference;
 import java.util.List;
 import io.swagger.api.NotFoundException;
 
