@@ -56,14 +56,14 @@ public class OSPApiServiceImpl extends OSPApiService {
         this.logApi = new LogApi(this.apiClient);
     }
 
-    private void logRequest(String userId, String operation, String description,
+    private void logRequest(String requesterId, String title, String description,
             ArrayList<String> keywords) {
 
         LogRequest logReq = new LogRequest();
         logReq.setRequesterType(LogRequest.RequesterTypeEnum.PROCESS);
-        logReq.setRequesterId(userId);
+        logReq.setRequesterId(requesterId);
         logReq.setLogPriority(LogRequest.LogPriorityEnum.LOW);
-        logReq.setTitle("OSP " + operation);
+        logReq.setTitle("OSP " + title);
         logReq.setDescription(description);
         logReq.setKeywords(keywords);
 
@@ -81,26 +81,26 @@ public class OSPApiServiceImpl extends OSPApiService {
 
         Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP GET {0}", filter);
 
-        logRequest("OSP GET", "GET",
+        logRequest("PDB OSP", "GET OSP",
                 "OSP GET received",
-                new ArrayList<String>(Arrays.asList("one", "two")));
+                new ArrayList<String>(Arrays.asList("PDB", "OSP", "received")));
 
         OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
         String ospString = regdb.getOSPByFilter(filter);
 
         if (ospString == null) {
 
-            logRequest("OSP GET", "GET",
+            logRequest("PDB OSP", "GET OSP",
                     "OSP GET failed",
-                    new ArrayList<String>(Arrays.asList("one", "two")));
+                    new ArrayList<String>(Arrays.asList("PDB", "OSP", "failed")));
 
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error - the regulation does not exist")).build();
         }
 
-        logRequest("OSP GET", "GET",
+        logRequest("PDB OSP", "GET OSP",
                 "OSP GET ok",
-                new ArrayList<String>(Arrays.asList("one", "two")));
+                new ArrayList<String>(Arrays.asList("PDB", "OSP", "ok")));
 
         return Response.ok(ospString, MediaType.APPLICATION_JSON).build();
     }
