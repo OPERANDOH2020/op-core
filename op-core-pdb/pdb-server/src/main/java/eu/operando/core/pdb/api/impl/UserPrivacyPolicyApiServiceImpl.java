@@ -24,7 +24,6 @@
 /////////////////////////////////////////////////////////////////////////
 package eu.operando.core.pdb.api.impl;
 
-
 import eu.operando.core.pdb.LogDBCall;
 import io.swagger.api.*;
 
@@ -217,12 +216,10 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
         logReq.setDescription(description);
         logReq.setKeywords(keywords);
 
-
-            LogDBCall ldbC = new LogDBCall();
-            ldbC.pushLog(logReq);
+        LogDBCall ldbC = new LogDBCall();
+        ldbC.pushLog(logReq);
 //            String response = this.logApi.lodDB(logReq);
-            Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.INFO, "logged message");
-
+        Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.INFO, "logged message");
 
     }
 }
