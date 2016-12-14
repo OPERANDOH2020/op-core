@@ -208,7 +208,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
     }
 
     private void logRequest(String userId, String operation, String description,
-            ArrayList<String> keyword2s) {
+            ArrayList<String> keywords) {
 
 //        LogRequest logReq = new LogRequest();
 //        logReq.setRequesterType(LogRequest.RequesterTypeEnum.PROCESS);
@@ -226,11 +226,8 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
 	    logRequest.setLogPriority(LogRequest.LogPriorityEnum.LOW);
 	    logRequest.setRequesterId(userId);
 	    logRequest.setRequesterType(LogRequest.RequesterTypeEnum.PROCESS);
-	    ArrayList<String> keywords = new ArrayList<String> ();
-	    keywords.add("UPP");
-	    keywords.add("keywordB");
-	    keywords.add("keywordC");
-		logRequest.setKeywords(keywords );
+
+		logRequest.setKeywords(keywords);
 
         try {
             LogDBCall ldbC = new LogDBCall();
