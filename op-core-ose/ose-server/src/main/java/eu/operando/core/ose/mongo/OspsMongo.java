@@ -60,7 +60,7 @@ public class OspsMongo {
     private MongoClient mongo;
     private DB db;
     private DBCollection ospPSTable;
-    //private String uppBasePath = "http://localhost:8080/policy_database";
+    private String uppBasePath = "http://localhost:8080/policy_database";
 
     public OspsMongo() {
         try {
