@@ -35,6 +35,7 @@ import io.swagger.api.NotFoundException;
 import eu.operando.core.pdb.mongo.UPPMongo;
 import io.swagger.client.ApiClient;
 import io.swagger.client.api.LogApi;
+import io.swagger.client.ApiException;
 import io.swagger.client.model.LogRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -207,22 +208,38 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
     }
 
     private void logRequest(String userId, String operation, String description,
-            ArrayList<String> keywords) {
+            ArrayList<String> keyword2s) {
 
-        LogRequest logReq = new LogRequest();
-        logReq.setRequesterType(LogRequest.RequesterTypeEnum.PROCESS);
-        logReq.setRequesterId(userId);
-        logReq.setLogPriority(LogRequest.LogPriorityEnum.LOW);
-        logReq.setTitle("PDB user privacy policy" + operation);
-        logReq.setDescription(description);
-        logReq.setKeywords(keywords);
+//        LogRequest logReq = new LogRequest();
+//        logReq.setRequesterType(LogRequest.RequesterTypeEnum.PROCESS);
+//        logReq.setRequesterId(userId);
+//        logReq.setLogPriority(LogRequest.LogPriorityEnum.LOW);
+//        logReq.setTitle("PDB user privacy policy" + operation);
+//        logReq.setDescription(description);
+//        logReq.setKeywords(keywords);
 
+            LogRequest logRequest = new LogRequest();
+	    logRequest.setUserId("003");
+	    logRequest.setDescription("Log on 07/12 for testing purposes");
+	    logRequest.setLogDataType(LogRequest.LogDataTypeEnum.INFO);
+	    logRequest.setTitle("Log on 07/12");
+	    logRequest.setLogPriority(LogRequest.LogPriorityEnum.LOW);
+	    logRequest.setRequesterId("1007");
+	    logRequest.setRequesterType(LogRequest.RequesterTypeEnum.MODULE);
+	    ArrayList<String> keywords = new ArrayList<String> ();
+	    keywords.add("keywordA");
+	    keywords.add("keywordB");
+	    keywords.add("keywordC");
+		logRequest.setKeywords(keywords );
 
+        try {
             LogDBCall ldbC = new LogDBCall();
-            ldbC.pushLog(logReq);
-//            String response = this.logApi.lodDB(logReq);
-            Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.INFO, "logged message");
+            ldbC.pushLog(logRequest);
+            String response = this.logApi.lodDB(logRequest);
+            Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.INFO, response);
 
-
+        } catch (ApiException ex) {
+            Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.SEVERE, "failed to log", ex);
+        }
     }
 }
