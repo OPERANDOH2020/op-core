@@ -60,7 +60,7 @@ public class OspsMongo {
     private MongoClient mongo;
     private DB db;
     private DBCollection ospPSTable;
-    private String uppBasePath = "http://localhost:8080/policy_database";
+    //private String uppBasePath = "http://localhost:8080/policy_database";
 
     public OspsMongo() {
         try {
@@ -103,7 +103,7 @@ public class OspsMongo {
 
         System.out.println("GOT: " + ospId + " " + userId);
 
-        // find 
+        // find
         BasicDBObject searchQuery = new BasicDBObject();
         searchQuery.put("osp_id", ospId);
         DBObject result = this.ospPSTable.findOne(searchQuery);
@@ -235,7 +235,7 @@ public class OspsMongo {
         }
 
         //TODO check userPrivacySettings with ospSettings
-        
+
         //update upp with new OSPSettings
         OSPSettings updatedOspSetting = new OSPSettings();
         updatedOspSetting.setOspId(ospId);
@@ -243,7 +243,7 @@ public class OspsMongo {
         uppOspSettings.set(idx, updatedOspSetting);
         upp.setSubscribedOspSettings(uppOspSettings);
         updateUserPrivacyPolicy(userId, upp);
-        
+
         return result;
 
     }
