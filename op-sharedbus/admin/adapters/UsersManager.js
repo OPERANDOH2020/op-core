@@ -72,6 +72,11 @@ apersistence.registerModel("DefaultUser", "Redis", {
     },
     salt:{
         type:"string"
+    },
+    activationCode:{
+        type: "string",
+        index:true,
+        default:"0"
     }
 }, function (err, model) {
     if (err) {
@@ -206,6 +211,18 @@ queryUsers = function (organisationId, callback) {
     })();
 }
 
+activateUser = function(activationCode,callback){
+    filterUsers({"activationCode":activationCode},function(err,users){
+        if(err){
+            callback(err);
+        }else if(users.length===0){
+            callback(new Error("No user with activation code "+activationCode));
+        }else{
+            users[0].activationCode = "0";
+            redisPersistence.saveObject(users[0],callback)
+        }
+    })
+}
 /*
  Creeaza o organizatie
  */
@@ -298,7 +315,8 @@ newUserIsValid = function (newUser, callback) {
                         userId: uuid.v1(),
                         password: newUser.password,
                         email: newUser.email,
-                        organisationId: "Public"
+                        organisationId: "Public",
+                        activationCode:uuid.v1()
                     }, function (err, user) {
                         if (user) {
                             if (user['password']) {
@@ -367,14 +385,14 @@ validatePassword = function (email, pass, callback) {
                 var user = users[0];
 
                 hashThisPassword(pass, user.salt, function (err, hashedPassword) {
-                    if (err) {
+                    if (err) 
                         callback(err);
-                    }
-                    else if (hashedPassword === user.password) {
-                        callback(null, user.userId);
-                    } else {
+                    else if (hashedPassword !== user.password) 
                         callback(new Error("Invalid credentials"));
-                    }
+                    else if(user.activationCode!=="0") 
+                        callback(new Error("Account is not activated"));
+                    else
+                        callback(null,user.userId);
                 });
             }
 

@@ -44,7 +44,6 @@ var loginSwarming = {
         code: function () {
             var self = this;
             validatePassword(this.email, this.authorisationToken, S(function (err, userId) {
-
                 if (err) {
                     self.swarm("failed", self.getEntryAdapter());
                 }

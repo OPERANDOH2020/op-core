@@ -28,15 +28,10 @@ var registerSwarming = {
         this.swarm("verifyUserData");
     },
 
-    verifyValidationCode: function () {
-        //Confirm user identity and activate account
-    },
-
     verifyUserData: {
         node: "UsersManager",
         code: function () {
             var self = this;
-
             newUserIsValid(self.newUser, S(function (err, user) {
                 if (err) {
                     console.log(err);
@@ -46,6 +41,13 @@ var registerSwarming = {
                     self.home("error");
                 } else {
                     self.user = user;
+
+                    startSwarm("emails.js","sendMail","operando@"+thisAdapter.config.Core.operandoHost,
+                        user['email'],
+                        "Activate account",
+                        "Your account has been registered \nTo activate it please access the following link:\n http://www."+thisAdapter.config.Code.operandoHost+"/restAPI/activate/" +user.activationCode);
+
+
                     self.swarm("setUserNotifications");
                 }
             }))
@@ -81,10 +83,23 @@ var registerSwarming = {
         }
     },
 
-    generateValidationCode: {
-        node: "UsersManager",
-        code: function () {
-            this.home("success");
+    verifyValidationCode: function (validationCode) {
+        this.validationCode = validationCode;
+        this.swarm("validateCode");
+    },
+
+    validateCode:{
+        node:"UsersManager",
+        code:function(){
+            var self = this;
+            activateUser(this.validationCode,S(function(err,result){
+                if(err){
+                    self.error = err;
+                    self.home("failed");
+                }else{
+                    self.home("success");
+                }
+            }))
         }
     }
 }
