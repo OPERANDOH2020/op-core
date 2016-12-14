@@ -51,8 +51,7 @@ public class LogApi {
     }
 
     // create path and map variables
-    //    String localVarPath = "/log".replaceAll("\\{format\\}","json");
-    String localVarPath = "/operando/core/ldb/log";
+    String localVarPath = "/log".replaceAll("\\{format\\}","json");
 
     // query params
     List<Pair> localVarQueryParams = new ArrayList<Pair>();

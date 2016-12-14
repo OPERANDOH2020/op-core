@@ -10,9 +10,6 @@ import io.swagger.client.ApiClient;
 import io.swagger.client.ApiException;
 import io.swagger.client.Pair;
 import io.swagger.client.model.LogRequest;
-import io.swagger.client.model.LogRequest.LogDataTypeEnum;
-import io.swagger.client.model.LogRequest.LogPriorityEnum;
-import io.swagger.client.model.LogRequest.RequesterTypeEnum;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,7 +25,7 @@ public class LogDBCall {
 
     }
 
-    public void test() {
+    public void pushLog(LogRequest logRequest) {
         System.out.println("Calling ldb");
 		ApiClient apiClient = new ApiClient();
                 apiClient.setBasePath("http://integration.operando.esilab.org:8090");
@@ -56,31 +53,16 @@ public class LogDBCall {
 
 	    GenericType<String> returnType = new GenericType<String>() {};
 
-
-	    LogRequest logRequest = new LogRequest();
-	    logRequest.setUserId("003");
-	    logRequest.setDescription("UPP GET");
-	    logRequest.setLogDataType(LogDataTypeEnum.INFO);
-	    logRequest.setTitle("Log on 07/12");
-	    logRequest.setLogPriority(LogPriorityEnum.LOW);
-	    logRequest.setRequesterId("1007");
-	    logRequest.setRequesterType(RequesterTypeEnum.MODULE);
-	    ArrayList<String> keywords = new ArrayList<String> ();
-	    keywords.add("keywordA");
-	    keywords.add("keywordB");
-	    keywords.add("keywordC");
-		logRequest.setKeywords(keywords );
-
-		Object postBody = logRequest;
-		System.out.println(postBody);
-		String str = "";
-		try {
-			str = apiClient.invokeAPI(path,"POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
-		} catch (ApiException e) {
-			System.out.println(e.toString());
-			e.printStackTrace();
-		}
-		System.out.println(str);
+            Object postBody = logRequest;
+            System.out.println(postBody);
+            String str = "";
+            try {
+                    str = apiClient.invokeAPI(path,"POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+            } catch (ApiException e) {
+                    System.out.println(e.toString());
+                    e.printStackTrace();
+            }
+            System.out.println(str);
     }
 
 }

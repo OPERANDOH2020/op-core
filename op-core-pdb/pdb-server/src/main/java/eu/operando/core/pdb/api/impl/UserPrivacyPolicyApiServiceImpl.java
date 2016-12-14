@@ -25,6 +25,7 @@
 package eu.operando.core.pdb.api.impl;
 
 
+import eu.operando.core.pdb.LogDBCall;
 import io.swagger.api.*;
 
 import eu.operando.core.pdb.common.model.UserPrivacyPolicy;
@@ -34,7 +35,6 @@ import io.swagger.api.NotFoundException;
 import eu.operando.core.pdb.mongo.UPPMongo;
 import io.swagger.client.ApiClient;
 import io.swagger.client.api.LogApi;
-import io.swagger.client.ApiException;
 import io.swagger.client.model.LogRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -217,12 +217,12 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
         logReq.setDescription(description);
         logReq.setKeywords(keywords);
 
-        try {
-            String response = this.logApi.lodDB(logReq);
-            Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.INFO, response);
 
-        } catch (ApiException ex) {
-            Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.SEVERE, "failed to log", ex);
-        }
+            LogDBCall ldbC = new LogDBCall();
+            ldbC.pushLog(logReq);
+//            String response = this.logApi.lodDB(logReq);
+            Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.INFO, "logged message");
+
+
     }
 }
