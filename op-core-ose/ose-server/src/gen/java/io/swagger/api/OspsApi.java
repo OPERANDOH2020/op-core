@@ -25,7 +25,7 @@
 
 package io.swagger.api;
 
-import io.swagger.api.factories.OspsApiServiceFactory;
+import eu.operando.core.ose.api.factories.OspsApiServiceFactory;
 
 import io.swagger.annotations.ApiParam;
 

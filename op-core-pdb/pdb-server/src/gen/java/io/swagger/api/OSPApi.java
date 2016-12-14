@@ -26,14 +26,14 @@
 package io.swagger.api;
 
 import io.swagger.api.OSPApiService;
-import io.swagger.api.factories.OSPApiServiceFactory;
+import eu.operando.core.pdb.api.factories.OSPApiServiceFactory;
 
 import io.swagger.annotations.ApiParam;
 
-import io.swagger.model.OSPPrivacyPolicy;
-import io.swagger.model.OSPReasonPolicy;
-import io.swagger.model.OSPReasonPolicyInput;
-import io.swagger.model.OSPPrivacyPolicyInput;
+import eu.operando.core.pdb.common.model.OSPPrivacyPolicy;
+import eu.operando.core.pdb.common.model.OSPReasonPolicy;
+import eu.operando.core.pdb.common.model.OSPReasonPolicyInput;
+import eu.operando.core.pdb.common.model.OSPPrivacyPolicyInput;
 
 import io.swagger.api.NotFoundException;
 
