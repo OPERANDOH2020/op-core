@@ -35,7 +35,6 @@ import io.swagger.api.NotFoundException;
 import eu.operando.core.pdb.mongo.UPPMongo;
 import io.swagger.client.ApiClient;
 import io.swagger.client.api.LogApi;
-import io.swagger.client.ApiException;
 import io.swagger.client.model.LogRequest;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -220,7 +219,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
 
             LogRequest logRequest = new LogRequest();
 	    logRequest.setUserId("003");
-	    logRequest.setDescription(description + " user: " + userId);
+	    logRequest.setDescription(description);
 	    logRequest.setLogDataType(LogRequest.LogDataTypeEnum.INFO);
 	    logRequest.setTitle("PDB user privacy policy" + operation);
 	    logRequest.setLogPriority(LogRequest.LogPriorityEnum.LOW);
@@ -229,14 +228,14 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
 
 		logRequest.setKeywords(keywords);
 
-        try {
+//        try {
             LogDBCall ldbC = new LogDBCall();
             ldbC.pushLog(logRequest);
-            String response = this.logApi.lodDB(logRequest);
-            Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.INFO, response);
+//            String response = this.logApi.lodDB(logRequest);
+//            Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.INFO, response);
 
-        } catch (ApiException ex) {
-            Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.SEVERE, "failed to log", ex);
-        }
+//        } catch (ApiException ex) {
+//            Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.SEVERE, "failed to log", ex);
+//        }
     }
 }
