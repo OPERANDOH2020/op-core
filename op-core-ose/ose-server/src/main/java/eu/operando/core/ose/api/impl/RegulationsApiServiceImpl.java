@@ -113,7 +113,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
 
             logRequest("regulationsPost", "Regulation".concat(regulation.getRegId()),
                     "OSE regulations POST failed",
-                    LogDataTypeEnum.ERROS, LogPriorityEnum.HIGH,
+                    LogDataTypeEnum.ERROR, LogPriorityEnum.HIGH,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(409).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
