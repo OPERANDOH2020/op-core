@@ -31,7 +31,7 @@ var attachTransrestService = {
                             path : '/restAPI/activate/$validationCode',
                             code:function(validationCode){
                                 console.log("Validating code: ",validationCode);
-                                startSwarm("register","verifyValidationCode",validationCode);
+                                startSwarm("register.js","verifyValidationCode",validationCode);
                                 return "Your account is activated";
                             }
                         }

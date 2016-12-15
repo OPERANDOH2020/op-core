@@ -75,25 +75,25 @@ var initOperando = {
                 var uuid = require('node-uuid');
                 var users = [
                     {
-                        userId: uuid.v1(),
+                        userId: new Buffer(uuid.v1()).toString('base64'),
                         password: "swarm",
                         email: "admin@plusprivacy.com",
                         organisationId: "SystemAdministrators"
                     },
                     {
-                        userId: uuid.v1(),
+                        userId: new Buffer(uuid.v1()).toString('base64'),
                         password: "operando",
                         email: thisAdapter.config.Core.adminEmail,
                         organisationId: "SystemAdministrators"
                     },
                     {
-                        userId: uuid.v1(),
+                        userId: new Buffer(uuid.v1()).toString('base64'),
                         password: "guest",
                         email: "guest@operando.eu",
                         organisationId: "Public"
                     },
                     {
-                        userId: uuid.v1(),
+                        userId: new Buffer(uuid.v1()).toString('base64'),
                         password: "analyst",
                         email: "analyst@rms.ro",
                         organisationId: "Analysts"

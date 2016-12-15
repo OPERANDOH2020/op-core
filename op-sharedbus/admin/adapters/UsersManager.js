@@ -312,11 +312,11 @@ newUserIsValid = function (newUser, callback) {
                 }
                 else {
                     createUser({
-                        userId: uuid.v1(),
+                        userId: new Buffer(uuid.v1()).toString('base64'),
                         password: newUser.password,
                         email: newUser.email,
                         organisationId: "Public",
-                        activationCode:uuid.v1()
+                        activationCode:new Buffer(uuid.v1()).toString('base64')
                     }, function (err, user) {
                         if (user) {
                             if (user['password']) {
