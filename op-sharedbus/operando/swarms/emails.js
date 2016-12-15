@@ -121,9 +121,6 @@ var emailsSwarming = {
     },
 
     sendEmail:function(from,to,subject,content,swarmId){
-
-        console.log("SENDING EMAIL",arguments);
-
         this['from'] = from;
         this['to'] = to;
         this['subject'] = subject;
@@ -155,9 +152,7 @@ var emailsSwarming = {
         node: "EmailAdapter",
         code: function () {
             var self = this;
-            console.log("DELIVER EMAIL");
             registerConversation(self.from,self.receiverId,S(function(err,conversationUUID) {
-                console.log("APRES REGISTRATION\n",arguments);
                 if(err){
                     self.error = err.message;
                     self.home("emailDeliveryUnsuccessful");

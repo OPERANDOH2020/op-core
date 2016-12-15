@@ -42,7 +42,7 @@ var registerSwarming = {
                 } else {
                     self.user = user;
 
-                    startSwarm("emails.js", "sendMail", "operando@" + thisAdapter.config.Core.operandoHost,
+                    startSwarm("emails.js", "sendEmail", "operando@" + thisAdapter.config.Core.operandoHost,
                         user['email'],
                         "Activate account",
                         "Your account has been registered \nTo activate it please access the following link:\n http://www." + thisAdapter.config.Core.operandoHost + "/restAPI/activate/" + user.activationCode);
