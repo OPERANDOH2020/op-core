@@ -36,6 +36,8 @@ import io.swagger.client.ApiClient;
 import io.swagger.client.api.LogApi;
 import io.swagger.client.ApiException;
 import io.swagger.client.model.LogRequest;
+import io.swagger.client.model.LogRequest.LogDataTypeEnum;
+import io.swagger.client.model.LogRequest.LogPriorityEnum;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
@@ -57,18 +59,23 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
     }
 
     private void logRequest(String requesterId, String title, String description,
+            LogDataTypeEnum logDataType, LogPriorityEnum logPriority,
             ArrayList<String> keywords) {
 
+        ArrayList<String> words = new ArrayList<String>(Arrays.asList("OSE", "Regulations"));
+        for(String word : keywords) {
+            words.add(word);
+        } 
+
         LogRequest logRequest = new LogRequest();
-        logRequest.setUserId("003");
+        logRequest.setUserId("OSE-Regulations");
         logRequest.setDescription(description);
-        logRequest.setLogDataType(LogRequest.LogDataTypeEnum.INFO);
-        logRequest.setTitle("OSE" + title);
-        logRequest.setLogPriority(LogRequest.LogPriorityEnum.LOW);
+        logRequest.setLogDataType(logDataType);
+        logRequest.setTitle(title);
+        logRequest.setLogPriority(logPriority);
         logRequest.setRequesterId(requesterId);
         logRequest.setRequesterType(LogRequest.RequesterTypeEnum.PROCESS);
-
-        logRequest.setKeywords(keywords);
+        logRequest.setKeywords(words);
 
         try {
             String response = this.logApi.lodDB(logRequest);
@@ -95,24 +102,27 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
         // do some magic!
         Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.INFO, "upp regulations POST privacy regulation {0}", regulation.toString());
 
-        logRequest("Regulations POST", "POST",
-                "PDB regulations POST received",
+        logRequest("regulationsPost", "Regulation: ".concat(regulation.getRegId()),
+                "OSE regulations POST received",
+                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         RegulationsMongo regMongo = new RegulationsMongo();
         String storeAction = regMongo.storeRegulation(regulation);
         if (storeAction == null) {
 
-            logRequest("Regulations POST", "POST",
-                    "PDB regulations POST failed",
+            logRequest("regulationsPost", "Regulation".concat(regulation.getRegId()),
+                    "OSE regulations POST failed",
+                    LogDataTypeEnum.ERROS, LogPriorityEnum.HIGH,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(409).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error occured. The resource already exists, so a new resource cannot be created.")).build();
         }
 
-        logRequest("Regulations POST", "POST",
-                "PDB regulations POST complete",
+        logRequest("regulationsPost", "Regulation".concat(regulation.getRegId()),
+                "OSE regulations POST complete",
+                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         return Response.status(Response.Status.CREATED).entity(new ApiResponseMessage(ApiResponseMessage.OK,
@@ -138,6 +148,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
 
         logRequest("Regulations PUT", "PUT",
                 "PDB regulations PUT received",
+                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         RegulationsMongo regMongo = new RegulationsMongo();
@@ -147,6 +158,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
 
             logRequest("Regulations PUT", "PUT",
                     "PDB regulations PUT failed",
+                    LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -155,6 +167,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
 
         logRequest("Regulations PUT", "PUT",
                 "PDB regulations PUT complete",
+                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         return Response.status(Response.Status.OK).entity(new ApiResponseMessage(ApiResponseMessage.OK,
