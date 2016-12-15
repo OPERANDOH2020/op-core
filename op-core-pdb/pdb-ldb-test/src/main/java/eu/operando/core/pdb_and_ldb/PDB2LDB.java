@@ -27,11 +27,13 @@ public class PDB2LDB {
     
     
     /**
-     * search LogDB for a particular log, e.g.
+     * search LogDB for a particular log, e.g. searching for testUser. Upon 
+     * successful completion the response should include 2 logDB messages.
      *
      * @param basePath
      */
-    public void getLogs() {
+    public int getLogs() {
+        int val = 0;
         Random random = new Random();
         this.testUser = String.format("%09d", random.nextInt(1000000000));
         
@@ -53,25 +55,25 @@ public class PDB2LDB {
             for (LogResponse logResp : response.getData()) {
                 System.out.println("LOG line:" + logResp.toString());
             }
+            val = response.getData().size();
         } catch (io.swagger.client.ApiException e) {
             System.err.println("Exception when calling getLogs");
             e.printStackTrace();
         }
-
-        // TODO: test validations
+        return val;
     }
 
     /**
      * This is a simple call to PDB service in order to leave a trace on lobDB
-     * service.
+     * service. The call is to get the UPP from a non existent userId. The call
+     * will leave two traces on lobDB server, which should be traceable from a 
+     * search log for that userId.
      *
      * @param filter
      */
-    void getServiceProviders() throws eu.operando.core.pdb.client.ApiException {
-        //curl -v http://integration.operando.esilab.org:8096/operando/core/pdb/OSP/?filter=%7B%27policyText%27:%27%27%7D
-        String basePath = "http://integration.operando.esilab.org:8096/operando/core/pdb/OSP";
+    UserPrivacyPolicy getUPP() throws eu.operando.core.pdb.client.ApiException {
+        String basePath = "http://integration.operando.esilab.org:8096/operando/core/pdb";
         basePath = "http://localhost:8080/pdb";
-        String filter = "%7B%27policyText%27:%27%27%7D";
 
         eu.operando.core.pdb.client.ApiClient apiClient = new eu.operando.core.pdb.client.ApiClient();
         apiClient.setBasePath(basePath);
@@ -79,6 +81,8 @@ public class PDB2LDB {
         GETApi apiInstance = new GETApi(apiClient);
 
         UserPrivacyPolicy response = apiInstance.userPrivacyPolicyUserIdGet(this.testUser);
+        
+        return response;
     }
 
 }

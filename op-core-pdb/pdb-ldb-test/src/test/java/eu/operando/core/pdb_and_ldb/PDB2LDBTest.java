@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 
 /**
  *
@@ -40,14 +41,13 @@ public class PDB2LDBTest {
     /**
      * Test of getServiceProviders method, of class PDB2LDB.
      */
-//    @Test(expected = eu.operando.core.pdb.client.ApiException.class)
-//    public void testGetServiceProviders() throws eu.operando.core.pdb.client.ApiException {
-//        System.out.println("getServiceProviders");
-//        PDB2LDB instance = new PDB2LDB();
-//        instance.getServiceProviders();
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
+    @Ignore
+    @Test(expected = eu.operando.core.pdb.client.ApiException.class)
+    public void testGetServiceProviders() throws eu.operando.core.pdb.client.ApiException {
+        System.out.println("getUPP");
+        PDB2LDB instance = new PDB2LDB();
+        assertNotNull(instance.getUPP());
+    }
     
     /**
      * Test of getLogs method, of class PDB2LDB.
@@ -56,9 +56,7 @@ public class PDB2LDBTest {
     public void testGetLogs() {
         System.out.println("getLogs");
         PDB2LDB instance = new PDB2LDB();
-        instance.getLogs();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertEquals(2, instance.getLogs());
     }
     
 }
