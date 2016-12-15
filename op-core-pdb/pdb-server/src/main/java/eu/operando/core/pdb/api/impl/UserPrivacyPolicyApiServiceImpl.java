@@ -103,7 +103,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
 
             logRequest("userPrivacyPolicyGet", "filter: ".concat(filter),
                     "PDB user privacy policy GET failed",
-                LogDataTypeEnum.ERROS, LogPriorityEnum.HIGH,
+                LogDataTypeEnum.ERROR, LogPriorityEnum.HIGH,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -136,7 +136,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
 
             logRequest("userPrivacyPolicyPost", "upp: ".concat(upp.getUserId()),
                     "PDB user privacy policy POST failed",
-                LogDataTypeEnum.ERROS, LogPriorityEnum.HIGH,
+                LogDataTypeEnum.ERROR, LogPriorityEnum.HIGH,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(405).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -168,7 +168,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
 
             logRequest("userPrivacyPolicyDelete", "userId: ".concat(userId),
                     "PDB user privacy policy DELETE failed",
-                LogDataTypeEnum.ERROS, LogPriorityEnum.HIGH,
+                LogDataTypeEnum.ERROR, LogPriorityEnum.HIGH,
                     new ArrayList<String>(Arrays.asList("delete", "userId")));
 
             System.out.println("cannot delete UPP " + userId);
@@ -203,7 +203,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
 
             logRequest("userPrivacyPolicyUserIdGet", "userId: ".concat(userId),
                     "PDB user privacy policy GET failed",
-                LogDataTypeEnum.ERROS, LogPriorityEnum.HIGH,
+                LogDataTypeEnum.ERROR, LogPriorityEnum.HIGH,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -235,7 +235,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
         if (!updateAction) {
             logRequest("userPrivacyPolicyPut", "userId: ".concat(userId),
                     "PDB user privacy policy PUT failed",
-                LogDataTypeEnum.ERROS, LogPriorityEnum.HIGH,
+                LogDataTypeEnum.ERROR, LogPriorityEnum.HIGH,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
