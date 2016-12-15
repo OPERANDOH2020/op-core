@@ -22,7 +22,6 @@
 //      Created for Project :   OPERANDO
 //
 /////////////////////////////////////////////////////////////////////////
-
 package eu.operando.core.pdb.mongo;
 
 import com.mongodb.BasicDBObject;
@@ -60,10 +59,10 @@ public class UPPMongo {
     private DB db;
     private DBCollection uppTable;
 
-
     public UPPMongo() {
         try {
-            this.mongo = new MongoClient("mongo.integration.operando.dmz.lab.esilab.org", 27017);
+            //this.mongo = new MongoClient("mongo.integration.operando.dmz.lab.esilab.org", 27017);
+            this.mongo = new MongoClient("localhost", 27017);
 
             // get database
             this.db = mongo.getDB("pdb");
@@ -174,8 +173,9 @@ public class UPPMongo {
     }
 
     /**
-     * List all the records of the users who have subscribed to a given
-     * OSP in the system.
+     * List all the records of the users who have subscribed to a given OSP in
+     * the system.
+     *
      * @param ospId The Operando Id of the OSP being searched for.
      * @return A list of UPP
      */
@@ -185,7 +185,7 @@ public class UPPMongo {
         BasicDBObject whereQuery = new BasicDBObject();
         whereQuery.put("ospId", ospId);
         DBCursor cursor = this.uppTable.find(whereQuery);
-        while(cursor.hasNext()) {
+        while (cursor.hasNext()) {
             DBObject result = cursor.next();
             if (result != null) {
                 try {
@@ -249,7 +249,7 @@ public class UPPMongo {
             BasicDBObject searchQuery = new BasicDBObject();;
             try {
 //                searchQuery = new BasicDBObject().append("_id", new ObjectId(regId));
-                  searchQuery.put("userId", regId);
+                searchQuery.put("userId", regId);
             } catch (IllegalArgumentException e) {
                 e.printStackTrace();
                 return result;

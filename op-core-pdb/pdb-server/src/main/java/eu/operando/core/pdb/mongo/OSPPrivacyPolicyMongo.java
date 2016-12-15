@@ -64,8 +64,8 @@ public class OSPPrivacyPolicyMongo {
 
     public OSPPrivacyPolicyMongo() {
         try {
-            this.mongo = new MongoClient("mongo.integration.operando.dmz.lab.esilab.org", 27017);
-            // pm this.mongo = new MongoClient("localhost", 27017);
+            // this.mongo = new MongoClient("mongo.integration.operando.dmz.lab.esilab.org", 27017);
+            this.mongo = new MongoClient("localhost", 27017);
             
             // get database
             this.db = mongo.getDB("pdb");
