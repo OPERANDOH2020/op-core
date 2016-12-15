@@ -124,7 +124,7 @@ public class LogRequest   {
 
     WARN("WARN"),
 
-    ERROS("ERROS"),
+    ERROR("ERROR"),
 
     FATAL("FATAL");
 
