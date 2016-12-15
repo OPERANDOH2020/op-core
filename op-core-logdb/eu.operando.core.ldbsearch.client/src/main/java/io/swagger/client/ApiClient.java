@@ -600,6 +600,8 @@ public class ApiClient {
       if (returnType == null)
         return null;
       else
+          System.out.println("RES: " + response.toString());
+          System.out.println("ReturnType" + returnType.toString());
         return response.getEntity(returnType);
     } else {
       String message = "error";
