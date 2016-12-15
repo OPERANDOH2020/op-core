@@ -33,23 +33,22 @@ var registerSwarming = {
         code: function () {
             var self = this;
             newUserIsValid(self.newUser, S(function (err, user) {
-                    if (err) {
-                        console.log(err);
-                        self.status = "error";
-                        self.error = err.message;
-                        self.newUser = {};
-                        self.home("error");
-                    } else {
-                        self.user = user;
+                if (err) {
+                    console.log(err);
+                    self.status = "error";
+                    self.error = err.message;
+                    self.newUser = {};
+                    self.home("error");
+                } else {
+                    self.user = user;
 
-                        startSwarm("emails.js", "sendMail", "operando@" + thisAdapter.config.Core.operandoHost,
-                            user['email'],
-                            "Activate account",
-                            "Your account has been registered \nTo activate it please access the following link:\n http://www." + thisAdapter.config.Core.operandoHost + "/restAPI/activate/" + user.activationCode);
+                    startSwarm("emails.js", "sendMail", "operando@" + thisAdapter.config.Core.operandoHost,
+                        user['email'],
+                        "Activate account",
+                        "Your account has been registered \nTo activate it please access the following link:\n http://www." + thisAdapter.config.Core.operandoHost + "/restAPI/activate/" + user.activationCode);
 
-                        console.log("\n\nSent email\n\n");
-                        self.swarm("setUserNotifications");
-                    }
+                    self.swarm("setUserNotifications");
+                }    
             }))
         }
     },
