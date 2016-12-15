@@ -45,7 +45,7 @@ var registerSwarming = {
                     startSwarm("emails.js", "sendEmail", "operando@" + thisAdapter.config.Core.operandoHost,
                         user['email'],
                         "Activate account",
-                        "Your account has been registered \nTo activate it, please access the following link:\n http://" + thisAdapter.config.Core.operandoHost + "8080/restAPI/activate/" + user.activationCode);
+                        "Your account has been registered \nTo activate it, please access the following link:\n http://" + thisAdapter.config.Core.operandoHost + ":8080/restAPI/activate/" + user.activationCode);
                     self.swarm("setUserNotifications");
                 }    
             }))
