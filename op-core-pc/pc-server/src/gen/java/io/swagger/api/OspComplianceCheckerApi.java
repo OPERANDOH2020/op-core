@@ -26,16 +26,12 @@
 /////////////////////////////////////////////////////////////////////////
 package io.swagger.api;
 
-import io.swagger.api.OspComplianceCheckerApiService;
 import io.swagger.api.factories.OspComplianceCheckerApiServiceFactory;
 
 import io.swagger.annotations.ApiParam;
 
-import io.swagger.model.OSPReasonPolicy;
+import eu.operando.core.pdb.common.model.OSPReasonPolicy;
 import io.swagger.model.ComplianceReport;
-
-import io.swagger.api.NotFoundException;
-
 
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;

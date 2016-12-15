@@ -26,17 +26,16 @@
 /////////////////////////////////////////////////////////////////////////
 package io.swagger.api;
 
-import io.swagger.api.PolicyComputerApiService;
+import eu.operando.core.pdb.common.model.UserPreference;
 import io.swagger.api.factories.PolicyComputerApiServiceFactory;
 
 import io.swagger.annotations.ApiParam;
 
 
 import io.swagger.model.ComputationResult;
-import io.swagger.model.UserPreference;
+
 
 import java.util.List;
-import io.swagger.api.NotFoundException;
 
 
 import javax.ws.rs.core.Context;

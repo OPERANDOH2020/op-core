@@ -26,12 +26,7 @@
 /////////////////////////////////////////////////////////////////////////
 package io.swagger.api;
 
-
-
-import io.swagger.model.OSPReasonPolicy;
-import io.swagger.api.NotFoundException;
-
-
+import eu.operando.core.pdb.common.model.OSPReasonPolicy;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 

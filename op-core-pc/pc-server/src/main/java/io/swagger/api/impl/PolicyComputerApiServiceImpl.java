@@ -29,8 +29,8 @@ package io.swagger.api.impl;
 
 import eu.operando.PolicyEvaluationService;
 import io.swagger.api.*;
-import io.swagger.model.UserPreference;
-import io.swagger.model.UserPrivacyPolicy;
+//import io.swagger.model.UserPreference;
+//import io.swagger.model.UserPrivacyPolicy;
 
 import java.util.List;
 import io.swagger.api.NotFoundException;
@@ -45,6 +45,8 @@ import javax.ws.rs.core.SecurityContext;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+import eu.operando.core.pdb.common.model.UserPreference;
+import eu.operando.core.pdb.common.model.UserPrivacyPolicy;
 import io.swagger.model.ComputationResult;
 
 /**

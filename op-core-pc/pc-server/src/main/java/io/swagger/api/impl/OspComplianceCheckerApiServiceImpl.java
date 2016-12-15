@@ -28,7 +28,7 @@ package io.swagger.api.impl;
 
 import io.swagger.api.*;
 
-import io.swagger.model.OSPReasonPolicy;
+import eu.operando.core.pdb.common.model.OSPReasonPolicy;
 import io.swagger.api.NotFoundException;
 
 
