@@ -321,6 +321,7 @@ newUserIsValid = function (newUser, callback) {
                         if (user) {
                             if (user['password']) {
                                 delete user['password'];
+                                delete user['salt'];
                             }
                         }
                         callback(err, user);
@@ -378,12 +379,13 @@ validatePassword = function (email, pass, callback) {
             redisPersistence.filter("DefaultUser", {email: email}, this.continue("validatePassword"));
         },
         validatePassword: function (err, users) {
-            if (err || !users ||!pass) {
-                callback(err, null);
+            if(err){
+                callback(err);
+            }else if(!users || !pass){
+                callback( new Error("Invalid credentials"));
             }
-            else if (users.length === 1) {
+            else{
                 var user = users[0];
-
                 hashThisPassword(pass, user.salt, function (err, hashedPassword) {
                     if (err) 
                         callback(err);
@@ -394,10 +396,6 @@ validatePassword = function (email, pass, callback) {
                     else
                         callback(null,user.userId);
                 });
-            }
-
-            else {
-                callback( new Error("Invalid credentials"), null);
             }
         }
     })();
