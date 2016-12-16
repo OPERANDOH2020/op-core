@@ -38,6 +38,8 @@ import io.swagger.client.ApiClient;
 import io.swagger.client.api.LogApi;
 import io.swagger.client.ApiException;
 import io.swagger.client.model.LogRequest;
+import io.swagger.client.model.LogRequest.LogDataTypeEnum;
+import io.swagger.client.model.LogRequest.LogPriorityEnum;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
@@ -59,18 +61,23 @@ public class OspsApiServiceImpl extends OspsApiService {
     }
 
     private void logRequest(String requesterId, String title, String description,
+            LogDataTypeEnum logDataType, LogPriorityEnum logPriority,
             ArrayList<String> keywords) {
 
+        ArrayList<String> words = new ArrayList<String>(Arrays.asList("OSE", "OSP"));
+        for(String word : keywords) {
+            words.add(word);
+        } 
+        
         LogRequest logRequest = new LogRequest();
-        logRequest.setUserId("003");
+        logRequest.setUserId("OSE-OSP");
         logRequest.setDescription(description);
-        logRequest.setLogDataType(LogRequest.LogDataTypeEnum.INFO);
-        logRequest.setTitle("OSE" + title);
-        logRequest.setLogPriority(LogRequest.LogPriorityEnum.LOW);
+        logRequest.setLogDataType(logDataType);
+        logRequest.setTitle(title);
+        logRequest.setLogPriority(logPriority);
         logRequest.setRequesterId(requesterId);
         logRequest.setRequesterType(LogRequest.RequesterTypeEnum.PROCESS);
-
-        logRequest.setKeywords(keywords);
+        logRequest.setKeywords(words);
 
         try {
             String response = this.logApi.lodDB(logRequest);
@@ -80,7 +87,6 @@ public class OspsApiServiceImpl extends OspsApiService {
             Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.SEVERE, "failed to log", ex);
         }
     }
-    
 
     @Override
     public Response ospsOspIdPrivacySettingsGet(String ospId, String userId, SecurityContext securityContext)
@@ -88,16 +94,18 @@ public class OspsApiServiceImpl extends OspsApiService {
 
         Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.INFO, "upp GET policy filter {0}", ospId);
 
-        logRequest("ospsPrivacyPolicyGet", "GET",
+        logRequest("ospsPrivacyPolicyGet", ospId,
                 "PDB osp privacy settings GET received",
-                new ArrayList<String>(Arrays.asList("one", "two")));
+                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
+                new ArrayList<String>(Arrays.asList("ospId", "userId")));
 
         OspsMongo ospsMongo = new OspsMongo();
         ospsMongo.ospsOspIdPrivacySettingsGet(ospId, userId);
 
-        logRequest("ospsPrivacyPolicyGet", "GET",
+        logRequest("ospsPrivacyPolicyGet", ospId,
                 "PDB osp privacy settings GET complete",
-                new ArrayList<String>(Arrays.asList("one", "two")));
+                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
+                new ArrayList<String>(Arrays.asList("ospId", "userId")));
 
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK,
                 "Successful response. The privacy settings information for this user at the given OSP is returned.")).build();

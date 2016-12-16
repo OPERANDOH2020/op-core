@@ -24,19 +24,18 @@
 /////////////////////////////////////////////////////////////////////////
 package eu.operando.core.pdb.api.impl;
 
-
 import io.swagger.api.*;
-import eu.operando.core.pdb.common.model.PrivacyRegulationInput;
 
 import io.swagger.api.NotFoundException;
 
-import eu.operando.core.pdb.mongo.RegulationsMongo;
 import eu.operando.core.pdb.common.model.PrivacyRegulationInput;
 import eu.operando.core.pdb.mongo.RegulationsMongo;
 import io.swagger.client.ApiClient;
 import io.swagger.client.api.LogApi;
 import io.swagger.client.model.LogRequest;
 import io.swagger.client.ApiException;
+import io.swagger.client.model.LogRequest.LogDataTypeEnum;
+import io.swagger.client.model.LogRequest.LogPriorityEnum;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
@@ -58,18 +57,23 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
     }
 
     private void logRequest(String requesterId, String title, String description,
+            LogDataTypeEnum logDataType, LogPriorityEnum logPriority,
             ArrayList<String> keywords) {
-
+        
+        ArrayList<String> words = new ArrayList<String>(Arrays.asList("PDB", "Regulations"));
+        for(String word : keywords) {
+            words.add(word);
+        } 
         LogRequest logRequest = new LogRequest();
-        logRequest.setUserId("003");
+        logRequest.setUserId("PDB-Regulations");
         logRequest.setDescription(description);
-        logRequest.setLogDataType(LogRequest.LogDataTypeEnum.INFO);
-        logRequest.setTitle("PDB" + title);
-        logRequest.setLogPriority(LogRequest.LogPriorityEnum.LOW);
+        logRequest.setLogDataType(logDataType);
+        logRequest.setTitle(title);
+        logRequest.setLogPriority(logPriority);
         logRequest.setRequesterId(requesterId);
         logRequest.setRequesterType(LogRequest.RequesterTypeEnum.PROCESS);
 
-        logRequest.setKeywords(keywords);
+        logRequest.setKeywords(words);
 
         try {
             String response = this.logApi.lodDB(logRequest);
@@ -82,28 +86,31 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
     @Override
     public Response regulationsGet(String filter, SecurityContext securityContext)
             throws NotFoundException {
-        
+
         Logger.getLogger(RegulationsApiServiceImpl.class.getName()).log(Level.INFO, "regulations GET {0}", filter);
 
         logRequest("regulations GET", "GET",
                 "regulations GET received",
+                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
-        
+
         RegulationsMongo regdb = new RegulationsMongo();
         String regList = regdb.getRegulationByFilter(filter);
 
         if (regList == null) {
             logRequest("regulations GET", "GET",
                     "regulations GET failed",
+                    LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                     new ArrayList<String>(Arrays.asList("one", "two")));
-            
+
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error - the regulation does not exist")).build();
         }
         logRequest("regulations GET", "GET",
                 "regulations GET ok",
+                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
-        
+
         return Response.ok(regList, MediaType.APPLICATION_JSON).build();
     }
 
@@ -114,25 +121,28 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
 
         logRequest("regulations POST", "POST",
                 "regulations POST received",
+                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
-        
+
         RegulationsMongo regdb = new RegulationsMongo();
         String storeAction = regdb.storeRegulation(regulation);
 
         if (storeAction == null) {
-            
+
             logRequest("regulations POST", "POST",
                     "regulations POST failed",
+                    LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                     new ArrayList<String>(Arrays.asList("one", "two")));
-            
+
             return Response.status(405).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The document (PrivacyRegulation) at this id has previously been created in the database.")).build();
         }
-        
+
         logRequest("regulations POST", "POST",
                 "regulations POST ok",
+                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
-        
+
         return Response.status(Response.Status.CREATED).entity(new ApiResponseMessage(ApiResponseMessage.OK,
                 storeAction)).build();
     }
@@ -144,27 +154,30 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
 
         logRequest("regulations DELETE", "DELETE",
                 "regulations DELETE received",
+                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
-        
+
         RegulationsMongo regdb = new RegulationsMongo();
         boolean delAction = regdb.deleteRegulationById(regId);
 
         if (!delAction) {
 
             System.out.println("cannot delete regulation " + regId);
-            
+
             logRequest("regulations DELETE", "DELETE",
                     "regulations DELETE failed",
+                    LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                     new ArrayList<String>(Arrays.asList("one", "two")));
-            
+
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. No document exits to be deleted")).build();
         }
-        
+
         logRequest("regulations DELETE", "DELETE",
                 "regulations DELETE ok",
+                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
-        
+
         return Response.status(Response.Status.NO_CONTENT).entity(new ApiResponseMessage(ApiResponseMessage.OK,
                 "The document (PrivacyRegulation) was successfully deleted from the database.")).build();
     }
@@ -177,6 +190,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
 
         logRequest("regulations GET", "GET",
                 "regulations GET received",
+                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         RegulationsMongo regdb = new RegulationsMongo();
@@ -186,6 +200,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
 
             logRequest("regulations GET", "GET",
                     "regulations GET failed",
+                    LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -194,6 +209,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
 
         logRequest("regulations GET", "GET",
                 "regulations GET ok",
+                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         return Response.ok(prString, MediaType.APPLICATION_JSON).build();
@@ -207,6 +223,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
 
         logRequest("regulations PUT", "PUT",
                 "regulations PUT received",
+                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         RegulationsMongo regdb = new RegulationsMongo();
@@ -215,6 +232,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
         if (!updateAction) {
             logRequest("regulations PUT", "PUT",
                     "regulations PUT failed",
+                    LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                     new ArrayList<String>(Arrays.asList("one", "two")));
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. No document exists to be updated.")).build();
@@ -222,6 +240,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
 
         logRequest("regulations PUT", "PUT",
                 "regulations PUT ok",
+                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         return Response.status(Response.Status.NO_CONTENT).entity(new ApiResponseMessage(ApiResponseMessage.OK,
