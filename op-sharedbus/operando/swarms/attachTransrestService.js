@@ -32,10 +32,13 @@ var attachTransrestService = {
                             code:function(validationCode){
                                 console.log("Validating code: ",validationCode);
                                 startSwarm("register.js","verifyValidationCode",validationCode);
-                                return {
+
+                                var response = {
                                     "status":"OK",
                                     "message":"Your account is activated"
                                 };
+
+                                return JSON.stringify(response, null,4);
                             }
                         }
                     });
