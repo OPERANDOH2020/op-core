@@ -27,6 +27,7 @@ package io.swagger.api;
 
 import io.swagger.api.OSPApiService;
 import eu.operando.core.pdb.api.factories.OSPApiServiceFactory;
+import eu.operando.core.pdb.common.model.AccessReason;
 
 import io.swagger.annotations.ApiParam;
 
@@ -150,5 +151,66 @@ public class OSPApi  {
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.oSPPost(ospPolicy,securityContext);
+    }
+
+     @GET
+    @Path("/{osp-id}/privacy-policy/access-reasons")
+
+
+    @io.swagger.annotations.ApiOperation(value = "Get the list of access reason policy statements.", notes = "List of policy statements.  ", response = OSPReasonPolicy.class, responseContainer = "List", tags={ "OSP","GET", })
+    @io.swagger.annotations.ApiResponses(value = {
+        @io.swagger.annotations.ApiResponse(code = 200, message = "The list of OSP privacy policy statements are returned as a JSON object.", response = OSPReasonPolicy.class, responseContainer = "List"),
+
+        @io.swagger.annotations.ApiResponse(code = 404, message = "Error - the OSP does not have a policy stored in the db.", response = OSPReasonPolicy.class, responseContainer = "List") })
+    public Response oSPOspIdPrivacyPolicyAccessReasonsGet(@ApiParam(value = "The identifier number of an OSP",required=true) @PathParam("osp-id") String ospId
+,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.oSPOspIdPrivacyPolicyAccessReasonsGet(ospId,securityContext);
+    }
+    @POST
+    @Path("/{osp-id}/privacy-policy/access-reasons")
+
+
+    @io.swagger.annotations.ApiOperation(value = "Create a new access reason statement in the privacy policy.", notes = "Called by the UI when OSP updating the policy statements ", response = void.class, tags={ "OSP","POST", })
+    @io.swagger.annotations.ApiResponses(value = {
+        @io.swagger.annotations.ApiResponse(code = 201, message = "The statements (OSPBehaviour) was successfully created in the list.", response = void.class),
+
+        @io.swagger.annotations.ApiResponse(code = 405, message = "Error. The document (OSPBehaviour) at this id has previously been created in the list.", response = void.class) })
+    public Response oSPOspIdPrivacyPolicyAccessReasonsPost(@ApiParam(value = "The identifier number of an OSP",required=true) @PathParam("osp-id") String ospId
+,@ApiParam(value = "The first instance of this new statement." ,required=true) AccessReason ospPolicy
+,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.oSPOspIdPrivacyPolicyAccessReasonsPost(ospId,ospPolicy,securityContext);
+    }
+    @DELETE
+    @Path("/{osp-id}/privacy-policy/access-reasons/{reason-id}")
+
+
+    @io.swagger.annotations.ApiOperation(value = "Remove the AccessReason entry in the list.", notes = "Remove an identified value. ", response = void.class, tags={ "OSP","DELETE", })
+    @io.swagger.annotations.ApiResponses(value = {
+        @io.swagger.annotations.ApiResponse(code = 204, message = "The document (OSPBehaviour) was successfully deleted from the database.", response = void.class),
+
+        @io.swagger.annotations.ApiResponse(code = 404, message = "Error. No document exists to be deleted.", response = void.class) })
+    public Response oSPOspIdPrivacyPolicyAccessReasonsReasonIdDelete(@ApiParam(value = "The identifier number of an OSP",required=true) @PathParam("osp-id") String ospId
+,@ApiParam(value = "The identifier of a statement in a policy, is only unique to the policy.",required=true) @PathParam("reason-id") String reasonId
+,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.oSPOspIdPrivacyPolicyAccessReasonsReasonIdDelete(ospId,reasonId,securityContext);
+    }
+    @PUT
+    @Path("/{osp-id}/privacy-policy/access-reasons/{reason-id}")
+
+
+    @io.swagger.annotations.ApiOperation(value = "Update an access reason statement in the privacy policy.", notes = "Called by the UI when OSP updating the policy statements ", response = void.class, tags={ "OSP","POST", })
+    @io.swagger.annotations.ApiResponses(value = {
+        @io.swagger.annotations.ApiResponse(code = 204, message = "The statements (OSPBehaviour) was successfully updated in the list.", response = void.class),
+
+        @io.swagger.annotations.ApiResponse(code = 404, message = "Error. No statement in list to update, use post.", response = void.class) })
+    public Response oSPOspIdPrivacyPolicyAccessReasonsReasonIdPut(@ApiParam(value = "The identifier number of an OSP",required=true) @PathParam("osp-id") String ospId
+,@ApiParam(value = "The identifier of a statement in a policy, is only unique to the policy.",required=true) @PathParam("reason-id") String reasonId
+,@ApiParam(value = "The updated instance of this OSP policy statement." ,required=true) AccessReason ospPolicy
+,@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.oSPOspIdPrivacyPolicyAccessReasonsReasonIdPut(ospId,reasonId,ospPolicy,securityContext);
     }
 }

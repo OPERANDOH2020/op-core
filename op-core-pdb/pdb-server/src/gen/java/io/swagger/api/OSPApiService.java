@@ -25,6 +25,7 @@
 
 package io.swagger.api;
 
+import eu.operando.core.pdb.common.model.AccessReason;
 import eu.operando.core.pdb.common.model.OSPReasonPolicyInput;
 import eu.operando.core.pdb.common.model.OSPPrivacyPolicyInput;
 
@@ -39,6 +40,11 @@ public abstract class OSPApiService {
     public abstract Response oSPGet(String filter,SecurityContext securityContext) throws NotFoundException;
     public abstract Response oSPOspIdDelete(String ospId,SecurityContext securityContext) throws NotFoundException;
     public abstract Response oSPOspIdGet(String ospId,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response oSPOspIdPrivacyPolicyAccessReasonsGet(String ospId,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response oSPOspIdPrivacyPolicyAccessReasonsPost(String ospId,AccessReason ospPolicy,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response oSPOspIdPrivacyPolicyAccessReasonsReasonIdDelete(String ospId,String reasonId,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response oSPOspIdPrivacyPolicyAccessReasonsReasonIdPut(String ospId,String reasonId,AccessReason ospPolicy,SecurityContext securityContext) throws NotFoundException;
+
     public abstract Response oSPOspIdPrivacyPolicyGet(String ospId,SecurityContext securityContext) throws NotFoundException;
     public abstract Response oSPOspIdPrivacyPolicyPut(String ospId,OSPReasonPolicyInput ospPolicy,SecurityContext securityContext) throws NotFoundException;
     public abstract Response oSPOspIdPut(String ospId,OSPPrivacyPolicyInput ospPolicy,SecurityContext securityContext) throws NotFoundException;
