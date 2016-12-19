@@ -43,8 +43,9 @@ var loginSwarming = {
         node: "UsersManager",
         code: function () {
             var self = this;
-            validatePassword(this.email, this.authorisationToken, S(function (err, userId) {
+            validateUser(this.email, this.authorisationToken, S(function (err, userId) {
                 if (err) {
+                    self.error = err.message;
                     self.swarm("failed", self.getEntryAdapter());
                 }
                 else if (userId) {
