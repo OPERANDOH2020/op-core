@@ -58,9 +58,9 @@ var registerSwarming = {
               var self = this;
               generateSignupNotifications(this.user.userId, S(function(err, notifications){
                   if(err){
+                      console.log(err);
                       self.error = err.message;
                       self.home('error');
-                      console.log(err);
                   }
                   self.swarm("setRealIdentity");
               }));
