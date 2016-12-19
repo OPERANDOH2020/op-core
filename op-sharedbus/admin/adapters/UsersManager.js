@@ -381,7 +381,7 @@ validatePassword = function (email, pass, callback) {
         validatePassword: function (err, users) {
             if(err){
                 callback(err);
-            }else if(!users || !pass){
+            }else if(users || !pass){
                 callback( new Error("Invalid credentials"));
             }
             else{
