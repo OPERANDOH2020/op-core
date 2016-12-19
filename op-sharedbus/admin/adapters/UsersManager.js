@@ -373,7 +373,7 @@ getUserInfo = function (userId, callback) {
     })();
 }
 
-validatePassword = function (email, pass, callback) {
+validateUser = function (email, pass, callback) {
     flow.create("Validate Password", {
         begin: function () {
             redisPersistence.filter("DefaultUser", {email: email}, this.continue("validatePassword"));
@@ -381,7 +381,7 @@ validatePassword = function (email, pass, callback) {
         validatePassword: function (err, users) {
             if(err){
                 callback(err);
-            }else if(!users || !pass){
+            }else if(users.length === 0 || !pass){
                 callback( new Error("Invalid credentials"));
             }
             else{
@@ -392,7 +392,7 @@ validatePassword = function (email, pass, callback) {
                     else if (hashedPassword !== user.password) 
                         callback(new Error("Invalid credentials"));
                     else if(user.activationCode!=="0") 
-                        callback(new Error("Account is not activated"));
+                        callback(new Error("account_not_activated"));
                     else
                         callback(null,user.userId);
                 });
