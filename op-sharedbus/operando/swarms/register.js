@@ -58,6 +58,8 @@ var registerSwarming = {
               var self = this;
               generateSignupNotifications(this.user.userId, S(function(err, notifications){
                   if(err){
+                      self.error = err.message;
+                      self.home('error');
                       console.log(err);
                   }
                   self.swarm("setRealIdentity");
@@ -71,11 +73,13 @@ var registerSwarming = {
             var self = this;
             setRealIdentity(this.user, S(function(err, identity){
                 if(err){
+                    self.error = err.message;
                     console.log(err);
+                    self.home('error');
                 }
                 else{
                     console.log("Real identity added", identity);
-                    self.swarm("generateValidationCode");
+                    self.home("success");
                 }
             }));
         }
