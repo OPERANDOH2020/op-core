@@ -9,7 +9,6 @@ var initOperando = {
     },
     init:function(){
         console.log("Initializing operando");
-        startSwarm("attachTransrestService.js","REST");
         this.swarm("createDefaultOrganisations");
     },
     createDefaultOrganisations:{
