@@ -139,7 +139,7 @@ var userInfoSwarming =
                     delete self['newPassword'];
                     startSwarm("emails.js",
                         "sendEmail",
-                        "operando@"+thisAdapter.config.Core.operandoHost,
+                        "no-reply@"+thisAdapter.config.Core.operandoHost,
                         user['email'],
                         "Changed password",
                         "Your password has been changed \nYour new password is " + newPassword,
@@ -177,7 +177,7 @@ var userInfoSwarming =
                             delete self['newPassword'];
                             startSwarm("emails.js",
                                 "sendEmail",
-                                "operando@"+thisAdapter.config.Core.operandoHost,
+                                "no-reply@"+thisAdapter.config.Core.operandoHost,
                                 users[0]['email'],
                                 "Reset password",
                                 "Your password has been changed \nYour new password is " + newPassword,
