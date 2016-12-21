@@ -10,7 +10,6 @@ RUN chmod 775 /updatewar.sh
 RUN /updatewar.sh
 ADD start.sh /start.sh
 RUN chmod 775 /start.sh
-RUN /start.sh
 
 # Exposed ports by parent docker
 # EXPOSE 8080 8443
