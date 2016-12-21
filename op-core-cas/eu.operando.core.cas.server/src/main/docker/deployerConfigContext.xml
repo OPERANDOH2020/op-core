@@ -73,7 +73,7 @@
           c:handler-ref="pooledBindHandler" />
 
     <bean id="connectionConfig" class="org.ldaptive.ConnectionConfig"
-          p:ldapUrl="ldaps://integration.operando.esilab.org"
+          p:ldapUrl="ldaps://integration.operando.dmz.lab.esilab.org"
           p:connectTimeout="3000"
           p:useStartTLS="false"
           p:connectionInitializer-ref="bindConnectionInitializer"/>
