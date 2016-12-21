@@ -76,7 +76,7 @@ public class PersonaldataApiServiceImpl extends PersonaldataApiService {
 				e.printStackTrace();
 			}
         //}
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "Query="+query+" "+strAnnonymizedData)).build();        	
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, strAnnonymizedData).build();        	
     }
     
 private String arxAnonymizationPersonalData() throws ClassNotFoundException, SQLException, IOException {
