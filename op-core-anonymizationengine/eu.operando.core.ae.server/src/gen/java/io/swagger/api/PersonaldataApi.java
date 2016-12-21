@@ -31,7 +31,7 @@ public class PersonaldataApi  {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Unexpected error", response = InlineResponse2003.class) })
     public Response getPersonalData(
         @ApiParam(value = "The requester identifier number",required=true) @PathParam("requester_id") String requesterId,
-        @ApiParam(value = "query encapsulating the set of data units and the personal ids of the people whose personal data is wanted to be received." ,required=true) String query,
+        @@ApiParam(value = "query encapsulating the set of data units and the personal ids of the people whose personal data is wanted to be received.",required=true) @QueryParam("query") String query,
         @Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.getPersonalData(requesterId,query,securityContext);
