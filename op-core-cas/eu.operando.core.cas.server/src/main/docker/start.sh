@@ -1,5 +1,5 @@
 #!/bin/bash -e
 
-/updatewar.sh
+sh /updatewar.sh
 cd /cas-overlay
-/cas-overlay/bin/run-cas.sh
+sh /cas-overlay/bin/run-cas.sh
