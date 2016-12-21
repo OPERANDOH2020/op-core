@@ -39,7 +39,7 @@
 								<env>
 									<LDAP_DOMAIN>nodomain</LDAP_DOMAIN>
 									<LDAP_ADMIN_PASSWORD>admin</LDAP_ADMIN_PASSWORD>
-									<HOSTNAME>${project.artifactId}</HOSTNAME>
+									<HOSTNAME>integration.operando.dmz.lab.esilab.org</HOSTNAME>
 								</env>
 								<ports>
 									<port>389:389</port>
