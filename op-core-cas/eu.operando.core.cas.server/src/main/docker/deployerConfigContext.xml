@@ -81,7 +81,7 @@
 <bean id="bindConnectionInitializer"      class="org.ldaptive.BindConnectionInitializer"
       p:bindDn="cn=admin,dc=nodomain">
     <property name="bindCredential">
-        <bean class="org.ldaptive.Credential"  c:password="fuckmepicats00" />
+        <bean class="org.ldaptive.Credential"  c:password="admin" />
     </property>
 </bean>
 
