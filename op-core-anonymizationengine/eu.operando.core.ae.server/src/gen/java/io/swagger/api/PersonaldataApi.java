@@ -22,7 +22,7 @@ public class PersonaldataApi  {
    private final PersonaldataApiService delegate = PersonaldataApiServiceFactory.getPersonaldataApi();
 
     @GET
-    @Path("/core/ae/personaldata/{requester_id}/search")
+    @Path("/{requester_id}/search")
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
     @io.swagger.annotations.ApiOperation(value = "Gets individual or colective personal data by receiving as parameter a query especifiyng the data wanted to be recovered and the requester id.", notes = "Gets individual or colective personal data by receiving as parameter a query especifiyng the data wanted to be recovered and the requester id.", response = InlineResponse2003.class, tags={ "DataUnits" })
