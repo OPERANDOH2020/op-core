@@ -21,19 +21,19 @@ import io.swagger.model.InlineResponse2003;
 public class PersonaldataApi  {
    private final PersonaldataApiService delegate = PersonaldataApiServiceFactory.getPersonaldataApi();
 
-    @GET
-    @Path("/{requester_id}/search")
-    @Consumes({ "application/json" })
-    @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "Gets individual or colective personal data by receiving as parameter a query especifiyng the data wanted to be recovered and the requester id.", notes = "Gets individual or colective personal data by receiving as parameter a query especifiyng the data wanted to be recovered and the requester id.", response = InlineResponse2003.class, tags={ "DataUnits" })
-    @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 200, message = "Successful operation.", response = InlineResponse2003.class),
-        @io.swagger.annotations.ApiResponse(code = 200, message = "Unexpected error", response = InlineResponse2003.class) })
-    public Response getPersonalData(
-        @ApiParam(value = "The requester identifier number",required=true) @PathParam("requester_id") String requesterId,
-        @@ApiParam(value = "query encapsulating the set of data units and the personal ids of the people whose personal data is wanted to be received.",required=true) @QueryParam("query") String query,
-        @Context SecurityContext securityContext)
-    throws NotFoundException {
-        return delegate.getPersonalData(requesterId,query,securityContext);
-    }
+   @GET
+   @Path("/core/ae/personaldata/{requester_id}/search")
+   @Consumes({ "application/json" })
+   @Produces({ "application/json" })
+   @io.swagger.annotations.ApiOperation(value = "Gets individual or colective personal data by receiving as parameter a query especifiyng the data wanted to be recovered and the requester id.", notes = "Gets individual or colective personal data by receiving as parameter a query especifiyng the data wanted to be recovered and the requester id.", response = InlineResponse2003.class, tags={ "DataUnits", })
+   @io.swagger.annotations.ApiResponses(value = { 
+       @io.swagger.annotations.ApiResponse(code = 200, message = "Successful operation.", response = InlineResponse2003.class),
+       
+       @io.swagger.annotations.ApiResponse(code = 200, message = "Unexpected error", response = InlineResponse2003.class) })
+   public Response getPersonalData(@ApiParam(value = "The requester identifier number",required=true) @PathParam("requester_id") String requesterId
+,@ApiParam(value = "query encapsulating the set of data units and the personal ids of the people whose personal data is wanted to be received.",required=true) @QueryParam("query") String query
+,@Context SecurityContext securityContext)
+   throws NotFoundException {
+       return delegate.getPersonalData(requesterId,query,securityContext);
+   }
 }
