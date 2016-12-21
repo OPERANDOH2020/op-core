@@ -58,12 +58,13 @@ public class PersonaldataApiServiceImpl extends PersonaldataApiService {
     throws NotFoundException {    	
         // do some magic!    
     	mainLogger.logp(Level.INFO, "getPersonalData", "main", "Testing logging in tomcat docker ... ");
+    	String strAnnonymizedData = "";
     	System.out.println(query);
     	System.out.println(requesterId);
         //if (query.equalsIgnoreCase("operando_personaldata_view")){
         	
         	try {
-				arxAnonymizationPersonalData();
+        		strAnnonymizedData = arxAnonymizationPersonalData();
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -75,10 +76,13 @@ public class PersonaldataApiServiceImpl extends PersonaldataApiService {
 				e.printStackTrace();
 			}
         //}
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "The data has been anonymized results are dumpped in the console!")).build();        	
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "Query="+query+" "+strAnnonymizedData)).build();        	
     }
     
-    private void arxAnonymizationPersonalData() throws ClassNotFoundException, SQLException, IOException {
+private String arxAnonymizationPersonalData() throws ClassNotFoundException, SQLException, IOException {
+		
+		String strAnnonymizedData="";
+		
     	Properties props;
     	props = loadDbProperties();
 
@@ -88,7 +92,7 @@ public class PersonaldataApiServiceImpl extends PersonaldataApiService {
         DataSource source = DataSource.createJDBCSource(props.getProperty("jdbc.url"),
 	    		props.getProperty("jdbc.username"),
 	    		props.getProperty("jdbc.password"),
-	    		"operando_personaldata_view");    
+	    		"operando_personaldata_view");        
         //DataSource source = DataSource.createJDBCSource("jdbc:mysql://localhost:3306/operando_personaldatadb?user=root&password=root","operando_personaldata_view");    
         
         source.addColumn("NAME", DataType.STRING);
@@ -147,18 +151,22 @@ public class PersonaldataApiServiceImpl extends PersonaldataApiService {
         
         ARXAnonymizer anonymizer = new ARXAnonymizer();
         ARXConfiguration config = ARXConfiguration.create();
-        config.addCriterion(new KAnonymity(2));
+        config.addCriterion(new KAnonymity(2));        
         ARXResult result = anonymizer.anonymize(data, config);
 
         Iterator<String[]> transformed = result.getOutput().iterator();
         int i =0;
+        StringBuffer strBufferAnnonymizedData = new StringBuffer("");
         while (transformed.hasNext()) {
             System.out.print("   ");
             i++;
             String outputmessage = Arrays.toString(transformed.next());
-            System.out.println(outputmessage);
+            strBufferAnnonymizedData.append(outputmessage);
+            //System.out.println(outputmessage);
         	mainLogger.logp(Level.INFO, "getPersonalData", "main", outputmessage);
         }        
+        strAnnonymizedData = strBufferAnnonymizedData.toString();
+        return (strAnnonymizedData);
 	}
 	
 	private DefaultHierarchy getHierarchyOccupation(Connection connect) throws ClassNotFoundException, SQLException {
