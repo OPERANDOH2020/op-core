@@ -40,6 +40,7 @@
 									<LDAP_DOMAIN>nodomain</LDAP_DOMAIN>
 									<LDAP_ADMIN_PASSWORD>admin</LDAP_ADMIN_PASSWORD>
 									<HOSTNAME>integration.operando.dmz.lab.esilab.org</HOSTNAME>
+									<LDAP_TLS_VERIFY_CLIENT>allow</LDAP_TLS_VERIFY_CLIENT>									
 								</env>
 								<ports>
 									<port>389:389</port>
