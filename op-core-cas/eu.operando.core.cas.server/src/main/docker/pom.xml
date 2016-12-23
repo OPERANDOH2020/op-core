@@ -80,17 +80,7 @@
 		<dependency>
 			<groupId>org.jasig.cas</groupId>
 			<artifactId>cas-server-support-ldap</artifactId>
-			<version>4.2.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jasig.cas</groupId>
-			<artifactId>cas-server-core</artifactId>
-			<version>4.2.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jasig.cas</groupId>
-			<artifactId>cas-server-support-x509</artifactId>
-			<version>4.2.0</version>
+			<version>${cas.version}</version>
 		</dependency>
 	</dependencies>
 
