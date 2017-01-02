@@ -3,7 +3,7 @@
 FROM apereo/cas:v4.1.5
 
 ADD cas.properties /etc/cas/cas.properties
-ADD deployerConfigContext.xml /cas-overlay/src/main/webapp/WEB-INF/deployerConfigContext.xml
+ADD /cas-overlay /cas-overlay
 ADD pom.xml /cas-overlay/pom.xml
 
 RUN wget https://raw.githubusercontent.com/osixia/docker-light-baseimage/stable/image/service-available/%3Assl-tools/assets/default-ca/default-ca.pem
