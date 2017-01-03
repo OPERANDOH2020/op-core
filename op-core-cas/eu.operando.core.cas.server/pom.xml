@@ -37,7 +37,7 @@
 							</build>
 							<run>
 								<namingStrategy>alias</namingStrategy>
-								<hostname>integration.operando.esilab.org</hostname>								
+								<!-- <hostname>integration.operando.esilab.org</hostname>-->								
 								<env>
 								</env>
 								<ports>
