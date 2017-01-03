@@ -38,6 +38,7 @@
 							<run>
 								<namingStrategy>alias</namingStrategy>
 								<env>
+									<HOSTNAME>integration.operando.dmz.lab.esilab.org</HOSTNAME>
 								</env>
 								<ports>
 									<port>8101:8080</port>
