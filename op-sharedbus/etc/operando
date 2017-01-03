@@ -10,7 +10,7 @@
      "mysqlPort":"3306",
      "mysqlDatabasePassword":"operando",
      "mysqlDatabaseName":"operando",
-     "operandoHost":"PlusPrivacy.com",
+     "operandoHost":"plusprivacy.com",
      "adminEmail":"zeev@arteevo.com",
      "paths":[
         {"core":"etc/coreSwarms"      ,"enabled":true},
