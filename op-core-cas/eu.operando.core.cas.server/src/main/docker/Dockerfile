@@ -6,7 +6,7 @@ ADD cas.properties /etc/cas/cas.properties
 ADD cas-overlay /cas-overlay
 ADD pom.xml /cas-overlay/pom.xml
 ADD certs /cas-overlay/certs
-ADD certs etc/hostname /etc/hostname
+ADD certs etc/hostname /etc/
 
 RUN wget https://raw.githubusercontent.com/osixia/docker-light-baseimage/stable/image/service-available/%3Assl-tools/assets/default-ca/default-ca.pem
 RUN keytool -alias openldapsrv -import -file default-ca.pem -keystore /etc/cas/jetty/thekeystore -storepass changeit -noprompt
