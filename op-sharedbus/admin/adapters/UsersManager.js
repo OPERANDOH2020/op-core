@@ -360,6 +360,7 @@ getUserInfo = function (userId, callback) {
             if (err) {
                 callback(err, null);
             } else if (user) {
+                delete user['__meta'];
                 delete user['password'];
                 delete user['salt'];
                 callback(null, user);
@@ -369,7 +370,7 @@ getUserInfo = function (userId, callback) {
             }
         }
     })();
-}
+};
 
 validateUser = function (email, pass, callback) {
     flow.create("Validate Password", {
