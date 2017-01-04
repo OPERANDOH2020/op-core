@@ -367,8 +367,8 @@ EOF
   log-helper info "OPERANDO: Adding aapi-ldap.ldif... "
   log-helper debug "ldapmodify -Y EXTERNAL -Q -H ldapi:/// -c -a -f /aapi-ldap.ldif 2>&1 | log-helper debug || ldapmodify -h localhost -p 389 -D cn=admin,$LDAP_BASE_DN -w $LDAP_ADMIN_PASSWORD -c -f aapi-ldap.ldif 2>&1 | log-helper debug"
   ldapmodify -Y EXTERNAL -Q -H ldapi:/// -c -a -f /aapi-ldap.ldif 2>&1 | log-helper debug || ldapmodify -h localhost -p 389 -D cn=admin,$LDAP_BASE_DN -w $LDAP_ADMIN_PASSWORD -c -f aapi-ldap.ldif 2>&1 | log-helper debug || true
-  # log-helper debug "ldapmodify  -Y EXTERNAL -H ldapi:/// -f acl.ldif 2>&1 | log-helper debug || true"
-  # ldapmodify  -Y EXTERNAL -H ldapi:/// -f acl.ldif 2>&1 | log-helper debug || true
+  log-helper debug "ldapmodify  -Y EXTERNAL -H ldapi:/// -f acl.ldif 2>&1 | log-helper debug || true"
+  ldapmodify  -Y EXTERNAL -H ldapi:/// -f acl.ldif 2>&1 | log-helper debug || true
 
   #
   # stop OpenLDAP
