@@ -360,10 +360,8 @@ getUserInfo = function (userId, callback) {
             if (err) {
                 callback(err, null);
             } else if (user) {
-                if (user.password) {
-                    delete user['password'];
-                    delete user['salt'];
-                }
+                delete user['password'];
+                delete user['salt'];
                 callback(null, user);
             }
             else {
