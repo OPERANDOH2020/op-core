@@ -2,7 +2,7 @@
 # we choose normal 
 FROM apereo/cas:v4.1.5
 
-ADD cas.properties /etc/cas/cas.properties
+ADD etc/cas /etc/cas
 ADD cas-overlay /cas-overlay
 ADD pom.xml /cas-overlay/pom.xml
 ADD certs /cas-overlay/certs
