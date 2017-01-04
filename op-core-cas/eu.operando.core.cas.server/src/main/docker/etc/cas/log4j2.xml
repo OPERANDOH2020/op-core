@@ -66,10 +66,12 @@
         <Logger name="org.jasig.inspektr.audit.support.Slf4jLoggingAuditTrailManager" level="info">
             <AppenderRef ref="file"/>
         </Logger>
+        <!--
         <Logger name="org.ldaptive" level="debug" additivity="false">
 		    <AppenderRef ref="console"/>
     		<AppenderRef ref="file"/>
 		</Logger>
+		-->
         <Root level="error">
             <AppenderRef ref="console"/>
         </Root>
