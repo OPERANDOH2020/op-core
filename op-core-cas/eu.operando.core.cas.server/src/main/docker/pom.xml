@@ -82,6 +82,12 @@
 			<artifactId>cas-server-support-ldap</artifactId>
 			<version>${cas.version}</version>
 		</dependency>
+		<!-- based on this cracy comment -->
+		<dependency>
+			<groupId>org.jasig.cas</groupId>
+			<artifactId>cas-server-support-saml</artifactId>
+			<version>${cas.version}</version>
+		</dependency>
 	</dependencies>
 
 	<properties>
