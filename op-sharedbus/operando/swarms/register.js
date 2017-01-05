@@ -33,6 +33,9 @@ var registerSwarming = {
         code: function () {
             var self = this;
             newUserIsValid(self.newUser, S(function (err, user) {
+                delete user['password'];
+                delete user['salt'];
+                delete user['__meta'];
                 if (err) {
                     console.log(err);
                     self.status = "error";
