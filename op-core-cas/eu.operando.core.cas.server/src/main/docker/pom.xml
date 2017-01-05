@@ -91,7 +91,7 @@
 		<dependency>
 			<groupId>org.jasig.cas</groupId>
 			<artifactId>cas-server-support-rest</artifactId>
-			<version>${project.version}</version>
+			<version>${cas.version}</version>
 			<scope>runtime</scope>
 		</dependency>
 
