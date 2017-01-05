@@ -318,12 +318,9 @@ newUserIsValid = function (newUser, callback) {
                         organisationId: "Public",
                         activationCode:new Buffer(uuid.v1()).toString('base64')
                     }, function (err, user) {
-                        if (user) {
-                            if (user['password']) {
-                                delete user['password'];
-                                delete user['salt'];
-                            }
-                        }
+                        delete user['password'];
+                        delete user['salt'];
+                        delete user['__meta'];
                         callback(err, user);
                     });
                 }
