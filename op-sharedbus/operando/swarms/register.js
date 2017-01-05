@@ -33,9 +33,6 @@ var registerSwarming = {
         code: function () {
             var self = this;
             newUserIsValid(self.newUser, S(function (err, user) {
-                delete user['password'];
-                delete user['salt'];
-                delete user['__meta'];
                 if (err) {
                     console.log(err);
                     self.status = "error";
@@ -76,8 +73,8 @@ var registerSwarming = {
             var self = this;
             setRealIdentity(this.user, S(function(err, identity){
                 if(err){
-                    self.error = err.message;
                     console.log(err);
+                    self.error = err.message;
                     self.home('error');
                 }
                 else{
@@ -98,8 +95,9 @@ var registerSwarming = {
         code:function(){
             var self = this;
             activateUser(this.validationCode, S(function (err, result) {
-                if (err) {
-                    self.error = err;
+                if (err) {                      
+                    console.log(err);
+                    self.error = err.message;
                     self.home("failed");
                 } else {
                     self.home("success");

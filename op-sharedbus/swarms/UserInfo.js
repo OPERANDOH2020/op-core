@@ -46,7 +46,6 @@ var userInfoSwarming =
                     console.log(err);
                 }
                 else{
-
                     self.result = user;
                     self.home("result");
                 }
@@ -164,7 +163,7 @@ var userInfoSwarming =
                     self.error = err.message;
                     self.home('resetPasswordFailed');
                 } else if (users.length === 0) {
-                    self.error = new Error("No such user! Aborting...");
+                    self.error = "No such user! Aborting...";
                     self.home('resetPasswordFailed');
                 }
                 else {
