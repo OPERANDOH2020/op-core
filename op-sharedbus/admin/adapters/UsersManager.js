@@ -403,7 +403,10 @@ getUserId = function(email, callback){
             callback(err);
         }else if(result.length>1){
             callback(new Error("Multiple users with email "+email));
-        }else{
+        }else if(result.length===0){
+            callback(new Error("No user with the specified email"))
+        }
+        else{
             callback(undefined,result[0].userId);
         }
     });
