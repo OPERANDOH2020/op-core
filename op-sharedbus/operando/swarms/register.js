@@ -28,6 +28,7 @@ var registerSwarming = {
         this.swarm("verifyUserData");
     },
 
+
     verifyUserData: {
         node: "UsersManager",
         code: function () {
@@ -101,6 +102,36 @@ var registerSwarming = {
                     self.home("failed");
                 } else {
                     self.home("success");
+                }
+            }))
+        }
+    },
+
+    sendActivationCode:function (userEmail) {
+        this.email = userEmail;
+        this.swarm("getActivationCode");
+    },
+    getActivationCode:{
+        node:"UsersManager",
+        code:function(){
+            var self = this;
+            getUserId(self.email,S(function(err,userId){
+                if (err) {
+                    self.error = err.message;
+                    self.home("failed");
+                } else {
+                    getUserInfo(userId,S(function(err,user){
+                        if (err) {
+                            self.error = err.message;
+                            self.home("failed");
+                        }else{
+                            startSwarm("emails.js", "sendEmail", "no-reply@" + thisAdapter.config.Core.operandoHost,
+                                user['email'],
+                                "Activate account",
+                                "Your account has been registered \nTo activate it, please access the following link:\n http://" + thisAdapter.config.Core.operandoHost + "/activate/?confirmation_code=" + user.activationCode);
+                            self.home("success");
+                        }
+                    }))
                 }
             }))
         }
