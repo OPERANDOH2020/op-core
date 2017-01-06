@@ -124,18 +124,23 @@ var registerSwarming = {
                         if (err) {
                             self.error = err.message;
                             self.home("failed");
-                        }else{
-                            startSwarm("emails.js", "sendEmail", "no-reply@" + thisAdapter.config.Core.operandoHost,
-                                user['email'],
-                                "Activate account",
-                                "Your account has been registered \nTo activate it, please access the following link:\n http://" + thisAdapter.config.Core.operandoHost + "/activate/?confirmation_code=" + user.activationCode);
-                            self.home("success");
+                        }else if(user.activationCode=="0"){   //  0=="0"  is true
+                            self.error = "Account already activated";
+                            self.home("failed");
+                        }else {
+                                startSwarm("emails.js", "sendEmail", "no-reply@" + thisAdapter.config.Core.operandoHost,
+                                    user['email'],
+                                    "Activate account",
+                                    "Your account has been registered \nTo activate it, please access the following link:\n http://" + thisAdapter.config.Core.operandoHost + "/activate/?confirmation_code=" + user.activationCode);
+                                self.home("success");
+                            }
                         }
-                    }))
+                    ))
                 }
             }))
         }
     }
 }
+
 
 registerSwarming;
