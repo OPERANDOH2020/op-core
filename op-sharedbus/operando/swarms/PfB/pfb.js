@@ -93,8 +93,11 @@ var privacyForBenefits = {
                     console.log(err);
                 }
                 else{
-                    //self.deals = deals;
-                    self.deals = [];
+                    if(self.meta['tenantId'] === "ios"){
+                        self.deals = [];
+                    }else{
+                        self.deals = deals;
+                    }
                     self.home("gotAllDeals");
                 }
             }));
