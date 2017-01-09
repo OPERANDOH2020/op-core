@@ -93,7 +93,8 @@ var privacyForBenefits = {
                     console.log(err);
                 }
                 else{
-                    self.deals = deals;
+                    //self.deals = deals;
+                    self.deals = [];
                     self.home("gotAllDeals");
                 }
             }));
