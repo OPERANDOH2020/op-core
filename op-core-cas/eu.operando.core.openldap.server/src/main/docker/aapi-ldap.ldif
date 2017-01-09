@@ -15,13 +15,11 @@ description: LDAP administrator
 userPassword:: e1NTSEF9ZUZHVGFscks2Y2FWZFlDTXV2M3ZHY0lHNHF6eEdlY3A=
 
 dn: ou=People,dc=nodomain
-changetype: add
 objectClass: organizationalUnit
 objectClass: top
 ou: People
 
 dn: uid=pompom,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -36,7 +34,6 @@ uid: pompom
 userPassword:: cG9tcG9t
 
 dn: uid=operando,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -51,7 +48,6 @@ uid: operando
 userPassword:: MTIzNA==
 
 dn: uid=FoodCoach,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -66,7 +62,6 @@ uid: FoodCoach
 userPassword:: Rm9vZENvYWNo
 
 dn: uid=ftos,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -81,7 +76,6 @@ uid: ftos
 userPassword:: c2Rmc2Zkc2Fm
 
 dn: uid=kostis,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -96,7 +90,6 @@ uid: kostis
 userPassword:: a29zdGlz
 
 dn: uid=string,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -111,7 +104,6 @@ uid: string
 userPassword:: c3RyaW5n
 
 dn: uid=pippo,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -126,7 +118,6 @@ uid: pippo
 userPassword:: cGlwcG8=
 
 dn: uid=panos,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -141,7 +132,6 @@ uid: panos
 userPassword:: b3BlcmFuZG8=
 
 dn: uid=panos1,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -156,7 +146,6 @@ uid: panos1
 userPassword:: b3BlcmFuZG8=
 
 dn: uid=panos2,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -171,7 +160,6 @@ uid: panos2
 userPassword:: b3BlcmFuZG8=
 
 dn: uid=panos4,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -186,7 +174,6 @@ uid: panos4
 userPassword:: b3BlcmFuZG8=
 
 dn: uid=johng,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -201,7 +188,6 @@ uid: johng
 userPassword:: b3BlcmFuZG8=
 
 dn: uid=panos5,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -216,7 +202,6 @@ uid: panos5
 userPassword:: cGFub3M1
 
 dn: uid=paulg,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -231,7 +216,6 @@ uid: paulg
 userPassword:: b3BlcmFuZG8=
 
 dn: uid=makes,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -246,7 +230,6 @@ uid: makes
 userPassword:: b3BlcmFuZG8=
 
 dn: uid=sg@gmail.com,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -261,7 +244,6 @@ uid: sg@gmail.com
 userPassword:: QXNkMTIzIS4=
 
 dn: uid=stg@gmail.com,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -276,7 +258,6 @@ uid: stg@gmail.com
 userPassword:: QXNkMTIzIS4=
 
 dn: uid=sara@gmail.com,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -291,7 +272,6 @@ uid: sara@gmail.com
 userPassword:: QXNkMTIzIS4=
 
 dn: uid=mara@gmail.com,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -306,7 +286,6 @@ uid: mara@gmail.com
 userPassword:: QXNkMTIzIS4=
 
 dn: uid=mamamia@gmail.com,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -321,7 +300,6 @@ uid: mamamia@gmail.com
 userPassword:: QXNkMTIzIS4=
 
 dn: uid=testingtesting,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -336,7 +314,6 @@ uid: testingtesting
 userPassword:: MTIzNDU2
 
 dn: uid=rmuser,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -351,7 +328,6 @@ uid: rmuser
 userPassword:: cjFnaHRz
 
 dn: uid=gate,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -366,7 +342,6 @@ uid: gate
 userPassword:: Z0B0ZQ==
 
 dn: uid=qazxsw,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -381,7 +356,6 @@ uid: qazxsw
 userPassword:: cWF6eHN3
 
 dn: uid=pjgrace,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -396,7 +370,6 @@ uid: pjgrace
 userPassword:: c3RyaW5n
 
 dn: uid=test,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -411,7 +384,6 @@ uid: test
 userPassword:: c3RyaW5n
 
 dn: uid=test2,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -426,7 +398,6 @@ uid: test2
 userPassword:: c3RyaW5n
 
 dn: uid=bees,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -441,7 +412,6 @@ uid: bees
 userPassword:: dGVzdA==
 
 dn: uid=bees2,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -456,7 +426,6 @@ uid: bees2
 userPassword:: dGVzdA==
 
 dn: uid=stringify,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -471,7 +440,6 @@ uid: stringify
 userPassword:: c3RyaW5n
 
 dn: uid=bees3,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -486,7 +454,6 @@ uid: bees3
 userPassword:: dGVzdA==
 
 dn: uid=bees4,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -501,7 +468,6 @@ uid: bees4
 userPassword:: dGVzdA==
 
 dn: uid=string78,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -516,7 +482,6 @@ uid: string78
 userPassword:: c3RyaW5n
 
 dn: uid=test012,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -531,7 +496,6 @@ uid: test012
 userPassword:: dGVzdA==
 
 dn: uid=test99,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -546,7 +510,6 @@ uid: test99
 userPassword:: dGVzdA==
 
 dn: uid=test996,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -561,7 +524,6 @@ uid: test996
 userPassword:: dGVzdA==
 
 dn: uid=test997,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -576,7 +538,6 @@ uid: test997
 userPassword:: dGVzdA==
 
 dn: uid=test998,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -591,7 +552,6 @@ uid: test998
 userPassword:: dGVzdA==
 
 dn: uid=test999,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -606,7 +566,6 @@ uid: test999
 userPassword:: dGVzdA==
 
 dn: uid=test1000,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -621,7 +580,6 @@ uid: test1000
 userPassword:: dGVzdA==
 
 dn: uid=test1001,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -636,7 +594,6 @@ uid: test1001
 userPassword:: dGVzdA==
 
 dn: uid=test1002,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -651,7 +608,6 @@ uid: test1002
 userPassword:: dGVzdA==
 
 dn: uid=test1003,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -666,7 +622,6 @@ uid: test1003
 userPassword:: dGVzdA==
 
 dn: uid=t1,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -681,7 +636,6 @@ uid: t1
 userPassword:: c3RyaW5n
 
 dn: uid=matt,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -696,7 +650,6 @@ uid: matt
 userPassword:: c3RyaW5n
 
 dn: uid=matt2,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -711,7 +664,6 @@ uid: matt2
 userPassword:: c3RyaW5n
 
 dn: uid=kostis@gmail.com,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -726,7 +678,6 @@ uid: kostis@gmail.com
 userPassword:: e1NIQX1EUjBodnBiV25xMDZiU1ZYQUdnMVBHVGRWVGs9
 
 dn: uid=t2,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -741,7 +692,6 @@ uid: t2
 userPassword:: c3RyaW5n
 
 dn: uid=test34543543543,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -756,7 +706,6 @@ uid: test34543543543
 userPassword:: cGFzc3dvcmQ=
 
 dn: uid=fred,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -771,7 +720,6 @@ uid: fred
 userPassword:: ZHNhZHNhZHNh
 
 dn: uid=sadsa,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -786,7 +734,6 @@ uid: sadsa
 userPassword:: YXNkc2Fk
 
 dn: uid=sdfsdfsdfsdfsdfsdf,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -801,7 +748,6 @@ uid: sdfsdfsdfsdfsdfsdf
 userPassword:: c2Rmc2Rmc2Rmc2Rm
 
 dn: uid=sfsdfdsf,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -816,7 +762,6 @@ uid: sfsdfdsf
 userPassword:: c2Rmc2Rmc2Rmc2Rmc2Rm
 
 dn: uid=sdfsdfsdfsdfsdfsdfsdfsdfsd,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -831,7 +776,6 @@ uid: sdfsdfsdfsdfsdfsdfsdfsdfsd
 userPassword:: c3Nk
 
 dn: uid=sadas,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -846,7 +790,6 @@ uid: sadas
 userPassword:: c2Q=
 
 dn: uid=sdsd,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -861,7 +804,6 @@ uid: sdsd
 userPassword:: c2Q=
 
 dn: uid=sfsfdfsdfsdf,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -876,7 +818,6 @@ uid: sfsfdfsdfsdf
 userPassword:: c2Q=
 
 dn: uid=bees999,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -891,7 +832,6 @@ uid: bees999
 userPassword:: c3RyaW5n
 
 dn: uid=bees998,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -906,7 +846,6 @@ uid: bees998
 userPassword:: c3NhZHNhZA==
 
 dn: uid=bees997,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -921,7 +860,6 @@ uid: bees997
 userPassword:: c3NhZHNhZA==
 
 dn: uid=bees996,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -936,7 +874,6 @@ uid: bees996
 userPassword:: c3NhZHNhZA==
 
 dn: uid=testmk01,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -951,7 +888,6 @@ uid: testmk01
 userPassword:: c2ZzZGZkc2Y=
 
 dn: uid=testmk02,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -966,7 +902,6 @@ uid: testmk02
 userPassword:: c2ZzZGZkc2Y=
 
 dn: uid=test3,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -981,7 +916,6 @@ uid: test3
 userPassword:: c3RyaW5n
 
 dn: uid=string2,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -996,7 +930,6 @@ uid: string2
 userPassword:: c3RyaW5n
 
 dn: uid=string3,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1011,7 +944,6 @@ uid: string3
 userPassword:: c3RyaW5n
 
 dn: uid=string4,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1026,7 +958,6 @@ uid: string4
 userPassword:: c3RyaW5n
 
 dn: uid=string5,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1041,7 +972,6 @@ uid: string5
 userPassword:: c2RmZHNmZHNm
 
 dn: uid=string6,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1056,7 +986,6 @@ uid: string6
 userPassword:: c3RyaW5n
 
 dn: uid=sdf,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1071,7 +1000,6 @@ uid: sdf
 userPassword:: c2Rm
 
 dn: uid=snipe,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1086,7 +1014,6 @@ uid: snipe
 userPassword:: c3RyaW5n
 
 dn: uid=snipe2,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1101,7 +1028,6 @@ uid: snipe2
 userPassword:: c3RyaW5n
 
 dn: uid=snipe3,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1116,7 +1042,6 @@ uid: snipe3
 userPassword:: eQ==
 
 dn: uid=fdsfsdfsdfsdf,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1131,7 +1056,6 @@ uid: fdsfsdfsdfsdf
 userPassword:: eQ==
 
 dn: uid=z,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1146,7 +1070,6 @@ uid: z
 userPassword:: c3RyaW5n
 
 dn: uid=z2,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1161,7 +1084,6 @@ uid: z2
 userPassword:: c3RyaW5n
 
 dn: uid=z3,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1176,7 +1098,6 @@ uid: z3
 userPassword:: c3RyaW5n
 
 dn: uid=z4,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1191,7 +1112,6 @@ uid: z4
 userPassword:: c3RyaW5n
 
 dn: uid=d,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1206,7 +1126,6 @@ uid: d
 userPassword:: ZA==
 
 dn: uid=test1,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1221,7 +1140,6 @@ uid: test1
 userPassword:: dGVzdA==
 
 dn: uid=toulis,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1236,7 +1154,6 @@ uid: toulis
 userPassword:: dG91bGlz
 
 dn: uid=will1,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1251,7 +1168,6 @@ uid: will1
 userPassword:: d2lsbDE=
 
 dn: uid=c,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1266,7 +1182,6 @@ uid: c
 userPassword:: d2lsbDE=
 
 dn: uid=f,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1281,7 +1196,6 @@ uid: f
 userPassword:: eg==
 
 dn: uid=h,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1296,7 +1210,6 @@ uid: h
 userPassword:: YmVlcw==
 
 dn: uid=panos6,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1311,7 +1224,6 @@ uid: panos6
 userPassword:: b3BlcmFuZG8=
 
 dn: uid=stamatis.glykos@gmail.com,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1326,7 +1238,6 @@ uid: stamatis.glykos@gmail.com
 userPassword:: dGVzdGluZw==
 
 dn: uid=stamatis.glikos@gmail.com,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1341,7 +1252,6 @@ uid: stamatis.glikos@gmail.com
 userPassword:: c3RhbWF0aXM=
 
 dn: uid=stamatisglikos@gmail.com,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1356,7 +1266,6 @@ uid: stamatisglikos@gmail.com
 userPassword:: c3RhbWF0aXM=
 
 dn: uid=stamatisglikosgmailcom,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1371,7 +1280,6 @@ uid: stamatisglikosgmailcom
 userPassword:: c3RhbWF0aXM=
 
 dn: uid=stamatisglykos,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1386,7 +1294,6 @@ uid: stamatisglykos
 userPassword:: c3RhbWF0aXNnbHlrb3M=
 
 dn: uid=stamatisglykos.com,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1401,7 +1308,6 @@ uid: stamatisglykos.com
 userPassword:: c3RhbWF0aXNnbHlrb3M=
 
 dn: uid=stamatisglykos@,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1416,7 +1322,6 @@ uid: stamatisglykos@
 userPassword:: c3RhbWF0aXNnbHlrb3M=
 
 dn: uid=stamatis.glykos@,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1431,7 +1336,6 @@ uid: stamatis.glykos@
 userPassword:: c3RhbWF0aXNnbHlrb3M=
 
 dn: uid=stamatis.glykos@.com,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1446,7 +1350,6 @@ uid: stamatis.glykos@.com
 userPassword:: c3RhbWF0aXNnbHlrb3M=
 
 dn: uid=stringf,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1461,7 +1364,6 @@ uid: stringf
 userPassword:: c3RyaW5n
 
 dn: uid=w,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1476,7 +1378,6 @@ uid: w
 userPassword:: dw==
 
 dn: uid=string72,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1491,7 +1392,6 @@ uid: string72
 userPassword:: dw==
 
 dn: uid=sdsdfsdf,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1506,7 +1406,6 @@ uid: sdsdfsdf
 userPassword:: c3RyaW5n
 
 dn: uid=sdfsdfsdfsdf,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1521,7 +1420,6 @@ uid: sdfsdfsdfsdf
 userPassword:: dw==
 
 dn: uid=whyisthisnotworking,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1536,7 +1434,6 @@ uid: whyisthisnotworking
 userPassword:: cGFzc3dvcmQ=
 
 dn: uid=okseriouslywhy,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1551,7 +1448,6 @@ uid: okseriouslywhy
 userPassword:: c3RyaW5n
 
 dn: uid=attempt1,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1566,7 +1462,6 @@ uid: attempt1
 userPassword:: cGFzc3dvcmQ=
 
 dn: uid=attempt2,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1581,7 +1476,6 @@ uid: attempt2
 userPassword:: c2FkZHM=
 
 dn: uid=q,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1596,7 +1490,6 @@ uid: q
 userPassword:: cQ==
 
 dn: uid=j,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1611,7 +1504,6 @@ uid: j
 userPassword:: ag==
 
 dn: uid=ut,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1626,7 +1518,6 @@ uid: ut
 userPassword:: dXQ=
 
 dn: uid=e,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1641,7 +1532,6 @@ uid: e
 userPassword:: c3RyaW5n
 
 dn: uid=g,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1656,7 +1546,6 @@ uid: g
 userPassword:: ZQ==
 
 dn: uid=i,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1671,7 +1560,6 @@ uid: i
 userPassword:: ZQ==
 
 dn: uid=k,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1686,7 +1574,6 @@ uid: k
 userPassword:: ZQ==
 
 dn: uid=m,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1701,7 +1588,6 @@ uid: m
 userPassword:: aw==
 
 dn: uid=attempt3,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1716,7 +1602,6 @@ uid: attempt3
 userPassword:: aw==
 
 dn: uid=vxy,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1731,7 +1616,6 @@ uid: vxy
 userPassword:: c2Rmc2Q=
 
 dn: uid=vxyz,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1746,7 +1630,6 @@ uid: vxyz
 userPassword:: c2Rmc2Q=
 
 dn: uid=vxyzo,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1761,7 +1644,6 @@ uid: vxyzo
 userPassword:: c2Rmc2Q=
 
 dn: uid=sdfdds,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1776,7 +1658,6 @@ uid: sdfdds
 userPassword:: c2Zk
 
 dn: uid=attempt4,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1791,7 +1672,6 @@ uid: attempt4
 userPassword:: c2Rm
 
 dn: uid=attempt5,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1806,7 +1686,6 @@ uid: attempt5
 userPassword:: c2Rm
 
 dn: uid=attempt6,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1821,7 +1700,6 @@ uid: attempt6
 userPassword:: c2Rm
 
 dn: uid=attempt7,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1836,7 +1714,6 @@ uid: attempt7
 userPassword:: c2Rm
 
 dn: uid=attempt8,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1851,7 +1728,6 @@ uid: attempt8
 userPassword:: c2Rm
 
 dn: uid=attempt9,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1866,7 +1742,6 @@ uid: attempt9
 userPassword:: OQ==
 
 dn: uid=t,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1881,7 +1756,6 @@ uid: t
 userPassword:: dA==
 
 dn: uid=tt,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1896,7 +1770,6 @@ uid: tt
 userPassword:: dHQ=
 
 dn: uid=ttt,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1911,7 +1784,6 @@ uid: ttt
 userPassword:: dHQ=
 
 dn: uid=tttt,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1926,7 +1798,6 @@ uid: tttt
 userPassword:: dHQ=
 
 dn: uid=ttttt,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1941,7 +1812,6 @@ uid: ttttt
 userPassword:: dA==
 
 dn: uid=tttttt,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1956,7 +1826,6 @@ uid: tttttt
 userPassword:: dA==
 
 dn: uid=ttttttt,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1971,7 +1840,6 @@ uid: ttttttt
 userPassword:: dA==
 
 dn: uid=tttttttt,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -1986,7 +1854,6 @@ uid: tttttttt
 userPassword:: dA==
 
 dn: uid=ttttttttt,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -2001,7 +1868,6 @@ uid: ttttttttt
 userPassword:: dA==
 
 dn: uid=tttttttttt,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -2016,7 +1882,6 @@ uid: tttttttttt
 userPassword:: dA==
 
 dn: uid=ttttttttttt,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -2031,7 +1896,6 @@ uid: ttttttttttt
 userPassword:: dA==
 
 dn: uid=tttttttttttt,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -2046,7 +1910,6 @@ uid: tttttttttttt
 userPassword:: dA==
 
 dn: uid=x,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -2061,7 +1924,6 @@ uid: x
 userPassword:: dA==
 
 dn: uid=xx,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -2076,7 +1938,6 @@ uid: xx
 userPassword:: dA==
 
 dn: uid=xxx,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -2091,7 +1952,6 @@ uid: xxx
 userPassword:: dA==
 
 dn: uid=01,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -2106,7 +1966,6 @@ uid: 01
 userPassword:: YQ==
 
 dn: uid=new,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -2121,7 +1980,6 @@ uid: new
 userPassword:: c3RyaW5n
 
 dn: uid=new2,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -2136,7 +1994,6 @@ uid: new2
 userPassword:: c2Zkc2Y=
 
 dn: uid=brandnew,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -2151,7 +2008,6 @@ uid: brandnew
 userPassword:: c3RyaW5n
 
 dn: uid=stamatis.glikos@who.com,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -2166,7 +2022,6 @@ uid: stamatis.glikos@who.com
 userPassword:: c3RyaW5n
 
 dn: uid=testing@gmail.com,ou=People,dc=nodomain
-changetype: add
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
@@ -2180,15 +2035,546 @@ sn: testing@gmail.com
 uid: testing@gmail.com
 userPassword:: eHh4
 
+dn: uid=test995,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: test995
+departmentNumber: placeholder::placeholder;;
+displayName: test995
+employeeNumber: placeholder::placeholder;;
+employeeType: placeholder::placeholder;;
+sn: test995
+uid: test995
+userPassword:: Zw==
+
+dn: uid=test17,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: test17
+departmentNumber: placeholder::placeholder;;
+displayName: test17
+employeeNumber: placeholder::placeholder;;
+employeeType: placeholder::placeholder;;
+sn: test17
+uid: test17
+userPassword:: ZA==
+
+dn: uid=test19,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: test19
+departmentNumber: placeholder::placeholder;;
+displayName: test19
+employeeNumber: placeholder::placeholder;;
+employeeType: placeholder::placeholder;;
+sn: test19
+uid: test19
+userPassword:: YQ==
+
+dn: uid=a,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: a
+departmentNumber: placeholder::placeholder;;
+displayName: a
+employeeNumber: placeholder::placeholder;;
+employeeType: placeholder::placeholder;;
+sn: a
+uid: a
+userPassword:: YQ==
+
+dn: uid=test9934,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: test9934
+departmentNumber: placeholder::placeholder;;
+displayName: test9934
+employeeNumber: placeholder::placeholder;;
+employeeType: placeholder::placeholder;;
+sn: test9934
+uid: test9934
+userPassword:: dGVzdA==
+
+dn: uid=test66657,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: test66657
+departmentNumber: placeholder::placeholder;;
+displayName: test66657
+employeeNumber: placeholder::placeholder;;
+employeeType: placeholder::placeholder;;
+sn: test66657
+uid: test66657
+userPassword:: dA==
+
+dn: uid=Wendy,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Wendy
+departmentNumber: string::string;;
+displayName: Wendy
+employeeNumber: string::string;;
+employeeType: role::Website Admin;;
+sn: Wendy
+uid: Wendy
+userPassword:: V2VuZHk=
+
+dn: uid=Dani,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Dani
+departmentNumber: string::string;;
+displayName: Dani
+employeeNumber: string::string;;
+employeeType: role::Doctor;;
+sn: Dani
+uid: Dani
+userPassword:: RGFuaQ==
+
+dn: uid=Ron,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Ron
+departmentNumber: string::string;;
+displayName: Ron
+employeeNumber: string::string;;
+employeeType: role::Receptionist;;
+sn: Ron
+uid: Ron
+userPassword:: Um9u
+
+dn: uid=wrep,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: wrep
+departmentNumber: string::string;;
+displayName: wrep
+employeeNumber: string::string;;
+employeeType: role::module;;
+sn: wrep
+uid: wrep
+userPassword:: d3JlcA==
+
+dn: uid=rightsm,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: rightsm
+departmentNumber: string::string;;
+displayName: rightsm
+employeeNumber: string::string;;
+employeeType: role::module;;
+sn: rightsm
+uid: rightsm
+userPassword:: cmlnaHRzbQ==
+
+dn: uid=rpm-built-in,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: rpm-built-in
+departmentNumber: string::string;;
+displayName: rpm-built-in
+employeeNumber: string::string;;
+employeeType: role::module;;
+sn: rpm-built-in
+uid: rpm-built-in
+userPassword:: cnBtLWJ1aWx0LWlu
+
+dn: uid=gatekeeper,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: gatekeeper
+departmentNumber: string::string;;
+displayName: gatekeeper
+employeeNumber: string::string;;
+employeeType: role::module;;
+sn: gatekeeper
+uid: gatekeeper
+userPassword:: Z2F0ZWtlZXBlcg==
+
+dn: uid=dan,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: dan
+departmentNumber: string::string;;
+displayName: dan
+employeeNumber: string::string;;
+employeeType: role::module;;
+sn: dan
+uid: dan
+userPassword:: ZGFu
+
+dn: uid=regulator,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: regulator
+departmentNumber: string::string;;
+displayName: regulator
+employeeNumber: string::string;;
+employeeType: role::module;;
+sn: regulator
+uid: regulator
+userPassword:: cmVndWxhdG9y
+
+dn: uid=reports,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: reports
+departmentNumber: string::string;;
+displayName: reports
+employeeNumber: string::string;;
+employeeType: role::module;;
+sn: reports
+uid: reports
+userPassword:: cmVwb3J0cw==
+
+dn: uid=bda,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: bda
+departmentNumber: string::string;;
+displayName: bda
+employeeNumber: string::string;;
+employeeType: role::module;;
+sn: bda
+uid: bda
+userPassword:: YmRh
+
+dn: uid=testing,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: testing
+departmentNumber: string::string;;
+displayName: testing
+employeeNumber: string::string;;
+employeeType: string::string;;
+sn: testing
+uid: testing
+userPassword:: dGVzdGluZw==
+
+dn: uid=u,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: u
+departmentNumber: placeholder::placeholder;;
+displayName: u
+employeeNumber: placeholder::placeholder;;
+employeeType: placeholder::placeholder;;
+sn: u
+uid: u
+userPassword:: dQ==
+
+dn: uid=hi,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: hi
+departmentNumber: placeholder::placeholder;;
+displayName: hi
+employeeNumber: placeholder::placeholder;;
+employeeType: placeholder::placeholder;;
+sn: hi
+uid: hi
+userPassword:: aA==
+
+dn: uid=r,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: r
+departmentNumber: string::string;;
+displayName: r
+employeeNumber: string::string;;
+employeeType: string::string;;
+sn: r
+uid: r
+userPassword:: c3RyaW5n
+
+dn: uid=rs,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: rs
+departmentNumber: placeholder::placeholder;;
+displayName: rs
+employeeNumber: placeholder::placeholder;;
+employeeType: placeholder::placeholder;;
+sn: rs
+uid: rs
+userPassword:: cg==
+
+dn: uid=rst,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: rst
+departmentNumber: placeholder::placeholder;;
+displayName: rst
+employeeNumber: placeholder::placeholder;;
+employeeType: placeholder::placeholder;;
+sn: rst
+uid: rst
+userPassword:: cg==
+
+dn: uid=a2,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: a2
+departmentNumber: placeholder::placeholder;;
+displayName: a2
+employeeNumber: placeholder::placeholder;;
+employeeType: placeholder::placeholder;;
+sn: a2
+uid: a2
+userPassword:: YQ==
+
+dn: uid=b2,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: b2
+departmentNumber: placeholder::placeholder;;
+displayName: b2
+employeeNumber: placeholder::placeholder;;
+employeeType: placeholder::placeholder;;
+sn: b2
+uid: b2
+userPassword:: Yg==
+
+dn: uid=new_user,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: new_user
+departmentNumber: string::string;;
+displayName: new_user
+employeeNumber: string::string;;
+employeeType: string::string;;
+sn: new_user
+uid: new_user
+userPassword:: Kioq
+
+dn: uid=dhocc,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: dhocc
+departmentNumber: string::string;;
+displayName: dhocc
+employeeNumber: string::string;;
+employeeType: string::string;;
+sn: dhocc
+uid: dhocc
+userPassword:: UGFzc3dvcmQxIQ==
+
+dn: uid=tester,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: tester
+departmentNumber: string::string;;
+displayName: tester
+employeeNumber: string::string;;
+employeeType: string::string;;
+sn: tester
+uid: tester
+userPassword:: ZWVlZQ==
+
+dn: uid=topo,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: topo
+departmentNumber: string::string;;
+displayName: topo
+employeeNumber: string::string;;
+employeeType: role::Gaslini - Doctor;;
+sn: topo
+uid: topo
+userPassword:: ZWVlZQ==
+
+dn: uid=daniele79,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: daniele79
+departmentNumber: string::string;;
+displayName: daniele79
+employeeNumber: string::string;;
+employeeType: role::ASL Bergamo - IL -  Inspector;;
+sn: daniele79
+uid: daniele79
+userPassword:: aS8rekVROTZkNw==
+
+dn: uid=daniele80,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: daniele80
+departmentNumber: string::string;;
+displayName: daniele80
+employeeNumber: string::string;;
+employeeType: role::Gaslini - Doctor2;;
+sn: daniele80
+uid: daniele80
+userPassword:: ZWVlZQ==
+
+dn: uid=daniele792,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: daniele792
+departmentNumber: string::string;;
+displayName: daniele792
+employeeNumber: string::string;;
+employeeType: role::ASL Bergamo - IL -  Accountant;;
+sn: daniele792
+uid: daniele792
+userPassword:: cE14aXdmbzE4bg==
+
+dn: uid=daniele793,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: daniele793
+departmentNumber: string::string;;
+displayName: daniele793
+employeeNumber: string::string;;
+employeeType: role::ASL Bergamo - IL -  Inspector;;
+sn: daniele793
+uid: daniele793
+userPassword:: b2NkdmljNFZmYg==
+
+dn: uid=daniele794,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: daniele794
+departmentNumber: string::string;;
+displayName: daniele794
+employeeNumber: string::string;;
+employeeType: role::ASL Bergamo - GAT -  Doctor;;
+sn: daniele794
+uid: daniele794
+userPassword:: YzF3ZUg1Z05aOA==
+
+dn: uid=daniele795,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: daniele795
+departmentNumber: string::string;;
+displayName: daniele795
+employeeNumber: string::string;;
+employeeType: role::;;
+sn: daniele795
+uid: daniele795
+userPassword:: YUUvUjJNK0NETw==
+
+dn: uid=daniele796,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: daniele796
+departmentNumber: string::string;;
+displayName: daniele796
+employeeNumber: string::string;;
+employeeType: role::ASL Bergamo - GAT -  Doctor;;
+sn: daniele796
+uid: daniele796
+userPassword:: Vm1lY2ROMzJ2Zw==
+
+dn: uid=daniele797,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: daniele797
+departmentNumber: string::string;;
+displayName: daniele797
+employeeNumber: string::string;;
+employeeType: role::ASL Bergamo - GAT -  Patient;;
+sn: daniele797
+uid: daniele797
+userPassword:: blgwcUdhbk5vMg==
+
+dn: uid=daniele798,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: daniele798
+departmentNumber: string::string;;
+displayName: daniele798
+employeeNumber: string::string;;
+employeeType: role::ASL Bergamo - GAT -  Patient;;
+sn: daniele798
+uid: daniele798
+userPassword:: dkVqd0FDRDBlcw==
+
 dn: ou=Groups,dc=nodomain
-changetype: add
 objectClass: organizationalUnit
 objectClass: top
 ou: Groups
 
 dn: cn=miners,ou=Groups,dc=nodomain
-changetype: add
 objectClass: posixGroup
 objectClass: top
 cn: miners
 gidNumber: 5000
+
