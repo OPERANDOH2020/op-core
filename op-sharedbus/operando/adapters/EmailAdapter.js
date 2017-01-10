@@ -96,7 +96,7 @@ if(emailPort===-1){
 
 const mailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
-var transporter = mailer.createTransport(smtpTransport({host:emailHost, port: emailPort, secure:true}));
+var transporter = mailer.createTransport(smtpTransport({host:emailHost, port: emailPort, ignoreTLS:true}));
 
 sendEmail = function(from,to,subject,text,callback){
     transporter.sendMail({
