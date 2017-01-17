@@ -48,8 +48,14 @@ persistence.registerModel("conversation",conversationModel,function(err,result){
 
 
 registerConversation = function(sender,receiver,callback){
-    var newConversationUUID = uuid.v1();
-    newConversationUUID = "anonymized_reply_to_"+receiver.split("@")[0]+"_AT_"+receiver.split("@")[1]+"_"+new Buffer(newConversationUUID).toString('base64');
+    receiver = receiver.split("@");
+    var newConversationUUID = "anonymized_reply_to_"+receiver[0];
+
+    if(receiver.length>1){
+        newConversationUUID +="_AT_"+receiver[1];
+    }
+
+    newConversationUUID+="_"+new Buffer(newConversationUUID).toString('base64');
     var conversation = apersistence.createRawObject('conversation',newConversationUUID);
     conversation['sender'] = sender;
     conversation['receiver'] = receiver;
