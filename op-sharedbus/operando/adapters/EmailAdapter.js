@@ -48,11 +48,11 @@ persistence.registerModel("conversation",conversationModel,function(err,result){
 
 
 registerConversation = function(sender,receiver,callback){
-    receiver = receiver.split("@");
-    var newConversationUUID = "anonymized_reply_to_"+receiver[0];
+    var splitReceiver = receiver.split("@");
+    var newConversationUUID = "anonymized_reply_to_"+splitReceiver[0];
 
-    if(receiver.length>1){
-        newConversationUUID +="_AT_"+receiver[1];
+    if(splitReceiver.length>1){
+        newConversationUUID +="_AT_"+splitReceiver[1];
     }
 
     newConversationUUID+="_"+new Buffer(newConversationUUID).toString('base64');
