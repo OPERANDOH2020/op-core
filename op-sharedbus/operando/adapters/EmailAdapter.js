@@ -22,7 +22,7 @@ var conversationModel = {
     id:{
         type:"string",
         pk:true,
-        length:254
+        length:512
     },
     sender:{
         type:'string',
@@ -49,7 +49,7 @@ persistence.registerModel("conversation",conversationModel,function(err,result){
 
 registerConversation = function(sender,receiver,callback){
     var newConversationUUID = uuid.v1();
-    newConversationUUID = new Buffer(newConversationUUID).toString('base64');//.slice(0,20);
+    newConversationUUID = "anonymized_reply_to_"+sender.split("@")[0]+"_AT_"+sender.split("@")[1]+"_"+new Buffer(newConversationUUID).toString('base64');
     var conversation = apersistence.createRawObject('conversation',newConversationUUID);
     conversation['sender'] = sender;
     conversation['receiver'] = receiver;
