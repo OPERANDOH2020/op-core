@@ -48,17 +48,15 @@ persistence.registerModel("conversation",conversationModel,function(err,result){
 
 
 registerConversation = function(sender,receiver,callback){
-    receiver = receiver.toLowerCase();
-    sender = sender.toLowerCase();
 
     var splitReceiver = receiver.split("@");
     var newConversationUUID = "anonymized_reply_to_"+splitReceiver[0];
-
     if(splitReceiver.length>1){
         newConversationUUID +="_at_"+splitReceiver[1];
     }
+    newConversationUUID+="_"+uuid.v1().split("-").join("")
+    newConversationUUID = newConversationUUID.toLowerCase();
 
-    newConversationUUID+="_"+new Buffer(uuid.v1()).toString('utf8').split("-").join("");
     var conversation = apersistence.createRawObject('conversation',newConversationUUID);
     conversation['sender'] = sender;
     conversation['receiver'] = receiver;

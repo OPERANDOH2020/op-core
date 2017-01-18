@@ -93,7 +93,7 @@ createUser = function (userData, callback) {
         }else{
 
             if(!userData.userId){
-                userData.userId = uuid.v1();
+                userData.userId = uuid.v1().split("-").join("");
             }
             redisPersistence.lookup("DefaultUser", userData.userId, function(err,user){
                 if(err){
@@ -324,7 +324,6 @@ newUserIsValid = function (newUser, callback) {
                 }
                 else {
                     createUser({
-                        userId: new Buffer(uuid.v1()).toString('base64'),
                         password: newUser.password,
                         email: newUser.email,
                         organisationId: "Public",
