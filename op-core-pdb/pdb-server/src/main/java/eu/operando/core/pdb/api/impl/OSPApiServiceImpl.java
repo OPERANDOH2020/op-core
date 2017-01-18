@@ -25,13 +25,11 @@
 package eu.operando.core.pdb.api.impl;
 
 import eu.operando.core.pdb.common.model.AccessReason;
-import io.swagger.api.*;
-
+import io.swagger.api.ApiResponseMessage;
 import io.swagger.api.NotFoundException;
-
+import io.swagger.api.OSPApiService;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-
 import eu.operando.core.pdb.common.model.OSPPrivacyPolicyInput;
 import eu.operando.core.pdb.common.model.OSPReasonPolicyInput;
 import eu.operando.core.pdb.mongo.OSPPrivacyPolicyMongo;
@@ -47,7 +45,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.core.MediaType;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-10-28T08:28:40.436Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-12-19T10:59:55.638Z")
 public class OSPApiServiceImpl extends OSPApiService {
 
     ApiClient apiClient;
@@ -64,9 +62,9 @@ public class OSPApiServiceImpl extends OSPApiService {
             ArrayList<String> keywords) {
 
         ArrayList<String> words = new ArrayList<String>(Arrays.asList("PDB", "OSP"));
-        for(String word : keywords) {
+        for (String word : keywords) {
             words.add(word);
-        } 
+        }
 
         LogRequest logRequest = new LogRequest();
         logRequest.setUserId("PDB-OSP");
@@ -89,8 +87,7 @@ public class OSPApiServiceImpl extends OSPApiService {
     }
 
     @Override
-    public Response oSPGet(String filter, SecurityContext securityContext)
-            throws NotFoundException {
+    public Response oSPGet(String filter, SecurityContext securityContext) throws NotFoundException {
 
         Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP GET (filter) {0}", filter);
 
@@ -106,7 +103,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
             logRequest("PDB OSP", "GET OSP",
                     "OSP GET failed",
-                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
+                    LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                     new ArrayList<String>(Arrays.asList("PDB", "OSP", "failed")));
 
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -122,9 +119,39 @@ public class OSPApiServiceImpl extends OSPApiService {
     }
 
     @Override
-    public Response oSPOspIdDelete(String ospId, SecurityContext securityContext)
-            throws NotFoundException {
+    public Response oSPOspIdPrivacyPolicyAccessReasonsGet(String ospId, SecurityContext securityContext) throws NotFoundException {
 
+        Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP GET Access Reasons(id) {0}", ospId);
+
+        logRequest("OSP GET access reasons", "GET",
+                "OSP GET access reasons received",
+                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
+                new ArrayList<String>(Arrays.asList("one", "two")));
+
+        OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
+        String ospString = regdb.getOSPAccessReasonsById(ospId);
+
+        if (ospString == null) {
+
+            logRequest("OSP GET access reasons", "GET",
+                    "OSP GET access reasons failed",
+                    LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
+                    new ArrayList<String>(Arrays.asList("one", "two")));
+
+            return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                    "Error - the OSP access policies does not exist")).build();
+        }
+
+        logRequest("OSP GET access reasons", "GET",
+                "OSP GET access reasons complete",
+                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
+                new ArrayList<String>(Arrays.asList("one", "two")));
+
+        return Response.ok(ospString, MediaType.APPLICATION_JSON).build();
+    }
+
+    @Override
+    public Response oSPOspIdDelete(String ospId, SecurityContext securityContext) throws NotFoundException {
         Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP DELETE {0}", ospId);
 
         logRequest("OSP DELETE", "DELETE",
@@ -141,7 +168,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
             logRequest("OSP DELETE", "DELETE",
                     "OSP DELETE failed",
-                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
+                    LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -158,8 +185,7 @@ public class OSPApiServiceImpl extends OSPApiService {
     }
 
     @Override
-    public Response oSPOspIdGet(String ospId, SecurityContext securityContext)
-            throws NotFoundException {
+    public Response oSPOspIdGet(String ospId, SecurityContext securityContext) throws NotFoundException {
 
         Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP GET (id) {0}", ospId);
 
@@ -175,7 +201,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
             logRequest("OSP GET", "GET",
                     "OSP GET failed",
-                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
+                    LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -207,7 +233,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
             logRequest("OSP GET", "GET",
                     "OSP GET failed",
-                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
+                    LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -223,42 +249,110 @@ public class OSPApiServiceImpl extends OSPApiService {
     }
 
     @Override
-    public Response oSPOspIdPrivacyPolicyPut(String ospId, OSPReasonPolicyInput ospPolicy,
-            SecurityContext securityContext) throws NotFoundException {
+    public Response oSPOspIdPrivacyPolicyAccessReasonsPost(String ospId, AccessReason ospPolicy, SecurityContext securityContext) throws NotFoundException {
 
-        Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP PUT {0}", ospId);
+        Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP POST Access Reasons(id) {0}", ospId);
 
-        logRequest("OSP PUT", "PUT",
-                "OSP PUT received",
+        logRequest("OSP POST access reasons", "POST",
+                "OSP POST access reasons received",
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
-        boolean updateAction = regdb.updatePolicyOSP(ospId, ospPolicy);
+        String ospString = regdb.privacyPolicyAccessReasonsPost(ospId, ospPolicy);
 
-        if (!updateAction) {
+        if (ospString == null) {
 
-            logRequest("OSP PUT", "PUT",
-                    "OSP PUT received",
-                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
+            logRequest("OSP POST access reasons", "POST",
+                    "OSP POST access reasons failed",
+                    LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
-                    "Error. No document exists to be updated.")).build();
+                    "Error - the OSP access policies does not exist")).build();
         }
 
-        logRequest("OSP PUT", "PUT",
-                "OSP PUT received",
+        logRequest("OSP POST access reasons", "POST",
+                "OSP POST access reasons complete",
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        return Response.status(Response.Status.NO_CONTENT).entity(new ApiResponseMessage(ApiResponseMessage.OK,
-                "The document (OSPBehaviour) was successfully updated in the database.")).build();
+        return Response.ok(ospString, MediaType.APPLICATION_JSON).build();
     }
 
     @Override
-    public Response oSPOspIdPut(String ospId, OSPPrivacyPolicyInput ospPolicy, SecurityContext securityContext)
-            throws NotFoundException {
+    public Response oSPOspIdPrivacyPolicyAccessReasonsReasonIdDelete(String ospId, String reasonId, SecurityContext securityContext) throws NotFoundException {
+
+        Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP DELETE Access Reason(id) {0}", ospId);
+
+        logRequest("OSP DELETE access reason", "DELETE",
+                "OSP DELETE access reason received",
+                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
+                new ArrayList<String>(Arrays.asList("one", "two")));
+
+        OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
+        boolean response = regdb.accessReasonIdDelete(ospId, reasonId);
+
+        if (!response) {
+
+            logRequest("OSP DELETE access reason", "DELETE",
+                    "OSP DELETE access reason failed",
+                    LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
+                    new ArrayList<String>(Arrays.asList("one", "two")));
+
+            return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                    "Error - the OSP access policies does not exist")).build();
+        }
+
+        logRequest("OSP DELETE access reason", "DELETE",
+                "OSP DELETE access reason complete",
+                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
+                new ArrayList<String>(Arrays.asList("one", "two")));
+
+        return Response.ok("OK", MediaType.APPLICATION_JSON).build();
+    }
+
+    @Override
+    public Response oSPOspIdPrivacyPolicyAccessReasonsReasonIdPut(String ospId, String reasonId, AccessReason ospPolicy, SecurityContext securityContext) throws NotFoundException {
+
+        Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP PUT Access Reason(id) {0}", ospId);
+
+        logRequest("OSP PUT access reason", "PUT",
+                "OSP PUT access reason received",
+                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
+                new ArrayList<String>(Arrays.asList("one", "two")));
+
+        OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
+        boolean response = regdb.accessReasonIdUpdate(ospId, reasonId, ospPolicy);
+
+        if (!response) {
+
+            logRequest("OSP PUT access reason", "PUT",
+                    "OSP PUT access reason failed",
+                    LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
+                    new ArrayList<String>(Arrays.asList("one", "two")));
+
+            return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                    "Error - the OSP access policies does not exist")).build();
+        }
+
+        logRequest("OSP PUT access reason", "PUT",
+                "OSP PUT access reason complete",
+                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
+                new ArrayList<String>(Arrays.asList("one", "two")));
+
+        return Response.ok("OK", MediaType.APPLICATION_JSON).build();
+    }
+
+    @Override
+    public Response oSPOspIdPrivacyPolicyPut(String ospId, OSPReasonPolicyInput ospPolicy, SecurityContext securityContext) throws NotFoundException {
+
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "not implemented yet!")).build();
+    }
+
+    @Override
+    public Response oSPOspIdPut(String ospId, OSPPrivacyPolicyInput ospPolicy, SecurityContext securityContext) throws NotFoundException {
 
         Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP PUT {0}", ospId);
 
@@ -274,7 +368,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
             logRequest("OSP PUT", "PUT",
                     "OSP PUT failed",
-                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
+                    LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -308,7 +402,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
             logRequest("OSP POST", "POST",
                     "OSP POST failed",
-                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
+                    LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(405).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -322,30 +416,6 @@ public class OSPApiServiceImpl extends OSPApiService {
 
         return Response.status(Response.Status.CREATED).entity(new ApiResponseMessage(ApiResponseMessage.OK,
                 storeAction)).build();
-    }
-
-    /*********************
-     * NEW METHODS
-     */
-     @Override
-    public Response oSPOspIdPrivacyPolicyAccessReasonsGet(String ospId, SecurityContext securityContext) throws NotFoundException {
-        // do some magic!
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
-    }
-    @Override
-    public Response oSPOspIdPrivacyPolicyAccessReasonsPost(String ospId, AccessReason ospPolicy, SecurityContext securityContext) throws NotFoundException {
-        // do some magic!
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
-    }
-    @Override
-    public Response oSPOspIdPrivacyPolicyAccessReasonsReasonIdDelete(String ospId, String reasonId, SecurityContext securityContext) throws NotFoundException {
-        // do some magic!
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
-    }
-    @Override
-    public Response oSPOspIdPrivacyPolicyAccessReasonsReasonIdPut(String ospId, String reasonId, AccessReason ospPolicy, SecurityContext securityContext) throws NotFoundException {
-        // do some magic!
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
 
 }

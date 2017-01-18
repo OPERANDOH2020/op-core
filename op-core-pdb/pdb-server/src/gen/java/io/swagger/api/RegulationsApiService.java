@@ -25,15 +25,22 @@
 
 package io.swagger.api;
 
+import eu.operando.core.pdb.common.model.*;
+
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+
+import eu.operando.core.pdb.common.model.PrivacyRegulation;
 import eu.operando.core.pdb.common.model.PrivacyRegulationInput;
 
+import java.util.List;
 import io.swagger.api.NotFoundException;
 
+import java.io.InputStream;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-10-28T08:28:40.436Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-12-19T10:59:55.638Z")
 public abstract class RegulationsApiService {
     public abstract Response regulationsGet(String filter,SecurityContext securityContext) throws NotFoundException;
     public abstract Response regulationsPost(PrivacyRegulationInput regulation,SecurityContext securityContext) throws NotFoundException;

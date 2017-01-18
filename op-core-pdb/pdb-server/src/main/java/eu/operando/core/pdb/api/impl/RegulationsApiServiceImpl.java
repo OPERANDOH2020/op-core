@@ -24,9 +24,12 @@
 /////////////////////////////////////////////////////////////////////////
 package eu.operando.core.pdb.api.impl;
 
-import io.swagger.api.*;
+import eu.operando.core.pdb.common.model.PrivacyRegulationInput;
 
+import io.swagger.api.ApiResponseMessage;
 import io.swagger.api.NotFoundException;
+
+import io.swagger.api.RegulationsApiService;
 
 import eu.operando.core.pdb.common.model.PrivacyRegulationInput;
 import eu.operando.core.pdb.mongo.RegulationsMongo;
@@ -45,6 +48,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-12-19T10:59:55.638Z")
 public class RegulationsApiServiceImpl extends RegulationsApiService {
 
     ApiClient apiClient;
