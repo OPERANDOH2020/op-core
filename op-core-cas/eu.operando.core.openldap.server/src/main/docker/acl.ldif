@@ -1,0 +1,5 @@
+dn: olcDatabase={1}hdb,cn=config
+changetype: modify
+replace: olcAccess
+olcAccess: {0}to attrs=userPassword,shadowLastChange by self write by dn="cn=admin,dc=nodomain" write by * read
+olcAccess: {1}to * by self write by dn="cn=admin,dc=nodomain" write by * read

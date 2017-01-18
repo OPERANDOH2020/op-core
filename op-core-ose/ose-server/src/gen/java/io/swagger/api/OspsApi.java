@@ -26,13 +26,11 @@
 package io.swagger.api;
 
 import eu.operando.core.ose.api.factories.OspsApiServiceFactory;
+import eu.operando.core.pdb.common.model.OSPDataRequest;
+import eu.operando.core.pdb.common.model.OSPPrivacyPolicy;
+import eu.operando.core.pdb.common.model.PrivacySetting;
 
 import io.swagger.annotations.ApiParam;
-
-
-import io.swagger.model.PrivacySetting;
-import io.swagger.model.OSPPrivacyPolicy;
-import io.swagger.model.OSPDataRequest;
 
 import java.util.List;
 
@@ -51,10 +49,10 @@ public class OspsApi  {
 
     @GET
     @Path("/{osp-id}/privacy_settings/")
-    
-    
+
+
     @io.swagger.annotations.ApiOperation(value = "", notes = "Simple retrieval of an OPERANDO registered OSP's privacy settings.\nThis method is called by the watchdog component when it requests the settings last applied by the OSE component.\n\nPre condition -- An OPERANDO user must have registered with the OPERANDO platform and subscribed to the OSP service in question.\n\nPre condition --The user's UPP must be stored in the Policy DB component and contain the privacy settings for the OSP service in question.\n\nWhen the query includes a user id; that user's settings are returned. For a request with no user id as a query parameter, the operation returns the general set of settings covered by this OSP.\n", response = PrivacySetting.class, responseContainer = "List", tags={ "Privacy Settings",  })
-    @io.swagger.annotations.ApiResponses(value = { 
+    @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Successful response. The privacy settings information for this user at the given OSP is returned.", response = PrivacySetting.class, responseContainer = "List"),
         @io.swagger.annotations.ApiResponse(code = 404, message = "Error response. The settings resource does not exist. Or the OSP does not exist. Or the user is not subscribed to the OSP in OPERANDO.", response = PrivacySetting.class, responseContainer = "List") })
     public Response ospsOspIdPrivacySettingsGet(
@@ -66,10 +64,10 @@ public class OspsApi  {
     }
     @PUT
     @Path("/{osp-id}/privacy_settings/")
-    
-    
+
+
     @io.swagger.annotations.ApiOperation(value = "", notes = "Called when a change in privacy settings is detected at a specific OSP. The OSE evaluates the impact of the changed settings and computes the required new settings and ensures that they are enforced at the OSP and the new settings stored in the policy DB.\n", response = void.class, tags={ "Privacy Settings",  })
-    @io.swagger.annotations.ApiResponses(value = { 
+    @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Successful response. The privacy settings have been agreed and applied via the OSE and the browser extension software. Note, the response here only needs to indicate that the method worked not whether the settings have been applied in practice.", response = void.class),
         @io.swagger.annotations.ApiResponse(code = 404, message = "Error response. The user does not exist. Or the OSP does not exist. Or the user is not subscribed to the OSP in OPERANDO.", response = void.class) })
     public Response ospsOspIdPrivacySettingsPut(
@@ -82,10 +80,10 @@ public class OspsApi  {
     }
     @PUT
     @Path("/{osp-id}/privacytext/")
-    
-    
+
+
     @io.swagger.annotations.ApiOperation(value = "", notes = "Notify the OSE of a change in policy text\n", response = void.class, tags={ "Privacy Policy",  })
-    @io.swagger.annotations.ApiResponses(value = { 
+    @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 204, message = "Successful response, The privacy text update analysis has begun.", response = void.class),
         @io.swagger.annotations.ApiResponse(code = 409, message = "Error occured. The resource already exists, so a new resource cannot be created.", response = void.class) })
     public Response ospsOspIdPrivacytextPut(
@@ -97,10 +95,10 @@ public class OspsApi  {
     }
     @PUT
     @Path("/{osp-id}/")
-    
-    
+
+
     @io.swagger.annotations.ApiOperation(value = "", notes = "Called when a change in an OSP's privacy policy detected by OPERANDO (or a new OSP is registered). OSE computes whether the OSP policy complies with regulations; complies with UPP. It updates UPPs where appropriate and notifies users and OSP if there are issues with the updated privacy policy.\n  \nPre-condition -- The OSP must be registered with OPERANDO and it must have an existing policy stored in the policy DB.\n  \n", response = void.class, tags={ "Privacy Policy",  })
-    @io.swagger.annotations.ApiResponses(value = { 
+    @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Successful response. The privacy policy has been received and being processed. Information will be sent via other operation sequences.", response = void.class),
         @io.swagger.annotations.ApiResponse(code = 404, message = "Error response. The OSP does not exist. It has not been registered with OPERANDO.", response = void.class) })
     public Response ospsOspIdPut(
@@ -112,10 +110,10 @@ public class OspsApi  {
     }
     @PUT
     @Path("/{osp-id}/workflows/")
-    
-    
+
+
     @io.swagger.annotations.ApiOperation(value = "", notes = "Notify the OSE of a change in an OSP's workflow\n", response = void.class, tags={ "Privacy Policy" })
-    @io.swagger.annotations.ApiResponses(value = { 
+    @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 204, message = "Successful response, The workflow update analysis has begun.", response = void.class),
         @io.swagger.annotations.ApiResponse(code = 409, message = "Error occured. The resource already exists, so a new resource cannot be created.", response = void.class) })
     public Response ospsOspIdWorkflowsPut(

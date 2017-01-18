@@ -28,6 +28,7 @@ package eu.operando.core.ose.mongo;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoException;
@@ -60,7 +61,9 @@ public class OspsMongo {
 
     private MongoClient mongo;
     private DB db;
+    private DB db2;
     private DBCollection ospPSTable;
+    private DBCollection uppTable;
     private String uppBasePath = "http://localhost:8080/policy_database";
 
     public OspsMongo() {
@@ -68,11 +71,61 @@ public class OspsMongo {
             this.mongo = new MongoClient("localhost", 27017);
             // get database
             this.db = mongo.getDB("ose");
+            // get database
+            this.db2 = mongo.getDB("pdb");
+
+            // get collection
+            this.uppTable = db2.getCollection("upp");
             // get collection
             this.ospPSTable = db.getCollection("osp_ps");
         } catch (MongoException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Get the set of users who have subscribed to an OSP
+     * @param ospId The OPERANDO ID of the OSP
+     * @return The list of operando user ids.
+     */
+    public List<String> getUserIdsSubscribedToOSP(String ospId) {
+        List<String> listUsers = new ArrayList<String>();
+        BasicDBObject whereQuery = new BasicDBObject();
+        whereQuery.put("subscribedOspPolicies.ospId", ospId);
+        System.out.println(ospId);
+        DBCursor cursor = this.uppTable.find(whereQuery);
+        System.out.println("DB = " + cursor);
+        while(cursor.hasNext()) {
+            DBObject result = cursor.next();
+            if (result != null) {
+                System.out.println(result);
+                eu.operando.core.pdb.common.model.UserPrivacyPolicy uppObj = getUPP(result);
+                listUsers.add(uppObj.getUserId());
+
+            }
+        }
+
+        return listUsers;
+    }
+
+    private eu.operando.core.pdb.common.model.UserPrivacyPolicy getUPP(DBObject regObj) {
+        //System.out.println("regObj: " + regObj.toString());
+        eu.operando.core.pdb.common.model.UserPrivacyPolicy prObj = null;
+        try {
+
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            prObj = mapper.readValue(regObj.toString(), eu.operando.core.pdb.common.model.UserPrivacyPolicy.class);
+            //System.out.println("prObj: " + prObj.toString());
+
+        } catch (JsonGenerationException e) {
+            e.printStackTrace();
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return prObj;
     }
 
     public boolean storeOsps(String ospId, OSPPrivacyPolicy ospPolicy) {
