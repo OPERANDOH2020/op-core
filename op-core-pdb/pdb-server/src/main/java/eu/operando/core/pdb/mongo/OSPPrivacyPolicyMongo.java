@@ -66,8 +66,8 @@ public class OSPPrivacyPolicyMongo {
 
     public OSPPrivacyPolicyMongo() {
         try {
-            this.mongo = new MongoClient("mongo.integration.operando.dmz.lab.esilab.org", 27017);
-            //this.mongo = new MongoClient("localhost", 27017);
+            //this.mongo = new MongoClient("mongo.integration.operando.dmz.lab.esilab.org", 27017);
+            this.mongo = new MongoClient("localhost", 27017);
 
             // get database
             this.db = mongo.getDB("pdb");
@@ -441,13 +441,13 @@ public class OSPPrivacyPolicyMongo {
         // find
         BasicDBObject searchQuery = new BasicDBObject();
         try {
-            searchQuery.put("reasonid", ospId);
+            searchQuery.put("ospPolicyId", ospId);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
             return jsonInString;
         }
 
-        DBObject result = this.ospRPTable.findOne(searchQuery);
+        DBObject result = this.ospPPTable.findOne(searchQuery);
 
         if (result != null) {
 
@@ -469,42 +469,11 @@ public class OSPPrivacyPolicyMongo {
         return jsonInString;
     }
 
-    public String privacyPolicyAccessReasonsPost(String ospId, AccessReason accessReason) {
-        String result = null;
-        OSPReasonPolicy ospRP = new OSPReasonPolicy();
-        ospRP.setOspPolicyId(ospId);
-        ospRP.setPolicies(new ArrayList<AccessReason>());
-        ospRP.addPoliciesItem(accessReason);
-
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            String jsonInString = mapper.writeValueAsString(ospRP);
-            Object obj = JSON.parse(jsonInString);
-            DBObject document = (DBObject) obj;
-
-            ospRPTable.insert(document);
-            ObjectId id = (ObjectId) document.get("_id");
-            result = getOSPReasonPolicyById(id.toString());
-        } catch (MongoException e) {
-            result = null;
-            e.printStackTrace();
-        } catch (JsonGenerationException e) {
-            e.printStackTrace();
-        } catch (JsonMappingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    public boolean accessReasonIdDelete(String ospId, String reasonId) {
-
-        boolean ret = false;
-
+    public boolean privacyPolicyAccessReasonsPost(String ospId, AccessReason accessReason) {
+        Boolean ret = null;
         OSPReasonPolicy ospObj = null;
         String jsonInString = null;
-        System.out.println("getOSPReasonPolicyById(" + ospId + ");");
+        System.out.println("accessReasonIdDelete(" + ospId + ");");
 
         // find
         BasicDBObject searchQuery = new BasicDBObject();
@@ -515,7 +484,52 @@ public class OSPPrivacyPolicyMongo {
             return ret;
         }
 
-        DBObject result = this.ospTable.findOne(searchQuery);
+        DBObject result = this.ospPPTable.findOne(searchQuery);
+
+        if (result != null) {
+            ospObj = getOSPReasonPolicy(result);
+            ospObj.getPolicies().add(accessReason);
+        }
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            jsonInString = mapper.writeValueAsString(ospObj);
+            Object obj = JSON.parse(jsonInString);
+            DBObject document = (DBObject) obj;
+
+            WriteResult wr = this.ospPPTable.update(searchQuery, document);
+
+            ret = wr.isUpdateOfExisting();
+
+        } catch (JsonGenerationException e) {
+            e.printStackTrace();
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ret;
+
+    }
+
+    public boolean accessReasonIdDelete(String ospId, String reasonId) {
+
+        boolean ret = false;
+
+        OSPReasonPolicy ospObj = null;
+        String jsonInString = null;
+        System.out.println("accessReasonIdDelete(" + ospId + ", " + reasonId + ");");
+
+        // find
+        BasicDBObject searchQuery = new BasicDBObject();
+        try {
+            searchQuery.put("ospPolicyId", ospId);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return ret;
+        }
+
+        DBObject result = this.ospPPTable.findOne(searchQuery);
 
         if (result != null) {
 
@@ -526,6 +540,7 @@ public class OSPPrivacyPolicyMongo {
                     arList.add(ar);
                 }
             }
+
             ospObj.setPolicies(arList);
         }
 
@@ -535,7 +550,7 @@ public class OSPPrivacyPolicyMongo {
             Object obj = JSON.parse(jsonInString);
             DBObject document = (DBObject) obj;
 
-            WriteResult wr = this.ospRPTable.update(searchQuery, document);
+            WriteResult wr = this.ospPPTable.update(searchQuery, document);
 
             ret = wr.isUpdateOfExisting();
 
@@ -556,7 +571,7 @@ public class OSPPrivacyPolicyMongo {
 
         OSPReasonPolicy ospObj = null;
         String jsonInString = null;
-        System.out.println("getOSPReasonPolicyById(" + ospId + ");");
+        System.out.println("accessReasonIDUpdate(" + ospId + ", " + reasonId + ");");
 
         // find
         BasicDBObject searchQuery = new BasicDBObject();
@@ -567,7 +582,7 @@ public class OSPPrivacyPolicyMongo {
             return ret;
         }
 
-        DBObject result = this.ospTable.findOne(searchQuery);
+        DBObject result = this.ospPPTable.findOne(searchQuery);
 
         if (result != null) {
 
@@ -589,7 +604,7 @@ public class OSPPrivacyPolicyMongo {
             Object obj = JSON.parse(jsonInString);
             DBObject document = (DBObject) obj;
 
-            WriteResult wr = this.ospRPTable.update(searchQuery, document);
+            WriteResult wr = this.ospPPTable.update(searchQuery, document);
 
             ret = wr.isUpdateOfExisting();
 

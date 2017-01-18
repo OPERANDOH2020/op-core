@@ -77,13 +77,13 @@ public class OSPApiServiceImpl extends OSPApiService {
 
         logRequest.setKeywords(words);
 
-        try {
-            String response = this.logApi.lodDB(logRequest);
-            Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.INFO, response);
-
-        } catch (ApiException ex) {
-            Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.SEVERE, "failed to log", ex);
-        }
+//        try {
+//            String response = this.logApi.lodDB(logRequest);
+//            Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.INFO, response);
+//
+//        } catch (ApiException ex) {
+//            Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.SEVERE, "failed to log", ex);
+//        }
     }
 
     @Override
@@ -259,9 +259,9 @@ public class OSPApiServiceImpl extends OSPApiService {
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
-        String ospString = regdb.privacyPolicyAccessReasonsPost(ospId, ospPolicy);
+        boolean ospString = regdb.privacyPolicyAccessReasonsPost(ospId, ospPolicy);
 
-        if (ospString == null) {
+        if (!ospString) {
 
             logRequest("OSP POST access reasons", "POST",
                     "OSP POST access reasons failed",
@@ -347,8 +347,33 @@ public class OSPApiServiceImpl extends OSPApiService {
     @Override
     public Response oSPOspIdPrivacyPolicyPut(String ospId, OSPReasonPolicyInput ospPolicy, SecurityContext securityContext) throws NotFoundException {
 
-        // do some magic!
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "not implemented yet!")).build();
+        Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP PUT {0}", ospId);
+
+        logRequest("OSP PUT", "PUT",
+                "OSP PUT received",
+                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
+                new ArrayList<String>(Arrays.asList("one", "two")));
+
+        OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
+        boolean ret = regdb.updatePolicyOSP(ospId, ospPolicy);
+
+        if (ret) {
+
+            logRequest("OSP PUT", "PUT",
+                    "OSP PUT failed",
+                    LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
+                    new ArrayList<String>(Arrays.asList("one", "two")));
+
+            return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                    "Error - the reason policy does not exist")).build();
+        }
+
+        logRequest("OSP PUT", "PUT",
+                "OSP PUT complete",
+                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
+                new ArrayList<String>(Arrays.asList("one", "two")));
+
+        return Response.ok("OK", MediaType.APPLICATION_JSON).build();
     }
 
     @Override
