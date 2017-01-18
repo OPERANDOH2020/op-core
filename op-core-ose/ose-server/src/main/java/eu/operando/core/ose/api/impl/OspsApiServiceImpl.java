@@ -24,9 +24,9 @@
 /////////////////////////////////////////////////////////////////////////
 package eu.operando.core.ose.api.impl;
 
-import io.swagger.model.PrivacySetting;
-import io.swagger.model.OSPPrivacyPolicy;
-import io.swagger.model.OSPDataRequest;
+import eu.operando.core.pdb.common.model.PrivacySetting;
+import eu.operando.core.pdb.common.model.OSPDataRequest;
+import eu.operando.core.pdb.common.model.OSPPrivacyPolicy;
 
 import java.util.List;
 import io.swagger.api.NotFoundException;
@@ -67,8 +67,8 @@ public class OspsApiServiceImpl extends OspsApiService {
         ArrayList<String> words = new ArrayList<String>(Arrays.asList("OSE", "OSP"));
         for(String word : keywords) {
             words.add(word);
-        } 
-        
+        }
+
         LogRequest logRequest = new LogRequest();
         logRequest.setUserId("OSE-OSP");
         logRequest.setDescription(description);

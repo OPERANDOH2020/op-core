@@ -29,3 +29,6 @@ bin/
 >>>>>>> origin/master
 /op-core-udb/target/
 /op-core-ose/ose-server/target/
+op-core-pdb/json/curl-lines.txt
+op-core-pc/pc-server/nb-configuration.xml
+op-core-pdb/json/curl-lines.txt
