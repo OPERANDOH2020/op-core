@@ -43,7 +43,6 @@ apersistence.registerModel("Identity", "Redis", {
             default: false,
             index:true
         }
-
     },
     function (err, model) {
         if (err) {
@@ -63,6 +62,11 @@ container.declareDependency("IdentityManager", ["redisPersistence"], function (o
 
 
 createIdentity = function (identityData, callback){
+    identityData.email = identityData.email.toLowerCase();
+    if(identityData.userId) {
+        identityData.userId = identityData.userId.toLowerCase();
+    }
+
     flow.create("create identity", {
         begin: function () {
             redisPersistence.lookup.async("Identity", identityData.email, this.continue("createIdentity"));
@@ -88,7 +92,7 @@ createIdentity = function (identityData, callback){
 generateIdentity = function(callback){
     flow.create("generateIdentity",{
         begin:function(){
-            var identity = generateString();
+            var identity = generateString().toLowerCase();
             console.log(identity);
             redisPersistence.lookup.async("Identity", identity, this.continue("generateIdentity"));
         },

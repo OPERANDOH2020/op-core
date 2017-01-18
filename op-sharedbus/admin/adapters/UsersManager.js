@@ -4,8 +4,6 @@ core.createAdapter("UsersManager");
 
 var apersistence = require('apersistence');
 const crypto = require('crypto');
-
-
 var container = require("safebox").container;
 var flow = require("callflow");
 var uuid = require('uuid');
@@ -19,7 +17,6 @@ var saveCallbackFn = function (err, obj) {
 
 /*
  Model de date pentru organizatie
-
  */
 
 apersistence.registerModel("Organisation", "Redis", {
@@ -41,7 +38,6 @@ apersistence.registerModel("Organisation", "Redis", {
     if (err) {
         console.log(err);
     }
-
 });
 
 /*
@@ -89,28 +85,35 @@ apersistence.registerModel("DefaultUser", "Redis", {
  */
 
 createUser = function (userData, callback) {
-    redisPersistence.filter("DefaultUser",{"email":userData.email},function(err,result){
-        if(err){
+    userData.email = userData.email.toLowerCase();
+    redisPersistence.filter("DefaultUser", {"email": userData.email}, function (err, result) {
+        if (err) {
             callback(new Error("Could not filter users by email"))
-        }else if(result.length>0){
-            callback(new Error("User with email "+userData.email+" already exists"));
-        }else{
-            redisPersistence.lookup("DefaultUser", userData.userId, function(err,user){
-                if(err){
+        } else if (result.length > 0) {
+            callback(new Error("User with email " + userData.email + " already exists"));
+        } else {
+            if (!userData.userId) {
+                userData.userId = uuid.v1().split("-").join("");
+            }else{
+                userData.userId = userData.userId.toLowerCase();
+            }
+
+            redisPersistence.lookup("DefaultUser", userData.userId, function (err, user) {
+                if (err) {
                     callback(new Error("Could not retrieve user by id"))
-                }else if(!redisPersistence.isFresh(user)){
-                    callback(new Error("User with id "+userData.userId+" already exists"));
-                }else{
+                } else if (!redisPersistence.isFresh(user)) {
+                    callback(new Error("User with id " + userData.userId + " already exists"));
+                } else {
                     userData.salt = crypto.randomBytes(48).toString('base64');
-                    hashThisPassword(userData.password,userData.salt,function(err,hashedPassword){
+                    hashThisPassword(userData.password, userData.salt, function (err, hashedPassword) {
                         userData.password = hashedPassword;
-                        redisPersistence.externalUpdate(user,userData);
-                        redisPersistence.save(user,function(err,user){
-                            if(err){
+                        redisPersistence.externalUpdate(user, userData);
+                        redisPersistence.save(user, function (err, user) {
+                            if (err) {
                                 callback(new Error("Could not create user"))
-                            }else{
+                            } else {
                                 delete user['password'];
-                                callback(undefined,user);
+                                callback(undefined, user);
                             }
                         })
                     });
@@ -125,7 +128,18 @@ createUser = function (userData, callback) {
  */
 
 filterUsers = function(conditions,callback){
-    redisPersistence.filter("DefaultUser",conditions,callback);
+    redisPersistence.filter("DefaultUser",conditions,function(err,result){
+        if(result.length>0){
+            result = result.map(function(user){
+                delete user.password;
+                delete user.salt;
+                delete user.__meta.savedValues.password;
+                delete user.__meta.savedValues.salt;
+                return user;
+            })
+        }
+        callback(err,result)
+    });
 };
 
 /*
@@ -378,7 +392,7 @@ validateUser = function (email, pass, callback) {
             if(err){
                 callback(err);
             }else if(users.length === 0 || !pass){
-                callback( new Error("Invalid credentials"));
+                callback( new Error("invalidCredentials"));
             }
             else{
                 var user = users[0];
@@ -386,9 +400,9 @@ validateUser = function (email, pass, callback) {
                     if (err) 
                         callback(err);
                     else if (hashedPassword !== user.password) 
-                        callback(new Error("Invalid credentials"));
+                        callback(new Error("invalidCredentials"));
                     else if(user.activationCode!=="0") 
-                        callback(new Error("account_not_activated"));
+                        callback(new Error("accountNotActivated"));
                     else
                         callback(null,user.userId);
                 });

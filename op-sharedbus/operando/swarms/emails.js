@@ -175,19 +175,7 @@ var emailsSwarming = {
                 }
             }))
         }
-    },
-
-    test:function(){
-        this.swarm('performTest');
-    },
-    performTest: {
-        node: "EmailAdapter",
-        code: function () {
-            console.log("In email adapter");
-            this.home("gotHome");
-        }
-    },
-
+    }
 };
 
 emailsSwarming;
