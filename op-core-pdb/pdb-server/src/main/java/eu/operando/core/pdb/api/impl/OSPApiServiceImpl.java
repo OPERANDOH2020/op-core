@@ -77,13 +77,13 @@ public class OSPApiServiceImpl extends OSPApiService {
 
         logRequest.setKeywords(words);
 
-//        try {
-//            String response = this.logApi.lodDB(logRequest);
-//            Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.INFO, response);
-//
-//        } catch (ApiException ex) {
-//            Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.SEVERE, "failed to log", ex);
-//        }
+        try {
+            String response = this.logApi.lodDB(logRequest);
+            Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.INFO, response);
+
+        } catch (ApiException ex) {
+            Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.SEVERE, "failed to log", ex);
+        }
     }
 
     @Override
