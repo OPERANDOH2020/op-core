@@ -85,40 +85,38 @@ apersistence.registerModel("DefaultUser", "Redis", {
  */
 
 createUser = function (userData, callback) {
-    userData.email = userData.email.toLowerCase();
-    redisPersistence.filter("DefaultUser", {"email": userData.email}, function (err, result) {
-        if (err) {
+    redisPersistence.filter("DefaultUser",{"email":userData.email},function(err,result){
+        if(err){
             callback(new Error("Could not filter users by email"))
-        } else if (result.length > 0) {
-            callback(new Error("User with email " + userData.email + " already exists"));
-        } else {
-            if (!userData.userId) {
-                userData.userId = uuid.v1().split("-").join("");
-            }else{
-                userData.userId = userData.userId.toLowerCase();
-            }
+        }else if(result.length>0){
+            callback(new Error("User with email "+userData.email+" already exists"));
+        }else{
 
-            redisPersistence.lookup("DefaultUser", userData.userId, function (err, user) {
-                if (err) {
+            if(!userData.userId){
+                userData.userId = uuid.v1();
+            }
+            redisPersistence.lookup("DefaultUser", userData.userId, function(err,user){
+                if(err){
                     callback(new Error("Could not retrieve user by id"))
-                } else if (!redisPersistence.isFresh(user)) {
-                    callback(new Error("User with id " + userData.userId + " already exists"));
-                } else {
+                }else if(!redisPersistence.isFresh(user)){
+                    callback(new Error("User with id "+userData.userId+" already exists"));
+                }else{
                     userData.salt = crypto.randomBytes(48).toString('base64');
-                    hashThisPassword(userData.password, userData.salt, function (err, hashedPassword) {
+                    hashThisPassword(userData.password,userData.salt,function(err,hashedPassword){
                         userData.password = hashedPassword;
-                        redisPersistence.externalUpdate(user, userData);
-                        redisPersistence.save(user, function (err, user) {
-                            if (err) {
+                        redisPersistence.externalUpdate(user,userData);
+                        redisPersistence.save(user,function(err,user){
+                            if(err){
                                 callback(new Error("Could not create user"))
-                            } else {
+                            }else{
                                 delete user['password'];
-                                callback(undefined, user);
+                                callback(undefined,user);
                             }
                         })
                     });
                 }
             });
+
         }
     });
 };
