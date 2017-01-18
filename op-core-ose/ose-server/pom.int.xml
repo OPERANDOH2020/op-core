@@ -96,7 +96,7 @@
 				<configuration>
 					<images>
 						<image>
-							<alias>eu.operando.core.pdb.server</alias>
+							<alias>eu.operando.core.ose.server</alias>
 							<name>${docker.repository.name}:${project.version}</name>
 							<build>
 								<from>tomcat:7</from> <!-- in our case we start from tomcat image -->
