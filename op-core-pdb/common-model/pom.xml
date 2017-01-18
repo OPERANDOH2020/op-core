@@ -3,7 +3,7 @@
     <groupId>eu.operando</groupId>
     <artifactId>eu.operando.core.pdb.common-model</artifactId>
     <packaging>jar</packaging>
-    <name>common-model</name>
+    <name>eu.operando.core.pdb.common-model</name>
     <version>1.0.0</version>
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>

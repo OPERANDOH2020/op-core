@@ -1,9 +1,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>io.swagger</groupId>
-    <artifactId>ose-server</artifactId>
+    <groupId>eu.operando</groupId>
+    <artifactId>eu.operando.core.ose-server</artifactId>
     <packaging>war</packaging>
-    <name>ose-server</name>
+    <name>eu.operando.core.ose-server</name>
     <version>1.0.0</version>
     <build>
         <sourceDirectory>src/main/java</sourceDirectory>
@@ -163,12 +163,6 @@
             <artifactId>mongo-java-driver</artifactId>
             <version>3.2.2</version>
         </dependency>
-          
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>pdb-client</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         
         <!-- HTTP client: jersey-client -->
         <dependency>
@@ -177,13 +171,13 @@
             <version>${jersey-version}</version>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>common-model</artifactId>
-            <version>${project.version}</version>
+            <groupId>eu.operando</groupId>
+            <artifactId>eu.operando.core.ldb.client</artifactId>
+            <version>1.0.0</version>
         </dependency>
         <dependency>
             <groupId>eu.operando</groupId>
-            <artifactId>eu.operando.core.ldb.client</artifactId>
+            <artifactId>eu.operando.core.pdb.client</artifactId>
             <version>1.0.0</version>
         </dependency>
     </dependencies>
