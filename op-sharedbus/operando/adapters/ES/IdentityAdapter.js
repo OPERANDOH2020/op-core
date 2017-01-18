@@ -63,9 +63,6 @@ container.declareDependency("IdentityManager", ["redisPersistence"], function (o
 
 createIdentity = function (identityData, callback){
     identityData.email = identityData.email.toLowerCase();
-    if(identityData.userId) {
-        identityData.userId = identityData.userId.toLowerCase();
-    }
 
     flow.create("create identity", {
         begin: function () {
