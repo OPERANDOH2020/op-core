@@ -41,8 +41,6 @@ import io.swagger.client.ApiException;
 import io.swagger.client.model.LogRequest.LogDataTypeEnum;
 import io.swagger.client.model.LogRequest.LogPriorityEnum;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
@@ -160,13 +158,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
             Logger.getLogger(RegulationsApiServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        try {
-            Response.created(new URI("http://integration.operando.esilab.org:8096/operando/core/pdb/regulations/" + regId));
-        } catch (URISyntaxException ex) {
-            return Response.status(500).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
-                    "Error. The document (PrivacyRegulation) at this id has previously been created in the database.")).build();
-        }
-        return Response.status(Response.Status.CREATED).entity(new ApiResponseMessage(ApiResponseMessage.OK,
+        return Response.status(Response.Status.CREATED).header("location", "http://integration.operando.esilab.org:8096/operando/core/pdb/regulations/" + regId).entity(new ApiResponseMessage(ApiResponseMessage.OK,
                 storeAction)).build();
     }
 
