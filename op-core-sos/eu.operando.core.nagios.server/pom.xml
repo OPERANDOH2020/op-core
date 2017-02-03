@@ -4,7 +4,7 @@
 	<groupId>eu.operando</groupId>
 	<artifactId>eu.operando.core.nagios.server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>eu.operando.core.nagios</name>
+	<name>eu.operando.core.nagios.server</name>
 	<build>
 		<plugins>
 			<plugin>
