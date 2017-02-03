@@ -1,13 +1,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
-	<groupId>eu.operando.core</groupId>
-	<artifactId>eu.operando.core.cas.server</artifactId>
+	<groupId>eu.operando</groupId>
+	<artifactId>eu.operando.core.nagios.server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
-	<name>eu.operando.core.cas</name>
-	<description>Cas docker </description>
+	<name>eu.operando.core.nagios.server</name>
 	<build>
 		<plugins>
 			<plugin>
@@ -37,12 +34,11 @@
 							</build>
 							<run>
 								<namingStrategy>alias</namingStrategy>
-								<!-- <hostname>integration.operando.esilab.org</hostname>-->								
+								<!-- <hostname>integration.operando.esilab.org</hostname> -->
 								<env>
 								</env>
 								<ports>
-									<port>8101:8080</port>
-									<port>8105:8443</port>
+									<port>8106:80</port>
 								</ports>
 							</run>
 						</image>
@@ -55,7 +51,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<docker.registry.name>localhost:5000/</docker.registry.name><!-- leave 
-			empty for docker hub; use e.g. "localhost:5000/" for a local docker registry  -->
+			empty for docker hub; use e.g. "localhost:5000/" for a local docker registry -->
 		<docker.repository.name>${docker.registry.name}tecnalia/${project.artifactId}</docker.repository.name>
 	</properties>
 </project>
