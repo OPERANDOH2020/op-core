@@ -113,7 +113,7 @@ createUser = function (userData, callback) {
                             if(err){
                                 callback(new Error("Could not create user"))
                             }else{
-
+                                console.log("\n\n\n\ndfhgsdfgw",user,user.password)
                                 setNewPassword(user,user.password,function(err,result){
                                     console.log("\n\n\n\n\n\nSET NEW PASSWORD",arguments)
                                 });
