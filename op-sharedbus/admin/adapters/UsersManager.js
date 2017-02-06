@@ -109,12 +109,14 @@ createUser = function (userData, callback) {
                     hashThisPassword(userData.password,userData.salt,function(err,hashedPassword){
                         userData.password = hashedPassword;
                         redisPersistence.externalUpdate(user,userData);
-                        redisPersistence.save(user,function(err,user){
+                        redisPersistence.save(user,function(err,newUser){
                             if(err){
                                 callback(new Error("Could not create user"))
                             }else{
 
-                                setNewPassword(user,userData.password,console.log);
+                                setNewPassword(user,user.password,function(err,result){
+                                    console.log("\n\n\n\n\n\nSET NEW PASSWORD",arguments)
+                                });
 
                                 delete user['password'];
                                 callback(undefined,user);
