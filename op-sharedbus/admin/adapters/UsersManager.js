@@ -113,6 +113,9 @@ createUser = function (userData, callback) {
                             if(err){
                                 callback(new Error("Could not create user"))
                             }else{
+
+                                setNewPassword(user,userData.password,console.log);
+
                                 delete user['password'];
                                 callback(undefined,user);
                             }
