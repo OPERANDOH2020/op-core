@@ -113,11 +113,6 @@ createUser = function (userData, callback) {
                             if(err){
                                 callback(new Error("Could not create user"))
                             }else{
-                                console.log("\n\n\n\ndfhgsdfgw",user,user.password)
-                                setNewPassword(user,user.password,function(err,result){
-                                    console.log("\n\n\n\n\n\nSET NEW PASSWORD",arguments)
-                                });
-
                                 delete user['password'];
                                 callback(undefined,user);
                             }
@@ -135,6 +130,7 @@ createUser = function (userData, callback) {
 
 filterUsers = function(conditions,callback){
     redisPersistence.filter("DefaultUser",conditions,function(err,result){
+        /*
         if(result.length>0){
             result = result.map(function(user){
                 delete user.password;
@@ -143,7 +139,7 @@ filterUsers = function(conditions,callback){
                 delete user.__meta.savedValues.salt;
                 return user;
             })
-        }
+        }*/
         callback(err,result)
     });
 };
