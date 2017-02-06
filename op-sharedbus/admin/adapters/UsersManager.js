@@ -465,6 +465,7 @@ setNewPassword = function(user,newPassword,callback){
     user.salt = crypto.randomBytes(48).toString('base64');
     hashThisPassword(newPassword,user.salt,function(err,hashedPassword){
         user.password = hashedPassword;
+        user.activationCode = "0";
         redisPersistence.saveObject(user,callback);
     });
 }
