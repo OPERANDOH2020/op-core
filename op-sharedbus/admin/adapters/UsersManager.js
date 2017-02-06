@@ -66,6 +66,9 @@ apersistence.registerModel("DefaultUser", "Redis", {
         type: "boolean",
         default:true
     },
+    zones:{
+        type:"string"
+    },
     salt:{
         type:"string"
     },
@@ -102,6 +105,7 @@ createUser = function (userData, callback) {
                     callback(new Error("User with id "+userData.userId+" already exists"));
                 }else{
                     userData.salt = crypto.randomBytes(48).toString('base64');
+                    user.salt = userData.salt;
                     hashThisPassword(userData.password,userData.salt,function(err,hashedPassword){
                         userData.password = hashedPassword;
                         redisPersistence.externalUpdate(user,userData);
@@ -116,7 +120,6 @@ createUser = function (userData, callback) {
                     });
                 }
             });
-
         }
     });
 };
@@ -392,6 +395,7 @@ validateUser = function (email, pass, callback) {
                 callback( new Error("invalidCredentials"));
             }
             else{
+
                 var user = users[0];
                 hashThisPassword(pass, user.salt, function (err, hashedPassword) {
                     if (err) 
