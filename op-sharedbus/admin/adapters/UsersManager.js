@@ -404,7 +404,7 @@ validateUser = function (email, pass, callback) {
                     else if (hashedPassword !== user.password) 
                         callback(new Error("invalidCredentials"));
                     else if(user.activationCode!=="0") 
-                        callback(new Error("accountNotActivated"));
+                        callback(new Error("account_not_activated"));
                     else
                         callback(null,user.userId);
                 });
