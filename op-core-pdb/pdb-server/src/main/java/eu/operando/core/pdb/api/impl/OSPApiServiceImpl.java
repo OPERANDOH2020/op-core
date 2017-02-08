@@ -44,17 +44,39 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.core.MediaType;
+import eu.operando.core.cas.client.api.DefaultApi;
+//import eu.operando.core.cas.client.ApiException;
+import eu.operando.core.cas.client.model.User;
+import eu.operando.core.cas.client.model.UserCredential;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-12-19T10:59:55.638Z")
 public class OSPApiServiceImpl extends OSPApiService {
 
+    // LogDB
     ApiClient apiClient;
     LogApi logApi;
+
+    // AAPI
+    DefaultApi aapiClient;
+    String serviceId = "pdb_osp";
 
     public OSPApiServiceImpl() {
         this.apiClient = new ApiClient();
         this.apiClient.setBasePath("http://integration.operando.esilab.org:8090/operando/core/ldb");
         this.logApi = new LogApi(this.apiClient);
+
+        eu.operando.core.cas.client.ApiClient aapiDefaultClient = new eu.operando.core.cas.client.ApiClient();
+        aapiDefaultClient.setBasePath("http://integration.operando.esilab.org:8135/operando/interfaces/aapi");
+        this.aapiClient = new DefaultApi(aapiDefaultClient);
+    }
+
+    private boolean aapiTicketsStValidateGet(String st) {
+        try {
+            aapiClient.aapiTicketsStValidateGet(st, serviceId);
+        } catch (eu.operando.core.cas.client.ApiException ex) {
+            ex.printStackTrace();
+        }
+        return false;
     }
 
     private void logRequest(String requesterId, String title, String description,
@@ -81,7 +103,7 @@ public class OSPApiServiceImpl extends OSPApiService {
             String response = this.logApi.lodDB(logRequest);
             Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.INFO, response);
 
-        } catch (ApiException ex) {
+        } catch (io.swagger.client.ApiException ex) {
             Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.SEVERE, "failed to log", ex);
         }
     }
@@ -89,6 +111,7 @@ public class OSPApiServiceImpl extends OSPApiService {
     @Override
     public Response oSPGet(String filter, SecurityContext securityContext) throws NotFoundException {
 
+        System.out.println("SecurityContext: " + securityContext.toString());
         Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP GET (filter) {0}", filter);
 
         logRequest("PDB OSP", "GET OSP",
