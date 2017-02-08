@@ -24,8 +24,9 @@
 /////////////////////////////////////////////////////////////////////////
 package eu.operando.core.pdb.api.impl;
 
-import eu.operando.core.pdb.common.model.PrivacyRegulationInput;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import eu.operando.core.pdb.common.model.PrivacyRegulation;
 import io.swagger.api.ApiResponseMessage;
 import io.swagger.api.NotFoundException;
 
@@ -39,6 +40,7 @@ import io.swagger.client.model.LogRequest;
 import io.swagger.client.ApiException;
 import io.swagger.client.model.LogRequest.LogDataTypeEnum;
 import io.swagger.client.model.LogRequest.LogPriorityEnum;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
@@ -63,11 +65,11 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
     private void logRequest(String requesterId, String title, String description,
             LogDataTypeEnum logDataType, LogPriorityEnum logPriority,
             ArrayList<String> keywords) {
-        
+
         ArrayList<String> words = new ArrayList<String>(Arrays.asList("PDB", "Regulations"));
         for(String word : keywords) {
             words.add(word);
-        } 
+        }
         LogRequest logRequest = new LogRequest();
         logRequest.setUserId("PDB-Regulations");
         logRequest.setDescription(description);
@@ -147,7 +149,16 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        return Response.status(Response.Status.CREATED).entity(new ApiResponseMessage(ApiResponseMessage.OK,
+        ObjectMapper mapper = new ObjectMapper();
+        String regId = "";
+        try {
+            PrivacyRegulation reg = mapper.readValue(storeAction, PrivacyRegulation.class);
+            regId = reg.getRegId();
+        } catch (IOException ex) {
+            Logger.getLogger(RegulationsApiServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return Response.status(Response.Status.CREATED).header("location", "http://integration.operando.esilab.org:8096/operando/core/pdb/regulations/" + regId).entity(new ApiResponseMessage(ApiResponseMessage.OK,
                 storeAction)).build();
     }
 
