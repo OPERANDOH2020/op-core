@@ -273,12 +273,62 @@ class="org.ldaptive.pool.PooledConnectionFactory"
            p:name="rightsm" 
            p:description="rightsm"
            p:serviceId="/operando/rm/" p:evaluationOrder="10000013" />
-
-
-
-
-
-
+		<bean class="org.jasig.cas.services.RegexRegisteredService" 
+           p:id="13" 
+           p:name="pdb_upp" 
+           p:description="pdb_upp"
+           p:serviceId="pdb/user_privacy_policy/.+" p:evaluationOrder="10000014" />
+		<bean class="org.jasig.cas.services.RegexRegisteredService" 
+           p:id="15" 
+           p:name="pdb_regulations" 
+           p:description="pdb_regulations"
+           p:serviceId="pdb/regulations/.+" p:evaluationOrder="10000016" />
+		<bean class="org.jasig.cas.services.RegexRegisteredService" 
+           p:id="16" 
+           p:name="pdb_osp" 
+           p:description="pdb_osp"
+           p:serviceId="pdb/OSP/.+" p:evaluationOrder="10000017" />
+		<bean class="org.jasig.cas.services.RegexRegisteredService" 
+           p:id="17" 
+           p:name="ose_osps" 
+           p:description="ose_osps"
+           p:serviceId="ose/osps/.+" p:evaluationOrder="10000018" />
+		<bean class="org.jasig.cas.services.RegexRegisteredService" 
+           p:id="18" 
+           p:name="ose_consent" 
+           p:description="ose_consent"
+           p:serviceId="ose/consent/.+" p:evaluationOrder="10000019" />
+		<bean class="org.jasig.cas.services.RegexRegisteredService" 
+           p:id="19" 
+           p:name="ose_regulations" 
+           p:description="ose_regulations"
+           p:serviceId="ose/regulations/.+" p:evaluationOrder="10000020" />
+		<bean class="org.jasig.cas.services.RegexRegisteredService" 
+           p:id="20" 
+           p:name="pc_policy" 
+           p:description="pc_policy"
+           p:serviceId="pc/policy_computer/.+" p:evaluationOrder="10000021" />
+		<bean class="org.jasig.cas.services.RegexRegisteredService" 
+           p:id="21" 
+           p:name="pc_osp_policy" 
+           p:description="pc_osp_policy"
+           p:serviceId="pc/osp_policy_computer/.+" p:evaluationOrder="10000022" />
+		<bean class="org.jasig.cas.services.RegexRegisteredService" 
+           p:id="22" 
+           p:name="pc_osp_policy_evaluate" 
+           p:description="pc_osp_policy_evaluate"
+           p:serviceId="pc/osp_policy_evaluator/.+" p:evaluationOrder="10000023" />
+		<bean class="org.jasig.cas.services.RegexRegisteredService" 
+           p:id="23" 
+           p:name="pc_osp_compliance" 
+           p:description="pc_osp_compliance"
+           p:serviceId="pc/osp_compliance_checker/.+" p:evaluationOrder="10000024" />
+		<bean class="org.jasig.cas.services.RegexRegisteredService" 
+           p:id="24" 
+           p:name="pc_regulations" 
+           p:description="pc_regulations"
+           p:serviceId="pc/regulations/.+" p:evaluationOrder="10000025" />
+   
 	</util:list>
 
 	<!-- TGT expires 48 hours after creation -->
