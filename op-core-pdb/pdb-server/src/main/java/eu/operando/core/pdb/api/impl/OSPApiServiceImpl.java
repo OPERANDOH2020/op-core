@@ -58,16 +58,43 @@ public class OSPApiServiceImpl extends OSPApiService {
 
     // AAPI
     DefaultApi aapiClient;
-    String serviceId = "pdb_osp";
+    String serviceId = "pdb/OSP/.*";
+    String logDBServiceId = "ose/osps/.*";
 
     public OSPApiServiceImpl() {
-        this.apiClient = new ApiClient();
-        this.apiClient.setBasePath("http://integration.operando.esilab.org:8090/operando/core/ldb");
-        this.logApi = new LogApi(this.apiClient);
-
+        // setup aapi client
         eu.operando.core.cas.client.ApiClient aapiDefaultClient = new eu.operando.core.cas.client.ApiClient();
         aapiDefaultClient.setBasePath("http://integration.operando.esilab.org:8135/operando/interfaces/aapi");
         this.aapiClient = new DefaultApi(aapiDefaultClient);
+                
+        // setup logdb client
+        this.apiClient = new ApiClient();
+        this.apiClient.setBasePath("http://integration.operando.esilab.org:8090/operando/core/ldb");
+        
+        // get service ticket for logdb service
+        //String logdbST = getST("yyyyy", "xxxxx");
+        //this.apiClient.addDefaultHeader("service-ticket", logdbST);
+        
+        this.logApi = new LogApi(this.apiClient);
+    }
+    
+    private String getST(String username, String password) {
+        String st = null;
+        
+        UserCredential userCredential = new UserCredential();
+        userCredential.setUsername(username);
+        userCredential.setPassword(password);
+        
+        try {
+            String tgt = aapiClient.aapiTicketsPost(userCredential);
+            System.out.println("pdb service TGT: " + tgt);
+            st = aapiClient.aapiTicketsTgtPost(tgt, logDBServiceId);
+            System.out.println("logdb service ticket: " + st);
+            
+        } catch (eu.operando.core.cas.client.ApiException ex) {
+            ex.printStackTrace();
+        }
+        return st;
     }
 
     private boolean aapiTicketsStValidateGet(String st) {
