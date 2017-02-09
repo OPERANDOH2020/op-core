@@ -24,7 +24,6 @@
 /////////////////////////////////////////////////////////////////////////
 package eu.operando.core.pdb.api.impl;
 
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.operando.core.pdb.common.model.PrivacyRegulation;
 import io.swagger.api.ApiResponseMessage;
@@ -46,6 +45,10 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.core.MediaType;
+import eu.operando.core.cas.client.api.DefaultApi;
+import eu.operando.core.cas.client.model.UserCredential;
+import java.io.InputStream;
+import java.util.Properties;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -53,21 +56,103 @@ import javax.ws.rs.core.SecurityContext;
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-12-19T10:59:55.638Z")
 public class RegulationsApiServiceImpl extends RegulationsApiService {
 
-    ApiClient apiClient;
+    // LogDB
     LogApi logApi;
+    // AAPI
+    DefaultApi aapiClient;
+
+    String pdbRegSId = "pdb/OSP/.*";
+    String logdbSId = "ose/osps/.*";
+    String aapiBasePath = "http://integration.operando.esilab.org:8135/operando/interfaces/aapi";
+    String logdbBasePath = "http://integration.operando.esilab.org:8090/operando/core/ldb";
+    String regLoginName = "xxxxx";
+    String regLoginPassword = "xxxxx";
+
+    String mongoServerHost = "localhost";
+    int mongoServerPort = 27017;
+    RegulationsMongo ospMongodb = null;
+
+    Properties prop = null;
 
     public RegulationsApiServiceImpl() {
-        this.apiClient = new ApiClient();
-        this.apiClient.setBasePath("http://integration.operando.esilab.org:8090/operando/core/ldb");
-        this.logApi = new LogApi(this.apiClient);
+        //  get service config params
+        prop = new Properties();
+        String propFilename = "config/service.properties";
+        InputStream is = getClass().getClassLoader().getResourceAsStream(propFilename);
+        try {
+            prop.load(is);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        // setup aapi client
+        if (prop.getProperty("aapi.basepath") != null) {
+            aapiBasePath = prop.getProperty("aapi.basepath");
+        }
+        eu.operando.core.cas.client.ApiClient aapiDefaultClient = new eu.operando.core.cas.client.ApiClient();
+        aapiDefaultClient.setBasePath(aapiBasePath);
+        this.aapiClient = new DefaultApi(aapiDefaultClient);
+
+        // setup logdb client
+        if (prop.getProperty("logdb.basepath") != null) {
+            logdbBasePath = prop.getProperty("logdb.basepath");
+        }
+        ApiClient apiClient = new ApiClient();
+        apiClient.setBasePath(logdbBasePath);
+
+        // get service ticket for logdb service
+        if (prop.getProperty("pdb.reg.service.login") != null) {
+            regLoginName = prop.getProperty("pdb.reg.service.login");
+        }
+        if (prop.getProperty("pdb.reg.service.password") != null) {
+            regLoginPassword = prop.getProperty("pdb.reg.service.password");
+        }
+        if (prop.getProperty("logdb.service.id") != null) {
+            logdbSId = prop.getProperty("logdb.service.id");
+        }
+        String logdbST = getServiceTicket(regLoginName, regLoginPassword, logdbSId);
+        apiClient.addDefaultHeader("service-ticket", logdbST);
+        this.logApi = new LogApi(apiClient);
+
+        // setup mongo part
+        if (prop.getProperty("mongo.server.host") != null) {
+            mongoServerHost = prop.getProperty("mongo.server.host");
+        }
+        if (prop.getProperty("mongo.server.port") != null) {
+            try {
+                mongoServerPort = Integer.parseInt(prop.getProperty("mongo.server.port"));
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+        ospMongodb = new RegulationsMongo(mongoServerHost, mongoServerPort);
     }
 
+    private String getServiceTicket(String username, String password, String serviceId) {
+        String st = null;
+
+        UserCredential userCredential = new UserCredential();
+        userCredential.setUsername(username);
+        userCredential.setPassword(password);
+
+        try {
+            String tgt = aapiClient.aapiTicketsPost(userCredential);
+            System.out.println("pdb reg service TGT: " + tgt);
+            st = aapiClient.aapiTicketsTgtPost(tgt, serviceId);
+            System.out.println("logdb reg service ticket: " + st);
+
+        } catch (eu.operando.core.cas.client.ApiException ex) {
+            ex.printStackTrace();
+        }
+        return st;
+    }
+    
     private void logRequest(String requesterId, String title, String description,
             LogDataTypeEnum logDataType, LogPriorityEnum logPriority,
             ArrayList<String> keywords) {
 
         ArrayList<String> words = new ArrayList<String>(Arrays.asList("PDB", "Regulations"));
-        for(String word : keywords) {
+        for (String word : keywords) {
             words.add(word);
         }
         LogRequest logRequest = new LogRequest();
@@ -100,8 +185,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        RegulationsMongo regdb = new RegulationsMongo();
-        String regList = regdb.getRegulationByFilter(filter);
+        String regList = ospMongodb.getRegulationByFilter(filter);
 
         if (regList == null) {
             logRequest("regulations GET", "GET",
@@ -130,8 +214,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        RegulationsMongo regdb = new RegulationsMongo();
-        String storeAction = regdb.storeRegulation(regulation);
+        String storeAction = ospMongodb.storeRegulation(regulation);
 
         if (storeAction == null) {
 
@@ -172,8 +255,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        RegulationsMongo regdb = new RegulationsMongo();
-        boolean delAction = regdb.deleteRegulationById(regId);
+        boolean delAction = ospMongodb.deleteRegulationById(regId);
 
         if (!delAction) {
 
@@ -208,8 +290,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        RegulationsMongo regdb = new RegulationsMongo();
-        String prString = regdb.getRegulationById(regId);
+        String prString = ospMongodb.getRegulationById(regId);
 
         if (prString == null) {
 
@@ -241,8 +322,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        RegulationsMongo regdb = new RegulationsMongo();
-        boolean updateAction = regdb.updateRegulation(regId, regulation);
+        boolean updateAction = ospMongodb.updateRegulation(regId, regulation);
 
         if (!updateAction) {
             logRequest("regulations PUT", "PUT",

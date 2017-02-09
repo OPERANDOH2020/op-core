@@ -22,7 +22,6 @@
 //      Created for Project :   OPERANDO
 //
 /////////////////////////////////////////////////////////////////////////
-
 package eu.operando.core.pdb.mongo;
 
 import com.mongodb.BasicDBObject;
@@ -73,6 +72,22 @@ public class RegulationsMongo {
             this.regulation = new PrivacyRegulation();
             //} catch (UnknownHostException e) {
             //    e.printStackTrace();
+        } catch (MongoException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public RegulationsMongo(String hostname, int port) {
+        try {
+            this.mongo = new MongoClient(hostname, port);
+            
+            // get database
+            this.db = mongo.getDB("pdb");
+            // get collection
+            this.regulationTable = db.getCollection("regulations");
+
+            this.regulation = new PrivacyRegulation();
+            
         } catch (MongoException e) {
             e.printStackTrace();
         }
