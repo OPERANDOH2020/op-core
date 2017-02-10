@@ -35,6 +35,7 @@ import eu.operando.core.pdb.common.model.UserPrivacyPolicy;
 import io.swagger.api.NotFoundException;
 
 
+
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -44,7 +45,7 @@ import javax.ws.rs.*;
 
 
 @io.swagger.annotations.Api(description = "the user_privacy_policy API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-10-28T08:28:40.436Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-12-19T10:59:55.638Z")
 public class UserPrivacyPolicyApi  {
    private final UserPrivacyPolicyApiService delegate = UserPrivacyPolicyApiServiceFactory.getUserPrivacyPolicyApi();
 

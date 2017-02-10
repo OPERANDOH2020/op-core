@@ -33,6 +33,7 @@ import com.mongodb.MongoClient;
 import com.mongodb.MongoException;
 import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
+import eu.operando.core.pdb.common.model.AccessReason;
 import eu.operando.core.pdb.common.model.OSPPrivacyPolicy;
 import eu.operando.core.pdb.common.model.OSPPrivacyPolicyInput;
 import eu.operando.core.pdb.common.model.OSPReasonPolicy;
@@ -61,20 +62,39 @@ public class OSPPrivacyPolicyMongo {
     private DB db;
     private DBCollection ospTable;
     private DBCollection ospPPTable;
+    private DBCollection ospRPTable;
 
     public OSPPrivacyPolicyMongo() {
         try {
-            this.mongo = new MongoClient("mongo.integration.operando.dmz.lab.esilab.org", 27017);
-            // this.mongo = new MongoClient("localhost", 27017);
-            
+            //this.mongo = new MongoClient("mongo.integration.operando.dmz.lab.esilab.org", 27017);
+            this.mongo = new MongoClient("localhost", 27017);
+
             // get database
             this.db = mongo.getDB("pdb");
             // get collection
             this.ospTable = db.getCollection("osp");
             this.ospPPTable = db.getCollection("pp");
+            this.ospRPTable = db.getCollection("ar");
 
             //} catch (UnknownHostException e) {
             //    e.printStackTrace();
+        } catch (MongoException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public OSPPrivacyPolicyMongo(String hostname, int port) {
+        try {
+            this.mongo = new MongoClient(hostname, port);
+
+            // get database
+            this.db = mongo.getDB("pdb");
+            
+            // get collection
+            this.ospTable = db.getCollection("osp");
+            this.ospPPTable = db.getCollection("pp");
+            this.ospRPTable = db.getCollection("ar");
+            
         } catch (MongoException e) {
             e.printStackTrace();
         }
@@ -167,6 +187,25 @@ public class OSPPrivacyPolicyMongo {
         return ospObj;
     }
 
+    private OSPReasonPolicy getOSPReasonPolicy(DBObject regObj) {
+        OSPReasonPolicy ospObj = null;
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            ospObj = mapper.readValue(regObj.toString(), OSPReasonPolicy.class);
+            //add policy id
+            //ospObj.setOspPolicyId(regObj.get("_id").toString());
+
+        } catch (JsonGenerationException e) {
+            e.printStackTrace();
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ospObj;
+    }
+
     public String getOSPById(String ospId) {
         OSPPrivacyPolicy ospObj;
         String jsonInString = null;
@@ -188,6 +227,44 @@ public class OSPPrivacyPolicyMongo {
             ospObj = getOSP(result);
             // add policy id
             ospObj.setOspPolicyId(ospId);
+
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.getSerializationConfig().enable(SerializationConfig.Feature.WRITE_ENUMS_USING_TO_STRING);
+                mapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
+
+                jsonInString = mapper.writeValueAsString(ospObj);
+            } catch (JsonMappingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return jsonInString;
+    }
+
+    public String getOSPReasonPolicyById(String ospId) {
+        OSPReasonPolicy ospObj;
+        String jsonInString = null;
+        System.out.println("getOSPReasonPolicyById(" + ospId + ");");
+
+        // find
+        BasicDBObject searchQuery = new BasicDBObject();
+        try {
+            searchQuery.put("ospPolicyId", new ObjectId(ospId));
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return jsonInString;
+        }
+
+        DBObject result = this.ospTable.findOne(searchQuery);
+
+        if (result != null) {
+
+            ospObj = getOSPReasonPolicy(result);
+            // add policy id
+            //ospObj.setOspPolicyId(ospId);
 
             try {
                 ObjectMapper mapper = new ObjectMapper();
@@ -317,6 +394,26 @@ public class OSPPrivacyPolicyMongo {
         return prObj;
     }
 
+    private List<AccessReason> getAccessReasons(DBObject regObj) {
+        //System.out.println("regObj: " + regObj.toString());
+        AccessReason arObj = null;
+        try {
+
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            arObj = mapper.readValue(regObj.toString(), AccessReason.class);
+            //System.out.println("prObj: " + prObj.toString());
+
+        } catch (JsonGenerationException e) {
+            e.printStackTrace();
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public String getPolicyOSPById(String ospId) {
         OSPReasonPolicy ospRPObj;
         String jsonInString = null;
@@ -353,4 +450,188 @@ public class OSPPrivacyPolicyMongo {
         return jsonInString;
     }
 
+    public String getOSPAccessReasonsById(String ospId) {
+        OSPReasonPolicy ospRPObj;
+        String jsonInString = null;
+        System.out.println("getAccessReasonsById(" + ospId + ");");
+
+        // find
+        BasicDBObject searchQuery = new BasicDBObject();
+        try {
+            searchQuery.put("ospPolicyId", ospId);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return jsonInString;
+        }
+
+        DBObject result = this.ospPPTable.findOne(searchQuery);
+
+        if (result != null) {
+
+            ospRPObj = getReasonPolicy(result);
+
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.getSerializationConfig().enable(SerializationConfig.Feature.WRITE_ENUMS_USING_TO_STRING);
+                mapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
+
+                jsonInString = mapper.writeValueAsString(ospRPObj.getPolicies());
+            } catch (JsonMappingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return jsonInString;
+    }
+
+    public boolean privacyPolicyAccessReasonsPost(String ospId, AccessReason accessReason) {
+        Boolean ret = null;
+        OSPReasonPolicy ospObj = null;
+        String jsonInString = null;
+        System.out.println("accessReasonIdDelete(" + ospId + ");");
+
+        // find
+        BasicDBObject searchQuery = new BasicDBObject();
+        try {
+            searchQuery.put("ospPolicyId", ospId);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return ret;
+        }
+
+        DBObject result = this.ospPPTable.findOne(searchQuery);
+
+        if (result != null) {
+            ospObj = getOSPReasonPolicy(result);
+            ospObj.getPolicies().add(accessReason);
+        }
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            jsonInString = mapper.writeValueAsString(ospObj);
+            Object obj = JSON.parse(jsonInString);
+            DBObject document = (DBObject) obj;
+
+            WriteResult wr = this.ospPPTable.update(searchQuery, document);
+
+            ret = wr.isUpdateOfExisting();
+
+        } catch (JsonGenerationException e) {
+            e.printStackTrace();
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ret;
+
+    }
+
+    public boolean accessReasonIdDelete(String ospId, String reasonId) {
+
+        boolean ret = false;
+
+        OSPReasonPolicy ospObj = null;
+        String jsonInString = null;
+        System.out.println("accessReasonIdDelete(" + ospId + ", " + reasonId + ");");
+
+        // find
+        BasicDBObject searchQuery = new BasicDBObject();
+        try {
+            searchQuery.put("ospPolicyId", ospId);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return ret;
+        }
+
+        DBObject result = this.ospPPTable.findOne(searchQuery);
+
+        if (result != null) {
+
+            ospObj = getOSPReasonPolicy(result);
+            List<AccessReason> arList = new ArrayList<AccessReason>();
+            for (AccessReason ar : ospObj.getPolicies()) {
+                if (!ar.getReasonid().endsWith(reasonId)) {
+                    arList.add(ar);
+                }
+            }
+
+            ospObj.setPolicies(arList);
+        }
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            jsonInString = mapper.writeValueAsString(ospObj);
+            Object obj = JSON.parse(jsonInString);
+            DBObject document = (DBObject) obj;
+
+            WriteResult wr = this.ospPPTable.update(searchQuery, document);
+
+            ret = wr.isUpdateOfExisting();
+
+        } catch (JsonGenerationException e) {
+            e.printStackTrace();
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+
+    public boolean accessReasonIdUpdate(String ospId, String reasonId,
+            AccessReason accessReason) {
+
+        boolean ret = false;
+
+        OSPReasonPolicy ospObj = null;
+        String jsonInString = null;
+        System.out.println("accessReasonIDUpdate(" + ospId + ", " + reasonId + ");");
+
+        // find
+        BasicDBObject searchQuery = new BasicDBObject();
+        try {
+            searchQuery.put("ospPolicyId", ospId);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return ret;
+        }
+
+        DBObject result = this.ospPPTable.findOne(searchQuery);
+
+        if (result != null) {
+
+            ospObj = getOSPReasonPolicy(result);
+            List<AccessReason> arList = new ArrayList<AccessReason>();
+            for (AccessReason ar : ospObj.getPolicies()) {
+                if (ar.getReasonid().endsWith(reasonId)) {
+                    arList.add(accessReason);
+                } else {
+                    arList.add(ar);
+                }
+            }
+            ospObj.setPolicies(arList);
+        }
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            jsonInString = mapper.writeValueAsString(ospObj);
+            Object obj = JSON.parse(jsonInString);
+            DBObject document = (DBObject) obj;
+
+            WriteResult wr = this.ospPPTable.update(searchQuery, document);
+
+            ret = wr.isUpdateOfExisting();
+
+        } catch (JsonGenerationException e) {
+            e.printStackTrace();
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
 }

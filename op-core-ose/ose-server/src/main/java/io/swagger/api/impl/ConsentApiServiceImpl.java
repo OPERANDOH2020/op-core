@@ -57,6 +57,7 @@ public class ConsentApiServiceImpl extends ConsentApiService {
     @Override
     public Response consentOspIdGet(String ospId, SecurityContext securityContext) throws NotFoundException {
         // do some magic!
+        System.out.println("Consnet - " + ospId);
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "New Consent Report " + ospId )).build();
     }
 }

@@ -24,11 +24,12 @@
 /////////////////////////////////////////////////////////////////////////
 package eu.operando.core.pdb.api.impl;
 
-import io.swagger.api.*;
-
 import eu.operando.core.pdb.common.model.UserPrivacyPolicy;
 
+import io.swagger.api.ApiResponseMessage;
 import io.swagger.api.NotFoundException;
+
+import io.swagger.api.UserPrivacyPolicyApiService;
 
 import eu.operando.core.pdb.mongo.UPPMongo;
 import io.swagger.client.ApiClient;
@@ -42,29 +43,116 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.core.MediaType;
+import eu.operando.core.cas.client.api.DefaultApi;
+import eu.operando.core.cas.client.model.UserCredential;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-12-19T10:59:55.638Z")
 public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService {
-
-    ApiClient apiClient;
+    // LogDB
     LogApi logApi;
+    // AAPI
+    DefaultApi aapiClient;
+
+    String pdbUPPSId = "pdb/user_privacy_policy/.*";
+    String logdbSId = "ose/osps/.*";
+    String aapiBasePath = "http://integration.operando.esilab.org:8135/operando/interfaces/aapi";
+    String logdbBasePath = "http://integration.operando.esilab.org:8090/operando/core/ldb";
+    String uppLoginName = "xxxxx";
+    String uppLoginPassword = "xxxxx";
+
+    String mongoServerHost = "localhost";
+    int mongoServerPort = 27017;
+    UPPMongo uppMongodb = null;
+
+    Properties prop = null;
 
     public UserPrivacyPolicyApiServiceImpl() {
-        this.apiClient = new ApiClient();
-        this.apiClient.setBasePath("http://integration.operando.esilab.org:8090/operando/core/ldb");
-        this.logApi = new LogApi(this.apiClient);
+        //  get service config params
+        prop = new Properties();
+        String propFilename = "config/service.properties";
+        InputStream is = getClass().getClassLoader().getResourceAsStream(propFilename);
+        try {
+            prop.load(is);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+        // setup aapi client
+        if (prop.getProperty("aapi.basepath") != null) {
+            aapiBasePath = prop.getProperty("aapi.basepath");
+        }
+        eu.operando.core.cas.client.ApiClient aapiDefaultClient = new eu.operando.core.cas.client.ApiClient();
+        aapiDefaultClient.setBasePath(aapiBasePath);
+        this.aapiClient = new DefaultApi(aapiDefaultClient);
+
+        // setup logdb client
+        if (prop.getProperty("logdb.basepath") != null) {
+            logdbBasePath = prop.getProperty("logdb.basepath");
+        }
+        ApiClient apiClient = new ApiClient();
+        apiClient.setBasePath(logdbBasePath);
+
+        // get service ticket for logdb service
+        if (prop.getProperty("pdb.upp.service.login") != null) {
+            uppLoginName = prop.getProperty("pdb.upp.service.login");
+        }
+        if (prop.getProperty("pdb.upp.service.password") != null) {
+            uppLoginPassword = prop.getProperty("pdb.upp.service.password");
+        }
+        if (prop.getProperty("logdb.service.id") != null) {
+            logdbSId = prop.getProperty("logdb.service.id");
+        }
+        String logdbST = getServiceTicket(uppLoginName, uppLoginPassword, logdbSId);
+        apiClient.addDefaultHeader("service-ticket", logdbST);
+        this.logApi = new LogApi(apiClient);
+
+        // setup mongo part
+        if (prop.getProperty("mongo.server.host") != null) {
+            mongoServerHost = prop.getProperty("mongo.server.host");
+        }
+        if (prop.getProperty("mongo.server.port") != null) {
+            try {
+                mongoServerPort = Integer.parseInt(prop.getProperty("mongo.server.port"));
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+        uppMongodb = new UPPMongo(mongoServerHost, mongoServerPort);
+    }
+
+    private String getServiceTicket(String username, String password, String serviceId) {
+        String st = null;
+
+        UserCredential userCredential = new UserCredential();
+        userCredential.setUsername(username);
+        userCredential.setPassword(password);
+
+        try {
+            String tgt = aapiClient.aapiTicketsPost(userCredential);
+            System.out.println("pdb upp service TGT: " + tgt);
+            st = aapiClient.aapiTicketsTgtPost(tgt, serviceId);
+            System.out.println("logdb upp service ticket: " + st);
+
+        } catch (eu.operando.core.cas.client.ApiException ex) {
+            ex.printStackTrace();
+        }
+        return st;
     }
 
     private void logRequest(String requesterId, String title, String description,
             LogDataTypeEnum logDataType, LogPriorityEnum logPriority,
             ArrayList<String> keywords) {
-        
+
         ArrayList<String> words = new ArrayList<String>(Arrays.asList("PDB", "UPP"));
-        for(String word : keywords) {
+        for (String word : keywords) {
             words.add(word);
-        } 
+        }
 
         LogRequest logRequest = new LogRequest();
         logRequest.setUserId("PDB-UPP");
@@ -103,7 +191,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
 
             logRequest("userPrivacyPolicyGet", "filter: ".concat(filter),
                     "PDB user privacy policy GET failed",
-                LogDataTypeEnum.ERROR, LogPriorityEnum.HIGH,
+                    LogDataTypeEnum.ERROR, LogPriorityEnum.HIGH,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -136,7 +224,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
 
             logRequest("userPrivacyPolicyPost", "upp: ".concat(upp.getUserId()),
                     "PDB user privacy policy POST failed",
-                LogDataTypeEnum.ERROR, LogPriorityEnum.HIGH,
+                    LogDataTypeEnum.ERROR, LogPriorityEnum.HIGH,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(405).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -168,7 +256,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
 
             logRequest("userPrivacyPolicyDelete", "userId: ".concat(userId),
                     "PDB user privacy policy DELETE failed",
-                LogDataTypeEnum.ERROR, LogPriorityEnum.HIGH,
+                    LogDataTypeEnum.ERROR, LogPriorityEnum.HIGH,
                     new ArrayList<String>(Arrays.asList("delete", "userId")));
 
             System.out.println("cannot delete UPP " + userId);
@@ -180,7 +268,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
                 "PDB user privacy policy DELETE ok",
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("delete", "userId")));
-        
+
         return Response.status(Response.Status.NO_CONTENT).entity(new ApiResponseMessage(ApiResponseMessage.OK,
                 "The document (UPP) was successfully deleted from the database.")).build();
     }
@@ -203,7 +291,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
 
             logRequest("userPrivacyPolicyUserIdGet", "userId: ".concat(userId),
                     "PDB user privacy policy GET failed",
-                LogDataTypeEnum.ERROR, LogPriorityEnum.HIGH,
+                    LogDataTypeEnum.ERROR, LogPriorityEnum.HIGH,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -235,7 +323,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
         if (!updateAction) {
             logRequest("userPrivacyPolicyPut", "userId: ".concat(userId),
                     "PDB user privacy policy PUT failed",
-                LogDataTypeEnum.ERROR, LogPriorityEnum.HIGH,
+                    LogDataTypeEnum.ERROR, LogPriorityEnum.HIGH,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,

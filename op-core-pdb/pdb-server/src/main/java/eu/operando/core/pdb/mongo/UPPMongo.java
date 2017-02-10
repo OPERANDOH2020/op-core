@@ -62,7 +62,7 @@ public class UPPMongo {
     public UPPMongo() {
         try {
             this.mongo = new MongoClient("mongo.integration.operando.dmz.lab.esilab.org", 27017);
-            // this.mongo = new MongoClient("localhost", 27017);
+            //this.mongo = new MongoClient("localhost", 27017);
 
             // get database
             this.db = mongo.getDB("pdb");
@@ -74,6 +74,24 @@ public class UPPMongo {
             this.upp = new UserPrivacyPolicy();
             //} catch (UnknownHostException e) {
             //  e.printStackTrace();
+        } catch (MongoException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public UPPMongo(String hostname, int port) {
+        try {
+            this.mongo = new MongoClient(hostname, port);
+
+            // get database
+            this.db = mongo.getDB("pdb");
+
+            // get collection
+            this.uppTable = db.getCollection("upp");
+            System.out.println(this.uppTable.toString());
+
+            this.upp = new UserPrivacyPolicy();
+            
         } catch (MongoException e) {
             e.printStackTrace();
         }

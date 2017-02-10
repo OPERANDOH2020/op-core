@@ -34,7 +34,7 @@ import io.swagger.api.NotFoundException;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-10-28T08:28:40.436Z")
+@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-12-19T10:59:55.638Z")
 public abstract class UserPrivacyPolicyApiService {
     public abstract Response userPrivacyPolicyGet(String filter,SecurityContext securityContext) throws NotFoundException;
     public abstract Response userPrivacyPolicyPost(UserPrivacyPolicy upp,SecurityContext securityContext) throws NotFoundException;
