@@ -53,18 +53,19 @@ import java.util.Properties;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-12-19T10:59:55.638Z")
 public class OSPApiServiceImpl extends OSPApiService {
+
     // LogDB
     LogApi logApi;
     // AAPI
     DefaultApi aapiClient;
-    
+
     String pdbOSPSId = "pdb/OSP/.*";
     String logdbSId = "ose/osps/.*";
     String aapiBasePath = "http://integration.operando.esilab.org:8135/operando/interfaces/aapi";
     String logdbBasePath = "http://integration.operando.esilab.org:8090/operando/core/ldb";
     String ospLoginName = "xxxxx";
     String ospLoginPassword = "xxxxx";
-    
+
     String mongoServerHost = "localhost";
     int mongoServerPort = 27017;
     OSPPrivacyPolicyMongo ospMongodb = null;
@@ -72,15 +73,10 @@ public class OSPApiServiceImpl extends OSPApiService {
     Properties prop = null;
 
     public OSPApiServiceImpl() {
+        super();
         //  get service config params
-        prop = new Properties();
-        String propFilename = "config/service.properties";
-        InputStream is = getClass().getClassLoader().getResourceAsStream(propFilename);
-        try {
-            prop.load(is);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+        prop = loadServiceProperties();
+        loadParams();
 
         // setup aapi client
         if (prop.getProperty("aapi.basepath") != null) {
@@ -123,6 +119,63 @@ public class OSPApiServiceImpl extends OSPApiService {
             }
         }
         ospMongodb = new OSPPrivacyPolicyMongo(mongoServerHost, mongoServerPort);
+    }
+
+    private void loadParams(){
+        // setup aapi client
+        if (prop.getProperty("aapi.basepath") != null) {
+            aapiBasePath = prop.getProperty("aapi.basepath");
+        }        
+
+        // setup logdb client
+        if (prop.getProperty("logdb.basepath") != null) {
+            logdbBasePath = prop.getProperty("logdb.basepath");
+        }
+        
+        // get service ticket for logdb service
+        if (prop.getProperty("pdb.osp.service.login") != null) {
+            ospLoginName = prop.getProperty("pdb.osp.service.login");
+        }
+        if (prop.getProperty("pdb.osp.service.password") != null) {
+            ospLoginPassword = prop.getProperty("pdb.osp.service.password");
+        }
+        if (prop.getProperty("logdb.service.id") != null) {
+            logdbSId = prop.getProperty("logdb.service.id");
+        }
+        
+        // setup mongo part
+        if (prop.getProperty("mongo.server.host") != null) {
+            mongoServerHost = prop.getProperty("mongo.server.host");
+        }
+        if (prop.getProperty("mongo.server.port") != null) {
+            try {
+                mongoServerPort = Integer.parseInt(prop.getProperty("mongo.server.port"));
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    private Properties loadServiceProperties() {
+        Properties props;
+        props = new Properties();
+
+        InputStream is = null;
+        try {
+            is = this.getClass().getClassLoader().getResourceAsStream("service.properties");
+            props.load(is);
+        } catch (IOException e) {
+            // Display to console for debugging purposes.
+            System.err.println("Error reading Configuration service properties file");
+            // Add logging code to log an error configuring the API on startup        
+        } finally {
+            try {
+                is.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return props;
     }
 
     private String getServiceTicket(String username, String password, String serviceId) {

@@ -54,6 +54,7 @@ import javax.ws.rs.core.SecurityContext;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-12-19T10:59:55.638Z")
 public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService {
+
     // LogDB
     LogApi logApi;
     // AAPI
@@ -73,14 +74,21 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
     Properties prop = null;
 
     public UserPrivacyPolicyApiServiceImpl() {
+        super();
         //  get service config params
         prop = new Properties();
-        String propFilename = "config/service.properties";
+        String propFilename = "service.properties";
         InputStream is = getClass().getClassLoader().getResourceAsStream(propFilename);
         try {
             prop.load(is);
         } catch (IOException ex) {
             ex.printStackTrace();
+        } finally {
+            try {
+                is.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
 
         // setup aapi client
