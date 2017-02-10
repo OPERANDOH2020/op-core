@@ -61,7 +61,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
     // AAPI
     DefaultApi aapiClient;
 
-    String pdbRegSId = "pdb/OSP/.*";
+    String pdbRegSId = "pdb/regulations/.*";
     String logdbSId = "ose/osps/.*";
     String aapiBasePath = "http://integration.operando.esilab.org:8135/operando/interfaces/aapi";
     String logdbBasePath = "http://integration.operando.esilab.org:8090/operando/core/ldb";
@@ -75,14 +75,21 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
     Properties prop = null;
 
     public RegulationsApiServiceImpl() {
+        super();
         //  get service config params
         prop = new Properties();
-        String propFilename = "config/service.properties";
+        String propFilename = "service.properties";
         InputStream is = getClass().getClassLoader().getResourceAsStream(propFilename);
         try {
             prop.load(is);
         } catch (IOException ex) {
             ex.printStackTrace();
+        } finally {
+            try {
+                is.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
 
         // setup aapi client
