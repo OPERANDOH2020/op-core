@@ -78,46 +78,21 @@ public class OSPApiServiceImpl extends OSPApiService {
         prop = loadServiceProperties();
         loadParams();
 
-        // setup aapi client
-        if (prop.getProperty("aapi.basepath") != null) {
-            aapiBasePath = prop.getProperty("aapi.basepath");
-        }
+        // setup aapi client     
         eu.operando.core.cas.client.ApiClient aapiDefaultClient = new eu.operando.core.cas.client.ApiClient();
         aapiDefaultClient.setBasePath(aapiBasePath);
         this.aapiClient = new DefaultApi(aapiDefaultClient);
 
-        // setup logdb client
-        if (prop.getProperty("logdb.basepath") != null) {
-            logdbBasePath = prop.getProperty("logdb.basepath");
-        }
+        // setup logdb client        
         ApiClient apiClient = new ApiClient();
         apiClient.setBasePath(logdbBasePath);
 
         // get service ticket for logdb service
-        if (prop.getProperty("pdb.osp.service.login") != null) {
-            ospLoginName = prop.getProperty("pdb.osp.service.login");
-        }
-        if (prop.getProperty("pdb.osp.service.password") != null) {
-            ospLoginPassword = prop.getProperty("pdb.osp.service.password");
-        }
-        if (prop.getProperty("logdb.service.id") != null) {
-            logdbSId = prop.getProperty("logdb.service.id");
-        }
         String logdbST = getServiceTicket(ospLoginName, ospLoginPassword, logdbSId);
         apiClient.addDefaultHeader("service-ticket", logdbST);
         this.logApi = new LogApi(apiClient);
 
         // setup mongo part
-        if (prop.getProperty("mongo.server.host") != null) {
-            mongoServerHost = prop.getProperty("mongo.server.host");
-        }
-        if (prop.getProperty("mongo.server.port") != null) {
-            try {
-                mongoServerPort = Integer.parseInt(prop.getProperty("mongo.server.port"));
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-            }
-        }
         ospMongodb = new OSPPrivacyPolicyMongo(mongoServerHost, mongoServerPort);
     }
 
