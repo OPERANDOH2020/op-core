@@ -333,7 +333,12 @@ class="org.ldaptive.pool.PooledConnectionFactory"
            p:name="ldb" 
            p:description="ldb"
            p:serviceId="/operando/core/ldb" p:evaluationOrder="10000026" />
-		   
+		<bean class="org.jasig.cas.services.RegexRegisteredService" 
+           p:id="26" 
+           p:name="ldbs" 
+           p:description="ldbs"
+           p:serviceId="/operando/core/ldbsearch/log/search" p:evaluationOrder="10000027" />
+		      
 		
 		
    
