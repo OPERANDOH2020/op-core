@@ -328,6 +328,14 @@ class="org.ldaptive.pool.PooledConnectionFactory"
            p:name="pc_regulations" 
            p:description="pc_regulations"
            p:serviceId="pc/regulations/.+" p:evaluationOrder="10000025" />
+		<bean class="org.jasig.cas.services.RegexRegisteredService" 
+           p:id="25" 
+           p:name="ldb" 
+           p:description="ldb"
+           p:serviceId="/operando/core/ldb" p:evaluationOrder="10000026" />
+		   
+		
+		
    
 	</util:list>
 
