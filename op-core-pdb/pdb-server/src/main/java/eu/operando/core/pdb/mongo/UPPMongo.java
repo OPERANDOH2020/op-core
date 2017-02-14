@@ -91,7 +91,7 @@ public class UPPMongo {
             System.out.println(this.uppTable.toString());
 
             this.upp = new UserPrivacyPolicy();
-            
+
         } catch (MongoException e) {
             e.printStackTrace();
         }
@@ -119,6 +119,31 @@ public class UPPMongo {
         return res;
     }
 
+    public static String toCamelCase(String inputString) {
+        String result = "";
+        if (inputString.length() == 0) {
+            return result;
+        }
+
+        char firstChar = inputString.charAt(0);
+        boolean setFlag = false;
+        result = result + firstChar;
+        for (int i = 1; i < inputString.length(); i++) {
+            char currentChar = inputString.charAt(i);
+            if (currentChar == '_') {
+                setFlag = true;
+                continue;
+            } else {
+                if (setFlag) {
+                    currentChar = Character.toUpperCase(currentChar);
+                    setFlag = false;
+                }
+            }
+            result = result + currentChar;
+        }
+        return result;
+    }
+
     public String getUPPByFilter(String filter) {
         String result = null;
         BasicDBObject query = new BasicDBObject();
@@ -135,6 +160,8 @@ public class UPPMongo {
             while (keys.hasNext()) {
                 String key = keys.next();
                 System.out.println("found key " + key);
+                System.out.println("converting key " + toCamelCase(key));
+                key = toCamelCase(key);
                 System.out.println("value " + obj.getString(key));
                 query.put(key, java.util.regex.Pattern.compile(obj.getString(key)));
             }

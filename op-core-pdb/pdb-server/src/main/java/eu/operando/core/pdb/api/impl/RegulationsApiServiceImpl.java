@@ -240,6 +240,12 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
                 "regulations POST received",
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
+        
+        if(regulation.getLegislationSector() == null){
+            Logger.getLogger(RegulationsApiServiceImpl.class.getName()).log(Level.INFO, "regulations has empty legislation sector");
+            return Response.status(404).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                    "Error. The document (PrivacyRegulation) does not provide legislation_sector.")).build();
+        }
 
         String storeAction = ospMongodb.storeRegulation(regulation);
 
