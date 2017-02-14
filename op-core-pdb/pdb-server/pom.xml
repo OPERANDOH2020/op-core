@@ -119,6 +119,12 @@
             </plugin>
             <!-- end of addition -->
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources/config</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
     <dependencies>
         <dependency>
@@ -323,7 +329,11 @@
             <artifactId>slf4j-log4j12</artifactId>
             <version>${slf4j-version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>eu.operando.core.cas.client</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
     <repositories>
         <repository>

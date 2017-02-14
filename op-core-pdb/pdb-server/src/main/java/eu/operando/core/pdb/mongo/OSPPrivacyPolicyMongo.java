@@ -66,8 +66,8 @@ public class OSPPrivacyPolicyMongo {
 
     public OSPPrivacyPolicyMongo() {
         try {
-            this.mongo = new MongoClient("mongo.integration.operando.dmz.lab.esilab.org", 27017);
-            //this.mongo = new MongoClient("localhost", 27017);
+            //this.mongo = new MongoClient("mongo.integration.operando.dmz.lab.esilab.org", 27017);
+            this.mongo = new MongoClient("localhost", 27017);
 
             // get database
             this.db = mongo.getDB("pdb");
@@ -78,6 +78,23 @@ public class OSPPrivacyPolicyMongo {
 
             //} catch (UnknownHostException e) {
             //    e.printStackTrace();
+        } catch (MongoException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public OSPPrivacyPolicyMongo(String hostname, int port) {
+        try {
+            this.mongo = new MongoClient(hostname, port);
+
+            // get database
+            this.db = mongo.getDB("pdb");
+            
+            // get collection
+            this.ospTable = db.getCollection("osp");
+            this.ospPPTable = db.getCollection("pp");
+            this.ospRPTable = db.getCollection("ar");
+            
         } catch (MongoException e) {
             e.printStackTrace();
         }

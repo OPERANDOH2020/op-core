@@ -79,6 +79,24 @@ public class UPPMongo {
         }
     }
 
+    public UPPMongo(String hostname, int port) {
+        try {
+            this.mongo = new MongoClient(hostname, port);
+
+            // get database
+            this.db = mongo.getDB("pdb");
+
+            // get collection
+            this.uppTable = db.getCollection("upp");
+            System.out.println(this.uppTable.toString());
+
+            this.upp = new UserPrivacyPolicy();
+            
+        } catch (MongoException e) {
+            e.printStackTrace();
+        }
+    }
+
     public boolean deleteUPPById(String uppId) {
         System.out.println("deleting: " + uppId);
         boolean res = false;

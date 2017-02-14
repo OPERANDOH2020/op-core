@@ -36,7 +36,6 @@ import eu.operando.core.pdb.mongo.OSPPrivacyPolicyMongo;
 import io.swagger.client.ApiClient;
 import io.swagger.client.api.LogApi;
 import io.swagger.client.model.LogRequest;
-import io.swagger.client.ApiException;
 import io.swagger.client.model.LogRequest.LogDataTypeEnum;
 import io.swagger.client.model.LogRequest.LogPriorityEnum;
 import java.util.ArrayList;
@@ -44,17 +43,167 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.core.MediaType;
+import eu.operando.core.cas.client.api.DefaultApi;
+//import eu.operando.core.cas.client.ApiException;
+import eu.operando.core.cas.client.model.UserCredential;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-12-19T10:59:55.638Z")
 public class OSPApiServiceImpl extends OSPApiService {
 
-    ApiClient apiClient;
+    // LogDB
     LogApi logApi;
+    // AAPI
+    DefaultApi aapiClient;
+
+    String pdbOSPSId = "pdb/OSP/.*";
+    String logdbSId = "ose/osps/.*";
+    String aapiBasePath = "http://integration.operando.esilab.org:8135/operando/interfaces/aapi";
+    String logdbBasePath = "http://integration.operando.esilab.org:8090/operando/core/ldb";
+    String ospLoginName = "xxxxx";
+    String ospLoginPassword = "xxxxx";
+
+    String mongoServerHost = "localhost";
+    int mongoServerPort = 27017;
+    OSPPrivacyPolicyMongo ospMongodb = null;
+
+    Properties prop = null;
 
     public OSPApiServiceImpl() {
-        this.apiClient = new ApiClient();
-        this.apiClient.setBasePath("http://integration.operando.esilab.org:8090/operando/core/ldb");
-        this.logApi = new LogApi(this.apiClient);
+        super();
+        //  get service config params
+        prop = loadServiceProperties();
+        loadParams();
+
+        // setup aapi client
+        if (prop.getProperty("aapi.basepath") != null) {
+            aapiBasePath = prop.getProperty("aapi.basepath");
+        }
+        eu.operando.core.cas.client.ApiClient aapiDefaultClient = new eu.operando.core.cas.client.ApiClient();
+        aapiDefaultClient.setBasePath(aapiBasePath);
+        this.aapiClient = new DefaultApi(aapiDefaultClient);
+
+        // setup logdb client
+        if (prop.getProperty("logdb.basepath") != null) {
+            logdbBasePath = prop.getProperty("logdb.basepath");
+        }
+        ApiClient apiClient = new ApiClient();
+        apiClient.setBasePath(logdbBasePath);
+
+        // get service ticket for logdb service
+        if (prop.getProperty("pdb.osp.service.login") != null) {
+            ospLoginName = prop.getProperty("pdb.osp.service.login");
+        }
+        if (prop.getProperty("pdb.osp.service.password") != null) {
+            ospLoginPassword = prop.getProperty("pdb.osp.service.password");
+        }
+        if (prop.getProperty("logdb.service.id") != null) {
+            logdbSId = prop.getProperty("logdb.service.id");
+        }
+        String logdbST = getServiceTicket(ospLoginName, ospLoginPassword, logdbSId);
+        apiClient.addDefaultHeader("service-ticket", logdbST);
+        this.logApi = new LogApi(apiClient);
+
+        // setup mongo part
+        if (prop.getProperty("mongo.server.host") != null) {
+            mongoServerHost = prop.getProperty("mongo.server.host");
+        }
+        if (prop.getProperty("mongo.server.port") != null) {
+            try {
+                mongoServerPort = Integer.parseInt(prop.getProperty("mongo.server.port"));
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+        ospMongodb = new OSPPrivacyPolicyMongo(mongoServerHost, mongoServerPort);
+    }
+
+    private void loadParams(){
+        // setup aapi client
+        if (prop.getProperty("aapi.basepath") != null) {
+            aapiBasePath = prop.getProperty("aapi.basepath");
+        }        
+
+        // setup logdb client
+        if (prop.getProperty("logdb.basepath") != null) {
+            logdbBasePath = prop.getProperty("logdb.basepath");
+        }
+        
+        // get service ticket for logdb service
+        if (prop.getProperty("pdb.osp.service.login") != null) {
+            ospLoginName = prop.getProperty("pdb.osp.service.login");
+        }
+        if (prop.getProperty("pdb.osp.service.password") != null) {
+            ospLoginPassword = prop.getProperty("pdb.osp.service.password");
+        }
+        if (prop.getProperty("logdb.service.id") != null) {
+            logdbSId = prop.getProperty("logdb.service.id");
+        }
+        
+        // setup mongo part
+        if (prop.getProperty("mongo.server.host") != null) {
+            mongoServerHost = prop.getProperty("mongo.server.host");
+        }
+        if (prop.getProperty("mongo.server.port") != null) {
+            try {
+                mongoServerPort = Integer.parseInt(prop.getProperty("mongo.server.port"));
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    
+    private Properties loadServiceProperties() {
+        Properties props;
+        props = new Properties();
+
+        InputStream is = null;
+        try {
+            is = this.getClass().getClassLoader().getResourceAsStream("service.properties");
+            props.load(is);
+        } catch (IOException e) {
+            // Display to console for debugging purposes.
+            System.err.println("Error reading Configuration service properties file");
+            // Add logging code to log an error configuring the API on startup        
+        } finally {
+            try {
+                is.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return props;
+    }
+
+    private String getServiceTicket(String username, String password, String serviceId) {
+        String st = null;
+
+        UserCredential userCredential = new UserCredential();
+        userCredential.setUsername(username);
+        userCredential.setPassword(password);
+
+        try {
+            String tgt = aapiClient.aapiTicketsPost(userCredential);
+            System.out.println("pdb osp service TGT: " + tgt);
+            st = aapiClient.aapiTicketsTgtPost(tgt, serviceId);
+            System.out.println("logdb osp service ticket: " + st);
+
+        } catch (eu.operando.core.cas.client.ApiException ex) {
+            ex.printStackTrace();
+        }
+        return st;
+    }
+
+    private boolean aapiTicketsStValidateGet(String st) {
+        try {
+            aapiClient.aapiTicketsStValidateGet(st, pdbOSPSId);
+        } catch (eu.operando.core.cas.client.ApiException ex) {
+            ex.printStackTrace();
+        }
+        return false;
     }
 
     private void logRequest(String requesterId, String title, String description,
@@ -81,7 +230,7 @@ public class OSPApiServiceImpl extends OSPApiService {
             String response = this.logApi.lodDB(logRequest);
             Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.INFO, response);
 
-        } catch (ApiException ex) {
+        } catch (io.swagger.client.ApiException ex) {
             Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.SEVERE, "failed to log", ex);
         }
     }
@@ -89,6 +238,7 @@ public class OSPApiServiceImpl extends OSPApiService {
     @Override
     public Response oSPGet(String filter, SecurityContext securityContext) throws NotFoundException {
 
+        System.out.println("SecurityContext: " + securityContext.toString());
         Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP GET (filter) {0}", filter);
 
         logRequest("PDB OSP", "GET OSP",
@@ -96,8 +246,7 @@ public class OSPApiServiceImpl extends OSPApiService {
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("PDB", "OSP", "received")));
 
-        OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
-        String ospString = regdb.getOSPByFilter(filter);
+        String ospString = ospMongodb.getOSPByFilter(filter);
 
         if (ospString == null) {
 
@@ -128,8 +277,7 @@ public class OSPApiServiceImpl extends OSPApiService {
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
-        String ospString = regdb.getOSPAccessReasonsById(ospId);
+        String ospString = ospMongodb.getOSPAccessReasonsById(ospId);
 
         if (ospString == null) {
 
@@ -159,8 +307,7 @@ public class OSPApiServiceImpl extends OSPApiService {
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
-        boolean delAction = regdb.deleteOSPById(ospId);
+        boolean delAction = ospMongodb.deleteOSPById(ospId);
 
         if (!delAction) {
 
@@ -194,8 +341,7 @@ public class OSPApiServiceImpl extends OSPApiService {
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
-        String ospString = regdb.getOSPById(ospId);
+        String ospString = ospMongodb.getOSPById(ospId);
 
         if (ospString == null) {
 
@@ -226,8 +372,7 @@ public class OSPApiServiceImpl extends OSPApiService {
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
-        String ospString = regdb.getPolicyOSPById(ospId);
+        String ospString = ospMongodb.getPolicyOSPById(ospId);
 
         if (ospString == null) {
 
@@ -258,8 +403,7 @@ public class OSPApiServiceImpl extends OSPApiService {
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
-        boolean ospString = regdb.privacyPolicyAccessReasonsPost(ospId, ospPolicy);
+        boolean ospString = ospMongodb.privacyPolicyAccessReasonsPost(ospId, ospPolicy);
 
         if (!ospString) {
 
@@ -290,8 +434,7 @@ public class OSPApiServiceImpl extends OSPApiService {
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
-        boolean response = regdb.accessReasonIdDelete(ospId, reasonId);
+        boolean response = ospMongodb.accessReasonIdDelete(ospId, reasonId);
 
         if (!response) {
 
@@ -322,8 +465,7 @@ public class OSPApiServiceImpl extends OSPApiService {
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
-        boolean response = regdb.accessReasonIdUpdate(ospId, reasonId, ospPolicy);
+        boolean response = ospMongodb.accessReasonIdUpdate(ospId, reasonId, ospPolicy);
 
         if (!response) {
 
@@ -354,8 +496,7 @@ public class OSPApiServiceImpl extends OSPApiService {
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
-        boolean ret = regdb.updatePolicyOSP(ospId, ospPolicy);
+        boolean ret = ospMongodb.updatePolicyOSP(ospId, ospPolicy);
 
         if (ret) {
 
@@ -386,8 +527,7 @@ public class OSPApiServiceImpl extends OSPApiService {
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
-        boolean updateAction = regdb.updateOSP(ospId, ospPolicy);
+        boolean updateAction = ospMongodb.updateOSP(ospId, ospPolicy);
 
         if (!updateAction) {
 
@@ -420,8 +560,7 @@ public class OSPApiServiceImpl extends OSPApiService {
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        OSPPrivacyPolicyMongo regdb = new OSPPrivacyPolicyMongo();
-        String storeAction = regdb.storeOSP(ospPolicy);
+        String storeAction = ospMongodb.storeOSP(ospPolicy);
 
         if (storeAction == null) {
 
