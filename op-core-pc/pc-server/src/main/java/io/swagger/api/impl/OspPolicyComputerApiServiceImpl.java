@@ -115,7 +115,7 @@ public class OspPolicyComputerApiServiceImpl extends OspPolicyComputerApiService
         try {
 
             String currentUpp = null;
-            System.out.println("userid: " + userId + " ospId: "+ ospId);
+            System.out.println("userid: " + userId + " ospId: "+ ospId + "PDB: " + PDB_BASEURL);
             if(userId.startsWith("_demo")) {
                 currentUpp = policyService.getUPP(userId);
             }
@@ -207,11 +207,12 @@ public class OspPolicyComputerApiServiceImpl extends OspPolicyComputerApiService
                 if(policyResponse.getStatus()==404) {
                     return Response.status(400).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "User doesn't exist")).build();
                 }
+                return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "UPP updated for OSP: "
+                        + policyResponse.getStatus() + policyResponse.getEntity(String.class))).build();
             } catch (UniformInterfaceException | ClientHandlerException ex) {
                 return Response.status(400).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "Compute failed")).build();
             }
 
-            return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "UPP updated for OSP")).build();
         } catch (IOException ex) {
             Logger.getLogger(OspPolicyComputerApiServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             return Response.status(400).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "Compute failed")).build();

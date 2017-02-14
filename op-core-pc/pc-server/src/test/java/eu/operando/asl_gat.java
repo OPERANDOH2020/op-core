@@ -52,7 +52,7 @@ public class asl_gat {
      */
     private static final String PDB_URL = "http://integration.operando.esilab.org:8096/operando/core/pdb";
 
-    private static final String PC_URL = "http://integration.operando.esilab.org:8095/operando/core/pc";
+    private static final String PC_URL = "http://localhost:8081";
 
     /**
      * Constructor for stateful method calls.

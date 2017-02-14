@@ -80,6 +80,7 @@ public class PolicyComputerService {
         throws NotFoundException {
 
         try {
+            System.out.println("PDB: " + PDB_URL);
             String currentUpp = null;
             String ospPolicy = null;
             if(userId.startsWith("_demo")) {
@@ -165,13 +166,12 @@ public class PolicyComputerService {
                 Client client = new Client();
                 WebResource webResourcePDB = client.resource(PDB_URL+"/user_privacy_policy/"+userId);
 
-            ClientResponse policyResponse = webResourcePDB.type("application/json").put(ClientResponse.class,
-                    obj.toString());
+                ClientResponse policyResponse = webResourcePDB.type("application/json").put(ClientResponse.class,
+                        obj.toString());
 
-            if (policyResponse.getStatus() != 200) {
-                throw new RuntimeException("Failed : HTTP error code : "
-                        + policyResponse.toString());
-            }
+                if (policyResponse.getStatus() != 200) {
+                    throw new RuntimeException("Failed : HTTP error code : " + policyResponse.toString());
+                }
             }
 
             return  subscribedOspPolicies.toString();
