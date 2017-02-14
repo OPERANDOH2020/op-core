@@ -125,6 +125,22 @@ public class TestHelperMethods {
         return true;
     }
 
+    public boolean deleteOSP(String ospId, String PDB_URL) {
+
+            String urlUser = PDB_URL+"/OSP/" + ospId;
+            Client client = new Client();
+            WebResource webResourcePDB = client.resource(urlUser);
+
+            ClientResponse policyResponse = webResourcePDB.type("application/json").delete(ClientResponse.class);
+
+            if (policyResponse.getStatus() != 200) {
+                System.err.println(policyResponse.getEntity(String.class));
+                return false;
+            }
+
+        return true;
+    }
+
     public boolean updateUPP(String user, String fileLoc, String PDB_URL) {
 
         InputStream fis = null;
@@ -152,14 +168,14 @@ public class TestHelperMethods {
     }
 
     public String ospQuerybyFriendlyName(String ospId, String PDB_URL) {
-        String ospAPI = PDB_URL+"/OSP/?filter=" +  ospId + "";
+        String ospAPI = PDB_URL+"/OSP/?filter=%7B%27policyText%27:%27"+ospId+"%27%7D" ;
         WebResource webResourcePDB = client.resource(ospAPI);
         ClientResponse policyResponse = webResourcePDB.type("application/json").get(ClientResponse.class);
-        if(policyResponse.getStatus() == 200) {
+        if(policyResponse.getStatus() != 200) {
             return null;
         }
         String filterResults = policyResponse.getEntity(String.class);
-        JSONArray access_policies = JsonPath.read(filterResults, "$.policy_text=='"+ospId+"')");
+        JSONArray access_policies = JsonPath.read(filterResults, "$..[?(@.policy_text=='"+ospId+"')]");
         for(Object aP: access_policies) {
             String id = JsonPath.read(aP, "$.osp_policy_id");
             if(id != null)
@@ -174,7 +190,7 @@ public class TestHelperMethods {
      * @param PDB_URL The URL of the PDB.
      * @return t/f if the OSP is now in the PDB
      */
-    public boolean createOSP(String fileLoc, String PDB_URL) {
+    public String createOSP(String fileLoc, String PDB_URL) {
 
         InputStream fis = null;
         try {
@@ -190,14 +206,16 @@ public class TestHelperMethods {
 
             if (policyResponse.getStatus() != 201) {
                 System.err.println(policyResponse.getEntity(String.class));
-                return false;
+                return null;
             }
+            String id = JsonPath.parse(content).read("$.policy_text", String.class);
+            return ospQuerybyFriendlyName(id, PDB_URL);
+
         } catch (IOException e) {
             // Display to console for debugging purposes.
             System.err.println("Error creating UPP in db");
-            return false;
+            return null;
         }
-        return true;
     }
 
 }
