@@ -1,0 +1,67 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema id="operando_GAT" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="operando_GAT" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="GA_Patients">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID" type="xs:int" minOccurs="0" />
+              <xs:element name="datainserimento" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="username" type="xs:string" minOccurs="0" />
+              <xs:element name="nome" type="xs:string" minOccurs="0" />
+              <xs:element name="cognome" type="xs:string" minOccurs="0" />
+              <xs:element name="codiceFiscale" type="xs:string" minOccurs="0" />
+              <xs:element name="sesso" type="xs:string" minOccurs="0" />
+              <xs:element name="dataNascita" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="PaeseNascita" type="xs:string" minOccurs="0" />
+              <xs:element name="ProvinciaNascita" type="xs:string" minOccurs="0" />
+              <xs:element name="comuneNascita" type="xs:string" minOccurs="0" />
+              <xs:element name="ProvinciaResidenza" type="xs:string" minOccurs="0" />
+              <xs:element name="comuneResidenza" type="xs:string" minOccurs="0" />
+              <xs:element name="indirizzoResidenza" type="xs:string" minOccurs="0" />
+              <xs:element name="numeroCivico" type="xs:string" minOccurs="0" />
+              <xs:element name="CAP" type="xs:decimal" minOccurs="0" />
+              <xs:element name="email" type="xs:string" minOccurs="0" />
+              <xs:element name="cellulare" type="xs:string" minOccurs="0" />
+              <xs:element name="debiti" type="xs:boolean" minOccurs="0" />
+              <xs:element name="debitiDuranteGioco" type="xs:boolean" minOccurs="0" />
+              <xs:element name="usoAlcohol" type="xs:boolean" minOccurs="0" />
+              <xs:element name="usoTabacco" type="xs:boolean" minOccurs="0" />
+              <xs:element name="usoDroghe" type="xs:boolean" minOccurs="0" />
+              <xs:element name="famigliaUsoAlcohol" type="xs:boolean" minOccurs="0" />
+              <xs:element name="famigliaUsoTabacco" type="xs:boolean" minOccurs="0" />
+              <xs:element name="famigliaUsoDroghe" type="xs:boolean" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="PA_Pathology">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID" type="xs:int" minOccurs="0" />
+              <xs:element name="datainserimento" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="place" type="xs:string" minOccurs="0" />
+              <xs:element name="fasciaGiorna" type="xs:string" minOccurs="0" />
+              <xs:element name="tipoPatologi" type="xs:string" minOccurs="0" />
+              <xs:element name="alcoholDurante" type="xs:boolean" minOccurs="0" />
+              <xs:element name="tabaccoDurante" type="xs:boolean" minOccurs="0" />
+              <xs:element name="drogaDurante" type="xs:boolean" minOccurs="0" />
+              <xs:element name="etaPrimiDisturbi" type="xs:decimal" minOccurs="0" />
+              <xs:element name="GA_Patient_ID" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="PA_OtherPathology">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID" type="xs:int" minOccurs="0" />
+              <xs:element name="datainserimento" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="GA_Patient_ID" type="xs:int" minOccurs="0" />
+              <xs:element name="descrizione" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

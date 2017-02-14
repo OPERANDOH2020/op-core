@@ -38,7 +38,7 @@ import java.util.List;
 
 
 public class OSPDataRequest   {
-  
+
   private String requesterId = null;
   private String subject = null;
   private String requestedUrl = null;
@@ -67,7 +67,7 @@ public class OSPDataRequest   {
   private ActionEnum action = null;
   private List<PolicyAttribute> attributes = new ArrayList<PolicyAttribute>();
 
-  
+
   /**
    * Id of the requester (typically the id of an OSP).
    **/
@@ -76,7 +76,7 @@ public class OSPDataRequest   {
     return this;
   }
 
-  
+
   @ApiModelProperty(value = "Id of the requester (typically the id of an OSP).")
   @JsonProperty("requester_id")
   public String getRequesterId() {
@@ -86,7 +86,7 @@ public class OSPDataRequest   {
     this.requesterId = requesterId;
   }
 
-  
+
   /**
    * A description of the subject who the policies grants/doesn't grant to carry out.\n
    **/
@@ -95,7 +95,7 @@ public class OSPDataRequest   {
     return this;
   }
 
-  
+
   @ApiModelProperty(value = "A description of the subject who the policies grants/doesn't grant to carry out.\n")
   @JsonProperty("subject")
   public String getSubject() {
@@ -105,7 +105,7 @@ public class OSPDataRequest   {
     this.subject = subject;
   }
 
-  
+
   /**
    * The Requested URL of the data.\n
    **/
@@ -114,7 +114,7 @@ public class OSPDataRequest   {
     return this;
   }
 
-  
+
   @ApiModelProperty(value = "The Requested URL of the data.\n")
   @JsonProperty("requested_url")
   public String getRequestedUrl() {
@@ -124,7 +124,7 @@ public class OSPDataRequest   {
     this.requestedUrl = requestedUrl;
   }
 
-  
+
   /**
    * The action being carried out on the private date e.g. accessing, disclosing to a third party. \n
    **/
@@ -133,7 +133,7 @@ public class OSPDataRequest   {
     return this;
   }
 
-  
+
   @ApiModelProperty(value = "The action being carried out on the private date e.g. accessing, disclosing to a third party. \n")
   @JsonProperty("action")
   public ActionEnum getAction() {
@@ -143,7 +143,7 @@ public class OSPDataRequest   {
     this.action = action;
   }
 
-  
+
   /**
    * The set of context attributes attached to the policy (e.g. subject role, subject purpose)\n
    **/
@@ -152,7 +152,7 @@ public class OSPDataRequest   {
     return this;
   }
 
-  
+
   @ApiModelProperty(value = "The set of context attributes attached to the policy (e.g. subject role, subject purpose)\n")
   @JsonProperty("attributes")
   public List<PolicyAttribute> getAttributes() {
@@ -162,7 +162,7 @@ public class OSPDataRequest   {
     this.attributes = attributes;
   }
 
-  
+
 
   @Override
   public boolean equals(Object o) {
@@ -189,12 +189,12 @@ public class OSPDataRequest   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class OSPDataRequest {\n");
-    
-    sb.append("    requesterId: ").append(toIndentedString(requesterId)).append("\n");
-    sb.append("    subject: ").append(toIndentedString(subject)).append("\n");
-    sb.append("    requestedUrl: ").append(toIndentedString(requestedUrl)).append("\n");
-    sb.append("    action: ").append(toIndentedString(action)).append("\n");
-    sb.append("    attributes: ").append(toIndentedString(attributes)).append("\n");
+
+    sb.append("    \"requester_id\": \"").append(toIndentedString(requesterId)).append("\",\n");
+    sb.append("    \"subject\": \"").append(toIndentedString(subject)).append("\",\n");
+    sb.append("    \"requested_url\": \"").append(toIndentedString(requestedUrl)).append("\",\n");
+    sb.append("    \"action\": \"").append(toIndentedString(action)).append("\",\n");
+    sb.append("    \"attributes\": \"").append(toIndentedString(attributes)).append("\",\n");
     sb.append("}");
     return sb.toString();
   }

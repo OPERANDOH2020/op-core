@@ -26,21 +26,27 @@
 /////////////////////////////////////////////////////////////////////////
 package io.swagger.api.impl;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.stream.JsonReader;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientHandlerException;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.UniformInterfaceException;
+import com.sun.jersey.api.client.WebResource;
 import eu.operando.PolicyEvaluationService;
+import eu.operando.core.pdb.common.model.AccessPolicy;
 import io.swagger.api.*;
 import io.swagger.model.UserPreference;
 
 import java.util.List;
 import io.swagger.api.NotFoundException;
 import eu.operando.core.pdb.common.model.OSPConsents;
+import eu.operando.core.pdb.common.model.OSPPrivacyPolicy;
 import eu.operando.core.pdb.common.model.UserPrivacyPolicy;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringReader;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 import javax.ws.rs.core.Response;
@@ -106,44 +112,109 @@ public class OspPolicyComputerApiServiceImpl extends OspPolicyComputerApiService
     public Response ospPolicyComputerPost(String userId, String ospId, List<UserPreference> ospPrefs, SecurityContext securityContext)
     throws NotFoundException {
 
-        String currentUpp = null;
+        try {
 
-        if(userId.startsWith("_demo")) {
-            currentUpp = policyService.getUPP(userId);
-        }
-        else {
+            String currentUpp = null;
+            System.out.println("userid: " + userId + " ospId: "+ ospId);
+            if(userId.startsWith("_demo")) {
+                currentUpp = policyService.getUPP(userId);
+            }
+            else {
+                try {
+                    /**
+                     * Get the UPP from the PDB.
+                     */
+                    CloseableHttpClient httpclient = HttpClients.createDefault();
+                    HttpGet httpget = new HttpGet(PDB_BASEURL + "/user_privacy_policy/" + userId);
+                    CloseableHttpResponse response1 = httpclient.execute(httpget);
+
+                    /**
+                     * If there is no UPP, then it returns an non-compliance report
+                     * with a NO_POLICY statement.
+                     */
+                    HttpEntity entity = response1.getEntity();
+                    System.out.println(response1.getStatusLine().getStatusCode());
+                    if(response1.getStatusLine().getStatusCode()==404) {
+                        return Response.status(400).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "UserId doesn't exist")).build();
+                    }
+                    currentUpp = EntityUtils.toString(entity);
+                    System.out.println(currentUpp);
+                } catch (IOException ex) {
+                    return Response.status(400).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "UserId doesn't exist")).build();
+                }
+            }
+            // Create a subscribed policy statement and store it in the UPP
+            ObjectMapper mapper = new ObjectMapper();
+            UserPrivacyPolicy uppProfile = mapper.readValue(currentUpp, UserPrivacyPolicy.class);
+            List<OSPConsents> subscribedOspPolicies = uppProfile.getSubscribedOspPolicies();
+            System.out.println("Number of polices for this OSP: " + subscribedOspPolicies.size());
+
+            // Get the access policies for each of the OSP statments
+            /**
+             * Get the OSP from the PDB.
+             */
+            String currentOSP = null;
             try {
                 /**
                  * Get the UPP from the PDB.
                  */
                 CloseableHttpClient httpclient = HttpClients.createDefault();
-                HttpGet httpget = new HttpGet(PDB_BASEURL + "/" + userId);
+                HttpGet httpget = new HttpGet(PDB_BASEURL + "/OSP/" + ospId);
                 CloseableHttpResponse response1 = httpclient.execute(httpget);
 
                 /**
-                 * If there is no UPP, then it returns an non-compliance report
-                 * with a NO_POLICY statement.
+                 * If there is no OSP, then complete fail.
                  */
                 HttpEntity entity = response1.getEntity();
                 System.out.println(response1.getStatusLine().getStatusCode());
                 if(response1.getStatusLine().getStatusCode()==404) {
-                    return Response.status(400).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "UserId doesn't exist")).build();
+                    return Response.status(400).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "OSP doesn't exist")).build();
                 }
-                currentUpp = EntityUtils.toString(entity);
-                System.out.println(currentUpp);
+                currentOSP = EntityUtils.toString(entity);
+                System.out.println(currentOSP);
             } catch (IOException ex) {
-                return Response.status(400).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "UserId doesn't exist")).build();
+                return Response.status(400).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "OSP doesn't exist")).build();
             }
+
+            OSPPrivacyPolicy ospPolicy = mapper.readValue(currentOSP, OSPPrivacyPolicy.class);
+            List<AccessPolicy> policies = ospPolicy.getPolicies();
+            System.out.println("Number of policies: " + policies.size());
+            OSPConsents sConsents = new OSPConsents();
+            sConsents.setOspId(ospId);
+            sConsents.setAccessPolicies(policies);
+            subscribedOspPolicies.add(sConsents);
+            uppProfile.setSubscribedOspPolicies(subscribedOspPolicies);
+
+            System.out.println("\nNew UPP : " + uppProfile.toString() + "\n");
+
+            /**
+             * Update the UPP
+             */
+            try {
+                /**
+                 * Get the UPP from the PDB.
+                 */
+                Client client = new Client();
+                WebResource webResourcePDB = client.resource(PDB_BASEURL + "/user_privacy_policy/" + userId);
+
+                ClientResponse policyResponse = webResourcePDB.type("application/json").put(ClientResponse.class,
+                        uppProfile.toString());
+
+                /**
+                 * If there is no UPP, then complete fail.
+                 */
+                System.out.println(policyResponse.getEntity(String.class));
+                if(policyResponse.getStatus()==404) {
+                    return Response.status(400).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "User doesn't exist")).build();
+                }
+            } catch (UniformInterfaceException | ClientHandlerException ex) {
+                return Response.status(400).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "Compute failed")).build();
+            }
+
+            return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "UPP updated for OSP")).build();
+        } catch (IOException ex) {
+            Logger.getLogger(OspPolicyComputerApiServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.status(400).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "Compute failed")).build();
         }
-        // Create a subscribed policy statement and store it in the UPP
-        Gson gson = new GsonBuilder().create();
-        JsonReader jsonReader = new JsonReader(new StringReader(currentUpp));
-        UserPrivacyPolicy uppProfile = gson.fromJson(jsonReader, UserPrivacyPolicy.class);
-        List<OSPConsents> subscribedOspPolicies = uppProfile.getSubscribedOspPolicies();
-
-//        JSONArray access_policies = JsonPath.read(uppProfile, "$.subscribed_osp_policies[?(@.osp_id=='"+ospId+"')]");
-//                boolean found = false;
-
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
     }
 }

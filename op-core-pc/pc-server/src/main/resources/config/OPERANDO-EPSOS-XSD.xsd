@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+ <xs:attribute name="national_health_care_id" type="xs:string"/>
+
+ <xs:element name="dateofbirth" type="xs:date"/>
+ <xs:element name="placeofbirth" type="address"/>
+ <xs:element name="height" type="xs:decimal"/>
+ <xs:element name="weight" type="xs:decimal"/>
+ <xs:element name="age" type="xs:positiveInteger"/>
+ <xs:element name="email" type="xs:string"/>
+ <xs:element name="insurance_number" type="xs:string"/>
+ <xs:element name="body_circumeference" type="xs:positiveInteger"/>
+
+  <xs:complexType name="emails">
+    <xs:sequence>
+		<xs:element name="email" type="xs:string" maxOccurs="unbounded"/>		
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="addresses">
+    <xs:sequence>
+		<xs:element name="address" type="address" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="address">
+    <xs:sequence>
+      <xs:element name="street" type="xs:string"/>
+      <xs:element name="street_number" type="xs:positiveInteger"/>
+	  <xs:element name="city" type="xs:string"/>
+	  <xs:element name="post_code" type="xs:string"/>
+	  <xs:element name="state_of_prevince" type="xs:string"/>
+	  <xs:element name="country" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="phone_numbers">
+    <xs:sequence>
+		<xs:element name="phone_number" type="xs:string" maxOccurs="unbounded"/> <!--  maybe type is needed as well -->
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="gender">
+	    <xs:restriction base="xs:string">
+	       <xs:enumeration value="M" />
+	       <xs:enumeration value="F" />
+	       <xs:enumeration value="unknown" />
+	    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="role">
+    <xs:restriction base="xs:string">
+       <xs:enumeration value="doctor" />	            
+       <xs:enumeration value="unknown" />
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="full_name">
+    <xs:sequence>
+      <xs:element name="firstname" type="xs:string"/>
+      <xs:element name="surname" type="xs:string"/>      
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="anthropometric_data">
+    <xs:sequence>
+      <xs:element ref="weight"/>
+      <xs:element ref="age"/>      
+	  <xs:element ref="height"/>      
+	  <xs:element ref="body_circumeference"/>      	  
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="health_care_professionals">
+    <xs:sequence>
+		<xs:element name="health_care_professional" type="health_care_professional" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="health_care_professional">
+    <xs:sequence>
+      <xs:element name="role" type="role"/>
+      <xs:element name="full_name" type="full_name"/>      
+	  <xs:element name="doctor_full_name" type="full_name"/>      
+	  <xs:element ref="height"/>      
+	  <xs:element ref="dateofbirth"/>      	  
+	  <xs:element ref="placeofbirth"/>
+	  <xs:element name="addresses" type="addresses" />	  
+	  <xs:element name="phone_numbers" type="phone_numbers" />	  	  
+	  <xs:element ref="email" maxOccurs="unbounded"/>		  
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="allergies_intolerances">
+    <xs:sequence>
+		<xs:element name="allergy_intolerance" type="allergy_intolerance" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="allergy_intolerance">
+    <xs:sequence>
+	  <xs:element name="allergy_description" type="xs:string"/>
+	  <xs:element name="allergy_code_id" type="xs:string"/>
+	  <xs:element name="onset_date" type="xs:date"/>	  
+	  <xs:element name="agent" type="xs:string"/>	  	  
+	  <xs:element name="agent_code_id" type="xs:string"/>	  	  	  	  
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="problems">
+    <xs:sequence>
+		<xs:element name="problem" type="problem" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="problem">
+    <xs:sequence>
+	  <xs:element name="problem_description" type="xs:string"/>
+	  <xs:element name="problem_code_id" type="xs:string"/>
+	  <xs:element name="onset_date" type="xs:date"/>	  
+	  <xs:element name="end_date" type="xs:date"/>	  
+	  <xs:element name="resolution_circumstances" type="xs:string"/>	  	  
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="surgical_procedures">
+    <xs:sequence>
+	  <xs:element name="surgical_procedure" type="surgical_procedure" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="surgical_procedure">
+    <xs:sequence>
+	  <xs:element name="procedure_description" type="xs:string"/>
+	  <xs:element name="procedure_code_id" type="xs:string"/>
+	  <xs:element name="procedure_date" type="xs:date"/>	  	  
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="medical_devices_and_implants">
+    <xs:sequence>
+	  <xs:element name="medical_devices_and_implants" type="medical_device_and_implant" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="medical_device_and_implant">
+    <xs:sequence>
+	  <xs:element name="device_and_implant_description" type="xs:string"/>
+	  <xs:element name="device__id" type="xs:string"/>
+	  <xs:element name="implant_date" type="xs:date"/>	  	  
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="treatment_recommentations">
+    <xs:sequence>
+	  <xs:element name="treatment_recommentation" type="treatment_recommentation" maxOccurs="unbounded"/>	  
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="treatment_recommentation">
+    <xs:sequence>
+	  <xs:element name="recommentaion_description" type="xs:string"/>
+	  <xs:element name="recommentation_id" type="xs:string"/>	  
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="invalidities">
+    <xs:sequence>
+	  <xs:element name="invalidities" type="invalidity" maxOccurs="unbounded"/>	  
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="invalidity">
+    <xs:sequence>
+	  <xs:element name="invalidity_description" type="xs:string"/>
+	  <xs:element name="invalidity_id" type="xs:string"/>	  
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="vital_signs_observations">
+    <xs:sequence>
+	  <xs:element name="vital_signs_observation" type="vital_signs_observation" maxOccurs="unbounded"/>	  
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="vital_signs_observation">
+    <xs:sequence>
+	  <xs:element name="blood_pressure" type="xs:string"/>
+	  <xs:element name="measured_date" type="xs:date"/>	  
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="blood_groups">
+    <xs:sequence>
+	  <xs:element name="blood_group" type="blood_group" maxOccurs="unbounded"/>	  
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="blood_group">
+    <xs:sequence>
+	  <xs:element name="result" type="xs:string"/>
+	  <xs:element name="measured_date" type="xs:date"/>	  
+    </xs:sequence>
+  </xs:complexType>
+    	
+  <xs:complexType name="diagnostic_tests">
+    <xs:sequence>	  
+	  <xs:element name="blood_groups" type="blood_groups"/>	  
+    </xs:sequence>
+  </xs:complexType> 
+	
+  <xs:complexType name="physical_findings">
+    <xs:sequence>	  
+	  <xs:element name="vital_signs_observations" type="vital_signs_observations"/>	  
+    </xs:sequence>
+  </xs:complexType> 
+  
+  <xs:complexType name="pregnancy_history">
+    <xs:sequence>	  
+	  <xs:element name="expected_date_of_delivery" type="xs:date" maxOccurs="unbounded"/>  
+    </xs:sequence>
+  </xs:complexType> 
+  
+  <xs:complexType name="social_history">
+    <xs:sequence>	  
+	  <xs:element name="alcohol_use" type="xs:string" />  
+	  <xs:element name="tobacco_use" type="xs:string" />  
+	  <xs:element name="drug_use" type="xs:string" />  
+    </xs:sequence>
+  </xs:complexType> 
+  
+  <xs:complexType name="medicines">
+    <xs:sequence>	  
+	  <xs:element name="medicine" type="medicine" maxOccurs="unbounded"/>  
+    </xs:sequence>
+  </xs:complexType> 
+  
+  <xs:complexType name="medicine">
+    <xs:sequence>
+      <xs:element name="active_ingredient" type="xs:string"/>
+      <xs:element name="active_ingredient_code_id" type="xs:positiveInteger"/>
+	  <xs:element name="strenght" type="xs:string"/>
+	  <xs:element name="pharmaceutical_dose_form" type="xs:string"/>
+	  <xs:element name="number_of_units_per_intake" type="xs:positiveInteger"/>
+	  <xs:element name="frequency_of_intakes" type="xs:positiveInteger"/>
+	  <xs:element name="duration_of_treatment" type="xs:positiveInteger"/>	  
+	  <xs:element name="date_of_onset_of_treatment" type="xs:date"/>	  
+	</xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="medical_problems">
+    <xs:sequence>
+	  <xs:element name="problems" type="problems"/>
+	  <xs:element name="medical_devices_and_implants" type="medical_devices_and_implants"/>
+	  <xs:element name="major_surgical_procedures" type="surgical_procedures"/>
+	  <xs:element name="treatment_recommendations" type="treatment_recommentations"/>
+	  <xs:element name="invalidities" type="invalidities"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="history_of_past_illness">
+    <xs:sequence>
+	  <xs:element name="problems" type="problems"/>
+	  <xs:element name="surgical_procedures" type="surgical_procedures"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="alerts">
+    <xs:sequence>
+	  <xs:element name="allergies_intolerances" type="allergies_intolerances" />	  
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="insurance_information">
+    <xs:sequence>
+      <xs:element name="insurance_number" type="xs:string"/>
+    </xs:sequence>    
+  </xs:complexType>
+  
+  <xs:complexType name="contact_information">
+    <xs:sequence>
+      <xs:element name="addresses" type="addresses" />
+	  <xs:element name="phone_numbers" type="phone_numbers" />
+	  <xs:element name="emails" type="emails" />
+      <xs:element name="health_care_professionals" type="health_care_professionals" />
+    </xs:sequence>    
+  </xs:complexType>
+
+  <xs:complexType name="personal_information">
+    <xs:sequence>
+      <xs:element name="full_name" type="full_name"/>
+      <xs:element ref="dateofbirth" />
+	  <xs:element ref="placeofbirth"/>
+      <xs:element name="gender" type="gender"/>
+	  <xs:element name="anthropometric_data" type="anthropometric_data"/>
+    </xs:sequence>    
+  </xs:complexType>
+
+  <xs:complexType name="patient">
+    <xs:sequence>
+      <xs:element name="personal_information" type="personal_information"/>
+      <xs:element name="contact_information" type="contact_information"/>
+	  <xs:element name="insurance_information" type="insurance_information"/>
+      <xs:element name="alerts" type="alerts"/>
+	  <xs:element name="history_of_past_illness" type="history_of_past_illness"/>
+	  <xs:element name="medical_problems" type="medical_problems"/>	  
+	  <xs:element name="medication_summary" type="medicines"/>		
+	  <xs:element name="social_history" type="social_history"/> 
+	  <xs:element name="pregnancy_history" type="pregnancy_history"/>
+	  <xs:element name="physical_findings" type="physical_findings"/>
+	  <xs:element name="diagnostic_tests" type="diagnostic_tests"/>
+	  <xs:element name="country" type="xs:string"/>
+	  <xs:element name="patient_summary" type="xs:string"/>
+	  <xs:element name="legal_entity" type="xs:string" maxOccurs="unbounded"/>	  
+    </xs:sequence>
+    <xs:attribute ref="national_health_care_id" use="required"/>
+  </xs:complexType>
+
+
+<xs:element name="patients">
+  <xs:complexType>
+    <xs:sequence>
+		<xs:element name="patient" type="patient" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+</xs:schema>

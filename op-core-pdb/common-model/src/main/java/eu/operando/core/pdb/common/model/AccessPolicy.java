@@ -38,7 +38,7 @@ import java.util.List;
 
 
 public class AccessPolicy   {
-  
+
   private String subject = null;
   private Boolean permission = null;
 
@@ -67,7 +67,7 @@ public class AccessPolicy   {
   private String resource = null;
   private List<PolicyAttribute> attributes = new ArrayList<PolicyAttribute>();
 
-  
+
   /**
    * A description of the subject who the policies grants/doesn't grant to carry out.\n
    **/
@@ -76,7 +76,7 @@ public class AccessPolicy   {
     return this;
   }
 
-  
+
   @ApiModelProperty(value = "A description of the subject who the policies grants/doesn't grant to carry out.\n")
   @JsonProperty("subject")
   public String getSubject() {
@@ -86,7 +86,7 @@ public class AccessPolicy   {
     this.subject = subject;
   }
 
-  
+
   /**
    * Grant or deny the subject access to the resource via the operation defined in this policy\n
    **/
@@ -95,7 +95,7 @@ public class AccessPolicy   {
     return this;
   }
 
-  
+
   @ApiModelProperty(value = "Grant or deny the subject access to the resource via the operation defined in this policy\n")
   @JsonProperty("permission")
   public Boolean getPermission() {
@@ -105,7 +105,7 @@ public class AccessPolicy   {
     this.permission = permission;
   }
 
-  
+
   /**
    * The action being carried out on the private date e.g. accessing, disclosing to a third party. \n
    **/
@@ -114,7 +114,7 @@ public class AccessPolicy   {
     return this;
   }
 
-  
+
   @ApiModelProperty(value = "The action being carried out on the private date e.g. accessing, disclosing to a third party. \n")
   @JsonProperty("action")
   public ActionEnum getAction() {
@@ -124,7 +124,7 @@ public class AccessPolicy   {
     this.action = action;
   }
 
-  
+
   /**
    * The identifier of the resource that the policy concerns (e.g. URL)\n
    **/
@@ -133,7 +133,7 @@ public class AccessPolicy   {
     return this;
   }
 
-  
+
   @ApiModelProperty(value = "The identifier of the resource that the policy concerns (e.g. URL)\n")
   @JsonProperty("resource")
   public String getResource() {
@@ -143,7 +143,7 @@ public class AccessPolicy   {
     this.resource = resource;
   }
 
-  
+
   /**
    * The set of context attributes attached to the policy (e.g. subject role, subject purpose)\n
    **/
@@ -152,7 +152,7 @@ public class AccessPolicy   {
     return this;
   }
 
-  
+
   @ApiModelProperty(value = "The set of context attributes attached to the policy (e.g. subject role, subject purpose)\n")
   @JsonProperty("attributes")
   public List<PolicyAttribute> getAttributes() {
@@ -162,7 +162,7 @@ public class AccessPolicy   {
     this.attributes = attributes;
   }
 
-  
+
 
   @Override
   public boolean equals(Object o) {
@@ -188,13 +188,13 @@ public class AccessPolicy   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class AccessPolicy {\n");
-    
-    sb.append("    subject: ").append(toIndentedString(subject)).append("\n");
-    sb.append("    permission: ").append(toIndentedString(permission)).append("\n");
-    sb.append("    action: ").append(toIndentedString(action)).append("\n");
-    sb.append("    resource: ").append(toIndentedString(resource)).append("\n");
-    sb.append("    attributes: ").append(toIndentedString(attributes)).append("\n");
+    sb.append("{\n");
+
+    sb.append("    \"subject\": \"").append(toIndentedString(subject)).append("\",\n");
+    sb.append("    \"permission\": \"").append(toIndentedString(permission)).append("\",\n");
+    sb.append("    \"action\": \"").append(toIndentedString(action)).append("\",\n");
+    sb.append("    \"resource\": \"").append(toIndentedString(resource)).append("\",\n");
+    sb.append("    \"attributes\": ").append(toIndentedString(attributes)).append("\n");
     sb.append("}");
     return sb.toString();
   }

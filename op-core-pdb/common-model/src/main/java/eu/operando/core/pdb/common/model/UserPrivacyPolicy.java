@@ -135,12 +135,12 @@ public class UserPrivacyPolicy   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class UserPrivacyPolicy {\n");
+    sb.append("{\n");
 
-    sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
-    sb.append("    userPreferences: ").append(toIndentedString(userPreferences)).append("\n");
-    sb.append("    subscribedOspPolicies: ").append(toIndentedString(subscribedOspPolicies)).append("\n");
-    sb.append("    subscribedOspSettings: ").append(toIndentedString(subscribedOspSettings)).append("\n");
+    sb.append("    \"user_id\": \"").append(toIndentedString(userId)).append("\",\n");
+    sb.append("    \"user_preferences\": ").append(toIndentedString(userPreferences)).append(",\n");
+    sb.append("    \"subscribed_osp_policies\": ").append(toIndentedString(subscribedOspPolicies)).append(",\n");
+    sb.append("    \"subscribed_osp_settings\": ").append(toIndentedString(subscribedOspSettings)).append("\n");
     sb.append("}");
     return sb.toString();
   }

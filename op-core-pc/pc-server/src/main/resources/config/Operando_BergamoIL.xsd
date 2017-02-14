@@ -1,0 +1,60 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema id="operando_Inspection" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="operando_Inspection" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="PSW_Inspections">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID" type="xs:int" minOccurs="0" />
+              <xs:element name="datainserimento" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="nomeAzienda" type="xs:string" minOccurs="0" />
+              <xs:element name="op_psw_inspection_comune" type="xs:string" minOccurs="0" />
+              <xs:element name="op_psw_inspection_provincia" type="xs:string" minOccurs="0" />
+              <xs:element name="indirizzo" type="xs:string" minOccurs="0" />
+              <xs:element name="numeroCivico" type="xs:decimal" minOccurs="0" />
+              <xs:element name="cap" type="xs:decimal" minOccurs="0" />
+              <xs:element name="dataIspezione" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="oraInizio" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="oraFine" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="sanzioneApplicata" type="xs:boolean" minOccurs="0" />
+              <xs:element name="IDIspettore" type="xs:string" minOccurs="0" />
+              <xs:element name="nomeIspettore" type="xs:string" minOccurs="0" />
+              <xs:element name="report" type="xs:string" minOccurs="0" />
+              <xs:element name="daRicontrollare" type="xs:boolean" minOccurs="0" />
+              <xs:element name="dataOraProssimaIspezione" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="idIspettoreProssimaIspezione" type="xs:string" minOccurs="0" />
+              <xs:element name="nomeIspettoreProssimaIspezione" type="xs:string" minOccurs="0" />
+              <xs:element name="username" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="PSW_Penality">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID" type="xs:int" minOccurs="0" />
+              <xs:element name="datainserimento" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="PSW_Inspection_ID" type="xs:int" minOccurs="0" />
+              <xs:element name="amount" type="xs:decimal" minOccurs="0" />
+              <xs:element name="motivo" type="xs:string" minOccurs="0" />
+              <xs:element name="livello" type="xs:decimal" minOccurs="0" />
+              <xs:element name="primaPenalita" type="xs:boolean" minOccurs="0" />
+              <xs:element name="pagato" type="xs:boolean" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="PSW_Payments">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID" type="xs:int" minOccurs="0" />
+              <xs:element name="datainserimento" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="PSW_Penality_ID" type="xs:int" minOccurs="0" />
+              <xs:element name="totale" type="xs:decimal" minOccurs="0" />
+              <xs:element name="dataPagamento" type="xs:dateTime" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

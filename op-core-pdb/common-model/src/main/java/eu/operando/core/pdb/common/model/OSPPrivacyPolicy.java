@@ -37,14 +37,14 @@ import java.util.List;
 
 
 public class OSPPrivacyPolicy   {
-  
+
   private String ospPolicyId = null;
   private String policyText = null;
   private String policyUrl = null;
   private List<OSPDataRequest> workflow = new ArrayList<OSPDataRequest>();
   private List<AccessPolicy> policies = new ArrayList<AccessPolicy>();
 
-  
+
   /**
    **/
   public OSPPrivacyPolicy ospPolicyId(String ospPolicyId) {
@@ -52,7 +52,7 @@ public class OSPPrivacyPolicy   {
     return this;
   }
 
-  
+
   @ApiModelProperty(value = "")
   @JsonProperty("osp_policy_id")
   public String getOspPolicyId() {
@@ -62,7 +62,7 @@ public class OSPPrivacyPolicy   {
     this.ospPolicyId = ospPolicyId;
   }
 
-  
+
   /**
    * The content of the OSP privacy policy, textually described and published. It is\na the full text adverstised by the OSP.\n
    **/
@@ -71,7 +71,7 @@ public class OSPPrivacyPolicy   {
     return this;
   }
 
-  
+
   @ApiModelProperty(value = "The content of the OSP privacy policy, textually described and published. It is\na the full text adverstised by the OSP.\n")
   @JsonProperty("policy_text")
   public String getPolicyText() {
@@ -81,7 +81,7 @@ public class OSPPrivacyPolicy   {
     this.policyText = policyText;
   }
 
-  
+
   /**
    * The url location of the privacy policy of the OSP\n
    **/
@@ -90,7 +90,7 @@ public class OSPPrivacyPolicy   {
     return this;
   }
 
-  
+
   @ApiModelProperty(value = "The url location of the privacy policy of the OSP\n")
   @JsonProperty("policy_url")
   public String getPolicyUrl() {
@@ -100,7 +100,7 @@ public class OSPPrivacyPolicy   {
     this.policyUrl = policyUrl;
   }
 
-  
+
   /**
    * The sequence of requests that this OSP makes (simple ordered array list\nin this version). The requests describes the operations that the OSP may\ncarry out on the data. This can be used for compliance checking and computation\nof user policies.\n
    **/
@@ -109,7 +109,7 @@ public class OSPPrivacyPolicy   {
     return this;
   }
 
-  
+
   @ApiModelProperty(value = "The sequence of requests that this OSP makes (simple ordered array list\nin this version). The requests describes the operations that the OSP may\ncarry out on the data. This can be used for compliance checking and computation\nof user policies.\n")
   @JsonProperty("workflow")
   public List<OSPDataRequest> getWorkflow() {
@@ -119,7 +119,7 @@ public class OSPPrivacyPolicy   {
     this.workflow = workflow;
   }
 
-  
+
   /**
    * The list of rights that the OSP intends to follow e.g. give X access to Y data for Z purpose. This\ninformation can then be used in calculation of the policy and in compliance checking.\n
    **/
@@ -128,7 +128,7 @@ public class OSPPrivacyPolicy   {
     return this;
   }
 
-  
+
   @ApiModelProperty(value = "The list of rights that the OSP intends to follow e.g. give X access to Y data for Z purpose. This\ninformation can then be used in calculation of the policy and in compliance checking.\n")
   @JsonProperty("policies")
   public List<AccessPolicy> getPolicies() {
@@ -138,7 +138,7 @@ public class OSPPrivacyPolicy   {
     this.policies = policies;
   }
 
-  
+
 
   @Override
   public boolean equals(Object o) {
@@ -164,13 +164,13 @@ public class OSPPrivacyPolicy   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class OSPPrivacyPolicy {\n");
-    
-    sb.append("    ospPolicyId: ").append(toIndentedString(ospPolicyId)).append("\n");
-    sb.append("    policyText: ").append(toIndentedString(policyText)).append("\n");
-    sb.append("    policyUrl: ").append(toIndentedString(policyUrl)).append("\n");
-    sb.append("    workflow: ").append(toIndentedString(workflow)).append("\n");
-    sb.append("    policies: ").append(toIndentedString(policies)).append("\n");
+    sb.append("{\n");
+
+    sb.append("    \"osp_policy_id\": \"").append(toIndentedString(ospPolicyId)).append("\",\n");
+    sb.append("    \"policy_text\": \"").append(toIndentedString(policyText)).append("\",\n");
+    sb.append("    \"policy_url\": \"").append(toIndentedString(policyUrl)).append("\",\n");
+    sb.append("    \"workflow\": \"").append(toIndentedString(workflow)).append("\",\n");
+    sb.append("    \"policies\": \"").append(toIndentedString(policies)).append("\",\n");
     sb.append("}");
     return sb.toString();
   }

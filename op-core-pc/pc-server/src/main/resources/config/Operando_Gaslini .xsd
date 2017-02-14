@@ -1,0 +1,74 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema id="operando_Consent" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xs:element name="operando_Consent" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="CDS_Patients">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID" type="xs:int" minOccurs="0" />
+              <xs:element name="datainserimento" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="nome" type="xs:string" minOccurs="0" />
+              <xs:element name="cognome" type="xs:string" minOccurs="0" />
+              <xs:element name="codiceFiscale" type="xs:string" minOccurs="0" />
+              <xs:element name="sesso" type="xs:string" minOccurs="0" />
+              <xs:element name="dataNascita" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="PaeseNascita" type="xs:string" minOccurs="0" />
+              <xs:element name="provNascita" type="xs:string" minOccurs="0" />
+              <xs:element name="comuneNascita" type="xs:string" minOccurs="0" />
+              <xs:element name="provResidenza" type="xs:string" minOccurs="0" />
+              <xs:element name="comResidenza" type="xs:string" minOccurs="0" />
+              <xs:element name="indirizzoResidenza" type="xs:string" minOccurs="0" />
+              <xs:element name="numeroCivico" type="xs:string" minOccurs="0" />
+              <xs:element name="cap" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Email" type="xs:string" minOccurs="0" />
+              <xs:element name="documento1" type="xs:string" minOccurs="0" />
+              <xs:element name="documento2" type="xs:string" minOccurs="0" />
+              <xs:element name="consInform1" type="xs:string" minOccurs="0" />
+              <xs:element name="consInform2" type="xs:string" minOccurs="0" />
+              <xs:element name="consInform3" type="xs:string" minOccurs="0" />
+              <xs:element name="consInform4" type="xs:string" minOccurs="0" />
+              <xs:element name="consInform5" type="xs:string" minOccurs="0" />
+              <xs:element name="cellulare" type="xs:string" minOccurs="0" />
+              <xs:element name="username" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="CDS_Doctors">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID" type="xs:int" minOccurs="0" />
+              <xs:element name="datainserimento" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="nome" type="xs:string" minOccurs="0" />
+              <xs:element name="cognome" type="xs:string" minOccurs="0" />
+              <xs:element name="username" type="xs:string" minOccurs="0" />
+              <xs:element name="CDS_Patient_ID" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="CDS_Legals">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID" type="xs:int" minOccurs="0" />
+              <xs:element name="datainserimento" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="tipologiaLegale" type="xs:string" minOccurs="0" />
+              <xs:element name="nome" type="xs:string" minOccurs="0" />
+              <xs:element name="cognome" type="xs:string" minOccurs="0" />
+              <xs:element name="dataNascita" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="paeseNascita" type="xs:string" minOccurs="0" />
+              <xs:element name="provNascita" type="xs:string" minOccurs="0" />
+              <xs:element name="comuneNascita" type="xs:string" minOccurs="0" />
+              <xs:element name="indirizzoResidenza" type="xs:string" minOccurs="0" />
+              <xs:element name="numeroCivico" type="xs:string" minOccurs="0" />
+              <xs:element name="cap" type="xs:decimal" minOccurs="0" />
+              <xs:element name="Email" type="xs:string" minOccurs="0" />
+              <xs:element name="cellulare" type="xs:string" minOccurs="0" />
+              <xs:element name="username" type="xs:string" minOccurs="0" />
+              <xs:element name="CDS_Patient_ID" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
