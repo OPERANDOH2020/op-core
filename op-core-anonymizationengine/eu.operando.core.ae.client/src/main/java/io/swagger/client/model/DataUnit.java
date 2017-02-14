@@ -1,5 +1,5 @@
 /*
-   	* Copyright (c) $(year) {TECNALIA}.
+   	* Copyright (c) 2017 {TECNALIA}.
     * All rights reserved. This program and the accompanying materials
     * are made available under the terms of the The MIT License (MIT).
     * which accompanies this distribution, and is available at
