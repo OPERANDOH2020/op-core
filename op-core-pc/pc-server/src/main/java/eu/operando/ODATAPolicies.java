@@ -167,7 +167,9 @@ public class ODATAPolicies {
                     return Integer.parseInt(pref);
                 }
             }
-            informationType = informationType.substring(0, informationType.lastIndexOf("/"));
+            if(informationType.contains("/")){
+                informationType = informationType.substring(0, informationType.lastIndexOf("/"));
+            }
             if (informationType.length() == 0) {
                 return 0;
             }

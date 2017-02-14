@@ -35,11 +35,11 @@ import io.swagger.annotations.ApiModelProperty;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-03-30T12:50:20.171Z")
 public class PolicyAttribute   {
-  
+
   private String attributeName = null;
   private String attributeValue = null;
 
-  
+
   /**
    **/
   public PolicyAttribute attributeName(String attributeName) {
@@ -47,7 +47,7 @@ public class PolicyAttribute   {
     return this;
   }
 
-  
+
   @ApiModelProperty(value = "")
   @JsonProperty("attribute_name")
   public String getAttributeName() {
@@ -57,7 +57,7 @@ public class PolicyAttribute   {
     this.attributeName = attributeName;
   }
 
-  
+
   /**
    **/
   public PolicyAttribute attributeValue(String attributeValue) {
@@ -65,7 +65,7 @@ public class PolicyAttribute   {
     return this;
   }
 
-  
+
   @ApiModelProperty(value = "")
   @JsonProperty("attribute_value")
   public String getAttributeValue() {
@@ -75,7 +75,7 @@ public class PolicyAttribute   {
     this.attributeValue = attributeValue;
   }
 
-  
+
 
   @Override
   public boolean equals(Object o) {
@@ -98,10 +98,10 @@ public class PolicyAttribute   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class PolicyAttribute {\n");
-    
-    sb.append("    attributeName: ").append(toIndentedString(attributeName)).append("\n");
-    sb.append("    attributeValue: ").append(toIndentedString(attributeValue)).append("\n");
+    sb.append("{\n");
+
+    sb.append("    \"attribute_name\": \"").append(toIndentedString(attributeName)).append("\",\n");
+    sb.append("    \"attribute_value\": \"").append(toIndentedString(attributeValue)).append("\"\n");
     sb.append("}");
     return sb.toString();
   }

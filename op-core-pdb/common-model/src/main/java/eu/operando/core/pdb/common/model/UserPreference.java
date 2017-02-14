@@ -210,15 +210,15 @@ public class UserPreference   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class UserPreference {\n");
+    sb.append("{\n");
 
-    sb.append("    informationtype: ").append(toIndentedString(informationtype)).append("\n");
-    sb.append("    category: ").append(toIndentedString(category)).append("\n");
-    sb.append("    preference: ").append(toIndentedString(preference)).append("\n");
-    sb.append("    role: ").append(toIndentedString(role)).append("\n");
-    sb.append("    action: ").append(toIndentedString(action)).append("\n");
-    sb.append("    purpose: ").append(toIndentedString(purpose)).append("\n");
-    sb.append("    recipient: ").append(toIndentedString(recipient)).append("\n");
+    sb.append("    \"informationtype\": \"").append(toIndentedString(informationtype)).append("\",\n");
+    sb.append("    \"category\": \"").append(toIndentedString(category)).append("\",\n");
+    sb.append("    \"preference\": \"").append(toIndentedString(preference)).append("\",\n");
+    sb.append("    \"role\": \"").append(toIndentedString(role)).append("\",\n");
+    sb.append("    \"action\": \"").append(toIndentedString(action)).append("\",\n");
+    sb.append("    \"purpose\": \"").append(toIndentedString(purpose)).append("\",\n");
+    sb.append("    \"recipient\": \"").append(toIndentedString(recipient)).append("\"\n");
     sb.append("}");
     return sb.toString();
   }

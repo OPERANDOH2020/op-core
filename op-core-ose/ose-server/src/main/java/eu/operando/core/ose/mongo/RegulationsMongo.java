@@ -28,17 +28,20 @@ package eu.operando.core.ose.mongo;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoException;
 import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
-import io.swagger.model.PrivacyRegulation;
-import io.swagger.model.PrivacyRegulationInput;
+import eu.operando.core.pdb.common.model.PrivacyRegulation;
+import eu.operando.core.pdb.common.model.PrivacyRegulationInput;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import org.bson.types.ObjectId;
 import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
@@ -54,14 +57,61 @@ public class RegulationsMongo {
 
     public RegulationsMongo() {
         try {
+//            this.mongo = new MongoClient("mongo.integration.operando.dmz.lab.esilab.org", 27017);
             this.mongo = new MongoClient("localhost", 27017);
             // get database
-            this.db = mongo.getDB("ose");
+            this.db = mongo.getDB("pdb");
             // get collection
             this.regulationTable = db.getCollection("regulations");
         } catch (MongoException e) {
             e.printStackTrace();
         }
+    }
+
+    private eu.operando.core.pdb.common.model.PrivacyRegulation getRegulation(DBObject regObj) {
+        //System.out.println("regObj: " + regObj.toString());
+        eu.operando.core.pdb.common.model.PrivacyRegulation prObj = null;
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            prObj = mapper.readValue(regObj.toString(), eu.operando.core.pdb.common.model.PrivacyRegulation.class);
+        } catch (JsonGenerationException e) {
+            e.printStackTrace();
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return prObj;
+    }
+
+    /**
+     *
+     * @param regId
+     * @param reg
+     * @return
+     */
+    public List<PrivacyRegulation> getRegulations(String data, String sector) {
+        List<PrivacyRegulation> regs = new ArrayList<PrivacyRegulation>();
+
+        // Get all the regs related to that action in that sector
+        BasicDBObject andQuery = new BasicDBObject();
+        List<BasicDBObject> obj = new ArrayList<BasicDBObject>();
+        obj.add(new BasicDBObject("legislation_sector", sector));
+        obj.add(new BasicDBObject("private_information_type", data));
+        andQuery.put("$and", obj);
+
+        DBCursor cursor = regulationTable.find(andQuery);
+
+        while (cursor.hasNext()) {
+            DBObject result = cursor.next();
+            if (result != null) {
+                eu.operando.core.pdb.common.model.PrivacyRegulation regObj = getRegulation(result);
+                regs.add(regObj);
+            }
+        }
+
+        return regs;
     }
 
     public boolean updateRegulation(String regId, PrivacyRegulationInput reg) {
@@ -87,18 +137,18 @@ public class RegulationsMongo {
         }
         return result;
     }
-    
+
     public boolean storeRegulationList(List<PrivacyRegulation> regulationList) {
         boolean result = true;
         String storeAction = null;
-        
+
         for(PrivacyRegulation pr : regulationList) {
             storeAction = storeRegulation(pr);
             if (storeAction != null) {
                 result = false;
             }
         }
-        
+
         return result;
     }
 

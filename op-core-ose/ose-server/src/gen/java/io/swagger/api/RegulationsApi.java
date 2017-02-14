@@ -30,9 +30,8 @@ import eu.operando.core.ose.api.factories.RegulationsApiServiceFactory;
 import io.swagger.annotations.ApiParam;
 
 
-import io.swagger.model.PrivacyRegulation;
-import io.swagger.model.PrivacyRegulationInput;
-
+import eu.operando.core.pdb.common.model.PrivacyRegulationInput;
+import eu.operando.core.pdb.common.model.PrivacyRegulation;
 
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
@@ -49,10 +48,10 @@ public class RegulationsApi  {
 
     @POST
     @Path("/")
-    
-    
+
+
     @io.swagger.annotations.ApiOperation(value = "", notes = "Called by the Regulator API. A New regulation is entered into OPERANDO. Existing OSPs are then evaluated to see if they comply with the regulation. If not they are sent a report about how to comply.\n", response = void.class, tags={ "Privacy Legislation",  })
-    @io.swagger.annotations.ApiResponses(value = { 
+    @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 201, message = "Successful response. The regulation has been created.", response = void.class),
         @io.swagger.annotations.ApiResponse(code = 409, message = "Error occured. The resource already exists, so a new resource cannot be created.", response = void.class) })
     public Response regulationsPost(
@@ -63,10 +62,10 @@ public class RegulationsApi  {
     }
     @PUT
     @Path("/{reg-id}/")
-    
-    
+
+
     @io.swagger.annotations.ApiOperation(value = "", notes = "Called by the Regulator API. A change to a regulation is entered into OPERANDO. Existing OSPs are then evaluated to see if they comply with the regulation. If not they are sent a report about how to comply.\n  \n  Pre-condition -- The regulation must have been written to the system.\n  \n", response = void.class, tags={ "Privacy Legislation" })
-    @io.swagger.annotations.ApiResponses(value = { 
+    @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Successful response. The regulation has been added.", response = void.class),
         @io.swagger.annotations.ApiResponse(code = 404, message = "Error. The resource does not exist to be updated.", response = void.class) })
     public Response regulationsRegIdPut(

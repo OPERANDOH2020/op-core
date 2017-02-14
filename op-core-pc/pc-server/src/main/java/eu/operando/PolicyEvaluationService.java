@@ -40,6 +40,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.minidev.json.JSONArray;
 import org.apache.http.HttpEntity;
 import org.apache.http.ParseException;
@@ -54,6 +56,19 @@ import org.apache.http.util.EntityUtils;
  * web service.
  */
 public class PolicyEvaluationService {
+
+    private class EvalStatus {
+        public boolean found;
+        public boolean permit;
+        public RequestEvaluation rEv;
+
+        public EvalStatus(boolean found, boolean permit, RequestEvaluation rEv) {
+            this.found = found;
+            this.permit = permit;
+            this.rEv = rEv;
+        }
+
+    }
 
     /**
      * This is a singleton class, that can be used as one instance by all
@@ -139,6 +154,55 @@ public class PolicyEvaluationService {
         return UppDB.put(id, upp);
     }
 
+
+    private EvalStatus evaluateRequest(String ospId, String uppProfile, OSPDataRequest ospRequest)  {
+        try {
+            ODATAPolicies odata = new ODATAPolicies();
+            String oDataURL = ospRequest.getRequestedUrl();
+            String Category = odata.getElementDataPath(oDataURL);
+
+            JSONArray access_policies = JsonPath.read(uppProfile, "$.subscribed_osp_policies[?(@.osp_id=='"+ospId+"')].access_policies[?(@.resource=='"+ Category +"')]");
+
+            boolean found = false;
+            boolean permit = true;
+            RequestEvaluation rEv = new RequestEvaluation();
+
+            // For each of the access requests in the list
+            for(Object aP: access_policies) {
+                String subject = JsonPath.read(aP, "$.subject");
+                if(subject.equalsIgnoreCase(ospRequest.getSubject())) { // Check the subject
+                    found=true;
+                    if (JsonPath.read(aP, "$.action").toString().equalsIgnoreCase(ospRequest.getAction().name())){ // Check the action
+                        boolean perm = Boolean.parseBoolean(JsonPath.read(aP, "$.permission").toString());
+                        rEv.setDatauser(ospRequest.getSubject());
+                        rEv.setDatafield(oDataURL);
+                        rEv.setAction(ospRequest.getAction().name());
+                        if(!perm) {
+                            permit = false;
+                            rEv.setResult(false);
+                        }
+                        else{
+                            rEv.setResult(true);
+                        }
+                    }
+                    else {
+                        permit = false;
+
+                        rEv.setDatauser(ospRequest.getSubject());
+                        rEv.setDatafield(oDataURL);
+                        rEv.setAction(ospRequest.getAction().name());
+                        rEv.setResult(false);
+                    }
+                }
+            }
+            EvalStatus response = new EvalStatus(found, permit, rEv);
+            return response;
+        } catch (InvalidPreferenceException ex) {
+            Logger.getLogger(PolicyEvaluationService.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
     /**
      * Core implementation of the policy evaluation service. Evaluates if a set
      * of requests matches a user's privacy preferences.
@@ -208,6 +272,13 @@ public class PolicyEvaluationService {
                 String oDataURL = r.getRequestedUrl();
                 String Category = odata.getElementDataPath(oDataURL);
                 JSONArray access_policies = JsonPath.read(uppProfile, "$.subscribed_osp_policies[?(@.osp_id=='"+ospId+"')].access_policies[?(@.resource=='"+ Category +"')]");
+                while((access_policies.size() == 0) && (Category.length() > 0)) {
+                    Category = Category.substring(0, Category.lastIndexOf("/"));
+                    System.out.println("Category 22 = " + Category);
+                    access_policies = JsonPath.read(uppProfile, "$.subscribed_osp_policies[?(@.osp_id=='"+ospId+"')].access_policies[?(@.resource=='"+ Category +"')]");
+                    System.out.println("Acces policies 22 = " + access_policies.size());
+                }
+
                 boolean found = false;
                 // For each of the access requests in the list
                 for(Object aP: access_policies) {

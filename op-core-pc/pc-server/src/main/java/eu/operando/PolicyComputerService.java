@@ -80,6 +80,7 @@ public class PolicyComputerService {
         throws NotFoundException {
 
         try {
+            System.out.println("PDB: " + PDB_URL);
             String currentUpp = null;
             String ospPolicy = null;
             if(userId.startsWith("_demo")) {
@@ -102,7 +103,7 @@ public class PolicyComputerService {
                     HttpEntity entity = response1.getEntity();
                     System.out.println(response1.getStatusLine().getStatusCode());
                     if(response1.getStatusLine().getStatusCode()==404) {
-                        throw new NotFoundException(400, "UserId doesn't exist");
+                        throw new NotFoundException(400, "UserId doesn't exist: " + userId);
                     }
                     currentUpp = EntityUtils.toString(entity);
                     System.out.println(currentUpp);
@@ -122,7 +123,7 @@ public class PolicyComputerService {
                     currentUpp = EntityUtils.toString(entity);
                     System.out.println(currentUpp);
                 } catch (IOException ex) {
-                    throw new NotFoundException(400, "UserId doesn't exist");
+                    throw new NotFoundException(400, "Server error: " + ex.getLocalizedMessage());
                 }
             }
             // Create a subscribed policy statement and store it in the UPP
@@ -165,13 +166,12 @@ public class PolicyComputerService {
                 Client client = new Client();
                 WebResource webResourcePDB = client.resource(PDB_URL+"/user_privacy_policy/"+userId);
 
-            ClientResponse policyResponse = webResourcePDB.type("application/json").put(ClientResponse.class,
-                    obj.toString());
+                ClientResponse policyResponse = webResourcePDB.type("application/json").put(ClientResponse.class,
+                        obj.toString());
 
-            if (policyResponse.getStatus() != 200) {
-                throw new RuntimeException("Failed : HTTP error code : "
-                        + policyResponse.toString());
-            }
+                if (policyResponse.getStatus() != 200) {
+                    throw new RuntimeException("Failed : HTTP error code : " + policyResponse.toString());
+                }
             }
 
             return  subscribedOspPolicies.toString();
