@@ -37,11 +37,11 @@ import java.util.List;
 
 
 public class OSPSettings   {
-  
+
   private String ospId = null;
   private List<PrivacySetting> ospSettings = new ArrayList<PrivacySetting>();
 
-  
+
   /**
    * The unique ID of the OSP user is subscribed to and these settings concern. \n
    **/
@@ -50,7 +50,7 @@ public class OSPSettings   {
     return this;
   }
 
-  
+
   @ApiModelProperty(value = "The unique ID of the OSP user is subscribed to and these settings concern. \n")
   @JsonProperty("osp_id")
   public String getOspId() {
@@ -60,7 +60,7 @@ public class OSPSettings   {
     this.ospId = ospId;
   }
 
-  
+
   /**
    * The list of privacy settings at an OSP
    **/
@@ -69,7 +69,7 @@ public class OSPSettings   {
     return this;
   }
 
-  
+
   @ApiModelProperty(value = "The list of privacy settings at an OSP")
   @JsonProperty("osp_settings")
   public List<PrivacySetting> getOspSettings() {
@@ -79,7 +79,7 @@ public class OSPSettings   {
     this.ospSettings = ospSettings;
   }
 
-  
+
 
   @Override
   public boolean equals(Object o) {
@@ -102,10 +102,10 @@ public class OSPSettings   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class OSPSettings {\n");
-    
-    sb.append("    ospId: ").append(toIndentedString(ospId)).append("\n");
-    sb.append("    ospSettings: ").append(toIndentedString(ospSettings)).append("\n");
+    sb.append("{\n");
+
+    sb.append("    \"ospId\": \"").append(toIndentedString(ospId)).append("\",\n");
+    sb.append("    \"ospSettings\": ").append(toIndentedString(ospSettings)).append("\n");
     sb.append("}");
     return sb.toString();
   }

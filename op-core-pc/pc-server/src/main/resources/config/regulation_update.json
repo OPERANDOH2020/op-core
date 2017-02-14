@@ -1,7 +1,6 @@
 {
-    "reg_id":"regUKHealth1",
     "legislation_sector": "healthcare",
-    "reason": "medical treatment",
+    "reason": "marketing",
     "private_information_type": "Measurements",
     "action": "collect",
     "required_consent": "no"

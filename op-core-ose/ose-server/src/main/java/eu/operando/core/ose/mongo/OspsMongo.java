@@ -54,33 +54,71 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 
 /**
- *
- * @author sysman
+ * The set of operations used by the OSE component to access information
+ * stored in the Mongo DB instance of the policy database (PDB).
  */
 public class OspsMongo {
 
     private MongoClient mongo;
     private DB db;
     private DB db2;
+    /**
+     * Set of Privacy Settings Records - may be deprecated later.
+     */
     private DBCollection ospPSTable;
+
+    /**
+     * The User Privacy Policy records.
+     */
     private DBCollection uppTable;
+
+    /**
+     * The OSP Privacy Policy reason records.
+     */
+    private DBCollection ospPPTable;
+
     private String uppBasePath = "http://localhost:8080/policy_database";
 
     public OspsMongo() {
         try {
             this.mongo = new MongoClient("localhost", 27017);
-            // get database
+            // get the OSE specific mongo database
             this.db = mongo.getDB("ose");
-            // get database
+            // get the PDB database
             this.db2 = mongo.getDB("pdb");
 
-            // get collection
+            // get the upp collection of records
             this.uppTable = db2.getCollection("upp");
-            // get collection
+            // get the ps settings collection of records
             this.ospPSTable = db.getCollection("osp_ps");
+            // get the OSP
+            this.ospPPTable = db2.getCollection("pp");
         } catch (MongoException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Return the list of OSP identifiers who fall into the named sector.
+     * @param sector The sector type e.g. healthcare.
+     * Return the list of OPERANDO OSP ids.
+     */
+    public List<String> getOSPbySector(String sector) {
+        List<String> listOSPs = new ArrayList<String>();
+        BasicDBObject whereQuery = new BasicDBObject();
+        whereQuery.put("sector", sector);
+
+        DBCursor cursor = this.ospPPTable.find(whereQuery);
+        System.out.println("DB = " + cursor);
+        while(cursor.hasNext()) {
+            DBObject result = cursor.next();
+            if (result != null) {
+                System.out.println(result);
+                eu.operando.core.pdb.common.model.OSPReasonPolicy ospObj = getOSPReasonPolicy(result);
+                listOSPs.add(ospObj.getOspPolicyId());
+            }
+        }
+        return listOSPs;
     }
 
     /**
@@ -106,6 +144,23 @@ public class OspsMongo {
         }
 
         return listUsers;
+    }
+
+    private eu.operando.core.pdb.common.model.OSPReasonPolicy getOSPReasonPolicy(DBObject regObj) {
+        //System.out.println("regObj: " + regObj.toString());
+        eu.operando.core.pdb.common.model.OSPReasonPolicy prObj = null;
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            prObj = mapper.readValue(regObj.toString(), eu.operando.core.pdb.common.model.OSPReasonPolicy.class);
+        } catch (JsonGenerationException e) {
+            e.printStackTrace();
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return prObj;
     }
 
     private eu.operando.core.pdb.common.model.UserPrivacyPolicy getUPP(DBObject regObj) {

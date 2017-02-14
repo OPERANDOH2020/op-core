@@ -33,11 +33,11 @@ import java.util.List;
 
 
 public class OSPConsents   {
-  
+
   private String ospId = null;
   private List<AccessPolicy> accessPolicies = new ArrayList<AccessPolicy>();
 
-  
+
   /**
    * The unique ID of the OSP user is subscribed to and these consent policies concern. \n
    **/
@@ -46,7 +46,7 @@ public class OSPConsents   {
     return this;
   }
 
-  
+
   @ApiModelProperty(value = "The unique ID of the OSP user is subscribed to and these consent policies concern. \n")
   @JsonProperty("osp_id")
   public String getOspId() {
@@ -56,7 +56,7 @@ public class OSPConsents   {
     this.ospId = ospId;
   }
 
-  
+
   /**
    * OSP access policies
    **/
@@ -65,7 +65,7 @@ public class OSPConsents   {
     return this;
   }
 
-  
+
   @ApiModelProperty(value = "OSP access policies")
   @JsonProperty("access_policies")
   public List<AccessPolicy> getAccessPolicies() {
@@ -75,7 +75,7 @@ public class OSPConsents   {
     this.accessPolicies = accessPolicies;
   }
 
-  
+
 
   @Override
   public boolean equals(Object o) {
@@ -98,10 +98,10 @@ public class OSPConsents   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class OSPConsents {\n");
-    
-    sb.append("    ospId: ").append(toIndentedString(ospId)).append("\n");
-    sb.append("    accessPolicies: ").append(toIndentedString(accessPolicies)).append("\n");
+    sb.append("{\n");
+
+    sb.append("    \"osp_id\": \"").append(toIndentedString(ospId)).append("\",\n");
+    sb.append("    \"access_policies\": ").append(toIndentedString(accessPolicies)).append("\n");
     sb.append("}");
     return sb.toString();
   }

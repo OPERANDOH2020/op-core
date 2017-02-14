@@ -29,24 +29,13 @@ package eu.operando;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
-import com.google.common.base.Charsets;
-import com.google.common.io.CharStreams;
-import com.google.common.io.Closeables;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import io.swagger.model.OSPDataRequest;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 
 /**
  * The PC to PDB integration test, for the user data access workflow. These
@@ -203,100 +192,6 @@ public class YellowPagesTest {
     }
 
     /**
-     * The Policy Evaluation Component depends upon multiple entries to different
-     * components. Hence, testing and unit testing is impossible without
-     * full integration testing. Hence, this component contains a set of
-     * demo user preferences.
-     *
-     * This method loads these demo UPPs into local memory
-     *
-     * @param name The name of the user id to load into memory.
-     * @param fileLoc The filename in the resources directory.
-     */
-    private void loadDemoUPP(String name, String fileLoc) {
-
-        InputStream fis = null;
-        try {
-            fis = this.getClass().getClassLoader().getResourceAsStream(fileLoc);
-            String content = CharStreams.toString(new InputStreamReader(fis, Charsets.UTF_8));
-            Closeables.closeQuietly(fis);
-            String urlUser = PDB_URL+"/user_privacy_policy/";
-            Client client = new Client();
-            WebResource webResourcePDB = client.resource(urlUser);
-
-            ClientResponse policyResponse = webResourcePDB.type("application/json").post(ClientResponse.class,
-                    content);
-
-            if (policyResponse.getStatus() != 201) {
-                System.err.println(policyResponse.getEntity(String.class));
-                throw new RuntimeException("Failed : HTTP error code : "
-                        + policyResponse.toString());
-            }
-
-            CloseableHttpClient httpclient = HttpClients.createDefault();
-                HttpGet httpget = new HttpGet(urlUser+name);
-                CloseableHttpResponse response1 = httpclient.execute(httpget);
-
-            HttpEntity entity = response1.getEntity();
-                System.out.println(response1.getStatusLine().getStatusCode());
-                if(response1.getStatusLine().getStatusCode()==404) {
-                    return;
-                }
-
-                System.out.println(EntityUtils.toString(entity));
-
-        }
-        catch (IOException e) {
-            // Display to console for debugging purposes.
-            System.err.println("Error reading Configuration properties file");
-
-            // Add logging code to log an error configuring the API on startup
-        }
-    }
-
-    private boolean deleteUPP(String userId) {
-
-            String urlUser = PDB_URL+"/user_privacy_policy/" + userId;
-            Client client = new Client();
-            WebResource webResourcePDB = client.resource(urlUser);
-
-            ClientResponse policyResponse = webResourcePDB.type("application/json").delete(ClientResponse.class);
-
-            if (policyResponse.getStatus() != 200) {
-                System.err.println(policyResponse.getEntity(String.class));
-                return false;
-            }
-
-        return true;
-    }
-
-    private boolean updateUPP(String user, String fileLoc) {
-
-        InputStream fis = null;
-        try {
-            fis = this.getClass().getClassLoader().getResourceAsStream(fileLoc);
-            String content = CharStreams.toString(new InputStreamReader(fis, Charsets.UTF_8));
-            Closeables.closeQuietly(fis);
-            String urlUser = PDB_URL+"/user_privacy_policy/"+user;
-            Client client = new Client();
-            WebResource webResourcePDB = client.resource(urlUser);
-
-            ClientResponse policyResponse = webResourcePDB.type("application/json").put(ClientResponse.class,
-                    content);
-
-            if (policyResponse.getStatus() != 200) {
-                System.err.println(policyResponse.getEntity(String.class));
-                return false;
-            }
-        } catch (IOException e) {
-            // Display to console for debugging purposes.
-            System.err.println("Error creating UPP in db");
-
-        }
-        return true;
-    }
-
-    /**
      * This is the workflow that describes and validates the integration
      * of the PC and PDB components.
      *
@@ -304,14 +199,16 @@ public class YellowPagesTest {
      */
     public static void main(String[] args) {
         YellowPagesTest odpdb = new YellowPagesTest();
-        if(odpdb.deleteUPP("pete")){
-            System.out.println("Pete UPP was in PDB - now deleted");
+        TestHelperMethods tMethods = new TestHelperMethods();
+
+        if(tMethods.deleteUPP("pete2", PDB_URL)){
+            System.out.println("Pete2 UPP was in PDB - now deleted");
         }
         else {
             System.out.println("PDB does not contain Pete UPP");
         }
 
-        if(odpdb.deleteUPP("pat2")){
+        if(tMethods.deleteUPP("pat2", PDB_URL)){
             System.out.println("Pat2 UPP was in PDB - now deleted");
         }
         else {
@@ -341,13 +238,13 @@ public class YellowPagesTest {
 
         // Directly using the CORE service
 
-        odpdb.loadDemoUPP("pat2", "pat.json");
-        odpdb.loadDemoUPP("pete", "pete.json");
+        tMethods.loadDemoUPP("pat2", "pat.json", PDB_URL);
+        tMethods.loadDemoUPP("pete2", "pete.json", PDB_URL);
 
         /**
          * Single Request
          */
-        jsonResponse = evaluatePC("pete", "YellowPages", accessRequest);
+        jsonResponse = evaluatePC("pete2", "YellowPages", accessRequest);
         System.out.println(jsonResponse);
 
         if(!readPolicyReport("status", jsonResponse).equalsIgnoreCase("true")){
@@ -380,7 +277,7 @@ public class YellowPagesTest {
         String accessRequest2 = createRequestOne();
         System.out.println(accessRequest2);
 
-        jsonResponse = evaluatePC("pete", "YellowPages", accessRequest2);
+        jsonResponse = evaluatePC("pete2", "YellowPages", accessRequest2);
         System.out.println(jsonResponse);
 
         if(!readPolicyReport("status", jsonResponse).equalsIgnoreCase("true")){
@@ -413,7 +310,7 @@ public class YellowPagesTest {
         String accessRequest3 = createRequestTwo();
         System.out.println(accessRequest3);
 
-        jsonResponse = evaluatePC("pete", "YellowPages", accessRequest3);
+        jsonResponse = evaluatePC("pete2", "YellowPages", accessRequest3);
         System.out.println(jsonResponse);
 
         if(!readPolicyReport("status", jsonResponse).equalsIgnoreCase("true")){
@@ -442,8 +339,8 @@ public class YellowPagesTest {
         /**
          * Update the UPPs.
          */
-        odpdb.updateUPP("pat2", "pat_update.json");
-        odpdb.updateUPP("pete", "pete_update.json");
+        tMethods.updateUPP("pat2", "pat_update.json", PDB_URL);
+        tMethods.updateUPP("pete2", "pete_update.json", PDB_URL);
 
          /**
          * Double request by receptionist.
@@ -462,7 +359,7 @@ public class YellowPagesTest {
             System.exit(-1);
         }
 
-        jsonResponse = evaluatePC("pete", "YellowPages", accessRequest3);
+        jsonResponse = evaluatePC("pete2", "YellowPages", accessRequest3);
         System.out.println(jsonResponse);
 
         if(!readPolicyReport("status", jsonResponse).equalsIgnoreCase("false")){

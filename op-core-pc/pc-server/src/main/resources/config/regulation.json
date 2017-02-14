@@ -1,5 +1,4 @@
 {
-    "reg_id":"regUKHealth1",
     "legislation_sector": "healthcare",
     "reason": "medical treatment",
     "private_information_type": "Measurements",

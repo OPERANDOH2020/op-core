@@ -26,8 +26,8 @@
 package io.swagger.api;
 
 
-import io.swagger.model.PrivacyRegulation;
-import io.swagger.model.PrivacyRegulationInput;
+import eu.operando.core.pdb.common.model.PrivacyRegulation;
+import eu.operando.core.pdb.common.model.PrivacyRegulationInput;
 
 
 import javax.ws.rs.core.Response;
@@ -35,11 +35,11 @@ import javax.ws.rs.core.SecurityContext;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-04-25T15:37:02.222Z")
 public abstract class RegulationsApiService {
-  
+
       public abstract Response regulationsPost(PrivacyRegulation regulation,SecurityContext securityContext)
       throws NotFoundException;
-  
+
       public abstract Response regulationsRegIdPut(String regId,PrivacyRegulationInput regulation,SecurityContext securityContext)
       throws NotFoundException;
-  
+
 }
