@@ -76,37 +76,39 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
     public UserPrivacyPolicyApiServiceImpl() {
         super();
         //  get service config params
-        prop = new Properties();
-        String propFilename = "service.properties";
-        InputStream is = getClass().getClassLoader().getResourceAsStream(propFilename);
-        try {
-            prop.load(is);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } finally {
-            try {
-                is.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
+        prop = loadServiceProperties();
+        loadParams();        
 
         // setup aapi client
-        if (prop.getProperty("aapi.basepath") != null) {
-            aapiBasePath = prop.getProperty("aapi.basepath");
-        }
         eu.operando.core.cas.client.ApiClient aapiDefaultClient = new eu.operando.core.cas.client.ApiClient();
         aapiDefaultClient.setBasePath(aapiBasePath);
         this.aapiClient = new DefaultApi(aapiDefaultClient);
 
         // setup logdb client
-        if (prop.getProperty("logdb.basepath") != null) {
-            logdbBasePath = prop.getProperty("logdb.basepath");
-        }
         ApiClient apiClient = new ApiClient();
         apiClient.setBasePath(logdbBasePath);
 
         // get service ticket for logdb service
+        String logdbST = getServiceTicket(uppLoginName, uppLoginPassword, logdbSId);
+        apiClient.addDefaultHeader("service-ticket", logdbST);
+        this.logApi = new LogApi(apiClient);
+
+        // setup mongo part
+        uppMongodb = new UPPMongo(mongoServerHost, mongoServerPort);
+    }
+    
+    private void loadParams(){
+        // load aapi client params
+        if (prop.getProperty("aapi.basepath") != null) {
+            aapiBasePath = prop.getProperty("aapi.basepath");
+        }
+        
+        // load logdb client params
+        if (prop.getProperty("logdb.basepath") != null) {
+            logdbBasePath = prop.getProperty("logdb.basepath");
+        }
+        
+        // get service ticket for logdb service params
         if (prop.getProperty("pdb.upp.service.login") != null) {
             uppLoginName = prop.getProperty("pdb.upp.service.login");
         }
@@ -116,11 +118,8 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
         if (prop.getProperty("logdb.service.id") != null) {
             logdbSId = prop.getProperty("logdb.service.id");
         }
-        String logdbST = getServiceTicket(uppLoginName, uppLoginPassword, logdbSId);
-        apiClient.addDefaultHeader("service-ticket", logdbST);
-        this.logApi = new LogApi(apiClient);
 
-        // setup mongo part
+        // setup mongo part params
         if (prop.getProperty("mongo.server.host") != null) {
             mongoServerHost = prop.getProperty("mongo.server.host");
         }
@@ -131,7 +130,28 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
                 e.printStackTrace();
             }
         }
-        uppMongodb = new UPPMongo(mongoServerHost, mongoServerPort);
+    }
+
+    private Properties loadServiceProperties() {
+        Properties props;
+        props = new Properties();
+
+        InputStream is = null;
+        try {
+            is = this.getClass().getClassLoader().getResourceAsStream("service.properties");
+            props.load(is);
+        } catch (IOException e) {
+            // Display to console for debugging purposes.
+            System.err.println("Error reading Configuration service properties file");
+            // Add logging code to log an error configuring the API on startup        
+        } finally {
+            try {
+                is.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return props;
     }
 
     private String getServiceTicket(String username, String password, String serviceId) {
