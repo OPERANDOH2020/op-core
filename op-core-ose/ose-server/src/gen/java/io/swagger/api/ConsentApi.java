@@ -10,7 +10,6 @@ import io.swagger.model.UserConsents;
 import io.swagger.api.NotFoundException;
 
 
-
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -20,7 +19,7 @@ import javax.ws.rs.*;
 
 
 @io.swagger.annotations.Api(description = "the consent API")
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-12-12T13:34:24.407Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2017-01-18T15:15:52.371Z")
 public class ConsentApi  {
    private final ConsentApiService delegate = ConsentApiServiceFactory.getConsentApi();
 

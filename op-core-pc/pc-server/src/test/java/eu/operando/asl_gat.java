@@ -52,7 +52,7 @@ public class asl_gat {
      */
     private static final String PDB_URL = "http://integration.operando.esilab.org:8096/operando/core/pdb";
 
-    private static final String PC_URL = "http://localhost:8081";
+    private static final String PC_URL = "http://integration.operando.esilab.org:8095/operando/core/pc";
 
     /**
      * Constructor for stateful method calls.
@@ -205,13 +205,13 @@ public class asl_gat {
          * Upload the OSP policy to the PDB database. Simulate registering
          * of a new OSP policy.
          */
-        String id = tMethods.ospQuerybyFriendlyName("aslbergamo_gat", PDB_URL);
-        if(id == null) {
-            if (!tMethods.createOSP("aslbergamo_gat.json", PDB_URL)) {
-                System.err.println("Error with aslbergamo_gat on server, exiting ...");
-                System.exit(-1);
-            }
-        }
+//        String id = tMethods.ospQuerybyFriendlyName("aslbergamo_gat", PDB_URL);
+//        if(id == null) {
+//            if (!tMethods.createOSP("aslbergamo_gat.json", PDB_URL)) {
+//                System.err.println("Error with aslbergamo_gat on server, exiting ...");
+//                System.exit(-1);
+//            }
+//        }
 
         /**
          * Compute the UPP for the user who signs up.
