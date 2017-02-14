@@ -1,8 +1,10 @@
--- MySQL dump 10.13  Distrib 5.5.49, for debian-linux-gnu (x86_64)
+CREATE DATABASE  IF NOT EXISTS `operando_personaldatadb` /*!40100 DEFAULT CHARACTER SET latin1 */;
+USE `operando_personaldatadb`;
+-- MySQL dump 10.13  Distrib 5.7.17, for Linux (x86_64)
 --
 -- Host: localhost    Database: operando_personaldatadb
 -- ------------------------------------------------------
--- Server version	5.5.49-0ubuntu0.14.04.1
+-- Server version	5.7.17-0ubuntu0.16.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,6 +18,37 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Table structure for table `LOGS`
+--
+
+DROP TABLE IF EXISTS `LOGS`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `LOGS` (
+  `USER_ID` varchar(20) DEFAULT NULL,
+  `DATED` varchar(50) DEFAULT NULL,
+  `LOGGER` varchar(50) DEFAULT NULL,
+  `LEVEL` varchar(10) DEFAULT NULL,
+  `REQUESTERTYPE` varchar(20) DEFAULT NULL,
+  `REQUESTERID` varchar(20) DEFAULT NULL,
+  `LOGPRIORITY` varchar(10) DEFAULT NULL,
+  `KEYWORDS` varchar(50) DEFAULT NULL,
+  `TITLE` varchar(50) DEFAULT NULL,
+  `MESSAGE` varchar(1000) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `LOGS`
+--
+
+LOCK TABLES `LOGS` WRITE;
+/*!40000 ALTER TABLE `LOGS` DISABLE KEYS */;
+INSERT INTO `LOGS` VALUES ('username','2016-06-07 15:10:22,174','io.swagger.api.impl.LogApiServiceImpl','INFO','Module','1001','Low','[keyword1, keyword2, keyword3]','First log','First log for testing purposes'),('username','2016-10-19 13:02:41,722','io.swagger.api.impl.LogApiServiceImpl','INFO','MODULE','1002','LOW','[keywordA, keywordB, keywordC]','First log','First log for testing purposes'),('username','2016-10-19 13:05:27,467','io.swagger.api.impl.LogApiServiceImpl','INFO','MODULE','1002','LOW','[keywordA, keywordB, keywordC]','First log','First log for testing purposes'),('username','2016-10-19 13:49:52,484','io.swagger.api.impl.LogApiServiceImpl','INFO','MODULE','1002','LOW','[keywordA, keywordB, keywordC]','First log','First log for testing purposes'),('username','2016-12-07 12:28:27,342','io.swagger.api.impl.LogApiServiceImpl','INFO','MODULE','1007','LOW','[keywordA, keywordB, keywordC]','Log on 07/12','Log on 07/12 for testing purposes'),('username','2016-12-07 17:11:53,932','io.swagger.api.impl.LogApiServiceImpl','INFO','MODULE','1007','LOW','[keywordA, keywordB, keywordC]','Log on 07/12','Log on 07/12 for testing purposes'),('username','2016-12-13 09:55:59,366','io.swagger.api.impl.LogApiServiceImpl','INFO','MODULE','1007','LOW','[keywordA, keywordB, keywordC]','Log on 07/12','Log on 07/12 for testing purposes'),('username','2016-12-13 11:42:17,433','io.swagger.api.impl.LogApiServiceImpl','INFO','MODULE','3420A3','LOW','[test]','logDBtest','just a test for curl');
+/*!40000 ALTER TABLE `LOGS` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `cities`
 --
 
@@ -27,10 +60,9 @@ CREATE TABLE `cities` (
   `NAME_0` varchar(10) DEFAULT NULL,
   `NAME_1` varchar(10) DEFAULT NULL,
   `NAME_2` varchar(10) DEFAULT NULL,
-  `CITIZENS_NUMBER` int(11) DEFAULT NULL,
+  `CITIZENS_NUMBER` int(11) NOT NULL DEFAULT '0',
   `PROVINCE_ID` int(11) DEFAULT NULL,
-  `CLIMA_ID` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ID`),
+  `CLIMA_ID` int(11) NOT NULL DEFAULT '0',
   KEY `cities_provinces_fk` (`PROVINCE_ID`),
   KEY `cities_clima_fk` (`CLIMA_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -277,26 +309,7 @@ CREATE TABLE `generic_personal_data` (
   `WORK_CLASS_ID` int(11) DEFAULT NULL,
   `OCCUPATION_ID` int(11) DEFAULT NULL,
   `SALARY_CLASS_ID` int(11) DEFAULT NULL,
-  PRIMARY KEY (`PERSONAL_ID`),
-  KEY `generic_personal_data_genders_fk` (`GENDER_ID`),
-  KEY `generic_personal_data_countries_fk` (`NATIVE_COUNTRY_ID`),
-  KEY `generic_personal_data_political_tendency_fk` (`POLITICAL_TENDENCY_ID`),
-  KEY `generic_personal_data_race_fk` (`RACE_ID`),
-  KEY `generic_personal_data_work_class_fk` (`WORK_CLASS_ID`),
-  KEY `generic_personal_data_occupation_fk` (`OCCUPATION_ID`),
-  KEY `generic_personal_data_education_fk` (`EDUCATION_ID`),
-  KEY `generic_personal_data_birth_cities_fk` (`BIRTH_CITY_ID`),
-  KEY `generic_personal_data_residende_cities_fk` (`RESIDENCE_CITY_ID`),
-  KEY `generic_personal_data_marital_status_fk` (`MARITAL_STATUS_ID`),
-  KEY `generic_personal_data_salary_class_fk` (`SALARY_CLASS_ID`),
-  CONSTRAINT `generic_personal_data_countries_FK` FOREIGN KEY (`NATIVE_COUNTRY_ID`) REFERENCES `countries` (`ID`),
-  CONSTRAINT `generic_personal_data_education_FK` FOREIGN KEY (`EDUCATION_ID`) REFERENCES `education` (`ID`),
-  CONSTRAINT `generic_personal_data_genders_FK` FOREIGN KEY (`GENDER_ID`) REFERENCES `genders` (`ID`),
-  CONSTRAINT `generic_personal_data_marital_status_FK` FOREIGN KEY (`MARITAL_STATUS_ID`) REFERENCES `marital_status` (`ID`),
-  CONSTRAINT `generic_personal_data_occupation_FK` FOREIGN KEY (`OCCUPATION_ID`) REFERENCES `occupation` (`ID`),
-  CONSTRAINT `generic_personal_data_race_FK` FOREIGN KEY (`RACE_ID`) REFERENCES `race` (`ID`),
-  CONSTRAINT `generic_personal_data_salary_class_FK` FOREIGN KEY (`SALARY_CLASS_ID`) REFERENCES `salary_class` (`ID`),
-  CONSTRAINT `generic_personal_data_work_class_FK` FOREIGN KEY (`WORK_CLASS_ID`) REFERENCES `work_class` (`ID`)
+  PRIMARY KEY (`PERSONAL_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -413,32 +426,59 @@ INSERT INTO `occupation` VALUES (1,'Tech-suppo','Technical','*\r'),(2,'Craft-rep
 UNLOCK TABLES;
 
 --
--- Temporary table structure for view `operando_personaldata_view`
+-- Temporary view structure for view `operando_personaldata_view`
 --
 
 DROP TABLE IF EXISTS `operando_personaldata_view`;
 /*!50001 DROP VIEW IF EXISTS `operando_personaldata_view`*/;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
-/*!50001 CREATE TABLE `operando_personaldata_view` (
-  `OCCUPATION` tinyint NOT NULL,
-  `SALARY_CLASS` tinyint NOT NULL,
-  `GENDER` tinyint NOT NULL,
-  `EDUCATION` tinyint NOT NULL,
-  `COUNTRY` tinyint NOT NULL,
-  `RACE` tinyint NOT NULL,
-  `EMAIL_ADDRESS` tinyint NOT NULL,
-  `CELL_PHONE_NUMBER` tinyint NOT NULL,
-  `SURNAME` tinyint NOT NULL,
-  `NUMBER_OF_CHILDREN` tinyint NOT NULL,
-  `RESIDENCE_POST_CODE` tinyint NOT NULL,
-  `NAME` tinyint NOT NULL,
-  `IDENTIFICATION_NUMBER` tinyint NOT NULL,
-  `DATE_OF_BIRTH` tinyint NOT NULL,
-  `SSN` tinyint NOT NULL,
-  `MARITAL_STATUS` tinyint NOT NULL,
-  `WORK_CLASS` tinyint NOT NULL
-) ENGINE=MyISAM */;
+/*!50001 CREATE VIEW `operando_personaldata_view` AS SELECT 
+ 1 AS `OCCUPATION`,
+ 1 AS `SALARY_CLASS`,
+ 1 AS `GENDER`,
+ 1 AS `EDUCATION`,
+ 1 AS `COUNTRY`,
+ 1 AS `RACE`,
+ 1 AS `EMAIL_ADDRESS`,
+ 1 AS `CELL_PHONE_NUMBER`,
+ 1 AS `SURNAME`,
+ 1 AS `NUMBER_OF_CHILDREN`,
+ 1 AS `RESIDENCE_POST_CODE`,
+ 1 AS `NAME`,
+ 1 AS `IDENTIFICATION_NUMBER`,
+ 1 AS `DATE_OF_BIRTH`,
+ 1 AS `SSN`,
+ 1 AS `MARITAL_STATUS`,
+ 1 AS `WORK_CLASS`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary view structure for view `personalData`
+--
+
+DROP TABLE IF EXISTS `personalData`;
+/*!50001 DROP VIEW IF EXISTS `personalData`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `personalData` AS SELECT 
+ 1 AS `OCCUPATION`,
+ 1 AS `SALARY_CLASS`,
+ 1 AS `GENDER`,
+ 1 AS `EDUCATION`,
+ 1 AS `COUNTRY`,
+ 1 AS `RACE`,
+ 1 AS `EMAIL_ADDRESS`,
+ 1 AS `CELL_PHONE_NUMBER`,
+ 1 AS `SURNAME`,
+ 1 AS `NUMBER_OF_CHILDREN`,
+ 1 AS `RESIDENCE_POST_CODE`,
+ 1 AS `NAME`,
+ 1 AS `IDENTIFICATION_NUMBER`,
+ 1 AS `DATE_OF_BIRTH`,
+ 1 AS `SSN`,
+ 1 AS `MARITAL_STATUS`,
+ 1 AS `WORK_CLASS`*/;
 SET character_set_client = @saved_cs_client;
 
 --
@@ -791,14 +831,9 @@ INSERT INTO `work_class` VALUES (1,'Private','Non-Government','*\r'),(2,'Self-em
 UNLOCK TABLES;
 
 --
--- Dumping routines for database 'operando_personaldatadb'
---
-
---
 -- Final view structure for view `operando_personaldata_view`
 --
 
-/*!50001 DROP TABLE IF EXISTS `operando_personaldata_view`*/;
 /*!50001 DROP VIEW IF EXISTS `operando_personaldata_view`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
 /*!50001 SET @saved_cs_results         = @@character_set_results */;
@@ -812,6 +847,24 @@ UNLOCK TABLES;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `personalData`
+--
+
+/*!50001 DROP VIEW IF EXISTS `personalData`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = latin1 */;
+/*!50001 SET character_set_results     = latin1 */;
+/*!50001 SET collation_connection      = latin1_swedish_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `personalData` AS select distinct `occupation`.`DESCRIPTION_0` AS `OCCUPATION`,`salary_class`.`DESCRIPTION_0` AS `SALARY_CLASS`,`genders`.`DESCRIPTION_0` AS `GENDER`,`education`.`DESCRIPTION_0` AS `EDUCATION`,`countries`.`DESCRIPTION_0` AS `COUNTRY`,`race`.`DESCRIPTION_0` AS `RACE`,`generic_personal_data`.`EMAIL_ADDRESS` AS `EMAIL_ADDRESS`,`generic_personal_data`.`CELL_PHONE_NUMBER` AS `CELL_PHONE_NUMBER`,`generic_personal_data`.`SURNAME` AS `SURNAME`,`generic_personal_data`.`NUMBER_OF_CHILDREN` AS `NUMBER_OF_CHILDREN`,`generic_personal_data`.`RESIDENCE_POST_CODE` AS `RESIDENCE_POST_CODE`,`generic_personal_data`.`NAME` AS `NAME`,`generic_personal_data`.`IDENTIFICATION_NUMBER` AS `IDENTIFICATION_NUMBER`,`generic_personal_data`.`DATE_OF_BIRTH` AS `DATE_OF_BIRTH`,`generic_personal_data`.`SSN` AS `SSN`,`marital_status`.`DESCRIPTION_0` AS `MARITAL_STATUS`,`work_class`.`DESCRIPTION_0` AS `WORK_CLASS` from ((((((((`occupation` join `salary_class`) join `genders`) join `education`) join `countries`) join `race`) join `generic_personal_data` on(((`occupation`.`ID` = `generic_personal_data`.`OCCUPATION_ID`) and (`salary_class`.`ID` = `generic_personal_data`.`SALARY_CLASS_ID`) and (`genders`.`ID` = `generic_personal_data`.`GENDER_ID`) and (`education`.`ID` = `generic_personal_data`.`EDUCATION_ID`) and (`countries`.`ID` = `generic_personal_data`.`NATIVE_COUNTRY_ID`) and (`race`.`ID` = `generic_personal_data`.`RACE_ID`)))) join `marital_status` on((`marital_status`.`ID` = `generic_personal_data`.`MARITAL_STATUS_ID`))) join `work_class` on((`work_class`.`ID` = `generic_personal_data`.`WORK_CLASS_ID`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -822,4 +875,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-05-03  9:32:33
+-- Dump completed on 2017-02-14  9:57:39

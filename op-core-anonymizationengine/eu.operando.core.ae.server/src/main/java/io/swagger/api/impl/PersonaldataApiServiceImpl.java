@@ -1,289 +1,268 @@
 package io.swagger.api.impl;
 
-import io.swagger.api.*;
-import io.swagger.model.*;
-
-import com.sun.jersey.multipart.FormDataParam;
-
-import io.swagger.model.Error;
-import io.swagger.model.InlineResponse2003;
-
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import io.swagger.api.NotFoundException;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import com.sun.jersey.core.header.FormDataContentDisposition;
-import com.sun.jersey.multipart.FormDataParam;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.Properties;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.deidentifier.arx.ARXAnonymizer;
 import org.deidentifier.arx.ARXConfiguration;
 import org.deidentifier.arx.ARXResult;
 import org.deidentifier.arx.AttributeType;
+import org.deidentifier.arx.AttributeType.Hierarchy;
+import org.deidentifier.arx.AttributeType.Hierarchy.DefaultHierarchy;
 import org.deidentifier.arx.Data;
 import org.deidentifier.arx.DataHandle;
 import org.deidentifier.arx.DataSource;
 import org.deidentifier.arx.DataType;
-import org.deidentifier.arx.AttributeType.Hierarchy;
-import org.deidentifier.arx.AttributeType.Hierarchy.DefaultHierarchy;
 import org.deidentifier.arx.criteria.KAnonymity;
+
+import io.swagger.api.ApiResponseMessage;
+import io.swagger.api.NotFoundException;
+import io.swagger.api.PersonaldataApiService;
+import io.swagger.model.AEDataType;
+import io.swagger.model.SearchRequest;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-05-10T09:36:15.284Z")
 public class PersonaldataApiServiceImpl extends PersonaldataApiService {
-	
-	private Connection connect = null;		
-	private ResultSet resultSet = null;
-    static Logger mainLogger = null;
-    static {
-        mainLogger = Logger.getLogger("eu.operando.core.ae.server");
-    }
-    
-    @Override
-    public Response getPersonalData(String requesterId, String query, SecurityContext securityContext)
-    throws NotFoundException {    	
-        // do some magic!    
-    	mainLogger.logp(Level.INFO, "getPersonalData", "main", "Testing logging in tomcat docker ... ");
-    	String strAnnonymizedData = "";
-    	System.out.println(query);
-    	System.out.println(requesterId);
-        //if (query.equalsIgnoreCase("operando_personaldata_view")){
-        	
-        	try {
-        		strAnnonymizedData = arxAnonymizationPersonalData();
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-        //}
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, strAnnonymizedData)).build();        	
-    }
-    
-private String arxAnonymizationPersonalData() throws ClassNotFoundException, SQLException, IOException {
-		
-		String strAnnonymizedData="";
-		
-    	Properties props;
-    	props = loadDbProperties();
 
-    	// Load JDBC driver
-        Class.forName(props.getProperty("jdbc.driverClassName"));        
-        // Configuration for JDBC source
-        DataSource source = DataSource.createJDBCSource(props.getProperty("jdbc.url"),
-	    		props.getProperty("jdbc.username"),
-	    		props.getProperty("jdbc.password"),
-	    		"operando_personaldata_view");        
-        //DataSource source = DataSource.createJDBCSource("jdbc:mysql://localhost:3306/operando_personaldatadb?user=root&password=root","operando_personaldata_view");    
-        
-        source.addColumn("NAME", DataType.STRING);
-        source.addColumn("SURNAME", DataType.STRING);
-        source.addColumn("IDENTIFICATION_NUMBER", DataType.STRING); 
-        source.addColumn("CELL_PHONE_NUMBER", DataType.STRING);
-        source.addColumn("EMAIL_ADDRESS", DataType.STRING);
-        source.addColumn("GENDER", DataType.STRING); 
-        source.addColumn("RACE", DataType.STRING);
-        source.addColumn("DATE_OF_BIRTH", DataType.STRING);        
-        source.addColumn("COUNTRY", DataType.STRING); 
-        source.addColumn("MARITAL_STATUS", DataType.STRING);
-        source.addColumn("NUMBER_OF_CHILDREN", DataType.INTEGER);
-        source.addColumn("EDUCATION", DataType.STRING);         
-        source.addColumn("WORK_CLASS", DataType.STRING);
-        source.addColumn("OCCUPATION", DataType.STRING);
-        source.addColumn("SALARY_CLASS", DataType.STRING);
+	private Connection connect = null;
+	static Logger mainLogger = null;
+	static {
+		mainLogger = Logger.getLogger("eu.operando.core.ae.server");
+	}
 
-    	mainLogger.logp(Level.INFO, "getPersonalData", "main", "Database source success  ... ");
+	@Override
+	public Response getPersonalData(SearchRequest searchRequest, SecurityContext securityContext)
+			throws NotFoundException {
+		mainLogger.logp(Level.INFO, "getPersonalData", "main", "Testing logging in tomcat docker ... ");
+		String strAnnonymizedData = "";
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			HashMap<String, String> dataTypeMap = (HashMap<String, String>) new ObjectMapper()
+					.readValue(searchRequest.getDataTypeMap(), HashMap.class);
+			int kAnonymity = searchRequest.getKAnonymity().intValue();
+			HashMap<String, Object> attributeTypeMap = (HashMap<String, Object>) new ObjectMapper()
+					.readValue(searchRequest.getAttributeTypeMap(), HashMap.class);		
+			strAnnonymizedData = arxAnonymizationPersonalData(searchRequest.getQueryName(), searchRequest.getQuery(),
+					dataTypeMap, attributeTypeMap, kAnonymity);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// }
+		return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, strAnnonymizedData)).build();
+	}
 
-        // This will load the MySQL driver, each DB has its own driver
+	/** Returns the annonymized data given the query to be executes and some other parameters
+	 * @param queryName
+	 * @param query
+	 * @param dataTypeMap
+	 * @param attributeTypeMap
+	 * @param kAnonymity
+	 * @return
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 * @throws IOException
+	 */
+	private String arxAnonymizationPersonalData(String queryName, String query, HashMap<String, String> dataTypeMap,
+			HashMap<String, Object> attributeTypeMap, int kAnonymity)
+			throws ClassNotFoundException, SQLException, IOException {
+
+		String strAnnonymizedData = "";
+		Properties props;
+		props = loadDbProperties();
 		Class.forName(props.getProperty("jdbc.driverClassName"));
- 		// Setup the connection with the DB
- 		connect = DriverManager.getConnection(props.getProperty("jdbc.url"),
-	    		props.getProperty("jdbc.username"),
-	    		props.getProperty("jdbc.password"));
- 		
-        DefaultHierarchy NATIVE_COUNTRY = getHierarchyNativeCountry (connect);        
-        DefaultHierarchy EDUCATION = getHierarchyEducation (connect);        
-        DefaultHierarchy WORK_CLASS = getHierarchyWorkClass (connect);
-        DefaultHierarchy OCCUPATION = getHierarchyOccupation (connect);
-        DefaultHierarchy SALARY_CLASS = getHierarchySalaryClass (connect);
-                
-        connect.close();
-        
-    	mainLogger.logp(Level.INFO, "getPersonalData", "main", "Default Hierarchies success  ... ");
+		connect = DriverManager.getConnection(props.getProperty("jdbc.url"), props.getProperty("jdbc.username"),
+				props.getProperty("jdbc.password"));
 
-        // Create data object
-        Data data = Data.create(source);
-        
-        data.getDefinition().setAttributeType("NAME", AttributeType.IDENTIFYING_ATTRIBUTE);
-        data.getDefinition().setAttributeType("SURNAME", AttributeType.IDENTIFYING_ATTRIBUTE);
-        data.getDefinition().setAttributeType("IDENTIFICATION_NUMBER", AttributeType.IDENTIFYING_ATTRIBUTE);
-        data.getDefinition().setAttributeType("CELL_PHONE_NUMBER", AttributeType.IDENTIFYING_ATTRIBUTE);
-        data.getDefinition().setAttributeType("EMAIL_ADDRESS", AttributeType.IDENTIFYING_ATTRIBUTE);
-        data.getDefinition().setAttributeType("GENDER", AttributeType.INSENSITIVE_ATTRIBUTE);
-        data.getDefinition().setAttributeType("RACE", AttributeType.INSENSITIVE_ATTRIBUTE);
-        data.getDefinition().setAttributeType("DATE_OF_BIRTH", AttributeType.IDENTIFYING_ATTRIBUTE);        
-        data.getDefinition().setAttributeType("COUNTRY", NATIVE_COUNTRY); 
-        data.getDefinition().setAttributeType("MARITAL_STATUS", AttributeType.INSENSITIVE_ATTRIBUTE);
-        data.getDefinition().setAttributeType("NUMBER_OF_CHILDREN", AttributeType.INSENSITIVE_ATTRIBUTE);
-        data.getDefinition().setAttributeType("EDUCATION", EDUCATION);        
-        data.getDefinition().setAttributeType("WORK_CLASS", WORK_CLASS);
-        data.getDefinition().setAttributeType("OCCUPATION", OCCUPATION);
-        data.getDefinition().setAttributeType("SALARY_CLASS", SALARY_CLASS);                
-        
-        ARXAnonymizer anonymizer = new ARXAnonymizer();
-        ARXConfiguration config = ARXConfiguration.create();
-        config.addCriterion(new KAnonymity(2));        
-        ARXResult result = anonymizer.anonymize(data, config);
+		Statement st = connect.createStatement();
 
-        Iterator<String[]> transformed = result.getOutput().iterator();
-        int i =0;
-        StringBuffer strBufferAnnonymizedData = new StringBuffer("");
-        while (transformed.hasNext()) {
-            System.out.print("   ");
-            i++;
-            String outputmessage = Arrays.toString(transformed.next());
-            strBufferAnnonymizedData.append(outputmessage);
-            //System.out.println(outputmessage);
-        	mainLogger.logp(Level.INFO, "getPersonalData", "main", outputmessage);
-        }        
-        strAnnonymizedData = strBufferAnnonymizedData.toString();
-        return (strAnnonymizedData);
-	}
-	
-	private DefaultHierarchy getHierarchyOccupation(Connection connect) throws ClassNotFoundException, SQLException {
-		DefaultHierarchy occupationHierarchy = Hierarchy.create();
-		// Statements allow to issue SQL queries to the database
-		Statement statement = connect.createStatement();
-		// Result set get the result of the SQL query
-		resultSet = statement
-          .executeQuery("select DESCRIPTION_0,DESCRIPTION_1,DESCRIPTION_2 FROM occupation");
-		while (resultSet.next()){
-			occupationHierarchy.add(resultSet.getString("DESCRIPTION_0"), resultSet.getString("DESCRIPTION_1"), resultSet.getString("DESCRIPTION_2"));			
-		}
-		resultSet.close();
-		statement.close();		
-		return occupationHierarchy;
-	}
+		st.execute("DROP VIEW IF EXISTS " + queryName + ";");
 
-	private DefaultHierarchy getHierarchySalaryClass(Connection connect) throws ClassNotFoundException, SQLException {
-		DefaultHierarchy salaryClassHierarchy = Hierarchy.create();
-		// Statements allow to issue SQL queries to the database
-		Statement statement = connect.createStatement();
-		// Result set get the result of the SQL query
-		resultSet = statement
-          .executeQuery("select DESCRIPTION_0,DESCRIPTION_1,DESCRIPTION_2 FROM salary_class");
-		while (resultSet.next()){
-			salaryClassHierarchy.add(resultSet.getString("DESCRIPTION_0"), resultSet.getString("DESCRIPTION_1"), resultSet.getString("DESCRIPTION_2"));			
-		}
-		resultSet.close();
-		statement.close();		
-		return salaryClassHierarchy;
-	}
+		String sentence = " Create VIEW " + queryName + " As " + query;
 
-	private DefaultHierarchy getHierarchyWorkClass(Connection connect) throws ClassNotFoundException, SQLException {
-		DefaultHierarchy workClassHierarchy = Hierarchy.create();
-		// Statements allow to issue SQL queries to the database
-		Statement statement = connect.createStatement();
-		// Result set get the result of the SQL query
-		resultSet = statement
-          .executeQuery("select DESCRIPTION_0,DESCRIPTION_1,DESCRIPTION_2 FROM work_class");
-		while (resultSet.next()){
-			workClassHierarchy.add(resultSet.getString("DESCRIPTION_0"), resultSet.getString("DESCRIPTION_1"), resultSet.getString("DESCRIPTION_2"));			
-		}
-		resultSet.close();
-		statement.close();		
-		return workClassHierarchy;
-	}	
+		st.executeUpdate(sentence);
 
-	private DefaultHierarchy getHierarchyEducation(Connection connect) throws ClassNotFoundException, SQLException {
-		DefaultHierarchy educationHierarchy = Hierarchy.create();
-		// Statements allow to issue SQL queries to the database
-		Statement statement = connect.createStatement();
-		// Result set get the result of the SQL query
-		resultSet = statement
-          .executeQuery("select DESCRIPTION_0,DESCRIPTION_1,DESCRIPTION_2 FROM education");
-		while (resultSet.next()){
-			educationHierarchy.add(resultSet.getString("DESCRIPTION_0"), resultSet.getString("DESCRIPTION_1"), resultSet.getString("DESCRIPTION_2"));			
-		}
-		resultSet.close();
-		statement.close();		
-		return educationHierarchy;
-	}
+		DataSource source = DataSource.createJDBCSource(props.getProperty("jdbc.url"),
+				props.getProperty("jdbc.username"), props.getProperty("jdbc.password"), queryName);
 
-	private DefaultHierarchy getHierarchyNativeCountry(Connection connect) throws ClassNotFoundException, SQLException {
-		DefaultHierarchy nativeCountryHierarchy = Hierarchy.create();
-		// Statements allow to issue SQL queries to the database
-		Statement statement = connect.createStatement();
-		// Result set get the result of the SQL query
-		resultSet = statement
-          .executeQuery("select DESCRIPTION_0,DESCRIPTION_1,DESCRIPTION_2 FROM countries");
-		while (resultSet.next()){
-			nativeCountryHierarchy.add(resultSet.getString("DESCRIPTION_0"), resultSet.getString("DESCRIPTION_1"), resultSet.getString("DESCRIPTION_2"));			
-		}
-		resultSet.close();
-		statement.close();		
-		return nativeCountryHierarchy;
+		Set<String> dataTypeKeySet = dataTypeMap.keySet();
+		Set<Entry<String, String>> entrySet = dataTypeMap.entrySet();
+		Iterator<Entry<String, String>> dataTypeIterator = entrySet.iterator();
 		
+		String dataTypeValue = null;
+		String dataTypeKey = null;
+		
+		while (dataTypeIterator.hasNext()) {
+			Entry<String, String> next = dataTypeIterator.next();			
+			dataTypeKey = next.getKey();
+			dataTypeValue = next.getValue();
+			switch (dataTypeValue) {
+			case AEDataType.STRING:				
+				source.addColumn(dataTypeKey, DataType.STRING);
+				break;
+			case AEDataType.INTEGER:				
+				source.addColumn(dataTypeKey, DataType.INTEGER);
+				break;
+			case AEDataType.DECIMAL:				
+				source.addColumn(dataTypeKey, DataType.DECIMAL);
+				break;
+			case AEDataType.DATE:				
+				source.addColumn(dataTypeKey, DataType.DATE);
+				break;
+			default:
+				break;
+			}
+		}
+
+		mainLogger.logp(Level.INFO, "getPersonalData", "main", "Database source success  ... ");
+
+		// This will load the MySQL driver, each DB has its own driver
+		Class.forName(props.getProperty("jdbc.driverClassName"));
+
+		mainLogger.logp(Level.INFO, "getPersonalData", "main", "Default Hierarchies success  ... ");
+
+		// Create data object
+		Data data = Data.create(source);
+		Set<String> attributeTypeKeySet = attributeTypeMap.keySet();
+		Iterator<String> attributeTypeIterator = attributeTypeKeySet.iterator();
+
+		String attributeName = "";
+		while (attributeTypeIterator.hasNext()) {			
+			attributeName = attributeTypeIterator.next();
+			if (attributeTypeMap.get(attributeName).getClass().getName().equalsIgnoreCase("java.lang.String")) {
+				String attributeValue = (String) attributeTypeMap.get(attributeName);
+				switch (attributeValue) {
+				case "IDENTIFYING_ATTRIBUTE":
+					data.getDefinition().setAttributeType(attributeName, AttributeType.IDENTIFYING_ATTRIBUTE);
+					break;
+				case "SENSITIVE_ATTRIBUTE":
+					data.getDefinition().setAttributeType(attributeName, AttributeType.SENSITIVE_ATTRIBUTE);
+					break;
+				case "INSENSITIVE_ATTRIBUTE":
+					data.getDefinition().setAttributeType(attributeName, AttributeType.INSENSITIVE_ATTRIBUTE);
+					break;
+				case "QUASI_IDENTIFYING_ATTRIBUTE":
+					data.getDefinition().setAttributeType(attributeName, AttributeType.QUASI_IDENTIFYING_ATTRIBUTE);
+					break;
+				default:
+					break;
+				}
+			}
+			// in this case the value is of class ArrayList<ArrayList<String>>
+			else {
+				DefaultHierarchy hierarchy = Hierarchy.create();
+				@SuppressWarnings("unchecked")
+				ArrayList<ArrayList<String>> attributeValue = (ArrayList<ArrayList<String>>) attributeTypeMap
+						.get(attributeName);
+				Iterator<ArrayList<String>> attributeValuesIterator = attributeValue.iterator();
+				ArrayList<String> value = null;
+				String attValue = "";
+				String strAdd = "";
+				while (attributeValuesIterator.hasNext()) {
+					value = (ArrayList<String>) attributeValuesIterator.next();
+					if (value.size() > 0) {
+						Iterator<String> valueIterator = value.iterator();
+						if (valueIterator.hasNext()) {
+							strAdd = valueIterator.next();
+						}
+
+						while (valueIterator.hasNext()) {
+							attValue = valueIterator.next();
+							strAdd += "," + attValue;
+
+						}
+						hierarchy.add(strAdd);
+					} // end if
+				}
+				data.getDefinition().setAttributeType(attributeName, hierarchy);
+
+			}
+		}
+
+		ARXAnonymizer anonymizer = new ARXAnonymizer();
+		ARXConfiguration config = ARXConfiguration.create();
+		config.addCriterion(new KAnonymity(kAnonymity));
+
+		ARXResult result = anonymizer.anonymize(data, config);
+		st.close();
+		connect.close();
+
+		Iterator<String[]> transformed = result.getOutput().iterator();
+		int i = 0;
+		StringBuffer strBufferAnnonymizedData = new StringBuffer("");
+		while (transformed.hasNext()) {
+			System.out.print("   ");
+			i++;
+			String outputmessage = Arrays.toString(transformed.next());
+			strBufferAnnonymizedData.append(outputmessage);			
+			mainLogger.logp(Level.INFO, "getPersonalData", "main", outputmessage);
+		}
+		strAnnonymizedData = strBufferAnnonymizedData.toString();
+		System.out.println(strAnnonymizedData);
+		return (strAnnonymizedData);
 	}
 
 	/**
-     * Prints a given data handle.
-     *
-     * @param handle
-     */
-    protected static void print(DataHandle handle) {
-        final Iterator<String[]> itHandle = handle.iterator();
-        print(itHandle);
-    }
+	 * Prints a given data handle.
+	 *
+	 * @param handle
+	 */
+	protected static void print(DataHandle handle) {
+		final Iterator<String[]> itHandle = handle.iterator();
+		print(itHandle);
+	}
 
-    /**
-     * Prints a given iterator.
-     *
-     * @param iterator
-     */
-    protected static void print(Iterator<String[]> iterator) {
-        while (iterator.hasNext()) {
-            System.out.print("   ");
-            String outputmessage = Arrays.toString(iterator.next());
-            System.out.println(outputmessage);
-        	mainLogger.logp(Level.INFO, "getPersonalData", "main", "PRINT FUNCTION: " + outputmessage);
-       }
-    }  
-    
+	/**
+	 * Prints a given iterator.
+	 *
+	 * @param iterator
+	 */
+	protected static void print(Iterator<String[]> iterator) {
+		while (iterator.hasNext()) {
+			System.out.print("   ");
+			String outputmessage = Arrays.toString(iterator.next());
+			System.out.println(outputmessage);
+			mainLogger.logp(Level.INFO, "getPersonalData", "main", "PRINT FUNCTION: " + outputmessage);
+		}
+	}
+
 	private Properties loadDbProperties() {
 		Properties props;
 		props = new Properties();
-		
+
 		InputStream fis = null;
 		try {
-		    fis = this.getClass().getClassLoader().getResourceAsStream("/db.properties");
-		    props.load(fis);
-		}     catch (IOException e) {
-		    // TODO Auto-generated catch block
-		    e.printStackTrace();
+			fis = this.getClass().getClassLoader().getResourceAsStream("/db.properties");
+			props.load(fis);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
+
 		return props;
 	}
 
-    
 }
