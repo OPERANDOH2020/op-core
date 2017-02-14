@@ -167,7 +167,7 @@ public class operandoTest {
         List<OSPDataRequest> ospRequest = new ArrayList<OSPDataRequest>();
         OSPDataRequest osD = new OSPDataRequest();
         osD.setAction(OSPDataRequest.ActionEnum.ACCESS);
-        osD.setRequesterId("58a17d5c5908010001696000");
+        osD.setRequesterId(OSP_ID);
         osD.setSubject("doctor");
         osD.requestedUrl("personalInfo.patient.surname");
         ospRequest.add(osD);
@@ -183,7 +183,7 @@ public class operandoTest {
         List<OSPDataRequest> ospRequest = new ArrayList<OSPDataRequest>();
         OSPDataRequest osD = new OSPDataRequest();
         osD.setAction(OSPDataRequest.ActionEnum.ACCESS);
-        osD.setRequesterId("58a17d5c5908010001696000");
+        osD.setRequesterId(OSP_ID);
         osD.setSubject("receptionist");
         osD.requestedUrl("personalInfo.patient.surname");
         ospRequest.add(osD);
