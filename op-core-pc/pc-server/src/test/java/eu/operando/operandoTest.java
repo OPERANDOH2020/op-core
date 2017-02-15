@@ -43,7 +43,7 @@ import java.util.List;
  * by the PC, they match the preferences of a scenario user: userid - Pete2.
  *
  */
-public class asl_gat {
+public class operandoTest {
 
     /**
      * URLs of the endpoints for PC and PDB. The workflow must work with these
@@ -59,7 +59,7 @@ public class asl_gat {
     /**
      * Constructor for stateful method calls.
      */
-    public asl_gat() {
+    public operandoTest() {
 
     }
 
@@ -169,7 +169,7 @@ public class asl_gat {
         osD.setAction(OSPDataRequest.ActionEnum.ACCESS);
         osD.setRequesterId(OSP_ID);
         osD.setSubject("doctor");
-        osD.requestedUrl("/GA_Patients/debitiDuranteGioco");
+        osD.requestedUrl("personalInfo.patient.surname");
         ospRequest.add(osD);
 
         return toJSONRequest(ospRequest);
@@ -184,12 +184,14 @@ public class asl_gat {
         OSPDataRequest osD = new OSPDataRequest();
         osD.setAction(OSPDataRequest.ActionEnum.ACCESS);
         osD.setRequesterId(OSP_ID);
-        osD.setSubject("doctor");
-        osD.requestedUrl("/GA_Patients/ProvinciaResidenza");
+        osD.setSubject("receptionist");
+        osD.requestedUrl("personalInfo.patient.surname");
         ospRequest.add(osD);
 
         return toJSONRequest(ospRequest);
     }
+
+
 
 
     /**
@@ -199,20 +201,21 @@ public class asl_gat {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        asl_gat odpdb = new asl_gat();
+        operandoTest odpdb = new operandoTest();
         TestHelperMethods tMethods = new TestHelperMethods();
         /**
          * Upload the OSP policy to the PDB database. Simulate registering
          * of a new OSP policy.
          */
-        OSP_ID = tMethods.ospQuerybyFriendlyName("aslbergamo_gat", PDB_URL);
+        OSP_ID = tMethods.ospQuerybyFriendlyName("operando_test", PDB_URL);
         if(OSP_ID == null) {
-            OSP_ID =tMethods.createOSP("aslbergamo_gat.json", PDB_URL);
-            if(OSP_ID == null) {
-                System.err.println("Error with aslbergamo_gat on server, exiting ...");
+            OSP_ID = tMethods.createOSP("operando_test.json", PDB_URL);
+            if (OSP_ID== null) {
+                System.err.println("Error with operando_test on server, exiting ...");
                 System.exit(-1);
             }
         }
+//        OSP_ID =
         /**
          * Compute the UPP for the user who signs up.
          */
@@ -242,20 +245,6 @@ public class asl_gat {
         jsonResponse = evaluatePC("pete2", OSP_ID, accessRequest);
         System.out.println(jsonResponse);
 
-        if(!readPolicyReport("status", jsonResponse).equalsIgnoreCase("false")){
-            System.err.println("Integration test faild: Status must be true");
-            System.exit(-1);
-        }
-
-        if(!readPolicyReport("compliance", jsonResponse).equalsIgnoreCase("PREFS_CONFLICT")){
-            System.err.println("Integration test failed: Compliance must be VALID");
-            System.exit(-1);
-        }
-        accessRequest = createRequestTwo();
-        System.out.println(accessRequest);
-        jsonResponse = evaluatePC("pete2", OSP_ID, accessRequest);
-        System.out.println(jsonResponse);
-
         if(!readPolicyReport("status", jsonResponse).equalsIgnoreCase("true")){
             System.err.println("Integration test faild: Status must be true");
             System.exit(-1);
@@ -265,7 +254,20 @@ public class asl_gat {
             System.err.println("Integration test failed: Compliance must be VALID");
             System.exit(-1);
         }
+        accessRequest = createRequestTwo();
+        System.out.println(accessRequest);
+        jsonResponse = evaluatePC("pete2", OSP_ID, accessRequest);
+        System.out.println(jsonResponse);
 
+        if(!readPolicyReport("status", jsonResponse).equalsIgnoreCase("false")){
+            System.err.println("Integration test faild: Status must be false");
+            System.exit(-1);
+        }
+
+        if(!readPolicyReport("compliance", jsonResponse).equalsIgnoreCase("PREFS_CONFLICT")){
+            System.err.println("Integration test failed: Compliance must be PREFS_CONFLICT");
+            System.exit(-1);
+        }
         tMethods.deleteOSP(OSP_ID, PDB_URL);
     }
 }

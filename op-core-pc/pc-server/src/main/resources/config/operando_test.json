@@ -1,0 +1,30 @@
+{
+    "policy_text": "operando_test",
+    "policy_url": "n/a",
+    "schema": "Operando_test.xsd",
+    "workflow": [
+        {
+            "requester_id": "doctorID",
+            "subject": "doctor",
+            "requested_url": "personalInfo.patient.surname",
+            "action": "Access",
+            "attributes": [{}]
+        }
+        ],
+    "policies": [
+        {
+            "subject": "doctor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "personalInfo.patient.surname",
+            "attributes": [{}]
+        },
+        {
+            "subject": "receptionist",
+            "permission": "false",
+            "action": "Access",
+            "resource": "personalInfo.patient.surname",
+            "attributes": [{}]
+        }
+    ]
+}
