@@ -39,6 +39,7 @@ import eu.operando.core.pdb.common.model.OSPPrivacyPolicyInput;
 import eu.operando.core.pdb.common.model.OSPReasonPolicy;
 import eu.operando.core.pdb.common.model.OSPReasonPolicyInput;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -146,6 +147,17 @@ public class OSPPrivacyPolicyMongo {
         return result;
     }
 
+    private boolean isAValidFieldName(String key) {
+        Class aClass = OSPPrivacyPolicy.class;
+        try {
+            Field field = aClass.getDeclaredField(key);
+        } catch (NoSuchFieldException ex){ 
+            System.err.println("no such field found " + key);
+            return false;
+        }
+        return true;
+    }
+    
     public String getOSPByFilter(String filter) {
         String result = null;
         BasicDBObject query = new BasicDBObject();
@@ -160,6 +172,10 @@ public class OSPPrivacyPolicyMongo {
                 System.out.println("found key " + key);
                 System.out.println("converting key " + toCamelCase(key));
                 key = toCamelCase(key);
+                if(!isAValidFieldName(key)) {
+                    System.out.println("Not a valid key name found: " + key);
+                    return null;
+                }
                 System.out.println("value " + obj.getString(key));
                 query.put(key, java.util.regex.Pattern.compile(obj.getString(key)));
             }

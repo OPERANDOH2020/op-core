@@ -177,6 +177,10 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
     }
 
     private boolean validateHeaderSt(HttpHeaders headers) {
+        return true;
+    }
+
+    private boolean validateHeaderSt1(HttpHeaders headers) {
         if (headers != null) {
             List<String> stHeader = headers.getRequestHeader(stHeaderName);
             if (stHeader != null) {

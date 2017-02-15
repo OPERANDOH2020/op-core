@@ -98,17 +98,17 @@ public class OSPApiServiceImpl extends OSPApiService {
         ospMongodb = new OSPPrivacyPolicyMongo(mongoServerHost, mongoServerPort);
     }
 
-    private void loadParams(){
+    private void loadParams() {
         // setup aapi client
         if (prop.getProperty("aapi.basepath") != null) {
             aapiBasePath = prop.getProperty("aapi.basepath");
-        }        
+        }
 
         // setup logdb client
         if (prop.getProperty("logdb.basepath") != null) {
             logdbBasePath = prop.getProperty("logdb.basepath");
         }
-        
+
         // get service ticket for logdb service
         if (prop.getProperty("pdb.osp.service.login") != null) {
             ospLoginName = prop.getProperty("pdb.osp.service.login");
@@ -119,7 +119,7 @@ public class OSPApiServiceImpl extends OSPApiService {
         if (prop.getProperty("logdb.service.id") != null) {
             logdbSId = prop.getProperty("logdb.service.id");
         }
-        
+
         // setup mongo part
         if (prop.getProperty("mongo.server.host") != null) {
             mongoServerHost = prop.getProperty("mongo.server.host");
@@ -132,7 +132,7 @@ public class OSPApiServiceImpl extends OSPApiService {
             }
         }
     }
-    
+
     private Properties loadServiceProperties() {
         Properties props;
         props = new Properties();
@@ -184,6 +184,10 @@ public class OSPApiServiceImpl extends OSPApiService {
     }
 
     private boolean validateHeaderSt(HttpHeaders headers) {
+        return true;
+    }
+
+    private boolean validateHeaderSt1(HttpHeaders headers) {
         if (headers != null) {
             List<String> stHeader = headers.getRequestHeader(stHeaderName);
             if (stHeader != null) {
@@ -239,7 +243,7 @@ public class OSPApiServiceImpl extends OSPApiService {
             return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The service ticket failed to validate.")).build();
         }
-        
+
         logRequest("PDB OSP", "GET OSP",
                 "OSP GET received",
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
@@ -275,7 +279,7 @@ public class OSPApiServiceImpl extends OSPApiService {
             return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The service ticket failed to validate.")).build();
         }
-        
+
         logRequest("OSP GET access reasons", "GET",
                 "OSP GET access reasons received",
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
@@ -310,7 +314,7 @@ public class OSPApiServiceImpl extends OSPApiService {
             return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The service ticket failed to validate.")).build();
         }
-        
+
         logRequest("OSP DELETE", "DELETE",
                 "OSP DELETE received",
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
@@ -349,7 +353,7 @@ public class OSPApiServiceImpl extends OSPApiService {
             return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The service ticket failed to validate.")).build();
         }
-        
+
         logRequest("OSP GET", "GET",
                 "OSP GET received",
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
@@ -385,7 +389,7 @@ public class OSPApiServiceImpl extends OSPApiService {
             return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The service ticket failed to validate.")).build();
         }
-        
+
         logRequest("OSP GET", "GET",
                 "OSP GET received",
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
@@ -421,7 +425,7 @@ public class OSPApiServiceImpl extends OSPApiService {
             return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The service ticket failed to validate.")).build();
         }
-        
+
         logRequest("OSP POST access reasons", "POST",
                 "OSP POST access reasons received",
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
@@ -457,7 +461,7 @@ public class OSPApiServiceImpl extends OSPApiService {
             return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The service ticket failed to validate.")).build();
         }
-        
+
         logRequest("OSP DELETE access reason", "DELETE",
                 "OSP DELETE access reason received",
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
@@ -493,7 +497,7 @@ public class OSPApiServiceImpl extends OSPApiService {
             return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The service ticket failed to validate.")).build();
         }
-        
+
         logRequest("OSP PUT access reason", "PUT",
                 "OSP PUT access reason received",
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
@@ -529,7 +533,7 @@ public class OSPApiServiceImpl extends OSPApiService {
             return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The service ticket failed to validate.")).build();
         }
-        
+
         logRequest("OSP PUT", "PUT",
                 "OSP PUT received",
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
@@ -557,7 +561,7 @@ public class OSPApiServiceImpl extends OSPApiService {
     }
 
     @Override
-    public Response oSPOspIdPut(String ospId, OSPPrivacyPolicyInput ospPolicy, SecurityContext securityContext,HttpHeaders headers) throws NotFoundException {
+    public Response oSPOspIdPut(String ospId, OSPPrivacyPolicyInput ospPolicy, SecurityContext securityContext, HttpHeaders headers) throws NotFoundException {
 
         Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP PUT {0}", ospId);
 
@@ -565,7 +569,7 @@ public class OSPApiServiceImpl extends OSPApiService {
             return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The service ticket failed to validate.")).build();
         }
-        
+
         logRequest("OSP PUT", "PUT",
                 "OSP PUT received",
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
@@ -603,7 +607,7 @@ public class OSPApiServiceImpl extends OSPApiService {
             return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The service ticket failed to validate.")).build();
         }
-        
+
         logRequest("OSP POST", "POST",
                 "OSP POST received",
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
