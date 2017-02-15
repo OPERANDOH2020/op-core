@@ -39,6 +39,7 @@ import io.swagger.api.NotFoundException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.*;
 
 @Path("/regulations")
@@ -59,9 +60,9 @@ public class RegulationsApi  {
 
         @io.swagger.annotations.ApiResponse(code = 405, message = "Error in request. There is an invalid input in the query field.", response = PrivacyRegulation.class, responseContainer = "List") })
     public Response regulationsGet(@ApiParam(value = "The query filter to be matched - ?filter={json description}",required=true) @QueryParam("filter") String filter
-,@Context SecurityContext securityContext)
+,@Context SecurityContext securityContext, @Context HttpHeaders headers)
     throws NotFoundException {
-        return delegate.regulationsGet(filter,securityContext);
+        return delegate.regulationsGet(filter,securityContext, headers);
     }
     @POST
     @Path("/")
@@ -71,9 +72,9 @@ public class RegulationsApi  {
     @io.swagger.annotations.ApiResponses(value = {
         @io.swagger.annotations.ApiResponse(code = 201, message = "The document (PrivacyRegulation) was successfully created in the database and the location field in the HTTP header contains the full URL of the resource. The unique ID reg_id is stored in the body entity.", response = PrivacyRegulation.class) })
     public Response regulationsPost(@ApiParam(value = "The first instance of this regulation document" ,required=true) PrivacyRegulationInput regulation
-,@Context SecurityContext securityContext)
+,@Context SecurityContext securityContext, @Context HttpHeaders headers)
     throws NotFoundException {
-        return delegate.regulationsPost(regulation,securityContext);
+        return delegate.regulationsPost(regulation,securityContext, headers);
     }
     @DELETE
     @Path("/{reg-id}/")
@@ -85,9 +86,9 @@ public class RegulationsApi  {
 
         @io.swagger.annotations.ApiResponse(code = 404, message = "Error. No document exists to be deleted.", response = void.class) })
     public Response regulationsRegIdDelete(@ApiParam(value = "The identifier number of a regulation",required=true) @PathParam("reg-id") String regId
-,@Context SecurityContext securityContext)
+,@Context SecurityContext securityContext, @Context HttpHeaders headers)
     throws NotFoundException {
-        return delegate.regulationsRegIdDelete(regId,securityContext);
+        return delegate.regulationsRegIdDelete(regId,securityContext, headers);
     }
     @GET
     @Path("/{reg-id}/")
@@ -99,9 +100,9 @@ public class RegulationsApi  {
 
         @io.swagger.annotations.ApiResponse(code = 404, message = "Error - the regulation does not exist.", response = PrivacyRegulation.class) })
     public Response regulationsRegIdGet(@ApiParam(value = "The identifier number of a regulation",required=true) @PathParam("reg-id") String regId
-,@Context SecurityContext securityContext)
+,@Context SecurityContext securityContext, @Context HttpHeaders headers)
     throws NotFoundException {
-        return delegate.regulationsRegIdGet(regId,securityContext);
+        return delegate.regulationsRegIdGet(regId,securityContext, headers);
     }
     @PUT
     @Path("/{reg-id}/")
@@ -114,8 +115,8 @@ public class RegulationsApi  {
         @io.swagger.annotations.ApiResponse(code = 404, message = "Error. No document exists to be updated.", response = void.class) })
     public Response regulationsRegIdPut(@ApiParam(value = "The identifier number of a regulation",required=true) @PathParam("reg-id") String regId
 ,@ApiParam(value = "The changed instance of this PrivacyRegulation" ,required=true) PrivacyRegulationInput regulation
-,@Context SecurityContext securityContext)
+,@Context SecurityContext securityContext, @Context HttpHeaders headers)
     throws NotFoundException {
-        return delegate.regulationsRegIdPut(regId,regulation,securityContext);
+        return delegate.regulationsRegIdPut(regId,regulation,securityContext, headers);
     }
 }

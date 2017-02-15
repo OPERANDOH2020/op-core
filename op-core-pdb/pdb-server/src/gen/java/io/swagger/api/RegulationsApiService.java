@@ -32,12 +32,13 @@ import io.swagger.api.NotFoundException;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.HttpHeaders;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-12-19T10:59:55.638Z")
 public abstract class RegulationsApiService {
-    public abstract Response regulationsGet(String filter,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response regulationsPost(PrivacyRegulationInput regulation,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response regulationsRegIdDelete(String regId,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response regulationsRegIdGet(String regId,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response regulationsRegIdPut(String regId,PrivacyRegulationInput regulation,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response regulationsGet(String filter,SecurityContext securityContext, HttpHeaders headers) throws NotFoundException;
+    public abstract Response regulationsPost(PrivacyRegulationInput regulation,SecurityContext securityContext, HttpHeaders headers) throws NotFoundException;
+    public abstract Response regulationsRegIdDelete(String regId,SecurityContext securityContext, HttpHeaders headers) throws NotFoundException;
+    public abstract Response regulationsRegIdGet(String regId,SecurityContext securityContext, HttpHeaders headers) throws NotFoundException;
+    public abstract Response regulationsRegIdPut(String regId,PrivacyRegulationInput regulation,SecurityContext securityContext, HttpHeaders headers) throws NotFoundException;
 }

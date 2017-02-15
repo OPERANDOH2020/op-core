@@ -39,6 +39,7 @@ import io.swagger.api.NotFoundException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.*;
 
 @Path("/user_privacy_policy")
@@ -59,9 +60,9 @@ public class UserPrivacyPolicyApi  {
 
         @io.swagger.annotations.ApiResponse(code = 405, message = "Error in request. There is an invalid input in the query field.", response = UserPrivacyPolicy.class, responseContainer = "List") })
     public Response userPrivacyPolicyGet(@ApiParam(value = "The query filter to be matched - ?filter={json description}",required=true) @QueryParam("filter") String filter
-,@Context SecurityContext securityContext)
+,@Context SecurityContext securityContext, @Context HttpHeaders headers)
     throws NotFoundException {
-        return delegate.userPrivacyPolicyGet(filter,securityContext);
+        return delegate.userPrivacyPolicyGet(filter,securityContext,headers);
     }
     @POST
     @Path("/")
@@ -73,9 +74,9 @@ public class UserPrivacyPolicyApi  {
 
         @io.swagger.annotations.ApiResponse(code = 405, message = "Error. The document (UPP) at this id has previously been created in the database.", response = void.class) })
     public Response userPrivacyPolicyPost(@ApiParam(value = "The first instance of this user's UPP" ,required=true) UserPrivacyPolicy upp
-,@Context SecurityContext securityContext)
+,@Context SecurityContext securityContext, @Context HttpHeaders headers)
     throws NotFoundException {
-        return delegate.userPrivacyPolicyPost(upp,securityContext);
+        return delegate.userPrivacyPolicyPost(upp,securityContext,headers);
     }
     @DELETE
     @Path("/{user-id}/")
@@ -87,9 +88,9 @@ public class UserPrivacyPolicyApi  {
 
         @io.swagger.annotations.ApiResponse(code = 404, message = "Error. No document exists to be deleted.", response = void.class) })
     public Response userPrivacyPolicyUserIdDelete(@ApiParam(value = "The user identifier number",required=true) @PathParam("user-id") String userId
-,@Context SecurityContext securityContext)
+,@Context SecurityContext securityContext, @Context HttpHeaders headers)
     throws NotFoundException {
-        return delegate.userPrivacyPolicyUserIdDelete(userId,securityContext);
+        return delegate.userPrivacyPolicyUserIdDelete(userId,securityContext,headers);
     }
     @GET
     @Path("/{user-id}/")
@@ -101,9 +102,9 @@ public class UserPrivacyPolicyApi  {
 
         @io.swagger.annotations.ApiResponse(code = 404, message = "Error - the user does not exist.", response = UserPrivacyPolicy.class) })
     public Response userPrivacyPolicyUserIdGet(@ApiParam(value = "The user identifier number",required=true) @PathParam("user-id") String userId
-,@Context SecurityContext securityContext)
+,@Context SecurityContext securityContext, @Context HttpHeaders headers)
     throws NotFoundException {
-        return delegate.userPrivacyPolicyUserIdGet(userId,securityContext);
+        return delegate.userPrivacyPolicyUserIdGet(userId,securityContext,headers);
     }
     @PUT
     @Path("/{user-id}/")
@@ -116,8 +117,8 @@ public class UserPrivacyPolicyApi  {
         @io.swagger.annotations.ApiResponse(code = 404, message = "Error. No document exists to be updated.", response = void.class) })
     public Response userPrivacyPolicyUserIdPut(@ApiParam(value = "The user identifier number",required=true) @PathParam("user-id") String userId
 ,@ApiParam(value = "The changed instance of this user's UPP" ,required=true) UserPrivacyPolicy upp
-,@Context SecurityContext securityContext)
+,@Context SecurityContext securityContext, @Context HttpHeaders headers)
     throws NotFoundException {
-        return delegate.userPrivacyPolicyUserIdPut(userId,upp,securityContext);
+        return delegate.userPrivacyPolicyUserIdPut(userId,upp,securityContext,headers);
     }
 }
