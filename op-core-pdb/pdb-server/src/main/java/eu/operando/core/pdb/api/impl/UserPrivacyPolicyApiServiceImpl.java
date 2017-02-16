@@ -47,10 +47,12 @@ import eu.operando.core.cas.client.api.DefaultApi;
 import eu.operando.core.cas.client.model.UserCredential;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Properties;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.HttpHeaders;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-12-19T10:59:55.638Z")
 public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService {
@@ -66,6 +68,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
     String logdbBasePath = "http://integration.operando.esilab.org:8090/operando/core/ldb";
     String uppLoginName = "xxxxx";
     String uppLoginPassword = "xxxxx";
+    String stHeaderName = "Service-Ticket";
 
     String mongoServerHost = "localhost";
     int mongoServerPort = 27017;
@@ -173,6 +176,28 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
         return st;
     }
 
+    private boolean validateHeaderSt(HttpHeaders headers) {
+        return true;
+    }
+
+    private boolean validateHeaderSt1(HttpHeaders headers) {
+        if (headers != null) {
+            List<String> stHeader = headers.getRequestHeader(stHeaderName);
+            if (stHeader != null) {
+                String st = stHeader.get(0);
+                try {
+                    aapiClient.aapiTicketsStValidateGet(st, pdbUPPSId);
+                    return true;
+                } catch (eu.operando.core.cas.client.ApiException ex) {
+                    Logger.getLogger(RegulationsApiServiceImpl.class.getName()).log(Level.WARNING,
+                            "Service Ticket validation failed: {0}", ex.getMessage());
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+    
     private void logRequest(String requesterId, String title, String description,
             LogDataTypeEnum logDataType, LogPriorityEnum logPriority,
             ArrayList<String> keywords) {
@@ -202,10 +227,15 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
     }
 
     @Override
-    public Response userPrivacyPolicyGet(String filter, SecurityContext securityContext)
+    public Response userPrivacyPolicyGet(String filter, SecurityContext securityContext, HttpHeaders headers)
             throws NotFoundException {
 
         Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.INFO, "upp GET policy filter {0}", filter);
+
+        if (!validateHeaderSt(headers)) {
+            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                    "Error. The service ticket failed to validate.")).build();
+        }
 
         logRequest("userPrivacyPolicyGet", "filter: ".concat(filter),
                 "PDB user privacy policy received for ".concat(filter),
@@ -235,10 +265,15 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
     }
 
     @Override
-    public Response userPrivacyPolicyPost(UserPrivacyPolicy upp, SecurityContext securityContext)
+    public Response userPrivacyPolicyPost(UserPrivacyPolicy upp, SecurityContext securityContext, HttpHeaders headers)
             throws NotFoundException {
 
         Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.INFO, "upp POST policy {0}", upp.toString());
+
+        if (!validateHeaderSt(headers)) {
+            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                    "Error. The service ticket failed to validate.")).build();
+        }
 
         logRequest("userPrivacyPolicyPost", "upp: ".concat(upp.getUserId()),
                 "PDB user privacy policy POST received",
@@ -269,8 +304,15 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
     }
 
     @Override
-    public Response userPrivacyPolicyUserIdDelete(String userId, SecurityContext securityContext)
+    public Response userPrivacyPolicyUserIdDelete(String userId, SecurityContext securityContext, HttpHeaders headers)
             throws NotFoundException {
+        
+    Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.INFO, "upp DELET policy {0}", userId);
+
+        if (!validateHeaderSt(headers)) {
+            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                    "Error. The service ticket failed to validate.")).build();
+        }
 
         logRequest("userPrivacyPolicyDelete", "userId: ".concat(userId),
                 "PDB user privacy policy DELETE received",
@@ -302,10 +344,15 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
     }
 
     @Override
-    public Response userPrivacyPolicyUserIdGet(String userId, SecurityContext securityContext)
+    public Response userPrivacyPolicyUserIdGet(String userId, SecurityContext securityContext, HttpHeaders headers)
             throws NotFoundException {
 
         Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.INFO, "upp GET policy {0}", userId);
+
+        if (!validateHeaderSt(headers)) {
+            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                    "Error. The service ticket failed to validate.")).build();
+        }
 
         logRequest("userPrivacyPolicyUserIdGet", "userId: ".concat(userId),
                 "PDB user privacy policy GET received",
@@ -335,10 +382,15 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
     }
 
     @Override
-    public Response userPrivacyPolicyUserIdPut(String userId, UserPrivacyPolicy upp, SecurityContext securityContext)
+    public Response userPrivacyPolicyUserIdPut(String userId, UserPrivacyPolicy upp, SecurityContext securityContext, HttpHeaders headers)
             throws NotFoundException {
 
         Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.INFO, "upp PUT policy {0} {1}", new Object[]{userId, upp.toString()});
+
+        if (!validateHeaderSt(headers)) {
+            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                    "Error. The service ticket failed to validate.")).build();
+        }
 
         logRequest("userPrivacyPolicyPut", "userId: ".concat(userId),
                 "PDB user privacy policy PUT received",

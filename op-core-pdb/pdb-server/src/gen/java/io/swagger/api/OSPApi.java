@@ -42,6 +42,7 @@ import io.swagger.api.NotFoundException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.*;
 
 @Path("/OSP")
@@ -62,9 +63,9 @@ public class OSPApi  {
 
         @io.swagger.annotations.ApiResponse(code = 405, message = "Error in request. There is an invalid input in the query field.", response = OSPPrivacyPolicy.class, responseContainer = "List") })
     public Response oSPGet(@ApiParam(value = "The query filter to be matched - ?filter={json description}",required=true) @QueryParam("filter") String filter
-,@Context SecurityContext securityContext)
+,@Context SecurityContext securityContext, @Context HttpHeaders headers)
     throws NotFoundException {
-        return delegate.oSPGet(filter,securityContext);
+        return delegate.oSPGet(filter,securityContext,headers);
     }
     @DELETE
     @Path("/{osp-id}/")
@@ -76,9 +77,9 @@ public class OSPApi  {
 
         @io.swagger.annotations.ApiResponse(code = 404, message = "Error. No document exists to be deleted.", response = void.class) })
     public Response oSPOspIdDelete(@ApiParam(value = "The identifier number of an OSP",required=true) @PathParam("osp-id") String ospId
-,@Context SecurityContext securityContext)
+,@Context SecurityContext securityContext, @Context HttpHeaders headers)
     throws NotFoundException {
-        return delegate.oSPOspIdDelete(ospId,securityContext);
+        return delegate.oSPOspIdDelete(ospId,securityContext,headers);
     }
     @GET
     @Path("/{osp-id}/")
@@ -90,9 +91,9 @@ public class OSPApi  {
 
         @io.swagger.annotations.ApiResponse(code = 404, message = "Error - the osp does not have a policy in the db.", response = OSPPrivacyPolicy.class) })
     public Response oSPOspIdGet(@ApiParam(value = "The identifier number of an OSP",required=true) @PathParam("osp-id") String ospId
-,@Context SecurityContext securityContext)
+,@Context SecurityContext securityContext, @Context HttpHeaders headers)
     throws NotFoundException {
-        return delegate.oSPOspIdGet(ospId,securityContext);
+        return delegate.oSPOspIdGet(ospId,securityContext,headers);
     }
     @GET
     @Path("/{osp-id}/privacy-policy/access-reasons")
@@ -104,9 +105,9 @@ public class OSPApi  {
 
         @io.swagger.annotations.ApiResponse(code = 404, message = "Error - the OSP does not have a policy stored in the db.", response = OSPReasonPolicy.class, responseContainer = "List") })
     public Response oSPOspIdPrivacyPolicyAccessReasonsGet(@ApiParam(value = "The identifier number of an OSP",required=true) @PathParam("osp-id") String ospId
-,@Context SecurityContext securityContext)
+,@Context SecurityContext securityContext, @Context HttpHeaders headers)
     throws NotFoundException {
-        return delegate.oSPOspIdPrivacyPolicyAccessReasonsGet(ospId,securityContext);
+        return delegate.oSPOspIdPrivacyPolicyAccessReasonsGet(ospId,securityContext,headers);
     }
     @POST
     @Path("/{osp-id}/privacy-policy/access-reasons")
@@ -119,9 +120,9 @@ public class OSPApi  {
         @io.swagger.annotations.ApiResponse(code = 405, message = "Error. The document (OSPBehaviour) at this id has previously been created in the list.", response = void.class) })
     public Response oSPOspIdPrivacyPolicyAccessReasonsPost(@ApiParam(value = "The identifier number of an OSP",required=true) @PathParam("osp-id") String ospId
 ,@ApiParam(value = "The first instance of this new statement." ,required=true) AccessReason ospPolicy
-,@Context SecurityContext securityContext)
+,@Context SecurityContext securityContext, @Context HttpHeaders headers)
     throws NotFoundException {
-        return delegate.oSPOspIdPrivacyPolicyAccessReasonsPost(ospId,ospPolicy,securityContext);
+        return delegate.oSPOspIdPrivacyPolicyAccessReasonsPost(ospId,ospPolicy,securityContext,headers);
     }
     @DELETE
     @Path("/{osp-id}/privacy-policy/access-reasons/{reason-id}")
@@ -134,9 +135,9 @@ public class OSPApi  {
         @io.swagger.annotations.ApiResponse(code = 404, message = "Error. No document exists to be deleted.", response = void.class) })
     public Response oSPOspIdPrivacyPolicyAccessReasonsReasonIdDelete(@ApiParam(value = "The identifier number of an OSP",required=true) @PathParam("osp-id") String ospId
 ,@ApiParam(value = "The identifier of a statement in a policy, is only unique to the policy.",required=true) @PathParam("reason-id") String reasonId
-,@Context SecurityContext securityContext)
+,@Context SecurityContext securityContext, @Context HttpHeaders headers)
     throws NotFoundException {
-        return delegate.oSPOspIdPrivacyPolicyAccessReasonsReasonIdDelete(ospId,reasonId,securityContext);
+        return delegate.oSPOspIdPrivacyPolicyAccessReasonsReasonIdDelete(ospId,reasonId,securityContext,headers);
     }
     @PUT
     @Path("/{osp-id}/privacy-policy/access-reasons/{reason-id}")
@@ -150,9 +151,9 @@ public class OSPApi  {
     public Response oSPOspIdPrivacyPolicyAccessReasonsReasonIdPut(@ApiParam(value = "The identifier number of an OSP",required=true) @PathParam("osp-id") String ospId
 ,@ApiParam(value = "The identifier of a statement in a policy, is only unique to the policy.",required=true) @PathParam("reason-id") String reasonId
 ,@ApiParam(value = "The updated instance of this OSP policy statement." ,required=true) AccessReason ospPolicy
-,@Context SecurityContext securityContext)
+,@Context SecurityContext securityContext, @Context HttpHeaders headers)
     throws NotFoundException {
-        return delegate.oSPOspIdPrivacyPolicyAccessReasonsReasonIdPut(ospId,reasonId,ospPolicy,securityContext);
+        return delegate.oSPOspIdPrivacyPolicyAccessReasonsReasonIdPut(ospId,reasonId,ospPolicy,securityContext,headers);
     }
     @GET
     @Path("/{osp-id}/privacy-policy/")
@@ -164,9 +165,9 @@ public class OSPApi  {
 
         @io.swagger.annotations.ApiResponse(code = 404, message = "Error - the OSP does not have a policy stored in the db.", response = OSPReasonPolicy.class) })
     public Response oSPOspIdPrivacyPolicyGet(@ApiParam(value = "The identifier number of an OSP",required=true) @PathParam("osp-id") String ospId
-,@Context SecurityContext securityContext)
+,@Context SecurityContext securityContext, @Context HttpHeaders headers)
     throws NotFoundException {
-        return delegate.oSPOspIdPrivacyPolicyGet(ospId,securityContext);
+        return delegate.oSPOspIdPrivacyPolicyGet(ospId,securityContext,headers);
     }
     @PUT
     @Path("/{osp-id}/privacy-policy/")
@@ -179,9 +180,9 @@ public class OSPApi  {
         @io.swagger.annotations.ApiResponse(code = 404, message = "Error. No document exists to be updated.", response = void.class) })
     public Response oSPOspIdPrivacyPolicyPut(@ApiParam(value = "The identifier number of an OSP",required=true) @PathParam("osp-id") String ospId
 ,@ApiParam(value = "The changed instance of this OSPRequest" ,required=true) OSPReasonPolicyInput ospPolicy
-,@Context SecurityContext securityContext)
+,@Context SecurityContext securityContext, @Context HttpHeaders headers)
     throws NotFoundException {
-        return delegate.oSPOspIdPrivacyPolicyPut(ospId,ospPolicy,securityContext);
+        return delegate.oSPOspIdPrivacyPolicyPut(ospId,ospPolicy,securityContext,headers);
     }
     @PUT
     @Path("/{osp-id}/")
@@ -194,9 +195,9 @@ public class OSPApi  {
         @io.swagger.annotations.ApiResponse(code = 404, message = "Error. No document exists to be updated.", response = void.class) })
     public Response oSPOspIdPut(@ApiParam(value = "The identifier number of an OSP",required=true) @PathParam("osp-id") String ospId
 ,@ApiParam(value = "The changed instance of this OSPRequest" ,required=true) OSPPrivacyPolicyInput ospPolicy
-,@Context SecurityContext securityContext)
+,@Context SecurityContext securityContext, @Context HttpHeaders headers)
     throws NotFoundException {
-        return delegate.oSPOspIdPut(ospId,ospPolicy,securityContext);
+        return delegate.oSPOspIdPut(ospId,ospPolicy,securityContext,headers);
     }
     @POST
     @Path("/")
@@ -208,8 +209,8 @@ public class OSPApi  {
 
         @io.swagger.annotations.ApiResponse(code = 405, message = "Error. The document (OSPBehaviour) at this id has previously been created in the database.", response = void.class) })
     public Response oSPPost(@ApiParam(value = "The first instance of this OSP document" ,required=true) OSPPrivacyPolicyInput ospPolicy
-,@Context SecurityContext securityContext)
+,@Context SecurityContext securityContext, @Context HttpHeaders headers)
     throws NotFoundException {
-        return delegate.oSPPost(ospPolicy,securityContext);
+        return delegate.oSPPost(ospPolicy,securityContext,headers);
     }
 }

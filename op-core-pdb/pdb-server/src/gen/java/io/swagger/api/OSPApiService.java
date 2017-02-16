@@ -34,18 +34,19 @@ import io.swagger.api.NotFoundException;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.HttpHeaders;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-12-19T10:59:55.638Z")
 public abstract class OSPApiService {
-    public abstract Response oSPGet(String filter,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response oSPOspIdDelete(String ospId,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response oSPOspIdGet(String ospId,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response oSPOspIdPrivacyPolicyAccessReasonsGet(String ospId,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response oSPOspIdPrivacyPolicyAccessReasonsPost(String ospId,AccessReason ospPolicy,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response oSPOspIdPrivacyPolicyAccessReasonsReasonIdDelete(String ospId,String reasonId,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response oSPOspIdPrivacyPolicyAccessReasonsReasonIdPut(String ospId,String reasonId,AccessReason ospPolicy,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response oSPOspIdPrivacyPolicyGet(String ospId,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response oSPOspIdPrivacyPolicyPut(String ospId,OSPReasonPolicyInput ospPolicy,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response oSPOspIdPut(String ospId,OSPPrivacyPolicyInput ospPolicy,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response oSPPost(OSPPrivacyPolicyInput ospPolicy,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response oSPGet(String filter,SecurityContext securityContext, HttpHeaders headers) throws NotFoundException;
+    public abstract Response oSPOspIdDelete(String ospId,SecurityContext securityContext, HttpHeaders headers) throws NotFoundException;
+    public abstract Response oSPOspIdGet(String ospId,SecurityContext securityContext, HttpHeaders headers) throws NotFoundException;
+    public abstract Response oSPOspIdPrivacyPolicyAccessReasonsGet(String ospId,SecurityContext securityContext, HttpHeaders headers) throws NotFoundException;
+    public abstract Response oSPOspIdPrivacyPolicyAccessReasonsPost(String ospId,AccessReason ospPolicy,SecurityContext securityContext, HttpHeaders headers) throws NotFoundException;
+    public abstract Response oSPOspIdPrivacyPolicyAccessReasonsReasonIdDelete(String ospId,String reasonId,SecurityContext securityContext, HttpHeaders headers) throws NotFoundException;
+    public abstract Response oSPOspIdPrivacyPolicyAccessReasonsReasonIdPut(String ospId,String reasonId,AccessReason ospPolicy,SecurityContext securityContext, HttpHeaders headers) throws NotFoundException;
+    public abstract Response oSPOspIdPrivacyPolicyGet(String ospId,SecurityContext securityContext, HttpHeaders headers) throws NotFoundException;
+    public abstract Response oSPOspIdPrivacyPolicyPut(String ospId,OSPReasonPolicyInput ospPolicy,SecurityContext securityContext, HttpHeaders headers) throws NotFoundException;
+    public abstract Response oSPOspIdPut(String ospId,OSPPrivacyPolicyInput ospPolicy,SecurityContext securityContext, HttpHeaders headers) throws NotFoundException;
+    public abstract Response oSPPost(OSPPrivacyPolicyInput ospPolicy,SecurityContext securityContext, HttpHeaders headers) throws NotFoundException;
 }

@@ -35,6 +35,7 @@ import com.mongodb.WriteResult;
 import com.mongodb.util.JSON;
 import eu.operando.core.pdb.common.model.UserPrivacyPolicy;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -144,6 +145,17 @@ public class UPPMongo {
         return result;
     }
 
+    private boolean isAValidFieldName(String key) {
+        Class aClass = UserPrivacyPolicy.class;
+        try {
+            Field field = aClass.getDeclaredField(key);
+        } catch (NoSuchFieldException ex){ 
+            System.err.println("no such field found " + key);
+            return false;
+        }
+        return true;
+    }
+    
     public String getUPPByFilter(String filter) {
         String result = null;
         BasicDBObject query = new BasicDBObject();
@@ -162,6 +174,10 @@ public class UPPMongo {
                 System.out.println("found key " + key);
                 System.out.println("converting key " + toCamelCase(key));
                 key = toCamelCase(key);
+                if(!isAValidFieldName(key)) {
+                    System.out.println("Not a valid key name found: " + key);
+                    return null;
+                }
                 System.out.println("value " + obj.getString(key));
                 query.put(key, java.util.regex.Pattern.compile(obj.getString(key)));
             }

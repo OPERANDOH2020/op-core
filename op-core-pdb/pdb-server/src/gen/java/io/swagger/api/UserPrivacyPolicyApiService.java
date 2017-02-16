@@ -33,12 +33,13 @@ import io.swagger.api.NotFoundException;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.HttpHeaders;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-12-19T10:59:55.638Z")
 public abstract class UserPrivacyPolicyApiService {
-    public abstract Response userPrivacyPolicyGet(String filter,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response userPrivacyPolicyPost(UserPrivacyPolicy upp,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response userPrivacyPolicyUserIdDelete(String userId,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response userPrivacyPolicyUserIdGet(String userId,SecurityContext securityContext) throws NotFoundException;
-    public abstract Response userPrivacyPolicyUserIdPut(String userId,UserPrivacyPolicy upp,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response userPrivacyPolicyGet(String filter,SecurityContext securityContext, HttpHeaders headers) throws NotFoundException;
+    public abstract Response userPrivacyPolicyPost(UserPrivacyPolicy upp,SecurityContext securityContext, HttpHeaders headers) throws NotFoundException;
+    public abstract Response userPrivacyPolicyUserIdDelete(String userId,SecurityContext securityContext, HttpHeaders headers) throws NotFoundException;
+    public abstract Response userPrivacyPolicyUserIdGet(String userId,SecurityContext securityContext, HttpHeaders headers) throws NotFoundException;
+    public abstract Response userPrivacyPolicyUserIdPut(String userId,UserPrivacyPolicy upp,SecurityContext securityContext, HttpHeaders headers) throws NotFoundException;
 }
