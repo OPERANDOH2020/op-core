@@ -46,10 +46,11 @@ import javax.ws.rs.core.MediaType;
 import eu.operando.core.cas.client.api.DefaultApi;
 //import eu.operando.core.cas.client.ApiException;
 import eu.operando.core.cas.client.model.UserCredential;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Properties;
+import javax.ws.rs.core.HttpHeaders;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-12-19T10:59:55.638Z")
 public class OSPApiServiceImpl extends OSPApiService {
@@ -65,6 +66,7 @@ public class OSPApiServiceImpl extends OSPApiService {
     String logdbBasePath = "http://integration.operando.esilab.org:8090/operando/core/ldb";
     String ospLoginName = "xxxxx";
     String ospLoginPassword = "xxxxx";
+    String stHeaderName = "Service-Ticket";
 
     String mongoServerHost = "localhost";
     int mongoServerPort = 27017;
@@ -78,60 +80,35 @@ public class OSPApiServiceImpl extends OSPApiService {
         prop = loadServiceProperties();
         loadParams();
 
-        // setup aapi client
-        if (prop.getProperty("aapi.basepath") != null) {
-            aapiBasePath = prop.getProperty("aapi.basepath");
-        }
+        // setup aapi client     
         eu.operando.core.cas.client.ApiClient aapiDefaultClient = new eu.operando.core.cas.client.ApiClient();
         aapiDefaultClient.setBasePath(aapiBasePath);
         this.aapiClient = new DefaultApi(aapiDefaultClient);
 
-        // setup logdb client
-        if (prop.getProperty("logdb.basepath") != null) {
-            logdbBasePath = prop.getProperty("logdb.basepath");
-        }
+        // setup logdb client        
         ApiClient apiClient = new ApiClient();
         apiClient.setBasePath(logdbBasePath);
 
         // get service ticket for logdb service
-        if (prop.getProperty("pdb.osp.service.login") != null) {
-            ospLoginName = prop.getProperty("pdb.osp.service.login");
-        }
-        if (prop.getProperty("pdb.osp.service.password") != null) {
-            ospLoginPassword = prop.getProperty("pdb.osp.service.password");
-        }
-        if (prop.getProperty("logdb.service.id") != null) {
-            logdbSId = prop.getProperty("logdb.service.id");
-        }
         String logdbST = getServiceTicket(ospLoginName, ospLoginPassword, logdbSId);
         apiClient.addDefaultHeader("service-ticket", logdbST);
         this.logApi = new LogApi(apiClient);
 
         // setup mongo part
-        if (prop.getProperty("mongo.server.host") != null) {
-            mongoServerHost = prop.getProperty("mongo.server.host");
-        }
-        if (prop.getProperty("mongo.server.port") != null) {
-            try {
-                mongoServerPort = Integer.parseInt(prop.getProperty("mongo.server.port"));
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-            }
-        }
         ospMongodb = new OSPPrivacyPolicyMongo(mongoServerHost, mongoServerPort);
     }
 
-    private void loadParams(){
+    private void loadParams() {
         // setup aapi client
         if (prop.getProperty("aapi.basepath") != null) {
             aapiBasePath = prop.getProperty("aapi.basepath");
-        }        
+        }
 
         // setup logdb client
         if (prop.getProperty("logdb.basepath") != null) {
             logdbBasePath = prop.getProperty("logdb.basepath");
         }
-        
+
         // get service ticket for logdb service
         if (prop.getProperty("pdb.osp.service.login") != null) {
             ospLoginName = prop.getProperty("pdb.osp.service.login");
@@ -142,7 +119,7 @@ public class OSPApiServiceImpl extends OSPApiService {
         if (prop.getProperty("logdb.service.id") != null) {
             logdbSId = prop.getProperty("logdb.service.id");
         }
-        
+
         // setup mongo part
         if (prop.getProperty("mongo.server.host") != null) {
             mongoServerHost = prop.getProperty("mongo.server.host");
@@ -155,7 +132,7 @@ public class OSPApiServiceImpl extends OSPApiService {
             }
         }
     }
-    
+
     private Properties loadServiceProperties() {
         Properties props;
         props = new Properties();
@@ -206,6 +183,28 @@ public class OSPApiServiceImpl extends OSPApiService {
         return false;
     }
 
+    private boolean validateHeaderSt(HttpHeaders headers) {
+        return true;
+    }
+
+    private boolean validateHeaderSt1(HttpHeaders headers) {
+        if (headers != null) {
+            List<String> stHeader = headers.getRequestHeader(stHeaderName);
+            if (stHeader != null) {
+                String st = stHeader.get(0);
+                try {
+                    aapiClient.aapiTicketsStValidateGet(st, pdbOSPSId);
+                    return true;
+                } catch (eu.operando.core.cas.client.ApiException ex) {
+                    Logger.getLogger(RegulationsApiServiceImpl.class.getName()).log(Level.WARNING,
+                            "Service Ticket validation failed: {0}", ex.getMessage());
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
     private void logRequest(String requesterId, String title, String description,
             LogDataTypeEnum logDataType, LogPriorityEnum logPriority,
             ArrayList<String> keywords) {
@@ -236,10 +235,14 @@ public class OSPApiServiceImpl extends OSPApiService {
     }
 
     @Override
-    public Response oSPGet(String filter, SecurityContext securityContext) throws NotFoundException {
+    public Response oSPGet(String filter, SecurityContext securityContext, HttpHeaders headers) throws NotFoundException {
 
-        System.out.println("SecurityContext: " + securityContext.toString());
         Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP GET (filter) {0}", filter);
+
+        if (!validateHeaderSt(headers)) {
+            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                    "Error. The service ticket failed to validate.")).build();
+        }
 
         logRequest("PDB OSP", "GET OSP",
                 "OSP GET received",
@@ -268,9 +271,14 @@ public class OSPApiServiceImpl extends OSPApiService {
     }
 
     @Override
-    public Response oSPOspIdPrivacyPolicyAccessReasonsGet(String ospId, SecurityContext securityContext) throws NotFoundException {
+    public Response oSPOspIdPrivacyPolicyAccessReasonsGet(String ospId, SecurityContext securityContext, HttpHeaders headers) throws NotFoundException {
 
         Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP GET Access Reasons(id) {0}", ospId);
+
+        if (!validateHeaderSt(headers)) {
+            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                    "Error. The service ticket failed to validate.")).build();
+        }
 
         logRequest("OSP GET access reasons", "GET",
                 "OSP GET access reasons received",
@@ -299,8 +307,13 @@ public class OSPApiServiceImpl extends OSPApiService {
     }
 
     @Override
-    public Response oSPOspIdDelete(String ospId, SecurityContext securityContext) throws NotFoundException {
+    public Response oSPOspIdDelete(String ospId, SecurityContext securityContext, HttpHeaders headers) throws NotFoundException {
         Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP DELETE {0}", ospId);
+
+        if (!validateHeaderSt(headers)) {
+            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                    "Error. The service ticket failed to validate.")).build();
+        }
 
         logRequest("OSP DELETE", "DELETE",
                 "OSP DELETE received",
@@ -332,9 +345,14 @@ public class OSPApiServiceImpl extends OSPApiService {
     }
 
     @Override
-    public Response oSPOspIdGet(String ospId, SecurityContext securityContext) throws NotFoundException {
+    public Response oSPOspIdGet(String ospId, SecurityContext securityContext, HttpHeaders headers) throws NotFoundException {
 
         Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP GET (id) {0}", ospId);
+
+        if (!validateHeaderSt(headers)) {
+            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                    "Error. The service ticket failed to validate.")).build();
+        }
 
         logRequest("OSP GET", "GET",
                 "OSP GET received",
@@ -363,9 +381,14 @@ public class OSPApiServiceImpl extends OSPApiService {
     }
 
     @Override
-    public Response oSPOspIdPrivacyPolicyGet(String ospId, SecurityContext securityContext) throws NotFoundException {
+    public Response oSPOspIdPrivacyPolicyGet(String ospId, SecurityContext securityContext, HttpHeaders headers) throws NotFoundException {
 
         Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP GET {0}", ospId);
+
+        if (!validateHeaderSt(headers)) {
+            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                    "Error. The service ticket failed to validate.")).build();
+        }
 
         logRequest("OSP GET", "GET",
                 "OSP GET received",
@@ -394,9 +417,14 @@ public class OSPApiServiceImpl extends OSPApiService {
     }
 
     @Override
-    public Response oSPOspIdPrivacyPolicyAccessReasonsPost(String ospId, AccessReason ospPolicy, SecurityContext securityContext) throws NotFoundException {
+    public Response oSPOspIdPrivacyPolicyAccessReasonsPost(String ospId, AccessReason ospPolicy, SecurityContext securityContext, HttpHeaders headers) throws NotFoundException {
 
         Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP POST Access Reasons(id) {0}", ospId);
+
+        if (!validateHeaderSt(headers)) {
+            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                    "Error. The service ticket failed to validate.")).build();
+        }
 
         logRequest("OSP POST access reasons", "POST",
                 "OSP POST access reasons received",
@@ -425,9 +453,14 @@ public class OSPApiServiceImpl extends OSPApiService {
     }
 
     @Override
-    public Response oSPOspIdPrivacyPolicyAccessReasonsReasonIdDelete(String ospId, String reasonId, SecurityContext securityContext) throws NotFoundException {
+    public Response oSPOspIdPrivacyPolicyAccessReasonsReasonIdDelete(String ospId, String reasonId, SecurityContext securityContext, HttpHeaders headers) throws NotFoundException {
 
         Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP DELETE Access Reason(id) {0}", ospId);
+
+        if (!validateHeaderSt(headers)) {
+            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                    "Error. The service ticket failed to validate.")).build();
+        }
 
         logRequest("OSP DELETE access reason", "DELETE",
                 "OSP DELETE access reason received",
@@ -456,9 +489,14 @@ public class OSPApiServiceImpl extends OSPApiService {
     }
 
     @Override
-    public Response oSPOspIdPrivacyPolicyAccessReasonsReasonIdPut(String ospId, String reasonId, AccessReason ospPolicy, SecurityContext securityContext) throws NotFoundException {
+    public Response oSPOspIdPrivacyPolicyAccessReasonsReasonIdPut(String ospId, String reasonId, AccessReason ospPolicy, SecurityContext securityContext, HttpHeaders headers) throws NotFoundException {
 
         Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP PUT Access Reason(id) {0}", ospId);
+
+        if (!validateHeaderSt(headers)) {
+            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                    "Error. The service ticket failed to validate.")).build();
+        }
 
         logRequest("OSP PUT access reason", "PUT",
                 "OSP PUT access reason received",
@@ -487,9 +525,14 @@ public class OSPApiServiceImpl extends OSPApiService {
     }
 
     @Override
-    public Response oSPOspIdPrivacyPolicyPut(String ospId, OSPReasonPolicyInput ospPolicy, SecurityContext securityContext) throws NotFoundException {
+    public Response oSPOspIdPrivacyPolicyPut(String ospId, OSPReasonPolicyInput ospPolicy, SecurityContext securityContext, HttpHeaders headers) throws NotFoundException {
 
         Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP PUT {0}", ospId);
+
+        if (!validateHeaderSt(headers)) {
+            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                    "Error. The service ticket failed to validate.")).build();
+        }
 
         logRequest("OSP PUT", "PUT",
                 "OSP PUT received",
@@ -518,9 +561,14 @@ public class OSPApiServiceImpl extends OSPApiService {
     }
 
     @Override
-    public Response oSPOspIdPut(String ospId, OSPPrivacyPolicyInput ospPolicy, SecurityContext securityContext) throws NotFoundException {
+    public Response oSPOspIdPut(String ospId, OSPPrivacyPolicyInput ospPolicy, SecurityContext securityContext, HttpHeaders headers) throws NotFoundException {
 
         Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP PUT {0}", ospId);
+
+        if (!validateHeaderSt(headers)) {
+            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                    "Error. The service ticket failed to validate.")).build();
+        }
 
         logRequest("OSP PUT", "PUT",
                 "OSP PUT received",
@@ -550,10 +598,15 @@ public class OSPApiServiceImpl extends OSPApiService {
     }
 
     @Override
-    public Response oSPPost(OSPPrivacyPolicyInput ospPolicy, SecurityContext securityContext)
+    public Response oSPPost(OSPPrivacyPolicyInput ospPolicy, SecurityContext securityContext, HttpHeaders headers)
             throws NotFoundException {
 
         Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP POST {0}", ospPolicy.toString());
+
+        if (!validateHeaderSt(headers)) {
+            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                    "Error. The service ticket failed to validate.")).build();
+        }
 
         logRequest("OSP POST", "POST",
                 "OSP POST received",

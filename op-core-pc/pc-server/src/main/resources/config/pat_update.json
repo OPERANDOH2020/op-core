@@ -47,7 +47,7 @@
         "osp_id": "YellowPages",
         "access_policies": [{
             "subject": "doctor",
-            "permission": "true",
+            "permission": "false",
             "action": "Access",
             "resource": "/personal_information/full_name/given_name",
             "attributes": [{

@@ -24,10 +24,13 @@
 //  License : GNU Lesser General Public License, version 3
 //
 /////////////////////////////////////////////////////////////////////////
-package eu.operando;
+package eu.operando.core.ose.services;
 
+import eu.operando.core.ose.mongo.OspsMongo;
+import eu.operando.core.ose.mongo.RegulationsMongo;
 import io.swagger.api.NotFoundException;
-import eu.operando.core.pdb.common.model.OSPReasonPolicy;
+import eu.operando.core.pdb.common.model.PrivacyRegulation;
+import java.util.List;
 
 /**
  * Core implementation of compliance check functionality.
@@ -36,22 +39,44 @@ import eu.operando.core.pdb.common.model.OSPReasonPolicy;
  * regulations.
 
  */
-public class ComplianceCheckerService {
+public class RegulationWorkflow {
 
-    public ComplianceCheckerService() {
+    public RegulationWorkflow() {
 
     }
+
     /**
-     *
-     * @param reg_id
-     * @param PDB_URL
+     * Regulation to add.
+     * @param ospRequest
      * @return
      * @throws NotFoundException
      */
-    public String ospComplianceCheck(String reg_id, OSPReasonPolicy ospRequest, String PDB_URL, PolicyEvaluationService policyService)
+    public String addRegulation(PrivacyRegulation ospRequest)
         throws NotFoundException {
 
-        return null;
+        String response = "";
+
+        RegulationsMongo regMongo = new RegulationsMongo();
+        String storeAction = regMongo.storeRegulation(ospRequest);
+        if(storeAction == null)
+            return "error";
+        /**
+         * Execute the workflow to check OSP services do not violate the regulation.
+         */
+
+        // Step 1. Query the DB to get a list of the OSEs in the legislation sector.
+        OspsMongo ospMongo = new OspsMongo();
+        List<String> osps = ospMongo.getOSPbySector(ospRequest.getLegislationSector());
+        System.out.println("Number of OSPS - " + osps.size());
+        for(String osp: osps) {
+            System.out.println("OSP - " + osp);
+        }
+
+        /**
+         * For each OSP begin a workflow to check the OSP reason policy against the regulation
+         */
+
+        return response;
 
     }
 }

@@ -48,10 +48,12 @@ import javax.ws.rs.core.MediaType;
 import eu.operando.core.cas.client.api.DefaultApi;
 import eu.operando.core.cas.client.model.UserCredential;
 import java.io.InputStream;
+import java.util.List;
 import java.util.Properties;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.HttpHeaders;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-12-19T10:59:55.638Z")
 public class RegulationsApiServiceImpl extends RegulationsApiService {
@@ -67,6 +69,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
     String logdbBasePath = "http://integration.operando.esilab.org:8090/operando/core/ldb";
     String regLoginName = "xxxxx";
     String regLoginPassword = "xxxxx";
+    String stHeaderName = "Service-Ticket";
 
     String mongoServerHost = "localhost";
     int mongoServerPort = 27017;
@@ -77,35 +80,37 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
     public RegulationsApiServiceImpl() {
         super();
         //  get service config params
-        prop = new Properties();
-        String propFilename = "service.properties";
-        InputStream is = getClass().getClassLoader().getResourceAsStream(propFilename);
-        try {
-            prop.load(is);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } finally {
-            try {
-                is.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
+        prop = loadServiceProperties();
+        loadParams();
 
         // setup aapi client
-        if (prop.getProperty("aapi.basepath") != null) {
-            aapiBasePath = prop.getProperty("aapi.basepath");
-        }
         eu.operando.core.cas.client.ApiClient aapiDefaultClient = new eu.operando.core.cas.client.ApiClient();
         aapiDefaultClient.setBasePath(aapiBasePath);
         this.aapiClient = new DefaultApi(aapiDefaultClient);
 
         // setup logdb client
+        ApiClient apiClient = new ApiClient();
+        apiClient.setBasePath(logdbBasePath);
+
+        // get service ticket for logdb service
+        String logdbST = getServiceTicket(regLoginName, regLoginPassword, logdbSId);
+        apiClient.addDefaultHeader(stHeaderName, logdbST);
+        this.logApi = new LogApi(apiClient);
+
+        // setup mongo part
+        ospMongodb = new RegulationsMongo(mongoServerHost, mongoServerPort);
+    }
+
+    private void loadParams() {
+        // setup aapi client
+        if (prop.getProperty("aapi.basepath") != null) {
+            aapiBasePath = prop.getProperty("aapi.basepath");
+        }
+
+        // setup logdb client
         if (prop.getProperty("logdb.basepath") != null) {
             logdbBasePath = prop.getProperty("logdb.basepath");
         }
-        ApiClient apiClient = new ApiClient();
-        apiClient.setBasePath(logdbBasePath);
 
         // get service ticket for logdb service
         if (prop.getProperty("pdb.reg.service.login") != null) {
@@ -117,9 +122,6 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
         if (prop.getProperty("logdb.service.id") != null) {
             logdbSId = prop.getProperty("logdb.service.id");
         }
-        String logdbST = getServiceTicket(regLoginName, regLoginPassword, logdbSId);
-        apiClient.addDefaultHeader("service-ticket", logdbST);
-        this.logApi = new LogApi(apiClient);
 
         // setup mongo part
         if (prop.getProperty("mongo.server.host") != null) {
@@ -132,7 +134,28 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
                 e.printStackTrace();
             }
         }
-        ospMongodb = new RegulationsMongo(mongoServerHost, mongoServerPort);
+    }
+
+    private Properties loadServiceProperties() {
+        Properties props;
+        props = new Properties();
+
+        InputStream is = null;
+        try {
+            is = this.getClass().getClassLoader().getResourceAsStream("service.properties");
+            props.load(is);
+        } catch (IOException e) {
+            // Display to console for debugging purposes.
+            System.err.println("Error reading Configuration service properties file");
+            // Add logging code to log an error configuring the API on startup        
+        } finally {
+            try {
+                is.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return props;
     }
 
     private String getServiceTicket(String username, String password, String serviceId) {
@@ -153,7 +176,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
         }
         return st;
     }
-    
+
     private void logRequest(String requesterId, String title, String description,
             LogDataTypeEnum logDataType, LogPriorityEnum logPriority,
             ArrayList<String> keywords) {
@@ -181,11 +204,47 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
         }
     }
 
-    @Override
-    public Response regulationsGet(String filter, SecurityContext securityContext)
-            throws NotFoundException {
+    private boolean aapiTicketsStValidateGet(String st) {
+        try {
+            aapiClient.aapiTicketsStValidateGet(st, pdbRegSId);
+            return true;
+        } catch (eu.operando.core.cas.client.ApiException ex) {
+            ex.printStackTrace();
+            return false;
+        }
+    }
 
+    private boolean validateHeaderSt(HttpHeaders headers) {
+        return true;
+    }
+
+    private boolean validateHeaderSt1(HttpHeaders headers) {
+        if (headers != null) {
+            List<String> stHeader = headers.getRequestHeader(stHeaderName);
+            if (stHeader != null) {
+                String st = stHeader.get(0);
+                try {
+                    aapiClient.aapiTicketsStValidateGet(st, pdbRegSId);
+                    return true;
+                } catch (eu.operando.core.cas.client.ApiException ex) {
+                    Logger.getLogger(RegulationsApiServiceImpl.class.getName()).log(Level.WARNING,
+                            "Service Ticket validation failed: {0}", ex.getMessage());
+                    return false;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public Response regulationsGet(String filter, SecurityContext securityContext, HttpHeaders headers)
+            throws NotFoundException {
         Logger.getLogger(RegulationsApiServiceImpl.class.getName()).log(Level.INFO, "regulations GET {0}", filter);
+
+        if (!validateHeaderSt(headers)) {
+            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                    "Error. The service ticket failed to validate.")).build();
+        }
 
         logRequest("regulations GET", "GET",
                 "regulations GET received",
@@ -212,14 +271,25 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
     }
 
     @Override
-    public Response regulationsPost(PrivacyRegulationInput regulation, SecurityContext securityContext)
+    public Response regulationsPost(PrivacyRegulationInput regulation, SecurityContext securityContext, HttpHeaders headers)
             throws NotFoundException {
         Logger.getLogger(RegulationsApiServiceImpl.class.getName()).log(Level.INFO, "regulations POST {0}", regulation);
 
+        if (!validateHeaderSt(headers)) {
+            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                    "Error. The service ticket failed to validate.")).build();
+        }
+        
         logRequest("regulations POST", "POST",
                 "regulations POST received",
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
+
+        if (regulation.getLegislationSector() == null) {
+            Logger.getLogger(RegulationsApiServiceImpl.class.getName()).log(Level.INFO, "regulations has empty legislation sector");
+            return Response.status(404).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                    "Error. The document (PrivacyRegulation) does not provide legislation_sector.")).build();
+        }
 
         String storeAction = ospMongodb.storeRegulation(regulation);
 
@@ -253,10 +323,15 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
     }
 
     @Override
-    public Response regulationsRegIdDelete(String regId, SecurityContext securityContext)
+    public Response regulationsRegIdDelete(String regId, SecurityContext securityContext, HttpHeaders headers)
             throws NotFoundException {
         Logger.getLogger(RegulationsApiServiceImpl.class.getName()).log(Level.INFO, "regulations DELETE {0}", regId);
 
+        if (!validateHeaderSt(headers)) {
+            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                    "Error. The service ticket failed to validate.")).build();
+        }
+        
         logRequest("regulations DELETE", "DELETE",
                 "regulations DELETE received",
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
@@ -287,11 +362,16 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
     }
 
     @Override
-    public Response regulationsRegIdGet(String regId, SecurityContext securityContext)
+    public Response regulationsRegIdGet(String regId, SecurityContext securityContext, HttpHeaders headers)
             throws NotFoundException {
 
         Logger.getLogger(RegulationsApiServiceImpl.class.getName()).log(Level.INFO, "regulations GET {0}", regId);
 
+        if (!validateHeaderSt(headers)) {
+            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                    "Error. The service ticket failed to validate.")).build();
+        }
+        
         logRequest("regulations GET", "GET",
                 "regulations GET received",
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
@@ -319,11 +399,16 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
     }
 
     @Override
-    public Response regulationsRegIdPut(String regId, PrivacyRegulationInput regulation, SecurityContext securityContext)
+    public Response regulationsRegIdPut(String regId, PrivacyRegulationInput regulation, SecurityContext securityContext, HttpHeaders headers)
             throws NotFoundException {
 
         Logger.getLogger(RegulationsApiServiceImpl.class.getName()).log(Level.INFO, "regulations PUT {0}", regId);
 
+        if (!validateHeaderSt(headers)) {
+            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+                    "Error. The service ticket failed to validate.")).build();
+        }
+        
         logRequest("regulations PUT", "PUT",
                 "regulations PUT received",
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,

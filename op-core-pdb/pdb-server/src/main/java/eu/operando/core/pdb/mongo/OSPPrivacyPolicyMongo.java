@@ -39,6 +39,7 @@ import eu.operando.core.pdb.common.model.OSPPrivacyPolicyInput;
 import eu.operando.core.pdb.common.model.OSPReasonPolicy;
 import eu.operando.core.pdb.common.model.OSPReasonPolicyInput;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -82,19 +83,19 @@ public class OSPPrivacyPolicyMongo {
             e.printStackTrace();
         }
     }
-    
+
     public OSPPrivacyPolicyMongo(String hostname, int port) {
         try {
             this.mongo = new MongoClient(hostname, port);
 
             // get database
             this.db = mongo.getDB("pdb");
-            
+
             // get collection
             this.ospTable = db.getCollection("osp");
             this.ospPPTable = db.getCollection("pp");
             this.ospRPTable = db.getCollection("ar");
-            
+
         } catch (MongoException e) {
             e.printStackTrace();
         }
@@ -121,6 +122,42 @@ public class OSPPrivacyPolicyMongo {
         return res;
     }
 
+    public static String toCamelCase(String inputString) {
+        String result = "";
+        if (inputString.length() == 0) {
+            return result;
+        }
+
+        char firstChar = inputString.charAt(0);
+        boolean setFlag = false;
+        result = result + firstChar;
+        for (int i = 1; i < inputString.length(); i++) {
+            char currentChar = inputString.charAt(i);
+            if (currentChar == '_') {
+                setFlag = true;
+                continue;
+            } else {
+                if (setFlag) {
+                    currentChar = Character.toUpperCase(currentChar);
+                    setFlag = false;
+                }
+            }
+            result = result + currentChar;
+        }
+        return result;
+    }
+
+    private boolean isAValidFieldName(String key) {
+        Class aClass = OSPPrivacyPolicy.class;
+        try {
+            Field field = aClass.getDeclaredField(key);
+        } catch (NoSuchFieldException ex){ 
+            System.err.println("no such field found " + key);
+            return false;
+        }
+        return true;
+    }
+    
     public String getOSPByFilter(String filter) {
         String result = null;
         BasicDBObject query = new BasicDBObject();
@@ -133,6 +170,12 @@ public class OSPPrivacyPolicyMongo {
             while (keys.hasNext()) {
                 String key = keys.next();
                 System.out.println("found key " + key);
+                System.out.println("converting key " + toCamelCase(key));
+                key = toCamelCase(key);
+                if(!isAValidFieldName(key)) {
+                    System.out.println("Not a valid key name found: " + key);
+                    return null;
+                }
                 System.out.println("value " + obj.getString(key));
                 query.put(key, java.util.regex.Pattern.compile(obj.getString(key)));
             }

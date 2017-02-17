@@ -24,12 +24,15 @@
 /////////////////////////////////////////////////////////////////////////
 package eu.operando.core.ose.api.impl;
 
-import io.swagger.model.PrivacyRegulation;
-import io.swagger.model.PrivacyRegulationInput;
+
 
 import io.swagger.api.NotFoundException;
 
 import eu.operando.core.ose.mongo.RegulationsMongo;
+import eu.operando.core.ose.services.RegulationWorkflow;
+import eu.operando.core.pdb.common.model.PrivacyRegulation;
+import eu.operando.core.pdb.common.model.PrivacyRegulationInput;
+
 import io.swagger.api.ApiResponseMessage;
 import io.swagger.api.RegulationsApiService;
 import io.swagger.client.ApiClient;
@@ -65,7 +68,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
         ArrayList<String> words = new ArrayList<String>(Arrays.asList("OSE", "Regulations"));
         for(String word : keywords) {
             words.add(word);
-        } 
+        }
 
         LogRequest logRequest = new LogRequest();
         logRequest.setUserId("OSE-Regulations");
@@ -99,7 +102,10 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
     @Override
     public Response regulationsPost(PrivacyRegulation regulation, SecurityContext securityContext)
             throws NotFoundException {
-        // do some magic!
+
+        //Debugging code
+        System.out.println("Regulation Post API called: " + regulation.getRegId());
+
         Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.INFO, "upp regulations POST privacy regulation {0}", regulation.toString());
 
         logRequest("regulationsPost", "Regulation: ".concat(regulation.getRegId()),
@@ -107,14 +113,14 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        RegulationsMongo regMongo = new RegulationsMongo();
-        String storeAction = regMongo.storeRegulation(regulation);
+        RegulationWorkflow services = new RegulationWorkflow();
+        String storeAction = services.addRegulation(regulation);
         if (storeAction == null) {
 
-            logRequest("regulationsPost", "Regulation".concat(regulation.getRegId()),
-                    "OSE regulations POST failed",
-                    LogDataTypeEnum.ERROR, LogPriorityEnum.HIGH,
-                    new ArrayList<String>(Arrays.asList("one", "two")));
+//            logRequest("regulationsPost", "Regulation".concat(regulation.getRegId()),
+//                    "OSE regulations POST failed",
+//                    LogDataTypeEnum.ERROR, LogPriorityEnum.HIGH,
+//                    new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(409).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error occured. The resource already exists, so a new resource cannot be created.")).build();
@@ -122,7 +128,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
 
         logRequest("regulationsPost", "Regulation".concat(regulation.getRegId()),
                 "OSE regulations POST complete",
-                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
+                LogRequest.LogDataTypeEnum.INFO, LogRequest.LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         return Response.status(Response.Status.CREATED).entity(new ApiResponseMessage(ApiResponseMessage.OK,
