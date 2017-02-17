@@ -118,7 +118,7 @@ public class ComputationResult   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ComputationResult {\n");
+    sb.append("{\n");
 
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
     sb.append("    user: ").append(toIndentedString(user)).append("\n");

@@ -27,12 +27,18 @@
 
 package io.swagger.api.impl;
 
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
 import io.swagger.api.*;
-import java.math.BigDecimal;
 import io.swagger.model.PrivacyRegulation;
 
 import java.util.List;
 import io.swagger.api.NotFoundException;
+import io.swagger.model.ComputationResult;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 
 import javax.ws.rs.core.Response;
@@ -42,6 +48,47 @@ import javax.ws.rs.core.SecurityContext;
 public class RegulationsApiServiceImpl extends RegulationsApiService {
 
     /**
+     * The API component only uses one other OPERANDO component the policy database.
+     * This stores the reference, so HTTP REST calls can be made.
+     */
+    private String PDB_BASEURL = null;
+
+    /**
+     * The configuration of local state for the API object. Simply creates
+     * the reusable reference to the PDB.
+     */
+    public RegulationsApiServiceImpl() {
+        super();
+	Properties props;
+    	props = loadDbProperties();
+    	PDB_BASEURL = props.getProperty("pdb.baseurl");
+    }
+
+    /**
+     * Load the configuration properties from the resource file in JAR/WAR and
+     * turn then into JAVA properties class.
+     * @return The list of JAVA properties reflecting the configuration.
+     */
+    private Properties loadDbProperties() {
+        Properties props;
+        props = new Properties();
+
+        InputStream fis = null;
+        try {
+            fis = this.getClass().getClassLoader().getResourceAsStream("/operando.properties");
+            props.load(fis);
+        }
+        catch (IOException e) {
+            // Display to console for debugging purposes.
+            System.err.println("Error reading Configuration properties file");
+
+            // Add logging code to log an error configuring the API on startup
+        }
+
+        return props;
+    }
+
+    /**
      * Called by the OSE to create a compliance check for a given
      * @param regId
      * @param securityContext
@@ -49,15 +96,41 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
      * @throws NotFoundException
      */
     @Override
-    public Response regulationsRegIdPost(BigDecimal regId, SecurityContext securityContext)
-    throws NotFoundException {
-        // do some magic!
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    public Response regulationsRegIdPost(String regId, SecurityContext securityContext)
+        throws NotFoundException {
+
+        Client client = Client.create();
+        WebResource webResourcePDB = client.resource(PDB_BASEURL + "/regulations/" + regId);
+
+        ClientResponse regResponse = webResourcePDB.type("application/json").get(ClientResponse.class);
+
+        ComputationResult nRes = new ComputationResult();
+        if (regResponse.getStatus() != 200) {
+            nRes.setStatus("RegId not stored in PDB");
+        }
+        else {
+            nRes.setStatus("RegID is stored in PDB. Evaluation Report Implementation incomplete");
+            nRes.setUrl(PDB_BASEURL+"/regulations/" + regId + "/report");
+        }
+        return Response.ok().entity(nRes).build();
     }
     @Override
-    public Response regulationsRegIdPut(BigDecimal regId, List<PrivacyRegulation> regulation, SecurityContext securityContext)
+    public Response regulationsRegIdPut(String regId, List<PrivacyRegulation> regulation, SecurityContext securityContext)
     throws NotFoundException {
         // do some magic!
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+        Client client = Client.create();
+        WebResource webResourcePDB = client.resource(PDB_BASEURL + "/regulations/" + regId);
+
+        ClientResponse regResponse = webResourcePDB.type("application/json").get(ClientResponse.class);
+
+        ComputationResult nRes = new ComputationResult();
+        if (regResponse.getStatus() != 200) {
+            nRes.setStatus("RegId not stored in PDB");
+        }
+        else {
+            nRes.setStatus("RegID is stored in PDB. Evaluation Report Implementation incomplete");
+            nRes.setUrl(PDB_BASEURL+"/regulations/" + regId + "/report");
+        }
+        return Response.ok().entity(nRes).build();
     }
 }

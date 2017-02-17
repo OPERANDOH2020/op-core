@@ -42,6 +42,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
+import javax.ws.rs.core.HttpHeaders;
 
 @Path("/policy_computer")
 @Consumes({ "application/json" })
@@ -62,8 +63,9 @@ public class PolicyComputerApi  {
     public Response policyComputerPost(
         @ApiParam(value = "user unique identifier of the UPP to compute",required=true) @QueryParam("user_id") String userId,
         @ApiParam(value = "The set of privacy preferences. This is a JSON object with the answers to the initial questionnaire. These can be changed and updated.  " ,required=true) List<UserPreference> generalPreferences,
-        @Context SecurityContext securityContext)
+        @Context SecurityContext securityContext,
+        @Context HttpHeaders headers)
     throws NotFoundException {
-        return delegate.policyComputerPost(userId,generalPreferences,securityContext);
+        return delegate.policyComputerPost(userId,generalPreferences,securityContext, headers);
     }
 }
