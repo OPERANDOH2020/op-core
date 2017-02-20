@@ -2,7 +2,6 @@
  * Created by ciprian on 06.12.2016.
  */
 
-
 var initOperando = {
     meta: {
         name: "initOperando.js"
@@ -30,6 +29,10 @@ var initOperando = {
                     {
                         organisationId: "Analysts",
                         displayName: "Analysts"
+                    },
+                    {
+                        organisationId: "OSP",
+                        displayName: "OSP"
                     }
                 ];
                 var createdOrganisations = [];

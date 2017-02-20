@@ -26,7 +26,6 @@ var notificationSwarming = {
         console.log("Swarm extension started");
     },
 
-
     getNotifications: function () {
         this.swarm("getUserNotifications");
     },
@@ -81,7 +80,6 @@ var notificationSwarming = {
 
         }
     },
-
 
 
     success: {
