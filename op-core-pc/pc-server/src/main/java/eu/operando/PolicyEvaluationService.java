@@ -273,10 +273,16 @@ public class PolicyEvaluationService {
                 String Category = odata.getElementDataPath(oDataURL);
                 JSONArray access_policies = JsonPath.read(uppProfile, "$.subscribed_osp_policies[?(@.osp_id=='"+ospId+"')].access_policies[?(@.resource=='"+ Category +"')]");
                 while((access_policies.size() == 0) && (Category.length() > 0)) {
-                    Category = Category.substring(0, Category.lastIndexOf("/"));
-                    System.out.println("Category 22 = " + Category);
-                    access_policies = JsonPath.read(uppProfile, "$.subscribed_osp_policies[?(@.osp_id=='"+ospId+"')].access_policies[?(@.resource=='"+ Category +"')]");
-                    System.out.println("Acces policies 22 = " + access_policies.size());
+                    try{
+                        Category = Category.substring(0, Category.lastIndexOf("/"));
+                        System.out.println("Category 22 = " + Category);
+                        access_policies = JsonPath.read(uppProfile, "$.subscribed_osp_policies[?(@.osp_id=='"+ospId+"')].access_policies[?(@.resource=='"+ Category +"')]");
+                        System.out.println("Acces policies 22 = " + access_policies.size());
+                    }
+                    catch(Exception e){
+                        break;
+                    }
+
                 }
 
                 boolean found = false;
