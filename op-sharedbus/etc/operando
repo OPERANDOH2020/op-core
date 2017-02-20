@@ -1,4 +1,5 @@
 {
+ "development":true,
  "logsPath":"logs",
  "verbose":false,
  "systemId": "operandoDemo",
@@ -20,7 +21,8 @@
         {"folder":"swarms"            ,"enabled":true},
         {"folder":"operando/swarms"   ,"enabled":true},
         {"folder":"operando/swarms/PfB"   ,"enabled":true},
-        {"folder":"operando/swarms/WD"   ,"enabled":true}
+        {"folder":"operando/swarms/WD"   ,"enabled":true},
+        {"folder":"operando/swarms/OSP"   ,"enabled":true}
      ]
   },
  "Logger":{},
@@ -36,6 +38,8 @@
                         {"node":"admin/adapters/UsersManager.js",                     "enabled":true  , "step":4},
                         {"node":"admin/adapters/SessionManager.js",                   "enabled":true  , "step":4},
                         {"node":"operando/adapters/ES/IdentityAdapter.js",            "enabled":true  , "step":4},
+                        {"node":"operando/adapters/OSP/OSPAdapter.js",                "enabled":true  , "step":4},
+                        {"node":"operando/adapters/OSP/OSPRequests.js",               "enabled":true  , "step":4},
                         {"node":"admin/adapters/SwarmMonitor.js",                     "enabled":true  , "step":5},
                         {"core":"etc/adapters/ClientAdapter.js",                      "enabled":true  , "step":6},
                         {"node":"operando/adapters/GuardianAdapter.js",               "enabled":false  , "step":7},
