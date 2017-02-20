@@ -34,6 +34,10 @@
 			<outputDirectory>/docker-entrypoint-initdb.d</outputDirectory>
 		</file>
 		<file>
+			<source>src/main/mysql/caseinsensitive.cnf</source>
+			<outputDirectory>/etc/mysql/conf.d</outputDirectory>
+		</file>
+		<file>
 			<source>src/main/resources/docker-config.yml</source>
 			<outputDirectory>/</outputDirectory>
 		</file>
