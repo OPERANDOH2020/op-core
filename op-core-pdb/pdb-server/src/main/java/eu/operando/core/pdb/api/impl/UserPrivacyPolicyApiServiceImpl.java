@@ -93,7 +93,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
 
         // get service ticket for logdb service
         String logdbST = getServiceTicket(uppLoginName, uppLoginPassword, logdbSId);
-        apiClient.addDefaultHeader("service-ticket", logdbST);
+        apiClient.addDefaultHeader(stHeaderName, logdbST);
         this.logApi = new LogApi(apiClient);
 
         // setup mongo part

@@ -91,7 +91,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
         // get service ticket for logdb service
         String logdbST = getServiceTicket(ospLoginName, ospLoginPassword, logdbSId);
-        apiClient.addDefaultHeader("service-ticket", logdbST);
+        apiClient.addDefaultHeader(stHeaderName, logdbST);
         this.logApi = new LogApi(apiClient);
 
         // setup mongo part
