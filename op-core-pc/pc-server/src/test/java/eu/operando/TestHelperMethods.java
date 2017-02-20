@@ -185,6 +185,24 @@ public class TestHelperMethods {
     }
 
     /**
+     * Post regulation to PC
+     */
+    public String postPCRegulation(String regID, String PC_URL) {
+        String ospAPI = PC_URL + "/regulations/" + regID;
+
+        WebResource webResourcePDB = client.resource(ospAPI);
+        ClientResponse policyResponse = webResourcePDB.type("application/json").post(ClientResponse.class,
+                "{}");
+
+        if (policyResponse.getStatus() != 201) {
+            System.out.println(policyResponse.getStatus());
+            System.out.println(policyResponse.getEntity(String.class));
+            return null;
+        }
+        return policyResponse.getEntity(String.class);
+    }
+
+    /**
      * Add the policy to OSP.
      * @param fileLoc The json file with the content
      * @param PDB_URL The URL of the PDB.

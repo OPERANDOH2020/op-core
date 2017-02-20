@@ -33,7 +33,6 @@ import io.swagger.annotations.ApiParam;
 
 
 import io.swagger.model.ComputationResult;
-import java.math.BigDecimal;
 import io.swagger.model.PrivacyRegulation;
 
 import java.util.List;
@@ -62,7 +61,7 @@ public class RegulationsApi  {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Successful response. The regulation has evaluated and report produced.", response = ComputationResult.class),
         @io.swagger.annotations.ApiResponse(code = 404, message = "Error occured. The resource resource doesn't exist to evaluate. ", response = ComputationResult.class) })
     public Response regulationsRegIdPost(
-        @ApiParam(value = "The unqiue regulation ID for the new regulation created.",required=true) @PathParam("reg_id") BigDecimal regId,
+        @ApiParam(value = "The unqiue regulation ID for the new regulation created.",required=true) @PathParam("reg_id") String regId,
         @Context SecurityContext securityContext)
     throws NotFoundException {
         return delegate.regulationsRegIdPost(regId,securityContext);
@@ -76,7 +75,7 @@ public class RegulationsApi  {
         @io.swagger.annotations.ApiResponse(code = 200, message = "Successful response. The regulation has evaluated and report produced.", response = ComputationResult.class),
         @io.swagger.annotations.ApiResponse(code = 404, message = "Error occured. The resource resource doesn't exist to evaluate. ", response = ComputationResult.class) })
     public Response regulationsRegIdPut(
-        @ApiParam(value = "The unqiue regulation ID for the changed regulation.",required=true) @PathParam("reg_id") BigDecimal regId,
+        @ApiParam(value = "The unqiue regulation ID for the changed regulation.",required=true) @PathParam("reg_id") String regId,
         @ApiParam(value = "The description of the changed regulation." ,required=true) List<PrivacyRegulation> regulation,
         @Context SecurityContext securityContext)
     throws NotFoundException {

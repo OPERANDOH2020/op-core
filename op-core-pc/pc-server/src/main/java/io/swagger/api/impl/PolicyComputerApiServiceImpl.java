@@ -48,6 +48,7 @@ import com.sun.jersey.api.client.WebResource;
 import eu.operando.core.pdb.common.model.UserPreference;
 import eu.operando.core.pdb.common.model.UserPrivacyPolicy;
 import io.swagger.model.ComputationResult;
+import javax.ws.rs.core.HttpHeaders;
 
 /**
  * Implementation of the Policy Computer API.
@@ -118,7 +119,7 @@ public class PolicyComputerApiServiceImpl extends PolicyComputerApiService {
      * @throws NotFoundException
      */
     @Override
-    public Response policyComputerPost(String userId, List<UserPreference> generalPreferences, SecurityContext securityContext)
+    public Response policyComputerPost(String userId, List<UserPreference> generalPreferences, SecurityContext securityContext, HttpHeaders headers)
     throws NotFoundException {
 
         /**

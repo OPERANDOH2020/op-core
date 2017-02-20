@@ -43,6 +43,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.*;
+import javax.ws.rs.core.HttpHeaders;
 
 @Path("/osp_policy_computer")
 @Consumes({ "application/json" })
@@ -61,10 +62,12 @@ public class OspPolicyComputerApi  {
         @io.swagger.annotations.ApiResponse(code = 200, message = "UPP was created. There is no invalid response - if the method is called on the operation with an existing user_id then the server redirects to the PUT behaviour, rather than return an unnecessary error (This is not the data storage operation). ", response = ComputationResult.class),
         @io.swagger.annotations.ApiResponse(code = 400, message = "The client inputs to the operation are incorrect or invalid. The caller should check the inputs are valid based upon the returned error message. ", response = ComputationResult.class) })
     public Response ospPolicyComputerPost(
+
         @ApiParam(value = "user unique identifier of the UPP to compute",required=true) @QueryParam("user_id") String userId,
         @ApiParam(value = "user unique identifier of the UPP to compute",required=true) @QueryParam("osp_id") String ospId,
         @ApiParam(value = "The set of privacy preferences. This is a JSON object with the answers to the specific questionnaire. These can be changed and updated.  " ,required=true) List<UserPreference> ospPrefs,
-        @Context SecurityContext securityContext)
+        @Context SecurityContext securityContext,
+        @Context HttpHeaders headers)
     throws NotFoundException {
         return delegate.ospPolicyComputerPost(userId,ospId,ospPrefs,securityContext);
     }

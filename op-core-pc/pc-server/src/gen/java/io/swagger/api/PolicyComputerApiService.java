@@ -30,6 +30,7 @@ package io.swagger.api;
 import eu.operando.core.pdb.common.model.UserPreference;
 import java.util.List;
 import io.swagger.api.NotFoundException;
+import javax.ws.rs.core.HttpHeaders;
 
 
 import javax.ws.rs.core.Response;
@@ -37,6 +38,6 @@ import javax.ws.rs.core.SecurityContext;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-06-27T09:46:42.374Z")
 public abstract class PolicyComputerApiService {
-      public abstract Response policyComputerPost(String userId,List<UserPreference> generalPreferences,SecurityContext securityContext)
+      public abstract Response policyComputerPost(String userId,List<UserPreference> generalPreferences,SecurityContext securityContext, HttpHeaders headers)
       throws NotFoundException;
 }

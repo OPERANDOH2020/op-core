@@ -26,7 +26,6 @@
 /////////////////////////////////////////////////////////////////////////
 package io.swagger.api;
 
-import java.math.BigDecimal;
 import io.swagger.model.PrivacyRegulation;
 
 import java.util.List;
@@ -38,8 +37,8 @@ import javax.ws.rs.core.SecurityContext;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-06-27T09:46:42.374Z")
 public abstract class RegulationsApiService {
-      public abstract Response regulationsRegIdPost(BigDecimal regId,SecurityContext securityContext)
+      public abstract Response regulationsRegIdPost(String regId,SecurityContext securityContext)
       throws NotFoundException;
-      public abstract Response regulationsRegIdPut(BigDecimal regId,List<PrivacyRegulation> regulation,SecurityContext securityContext)
+      public abstract Response regulationsRegIdPut(String regId,List<PrivacyRegulation> regulation,SecurityContext securityContext)
       throws NotFoundException;
 }
