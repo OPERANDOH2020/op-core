@@ -276,6 +276,16 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.0.8</version>
 		</dependency>
+		<dependency>
+			<groupId>eu.operando</groupId>
+			<artifactId>eu.operando.core.ldb.client</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>eu.operando</groupId>
+			<artifactId>eu.operando.interfaces.aapi.client</artifactId>
+			<version>1.0.0</version>
+		</dependency>
 	</dependencies>
 	<repositories>
 		<repository>

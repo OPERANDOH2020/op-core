@@ -32,7 +32,7 @@ import io.swagger.client.model.LogRequest.RequesterTypeEnum;
 
 public class Test {
 
-	@org.junit.Test
+	//@org.junit.Test
 	public void test() {		
 		ApiClient apiClient = new ApiClient();
 		 
@@ -62,7 +62,7 @@ public class Test {
 		
 
 	    LogRequest logRequest = new LogRequest();
-	    logRequest.setUserId("003");
+	    logRequest.setUserId("001");
 	    logRequest.setDescription("Log on 07/12 for testing purposes");
 	    logRequest.setLogDataType(LogDataTypeEnum.INFO);
 	    logRequest.setTitle("Log on 07/12");
@@ -75,14 +75,69 @@ public class Test {
 	    keywords.add("keywordC");
 		logRequest.setKeywords(keywords );
 		
-		Object postBody = logRequest;
+		Object postBody = logRequest;		
 		System.out.println(postBody);
 		String str = "";
 		try {
 			str = apiClient.invokeAPI(path,"POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);			
 		} catch (ApiException e) {
-			System.out.println(e.toString());
-			e.printStackTrace();
+			System.out.println(e.toString());			
+		}
+		System.out.println(str);
+	}
+	
+	@org.junit.Test
+	public void testTicket() {		
+		ApiClient apiClient = new ApiClient();
+		 
+	    byte[] postBinaryBody = null; 
+	     
+	    // create path and map variables 
+	    String path = "/operando/core/ldb/log/logTicket"; 
+	 
+	    // query params 
+	    List<Pair> queryParams = new ArrayList<Pair>(); 
+	    Map<String, String> headerParams = new HashMap<String, String>(); 
+	    Map<String, Object> formParams = new HashMap<String, Object>(); 
+	 
+	    final String[] accepts = { 
+	      "application/json", "application/xml" 
+	    }; 
+	    final String accept = apiClient.selectHeaderAccept(accepts); 
+	 
+	    final String[] contentTypes = { 
+	       
+	    }; 
+	    final String contentType = apiClient.selectHeaderContentType(contentTypes); 
+	 
+	    String[] authNames = new String[] {  }; 
+	 	     
+	    GenericType<String> returnType = new GenericType<String>() {};
+	    
+	    headerParams.put("service-ticket", "/operando/core/ldb");
+		
+
+	    LogRequest logRequest = new LogRequest();
+	    logRequest.setUserId("001");
+	    logRequest.setDescription("Log on 07/12 for testing purposes");
+	    logRequest.setLogDataType(LogDataTypeEnum.INFO);
+	    logRequest.setTitle("Log on 07/12");
+	    logRequest.setLogPriority(LogPriorityEnum.LOW);
+	    logRequest.setRequesterId("1007");
+	    logRequest.setRequesterType(RequesterTypeEnum.MODULE);
+	    ArrayList<String> keywords = new ArrayList<String> ();
+	    keywords.add("keywordA");
+	    keywords.add("keywordB");
+	    keywords.add("keywordC");
+		logRequest.setKeywords(keywords );
+		
+		Object postBody = logRequest;		
+		
+		String str = "";
+		try {
+			str = apiClient.invokeAPI(path,"POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);			
+		} catch (ApiException e) {
+			System.out.println(e.toString());			
 		}
 		System.out.println(str);
 	}

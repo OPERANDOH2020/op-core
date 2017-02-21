@@ -17,13 +17,14 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
 import io.swagger.annotations.ApiParam;
 import io.swagger.api.factories.LogApiServiceFactory;
 import io.swagger.model.LogRequest;
-
+import io.swagger.model.LogRequestTicket;
 @Path("/log")
 
 @Produces({ "application/json" })
@@ -40,10 +41,29 @@ public class LogApi  {
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "Successful operation", response = String.class),
         @io.swagger.annotations.ApiResponse(code = 200, message = "Unexpected error", response = String.class) })
-    public Response lodDB(
+    public Response log(
         @ApiParam(value = "The request data in JSON format to be inserted in the database by using Log4j" ,required=true) LogRequest request,
         @Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.lodDB(request,securityContext);
+        return delegate.log(request,securityContext);
+    }
+    
+    @POST
+    @Path("/logTicket")
+    @Consumes({ "application/json" })
+    @Produces({ "application/json" })
+    @io.swagger.annotations.ApiOperation(value = "Inserts received data to the database.", notes = "Inserts received data to the database by using Log4j.", response = void.class, tags={ "Log", })
+    @io.swagger.annotations.ApiResponses(value = { 
+        @io.swagger.annotations.ApiResponse(code = 200, message = "Succesful operation. ", response = void.class),
+        
+        @io.swagger.annotations.ApiResponse(code = 400, message = "The client inputs to the operation are incorrect or invalid. The caller should check the inputs are valid based upon the returned error message. ", response = void.class),
+        
+        @io.swagger.annotations.ApiResponse(code = 403, message = "Error. The service ticket failed to validate. ", response = void.class),
+        
+        @io.swagger.annotations.ApiResponse(code = 415, message = "The operation consumes json messages. Please, check that the sent message is in json format. ", response = void.class) })
+    public Response logTicket(@ApiParam(value = "The request data in JSON format to be inserted in the database by using Log4j" ,required=true) LogRequestTicket request
+,@Context SecurityContext securityContext,@Context HttpHeaders headers)
+    throws NotFoundException {
+        return delegate.logTicket(request,securityContext,headers);
     }
 }
