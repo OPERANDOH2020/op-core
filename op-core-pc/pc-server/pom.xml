@@ -246,6 +246,7 @@
         <!-- end of addition -->
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
+    <project.build.sourceEncoding>Cp1252</project.build.sourceEncoding>
   </properties>
 	<profiles>
 		<profile>

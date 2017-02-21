@@ -157,6 +157,10 @@ public class ODATAPolicies {
          * no matching preference, try /personal_information.
          */
         String informationType = oDataPath;
+        if(!oDataPath.contains("/")) {
+            informationType = "/"+informationType;
+            informationType = oDataPath.replace(".", "/");
+        }
         boolean prefNotFoumd = true;
         while(prefNotFoumd) {
             JSONArray userPrefs = JsonPath.read(upp, "$.user_preferences[?(@.information_type=='"+informationType+"')]");
@@ -170,9 +174,9 @@ public class ODATAPolicies {
             if(informationType.contains("/")){
                 informationType = informationType.substring(0, informationType.lastIndexOf("/"));
             }
-            if (informationType.length() == 0) {
+            else
                 return 0;
-            }
+
         }
         return 0;
     }
