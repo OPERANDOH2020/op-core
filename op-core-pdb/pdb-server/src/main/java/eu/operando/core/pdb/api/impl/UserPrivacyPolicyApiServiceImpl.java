@@ -24,6 +24,7 @@
 /////////////////////////////////////////////////////////////////////////
 package eu.operando.core.pdb.api.impl;
 
+//import io.swagger.model.*;
 import eu.operando.core.pdb.common.model.UserPrivacyPolicy;
 
 import io.swagger.api.ApiResponseMessage;
@@ -47,6 +48,8 @@ import eu.operando.core.cas.client.api.DefaultApi;
 import eu.operando.core.cas.client.model.UserCredential;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Properties;
 
@@ -54,7 +57,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.HttpHeaders;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-12-19T10:59:55.638Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2017-02-20T12:05:17.950Z")
 public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService {
 
     // LogDB
@@ -80,7 +83,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
         super();
         //  get service config params
         prop = loadServiceProperties();
-        loadParams();        
+        loadParams();
 
         // setup aapi client
         eu.operando.core.cas.client.ApiClient aapiDefaultClient = new eu.operando.core.cas.client.ApiClient();
@@ -99,18 +102,18 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
         // setup mongo part
         uppMongodb = new UPPMongo(mongoServerHost, mongoServerPort);
     }
-    
-    private void loadParams(){
+
+    private void loadParams() {
         // load aapi client params
         if (prop.getProperty("aapi.basepath") != null) {
             aapiBasePath = prop.getProperty("aapi.basepath");
         }
-        
+
         // load logdb client params
         if (prop.getProperty("logdb.basepath") != null) {
             logdbBasePath = prop.getProperty("logdb.basepath");
         }
-        
+
         // get service ticket for logdb service params
         if (prop.getProperty("pdb.upp.service.login") != null) {
             uppLoginName = prop.getProperty("pdb.upp.service.login");
@@ -197,7 +200,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
         }
         return false;
     }
-    
+
     private void logRequest(String requesterId, String title, String description,
             LogDataTypeEnum logDataType, LogPriorityEnum logPriority,
             ArrayList<String> keywords) {
@@ -226,6 +229,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
         }
     }
 
+    
     @Override
     public Response userPrivacyPolicyGet(String filter, SecurityContext securityContext, HttpHeaders headers)
             throws NotFoundException {
@@ -233,7 +237,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
         Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.INFO, "upp GET policy filter {0}", filter);
 
         if (!validateHeaderSt(headers)) {
-            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+            return Response.status(Response.Status.UNAUTHORIZED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The service ticket failed to validate.")).build();
         }
 
@@ -242,8 +246,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        UPPMongo uppMongo = new UPPMongo();
-        String getString = uppMongo.getUPPByFilter(filter);
+        String getString = uppMongodb.getUPPByFilter(filter);
 
         if (getString == null) {
 
@@ -252,7 +255,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
                     LogDataTypeEnum.ERROR, LogPriorityEnum.HIGH,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
-            return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+            return Response.status(Response.Status.METHOD_NOT_ALLOWED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error - the user does not exist")).build();
         }
 
@@ -271,7 +274,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
         Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.INFO, "upp POST policy {0}", upp.toString());
 
         if (!validateHeaderSt(headers)) {
-            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+            return Response.status(Response.Status.UNAUTHORIZED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The service ticket failed to validate.")).build();
         }
 
@@ -280,17 +283,17 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        UPPMongo uppMongo = new UPPMongo();
-        String storeAction = uppMongo.storeUPP(upp);
+        String userId = uppMongodb.storeUPP(upp);
+        //String storedUpp = uppMongodb.getUPPById(userId);
 
-        if (storeAction == null) {
+        if (userId == null) {
 
             logRequest("userPrivacyPolicyPost", "upp: ".concat(upp.getUserId()),
                     "PDB user privacy policy POST failed",
                     LogDataTypeEnum.ERROR, LogPriorityEnum.HIGH,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
-            return Response.status(405).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+            return Response.status(Response.Status.METHOD_NOT_ALLOWED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The document (UPP) at this id has previously been created in the database.")).build();
         }
 
@@ -299,8 +302,17 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        return Response.status(Response.Status.CREATED).entity(new ApiResponseMessage(ApiResponseMessage.OK,
-                storeAction)).build();
+//        return Response.status(Response.Status.CREATED).entity(new ApiResponseMessage(ApiResponseMessage.OK,
+//                userId)).build();
+        Response resp = null;
+        try {
+            URI createdURI = new URI("http://integration.operando.esilab.org:8096/operando/core/pdb/upp/" + userId);
+            resp = Response.created(createdURI).entity(userId).build();
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return resp;
     }
 
     @Override
@@ -310,7 +322,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
     Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.INFO, "upp DELET policy {0}", userId);
 
         if (!validateHeaderSt(headers)) {
-            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+            return Response.status(Response.Status.UNAUTHORIZED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The service ticket failed to validate.")).build();
         }
 
@@ -319,8 +331,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("delete", "userId")));
 
-        UPPMongo uppMongo = new UPPMongo();
-        boolean delAction = uppMongo.deleteUPPById(userId);
+        boolean delAction = uppMongodb.deleteUPPById(userId);
 
         if (!delAction) {
 
@@ -350,7 +361,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
         Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.INFO, "upp GET policy {0}", userId);
 
         if (!validateHeaderSt(headers)) {
-            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+            return Response.status(Response.Status.UNAUTHORIZED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The service ticket failed to validate.")).build();
         }
 
@@ -359,8 +370,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        UPPMongo uppMongo = new UPPMongo();
-        String getString = uppMongo.getUPPById(userId);
+        String getString = uppMongodb.getUPPById(userId);
 
         if (getString == null) {
 
@@ -388,7 +398,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
         Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.INFO, "upp PUT policy {0} {1}", new Object[]{userId, upp.toString()});
 
         if (!validateHeaderSt(headers)) {
-            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+            return Response.status(Response.Status.UNAUTHORIZED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The service ticket failed to validate.")).build();
         }
 
@@ -397,8 +407,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        UPPMongo uppMongo = new UPPMongo();
-        boolean updateAction = uppMongo.updateUPP(userId, upp);
+        boolean updateAction = uppMongodb.updateUPP(userId, upp);
 
         if (!updateAction) {
             logRequest("userPrivacyPolicyPut", "userId: ".concat(userId),
@@ -419,4 +428,31 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
                 "The document (UPP) was successfully updated in the database.")).build();
     }
 
+    /*
+    @Override
+    public Response userPrivacyPolicyGet(String filter, SecurityContext securityContext) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
+    public Response userPrivacyPolicyPost(UserPrivacyPolicy upp, SecurityContext securityContext) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
+    public Response userPrivacyPolicyUserIdDelete(String userId, SecurityContext securityContext) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
+    public Response userPrivacyPolicyUserIdGet(String userId, SecurityContext securityContext) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
+    public Response userPrivacyPolicyUserIdPut(String userId, UserPrivacyPolicy upp, SecurityContext securityContext) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+     */
 }

@@ -25,21 +25,26 @@
 
 package io.swagger.api;
 
+import io.swagger.model.*;
+
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 
 import eu.operando.core.pdb.common.model.UserPrivacyPolicy;
 
+import java.util.List;
 import io.swagger.api.NotFoundException;
 
+import java.io.InputStream;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.HttpHeaders;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-12-19T10:59:55.638Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2017-02-20T12:05:17.950Z")
 public abstract class UserPrivacyPolicyApiService {
-    public abstract Response userPrivacyPolicyGet(String filter,SecurityContext securityContext, HttpHeaders headers) throws NotFoundException;
-    public abstract Response userPrivacyPolicyPost(UserPrivacyPolicy upp,SecurityContext securityContext, HttpHeaders headers) throws NotFoundException;
-    public abstract Response userPrivacyPolicyUserIdDelete(String userId,SecurityContext securityContext, HttpHeaders headers) throws NotFoundException;
-    public abstract Response userPrivacyPolicyUserIdGet(String userId,SecurityContext securityContext, HttpHeaders headers) throws NotFoundException;
-    public abstract Response userPrivacyPolicyUserIdPut(String userId,UserPrivacyPolicy upp,SecurityContext securityContext, HttpHeaders headers) throws NotFoundException;
+    public abstract Response userPrivacyPolicyGet(String filter,SecurityContext securityContext,HttpHeaders headers) throws NotFoundException;
+    public abstract Response userPrivacyPolicyPost(UserPrivacyPolicy upp,SecurityContext securityContext,HttpHeaders headers) throws NotFoundException;
+    public abstract Response userPrivacyPolicyUserIdDelete(String userId,SecurityContext securityContext,HttpHeaders headers) throws NotFoundException;
+    public abstract Response userPrivacyPolicyUserIdGet(String userId,SecurityContext securityContext,HttpHeaders headers) throws NotFoundException;
+    public abstract Response userPrivacyPolicyUserIdPut(String userId,UserPrivacyPolicy upp,SecurityContext securityContext,HttpHeaders headers) throws NotFoundException;
 }

@@ -24,8 +24,7 @@
 /////////////////////////////////////////////////////////////////////////
 package eu.operando.core.pdb.api.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import eu.operando.core.pdb.common.model.PrivacyRegulation;
+//import io.swagger.model.*;
 import io.swagger.api.ApiResponseMessage;
 import io.swagger.api.NotFoundException;
 
@@ -48,6 +47,8 @@ import javax.ws.rs.core.MediaType;
 import eu.operando.core.cas.client.api.DefaultApi;
 import eu.operando.core.cas.client.model.UserCredential;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Properties;
 
@@ -55,7 +56,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.core.HttpHeaders;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-12-19T10:59:55.638Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2017-02-20T12:05:17.950Z")
 public class RegulationsApiServiceImpl extends RegulationsApiService {
 
     // LogDB
@@ -242,7 +243,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
         Logger.getLogger(RegulationsApiServiceImpl.class.getName()).log(Level.INFO, "regulations GET {0}", filter);
 
         if (!validateHeaderSt(headers)) {
-            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+            return Response.status(Response.Status.UNAUTHORIZED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The service ticket failed to validate.")).build();
         }
 
@@ -259,7 +260,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
                     LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
-            return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+            return Response.status(Response.Status.METHOD_NOT_ALLOWED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error - the regulation does not exist")).build();
         }
         logRequest("regulations GET", "GET",
@@ -276,10 +277,10 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
         Logger.getLogger(RegulationsApiServiceImpl.class.getName()).log(Level.INFO, "regulations POST {0}", regulation);
 
         if (!validateHeaderSt(headers)) {
-            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+            return Response.status(Response.Status.UNAUTHORIZED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The service ticket failed to validate.")).build();
         }
-        
+
         logRequest("regulations POST", "POST",
                 "regulations POST received",
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
@@ -291,9 +292,10 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
                     "Error. The document (PrivacyRegulation) does not provide legislation_sector.")).build();
         }
 
-        String storeAction = ospMongodb.storeRegulation(regulation);
-
-        if (storeAction == null) {
+        String regId = ospMongodb.storeRegulation(regulation);
+        String storedReg = ospMongodb.getRegulationById(regId);
+        
+        if (storedReg == null) {
 
             logRequest("regulations POST", "POST",
                     "regulations POST failed",
@@ -309,17 +311,17 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        ObjectMapper mapper = new ObjectMapper();
-        String regId = "";
+        Logger.getLogger(RegulationsApiServiceImpl.class.getName()).log(Level.INFO, "regulations POST stored id: {0}", storedReg);
+
+        Response resp = null;
         try {
-            PrivacyRegulation reg = mapper.readValue(storeAction, PrivacyRegulation.class);
-            regId = reg.getRegId();
-        } catch (IOException ex) {
-            Logger.getLogger(RegulationsApiServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            URI createdURI = new URI("http://integration.operando.esilab.org:8096/operando/core/pdb/regulations/" + regId);
+            resp = Response.created(createdURI).entity(storedReg).build();
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return Response.status(Response.Status.CREATED).header("location", "http://integration.operando.esilab.org:8096/operando/core/pdb/regulations/" + regId).entity(new ApiResponseMessage(ApiResponseMessage.OK,
-                storeAction)).build();
+        return resp;
     }
 
     @Override
@@ -328,10 +330,10 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
         Logger.getLogger(RegulationsApiServiceImpl.class.getName()).log(Level.INFO, "regulations DELETE {0}", regId);
 
         if (!validateHeaderSt(headers)) {
-            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+            return Response.status(Response.Status.UNAUTHORIZED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The service ticket failed to validate.")).build();
         }
-        
+
         logRequest("regulations DELETE", "DELETE",
                 "regulations DELETE received",
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
@@ -368,10 +370,10 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
         Logger.getLogger(RegulationsApiServiceImpl.class.getName()).log(Level.INFO, "regulations GET {0}", regId);
 
         if (!validateHeaderSt(headers)) {
-            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+            return Response.status(Response.Status.UNAUTHORIZED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The service ticket failed to validate.")).build();
         }
-        
+
         logRequest("regulations GET", "GET",
                 "regulations GET received",
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
@@ -405,10 +407,10 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
         Logger.getLogger(RegulationsApiServiceImpl.class.getName()).log(Level.INFO, "regulations PUT {0}", regId);
 
         if (!validateHeaderSt(headers)) {
-            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+            return Response.status(Response.Status.UNAUTHORIZED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The service ticket failed to validate.")).build();
         }
-        
+
         logRequest("regulations PUT", "PUT",
                 "regulations PUT received",
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
@@ -434,4 +436,31 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
                 "The document (PrivacyRegulation) was successfully updated in the database.")).build();
     }
 
+    /*
+    @Override
+    public Response regulationsGet(String filter, SecurityContext securityContext) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
+    public Response regulationsPost(PrivacyRegulationInput regulation, SecurityContext securityContext) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
+    public Response regulationsRegIdDelete(String storedReg, SecurityContext securityContext) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
+    public Response regulationsRegIdGet(String storedReg, SecurityContext securityContext) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
+    public Response regulationsRegIdPut(String storedReg, PrivacyRegulationInput regulation, SecurityContext securityContext) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+     */
 }

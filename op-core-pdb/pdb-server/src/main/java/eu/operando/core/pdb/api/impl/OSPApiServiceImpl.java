@@ -25,9 +25,12 @@
 package eu.operando.core.pdb.api.impl;
 
 import eu.operando.core.pdb.common.model.AccessReason;
+
 import io.swagger.api.ApiResponseMessage;
 import io.swagger.api.NotFoundException;
+
 import io.swagger.api.OSPApiService;
+
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import eu.operando.core.pdb.common.model.OSPPrivacyPolicyInput;
@@ -48,11 +51,14 @@ import eu.operando.core.cas.client.api.DefaultApi;
 import eu.operando.core.cas.client.model.UserCredential;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Properties;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.HttpHeaders;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-12-19T10:59:55.638Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2017-02-20T12:05:17.950Z")
 public class OSPApiServiceImpl extends OSPApiService {
 
     // LogDB
@@ -276,7 +282,7 @@ public class OSPApiServiceImpl extends OSPApiService {
         Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP GET Access Reasons(id) {0}", ospId);
 
         if (!validateHeaderSt(headers)) {
-            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+            return Response.status(Response.Status.UNAUTHORIZED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The service ticket failed to validate.")).build();
         }
 
@@ -311,7 +317,7 @@ public class OSPApiServiceImpl extends OSPApiService {
         Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP DELETE {0}", ospId);
 
         if (!validateHeaderSt(headers)) {
-            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+            return Response.status(Response.Status.UNAUTHORIZED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The service ticket failed to validate.")).build();
         }
 
@@ -350,7 +356,7 @@ public class OSPApiServiceImpl extends OSPApiService {
         Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP GET (id) {0}", ospId);
 
         if (!validateHeaderSt(headers)) {
-            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+            return Response.status(Response.Status.UNAUTHORIZED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The service ticket failed to validate.")).build();
         }
 
@@ -368,7 +374,7 @@ public class OSPApiServiceImpl extends OSPApiService {
                     LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
-            return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+            return Response.status(Response.Status.METHOD_NOT_ALLOWED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error - the regulation does not exist")).build();
         }
 
@@ -386,7 +392,7 @@ public class OSPApiServiceImpl extends OSPApiService {
         Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP GET {0}", ospId);
 
         if (!validateHeaderSt(headers)) {
-            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+            return Response.status(Response.Status.UNAUTHORIZED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The service ticket failed to validate.")).build();
         }
 
@@ -422,7 +428,7 @@ public class OSPApiServiceImpl extends OSPApiService {
         Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP POST Access Reasons(id) {0}", ospId);
 
         if (!validateHeaderSt(headers)) {
-            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+            return Response.status(Response.Status.UNAUTHORIZED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The service ticket failed to validate.")).build();
         }
 
@@ -440,7 +446,7 @@ public class OSPApiServiceImpl extends OSPApiService {
                     LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
-            return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+            return Response.status(Response.Status.METHOD_NOT_ALLOWED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error - the OSP access policies does not exist")).build();
         }
 
@@ -448,7 +454,8 @@ public class OSPApiServiceImpl extends OSPApiService {
                 "OSP POST access reasons complete",
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
-
+        
+        // TODO: response should be created 201 not 200?
         return Response.ok(ospString, MediaType.APPLICATION_JSON).build();
     }
 
@@ -458,7 +465,7 @@ public class OSPApiServiceImpl extends OSPApiService {
         Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP DELETE Access Reason(id) {0}", ospId);
 
         if (!validateHeaderSt(headers)) {
-            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+            return Response.status(Response.Status.UNAUTHORIZED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The service ticket failed to validate.")).build();
         }
 
@@ -485,7 +492,8 @@ public class OSPApiServiceImpl extends OSPApiService {
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        return Response.ok("OK", MediaType.APPLICATION_JSON).build();
+        //return Response.ok("OK", MediaType.APPLICATION_JSON).build();
+        return Response.status(Response.Status.NO_CONTENT).build();
     }
 
     @Override
@@ -494,7 +502,7 @@ public class OSPApiServiceImpl extends OSPApiService {
         Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP PUT Access Reason(id) {0}", ospId);
 
         if (!validateHeaderSt(headers)) {
-            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+            return Response.status(Response.Status.UNAUTHORIZED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The service ticket failed to validate.")).build();
         }
 
@@ -521,7 +529,9 @@ public class OSPApiServiceImpl extends OSPApiService {
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        return Response.ok("OK", MediaType.APPLICATION_JSON).build();
+        // TODO return 204
+        //return Response.ok("OK", MediaType.APPLICATION_JSON).build();
+        return Response.status(Response.Status.NO_CONTENT).build();
     }
 
     @Override
@@ -530,7 +540,7 @@ public class OSPApiServiceImpl extends OSPApiService {
         Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP PUT {0}", ospId);
 
         if (!validateHeaderSt(headers)) {
-            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+            return Response.status(Response.Status.UNAUTHORIZED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The service ticket failed to validate.")).build();
         }
 
@@ -557,7 +567,8 @@ public class OSPApiServiceImpl extends OSPApiService {
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        return Response.ok("OK", MediaType.APPLICATION_JSON).build();
+        return Response.status(Response.Status.NO_CONTENT).build();
+        //return Response.ok("OK", MediaType.APPLICATION_JSON).build();
     }
 
     @Override
@@ -566,7 +577,7 @@ public class OSPApiServiceImpl extends OSPApiService {
         Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP PUT {0}", ospId);
 
         if (!validateHeaderSt(headers)) {
-            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+            return Response.status(Response.Status.UNAUTHORIZED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The service ticket failed to validate.")).build();
         }
 
@@ -601,10 +612,10 @@ public class OSPApiServiceImpl extends OSPApiService {
     public Response oSPPost(OSPPrivacyPolicyInput ospPolicy, SecurityContext securityContext, HttpHeaders headers)
             throws NotFoundException {
 
-        Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP POST {0}", ospPolicy.toString());
+        Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "received OSP POST {0}", ospPolicy.toString());
 
         if (!validateHeaderSt(headers)) {
-            return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+            return Response.status(Response.Status.UNAUTHORIZED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The service ticket failed to validate.")).build();
         }
 
@@ -613,16 +624,16 @@ public class OSPApiServiceImpl extends OSPApiService {
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        String storeAction = ospMongodb.storeOSP(ospPolicy);
+        String ospId = ospMongodb.storeOSP(ospPolicy);
 
-        if (storeAction == null) {
+        if (ospId == null) {
 
             logRequest("OSP POST", "POST",
                     "OSP POST failed",
                     LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
-            return Response.status(405).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+            return Response.status(Response.Status.METHOD_NOT_ALLOWED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The document (OSPBehaviour) at this id has previously been created in the database.")).build();
         }
 
@@ -631,8 +642,77 @@ public class OSPApiServiceImpl extends OSPApiService {
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        return Response.status(Response.Status.CREATED).entity(new ApiResponseMessage(ApiResponseMessage.OK,
-                storeAction)).build();
+//        return Response.status(Response.Status.CREATED).entity(new ApiResponseMessage(ApiResponseMessage.OK,
+//                ospId)).build();
+        Response resp = null;
+        try {
+            URI createdURI = new URI("http://integration.operando.esilab.org:8096/operando/core/pdb/OSP/" + ospId);
+            resp = Response.created(createdURI).entity(ospId).build();
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+//        return Response.status(Response.Status.CREATED).header("Location", "http://integration.operando.esilab.org:8096/operando/core/pdb/OSP/" + ospId).
+//                entity(new ApiResponseMessage(ApiResponseMessage.OK, ospId)).build();
+
+        return resp;
     }
 
+    /*
+    @Override
+    public Response oSPGet(String filter, SecurityContext securityContext) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
+    public Response oSPOspIdDelete(String ospId, SecurityContext securityContext) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
+    public Response oSPOspIdGet(String ospId, SecurityContext securityContext) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
+    public Response oSPOspIdPrivacyPolicyAccessReasonsGet(String ospId, SecurityContext securityContext) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
+    public Response oSPOspIdPrivacyPolicyAccessReasonsPost(String ospId, AccessReason ospPolicy, SecurityContext securityContext) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
+    public Response oSPOspIdPrivacyPolicyAccessReasonsReasonIdDelete(String ospId, String reasonId, SecurityContext securityContext) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
+    public Response oSPOspIdPrivacyPolicyAccessReasonsReasonIdPut(String ospId, String reasonId, AccessReason ospPolicy, SecurityContext securityContext) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
+    public Response oSPOspIdPrivacyPolicyGet(String ospId, SecurityContext securityContext) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
+    public Response oSPOspIdPrivacyPolicyPut(String ospId, OSPReasonPolicyInput ospPolicy, SecurityContext securityContext) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
+    public Response oSPOspIdPut(String ospId, OSPPrivacyPolicyInput ospPolicy, SecurityContext securityContext) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+    @Override
+    public Response oSPPost(OSPPrivacyPolicyInput ospPolicy, SecurityContext securityContext) throws NotFoundException {
+        // do some magic!
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+     */
 }

@@ -173,13 +173,13 @@ public class UPPMongo {
                 String key = keys.next();
                 System.out.println("found key " + key);
                 System.out.println("converting key " + toCamelCase(key));
-                key = toCamelCase(key);
-                if(!isAValidFieldName(key)) {
-                    System.out.println("Not a valid key name found: " + key);
+                String cKey = toCamelCase(key);
+                if(!isAValidFieldName(cKey)) {
+                    System.out.println("Not a valid key name found: " + cKey);
                     return null;
                 }
                 System.out.println("value " + obj.getString(key));
-                query.put(key, java.util.regex.Pattern.compile(obj.getString(key)));
+                query.put(cKey, java.util.regex.Pattern.compile(obj.getString(key)));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -331,6 +331,7 @@ public class UPPMongo {
     }
 
     public String storeUPP(UserPrivacyPolicy upp) {
+        String userId = upp.getUserId();
         String result = null;
         //upp.setUserPolicyID(uppId);
         try {
@@ -354,8 +355,8 @@ public class UPPMongo {
             result = getUPPById(document.get("userId").toString());
 
         } catch (MongoException e) {
-            result = null;
             e.printStackTrace();
+            return null;
         } catch (JsonGenerationException e) {
             e.printStackTrace();
         } catch (JsonMappingException e) {
@@ -363,7 +364,7 @@ public class UPPMongo {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return result;
+        return userId;
     }
 
 }

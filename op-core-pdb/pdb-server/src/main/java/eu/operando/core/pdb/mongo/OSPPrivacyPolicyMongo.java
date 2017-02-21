@@ -171,13 +171,13 @@ public class OSPPrivacyPolicyMongo {
                 String key = keys.next();
                 System.out.println("found key " + key);
                 System.out.println("converting key " + toCamelCase(key));
-                key = toCamelCase(key);
-                if(!isAValidFieldName(key)) {
-                    System.out.println("Not a valid key name found: " + key);
+                String cKey = toCamelCase(key);
+                if(!isAValidFieldName(cKey)) {
+                    System.out.println("Not a valid key name found: " + cKey);
                     return null;
                 }
                 System.out.println("value " + obj.getString(key));
-                query.put(key, java.util.regex.Pattern.compile(obj.getString(key)));
+                query.put(cKey, java.util.regex.Pattern.compile(obj.getString(key)));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -359,7 +359,6 @@ public class OSPPrivacyPolicyMongo {
 
     public String storeOSP(OSPPrivacyPolicyInput policy) {
         String result = null;
-        //regulation.setOSPPolicyID(ospId);
         try {
             ObjectMapper mapper = new ObjectMapper();
             String jsonInString = mapper.writeValueAsString(policy);
@@ -368,7 +367,8 @@ public class OSPPrivacyPolicyMongo {
 
             ospTable.insert(document);
             ObjectId id = (ObjectId) document.get("_id");
-            result = getOSPById(id.toString());
+            //result = getOSPById(id.toString());
+            result = id.toString();
         } catch (MongoException e) {
             result = null;
             e.printStackTrace();
@@ -533,7 +533,7 @@ public class OSPPrivacyPolicyMongo {
         Boolean ret = null;
         OSPReasonPolicy ospObj = null;
         String jsonInString = null;
-        System.out.println("accessReasonIdDelete(" + ospId + ");");
+        System.out.println("accessReasonIdPost(" + ospId + ");");
 
         // find
         BasicDBObject searchQuery = new BasicDBObject();

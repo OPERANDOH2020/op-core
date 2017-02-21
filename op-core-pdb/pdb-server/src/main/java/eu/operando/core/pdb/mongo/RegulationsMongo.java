@@ -164,13 +164,13 @@ public class RegulationsMongo {
                 String key = keys.next();
                 System.out.println("found key " + key);
                 System.out.println("converting key " + toCamelCase(key));
-                key = toCamelCase(key);
-                if(!isAValidFieldName(key)) {
-                    System.out.println("Not a valid key name found: " + key);
+                String cKey = toCamelCase(key);
+                if(!isAValidFieldName(cKey)) {
+                    System.out.println("Not a valid key name found: " + cKey);
                     return null;
                 }
                 System.out.println("value " + obj.getString(key));
-                query.put(key, java.util.regex.Pattern.compile(obj.getString(key)));
+                query.put(cKey, java.util.regex.Pattern.compile(obj.getString(key)));
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -246,7 +246,9 @@ public class RegulationsMongo {
 
                 jsonInString = mapper.writeValueAsString(prObj);
                 result.removeField("_id");
-                System.out.println("FOOOOO " + mapper.writeValueAsString(result));
+                System.out.println("get regulation mapped: " + mapper.writeValueAsString(result));
+                System.out.println("get regulation mapped: " + mapper.writeValueAsString(jsonInString));
+                System.out.println("get regulation mapped raw: " + jsonInString);
             } catch (JsonMappingException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -319,10 +321,13 @@ public class RegulationsMongo {
     public String storeRegulation(PrivacyRegulationInput reg) {
         String result = null;
         ObjectId id = storeRegulationDirect(reg);
-        if (id != null) {
-            result = getRegulationById(id.toString());
-        }
-        return result;
+//        if (id != null) {
+//            //System.out.println("storeRegulation id: " + id.toString());
+//            result = getRegulationById(id.toString());
+//            //System.out.println("storeRegulation result: " + result.toString());
+//        }
+        return id.toString();
+        //return result;
     }
 
 }
