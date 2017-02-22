@@ -24,6 +24,7 @@ import org.apache.log4j.MDC;
 import io.swagger.api.ApiResponseMessage;
 import io.swagger.api.LogApiService;
 import io.swagger.api.NotFoundException;
+import io.swagger.client.ApiClient;
 import io.swagger.client.api.DefaultApi;
 import io.swagger.model.LogRequest;
 import io.swagger.model.LogRequestTicket;
@@ -32,8 +33,8 @@ import io.swagger.model.LogRequestTicket;
 public class LogApiServiceImpl extends LogApiService {
 
 	static Logger log = Logger.getLogger(LogApiService.class.getName());
-	// AAPI
-    DefaultApi aapiClient;
+	static String AS_ENDPOINT = "http://server02tecnalia.westeurope.cloudapp.azure.com:8135/operando/interfaces/aapi";	
+	
 	String logdbSId = "ST-50-P5tb3DockJya0qcHKVE4-casdotoperandodoteu";
 	String stHeaderName = "service-ticket";
 	/*
@@ -171,11 +172,14 @@ public class LogApiServiceImpl extends LogApiService {
 				.entity(new ApiResponseMessage(ApiResponseMessage.OK, "The log message has been registered!")).build();
 	}
 	
-	 private boolean validateHeaderSt(HttpHeaders headers) {
+	 private boolean validateHeaderSt1(HttpHeaders headers) {
 		 return true;
 	 }
 	 
-	 private boolean validateHeaderSt1(HttpHeaders headers) {
+	 private boolean validateHeaderSt(HttpHeaders headers) {
+		DefaultApi aapiClient = new DefaultApi();
+		ApiClient apiClient =  new ApiClient().setBasePath(AS_ENDPOINT);
+		aapiClient.setApiClient(apiClient);
 	        if (headers != null) {
 	            List<String> stHeader = headers.getRequestHeader(stHeaderName);
 	            if (stHeader != null) {
