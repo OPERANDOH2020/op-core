@@ -38,33 +38,33 @@
                     </execution>
                 </executions>
             </plugin>
-    </plugins>
+        </plugins>
     </build>
     <dependencies>
         <dependency>
             <groupId>io.swagger</groupId>
-            <artifactId>swagger-jersey-jaxrs</artifactId>
+            <artifactId>swagger-jersey2-jaxrs</artifactId>
             <version>${swagger-core-version}</version>
             <exclusions>
                 <exclusion>  <!-- declare the exclusion here -->
-                  <groupId>com.sun.jersey</groupId>
-                  <artifactId>jersey-server</artifactId>
+                    <groupId>com.sun.jersey</groupId>
+                    <artifactId>jersey-server</artifactId>
                 </exclusion>
                 <exclusion>  <!-- declare the exclusion here -->
-                  <groupId>com.sun.jersey</groupId>
-                  <artifactId>jersey-client</artifactId>
+                    <groupId>com.sun.jersey</groupId>
+                    <artifactId>jersey-client</artifactId>
                 </exclusion>
                 <exclusion>  <!-- declare the exclusion here -->
-                  <groupId>com.sun.jersey</groupId>
-                  <artifactId>jersey-core</artifactId>
-                </exclusion>
-                    <exclusion>  <!-- declare the exclusion here -->
-                  <groupId>com.sun.jersey</groupId>
-                  <artifactId>jersey-servlet</artifactId>
+                    <groupId>com.sun.jersey</groupId>
+                    <artifactId>jersey-core</artifactId>
                 </exclusion>
                 <exclusion>  <!-- declare the exclusion here -->
-                  <groupId>com.sun.jersey</groupId>
-                  <artifactId>jersey-multipart</artifactId>
+                    <groupId>com.sun.jersey</groupId>
+                    <artifactId>jersey-servlet</artifactId>
+                </exclusion>
+                <exclusion>  <!-- declare the exclusion here -->
+                    <groupId>com.sun.jersey</groupId>
+                    <artifactId>jersey-multipart</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>com.sun.jersey.contribs</groupId>
@@ -100,7 +100,7 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>${gson-version}</version>
-          </dependency>
+        </dependency>
 
         
     </dependencies>
@@ -114,10 +114,10 @@
         </repository>
     </repositories>
     <properties>
-        <swagger-core-version>1.5.8</swagger-core-version>
+        <swagger-core-version>1.5.9</swagger-core-version>
         <jersey-version>1.18.1</jersey-version>
         <slf4j-version>1.7.16</slf4j-version>
-        <junit-version>4.8.1</junit-version>
+        <junit-version>4.12</junit-version>
         <gson-version>2.6.2</gson-version>
         <servlet-api-version>2.5</servlet-api-version>
     </properties>
