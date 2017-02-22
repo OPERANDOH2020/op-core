@@ -32,12 +32,12 @@ import io.swagger.api.RegulationsApiService;
 
 import eu.operando.core.pdb.common.model.PrivacyRegulationInput;
 import eu.operando.core.pdb.mongo.RegulationsMongo;
-import io.swagger.client.ApiClient;
-import io.swagger.client.api.LogApi;
-import io.swagger.client.model.LogRequest;
-import io.swagger.client.ApiException;
-import io.swagger.client.model.LogRequest.LogDataTypeEnum;
-import io.swagger.client.model.LogRequest.LogPriorityEnum;
+import eu.operando.core.ldb.client.ApiClient;
+import eu.operando.core.ldb.client.api.LogApi;
+import eu.operando.core.ldb.client.model.LogRequest;
+import eu.operando.core.ldb.client.ApiException;
+import eu.operando.core.ldb.client.model.LogRequest.LogDataTypeEnum;
+import eu.operando.core.ldb.client.model.LogRequest.LogPriorityEnum;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;

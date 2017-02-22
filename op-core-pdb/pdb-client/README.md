@@ -90,10 +90,12 @@ All URIs are relative to *http://operando.eu/policy_database*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *DELETEApi* | [**oSPOspIdDelete**](docs/DELETEApi.md#oSPOspIdDelete) | **DELETE** /OSP/{osp-id}/ | Remove the OSPRequest entry in the database.
+*DELETEApi* | [**oSPOspIdPrivacyPolicyAccessReasonsReasonIdDelete**](docs/DELETEApi.md#oSPOspIdPrivacyPolicyAccessReasonsReasonIdDelete) | **DELETE** /OSP/{osp-id}/privacy-policy/access-reasons/{reason-id} | Remove the AccessReason entry in the list.
 *DELETEApi* | [**regulationsRegIdDelete**](docs/DELETEApi.md#regulationsRegIdDelete) | **DELETE** /regulations/{reg-id}/ | Remove the PrivacyRegulation entry in the database.
 *DELETEApi* | [**userPrivacyPolicyUserIdDelete**](docs/DELETEApi.md#userPrivacyPolicyUserIdDelete) | **DELETE** /user_privacy_policy/{user-id}/ | Remove the UPP entry in the database for the user.
 *GETApi* | [**oSPGet**](docs/GETApi.md#oSPGet) | **GET** /OSP/ | Perform a search query across the collection of OSP behaviour.
 *GETApi* | [**oSPOspIdGet**](docs/GETApi.md#oSPOspIdGet) | **GET** /OSP/{osp-id}/ | Read a given OSP behaviour policy.
+*GETApi* | [**oSPOspIdPrivacyPolicyAccessReasonsGet**](docs/GETApi.md#oSPOspIdPrivacyPolicyAccessReasonsGet) | **GET** /OSP/{osp-id}/privacy-policy/access-reasons | Get the list of access reason policy statements.
 *GETApi* | [**oSPOspIdPrivacyPolicyGet**](docs/GETApi.md#oSPOspIdPrivacyPolicyGet) | **GET** /OSP/{osp-id}/privacy-policy/ | Get the current set of privacy policy statements about the usage of data for stated reasons.
 *GETApi* | [**regulationsGet**](docs/GETApi.md#regulationsGet) | **GET** /regulations/ | Perform a search query across the collection of regulation.
 *GETApi* | [**regulationsRegIdGet**](docs/GETApi.md#regulationsRegIdGet) | **GET** /regulations/{reg-id}/ | Read a given legislation with its ID.
@@ -107,10 +109,16 @@ Class | Method | HTTP request | Description
 *OSPApi* | [**oSPGet**](docs/OSPApi.md#oSPGet) | **GET** /OSP/ | Perform a search query across the collection of OSP behaviour.
 *OSPApi* | [**oSPOspIdDelete**](docs/OSPApi.md#oSPOspIdDelete) | **DELETE** /OSP/{osp-id}/ | Remove the OSPRequest entry in the database.
 *OSPApi* | [**oSPOspIdGet**](docs/OSPApi.md#oSPOspIdGet) | **GET** /OSP/{osp-id}/ | Read a given OSP behaviour policy.
+*OSPApi* | [**oSPOspIdPrivacyPolicyAccessReasonsGet**](docs/OSPApi.md#oSPOspIdPrivacyPolicyAccessReasonsGet) | **GET** /OSP/{osp-id}/privacy-policy/access-reasons | Get the list of access reason policy statements.
+*OSPApi* | [**oSPOspIdPrivacyPolicyAccessReasonsPost**](docs/OSPApi.md#oSPOspIdPrivacyPolicyAccessReasonsPost) | **POST** /OSP/{osp-id}/privacy-policy/access-reasons | Create a new access reason statement in the privacy policy.
+*OSPApi* | [**oSPOspIdPrivacyPolicyAccessReasonsReasonIdDelete**](docs/OSPApi.md#oSPOspIdPrivacyPolicyAccessReasonsReasonIdDelete) | **DELETE** /OSP/{osp-id}/privacy-policy/access-reasons/{reason-id} | Remove the AccessReason entry in the list.
+*OSPApi* | [**oSPOspIdPrivacyPolicyAccessReasonsReasonIdPut**](docs/OSPApi.md#oSPOspIdPrivacyPolicyAccessReasonsReasonIdPut) | **PUT** /OSP/{osp-id}/privacy-policy/access-reasons/{reason-id} | Update an access reason statement in the privacy policy.
 *OSPApi* | [**oSPOspIdPrivacyPolicyGet**](docs/OSPApi.md#oSPOspIdPrivacyPolicyGet) | **GET** /OSP/{osp-id}/privacy-policy/ | Get the current set of privacy policy statements about the usage of data for stated reasons.
 *OSPApi* | [**oSPOspIdPrivacyPolicyPut**](docs/OSPApi.md#oSPOspIdPrivacyPolicyPut) | **PUT** /OSP/{osp-id}/privacy-policy/ | Update OSP text policy entry in the database.
 *OSPApi* | [**oSPOspIdPut**](docs/OSPApi.md#oSPOspIdPut) | **PUT** /OSP/{osp-id}/ | Update OSPBehaviour entry in the database.
 *OSPApi* | [**oSPPost**](docs/OSPApi.md#oSPPost) | **POST** /OSP/ | Create a new OSP entry in the database.
+*POSTApi* | [**oSPOspIdPrivacyPolicyAccessReasonsPost**](docs/POSTApi.md#oSPOspIdPrivacyPolicyAccessReasonsPost) | **POST** /OSP/{osp-id}/privacy-policy/access-reasons | Create a new access reason statement in the privacy policy.
+*POSTApi* | [**oSPOspIdPrivacyPolicyAccessReasonsReasonIdPut**](docs/POSTApi.md#oSPOspIdPrivacyPolicyAccessReasonsReasonIdPut) | **PUT** /OSP/{osp-id}/privacy-policy/access-reasons/{reason-id} | Update an access reason statement in the privacy policy.
 *POSTApi* | [**oSPPost**](docs/POSTApi.md#oSPPost) | **POST** /OSP/ | Create a new OSP entry in the database.
 *POSTApi* | [**regulationsPost**](docs/POSTApi.md#regulationsPost) | **POST** /regulations/ | Create a new legislation entry in the database.
 *POSTApi* | [**userPrivacyPolicyPost**](docs/POSTApi.md#userPrivacyPolicyPost) | **POST** /user_privacy_policy/ | Create a new UPP entry in the database for the user.
@@ -136,8 +144,10 @@ Class | Method | HTTP request | Description
  - [OSPReasonPolicy](docs/OSPReasonPolicy.md)
  - [OSPReasonPolicyInput](docs/OSPReasonPolicyInput.md)
  - [OSPSettings](docs/OSPSettings.md)
+ - [PolicyAttribute](docs/PolicyAttribute.md)
  - [PrivacyRegulation](docs/PrivacyRegulation.md)
  - [PrivacyRegulationInput](docs/PrivacyRegulationInput.md)
+ - [PrivacySetting](docs/PrivacySetting.md)
  - [UserPreference](docs/UserPreference.md)
  - [UserPrivacyPolicy](docs/UserPrivacyPolicy.md)
 
@@ -149,7 +159,7 @@ Authentication schemes defined for the API:
 
 ## Recommendation
 
-It's recommended to create an instance of `ApiClient` per thread in a multithreaded environment to avoid any potential issue.
+It's recommended to create an instance of `ApiClient` per thread in a multithreaded environment to avoid any potential issues.
 
 ## Author
 

@@ -6,6 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**oSPGet**](GETApi.md#oSPGet) | **GET** /OSP/ | Perform a search query across the collection of OSP behaviour.
 [**oSPOspIdGet**](GETApi.md#oSPOspIdGet) | **GET** /OSP/{osp-id}/ | Read a given OSP behaviour policy.
+[**oSPOspIdPrivacyPolicyAccessReasonsGet**](GETApi.md#oSPOspIdPrivacyPolicyAccessReasonsGet) | **GET** /OSP/{osp-id}/privacy-policy/access-reasons | Get the list of access reason policy statements.
 [**oSPOspIdPrivacyPolicyGet**](GETApi.md#oSPOspIdPrivacyPolicyGet) | **GET** /OSP/{osp-id}/privacy-policy/ | Get the current set of privacy policy statements about the usage of data for stated reasons.
 [**regulationsGet**](GETApi.md#regulationsGet) | **GET** /regulations/ | Perform a search query across the collection of regulation.
 [**regulationsRegIdGet**](GETApi.md#regulationsRegIdGet) | **GET** /regulations/{reg-id}/ | Read a given legislation with its ID.
@@ -93,6 +94,51 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**OSPPrivacyPolicy**](OSPPrivacyPolicy.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: Not defined
+
+<a name="oSPOspIdPrivacyPolicyAccessReasonsGet"></a>
+# **oSPOspIdPrivacyPolicyAccessReasonsGet**
+> List&lt;OSPReasonPolicy&gt; oSPOspIdPrivacyPolicyAccessReasonsGet(ospId)
+
+Get the list of access reason policy statements.
+
+List of policy statements.  
+
+### Example
+```java
+// Import classes:
+//import io.swagger.client.ApiException;
+//import io.swagger.client.api.GETApi;
+
+
+GETApi apiInstance = new GETApi();
+String ospId = "ospId_example"; // String | The identifier number of an OSP
+try {
+    List<OSPReasonPolicy> result = apiInstance.oSPOspIdPrivacyPolicyAccessReasonsGet(ospId);
+    System.out.println(result);
+} catch (ApiException e) {
+    System.err.println("Exception when calling GETApi#oSPOspIdPrivacyPolicyAccessReasonsGet");
+    e.printStackTrace();
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **ospId** | **String**| The identifier number of an OSP |
+
+### Return type
+
+[**List&lt;OSPReasonPolicy&gt;**](OSPReasonPolicy.md)
 
 ### Authorization
 

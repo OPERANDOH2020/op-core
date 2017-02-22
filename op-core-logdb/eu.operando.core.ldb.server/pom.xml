@@ -1,16 +1,10 @@
-<!--
-     * Copyright (c) 2016 {TECNALIA}.
-     * All rights reserved. This program and the accompanying materials
-     * are made available under the terms of the The MIT License (MIT).
-     * which accompanies this distribution, and is available at
-     * http://opensource.org/licenses/MIT
-     *
-     * Contributors:
-     *    Gorka Mikel Echevarría {TECNALIA}
-     *    Gorka Benguria Elguezabal {TECNALIA}
-     * Initially developed in the context of OPERANDO EU project www.operando.eu
- -->
- <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<!-- * Copyright (c) 2016 {TECNALIA}. * All rights reserved. This program 
+	and the accompanying materials * are made available under the terms of the 
+	The MIT License (MIT). * which accompanies this distribution, and is available 
+	at * http://opensource.org/licenses/MIT * * Contributors: * Gorka Mikel Echevarría 
+	{TECNALIA} * Gorka Benguria Elguezabal {TECNALIA} * Initially developed in 
+	the context of OPERANDO EU project www.operando.eu -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>eu.operando</groupId>
@@ -28,18 +22,19 @@
 				<configuration>
 					<url>http://localhost:8080/manager/text</url>
 					<server>TomcatServer</server>
-					<!-- /operando/core/logdb is the context and it is neccesary to deploy to tomcat several modules generated automatically from swagger -->
-					<path>/operando/core/ldb</path>					
+					<!-- /operando/core/logdb is the context and it is neccesary to deploy 
+						to tomcat several modules generated automatically from swagger -->
+					<path>/operando/core/ldb</path>
 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>				
+				<artifactId>maven-war-plugin</artifactId>
 				<version>2.1.1</version>
 				<configuration>
-				<!-- added to support right name of log db -->
-				    <warName>${user.warName}</warName>				
-				<!-- end of addition -->
+					<!-- added to support right name of log db -->
+					<warName>${user.warName}</warName>
+					<!-- end of addition -->
 				</configuration>
 			</plugin>
 			<plugin>
@@ -114,11 +109,11 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.5.1</version>
 			</plugin>
-		    <!-- added to support docker image creation -->
+			<!-- added to support docker image creation -->
 			<plugin>
 				<groupId>org.jolokia</groupId>
 				<artifactId>docker-maven-plugin</artifactId>
-				<version>0.13.9</version> <!--  last version in https://mvnrepository.com/artifact/org.jolokia/docker-maven-plugin -->
+				<version>0.13.9</version> <!-- last version in https://mvnrepository.com/artifact/org.jolokia/docker-maven-plugin -->
 				<configuration>
 					<images>
 						<image>
@@ -127,7 +122,7 @@
 							<build>
 								<from>tomcat:7</from> <!-- in our case we start from tomcat image -->
 								<assembly>
-								    <basedir>/</basedir>
+									<basedir>/</basedir>
 									<descriptor>docker-assembly.xml</descriptor>
 								</assembly>
 								<ports>
@@ -145,52 +140,52 @@
 				</configuration>
 			</plugin>
 			<!-- end of addition -->
-		    <!-- added to support initial database creation -->
-    	    <plugin>
-		        <groupId>org.codehaus.mojo</groupId>
-		        <artifactId>sql-maven-plugin</artifactId>
-		        <version>1.5</version>
-		        <dependencies>
-		          <!-- specify the dependent JDBC driver here -->
-		          <dependency>
-         			<groupId>mysql</groupId>
-					<artifactId>mysql-connector-java</artifactId>
-					<version>5.0.8</version>
-		          </dependency>
-		        </dependencies>
-		        <!-- common configuration shared by all executions -->
-		        <configuration>
-		          <driver>com.mysql.jdbc.Driver</driver>
-		          <url>jdbc:mysql://${mysql.host}:${mysql.port}/${mysql.dbname}</url>
-		          <username>root</username>
-		          <password>root</password>
-		        </configuration>	
-		        <executions>
-		          <execution>
-		            <id>default-cli</id>
-		            <phase>initalize</phase>
-		            <goals>
-		              <goal>execute</goal>
-		            </goals>
-		            <!-- specific configuration for this execution -->
-		            <configuration>
-		              <!-- specify your SQL commands, can be all of the following configurations -->
-		              <srcFiles>
-		                <srcFile>src/main/sql/creation.sql</srcFile>
-		              </srcFiles>
-		            </configuration>
-		          </execution>
-		        </executions>
-		      </plugin>
+			<!-- added to support initial database creation -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>sql-maven-plugin</artifactId>
+				<version>1.5</version>
+				<dependencies>
+					<!-- specify the dependent JDBC driver here -->
+					<dependency>
+						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+						<version>5.0.8</version>
+					</dependency>
+				</dependencies>
+				<!-- common configuration shared by all executions -->
+				<configuration>
+					<driver>com.mysql.jdbc.Driver</driver>
+					<url>jdbc:mysql://${mysql.host}:${mysql.port}/${mysql.dbname}</url>
+					<username>root</username>
+					<password>root</password>
+				</configuration>
+				<executions>
+					<execution>
+						<id>default-cli</id>
+						<phase>initalize</phase>
+						<goals>
+							<goal>execute</goal>
+						</goals>
+						<!-- specific configuration for this execution -->
+						<configuration>
+							<!-- specify your SQL commands, can be all of the following configurations -->
+							<srcFiles>
+								<srcFile>src/main/sql/creation.sql</srcFile>
+							</srcFiles>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<!-- end of addition -->
-			
+
 		</plugins>
-	    <resources>
-	      	<resource>
-		        <directory>src/main/resources/config</directory>
-		        <filtering>true</filtering>
-	      	</resource>
-	    </resources>
+		<resources>
+			<resource>
+				<directory>src/main/resources/config</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 	</build>
 	<dependencies>
 		<dependency>
@@ -286,6 +281,17 @@
 			<artifactId>eu.operando.interfaces.aapi.client</artifactId>
 			<version>1.0.0</version>
 		</dependency>
+		<!-- HTTP client: jersey-client -->
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>${jersey-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey.contribs</groupId>
+			<artifactId>jersey-multipart</artifactId>
+			<version>${jersey-version}</version>
+		</dependency>
 	</dependencies>
 	<repositories>
 		<repository>
@@ -304,26 +310,27 @@
 		<junit-version>4.8.1</junit-version>
 		<servlet-api-version>2.5</servlet-api-version>
 		<!-- added to support docker image creation -->
-		<docker.registry.name>localhost:5000/</docker.registry.name><!-- leave empty for docker hub; use e.g. "localhost:5000/" for a local docker registry -->
-        <docker.repository.name>${docker.registry.name}tecnalia/${project.artifactId}</docker.repository.name>
-        <docker.logdb.port>8090</docker.logdb.port>
- 	    <user.warName>operando#core#ldb</user.warName>
- 	    <mysql.host>localhost</mysql.host>
-        <mysql.port>3306</mysql.port>
- 		<mysql.dbname>operando_logdb</mysql.dbname>
-        <!-- end of addition -->
+		<docker.registry.name>localhost:5000/</docker.registry.name><!-- leave 
+			empty for docker hub; use e.g. "localhost:5000/" for a local docker registry -->
+		<docker.repository.name>${docker.registry.name}tecnalia/${project.artifactId}</docker.repository.name>
+		<docker.logdb.port>8090</docker.logdb.port>
+		<user.warName>operando#core#ldb</user.warName>
+		<mysql.host>localhost</mysql.host>
+		<mysql.port>3306</mysql.port>
+		<mysql.dbname>operando_logdb</mysql.dbname>
+		<!-- end of addition -->
 	</properties>
 	<profiles>
 		<profile>
-		  <id>jenkins-dev</id>
-		  <activation>
-            <property>
-                <name>ci</name>
-            </property>
-          </activation>
-		  <properties>
-	        <mysql.host>mysql.integration.operando.dmz.lab.esilab.org</mysql.host>
-		  </properties>
+			<id>jenkins-dev</id>
+			<activation>
+				<property>
+					<name>ci</name>
+				</property>
+			</activation>
+			<properties>
+				<mysql.host>mysql.integration.operando.dmz.lab.esilab.org</mysql.host>
+			</properties>
 		</profile>
 	</profiles>
 </project>

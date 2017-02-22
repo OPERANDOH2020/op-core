@@ -35,7 +35,7 @@ import com.mongodb.MongoException;
 import com.mongodb.util.JSON;
 import eu.operando.core.pdb.client.ApiClient;
 import eu.operando.core.pdb.client.ApiException;
-import eu.operando.core.pdb.client.model.OSPPrivacyPolicy;
+import eu.operando.core.pdb.common.model.OSPPrivacyPolicy;
 import eu.operando.core.pdb.common.model.OSPDataRequest;
 import eu.operando.core.pdb.common.model.OSPSettings;
 import eu.operando.core.pdb.common.model.PrivacySetting;

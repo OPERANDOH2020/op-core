@@ -114,7 +114,7 @@ public class Test {
 	 	     
 	    GenericType<String> returnType = new GenericType<String>() {};
 	    
-	    headerParams.put("service-ticket", "/operando/core/ldb");
+	    headerParams.put("service-ticket", "ST-50-P5tb3DockJya0qcHKVE4-casdotoperandodoteu");
 		
 
 	    LogRequest logRequest = new LogRequest();
