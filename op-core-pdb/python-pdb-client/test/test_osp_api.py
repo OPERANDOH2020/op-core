@@ -36,7 +36,7 @@ class TestOSPApi(unittest.TestCase):
     def tearDown(self):
         pass
 
-    # @unittest.skip("demo skipping")
+    #@unittest.skip("demo skipping")
     def test_osp_all(self):
         print("Test case for o_sp_get with filter")
         osp_all_filter = "{\"policy_text\":\"\"}"
@@ -59,8 +59,9 @@ class TestOSPApi(unittest.TestCase):
         print("Test case for o_sp_osp_id_put")
         osp_policy.policy_text = "TEST TEST TEST"
         api_response = self.api.o_sp_osp_id_put(osp_id, osp_policy)
-        print("PUT response", api_response)
+        # print("PUT response", api_response)
         api_response = self.api.o_sp_osp_id_get(osp_id)
+        # print("PUT response", api_response)
         self.assertEqual(api_response.osp_policy_id, osp_id)
         self.assertEqual(api_response.policy_text, "TEST TEST TEST")
 

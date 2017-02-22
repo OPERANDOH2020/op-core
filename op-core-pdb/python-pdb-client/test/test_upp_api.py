@@ -35,6 +35,7 @@ class TestUPPApi(unittest.TestCase):
     def tearDown(self):
         pass
 
+    # @unittest.skip("demo skipping")
     def test_upp_all(self):
         print("Test UPP all")
         print("Test case for user_privacy_policy_get with filter")
@@ -46,6 +47,7 @@ class TestUPPApi(unittest.TestCase):
 
         print("Test case for user_privacy_policy_post", upp_list_length)
         upp.user_id = "unittest_user"
+        print("UPP for post:", upp)
         api_response = self.api.user_privacy_policy_post(upp)
         print("POST response:", api_response)
         self.assertNotEqual(api_response, None)
