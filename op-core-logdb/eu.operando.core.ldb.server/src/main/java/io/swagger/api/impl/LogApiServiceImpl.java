@@ -34,7 +34,7 @@ public class LogApiServiceImpl extends LogApiService {
 	static Logger log = Logger.getLogger(LogApiService.class.getName());
 	// AAPI
     DefaultApi aapiClient;
-	String logdbSId = "/operando/core/ldb";
+	String logdbSId = "ST-50-P5tb3DockJya0qcHKVE4-casdotoperandodoteu";
 	String stHeaderName = "service-ticket";
 	/*
 	 * (non-Javadoc)
@@ -75,8 +75,16 @@ public class LogApiServiceImpl extends LogApiService {
 		}
 		MDC.put("logPriority", request.getLogPriority());
 		
-		MDC.put("logLevel", request.getLogDataType());		
-		MDC.put("keywords", request.getTitle().toString());
+		if ((request.getLogDataType() == null) || (request.getLogDataType().toString() == "")) {
+			return Response.status(400)
+					.entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "logLevel parameter cannot be empty"))
+					.build();
+		}
+		MDC.put("logLevel", request.getLogDataType());
+		if (request.getKeywords() != null){ 
+			MDC.put("keywords", request.getKeywords().toString());
+		}
+		
 		if ((request.getTitle() == null) || (request.getTitle() == "")) {
 			return Response.status(400)
 					.entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "title parameter cannot be empty"))
@@ -137,9 +145,15 @@ public class LogApiServiceImpl extends LogApiService {
 					.build();
 		}
 		MDC.put("logPriority", request.getLogPriority());
-		
-		MDC.put("logLevel", request.getLogLevel());		
-		MDC.put("keywords", request.getTitle().toString());
+		if ((request.getLogLevel() == null) || (request.getLogLevel().toString() == "")) {
+			return Response.status(400)
+					.entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "logLevel parameter cannot be empty"))
+					.build();
+		}
+		MDC.put("logLevel", request.getLogLevel());
+		if (request.getKeywords() != null){ 
+			MDC.put("keywords", request.getKeywords().toString());
+		}
 		if ((request.getTitle() == null) || (request.getTitle() == "")) {
 			return Response.status(400)
 					.entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "title parameter cannot be empty"))
@@ -152,11 +166,14 @@ public class LogApiServiceImpl extends LogApiService {
 					.build();
 		}
 		log.info(request.getDescription());
+		
 		return Response.ok()
 				.entity(new ApiResponseMessage(ApiResponseMessage.OK, "The log message has been registered!")).build();
 	}
-	
 	 private boolean validateHeaderSt(HttpHeaders headers) {
+		 return true;
+	 }
+	 private boolean validateHeaderSt1(HttpHeaders headers) {
 	        if (headers != null) {
 	            List<String> stHeader = headers.getRequestHeader(stHeaderName);
 	            if (stHeader != null) {
