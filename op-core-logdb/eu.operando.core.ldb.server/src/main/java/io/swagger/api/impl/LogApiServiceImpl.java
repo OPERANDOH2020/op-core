@@ -33,7 +33,7 @@ import io.swagger.model.LogRequestTicket;
 public class LogApiServiceImpl extends LogApiService {
 
 	static Logger log = Logger.getLogger(LogApiService.class.getName());
-	static String AS_ENDPOINT = "http://server02tecnalia.westeurope.cloudapp.azure.com:8135/operando/interfaces/aapi";	
+	static String AS_ENDPOINT = "http://integration.operando.esilab.org:8135/operando/interfaces/aapi";	
 	
 	String logdbSId = "ST-50-P5tb3DockJya0qcHKVE4-casdotoperandodoteu";
 	String stHeaderName = "service-ticket";
