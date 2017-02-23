@@ -10,16 +10,16 @@
     *    Gorka Mikel Echevarría {TECNALIA}
     * Initially developed in the context of OPERANDO EU project www.operando.eu
  */
-package eu.operando.core.ldb.client.api;
+package io.swagger.client.api;
 
 import com.sun.jersey.api.client.GenericType;
 
-import eu.operando.core.ldb.client.ApiException;
-import eu.operando.core.ldb.client.ApiClient;
-import eu.operando.core.ldb.client.Configuration;
-import eu.operando.core.ldb.client.Pair;
+import io.swagger.client.ApiException;
+import io.swagger.client.ApiClient;
+import io.swagger.client.Configuration;
+import io.swagger.client.Pair;
 
-import eu.operando.core.ldb.client.model.LogRequest;
+import io.swagger.client.model.LogRequest;
 
 import java.util.ArrayList;
 import java.util.HashMap;

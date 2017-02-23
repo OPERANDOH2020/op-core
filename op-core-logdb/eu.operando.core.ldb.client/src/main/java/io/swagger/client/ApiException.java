@@ -10,7 +10,7 @@
     *    Gorka Mikel Echevarría {TECNALIA}
     * Initially developed in the context of OPERANDO EU project www.operando.eu
  */
-package eu.operando.core.ldb.client;
+package io.swagger.client;
 
 import java.util.Map;
 import java.util.List;
