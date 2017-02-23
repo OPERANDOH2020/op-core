@@ -36,7 +36,8 @@ public class LogApiServiceImpl extends LogApiService {
 	//static String AS_ENDPOINT = "http://integration.operando.esilab.org:8135/operando/interfaces/aapi";	
 	static String AS_ENDPOINT = "http://integration.operando.dmz.lab.esilab.org:8135/operando/interfaces/aapi";
 	
-	String logdbSId = "ST-50-P5tb3DockJya0qcHKVE4-casdotoperandodoteu";
+	//String logdbSId = "ST-50-P5tb3DockJya0qcHKVE4-casdotoperandodoteu";
+	String logdbSId = "/operando/core/ldb";
 	String stHeaderName = "service-ticket";
 	/*
 	 * (non-Javadoc)
@@ -114,6 +115,8 @@ public class LogApiServiceImpl extends LogApiService {
 	public Response logTicket(LogRequestTicket request, SecurityContext securityContext, HttpHeaders headers) throws NotFoundException {
 		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 		
+		System.out.println("validateHeaderSt(headers) "+validateHeaderSt(headers));
+		 
 		if (!validateHeaderSt(headers)) {
             return Response.status(403).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The service ticket failed to validate.")).build();
@@ -177,7 +180,8 @@ public class LogApiServiceImpl extends LogApiService {
 		 return true;
 	 }
 	 
-	 private boolean validateHeaderSt(HttpHeaders headers) {
+	 private boolean validateHeaderSt(HttpHeaders headers) {		 
+			
 		DefaultApi aapiClient = new DefaultApi();
 		ApiClient apiClient =  new ApiClient().setBasePath(AS_ENDPOINT);
 		aapiClient.setApiClient(apiClient);

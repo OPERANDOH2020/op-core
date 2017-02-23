@@ -21,13 +21,13 @@ import org.junit.runner.JUnitCore;
 
 import com.sun.jersey.api.client.GenericType;
 
-import io.swagger.client.ApiClient;
-import io.swagger.client.ApiException;
-import io.swagger.client.Pair;
-import io.swagger.client.model.LogRequest;
-import io.swagger.client.model.LogRequest.LogDataTypeEnum;
-import io.swagger.client.model.LogRequest.LogPriorityEnum;
-import io.swagger.client.model.LogRequest.RequesterTypeEnum;
+import eu.operando.core.ldb.client.ApiClient;
+import eu.operando.core.ldb.client.ApiException;
+import eu.operando.core.ldb.client.Pair;
+import eu.operando.core.ldb.client.model.LogRequest;
+import eu.operando.core.ldb.client.model.LogRequest.LogDataTypeEnum;
+import eu.operando.core.ldb.client.model.LogRequest.LogPriorityEnum;
+import eu.operando.core.ldb.client.model.LogRequest.RequesterTypeEnum;
 
 
 public class Test {
