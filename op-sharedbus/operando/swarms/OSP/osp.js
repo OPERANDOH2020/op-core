@@ -122,23 +122,28 @@ var osp = {
             var self = this;
             var emailsRetrieved = 0;
             var emailToBeRetrieved = self.ospRequests.length;
-            for (var i = 0; i < self.ospRequests.length; i++) {
-                (function (index) {
-                    getUserInfo(self.ospRequests[index].userId, S(function (err, user) {
-                        if (err) {
-                            console.error(err);
-                            emailToBeRetrieved--;
-                        }
-                        else {
-                            self.ospRequests[index]['email'] = user['email'];
-                            emailsRetrieved++;
-                        }
-                        if(emailsRetrieved === emailToBeRetrieved){
-                            self.home("success");
-                        }
+            if(self.ospRequests.length>0){
+                for (var i = 0; i < self.ospRequests.length; i++) {
+                    (function (index) {
+                        getUserInfo(self.ospRequests[index].userId, S(function (err, user) {
+                            if (err) {
+                                console.error(err);
+                                emailToBeRetrieved--;
+                            }
+                            else {
+                                self.ospRequests[index]['email'] = user['email'];
+                                emailsRetrieved++;
+                            }
+                            if(emailsRetrieved === emailToBeRetrieved){
+                                self.home("success");
+                            }
 
-                    }));
-                })(i);
+                        }));
+                    })(i);
+                }
+            }
+            else{
+                self.home("success");
             }
         }
     },
