@@ -146,11 +146,12 @@ public class UPPMongo {
     }
 
     private boolean isAValidFieldName(String key) {
+        String nKey = key.split("\\.")[0];
         Class aClass = UserPrivacyPolicy.class;
         try {
-            Field field = aClass.getDeclaredField(key);
+            Field field = aClass.getDeclaredField(nKey);
         } catch (NoSuchFieldException ex){ 
-            System.err.println("no such field found " + key);
+            System.err.println("no such field found " + nKey);
             return false;
         }
         return true;
