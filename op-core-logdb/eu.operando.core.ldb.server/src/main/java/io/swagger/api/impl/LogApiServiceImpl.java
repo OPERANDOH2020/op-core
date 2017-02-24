@@ -224,7 +224,9 @@ public class LogApiServiceImpl extends LogApiService {
 	        userCredential.setPassword(password);
 
 	        try {
-	            String tgt = aapiClient.aapiTicketsPost(userCredential);
+	        	//if we get a new tgt in the constructor, every time the server starts it will be generated a new one (and a new st).
+	            //String tgt = aapiClient.aapiTicketsPost(userCredential);
+	        	String tgt = "TGT-162-cUOzOyl3ibbCP4wfKIagHpKARJMByhOsdHfeOYTcDGhnxUckge-casdotoperandodoteu";
 	            System.out.println("logdb service TGT: " + tgt);
 	            st = aapiClient.aapiTicketsTgtPost(tgt, serviceId);
 	            System.out.println("logdb service ticket: " + st);
