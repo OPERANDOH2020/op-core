@@ -281,11 +281,6 @@
 			<artifactId>eu.operando.interfaces.aapi.client</artifactId>
 			<version>1.0.0</version>
 		</dependency>
-		<dependency>
-            <groupId>eu.operando</groupId>
-            <artifactId>eu.operando.core.cas.client</artifactId>
-            <version>1.0.0</version>
-        </dependency>
 		<!-- HTTP client: jersey-client -->
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
@@ -297,6 +292,11 @@
 			<artifactId>jersey-multipart</artifactId>
 			<version>${jersey-version}</version>
 		</dependency>
+		<dependency>
+            <groupId>eu.operando</groupId>
+            <artifactId>eu.operando.core.cas.client</artifactId>
+            <version>1.0.0</version>
+        </dependency>
 	</dependencies>
 	<repositories>
 		<repository>

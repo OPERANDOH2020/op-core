@@ -25,6 +25,7 @@ from swagger_client.apis.legislation_api import LegislationApi
 class TestLegislationApi(unittest.TestCase):
     """ LegislationApi unit test stubs """
     BASE_PATH = "http://10.136.24.87:8080"
+    BASE_PATH = "http://integration.operando.esilab.org:8096/operando/core"
 
     def setUp(self):
         self.api = swagger_client.apis.legislation_api.LegislationApi()
@@ -38,8 +39,9 @@ class TestLegislationApi(unittest.TestCase):
     # @unittest.skip("demo skipping")
     def test_regulations_all(self):
         print("Test regulations get with filter")
-        reg_all_filter = "{\"action\":\"\"}"
+        reg_all_filter = "{\"legislation_sector\":\"\"}"
         api_response = self.api.regulations_get(reg_all_filter)
+        #print("get regulations:", api_response)
         reg_list_length = len(api_response)
         self.assertNotEqual(api_response, None)
         regulation = api_response[0]

@@ -25,6 +25,7 @@ from swagger_client.apis.osp_api import OSPApi
 class TestOSPApi(unittest.TestCase):
     """ OSPApi unit test stubs """
     BASE_PATH = "http://10.136.24.87:8080"
+    BASE_PATH = "http://integration.operando.esilab.org:8096/operando/core"
     _osp_id = "xxxx"
     _osp_policy = None
 
@@ -43,6 +44,7 @@ class TestOSPApi(unittest.TestCase):
         api_response = self.api.o_sp_get(osp_all_filter)
         osp_list_length = len(api_response)
         self.assertNotEqual(api_response, None)
+        self.assertTrue(osp_list_length >= 1) 
         osp_policy = api_response[0]
 
         print("Test case for o_sp_post", osp_list_length)
