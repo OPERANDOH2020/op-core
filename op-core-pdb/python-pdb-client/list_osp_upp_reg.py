@@ -4,7 +4,10 @@ import swagger_client
 from swagger_client.rest import ApiException
 from pprint import pprint
 
-api_client = swagger_client.ApiClient(host='http://10.136.24.87:8080/pdb')
+base_path = "http://integration.operando.esilab.org:8096/operando/core/pdb"
+# base_path = "http://10.136.24.87:8080/pdb"
+
+api_client = swagger_client.ApiClient(host=base_path)
 api_client.set_default_header("Service-Ticket",
         "ST-4-jRVgo6V31QumyQ0ro0AH-casdotoperandodoteu")
 
