@@ -10,9 +10,9 @@
     *    Gorka Mikel Echevarría {TECNALIA}
     * Initially developed in the context of OPERANDO EU project www.operando.eu
  */
-package eu.operando.core.ldb.client.auth;
+package io.swagger.client.auth;
 
-import eu.operando.core.ldb.client.Pair;
+import io.swagger.client.Pair;
 
 import com.migcomponents.migbase64.Base64;
 

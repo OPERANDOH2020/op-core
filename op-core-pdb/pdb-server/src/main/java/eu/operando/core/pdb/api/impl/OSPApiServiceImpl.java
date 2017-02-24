@@ -36,11 +36,11 @@ import javax.ws.rs.core.SecurityContext;
 import eu.operando.core.pdb.common.model.OSPPrivacyPolicyInput;
 import eu.operando.core.pdb.common.model.OSPReasonPolicyInput;
 import eu.operando.core.pdb.mongo.OSPPrivacyPolicyMongo;
-import eu.operando.core.ldb.client.ApiClient;
-import eu.operando.core.ldb.client.api.LogApi;
-import eu.operando.core.ldb.client.model.LogRequest;
-import eu.operando.core.ldb.client.model.LogRequest.LogDataTypeEnum;
-import eu.operando.core.ldb.client.model.LogRequest.LogPriorityEnum;
+import io.swagger.client.ApiClient;
+import io.swagger.client.api.LogApi;
+import io.swagger.client.model.LogRequest;
+import io.swagger.client.model.LogRequest.LogDataTypeEnum;
+import io.swagger.client.model.LogRequest.LogPriorityEnum;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
@@ -235,7 +235,7 @@ public class OSPApiServiceImpl extends OSPApiService {
             String response = this.logApi.lodDB(logRequest);
             Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.INFO, response);
 
-        } catch (eu.operando.core.ldb.client.ApiException ex) {
+        } catch (io.swagger.client.ApiException ex) {
             Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.SEVERE, "failed to log", ex);
         }
     }
