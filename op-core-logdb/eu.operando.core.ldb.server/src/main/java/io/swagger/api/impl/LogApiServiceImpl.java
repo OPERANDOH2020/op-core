@@ -22,6 +22,7 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.MDC;
 
 import eu.operando.core.cas.client.api.DefaultApi;
+import eu.operando.core.cas.client.model.UserCredential;
 import io.swagger.api.ApiResponseMessage;
 import io.swagger.api.LogApiService;
 import io.swagger.api.NotFoundException;
@@ -35,13 +36,9 @@ public class LogApiServiceImpl extends LogApiService {
     DefaultApi aapiClient;
     String logdbSId = "/operando/core/ldb";
 	
-	static String aapiBasePath = "http://integration.operando.esilab.org:8135/operando/interfaces/aapi";
-    //static String aapiBasePath = "http://integration.operando.dmz.lab.esilab.org:8135/operando/interfaces/aapi";
-	//static String AS_ENDPOINT = "http://integration.operando.dmz.lab.esilab.org:8135/operando/interfaces/aapi";
-	
-	//String logdbSId = "ST-50-P5tb3DockJya0qcHKVE4-casdotoperandodoteu";
-	String ldbLoginName = "xxxxx";
-    String ldbLoginPassword = "xxxxx";
+	static String aapiBasePath = "http://integration.operando.esilab.org:8135/operando/interfaces/aapi";    
+	String ldbLoginName = "string";
+    String ldbLoginPassword = "string";
 	String stHeaderName = "service-ticket";
 	static Logger log = Logger.getLogger(LogApiService.class.getName());
 	
@@ -54,6 +51,7 @@ public class LogApiServiceImpl extends LogApiService {
         eu.operando.core.cas.client.ApiClient aapiDefaultClient = new eu.operando.core.cas.client.ApiClient();
         aapiDefaultClient.setBasePath(aapiBasePath);
         this.aapiClient = new DefaultApi(aapiDefaultClient);
+        String logdbST = getServiceTicket(ldbLoginName, ldbLoginPassword, logdbSId);
 	}
 
 	/*
@@ -205,39 +203,35 @@ public class LogApiServiceImpl extends LogApiService {
                     "Error. Headers can not be null.")).build();
 			
 		}
-	}
+	}		 	 
 	
-	 private boolean validateHeaderSt1(HttpHeaders headers) {
-		 return true;
-	 }
-	 
-	 /*private boolean validateHeaderSt(HttpHeaders headers) {		 
-			
-		DefaultApi aapiClient = new DefaultApi();
-		ApiClient apiClient =  new ApiClient().setBasePath(AS_ENDPOINT);
-		aapiClient.setApiClient(apiClient);
-	        if (headers != null) {
-	            List<String> stHeader = headers.getRequestHeader(stHeaderName);
-	            if (stHeader != null) {
-	                String st = stHeader.get(0);
-	                try {
-	                    aapiClient.aapiTicketsStValidateGet(st, logdbSId);
-	                    return true;
-	                } catch (io.swagger.client.ApiException ex) {
-	                	log.error("Service Ticket validation failed: {0}");	                            
-	                    return false;
-	                }
-	            }
-	        }
-	        return false;
-	    }	*/
 	 private boolean aapiTicketsStValidateGet(String st) {
+		 boolean result = true;
 	        try {
-	            aapiClient.aapiTicketsStValidateGet(st, logdbSId);
+	        	aapiClient.aapiTicketsStValidateGet(st, logdbSId);
+	        } catch (eu.operando.core.cas.client.ApiException ex) {
+	            ex.printStackTrace();
+	            result = false;
+	        }
+	        return result;
+	    }
+
+	 private String getServiceTicket(String username, String password, String serviceId) {
+	        String st = null;
+
+	        UserCredential userCredential = new UserCredential();
+	        userCredential.setUsername(username);
+	        userCredential.setPassword(password);
+
+	        try {
+	            String tgt = aapiClient.aapiTicketsPost(userCredential);
+	            System.out.println("logdb service TGT: " + tgt);
+	            st = aapiClient.aapiTicketsTgtPost(tgt, serviceId);
+	            System.out.println("logdb service ticket: " + st);
+
 	        } catch (eu.operando.core.cas.client.ApiException ex) {
 	            ex.printStackTrace();
 	        }
-	        return false;
+	        return st;
 	    }
-
 }
