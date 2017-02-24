@@ -3,6 +3,8 @@
  */
 
 
+//TO DO: verify first that the users are not already created!!!!
+
 var initOperando = {
     meta: {
         name: "initOperando.js"
@@ -102,7 +104,6 @@ var initOperando = {
                 var createdUsers = [];
                 var errors = [];
 
-
                 users.forEach(function (userData) {
                     createUser(userData, S(usersCallback))
                 });
@@ -116,6 +117,7 @@ var initOperando = {
                     
                     if ((createdUsers.length + errors.length) === users.length){
                         if (errors.length > 0) {
+                            console.log(errors);
                             callback(errors);
                         }
                         else {
@@ -134,6 +136,8 @@ var initOperando = {
                     self.swarm("getAdminId");
                 }
             })
+            startSwarm("acl.js","init");
+
         }
     },
     getAdminId:{

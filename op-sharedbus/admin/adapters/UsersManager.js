@@ -396,7 +396,6 @@ validateUser = function (email, pass, callback) {
                 callback( new Error("invalidCredentials"));
             }
             else{
-
                 var user = users[0];
                 hashThisPassword(pass, user.salt, function (err, hashedPassword) {
                     if (err) 
@@ -459,9 +458,10 @@ changeUserPassword = function(userId, currentPassword, newPassword, callback){
         },
         storeNewPassword:setNewPassword
     })();
-}
+};
 
 setNewPassword = function(user,newPassword,callback){
+    //this function also activates the user if he/she is not activated!!!
     user.salt = crypto.randomBytes(48).toString('base64');
     hashThisPassword(newPassword,user.salt,function(err,hashedPassword){
         user.password = hashedPassword;
@@ -471,7 +471,7 @@ setNewPassword = function(user,newPassword,callback){
 }
 
 function hashThisPassword(plainPassword,salt,callback){
-    return crypto.pbkdf2(plainPassword, salt, 20000, 512, 'sha512',function(err,res){
+    crypto.pbkdf2(plainPassword, salt, 20000, 512, 'sha512',function(err,res){
         if(err){
             callback(err)
         }
@@ -483,7 +483,7 @@ function hashThisPassword(plainPassword,salt,callback){
 
 container.declareDependency("UsersManagerAdapter", ["redisPersistence"], function (outOfService, redisPersistence) {
     if (!outOfService) {
-        console.log("Enabling persistence...", redisPersistence);
+        console.log("Enabling persistence...");
 
     } else {
         console.log("Disabling persistence...");
@@ -493,3 +493,4 @@ container.declareDependency("UsersManagerAdapter", ["redisPersistence"], functio
 setTimeout(function() {
     startSwarm("initOperando.js", "init");
 },2000);
+
