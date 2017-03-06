@@ -15,9 +15,9 @@
 
  */
 
+
+
 var acl = require("acl-magic");
-
-
 
 function SwarmACL(redisClient){
 
