@@ -32,6 +32,10 @@ var initOperando = {
                     {
                         organisationId: "Analysts",
                         displayName: "Analysts"
+                    },
+                    {
+                        organisationId: "OSP",
+                        displayName: "OSP"
                     }
                 ];
                 var createdOrganisations = [];
@@ -117,7 +121,6 @@ var initOperando = {
                     
                     if ((createdUsers.length + errors.length) === users.length){
                         if (errors.length > 0) {
-                            console.log(errors);
                             callback(errors);
                         }
                         else {

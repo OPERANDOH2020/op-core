@@ -13,7 +13,6 @@ exports.conditionalProbabilities = undefined;
 exports.optionProbabilties = undefined;
 exports.optionToSetting = undefined;
 exports.settingToOptions = undefined;
-exports.settingsOfSocialNetworks = {};
 exports.ospSettings = ospSettings;
 var numOptions ;
 var numSettings ;
@@ -27,24 +26,15 @@ exports.indexOSPSettings = function(){
 
     var max_index = -1;
 
-
-
     forEachOption(function(optionObject){
         optionObject.index = ++max_index
     });
 
-
     var current_setting_id = 0;
-    forEachSetting(function(settingObject,settingName,network){
+    forEachSetting(function(settingObject,settingName){
         if(settingObject['read']['availableSettings']){
             if(Array.isArray(settingObject['read']['availableSettings'])!==true){
                 settingObject.id = current_setting_id++;
-                
-                if(!exports.settingsOfSocialNetworks[network]){
-                    exports.settingsOfSocialNetworks[network] = [];
-                }
-                exports.settingsOfSocialNetworks[network].push(settingObject.id);
-
             }
         }
     });
@@ -54,8 +44,14 @@ exports.indexOSPSettings = function(){
 };
 
 init();
+
 function init(){
     exports.settingToOptions = extractOptionsForSettings();
+
+    exports.settingToNetwork = [];
+    forEachSetting(function(settingObj,settingName,networkName){
+        exports.settingToNetwork.push(networkName);
+    });
 
     numOptions = exports.settingToOptions.reduce(function(prev,options){return prev+options.length;},0);
 
@@ -63,7 +59,11 @@ function init(){
 
     exports.optionToSetting = new Array(numOptions);
 
-    exports.settingToOptions.forEach(function(options,setting){options.forEach(function(option){exports.optionToSetting[option] = setting;})});
+    exports.settingToOptions.forEach(function(options,setting) {
+        options.forEach(function(option){
+            exports.optionToSetting[option] = setting;
+        })
+    });
 
     exports.optionProbabilties = exports.settingToOptions.reduce(function(prev,optionsArray){return prev.concat(new Array(optionsArray.length).fill(1/optionsArray.length));},[]);
 
@@ -92,7 +92,6 @@ function init(){
     }
 }
 
-//console.log(exports.conditionalProbabilities);
 
 
 exports.recomputeConditionalProbabilitites = function(){

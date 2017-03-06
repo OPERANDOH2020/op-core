@@ -40,7 +40,7 @@ getRecommenderParams = function(){
         "settingsToOptions":utils.settingToOptions,
         "conditionalProbabilitiesMatrix":utils.conditionalProbabilities,
         "initialProbabilities":utils.optionProbabilties,
-        
+        "settingToNetwork":utils.settingToNetwork
     }
 }
 

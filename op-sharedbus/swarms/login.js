@@ -78,7 +78,6 @@ var loginSwarming = {
                     sessionsRegistry.disableOutlet(self.meta.outletId);
                 }
             }));
-
         }
     },
 
@@ -96,6 +95,48 @@ var loginSwarming = {
         }
     },
 
+    registerNewOSPOrganisation:function(organisationData){
+        console.log(organisationData);
+        console.log("New OSP register request", organisationData);
+        this.ospData = organisationData;
+        this.swarm("verifyOSPData");
+    },
+
+    verifyOSPData:{
+        node: "UsersManager",
+        code: function () {
+            var self = this;
+            newUserIsValid(self.ospData, S(function (err, user) {
+                if (err) {
+                    console.log(err);
+                    self.status = "error";
+                    self.error = err.message;
+                    self.newUser = {};
+                    self.home("error");
+                } else {
+                    self.user = user;
+
+                    startSwarm("emails.js", "sendEmail", "no-reply@" + thisAdapter.config.Core.operandoHost,
+                        user['email'],
+                        "Activate account",
+                        "Your account has been registered \nTo activate it, please access the following link:\n http://" + thisAdapter.config.Core.operandoHost + "/osp-activation/?confirmation_code=" + user.activationCode);
+                    self.swarm("registerOSPRequest");
+                }
+            }))
+        }
+    },
+
+    registerOSPRequest: {
+        node: "OSPRequests",
+        code: function () {
+            var self = this;
+            registerNewOSPRequest(self.user.userId, this.ospData, S(function(err, ospDetails){
+                console.log(ospDetails);
+                self.swarm("setUserNotifications");
+            }))
+
+        }
+    },
     validateSession: {
         node: "SessionManager",
         code: function () {
@@ -174,7 +215,7 @@ var loginSwarming = {
             this.home("failed");
         }
     },
-    enableSwarms: {   //phase that is never executed... given as documentation
+    enableSwarms: {
         node: "EntryPoint",
         code: function () {
             console.log("swarms enabled",this.userId);
@@ -219,8 +260,39 @@ var loginSwarming = {
                     console.log(error);
                 }
                 else {
-                    //console.log("Current session", session);
                     self.swarm("enableSwarms", self.getEntryAdapter());
+                }
+            }));
+        }
+    },
+    setUserNotifications:{
+        node:"NotificationUAM",
+        code:function(){
+            var self = this;
+            generateSignupNotifications(this.user.userId, S(function(err, notifications){
+                if(err){
+                    console.log(err);
+                    self.error = err.message;
+                    self.home('error');
+                }
+                self.swarm("setRealIdentity");
+            }));
+        }
+    },
+
+    setRealIdentity :{
+        node:"IdentityManager",
+        code:function(){
+            var self = this;
+            setRealIdentity(this.user, S(function(err, identity){
+                if(err){
+                    console.log(err);
+                    self.error = err.message;
+                    self.home('error');
+                }
+                else{
+                    console.log("Real identity added", identity);
+                    self.home("success");
                 }
             }));
         }

@@ -75,7 +75,7 @@ var dummyVendors = [
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus dolor diam, pharetra vel velit in, finibus mollis purus. Sed luctus mattis porta. In a massa dignissim, imperdiet eros vitae, facilisis sem.",
         logo:"http://is.i2.datinglab.net/pics/i2/4/chrome/logo_4.svg"
     }
-]
+];
 
 
 var core = require("swarmcore");
@@ -347,9 +347,7 @@ saveUserDeal = function (dealId, userId, callback) {
             else{
                 console.log("Save deal error",err);
             }
-
         }
-
     })();
 }
 

@@ -1,4 +1,3 @@
-
 var core = require("swarmcore");
 core.createAdapter("UsersManager");
 
@@ -225,7 +224,7 @@ queryUsers = function (organisationId, callback) {
             callback(err, organizationUsers);
         }
     })();
-}
+};
 
 activateUser = function(activationCode,callback){
     filterUsers({"activationCode":activationCode},function(err,users){
@@ -238,7 +237,7 @@ activateUser = function(activationCode,callback){
             redisPersistence.saveObject(users[0],callback)
         }
     })
-}
+};
 /*
  Creeaza o organizatie
  */
@@ -266,7 +265,7 @@ createOrganisation = function (organisationDump, callback) {
             callback(err, organisation);
         }
     })();
-}
+};
 
 /*
  Realizeaza salvarea datelor despre o organizatie
@@ -320,18 +319,25 @@ newUserIsValid = function (newUser, callback) {
                 callback(err);
             }
             else if (users.length > 0) {
-                callback(new Error("Email is unavailable"));
+                callback(new Error("emailIsUnavailable"));
             }
             else {
                 if (newUser.password != newUser.repeat_password) {
-                    callback(new Error("Passwords doest not match"));
+                    callback(new Error("passwordsNotMatch"));
                 }
                 else {
+
+                    var activationCode = new Buffer(uuid.v1()).toString('base64');
+                    if(thisAdapter.config.development && thisAdapter.config.development === true ){
+                        activationCode = "0";
+                    }
+                    console.log(activationCode);
+
                     createUser({
                         password: newUser.password,
                         email: newUser.email,
                         organisationId: "Public",
-                        activationCode:new Buffer(uuid.v1()).toString('base64')
+                        activationCode:activationCode
                     }, function (err, user) {
                         delete user['password'];
                         delete user['salt'];
@@ -342,7 +348,7 @@ newUserIsValid = function (newUser, callback) {
             }
         }
     })();
-}
+};
 
 /*
  Returneaza lista de organizatii
@@ -357,7 +363,7 @@ getOrganisations = function (callback) {
             callback(err, result);
         }
     })();
-}
+};
 
 /*
  Returneaza informatii despre un utilizator
@@ -410,7 +416,7 @@ validateUser = function (email, pass, callback) {
             }
         }
     })();
-}
+};
 
 getUserId = function(email, callback){
     redisPersistence.filter("DefaultUser",{"email":email},function(err,result){
@@ -468,7 +474,7 @@ setNewPassword = function(user,newPassword,callback){
         user.activationCode = "0";
         redisPersistence.saveObject(user,callback);
     });
-}
+};
 
 function hashThisPassword(plainPassword,salt,callback){
     crypto.pbkdf2(plainPassword, salt, 20000, 512, 'sha512',function(err,res){
@@ -479,7 +485,7 @@ function hashThisPassword(plainPassword,salt,callback){
             callback(undefined,res.toString('base64'));
         }
     });
-}
+};
 
 container.declareDependency("UsersManagerAdapter", ["redisPersistence"], function (outOfService, redisPersistence) {
     if (!outOfService) {
