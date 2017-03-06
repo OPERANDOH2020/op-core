@@ -45,7 +45,7 @@ apersistence.registerModel("DataProtectionFilter", "Redis", {
 
 container.declareDependency("DataLeakageProtection", ["redisPersistence"], function (outOfService, redisPersistence) {
     if (!outOfService) {
-        console.log("Enabling persistence...", redisPersistence);
+        console.log("Enabling persistence...");
     } else {
         console.log("Disabling persistence...");
     }

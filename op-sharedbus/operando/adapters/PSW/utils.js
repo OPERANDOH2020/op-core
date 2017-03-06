@@ -13,8 +13,8 @@ exports.conditionalProbabilities = undefined;
 exports.optionProbabilties = undefined;
 exports.optionToSetting = undefined;
 exports.settingToOptions = undefined;
+exports.settingsOfSocialNetworks = {};
 exports.ospSettings = ospSettings;
-
 var numOptions ;
 var numSettings ;
 
@@ -27,16 +27,24 @@ exports.indexOSPSettings = function(){
 
     var max_index = -1;
 
+
+
     forEachOption(function(optionObject){
         optionObject.index = ++max_index
-    })
+    });
 
 
     var current_setting_id = 0;
-    forEachSetting(function(settingObject){
+    forEachSetting(function(settingObject,settingName,network){
         if(settingObject['read']['availableSettings']){
             if(Array.isArray(settingObject['read']['availableSettings'])!==true){
-                settingObject.id = current_setting_id++
+                settingObject.id = current_setting_id++;
+                
+                if(!exports.settingsOfSocialNetworks[network]){
+                    exports.settingsOfSocialNetworks[network] = [];
+                }
+                exports.settingsOfSocialNetworks[network].push(settingObject.id);
+
             }
         }
     });
@@ -64,7 +72,6 @@ function init(){
             return parseFloat(nr);
         })
     });
-
 
     function extractOptionsForSettings(){
         var settingToOptions = [];
@@ -229,7 +236,7 @@ function forEachSetting(applyOnSetting){
     for(var network in ospSettings){
         var settings = ospSettings[network];
         for(var setting in settings){
-            applyOnSetting(settings[setting],setting);
+            applyOnSetting(settings[setting],setting,network);
         }
     }
 }

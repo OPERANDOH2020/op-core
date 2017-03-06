@@ -39,7 +39,8 @@ getRecommenderParams = function(){
         "optionsToSettings":utils.optionToSetting,
         "settingsToOptions":utils.settingToOptions,
         "conditionalProbabilitiesMatrix":utils.conditionalProbabilities,
-        "initialProbabilities":utils.optionProbabilties
+        "initialProbabilities":utils.optionProbabilties,
+        
     }
 }
 

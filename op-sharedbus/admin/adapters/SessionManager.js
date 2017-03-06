@@ -190,7 +190,7 @@ sessionIsValid = function (newSession, sessionId, userId, callback) {
 
 container.declareDependency("SessionManagerAdapter", ["redisPersistence"], function (outOfService, redisPersistence) {
     if (!outOfService) {
-        console.log("Enabling persistence...", redisPersistence);
+        console.log("Enabling persistence...");
     } else {
         console.log("Disabling persistence...");
     }
