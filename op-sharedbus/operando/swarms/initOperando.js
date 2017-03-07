@@ -102,6 +102,12 @@ var initOperando = {
                         password: "analyst",
                         email: "analyst@rms.ro",
                         organisationId: "Analysts"
+                    },
+                    {
+                        userId:"emailServer",
+                        password: "haraka",
+                        email: "iAmAnEmailServer@plusprivacy.com",
+                        organisationId: "Public"
                     }
                 ];
 
@@ -138,9 +144,7 @@ var initOperando = {
                     console.log("The default users were created");
                     self.swarm("getAdminId");
                 }
-            })
-            startSwarm("acl.js","init");
-
+            });
         }
     },
     getAdminId:{
