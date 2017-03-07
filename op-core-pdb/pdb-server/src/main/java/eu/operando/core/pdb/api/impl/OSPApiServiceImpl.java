@@ -55,7 +55,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Properties;
-import javax.ws.rs.client.Entity;
+import java.util.Timer;
+import java.util.TimerTask;
 import javax.ws.rs.core.HttpHeaders;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2017-02-20T12:05:17.950Z")
@@ -73,10 +74,13 @@ public class OSPApiServiceImpl extends OSPApiService {
     String ospLoginName = "xxxxx";
     String ospLoginPassword = "xxxxx";
     String stHeaderName = "Service-Ticket";
+    String logdbST = "";
+    long ticketLifeTime = 1000L * 60 * 60;
 
     String mongoServerHost = "localhost";
     int mongoServerPort = 27017;
     OSPPrivacyPolicyMongo ospMongodb = null;
+    Timer timer;
 
     Properties prop = null;
 
@@ -92,11 +96,23 @@ public class OSPApiServiceImpl extends OSPApiService {
         this.aapiClient = new DefaultApi(aapiDefaultClient);
 
         // setup logdb client        
-        ApiClient apiClient = new ApiClient();
+        final ApiClient apiClient = new ApiClient();
         apiClient.setBasePath(logdbBasePath);
 
+        TimerTask timerTask = new TimerTask() {
+            //@Override
+            public void run() {
+                Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "TIMER RUN now");
+                logdbST = getServiceTicket(ospLoginName, ospLoginPassword, logdbSId);
+                apiClient.addDefaultHeader(stHeaderName, logdbST);
+            }
+        };
+
+        timer = new Timer();
+        timer.scheduleAtFixedRate(timerTask, 0, ticketLifeTime);
+
         // get service ticket for logdb service
-        String logdbST = getServiceTicket(ospLoginName, ospLoginPassword, logdbSId);
+        logdbST = getServiceTicket(ospLoginName, ospLoginPassword, logdbSId);
         apiClient.addDefaultHeader(stHeaderName, logdbST);
         this.logApi = new LogApi(apiClient);
 
@@ -189,11 +205,11 @@ public class OSPApiServiceImpl extends OSPApiService {
         return false;
     }
 
-    private boolean validateHeaderSt(HttpHeaders headers) {
+    private boolean validateHeaderSt1(HttpHeaders headers) {
         return true;
     }
 
-    private boolean validateHeaderSt1(HttpHeaders headers) {
+    private boolean validateHeaderSt(HttpHeaders headers) {
         if (headers != null) {
             List<String> stHeader = headers.getRequestHeader(stHeaderName);
             if (stHeader != null) {
@@ -209,6 +225,13 @@ public class OSPApiServiceImpl extends OSPApiService {
             }
         }
         return false;
+
+    }
+
+    private void logRequest1(String requesterId, String title, String description,
+            LogDataTypeEnum logDataType, LogPriorityEnum logPriority,
+            ArrayList<String> keywords) {
+        Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "REPLACE LogDB call {0}", title);
     }
 
     private void logRequest(String requesterId, String title, String description,
@@ -234,7 +257,6 @@ public class OSPApiServiceImpl extends OSPApiService {
         try {
             String response = this.logApi.lodDB(logRequest);
             Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.INFO, response);
-
         } catch (io.swagger.client.ApiException ex) {
             Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.SEVERE, "failed to log", ex);
         }
@@ -389,7 +411,7 @@ public class OSPApiServiceImpl extends OSPApiService {
     @Override
     public Response oSPOspIdPrivacyPolicyGet(String ospId, SecurityContext securityContext, HttpHeaders headers) throws NotFoundException {
 
-        Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP GET {0}", ospId);
+        Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP GET Privacy Policy {0}", ospId);
 
         if (!validateHeaderSt(headers)) {
             return Response.status(Response.Status.UNAUTHORIZED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -454,7 +476,7 @@ public class OSPApiServiceImpl extends OSPApiService {
                 "OSP POST access reasons complete",
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
-        
+
         // TODO: response should be created 201 not 200?
         return Response.ok(ospString, MediaType.APPLICATION_JSON).build();
     }
@@ -537,7 +559,7 @@ public class OSPApiServiceImpl extends OSPApiService {
     @Override
     public Response oSPOspIdPrivacyPolicyPut(String ospId, OSPReasonPolicyInput ospPolicy, SecurityContext securityContext, HttpHeaders headers) throws NotFoundException {
 
-        Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP PUT {0}", ospId);
+        Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP Privacy Policy PUT {0}", ospId);
 
         if (!validateHeaderSt(headers)) {
             return Response.status(Response.Status.UNAUTHORIZED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -549,9 +571,9 @@ public class OSPApiServiceImpl extends OSPApiService {
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        boolean ret = ospMongodb.updatePolicyOSP(ospId, ospPolicy);
+        boolean ret = ospMongodb.updateReasonPolicyOSP(ospId, ospPolicy);
 
-        if (ret) {
+        if (!ret) {
 
             logRequest("OSP PUT", "PUT",
                     "OSP PUT failed",
@@ -563,7 +585,7 @@ public class OSPApiServiceImpl extends OSPApiService {
         }
 
         logRequest("OSP PUT", "PUT",
-                "OSP PUT complete",
+                "OSP PUT reason policy complete",
                 LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
@@ -654,7 +676,6 @@ public class OSPApiServiceImpl extends OSPApiService {
 
 //        return Response.status(Response.Status.CREATED).header("Location", "http://integration.operando.esilab.org:8096/operando/core/pdb/OSP/" + ospId).
 //                entity(new ApiResponseMessage(ApiResponseMessage.OK, ospId)).build();
-
         return resp;
     }
 
