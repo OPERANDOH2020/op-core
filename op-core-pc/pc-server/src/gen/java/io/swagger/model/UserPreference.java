@@ -26,8 +26,8 @@
 
 package io.swagger.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Objects;
-import com.google.gson.annotations.SerializedName;
 import io.swagger.annotations.ApiModelProperty;
 
 
@@ -36,25 +36,25 @@ import io.swagger.annotations.ApiModelProperty;
  */
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-11-03T13:32:54.440Z")
 public class UserPreference   {
-  @SerializedName("informationtype")
+  @JsonProperty("informationtype")
   private String informationtype = null;
 
-  @SerializedName("category")
+  @JsonProperty("category")
   private String category = null;
 
-  @SerializedName("preference")
+  @JsonProperty("preference")
   private String preference = null;
 
-  @SerializedName("role")
+  @JsonProperty("role")
   private String role = null;
 
-  @SerializedName("action")
+  @JsonProperty("action")
   private String action = null;
 
-  @SerializedName("purpose")
+  @JsonProperty("purpose")
   private String purpose = null;
 
-  @SerializedName("recipient")
+  @JsonProperty("recipient")
   private String recipient = null;
 
   public UserPreference informationtype(String informationtype) {

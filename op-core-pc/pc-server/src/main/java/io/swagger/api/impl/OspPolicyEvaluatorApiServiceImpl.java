@@ -27,8 +27,11 @@
 
 package io.swagger.api.impl;
 
+//import eu.operando.OperandoModules;
 import eu.operando.PolicyEvaluationService;
+//import eu.operando.core.cas.client.api.DefaultApi;
 import io.swagger.api.*;
+
 
 import io.swagger.model.OSPDataRequest;
 import io.swagger.model.PolicyEvaluationReport;
@@ -37,6 +40,7 @@ import java.util.List;
 import java.util.Properties;
 
 import io.swagger.api.NotFoundException;
+//import io.swagger.client.api.LogApi;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.ws.rs.core.MediaType;
@@ -54,15 +58,30 @@ import javax.ws.rs.core.SecurityContext;
 public class OspPolicyEvaluatorApiServiceImpl extends OspPolicyEvaluatorApiService {
 
     /**
-     * The API component only uses one other OPERANDO component the policy database.
-     * This stores the reference, so HTTP REST calls can be made.
+     * The API component uses other OPERANDO components [PDB, AAPI, LDB].
+     * This stores the reference, so HTTP REST calls can be made to them.
      */
-    private String PDB_BASEURL = null;
+    private String PDB_UPP_URL = null;
+    private String LDB_URL = null;
+    private String AAPI_URL = null;
+
+    /**
+     * This service calls the Log DB to log evaluation calls on this module. This
+     * is the client object for calling the Log DB.
+     */
+//    LogApi logApi;
+//
+//    /**
+//     * AAPI client. The service calls the AAPI module for authentication and
+//     * authorization of usage of this API. This is the client object for calling the AAPI.
+//     */
+//    DefaultApi aapiClient;
 
     /**
      * Reference to the core implementation of this API
      */
     private final PolicyEvaluationService policyService;
+//    private final OperandoModules helperMethods;
 
     /**
      * The configuration of local state for the API object. Simply creates
@@ -71,10 +90,33 @@ public class OspPolicyEvaluatorApiServiceImpl extends OspPolicyEvaluatorApiServi
     public OspPolicyEvaluatorApiServiceImpl() {
         super();
         policyService = PolicyEvaluationService.getInstance();
-	Properties props;
-    	props = loadDbProperties();
+	Properties props = loadDbProperties();
 
-    	PDB_BASEURL = props.getProperty("pdb.baseurl");
+        if (props.getProperty("pdb.upp") != null) {
+            PDB_UPP_URL = props.getProperty("pdb.upp");
+        }
+        if (props.getProperty("aapi.basepath") != null) {
+            AAPI_URL = props.getProperty("aapi.basepath");
+        }
+        if (props.getProperty("ldb.baseurl") != null) {
+            LDB_URL = props.getProperty("ldb.baseurl");
+        }
+
+        // setup aapi client
+//        eu.operando.core.cas.client.ApiClient aapiDefaultClient = new eu.operando.core.cas.client.ApiClient();
+//        aapiDefaultClient.setBasePath(AAPI_URL);
+//        this.aapiClient = new DefaultApi(aapiDefaultClient);
+//
+//        // setup logdb client
+//        ApiClient apiClient = new ApiClient();
+//        apiClient.setBasePath(LDB_URL);
+//
+//        helperMethods = new OperandoModules();
+//
+//        // get service ticket for logdb service
+//        String logdbST = helperMethods.getServiceTicket(uppLoginName, uppLoginPassword, logdbSId);
+//        apiClient.addDefaultHeader(stHeaderName, logdbST);
+//        this.logApi = new LogApi(apiClient);
     }
 
     /**
@@ -115,8 +157,27 @@ public class OspPolicyEvaluatorApiServiceImpl extends OspPolicyEvaluatorApiServi
      */
     public Response ospPolicyEvaluatorPost(String userId, String ospId, List<OSPDataRequest> ospRequest, SecurityContext securityContext)
             throws NotFoundException {
-            System.out.println("POST Called"+userId);
-            PolicyEvaluationReport rp = policyService.evaluate(ospId, userId, ospRequest, PDB_BASEURL+"/user_privacy_policy/");
-            return Response.ok(rp.toString(), MediaType.APPLICATION_JSON).build();
+
+        /**
+         * Check the ST in the request. Only valid tickets can call the evaluation API.
+         */
+
+        /**
+         * Log the request in the LogDB
+         */
+
+        /**
+         * Carry out the evaluation
+         */
+        PolicyEvaluationReport rp = policyService.evaluate(ospId, userId, ospRequest, PDB_UPP_URL);
+
+        /**
+         * Add to the notification API to inform the user of the evaluation.
+         */
+
+        /**
+         * Send the evaluation report
+         */
+         return Response.ok(rp.toString(), MediaType.APPLICATION_JSON).build();
     }
 }

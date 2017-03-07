@@ -33,6 +33,7 @@ import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
 import eu.operando.PolicyEvaluationService;
+//import eu.operando.core.cas.client.api.DefaultApi;
 import eu.operando.core.pdb.common.model.AccessPolicy;
 import io.swagger.api.*;
 import io.swagger.model.UserPreference;
@@ -58,6 +59,8 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
+//import io.swagger.client.api.LogApi;
+
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-06-27T09:46:42.374Z")
 public class OspPolicyComputerApiServiceImpl extends OspPolicyComputerApiService {
 
@@ -66,6 +69,11 @@ public class OspPolicyComputerApiServiceImpl extends OspPolicyComputerApiService
      * This stores the reference, so HTTP REST calls can be made.
      */
     private String PDB_BASEURL = null;
+
+//    // LogDB endpoint
+//    LogApi logApi;
+//    // AAPI
+//    DefaultApi aapiClient;
 
     /**
      * Reference to the core implementation of this API
@@ -78,10 +86,23 @@ public class OspPolicyComputerApiServiceImpl extends OspPolicyComputerApiService
      */
     public OspPolicyComputerApiServiceImpl() {
         super();
-	Properties props;
-    	props = loadDbProperties();
+	Properties props = loadDbProperties();
         policyService = PolicyEvaluationService.getInstance();
-    	PDB_BASEURL = props.getProperty("pdb.baseurl");
+
+
+        // setup aapi client
+//        eu.operando.core.cas.client.ApiClient aapiDefaultClient = new eu.operando.core.cas.client.ApiClient();
+//        aapiDefaultClient.setBasePath(aapiBasePath);
+//        this.aapiClient = new DefaultApi(aapiDefaultClient);
+//
+//        // setup logdb client
+//        ApiClient apiClient = new ApiClient();
+//        apiClient.setBasePath(logdbBasePath);
+//
+//        // get service ticket for logdb service
+//        String logdbST = getServiceTicket(uppLoginName, uppLoginPassword, logdbSId);
+//        apiClient.addDefaultHeader(stHeaderName, logdbST);
+//        this.logApi = new LogApi(apiClient);
     }
 
     /**
@@ -90,8 +111,7 @@ public class OspPolicyComputerApiServiceImpl extends OspPolicyComputerApiService
      * @return The list of JAVA properties reflecting the configuration.
      */
     private Properties loadDbProperties() {
-        Properties props;
-        props = new Properties();
+        Properties props = new Properties();
 
         InputStream fis = null;
         try {
@@ -104,6 +124,19 @@ public class OspPolicyComputerApiServiceImpl extends OspPolicyComputerApiService
 
             // Add logging code to log an error configuring the API on startup
         }
+
+        if (props.getProperty("pdb.baseurl") != null) {
+            PDB_BASEURL = props.getProperty("pdb.baseurl");
+        }
+        // load aapi client params
+//        if (props.getProperty("aapi.basepath") != null) {
+//            aapiBasePath = prop.getProperty("aapi.basepath");
+//        }
+//
+//        // load logdb client params
+//        if (props.getProperty("logdb.basepath") != null) {
+//            logdbBasePath = prop.getProperty("logdb.basepath");
+//        }
 
         return props;
     }
