@@ -103,6 +103,12 @@ createUser = function (userData, callback) {
                 }else if(!redisPersistence.isFresh(user)){
                     callback(new Error("User with id "+userData.userId+" already exists"));
                 }else{
+                    if(!userData.zones){
+                        userData.zones = "user";
+                    }else {
+                        userData.zones += ",user";
+                    }
+
                     userData.salt = crypto.randomBytes(48).toString('base64');
                     user.salt = userData.salt;
                     hashThisPassword(userData.password,userData.salt,function(err,hashedPassword){
