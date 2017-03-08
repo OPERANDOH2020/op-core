@@ -170,7 +170,6 @@ var loginSwarming = {
         }
     }
     ,
-
     //It is not used anywhere
     reconnectInSession: function (clientSessionId, userId, secretToken) {
         this.authenticated = false;
@@ -186,6 +185,20 @@ var loginSwarming = {
         this.clientAdapter = thisAdapter.nodeName;
         console.log("Password: ", authorisationToken);
         if (authorisationToken == "ok") {
+            this.authenticated = true;
+            cprint("enabling... " + this.clientAdapter);
+            this.swarm("enableSwarms", this.getEntryAdapter());
+        } else {
+            this.swarm("failed", this.getEntryAdapter());
+            cprint("disabling... " + this.clientAdapter);
+        }
+    },
+    emailLoginCtor: function (clientSessionId, userId, authorisationToken) {
+        this.authenticated = false;
+        this.userId = userId;
+        this.authorisationToken = authorisationToken;
+        this.clientAdapter = thisAdapter.nodeName;
+        if (authorisationToken == "haraka") {
             this.authenticated = true;
             cprint("enabling... " + this.clientAdapter);
             this.swarm("enableSwarms", this.getEntryAdapter());
