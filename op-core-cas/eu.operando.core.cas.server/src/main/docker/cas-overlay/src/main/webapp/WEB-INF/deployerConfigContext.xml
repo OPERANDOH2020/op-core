@@ -342,7 +342,7 @@ class="org.ldaptive.pool.PooledConnectionFactory"
            p:id="27" 
            p:name="complianceReport" 
            p:description="complianceReport"
-           p:serviceId="GET /osps/.*/compliance-report" p:evaluationOrder="10000028" />
+           p:serviceId="GET/osps/.*/compliance-report" p:evaluationOrder="10000028" />
 		      
 		
 		
