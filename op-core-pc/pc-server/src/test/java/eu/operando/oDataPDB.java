@@ -50,12 +50,12 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 /**
- * Set of 16 tests on three example users for policy evaluation. Each test
+ * Set of 16 unit tests on three example users for policy evaluation. Each test
  * is an incoming request to evaluate a policy.
  */
 public class oDataPDB {
 
-    private static final String PDB_URL = "http://integration.operando.esilab.org:8096/operando/core/pdb/policy_database";
+    private static final String PDB_URL = "http://integration.operando.esilab.org:8096/operando/core/pdb";
 
     /**
      * Constructor for stateful method calls.

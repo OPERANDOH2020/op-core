@@ -207,9 +207,9 @@ public class operandoTest {
          * Upload the OSP policy to the PDB database. Simulate registering
          * of a new OSP policy.
          */
-        OSP_ID = tMethods.ospQuerybyFriendlyName("operando_test", PDB_URL);
+        OSP_ID = tMethods.ospQuerybyFriendlyName("operando_test");
         if(OSP_ID == null) {
-            OSP_ID = tMethods.createOSP("operando_test.json", PDB_URL);
+            OSP_ID = tMethods.createOSP("operando_test.json");
             if (OSP_ID== null) {
                 System.err.println("Error with operando_test on server, exiting ...");
                 System.exit(-1);
@@ -219,14 +219,14 @@ public class operandoTest {
         /**
          * Compute the UPP for the user who signs up.
          */
-        if(tMethods.deleteUPP("pete2", PDB_URL)){
+        if(tMethods.deleteUPP("pete2")){
             System.out.println("Pete UPP was in PDB - now deleted");
         }
         else {
             System.out.println("PDB does not contain Pete UPP");
         }
 
-        tMethods.loadDemoUPP("pete2", "pete.json", PDB_URL);
+        tMethods.postDemoUPP("pete.json");
 
         /**
          * Simulate a user signing up and subscribing to the asl_gat
@@ -268,6 +268,6 @@ public class operandoTest {
             System.err.println("Integration test failed: Compliance must be PREFS_CONFLICT");
             System.exit(-1);
         }
-        tMethods.deleteOSP(OSP_ID, PDB_URL);
+        tMethods.deleteOSP(OSP_ID);
     }
 }

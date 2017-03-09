@@ -205,9 +205,9 @@ public class asl_gat {
          * Upload the OSP policy to the PDB database. Simulate registering
          * of a new OSP policy.
          */
-        OSP_ID = tMethods.ospQuerybyFriendlyName("aslbergamo_gat", PDB_URL);
+        OSP_ID = tMethods.ospQuerybyFriendlyName("aslbergamo_gat");
         if(OSP_ID == null) {
-            OSP_ID =tMethods.createOSP("aslbergamo_gat.json", PDB_URL);
+            OSP_ID =tMethods.createOSP("aslbergamo_gat.json");
             if(OSP_ID == null) {
                 System.err.println("Error with aslbergamo_gat on server, exiting ...");
                 System.exit(-1);
@@ -216,14 +216,14 @@ public class asl_gat {
         /**
          * Compute the UPP for the user who signs up.
          */
-        if(tMethods.deleteUPP("pete2", PDB_URL)){
+        if(tMethods.deleteUPP("pete2")){
             System.out.println("Pete UPP was in PDB - now deleted");
         }
         else {
             System.out.println("PDB does not contain Pete UPP");
         }
 
-        tMethods.loadDemoUPP("pete2", "pete.json", PDB_URL);
+        tMethods.postDemoUPP("pete.json");
 
         /**
          * Simulate a user signing up and subscribing to the asl_gat
@@ -266,6 +266,6 @@ public class asl_gat {
             System.exit(-1);
         }
 
-        tMethods.deleteOSP(OSP_ID, PDB_URL);
+        tMethods.deleteOSP(OSP_ID);
     }
 }

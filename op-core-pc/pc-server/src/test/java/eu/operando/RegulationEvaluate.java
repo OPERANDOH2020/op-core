@@ -18,6 +18,6 @@ public class RegulationEvaluate {
      */
     public static void main(String[] args) {
         TestHelperMethods tMethods = new TestHelperMethods();
-        System.out.println("Output from PC: " + tMethods.postPCRegulation("58a6df0fdc0e82000140d2a3", PC_URL));
+        System.out.println("Output from PC: " + tMethods.postPCRegulation("58a6df0fdc0e82000140d2a3"));
     }
 }

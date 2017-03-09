@@ -26,6 +26,9 @@
 /////////////////////////////////////////////////////////////////////////
 package eu.operando;
 
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
 import com.google.common.io.Closeables;
@@ -33,149 +36,187 @@ import com.jayway.jsonpath.JsonPath;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+import io.swagger.model.OSPDataRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
 import net.minidev.json.JSONArray;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 
 /**
- *
- * @author pjg
+ * The set of methods to perform reusable test actions on Operando modules.
  */
 public class TestHelperMethods {
 
-    private Client client;
+    /**
+     * Reference to the PDB module APIs.
+     */
+    private String PDB_UPP_URL;
+    private String PDB_OSP_URL;
+    private String PDB_REGS_URL;
+    private String PC_URL;
+
+    private final Client client;
 
     public TestHelperMethods() {
         client = new Client();
+        OperandoProperties oPropertiesMethods = new OperandoProperties();
+        Properties props = oPropertiesMethods.loadDbProperties();
+
+        if (props.getProperty("pdb.upp") != null) {
+            PDB_UPP_URL = props.getProperty("pdb.upp");
+        }
+        if (props.getProperty("pdb.osp") != null) {
+            PDB_OSP_URL = props.getProperty("pdb.osp");
+        }
+        if (props.getProperty("pdb.reg") != null) {
+            PDB_REGS_URL = props.getProperty("pdb.reg");
+        }
+        if (props.getProperty("pc.api") != null) {
+            PC_URL = props.getProperty("pc.api");
+        }
     }
 
     /**
-     * The Policy Evaluation Component depends upon multiple entries to different
-     * components. Hence, testing and unit testing is impossible without
-     * full integration testing. Hence, this component contains a set of
-     * demo user preferences.
+     * Test code to get a UPP from the UPP
+     * API of the PDB module.
      *
-     * This method loads these demo UPPs into local memory
-     *
-     * @param name The name of the user id to load into memory.
-     * @param fileLoc The filename in the resources directory.
-     * @param PDB_URL The PDB url reference.
+     * @param userId The Operando UserId of the user
+     * @return Indication of whether the called succeeded or failed.
      */
-    public void loadDemoUPP(String name, String fileLoc, String PDB_URL) {
+    public boolean getDemoUPP(String userId) {
+        WebResource webResourcePDB = client.resource(PDB_UPP_URL + "/" + userId);
+        ClientResponse policyResponse = webResourcePDB.type("application/json").get(ClientResponse.class);
+
+        System.out.println("Get " + userId + "status code:" + policyResponse.getStatus());
+        if(policyResponse.getStatus() != 200) {
+            System.out.println("Get " + userId + "error message:" + policyResponse.getEntity(String.class));
+            return false;
+        }
+        System.out.println("Get " + userId + "message content:" + policyResponse.getEntity(String.class));
+        return true;
+    }
+
+    /**
+     * Test code to post a UPP stored in a json file, to the UPP
+     * API of the PDB module.
+     *
+     * @param fileLoc The filename in the resources directory.
+     * @return Indication of whether the called succeeded or failed.
+     */
+    public boolean postDemoUPP(String fileLoc) {
 
         InputStream fis = null;
         try {
             fis = this.getClass().getClassLoader().getResourceAsStream(fileLoc);
             String content = CharStreams.toString(new InputStreamReader(fis, Charsets.UTF_8));
             Closeables.closeQuietly(fis);
-            String urlUser = PDB_URL+"/user_privacy_policy/";
-            Client client = new Client();
-            WebResource webResourcePDB = client.resource(urlUser);
 
+            WebResource webResourcePDB = client.resource(PDB_UPP_URL);
             ClientResponse policyResponse = webResourcePDB.type("application/json").post(ClientResponse.class,
                     content);
-
+            System.out.println("Post " + fileLoc + "status code:" + policyResponse.getStatus());
             if (policyResponse.getStatus() != 201) {
-                System.err.println(policyResponse.getEntity(String.class));
-                throw new RuntimeException("Failed : HTTP error code : "
-                        + policyResponse.toString());
-            }
-
-            CloseableHttpClient httpclient = HttpClients.createDefault();
-                HttpGet httpget = new HttpGet(urlUser+name);
-                CloseableHttpResponse response1 = httpclient.execute(httpget);
-
-            HttpEntity entity = response1.getEntity();
-                System.out.println(response1.getStatusLine().getStatusCode());
-                if(response1.getStatusLine().getStatusCode()==404) {
-                    return;
-                }
-
-                System.out.println(EntityUtils.toString(entity));
-
-        }
-        catch (IOException e) {
-            // Display to console for debugging purposes.
-            System.err.println("Error reading Configuration properties file");
-
-            // Add logging code to log an error configuring the API on startup
-        }
-    }
-
-    public boolean deleteUPP(String userId, String PDB_URL) {
-
-            String urlUser = PDB_URL+"/user_privacy_policy/" + userId;
-            Client client = new Client();
-            WebResource webResourcePDB = client.resource(urlUser);
-
-            ClientResponse policyResponse = webResourcePDB.type("application/json").delete(ClientResponse.class);
-
-            if (policyResponse.getStatus() != 200) {
-                System.err.println(policyResponse.getEntity(String.class));
-                return false;
-            }
-
-        return true;
-    }
-
-    public boolean deleteOSP(String ospId, String PDB_URL) {
-
-            String urlUser = PDB_URL+"/OSP/" + ospId;
-            Client client = new Client();
-            WebResource webResourcePDB = client.resource(urlUser);
-
-            ClientResponse policyResponse = webResourcePDB.type("application/json").delete(ClientResponse.class);
-
-            if (policyResponse.getStatus() != 200) {
-                System.err.println(policyResponse.getEntity(String.class));
-                return false;
-            }
-
-        return true;
-    }
-
-    public boolean updateUPP(String user, String fileLoc, String PDB_URL) {
-
-        InputStream fis = null;
-        try {
-            fis = this.getClass().getClassLoader().getResourceAsStream(fileLoc);
-            String content = CharStreams.toString(new InputStreamReader(fis, Charsets.UTF_8));
-            Closeables.closeQuietly(fis);
-            String urlUser = PDB_URL+"/user_privacy_policy/"+user;
-            Client client = new Client();
-            WebResource webResourcePDB = client.resource(urlUser);
-
-            ClientResponse policyResponse = webResourcePDB.type("application/json").put(ClientResponse.class,
-                    content);
-
-            if (policyResponse.getStatus() != 200) {
-                System.err.println(policyResponse.getEntity(String.class));
+                System.out.println("Post " + fileLoc + "error message:" + policyResponse.getEntity(String.class));
                 return false;
             }
         } catch (IOException e) {
             // Display to console for debugging purposes.
-            System.err.println("Error creating UPP in db");
-
+            System.out.println("Post " + fileLoc + "error:" + "Post invocation failed - " + e.getLocalizedMessage());
+            return false;
         }
         return true;
     }
 
-    public String ospQuerybyFriendlyName(String ospId, String PDB_URL) {
-        String ospAPI = PDB_URL+"/OSP/?filter=%7B%27policyText%27:%27"+ospId+"%27%7D" ;
+    /**
+     * Test code to delete a UPP stored in a stored in the PDB via the UPP
+     * API of the PDB module.
+     *
+     * @param userId The Operando userId to delete.
+     * @return Indication of whether the called succeeded or failed.
+     */
+    public boolean deleteUPP(String userId) {
+
+        WebResource webResourcePDB = client.resource(PDB_UPP_URL+"/"+ userId);
+        ClientResponse policyResponse = webResourcePDB.type("application/json").delete(ClientResponse.class);
+
+        if (policyResponse.getStatus() != 204) {
+            System.err.println(policyResponse.getEntity(String.class));
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Update the UPP of a given Operando userId in the PDB using the UPP API.
+     * @param user The operando userId of the UPP to change.
+     * @param fileLoc The Json with the UPP update.
+     * @return Indication if the update succeeded or not.
+     */
+    public boolean updateUPP(String user, String fileLoc) {
+
+        InputStream fis = null;
+        try {
+            fis = this.getClass().getClassLoader().getResourceAsStream(fileLoc);
+            String content = CharStreams.toString(new InputStreamReader(fis, Charsets.UTF_8));
+            Closeables.closeQuietly(fis);
+
+            String urlUser = PDB_UPP_URL + "/" + user;
+            WebResource webResourcePDB = client.resource(urlUser);
+            ClientResponse policyResponse = webResourcePDB.type("application/json").put(ClientResponse.class,
+                    content);
+
+            System.out.println("PUT " + fileLoc + "status code:" + policyResponse.getStatus());
+            if (policyResponse.getStatus() != 204) {
+                System.out.println("PUT " + fileLoc + "error message:" + policyResponse.getEntity(String.class));
+                return false;
+            }
+        } catch (IOException e) {
+            // Display to console for debugging purposes.
+            System.out.println("Put " + user + "error:" + "Put invocation failed - " + e.getLocalizedMessage());
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Delete an OSP policy from the PDB using the OSP policy db API.
+     * @param ospId The operando OSP id.
+     * @return Indication of whether the delete succeeded.
+     */
+    public boolean deleteOSP(String ospId) {
+
+            String urlUser = PDB_OSP_URL + "/" + ospId;
+            WebResource webResourcePDB = client.resource(urlUser);
+
+            ClientResponse policyResponse = webResourcePDB.type("application/json").delete(ClientResponse.class);
+            System.out.println("DELETE " + ospId + "status code:" + policyResponse.getStatus());
+            if (policyResponse.getStatus() != 204) {
+                System.err.println("DELETE " + ospId + "error msg:" + policyResponse.getEntity(String.class));
+                return false;
+            }
+
+        return true;
+    }
+
+    /**
+     * Query for an OSP policy using a friendly keyword e.g. foodcoach versus
+     * the ID 4534534.
+     *
+     * @param friendlyName The keywords to search for.
+     * @return The Operando ospID for the OSP with this friendly data.
+     */
+    public String ospQuerybyFriendlyName(String friendlyName) {
+        String ospAPI = PDB_OSP_URL+"/OSP/?filter=%7B%27policyText%27:%27" + friendlyName + "%27%7D" ;
         WebResource webResourcePDB = client.resource(ospAPI);
         ClientResponse policyResponse = webResourcePDB.type("application/json").get(ClientResponse.class);
         if(policyResponse.getStatus() != 200) {
             return null;
         }
         String filterResults = policyResponse.getEntity(String.class);
-        JSONArray access_policies = JsonPath.read(filterResults, "$..[?(@.policy_text=='"+ospId+"')]");
+        JSONArray access_policies = JsonPath.read(filterResults, "$..[?(@.policy_text=='" + friendlyName + "')]");
         for(Object aP: access_policies) {
             String id = JsonPath.read(aP, "$.osp_policy_id");
             if(id != null)
@@ -184,15 +225,42 @@ public class TestHelperMethods {
         return null;
     }
 
-    /**
-     * Post regulation to PC
+     /**
+     * Add the OSP policy to PDB module via the OSP API.
+     * @param fileLoc The json file with the content
+     * @return The ID of the created OSP policy
      */
-    public String postPCRegulation(String regID, String PC_URL) {
-        String ospAPI = PC_URL + "/regulations/" + regID;
+    public String createOSP(String fileLoc) {
 
-        WebResource webResourcePDB = client.resource(ospAPI);
-        ClientResponse policyResponse = webResourcePDB.type("application/json").post(ClientResponse.class,
-                "{}");
+        InputStream fis = null;
+        try {
+            fis = this.getClass().getClassLoader().getResourceAsStream(fileLoc);
+            String content = CharStreams.toString(new InputStreamReader(fis, Charsets.UTF_8));
+            Closeables.closeQuietly(fis);
+
+            WebResource webResourcePDB = client.resource(PDB_OSP_URL);
+            ClientResponse policyResponse = webResourcePDB.type("application/json").post(ClientResponse.class,
+                    content);
+            System.out.println("POST " + fileLoc + "status code:" + policyResponse.getStatus());
+            if (policyResponse.getStatus() != 201) {
+                System.err.println("POST " + fileLoc + "error message:" + policyResponse.getEntity(String.class));
+                return null;
+            }
+            return ospQuerybyFriendlyName(JsonPath.parse(content).read("$.policy_text", String.class));
+        } catch (IOException e) {
+            // Display to console for debugging purposes.
+            System.err.println("POST " + fileLoc + "Error creating UPP in pdb - " + e.getLocalizedMessage());
+            return null;
+        }
+    }
+
+    /**
+     * Post regulation to Policy DB
+     */
+    public String postPCRegulation(String regID) {
+        String reg = PDB_REGS_URL + "/" + regID;
+        WebResource webResourcePDB = client.resource(reg);
+        ClientResponse policyResponse = webResourcePDB.type("application/json").post(ClientResponse.class, "{}");
 
         if (policyResponse.getStatus() != 201) {
             System.out.println(policyResponse.getStatus());
@@ -203,37 +271,99 @@ public class TestHelperMethods {
     }
 
     /**
-     * Add the policy to OSP.
-     * @param fileLoc The json file with the content
-     * @param PDB_URL The URL of the PDB.
-     * @return t/f if the OSP is now in the PDB
+     * Read PolicyEvaluation Report Field from the result of the PC evaluation.
+     * @param field The field value to read from the Policy Evaluation
+     * @param report The PC report to read from.
+     * @return The value of the field.
      */
-    public String createOSP(String fileLoc, String PDB_URL) {
-
-        InputStream fis = null;
+    public String readPolicyReport(String field, String report) {
         try {
-            fis = this.getClass().getClassLoader().getResourceAsStream(fileLoc);
-            String content = CharStreams.toString(new InputStreamReader(fis, Charsets.UTF_8));
-            Closeables.closeQuietly(fis);
-
-            String ospAPI = PDB_URL + "/OSP";
-
-            WebResource webResourcePDB = client.resource(ospAPI);
-            ClientResponse policyResponse = webResourcePDB.type("application/json").post(ClientResponse.class,
-                    content);
-
-            if (policyResponse.getStatus() != 201) {
-                System.err.println(policyResponse.getEntity(String.class));
-                return null;
+            JsonFactory f = new JsonFactory();
+            JsonParser jp = f.createParser(report);
+            jp.nextToken();
+            while (jp.hasCurrentToken()){
+                if(jp.nextToken() == JsonToken.FIELD_NAME) {
+                    String fieldname = jp.getCurrentName();
+                    if(fieldname.equalsIgnoreCase(field)) {
+                        jp.nextToken();
+                        return jp.getValueAsString();
+                    }
+                }
             }
-            String id = JsonPath.parse(content).read("$.policy_text", String.class);
-            return ospQuerybyFriendlyName(id, PDB_URL);
-
-        } catch (IOException e) {
-            // Display to console for debugging purposes.
-            System.err.println("Error creating UPP in db");
+            jp.close();
+            return null;
+        } catch (IOException ex) {
             return null;
         }
     }
 
+     /**
+     * Invoke the PC API to evaluate a given access request
+     * @param userId The user whose data is being requested.
+     * @param ospId The OSP requesting the data.
+     * @param accessRequest The access to data request (as a json object)
+     * @return The policyEvaluation report
+     */
+    public String evaluatePC(String userId, String ospId, String accessRequest) {
+        /**
+         * Create a Jersey client for call the FIESTA APIs.
+         */
+        String urlInv = "/osp_policy_evaluator?user_id=" + userId +"&osp_id=" + ospId;
+
+        /**
+         * Make a call to the IoT-Service API without credentials and get
+         * and unauthorized response.
+         */
+        WebResource pcService = client.resource(PC_URL + urlInv);
+
+        ClientResponse pcServiceResponse = pcService.type("application/json").post(ClientResponse.class, accessRequest);
+        if (pcServiceResponse.getStatus() != 200) {
+           System.err.println("Error: the evaluation call produced an error");
+           System.err.println(pcServiceResponse.getStatus() + ":" + pcServiceResponse.getEntity(String.class));
+        }
+        return pcServiceResponse.getEntity(String.class);
+    }
+
+    /**
+     * Build a request for a doctor at asl to access the debt information
+     *  in the GA_PAtient record.
+     */
+    public String createRequest(String[] elements, String subject, String osp) {
+        List<OSPDataRequest> ospRequest = new ArrayList<OSPDataRequest>();
+        for(String request: elements) {
+            ospRequest.add(OSPDataRequest(request, subject, osp));
+        }
+
+        return toJSONRequest(ospRequest);
+    }
+
+    public OSPDataRequest OSPDataRequest(String resource, String subject, String ospId){
+        OSPDataRequest osD = new OSPDataRequest();
+        osD.setAction(OSPDataRequest.ActionEnum.ACCESS);
+        osD.setRequesterId(ospId);
+        osD.setSubject(subject);
+        osD.requestedUrl(resource);
+        return osD;
+    }
+
+    /**
+     * Change a OSP data request into json format for sending to REST API
+     * @param request The array of access requests
+     * @return The JSON string.
+     */
+    public String toJSONRequest(List<OSPDataRequest> request) {
+        String jsonRequest = "[";
+        for(OSPDataRequest dReq: request) {
+            jsonRequest += "{";
+            jsonRequest += "\"requester_id\": \""+ dReq.getRequesterId() + "\", ";
+            jsonRequest += "\"subject\": \""+ dReq.getSubject() + "\", ";
+            jsonRequest += "\"requested_url\": \""+ dReq.getRequestedUrl()+"\", ";
+            jsonRequest += "\"action\": \""+ dReq.getAction().toString() +"\", ";
+            jsonRequest += "\"attributes\": []";
+            jsonRequest += "},";
+        }
+        jsonRequest = jsonRequest.substring(0, jsonRequest.length()-1);
+        jsonRequest += "]";
+        return jsonRequest;
+    }
 }
