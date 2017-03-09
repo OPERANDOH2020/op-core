@@ -68,7 +68,7 @@ public class Test {
 	    logRequest.setTitle("Log on 07/12");
 	    logRequest.setLogPriority(LogPriorityEnum.LOW);
 	    logRequest.setRequesterId("1007");
-	    logRequest.setRequesterType(RequesterTypeEnum.MODULE);
+	    logRequest.setRequesterType(RequesterTypeEnum.MODULE);	    
 	    ArrayList<String> keywords = new ArrayList<String> ();
 	    keywords.add("keywordA");
 	    keywords.add("keywordB");
@@ -114,7 +114,7 @@ public class Test {
 	 	     
 	    GenericType<String> returnType = new GenericType<String>() {};
 	    
-	    headerParams.put("service-ticket", "ST-50-P5tb3DockJya0qcHKVE4-casdotoperandodoteu");
+	    headerParams.put("service-ticket", "ST-8-WFWRUUFZlCTriXBoA9I5-casdotoperandodoteu");
 		
 
 	    LogRequest logRequest = new LogRequest();
