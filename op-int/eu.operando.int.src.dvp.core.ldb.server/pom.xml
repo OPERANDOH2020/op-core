@@ -13,7 +13,8 @@
 			server generated with swagger we will have two folders src/main and src/gen 
 			maven conventions stablish one source folder but others can be added using 
 			build-helper-maven-plugin add-source -->
-		<sourceDirectory>${sources.path}/src/main/java</sourceDirectory>
+		<!-- this is not considered and I need to add using the build-helper-maven-plugin -->
+		<!-- <sourceDirectory>${sources.path}/src/main/java</sourceDirectory> -->
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -31,6 +32,21 @@
 								<source>${sources.path}/src/gen/java</source>
 								<source>${sources.path}/src/main/java</source>
 							</sources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>add-resource</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-resource</goal>
+						</goals>
+						<configuration>
+							<resources>
+								<resource>
+									<directory>${sources.path}/src/main/resources/config</directory>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
 						</configuration>
 					</execution>
 				</executions>
@@ -195,6 +211,13 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
+		<!-- this is not considered and I need to add using the build-helper-maven-plugin -->
+		<!-- <resources> -->
+		<!-- <resource> -->
+		<!-- <directory>${sources.path}/src/main/resources/config</directory> -->
+		<!-- <filtering>true</filtering> -->
+		<!-- </resource> -->
+		<!-- </resources> -->
 	</build>
 	<dependencies>
 		<dependency>
@@ -220,5 +243,8 @@
 		<docker.image.version>${project.version}</docker.image.version>
 		<docker.port1.external>${operando.core.ldb.port}</docker.port1.external>
 		<docker.port1.mapping>${docker.port1.external}:8080</docker.port1.mapping>
+		<mysql.dbname>operando_logdb</mysql.dbname>
+		<mysql.host>${operando.mysql.host}</mysql.host>
+		<mysql.port>${operando.mysql.port}</mysql.port>
 	</properties>
 </project>

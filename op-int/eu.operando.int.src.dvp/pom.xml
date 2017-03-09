@@ -72,5 +72,7 @@
 		<!-- leave empty for docker hub; use e.g. "localhost:5000/" for a local docker registry -->
 		<operando.core.ldb.port>8090</operando.core.ldb.port>
 		<operando.core.ldb.endpoint.path>operando/core/ldb</operando.core.ldb.endpoint.path>
+		<operando.mysql.host>mysql.integration.operando.lan.esilab.org</operando.mysql.host>
+		<operando.mysql.port>3306</operando.mysql.port>
 	</properties>
 </project>
