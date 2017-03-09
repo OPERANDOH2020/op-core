@@ -396,4 +396,16 @@ public class TestHelperMethods {
         jsonRequest += "]";
         return jsonRequest;
     }
+
+    public void assertPolicyResult(String policyReport, String status, String compliance) {
+        if(!readPolicyReport("status", policyReport).equalsIgnoreCase(status)){
+            System.err.println("Integration test failed: Status field must be - " + status);
+            System.exit(-1);
+        }
+
+        if(!readPolicyReport("compliance", policyReport).equalsIgnoreCase(compliance)){
+            System.err.println("Integration test faild: Compliance must be - " + compliance);
+            System.exit(-1);
+        }
+    }
 }

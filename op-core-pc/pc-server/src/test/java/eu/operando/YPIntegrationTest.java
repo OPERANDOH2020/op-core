@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////
 //
-// © University of Southampton IT Innovation Centre, 2016
+// © University of Southampton IT Innovation Centre, 2017
 //
 // Copyright in this library belongs to the University of Southampton
 // University Road, Highfield, Southampton, UK, SO17 1BJ
@@ -16,8 +16,8 @@
 // PURPOSE, except where stated in the Licence Agreement supplied with
 // the software.
 //
-// Created By : Paul Grace
-// Created for Project : OPERANDO (http://www.operando.eu)
+//  Created By :			Paul Grace
+//  Created for Project :		Operando
 //
 /////////////////////////////////////////////////////////////////////////
 //
@@ -26,15 +26,20 @@
 /////////////////////////////////////////////////////////////////////////
 package eu.operando;
 
-/**
- * Integration test for Yellow Pages:
- *
- * One User - flat field id scheme
- * Doctor can read weight but cannot read name
- */
-public class YellowPagesIntegration {
+import io.swagger.model.OSPDataRequest;
+import java.util.List;
+import junit.framework.Assert;
+import org.junit.Test;
 
-     /**
+/**
+ * JUnit Tests that form the first part of the integration tests
+ * for the Operando Platform: Based upon the Yellow Pages OSP integration
+ * test scenario.
+ */
+
+public class YPIntegrationTest {
+
+    /**
      * UserIds
      */
     private static final String USER = "302";
@@ -66,16 +71,15 @@ public class YellowPagesIntegration {
     private static final String ROLE1 = "Doctor";
     private static final String ROLE2 = "Receptionist";
 
-
     /**
-     * A set of tests to check how the PC component evaluates requests
-     * to the OPERANDO GAT OSP data
-     *
-     * @param args the command line arguments
+     * Unit test to evaluate UPPs against OSP data requests. Test the Evaluate
+     * method is working.
      */
-    public static void main(String[] args) {
+    @Test
+    public void testEvaluate() {
 
         TestHelperMethods tMethods = new TestHelperMethods();
+
         if(tMethods.deleteUPP(USER)){
             System.out.println(USER + " UPP was in PDB - now deleted");
         }
@@ -83,46 +87,49 @@ public class YellowPagesIntegration {
             System.out.println("PDB does not contain " + USER + "UPP");
         }
 
-        tMethods.postDemoUPP(USER_UPP);
-        String accessRequest = tMethods.createRequest(FIELDIDS, ROLE1, OSPID);
+        boolean response = tMethods.postDemoUPP(USER_UPP);
+        Assert.assertEquals(response, true);
+
+        List<OSPDataRequest> accessRequest = tMethods.createBuildRequest(FIELDIDS, ROLE1, OSPID);
 
         /**
          * First call the PC API to evaluate a doctor's request to read 302's data record.
          * Returns the list of fields they can and cannot see.
          */
 
-        String jsonResponse = tMethods.evaluatePC(USER, OSPID, accessRequest);
-        tMethods.assertPolicyResult(jsonResponse, "true", "VALID");
+        String jsonResponse = tMethods.evaluateBuildPC(USER, OSPID, accessRequest);
+        Assert.assertEquals("true", tMethods.readPolicyReport("status", jsonResponse));
+        Assert.assertEquals("VALID", tMethods.readPolicyReport("compliance", jsonResponse));
 
         /**
          * Call the PC API to evaluate a receptionist's request to read 302's data record.
          * Returns the list of fields they can and cannot see.
          */
-        accessRequest = tMethods.createRequest(FIELDIDS, ROLE2, OSPID);
-        jsonResponse = tMethods.evaluatePC(USER, OSPID, accessRequest);
-        tMethods.assertPolicyResult(jsonResponse, "false", "PREFS_CONFLICT");
+        accessRequest = tMethods.createBuildRequest(FIELDIDS, ROLE2, OSPID);
+        jsonResponse = tMethods.evaluateBuildPC(USER, OSPID, accessRequest);
+        Assert.assertEquals("false", tMethods.readPolicyReport("status", jsonResponse));
+        Assert.assertEquals("PREFS_CONFLICT", tMethods.readPolicyReport("compliance", jsonResponse));
 
-        accessRequest = tMethods.createRequest(FIELDIDS2, ROLE1, OSPID);
-        jsonResponse = tMethods.evaluatePC(USER, OSPID, accessRequest);
-        System.out.println(jsonResponse);
-        tMethods.assertPolicyResult(jsonResponse, "false", "PREFS_CONFLICT");
+        accessRequest = tMethods.createBuildRequest(FIELDIDS2, ROLE1, OSPID);
+        jsonResponse = tMethods.evaluateBuildPC(USER, OSPID, accessRequest);
+        Assert.assertEquals("false", tMethods.readPolicyReport("status", jsonResponse));
+        Assert.assertEquals("PREFS_CONFLICT", tMethods.readPolicyReport("compliance", jsonResponse));
 
-        accessRequest = tMethods.createRequest(FIELDIDS2, ROLE2, OSPID);
-        jsonResponse = tMethods.evaluatePC(USER, OSPID, accessRequest);
-        System.out.println(jsonResponse);
-        tMethods.assertPolicyResult(jsonResponse, "false", "PREFS_CONFLICT");
+        accessRequest = tMethods.createBuildRequest(FIELDIDS2, ROLE2, OSPID);
+        jsonResponse = tMethods.evaluateBuildPC(USER, OSPID, accessRequest);
+        Assert.assertEquals("false", tMethods.readPolicyReport("status", jsonResponse));
+        Assert.assertEquals("PREFS_CONFLICT", tMethods.readPolicyReport("compliance", jsonResponse));
 
-        accessRequest = tMethods.createRequest(FIELDIDS3, ROLE1, OSPID);
-        jsonResponse = tMethods.evaluatePC(USER, OSPID, accessRequest);
-        System.out.println(jsonResponse);
-        tMethods.assertPolicyResult(jsonResponse, "false", "PREFS_CONFLICT");
+        accessRequest = tMethods.createBuildRequest(FIELDIDS3, ROLE1, OSPID);
+        jsonResponse = tMethods.evaluateBuildPC(USER, OSPID, accessRequest);
+        Assert.assertEquals("false", tMethods.readPolicyReport("status", jsonResponse));
+        Assert.assertEquals("PREFS_CONFLICT", tMethods.readPolicyReport("compliance", jsonResponse));
 
-        accessRequest = tMethods.createRequest(FIELDIDS3, ROLE2, OSPID);
-        jsonResponse = tMethods.evaluatePC(USER, OSPID, accessRequest);
-        System.out.println(jsonResponse);
-        tMethods.assertPolicyResult(jsonResponse, "false", "PREFS_CONFLICT");
+        accessRequest = tMethods.createBuildRequest(FIELDIDS3, ROLE2, OSPID);
+        jsonResponse = tMethods.evaluateBuildPC(USER, OSPID, accessRequest);
+        Assert.assertEquals("false", tMethods.readPolicyReport("status", jsonResponse));
+        Assert.assertEquals("PREFS_CONFLICT", tMethods.readPolicyReport("compliance", jsonResponse));
 
         System.out.println("All integration tests passed");
-
     }
 }
