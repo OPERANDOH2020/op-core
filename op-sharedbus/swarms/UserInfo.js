@@ -43,6 +43,8 @@ var userInfoSwarming =
             var self = this;
             getUserInfo(self.userId, S(function(err, user){
                 if(err){
+                    self.err = err.message;
+                    self.home('failed');
                     console.log(err);
                 }
                 else{
@@ -54,7 +56,6 @@ var userInfoSwarming =
     },
 
     updateUserInfo:function(updatedInfo){
-        console.log(updatedInfo);
         this.updatedInfo = updatedInfo;
         this.swarm("checkUserInfo");
     },

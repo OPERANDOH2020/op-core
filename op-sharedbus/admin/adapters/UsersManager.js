@@ -19,20 +19,7 @@ var saveCallbackFn = function (err, obj) {
  */
 
 apersistence.registerModel("Organisation", "Redis", {
-    ctor: function () {
-    },
-    organisationId: {
-        type: "string",
-        pk: true,
-        index: true
-    },
-    displayName: {
-        type: "string"
-    },
-    agent: {
-        /* numele de grup al agentului */
-        type: "string"
-    }
+    
 }, function (err, model) {
     if (err) {
         console.log(err);
@@ -153,7 +140,7 @@ filterUsers = function(conditions,callback){
  Sterge un utilizator
  */
 
-deleteUser = function (userData) {
+deleteUser = function (userData,callback) {
     flow.create("delete user", {
         begin: function () {
             redisPersistence.deleteById("DefaultUser", userData.userId, this.continue("deleteReport"));
@@ -168,16 +155,6 @@ deleteUser = function (userData) {
  Sterge o organizatie
  */
 
-deleteOrganisation = function (organisationId) {
-    flow.create("delete organisation", {
-        begin: function () {
-            redisPersistence.deleteById("Organisation", organisationId, this.continue("deleteReport"));
-        },
-        deleteReport: function (err, obj) {
-            callback(err, obj);
-        }
-    })();
-};
 
 /*
  Updateaza informatiile unui utilizator
@@ -207,6 +184,24 @@ updateUser = function (userJsonObj, callback) {
         }
     })();
 };
+
+
+
+
+
+
+deleteOrganisation = function (organisationId) {
+    flow.create("delete organisation", {
+        begin: function () {
+            redisPersistence.deleteById("Organisation", organisationId, this.continue("deleteReport"));
+        },
+        deleteReport: function (err, obj) {
+            callback(err, obj);
+        }
+    })();
+};
+
+
 
 /*
  queryUsers returneaza lista utilizatorilor apartinind de o organizatie
@@ -376,11 +371,13 @@ getOrganisations = function (callback) {
  */
 
 getUserInfo = function (userId, callback) {
+    console.log("GET USER INFO",userId);
     flow.create("retrieve user info", {
         begin: function () {
             redisPersistence.findById("DefaultUser", userId, this.continue("info"));
         },
         info: function (err, user) {
+            console.log("GOT USER INFO",arguments);
             if (err) {
                 callback(err, null);
             } else if (user) {

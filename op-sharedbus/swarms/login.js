@@ -50,7 +50,6 @@ var loginSwarming = {
                     self.swarm("failed", self.getEntryAdapter());
                 }
                 else if (userId) {
-                    console.log(userId);
                     self.userId = userId;
                     self.authenticated = true;
                     self.swarm("createOrUpdateSession");
@@ -131,7 +130,6 @@ var loginSwarming = {
         code: function () {
             var self = this;
             registerNewOSPRequest(self.user.userId, this.ospData, S(function(err, ospDetails){
-                console.log(ospDetails);
                 self.swarm("setUserNotifications");
             }))
 
@@ -168,8 +166,8 @@ var loginSwarming = {
             }
 
         }
-    }
-    ,
+    },
+
     //It is not used anywhere
     reconnectInSession: function (clientSessionId, userId, secretToken) {
         this.authenticated = false;
