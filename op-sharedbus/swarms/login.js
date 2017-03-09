@@ -26,24 +26,49 @@ var loginSwarming = {
         userId: null
     },
     userLogin: function (email, authorisationToken) {
-        console.log(email);
-        this.sessionId = this.getSessionId();
-        this.authenticated = false;
         this.email = email;
-        if (!email || email.length === 0) {
-            this.swarm('failed', this.getEntryAdapter());
-            return;
-        }
         this.authorisationToken = authorisationToken;
-        this.clientAdapter = thisAdapter.nodeName;
-        this.swarm('checkPassword');
-
+        this.organisationPretender = "Public";
+        this.swarm('inputValidationCheck');
     },
+
+    ospLogin:function(email,authorisationToken){
+        this.email = email;
+        this.authorisationToken = authorisationToken;
+        this.organisationPretender = "OSP";
+        this.swarm('inputValidationCheck');
+    },
+
+    pspLogin:function(email,authorisationToken){
+        this.email = email;
+        this.authorisationToken = authorisationToken;
+        this.organisationPretender = "PSP";
+        this.swarm('inputValidationCheck');
+    },
+
+    inputValidationCheck: {
+        node: "UsersManager",
+        code: function () {
+
+            if (!this.email || this.email.length === 0 || !this.authorisationToken
+                || this.authorisationToken.length === 0) {
+                this.swarm('failed', this.getEntryAdapter());
+                return;
+            }
+            else {
+                this.sessionId = this.getSessionId();
+                this.authenticated = false;
+                this.clientAdapter = thisAdapter.nodeName;
+                this.swarm('checkPassword');
+            }
+        }
+    },
+
     checkPassword: {
         node: "UsersManager",
         code: function () {
             var self = this;
-            validateUser(this.email, this.authorisationToken, S(function (err, userId) {
+            validateUser(this.email, this.authorisationToken, this.organisationPretender, S(function (err, userId) {
                 delete self.authorisationToken;
                 if (err) {
                     self.error = err.message;

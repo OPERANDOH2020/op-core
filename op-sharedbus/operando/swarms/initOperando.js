@@ -36,6 +36,10 @@ var initOperando = {
                     {
                         organisationId: "OSP",
                         displayName: "OSP"
+                    },
+                    {
+                        organisationId: "PSP",
+                        displayName: "PSP"
                     }
                 ];
                 var createdOrganisations = [];
@@ -102,6 +106,12 @@ var initOperando = {
                         password: "analyst",
                         email: "analyst@rms.ro",
                         organisationId: "Analysts"
+                    },
+                    {
+                        userId: new Buffer(uuid.v1()).toString('base64'),
+                        password: "psp4 ",
+                        email: "psp@rms.ro",
+                        organisationId: "PSP"
                     },
                     {
                         userId:"emailServer",
