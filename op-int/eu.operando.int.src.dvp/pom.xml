@@ -1,0 +1,76 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>eu.operando.int</groupId>
+	<artifactId>eu.operando.int.src.dvp</artifactId>
+	<version>ALPHA</version>
+	<packaging>pom</packaging>
+	<build>
+		<plugins>
+			<!-- this transform the operando.core.ldb.endpoint.path into the server.warname.generated -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>${build-helper-maven-plugin-version}</version>
+				<executions>
+					<execution>
+						<id>regex-property</id>
+						<goals>
+							<goal>regex-property</goal>
+						</goals>
+						<configuration>
+							<name>server.warName.generated</name>
+							<value>${server.endpoint.path}</value>
+							<regex>\/</regex>
+							<replacement>#</replacement>
+							<failIfNoMatch>false</failIfNoMatch>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- this load a property file that in case that we need to share parameters 
+				between maven and jenkins -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>properties-maven-plugin</artifactId>
+				<version>1.0.0</version>
+				<executions>
+					<execution>
+						<phase>initialize</phase>
+						<goals>
+							<goal>read-project-properties</goal>
+						</goals>
+						<configuration>
+							<urls>
+								<url>
+									jar:file:${settings.localRepository}/eu/operando/int/eu.operando.int.src.dvp.resources/ALPHA/eu.operando.int.src.dvp.resources-ALPHA.jar!/devops.properties
+								</url>
+							</urls>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>eu.operando.int</groupId>
+			<artifactId>eu.operando.int.src.dvp.resources</artifactId>
+			<version>ALPHA</version>
+		</dependency>
+		<dependency>
+			<groupId>eu.operando.int</groupId>
+			<artifactId>eu.operando.int.src.dvp.dependencies</artifactId>
+			<version>ALPHA</version>
+			<type>pom</type>
+		</dependency>
+	</dependencies>
+	<properties>
+		<build-helper-maven-plugin-version>3.0.0</build-helper-maven-plugin-version>
+		<docker.registry.name>localhost:5000/</docker.registry.name>
+		<docker.submitter>operando</docker.submitter>
+		<!-- leave empty for docker hub; use e.g. "localhost:5000/" for a local docker registry -->
+		<operando.core.ldb.port>8090</operando.core.ldb.port>
+		<operando.core.ldb.endpoint.path>operando/core/ldb</operando.core.ldb.endpoint.path>
+	</properties>
+</project>
