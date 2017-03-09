@@ -26,6 +26,8 @@
 /////////////////////////////////////////////////////////////////////////
 package eu.operando;
 
+import io.swagger.model.OSPDataRequest;
+import java.util.List;
 import junit.framework.Assert;
 import org.junit.Test;
 
@@ -34,6 +36,7 @@ import org.junit.Test;
  * for the Operando Platform: Based upon the Yellow Pages OSP integration
  * test scenario.
  */
+
 public class IntegrationTest {
 
     /**
@@ -62,11 +65,11 @@ public class IntegrationTest {
 
 
     /**
-     * Unit test to ensure that the PDB loads UPPs correctly into
-     * the database.
+     * Unit test to evaluate UPPs against OSP data requests. Test the Evaluate
+     * method is working.
      */
     @Test
-    public void testCreate() {
+    public void testEvaluate() {
 
         TestHelperMethods tMethods = new TestHelperMethods();
 
@@ -93,60 +96,39 @@ public class IntegrationTest {
         boolean peteSuccess = tMethods.postDemoUPP(PETE_UPP);
         Assert.assertEquals(peteSuccess, true);
 
-    }
-
-    /**
-     * Unit test to evaluate UPPs against OSP data requests. Test the Evaluate
-     * method is working.
-     */
-    @Test
-    public void testEvaluate() {
-
-        TestHelperMethods tMethods = new TestHelperMethods();
-
          /**
          * First call the PC API to evaluate a request to use Pat's data.
          * Pat has no UPP in the database, therefore assert that the
          * response is a no user response.
          */
 
-        String accessRequest = tMethods.createRequest(FIELDIDS, ROLE1, OSPID);
+        List<OSPDataRequest> accessRequest = tMethods.createBuildRequest(FIELDIDS, ROLE1, OSPID);
 
-        String jsonResponse = tMethods.evaluatePC(PETE, OSPID, accessRequest);
+        String jsonResponse = tMethods.evaluateBuildPC(PETE, OSPID, accessRequest);
         Assert.assertEquals("true", tMethods.readPolicyReport("status", jsonResponse));
         Assert.assertEquals("VALID", tMethods.readPolicyReport("compliance", jsonResponse));
 
-        jsonResponse = tMethods.evaluatePC(PAT, OSPID, accessRequest);
+        jsonResponse = tMethods.evaluateBuildPC(PAT, OSPID, accessRequest);
         Assert.assertEquals("VALID", tMethods.readPolicyReport("compliance", jsonResponse));
         Assert.assertEquals("true", tMethods.readPolicyReport("status", jsonResponse));
 
-        String accessRequest2 = tMethods.createRequest(FIELDIDS2, ROLE1, OSPID);
-        jsonResponse = tMethods.evaluatePC(PETE, OSPID, accessRequest2);
+        List<OSPDataRequest> accessRequest2 = tMethods.createBuildRequest(FIELDIDS2, ROLE1, OSPID);
+        jsonResponse = tMethods.evaluateBuildPC(PETE, OSPID, accessRequest2);
         Assert.assertEquals("VALID", tMethods.readPolicyReport("compliance", jsonResponse));
         Assert.assertEquals("true", tMethods.readPolicyReport("status", jsonResponse));
 
-        jsonResponse = tMethods.evaluatePC(PAT, OSPID, accessRequest2);
+        jsonResponse = tMethods.evaluateBuildPC(PAT, OSPID, accessRequest2);
         Assert.assertEquals("VALID", tMethods.readPolicyReport("compliance", jsonResponse));
         Assert.assertEquals("true", tMethods.readPolicyReport("status", jsonResponse));
 
-        String accessRequest3 = tMethods.createRequest(FIELDIDS2, ROLE2, OSPID);
-        jsonResponse = tMethods.evaluatePC(PETE, OSPID, accessRequest3);
+        List<OSPDataRequest> accessRequest3 = tMethods.createBuildRequest(FIELDIDS2, ROLE2, OSPID);
+        jsonResponse = tMethods.evaluateBuildPC(PETE, OSPID, accessRequest3);
         Assert.assertEquals("VALID", tMethods.readPolicyReport("compliance", jsonResponse));
         Assert.assertEquals("true", tMethods.readPolicyReport("status", jsonResponse));
 
-        jsonResponse = tMethods.evaluatePC(PAT, OSPID, accessRequest3);
+        jsonResponse = tMethods.evaluateBuildPC(PAT, OSPID, accessRequest3);
         Assert.assertEquals("PREFS_CONFLICT", tMethods.readPolicyReport("compliance", jsonResponse));
         Assert.assertEquals("false", tMethods.readPolicyReport("status", jsonResponse));
-    }
-
-    /**
-     * Unit test to update the UPPs and revaluate the. Test the integration
-     * of the PC and PDB when evaluating changed policies.
-     */
-     @Test
-    public void testUpdate() {
-
-        TestHelperMethods tMethods = new TestHelperMethods();
 
         /**
          * Update the UPPs.
@@ -159,16 +141,12 @@ public class IntegrationTest {
          /**
          * Double request by receptionist now that UPP has changed.
          */
-        String accessRequest3 = tMethods.createRequest(FIELDIDS2, ROLE2, OSPID);
-        String jsonResponse = tMethods.evaluatePC(PAT, OSPID, accessRequest3);
+        jsonResponse = tMethods.evaluateBuildPC(PAT, OSPID, accessRequest3);
         Assert.assertEquals("true", tMethods.readPolicyReport("status", jsonResponse));
         Assert.assertEquals("VALID", tMethods.readPolicyReport("compliance", jsonResponse));
 
-        jsonResponse = tMethods.evaluatePC(PETE, OSPID, accessRequest3);
+        jsonResponse = tMethods.evaluateBuildPC(PETE, OSPID, accessRequest3);
         Assert.assertEquals("false", tMethods.readPolicyReport("status", jsonResponse));
         Assert.assertEquals("PREFS_CONFLICT", tMethods.readPolicyReport("compliance", jsonResponse));
-
-
     }
-
 }

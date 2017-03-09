@@ -36,6 +36,7 @@ import com.jayway.jsonpath.JsonPath;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+import io.swagger.api.NotFoundException;
 import io.swagger.model.OSPDataRequest;
 import java.io.IOException;
 import java.io.InputStream;
@@ -325,6 +326,22 @@ public class TestHelperMethods {
     }
 
     /**
+     * Invoke the PC API to evaluate a given access request
+     * @param userId The user whose data is being requested.
+     * @param ospId The OSP requesting the data.
+     * @param accessRequest The access to data request (as a json object)
+     * @return The policyEvaluation report
+     */
+    public String evaluateBuildPC(String userId, String ospId, List<OSPDataRequest> accessRequest) {
+        try {
+            PolicyEvaluationService localObject = new PolicyEvaluationService();
+            return localObject.evaluate(ospId, userId, accessRequest, PDB_UPP_URL).toString();
+        } catch (NotFoundException ex) {
+            return null;
+        }
+    }
+
+    /**
      * Build a request for a doctor at asl to access the debt information
      *  in the GA_PAtient record.
      */
@@ -335,6 +352,19 @@ public class TestHelperMethods {
         }
 
         return toJSONRequest(ospRequest);
+    }
+
+    /**
+     * Build a request for a doctor at asl to access the debt information
+     *  in the GA_PAtient record.
+     */
+    public List<OSPDataRequest> createBuildRequest(String[] elements, String subject, String osp) {
+        List<OSPDataRequest> ospRequest = new ArrayList<OSPDataRequest>();
+        for(String request: elements) {
+            ospRequest.add(OSPDataRequest(request, subject, osp));
+        }
+
+        return ospRequest;
     }
 
     public OSPDataRequest OSPDataRequest(String resource, String subject, String ospId){
