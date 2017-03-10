@@ -30,7 +30,7 @@ node {
 	   	   sh "mv sourcesServer/${sourcesServerPath} sources/${sourcesPath}/sources"	   
 	   }
 	   stage ('Source Maven Install'){
-		   sh "'${mvnHome}/bin/mvn' package -f sources/${sourcesPath}/sources/pom.xml"
+		   sh "'${mvnHome}/bin/mvn' package install:install -f sources/${sourcesPath}/sources/pom.xml"
 	   }
 
 /*	   stage ('Maven Package war'){
