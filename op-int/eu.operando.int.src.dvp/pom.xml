@@ -74,5 +74,6 @@
 		<operando.core.ldb.endpoint.path>operando/core/ldb</operando.core.ldb.endpoint.path>
 		<operando.mysql.host>mysql.integration.operando.lan.esilab.org</operando.mysql.host>
 		<operando.mysql.port>3306</operando.mysql.port>
+		<operando.mysql.root.password>root</operando.mysql.root.password>
 	</properties>
 </project>

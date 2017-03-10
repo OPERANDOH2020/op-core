@@ -51,7 +51,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- We check the value of some propoerties values -->
+			<!-- We check the value of some properties values -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-antrun-plugin</artifactId>
