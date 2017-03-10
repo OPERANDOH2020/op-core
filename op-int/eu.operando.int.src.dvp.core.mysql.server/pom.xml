@@ -1,0 +1,80 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>eu.operando.int</groupId>
+		<artifactId>eu.operando.int.src.dvp</artifactId>
+		<version>ALPHA</version>
+	</parent>
+	<artifactId>eu.operando.int.src.dvp.core.mysql.server</artifactId>
+	<packaging>pom</packaging>
+	<build>
+		<plugins>
+			<!-- We check the value of some properties values -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.1</version>
+				<executions>
+					<execution>
+						<phase>initialize</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<echo>Displaying values of properties</echo>
+								<echo>[sources.path]=${sources.path}</echo>
+								<echo>[project.build.sourceDirectory]=${project.build.sourceDirectory}</echo>
+								<echo>[server.endpoint.path]=${server.endpoint.path}</echo>
+								<echo>[server.warName]=${server.warName}</echo>
+								<echo>[docker.image.name]=${docker.image.name}</echo>
+								<echo>[docker.image.version]=${docker.image.version}</echo>
+								<echo>[docker.port1.mapping]=${docker.port1.mapping}</echo>
+							</tasks>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- added to support docker image creation -->
+			<plugin>
+				<groupId>org.jolokia</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<!-- last version in https://mvnrepository.com/artifact/org.jolokia/docker-maven-plugin -->
+				<version>0.13.9</version>
+				<configuration>
+					<images>
+						<image>
+							<alias>${docker.name}</alias>
+							<name>${docker.image.name}:${docker.image.version}</name>
+							<build>
+								<assembly>
+									<!-- this time we will do it from a docker file element is needed 
+										to switch the usage of the extrenal file -->
+									<dockerFileDir>.</dockerFileDir>
+									<!-- end -->
+								</assembly>
+							</build>
+							<run>
+								<namingStrategy>alias</namingStrategy>
+								<env>
+									<MYSQL_ROOT_PASSWORD>${operando.mysql.root.password}</MYSQL_ROOT_PASSWORD>
+								</env>
+								<ports>
+									<port>${docker.port1.mapping}</port>
+								</ports>
+							</run>
+						</image>
+					</images>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<properties>
+		<docker.name>eu.operando.core.mysql.server</docker.name>
+		<docker.image.name>${docker.registry.name}${docker.submitter}/${docker.name}</docker.image.name>
+		<docker.image.version>${project.version}</docker.image.version>
+		<docker.port1.external>${operando.mysql.port}</docker.port1.external>
+		<docker.port1.mapping>${docker.port1.external}:3306</docker.port1.mapping>
+	</properties>
+</project>
