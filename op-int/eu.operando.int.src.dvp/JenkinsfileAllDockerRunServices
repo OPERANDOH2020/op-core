@@ -26,10 +26,11 @@ node {
 
 	   }
 	   stage('Dependent lv3') { 
+		  build job: 'eu.operando.int.jnk.tsk.core.ldb.server.run', propagate: false
+
 		  build job: 'eu.operando.dev.core.ae.server', propagate: false
 		  build job: 'eu.operando.dev.core.bda.server', propagate: false
 		  build job: 'eu.operando.dev.core.cas.server', propagate: false
-		  build job: 'eu.operando.dev.core.ldb.server', propagate: false
 		  build job: 'eu.operando.dev.core.ldbsearch.server', propagate: false
 		  build job: 'eu.operando.dev.core.nagios.server', propagate: false
 		  build job: 'eu.operando.dev.core.ose.server', propagate: false
@@ -47,12 +48,10 @@ node {
 		  build job: 'eu.operando.dev.webui.birt.server', propagate: false
 		  build job: 'eu.operando.dev.webui.mono.console.server', propagate: false
 		  build job: 'eu.operando.dev.webui.mono.reports.server', propagate: false
-
 	   }
 	   stage('Dependent lv4') { 
 		  build job: 'eu.operando.dev.core.pdb.server.load', propagate: false
-		  build job: 'eu.operando.dev.demo.setup.scripts', propagate: false
-	   
+		  build job: 'eu.operando.dev.demo.setup.scripts', propagate: false	   
 	   }	   	   
 	  } catch (err) {
 
