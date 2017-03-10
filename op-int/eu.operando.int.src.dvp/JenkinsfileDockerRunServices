@@ -5,16 +5,55 @@ node {
 	try {
 	   def mvnHome 
 	   stage('Independent') { 
-	      build job: 'eu.operando.int.jnk.tsk.core.ldb.client', propagate: false
-	      build job: 'eu.operando.int.jnk.tsk.interfaces.aapi', propagate: false
-	      build job: 'eu.operando.int.jnk.tsk', propagate: false
+	      build job: 'eu.operando.int.jnk.tsk.core.mysql.server.run', propagate: false
+	      
+	      build job: 'eu.operando.dev.common', propagate: false
+		  build job: 'eu.operando.dev.test.dependencies', propagate: false
+
+//		  build job: 'eu.operando.dev.core.ae.server.prerequistes', propagate: false
 	   }
 	   stage('Dependent lv1') { 
-	      build job: 'eu.operando.int.jnk.tsk.interfaces.aapi.client', propagate: false
-	      build job: 'eu.operando.int.jnk.tsk.dependencies', propagate: false
+	   	  build job: 'eu.operando.dev.core.cas.client', propagate: false
+		  build job: 'eu.operando.dev.core.ldb.client', propagate: false
+		  build job: 'eu.operando.dev.core.pdb.common-model', propagate: false
+		  build job: 'eu.operando.dev.core.pdb.client', propagate: false
+		  build job: 'eu.operando.dev.interfaces.aapi.client', propagate: false
+
 	   }
 	   stage('Dependent lv2') { 
-	      build job: 'eu.operando.int.jnk.tsk.resources', propagate: false
+		  build job: 'eu.operando.dev.core.mongo', propagate: false
+//		  build job: 'eu.operando.dev.core.mysql', propagate: false
+		  build job: 'eu.operando.dev.core.openldap.server', propagate: false
+
+	   }
+	   stage('Dependent lv3') { 
+		  build job: 'eu.operando.dev.core.ae.server', propagate: false
+		  build job: 'eu.operando.dev.core.bda.server', propagate: false
+		  build job: 'eu.operando.dev.core.cas.server', propagate: false
+		  build job: 'eu.operando.dev.core.ldb.server', propagate: false
+		  build job: 'eu.operando.dev.core.ldbsearch.server', propagate: false
+		  build job: 'eu.operando.dev.core.nagios.server', propagate: false
+		  build job: 'eu.operando.dev.core.ose.server', propagate: false
+		  build job: 'eu.operando.dev.core.pc.server', propagate: false
+		  build job: 'eu.operando.dev.core.pdb.server', propagate: false
+		  build job: 'eu.operando.dev.core.pfb.server', propagate: false
+		  build job: 'eu.operando.dev.core.rm.server', propagate: false
+		  build job: 'eu.operando.dev.demo.mono.yellowpages.server', propagate: false
+		  build job: 'eu.operando.dev.interfaces.aapi.server', propagate: false
+		  build job: 'eu.operando.dev.interfaces.oapi.server', propagate: false
+		  build job: 'eu.operando.dev.interfaces.rapi.server', propagate: false
+		  build job: 'eu.operando.dev.pdr.dan.server', propagate: false
+		  build job: 'eu.operando.dev.pdr.gk.server', propagate: false
+		  build job: 'eu.operando.dev.pdr.rpm.server', propagate: false
+		  build job: 'eu.operando.dev.webui.birt.server', propagate: false
+		  build job: 'eu.operando.dev.webui.mono.console.server', propagate: false
+		  build job: 'eu.operando.dev.webui.mono.reports.server', propagate: false
+
+	   }
+	   stage('Dependent lv4') { 
+		  build job: 'eu.operando.dev.core.pdb.server.load', propagate: false
+		  build job: 'eu.operando.dev.demo.setup.scripts', propagate: false
+	   
 	   }	   	   
 	  } catch (err) {
 
@@ -30,3 +69,4 @@ node {
         throw err
 		}
 }
+
