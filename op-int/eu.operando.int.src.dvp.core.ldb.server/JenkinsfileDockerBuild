@@ -33,18 +33,18 @@ node {
 		   sh "'${mvnHome}/bin/mvn' package -f sources/${sourcesPath}/sources/pom.xml"
 	   }
 
-#	   stage ('Maven Package war'){
-#		   sh "'${mvnHome}/bin/mvn' package -f sources/${sourcesPath}/pom.xml"
-#	   }
+/*	   stage ('Maven Package war'){
+		   sh "'${mvnHome}/bin/mvn' package -f sources/${sourcesPath}/pom.xml"
+	   }
 	   
-#	   stage ('Maven Build docker image'){
-#		   sh "'${mvnHome}/bin/mvn' docker:build -f sources/${sourcesPath}/pom.xml"
-#	   }
+	   stage ('Maven Build docker image'){
+		   sh "'${mvnHome}/bin/mvn' docker:build -f sources/${sourcesPath}/pom.xml"
+	   }
 	   
-#	   stage ('Maven Build docker push'){
-#		   sh "'${mvnHome}/bin/mvn' docker:push -f sources/${sourcesPath}/pom.xml"
-#	   }
-	   
+	   stage ('Maven Build docker push'){
+		   sh "'${mvnHome}/bin/mvn' docker:push -f sources/${sourcesPath}/pom.xml"
+	   }
+*/	   
     } catch (err) {
 
         currentBuild.result = "FAILURE"
