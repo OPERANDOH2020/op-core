@@ -33,10 +33,10 @@ node {
 		   sh "'${mvnHome}/bin/mvn' package install:install -f sources/${sourcesPath}/sources/pom.xml"
 	   }
 
-/*	   stage ('Maven Package war'){
+	   stage ('Maven Package war'){
 		   sh "'${mvnHome}/bin/mvn' package -f sources/${sourcesPath}/pom.xml"
 	   }
-	   
+/*	   
 	   stage ('Maven Build docker image'){
 		   sh "'${mvnHome}/bin/mvn' docker:build -f sources/${sourcesPath}/pom.xml"
 	   }
