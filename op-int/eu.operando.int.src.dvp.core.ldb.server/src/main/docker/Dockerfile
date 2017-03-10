@@ -12,4 +12,6 @@ ENV MYSQL_DB_HOST none
 ADD sql sql
 ADD run.sh .
 
+ENV PATH /usr/local/tomcat:$PATH
+
 CMD ["run.sh"]
