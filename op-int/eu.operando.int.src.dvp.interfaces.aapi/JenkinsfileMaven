@@ -4,19 +4,25 @@ node {
 
 	try {
 	   def mvnHome 
+	   def sourcesPath
+	   def sourcesRepo
+	   def credentialsId
+
 	   stage('Preparation') { // for display purposes
 		  // Get the Maven tool.
 		  // ** NOTE: This 'M3' Maven tool must be configured
 		  // **       in the global configuration.
 		  mvnHome = tool 'Maven 3.3.9 colocated'
+		  sourcesPath = 'op-interfaces-aapi'
+		  sourcesRepo = 'https://github.com/OPERANDOH2020/op-interfaces.git'
+		  credentialsId = 'a35cd88c-d990-4446-922b-b19d0640fd50'
 	   }
 	   stage ('Source Collection'){
-		   checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'sources'], [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: 'op-interfaces-aapi']]]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'a35cd88c-d990-4446-922b-b19d0640fd50', url: 'https://github.com/OPERANDOH2020/op-interfaces.git']]])
+		   checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'sources'], [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: sourcesPath]]]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: credentialsId, url: sourcesRepo]]])
 	   }
 	   stage ('Maven Install'){
-		   sh "'${mvnHome}/bin/mvn' install -f sources/op-interfaces-aapi/pom.xml"
-	   }
-	   
+		   sh "'${mvnHome}/bin/mvn' install:install -f sources/${sourcesPath}/pom.xml"
+	   }	   
 	  } catch (err) {
 
         currentBuild.result = "FAILURE"
