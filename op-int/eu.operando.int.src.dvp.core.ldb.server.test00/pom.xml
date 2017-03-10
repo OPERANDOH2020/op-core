@@ -69,6 +69,7 @@
 							</run>
 						</image>
 					</images>
+					<docker.follow></docker.follow>
 				</configuration>
 			</plugin>
 			<!-- end of addition -->
