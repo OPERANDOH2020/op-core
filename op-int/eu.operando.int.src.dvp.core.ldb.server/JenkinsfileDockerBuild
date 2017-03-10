@@ -20,8 +20,7 @@ node {
 		  sourcesRepo = 'https://github.com/OPERANDOH2020/op-core.git'
 		  sourcesServerRepo = sourcesRepo
 		  credentialsId = gitCredentials
-		  sh "rm -rf sourcesServer"
-		  sh "rm -rf sources"
+		  sh "rm -rf sources/${sourcesPath}/sources"
 	   }
 	   stage ('Source Collection'){
 		   checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'sources'], [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: sourcesPath]]]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: credentialsId, url: sourcesRepo]]])
@@ -31,20 +30,20 @@ node {
 	   	   sh "mv sourcesServer/${sourcesServerPath} sources/${sourcesPath}/sources"	   
 	   }
 	   stage ('Source Maven Install'){
-		   sh "'${mvnHome}/bin/mvn' install -Dmaven.test.skip=true -f sources/${sourcesPath}/sources/pom.xml"
+		   sh "'${mvnHome}/bin/mvn' package -f sources/${sourcesPath}/sources/pom.xml"
 	   }
 
-	   stage ('Maven Package war'){
-		   sh "'${mvnHome}/bin/mvn' package -f sources/${sourcesPath}/pom.xml"
-	   }
+#	   stage ('Maven Package war'){
+#		   sh "'${mvnHome}/bin/mvn' package -f sources/${sourcesPath}/pom.xml"
+#	   }
 	   
-	   stage ('Maven Build docker image'){
-		   sh "'${mvnHome}/bin/mvn' docker:build -f sources/${sourcesPath}/pom.xml"
-	   }
+#	   stage ('Maven Build docker image'){
+#		   sh "'${mvnHome}/bin/mvn' docker:build -f sources/${sourcesPath}/pom.xml"
+#	   }
 	   
-	   stage ('Maven Build docker push'){
-		   sh "'${mvnHome}/bin/mvn' docker:push -f sources/${sourcesPath}/pom.xml"
-	   }
+#	   stage ('Maven Build docker push'){
+#		   sh "'${mvnHome}/bin/mvn' docker:push -f sources/${sourcesPath}/pom.xml"
+#	   }
 	   
     } catch (err) {
 
