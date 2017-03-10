@@ -20,6 +20,8 @@ node {
 		  sourcesRepo = 'https://github.com/OPERANDOH2020/op-core.git'
 		  sourcesServerRepo = sourcesRepo
 		  credentialsId = gitCredentials
+		  sh "rm -rf sourcesServer"
+		  sh "rm -rf sources"
 	   }
 	   stage ('Source Collection'){
 		   checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'sources'], [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: sourcesPath]]]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: credentialsId, url: sourcesRepo]]])
