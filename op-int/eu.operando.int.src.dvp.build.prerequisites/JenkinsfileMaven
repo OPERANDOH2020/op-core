@@ -6,12 +6,12 @@ node {
 	   def mvnHome 
 	   stage('Independent') { 
 	      build job: 'eu.operando.int.jnk.tsk.core.ldb.client', propagate: false
-	      build job: 'eu.operando.int.jnk.tsk.core.aapi', propagate: false
+	      build job: 'eu.operando.int.jnk.tsk.interfaces.aapi', propagate: false
 	      build job: 'eu.operando.int.jnk.tsk', propagate: false
 
 	   }
 	   stage('Dependent lv1') { 
-	      build job: 'eu.operando.int.jnk.tsk.core.aapi.client', propagate: false
+	      build job: 'eu.operando.int.jnk.tsk.interfaces.aapi.client', propagate: false
 	      build job: 'eu.operando.int.jnk.tsk.dependencies', propagate: false
 
 	   }
