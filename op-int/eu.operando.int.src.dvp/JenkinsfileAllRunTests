@@ -1,0 +1,30 @@
+#!groovy
+node {	
+    currentBuild.result = "SUCCESS"
+
+	try {
+	   def mvnHome 
+	   stage('test00') { 
+	      build job: 'eu.operando.int.jnk.tsk.core.mysql.server.test00.run', propagate: false
+	   }
+	   stage('test01') { 
+	   }
+	   stage('test02') { 
+	   }
+	   stage('test03') { 
+	   }	   	   
+	  } catch (err) {
+
+        currentBuild.result = "FAILURE"
+
+			  emailext (
+			      subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+			      body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+			        <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
+			      recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+			    )
+
+        throw err
+		}
+}
+
