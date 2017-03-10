@@ -21,10 +21,10 @@ node {
 		   checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'sources'], [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: sourcesPath]]]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: credentialsId, url: sourcesRepo]]])
 	   }  
 	   stage ('Maven Build docker image'){
-		   sh "'${mvnHome}/bin/mvn' docker:stop docker:build -f sources/${sourcesPath}/pom.xml"
+		   sh "'${mvnHome}/bin/mvn' docker:build -f sources/${sourcesPath}/pom.xml"
 	   }	   	   	   
 	   stage ('Maven Build docker push'){
-		   sh "'${mvnHome}/bin/mvn' docker:push -f sources/${sourcesPath}/pom.xml"
+		   sh "'${mvnHome}/bin/mvn' docker:stop docker:start -f sources/${sourcesPath}/pom.xml"
 	   }	   
     } catch (err) {
 
