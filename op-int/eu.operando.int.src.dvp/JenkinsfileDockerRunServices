@@ -14,11 +14,10 @@ node {
 	   }
 	   stage('Dependent lv1') { 
 	   	  build job: 'eu.operando.dev.core.cas.client', propagate: false
-		  build job: 'eu.operando.dev.core.ldb.client', propagate: false
+//		  build job: 'eu.operando.dev.core.ldb.client', propagate: false
 		  build job: 'eu.operando.dev.core.pdb.common-model', propagate: false
 		  build job: 'eu.operando.dev.core.pdb.client', propagate: false
-		  build job: 'eu.operando.dev.interfaces.aapi.client', propagate: false
-
+//		  build job: 'eu.operando.dev.interfaces.aapi.client', propagate: false
 	   }
 	   stage('Dependent lv2') { 
 		  build job: 'eu.operando.dev.core.mongo', propagate: false
