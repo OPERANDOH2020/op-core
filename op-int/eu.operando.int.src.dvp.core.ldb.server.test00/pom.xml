@@ -61,6 +61,9 @@
 									<enabled>true</enabled>
 									<color>red</color>
 								</log>
+								<wait>
+									<log>Fin</log>
+								</wait>
 								<namingStrategy>alias</namingStrategy>
 								<env>
 									<MYSQL_DB_HOST>${mysql.db.host}</MYSQL_DB_HOST>
