@@ -5,16 +5,10 @@ node {
 	try {
 	   def mvnHome 
 	   stage('Independent') { 
-	      build job: 'eu.operando.int.jnk.tsk.core.ldb.client', propagate: false
-	      build job: 'eu.operando.int.jnk.tsk.interfaces.aapi', propagate: false
-	      build job: 'eu.operando.int.jnk.tsk', propagate: false
+	      build job: 'eu.operando.int.jnk.tsk.core.mysql.server', propagate: false
 	   }
 	   stage('Dependent lv1') { 
-	      build job: 'eu.operando.int.jnk.tsk.interfaces.aapi.client', propagate: false
-	      build job: 'eu.operando.int.jnk.tsk.dependencies', propagate: false
-	   }
-	   stage('Dependent lv2') { 
-	      build job: 'eu.operando.int.jnk.tsk.resources', propagate: false
+	      build job: 'eu.operando.int.jnk.tsk.core.ldb.server', propagate: false
 	   }	   	   
 	  } catch (err) {
 
