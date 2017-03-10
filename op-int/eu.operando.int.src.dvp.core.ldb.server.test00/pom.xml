@@ -62,7 +62,7 @@
 									<color>red</color>
 								</log>
 								<wait>
-									<log>Fin</log>
+									<log>SUCCESS</log>
 								</wait>
 								<namingStrategy>alias</namingStrategy>
 								<env>
@@ -76,7 +76,7 @@
 							</run>
 						</image>
 					</images>
-					<docker.follow></docker.follow>
+					<!-- <docker.follow></docker.follow> -->
 				</configuration>
 			</plugin>
 			<!-- end of addition -->
