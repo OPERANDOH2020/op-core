@@ -2,6 +2,8 @@
 # we choose normal 
 FROM tomcat:7
 
+ADD generated/. /usr/local/tomcat/webapps
+
 RUN apt-get update && apt-get install mysql-client -y && rm -rf /var/lib/apt/lists/*
 
 ENV MYSQL_DB_USER root

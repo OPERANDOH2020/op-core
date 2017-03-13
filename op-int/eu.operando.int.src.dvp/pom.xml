@@ -76,5 +76,7 @@
 		<operando.mysql.port>3306</operando.mysql.port>
 		<operando.mysql.root.user>root</operando.mysql.root.user>
 		<operando.mysql.root.password>root</operando.mysql.root.password>
+		<!-- I add the defintion of the variable to avoid the no value in regex error -->
+		<server.endpoint.path>tobedefined</server.endpoint.path>
 	</properties>
 </project>
