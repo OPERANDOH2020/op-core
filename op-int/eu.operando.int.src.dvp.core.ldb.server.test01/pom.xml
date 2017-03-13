@@ -42,9 +42,9 @@
 							<resources>
 								<resource>
 									<directory>${sources.path}/src</directory>
-									<excludes>
-										<exclude>**/*.java</exclude>
-									</excludes>
+									<includes>
+										<include>test.properties</include>
+									</includes>
 									<filtering>true</filtering>
 								</resource>
 							</resources>
