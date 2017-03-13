@@ -92,6 +92,7 @@
 			<!-- this is to fix the warning "Build path specifies execution environment 
 				J2SE-1.5. There are no JREs installed in the workspace that are strictly 
 				compatible with this environment. -->
+			<!--   it maybe is adding problems problems
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -100,7 +101,7 @@
 					<source>1.8</source>
 					<target>1.8</target>
 				</configuration>
-			</plugin>
+			</plugin> -->
 			<!-- Plugin to copy the war into generated folder accessible to the docker 
 				file -->
 			<plugin>
