@@ -51,8 +51,6 @@ public class Test {
 		// create path and map variables
 		String path = "/operando/core/ldb/log";
 		
-		if (true) return;
-
 		// query params
 		List<Pair> queryParams = new ArrayList<Pair>();
 		Map<String, String> headerParams = new HashMap<String, String>();
@@ -114,8 +112,6 @@ public class Test {
 
 		// create path and map variables
 		String path = "/operando/core/ldb/log/logTicket";
-
-		if (true) return;
 
 		// query params
 		List<Pair> queryParams = new ArrayList<Pair>();
