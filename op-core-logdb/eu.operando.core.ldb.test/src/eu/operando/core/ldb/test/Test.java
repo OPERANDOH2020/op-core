@@ -50,6 +50,8 @@ public class Test {
 
 		// create path and map variables
 		String path = "/operando/core/ldb/log";
+		
+		if (true) return;
 
 		// query params
 		List<Pair> queryParams = new ArrayList<Pair>();
