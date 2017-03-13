@@ -88,65 +88,6 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
-			<!-- Plugin to copy the war into generated folder accessible to the docker 
-				file -->
-			<plugin>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>2.7</version>
-				<executions>
-					<execution>
-						<id>copy-resource-one</id>
-						<phase>package</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>src/main/docker/generated</outputDirectory>
-							<resources>
-								<resource>
-									<directory>target</directory>
-									<includes>
-										<include>*.jar</include>
-									</includes>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<!-- added to support docker image creation -->
-			<plugin>
-				<groupId>org.jolokia</groupId>
-				<artifactId>docker-maven-plugin</artifactId>
-				<!-- last version in https://mvnrepository.com/artifact/org.jolokia/docker-maven-plugin -->
-				<version>0.13.9</version>
-				<configuration>
-					<images>
-						<image>
-							<alias>${docker.name}</alias>
-							<name>${docker.image.name}:${docker.image.version}</name>
-							<build>
-								<assembly>
-									<!-- this time we will do it from a docker file element is needed 
-										to switch the usage of the extrenal file -->
-									<dockerFileDir>.</dockerFileDir>
-									<!-- end -->
-								</assembly>
-							</build>
-							<run>
-								<log>
-									<enabled>true</enabled>
-									<color>red</color>
-								</log>
-								<wait>
-									<log>ALL SUCCESSFUL</log>
-								</wait>
-								<namingStrategy>alias</namingStrategy>
-							</run>
-						</image>
-					</images>
-				</configuration>
-			</plugin>
 			<!-- Adds for executable jar support -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -173,6 +114,66 @@
 				</executions>
 			</plugin>
 		</plugins>
+		<!-- Plugin to copy the war into generated folder accessible to the docker 
+			file -->
+		<plugin>
+			<artifactId>maven-resources-plugin</artifactId>
+			<version>2.7</version>
+			<executions>
+				<execution>
+					<id>copy-resource-one</id>
+					<phase>package</phase>
+					<goals>
+						<goal>copy-resources</goal>
+					</goals>
+					<configuration>
+						<outputDirectory>src/main/docker/generated</outputDirectory>
+						<resources>
+							<resource>
+								<directory>target</directory>
+								<includes>
+									<include>*.jar</include>
+								</includes>
+							</resource>
+						</resources>
+					</configuration>
+				</execution>
+			</executions>
+		</plugin>
+		<!-- added to support docker image creation -->
+		<plugin>
+			<groupId>org.jolokia</groupId>
+			<artifactId>docker-maven-plugin</artifactId>
+			<!-- last version in https://mvnrepository.com/artifact/org.jolokia/docker-maven-plugin -->
+			<version>0.13.9</version>
+			<configuration>
+				<images>
+					<image>
+						<alias>${docker.name}</alias>
+						<name>${docker.image.name}:${docker.image.version}</name>
+						<build>
+							<assembly>
+								<!-- this time we will do it from a docker file element is needed 
+									to switch the usage of the extrenal file -->
+								<dockerFileDir>.</dockerFileDir>
+								<!-- end -->
+							</assembly>
+						</build>
+						<run>
+							<log>
+								<enabled>true</enabled>
+								<color>red</color>
+							</log>
+							<wait>
+								<log>ALL SUCCESSFUL</log>
+							</wait>
+							<namingStrategy>alias</namingStrategy>
+						</run>
+					</image>
+				</images>
+			</configuration>
+		</plugin>
+
 		<pluginManagement>
 			<plugins>
 				<!--This plugin's configuration is used to store Eclipse m2e settings 
