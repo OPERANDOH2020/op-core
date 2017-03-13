@@ -20,31 +20,33 @@ node {
 		  sourcesRepo = 'https://github.com/OPERANDOH2020/op-core.git'
 		  sourcesServerRepo = sourcesRepo
 		  credentialsId = gitCredentials
+		  sources = '${WORKSPACE}'
+		  sourcesServer = '${WORKSPACE/sourcesServer}'
 		  sh "rm -rf sources/${sourcesPath}/sources"
 		  sh "rm -rf sources"
 		  sh "rm -rf sourcesServer"
 	   }
 	   stage ('Source Collection'){
-		   checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'sources'], [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: sourcesPath]]]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: credentialsId, url: sourcesRepo]]])
-		   checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'sourcesServer'], [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: sourcesServerPath]]]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: credentialsId, url: sourcesServerRepo]]])
+		   checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: sources], [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: sourcesPath]]]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: credentialsId, url: sourcesRepo]]])
+		   checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: sourcesServer], [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: sourcesServerPath]]]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: credentialsId, url: sourcesServerRepo]]])
 	   }
 	   stage ('Source Move'){
-	   	   sh "mv sourcesServer/${sourcesServerPath} sources/${sourcesPath}/sources"	   
+	   	   sh "mv ${sourcesServer}/${sourcesServerPath} ${sources}/${sourcesPath}/sources"	   
 	   }
 	   stage ('Source Maven Install'){
-		   sh "'${mvnHome}/bin/mvn' package install:install -f sources/${sourcesPath}/sources/pom.xml"
+		   sh "'${mvnHome}/bin/mvn' package install:install -f ${sources}/${sourcesPath}/sources/pom.xml"
 	   }
 	   stage ('Maven Package jar'){
-		   sh "'${mvnHome}/bin/mvn' package -f sources/${sourcesPath}/pom.xml"
+		   sh "'${mvnHome}/bin/mvn' package -f ${sources}/${sourcesPath}/pom.xml"
 	   }	   
 	   stage ('Maven Docker stop'){
-		   sh "'${mvnHome}/bin/mvn' docker:stop -f sources/${sourcesPath}/pom.xml"
+		   sh "'${mvnHome}/bin/mvn' docker:stop -f ${sources}/${sourcesPath}/pom.xml"
 	   }
 	   stage ('Maven Build docker image'){
-		   sh "'${mvnHome}/bin/mvn' docker:build -f sources/${sourcesPath}/pom.xml"
+		   sh "'${mvnHome}/bin/mvn' docker:build -f ${sources}/${sourcesPath}/pom.xml"
 	   }	   	   	   
 	   stage ('Maven Build docker push'){
-		   sh "'${mvnHome}/bin/mvn' docker:push -f sources/${sourcesPath}/pom.xml"
+		   sh "'${mvnHome}/bin/mvn' docker:push -f ${sources}/${sourcesPath}/pom.xml"
 	   }	   
     } catch (err) {
 
