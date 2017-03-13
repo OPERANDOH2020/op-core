@@ -113,7 +113,6 @@
 					</execution>
 				</executions>
 			</plugin>
-		</plugins>
 		<!-- Plugin to copy the war into generated folder accessible to the docker 
 			file -->
 		<plugin>
@@ -173,6 +172,7 @@
 				</images>
 			</configuration>
 		</plugin>
+		</plugins>
 
 		<pluginManagement>
 			<plugins>
