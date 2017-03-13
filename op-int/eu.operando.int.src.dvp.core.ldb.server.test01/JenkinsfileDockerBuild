@@ -20,8 +20,8 @@ node {
 		  sourcesRepo = 'https://github.com/OPERANDOH2020/op-core.git'
 		  sourcesServerRepo = sourcesRepo
 		  credentialsId = gitCredentials
-		  sources = '${WORKSPACE}'
-		  sourcesServer = '${WORKSPACE/sourcesServer}'
+		  sources = WORKSPACE
+		  sourcesServer = WORKSPACE+'/sourcesServer'
 		  sh "rm -rf sources/${sourcesPath}/sources"
 		  sh "rm -rf sources"
 		  sh "rm -rf sourcesServer"
