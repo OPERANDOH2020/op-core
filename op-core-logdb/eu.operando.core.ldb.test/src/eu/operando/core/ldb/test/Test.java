@@ -32,145 +32,141 @@ import io.swagger.client.model.LogRequest.LogDataTypeEnum;
 import io.swagger.client.model.LogRequest.LogPriorityEnum;
 import io.swagger.client.model.LogRequest.RequesterTypeEnum;
 
-
 public class Test {
 
-	//@org.junit.Test
-	public void test() {		
-		ApiClient apiClient = new ApiClient();
-		
-    	//GBE added code to get information form a properties file
+	// @org.junit.Test
+	public void test() {
+		// GBE added code to get information form a properties file
 		Properties props;
 		props = loadProperties();
-		
-		String basePath = props.getProperty("basePath");
-		System.out.println(basePath);
-		
-		apiClient.setBasePath(basePath);
-	    byte[] postBinaryBody = null; 
-	     
-	    // create path and map variables 
-	    String path = "/operando/core/ldb/log"; 
-	 
-	    // query params 
-	    List<Pair> queryParams = new ArrayList<Pair>(); 
-	    Map<String, String> headerParams = new HashMap<String, String>(); 
-	    Map<String, Object> formParams = new HashMap<String, Object>(); 
-	 
-	    final String[] accepts = { 
-	      "application/json", "application/xml" 
-	    }; 
-	    final String accept = apiClient.selectHeaderAccept(accepts); 
-	 
-	    final String[] contentTypes = { 
-	       
-	    }; 
-	    final String contentType = apiClient.selectHeaderContentType(contentTypes); 
-	 
-	    String[] authNames = new String[] {  }; 
-	 	     
-	    GenericType<String> returnType = new GenericType<String>() {};
-		
 
-	    LogRequest logRequest = new LogRequest();
-	    logRequest.setUserId("001");
-	    logRequest.setDescription("Log on 07/12 for testing purposes");
-	    logRequest.setLogDataType(LogDataTypeEnum.INFO);
-	    logRequest.setTitle("Log on 07/12");
-	    logRequest.setLogPriority(LogPriorityEnum.LOW);
-	    logRequest.setRequesterId("1007");
-	    logRequest.setRequesterType(RequesterTypeEnum.MODULE);	    
-	    ArrayList<String> keywords = new ArrayList<String> ();
-	    keywords.add("keywordA");
-	    keywords.add("keywordB");
-	    keywords.add("keywordC");
-		logRequest.setKeywords(keywords );
-		
-		Object postBody = logRequest;		
+		String basePath = props.getProperty("basePath");
+		System.out.println("basePath:" + basePath);
+
+		ApiClient apiClient = new ApiClient();
+
+		apiClient.setBasePath(basePath);
+		byte[] postBinaryBody = null;
+
+		// create path and map variables
+		String path = "/operando/core/ldb/log";
+
+		// query params
+		List<Pair> queryParams = new ArrayList<Pair>();
+		Map<String, String> headerParams = new HashMap<String, String>();
+		Map<String, Object> formParams = new HashMap<String, Object>();
+
+		final String[] accepts = { "application/json", "application/xml" };
+		final String accept = apiClient.selectHeaderAccept(accepts);
+
+		final String[] contentTypes = {
+
+		};
+		final String contentType = apiClient.selectHeaderContentType(contentTypes);
+
+		String[] authNames = new String[] {};
+
+		GenericType<String> returnType = new GenericType<String>() {
+		};
+
+		LogRequest logRequest = new LogRequest();
+		logRequest.setUserId("001");
+		logRequest.setDescription("Log on 07/12 for testing purposes");
+		logRequest.setLogDataType(LogDataTypeEnum.INFO);
+		logRequest.setTitle("Log on 07/12");
+		logRequest.setLogPriority(LogPriorityEnum.LOW);
+		logRequest.setRequesterId("1007");
+		logRequest.setRequesterType(RequesterTypeEnum.MODULE);
+		ArrayList<String> keywords = new ArrayList<String>();
+		keywords.add("keywordA");
+		keywords.add("keywordB");
+		keywords.add("keywordC");
+		logRequest.setKeywords(keywords);
+
+		Object postBody = logRequest;
 		System.out.println(postBody);
 		String str = "";
 		try {
-			str = apiClient.invokeAPI(path,"POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);			
+			str = apiClient.invokeAPI(path, "POST", queryParams, postBody, headerParams, formParams, accept,
+					contentType, authNames, returnType);
 		} catch (ApiException e) {
-			System.out.println(e.toString());			
+			System.out.println(e.toString());
 		}
 		System.out.println(str);
 	}
-	
-	@org.junit.Test
-	public void testTicket() {		
-		ApiClient apiClient = new ApiClient();
-		 
-	    byte[] postBinaryBody = null; 
-	     
-	    // create path and map variables 
-	    String path = "/operando/core/ldb/log/logTicket"; 
-	 
-	    // query params 
-	    List<Pair> queryParams = new ArrayList<Pair>(); 
-	    Map<String, String> headerParams = new HashMap<String, String>(); 
-	    Map<String, Object> formParams = new HashMap<String, Object>(); 
-	 
-	    final String[] accepts = { 
-	      "application/json", "application/xml" 
-	    }; 
-	    final String accept = apiClient.selectHeaderAccept(accepts); 
-	 
-	    final String[] contentTypes = { 
-	       
-	    }; 
-	    final String contentType = apiClient.selectHeaderContentType(contentTypes); 
-	 
-	    String[] authNames = new String[] {  }; 
-	 	     
-	    GenericType<String> returnType = new GenericType<String>() {};
-	    
-	    headerParams.put("service-ticket", "ST-8-WFWRUUFZlCTriXBoA9I5-casdotoperandodoteu");
-		
 
-	    LogRequest logRequest = new LogRequest();
-	    logRequest.setUserId("001");
-	    logRequest.setDescription("Log on 07/12 for testing purposes");
-	    logRequest.setLogDataType(LogDataTypeEnum.INFO);
-	    logRequest.setTitle("Log on 07/12");
-	    logRequest.setLogPriority(LogPriorityEnum.LOW);
-	    logRequest.setRequesterId("1007");
-	    logRequest.setRequesterType(RequesterTypeEnum.MODULE);
-	    ArrayList<String> keywords = new ArrayList<String> ();
-	    keywords.add("keywordA");
-	    keywords.add("keywordB");
-	    keywords.add("keywordC");
-		logRequest.setKeywords(keywords );
-		
-		Object postBody = logRequest;		
-		
+	@org.junit.Test
+	public void testTicket() {
+		ApiClient apiClient = new ApiClient();
+
+		byte[] postBinaryBody = null;
+
+		// create path and map variables
+		String path = "/operando/core/ldb/log/logTicket";
+
+		// query params
+		List<Pair> queryParams = new ArrayList<Pair>();
+		Map<String, String> headerParams = new HashMap<String, String>();
+		Map<String, Object> formParams = new HashMap<String, Object>();
+
+		final String[] accepts = { "application/json", "application/xml" };
+		final String accept = apiClient.selectHeaderAccept(accepts);
+
+		final String[] contentTypes = {
+
+		};
+		final String contentType = apiClient.selectHeaderContentType(contentTypes);
+
+		String[] authNames = new String[] {};
+
+		GenericType<String> returnType = new GenericType<String>() {
+		};
+
+		headerParams.put("service-ticket", "ST-8-WFWRUUFZlCTriXBoA9I5-casdotoperandodoteu");
+
+		LogRequest logRequest = new LogRequest();
+		logRequest.setUserId("001");
+		logRequest.setDescription("Log on 07/12 for testing purposes");
+		logRequest.setLogDataType(LogDataTypeEnum.INFO);
+		logRequest.setTitle("Log on 07/12");
+		logRequest.setLogPriority(LogPriorityEnum.LOW);
+		logRequest.setRequesterId("1007");
+		logRequest.setRequesterType(RequesterTypeEnum.MODULE);
+		ArrayList<String> keywords = new ArrayList<String>();
+		keywords.add("keywordA");
+		keywords.add("keywordB");
+		keywords.add("keywordC");
+		logRequest.setKeywords(keywords);
+
+		Object postBody = logRequest;
+
 		String str = "";
 		try {
-			str = apiClient.invokeAPI(path,"POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);			
+			str = apiClient.invokeAPI(path, "POST", queryParams, postBody, headerParams, formParams, accept,
+					contentType, authNames, returnType);
 		} catch (ApiException e) {
-			System.out.println(e.toString());			
+			System.out.println(e.toString());
 		}
 		System.out.println(str);
 	}
-	
-	public static void main(String[] args) throws Exception {                    
-	       JUnitCore.main(
-	         "eu.operando.core.ldb.test.Test");            
+
+	public static void main(String[] args) throws Exception {
+		JUnitCore.main("eu.operando.core.ldb.test.Test");
 	}
-	
+
 	private Properties loadProperties() {
 		Properties props;
 		props = new Properties();
-		
+
 		InputStream fis = null;
 		try {
-		    fis = this.getClass().getClassLoader().getResourceAsStream("/test.properties");
-		    props.load(fis);
-		}     catch (IOException e) {
-		    // TODO Auto-generated catch block
-		    e.printStackTrace();
+			fis = this.getClass().getClassLoader().getResourceAsStream("/test.properties");
+			props.load(fis);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
+
 		return props;
 	}
 
