@@ -172,8 +172,8 @@ public class Test {
 		props = new Properties();
 
 		InputStream fis = null;
+		fis = ClassLoader.getSystemResourceAsStream("test.properties");
 		try {
-			fis = this.getClass().getClassLoader().getResourceAsStream("/test.properties");
 			props.load(fis);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
