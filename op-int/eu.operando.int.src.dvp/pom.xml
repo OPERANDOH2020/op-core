@@ -66,6 +66,7 @@
 		</dependency>
 	</dependencies>
 	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<build-helper-maven-plugin-version>3.0.0</build-helper-maven-plugin-version>
 		<docker.registry.name>localhost:5000/</docker.registry.name>
 		<docker.submitter>operando</docker.submitter>

@@ -1,5 +1,5 @@
 #!/bin/bash
-java -jar eu.operando.core.anonymization.test.jar
+java -jar eu.operando.int.src.dvp.core.ldb.server.test01-ALPHA
 if [ $? -eq 0 ]
 then
   echo "ALL SUCCESSFUL"
