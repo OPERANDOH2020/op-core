@@ -62,7 +62,7 @@
 									<color>red</color>
 								</log>
 								<wait>
-									<log>SUCCESS</log>
+									<log>ALL SUCCESSFUL</log>
 								</wait>
 								<namingStrategy>alias</namingStrategy>
 								<env>
