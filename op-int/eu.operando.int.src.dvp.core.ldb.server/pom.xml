@@ -252,6 +252,10 @@
 		<mysql.db.name>operando_logdb</mysql.db.name>
 		<mysql.db.user>${operando.mysql.root.user}</mysql.db.user>
 		<mysql.db.password>${operando.mysql.root.password}</mysql.db.password>
+		<!-- for config file custimization -->
+		<mysql.port>${operando.mysql.port}</mysql.port>
+		<mysql.host>${operando.mysql.host}</mysql.host>
+		<mysql.dbname>${mysql.db.name}</mysql.dbname>
 		
 	</properties>
 </project>
