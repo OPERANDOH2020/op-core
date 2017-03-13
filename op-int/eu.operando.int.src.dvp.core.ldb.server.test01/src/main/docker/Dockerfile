@@ -1,15 +1,9 @@
-# I take a official mono image https://hub.docker.com/_/tomcat/
+# I take a official mono image https://hub.docker.com/_/java/
 # we choose normal 
-FROM ubuntu
+FROM java:8
 
-RUN apt-get update && apt-get install mysql-client -y && rm -rf /var/lib/apt/lists/*
+ADD generated/. /
 
-ENV MYSQL_DB_USER root
-ENV MYSQL_DB_PASSWORD root
-ENV MYSQL_DB_NAME operando_logdb
-ENV MYSQL_DB_HOST none
-
-ADD sql sql
 ADD run.sh .
 RUN chmod 750 run.sh
 ENV PATH /:$PATH
