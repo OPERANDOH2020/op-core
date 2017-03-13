@@ -21,6 +21,15 @@
 				</configuration>
 			</plugin>
 		</plugins>
+		<resources>
+			<resource>
+				<directory>src</directory>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 	</build>
 	<dependencies>
 		<dependency>
@@ -37,5 +46,6 @@
 	</dependencies>
 	<properties>
 		<junit-version>4.8.1</junit-version>
+		<operando.core.ldb.basepath>http://localhost:8080</operando.core.ldb.basepath>
 	</properties>
 </project>

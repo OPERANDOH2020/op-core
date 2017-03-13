@@ -12,10 +12,13 @@
  */
 package eu.operando.core.ldb.test;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import org.junit.runner.JUnitCore;
 
@@ -35,7 +38,15 @@ public class Test {
 	//@org.junit.Test
 	public void test() {		
 		ApiClient apiClient = new ApiClient();
-		 
+		
+    	//GBE added code to get information form a properties file
+		Properties props;
+		props = loadProperties();
+		
+		String basePath = props.getProperty("basePath");
+		System.out.println(basePath);
+		
+		apiClient.setBasePath(basePath);
 	    byte[] postBinaryBody = null; 
 	     
 	    // create path and map variables 
@@ -145,6 +156,22 @@ public class Test {
 	public static void main(String[] args) throws Exception {                    
 	       JUnitCore.main(
 	         "eu.operando.core.ldb.test.Test");            
+	}
+	
+	private Properties loadProperties() {
+		Properties props;
+		props = new Properties();
+		
+		InputStream fis = null;
+		try {
+		    fis = this.getClass().getClassLoader().getResourceAsStream("/test.properties");
+		    props.load(fis);
+		}     catch (IOException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		}
+		
+		return props;
 	}
 
 }

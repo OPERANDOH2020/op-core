@@ -71,8 +71,13 @@
 		<docker.registry.name>localhost:5000/</docker.registry.name>
 		<docker.submitter>operando</docker.submitter>
 		<!-- leave empty for docker hub; use e.g. "localhost:5000/" for a local docker registry -->
+		<operando.core.ldb.host>ldb.integration.operando.lan.esilab.org</operando.core.ldb.host>
+		<operando.core.ldb.protocol>http://</operando.core.ldb.protocol>
 		<operando.core.ldb.port>8090</operando.core.ldb.port>
 		<operando.core.ldb.endpoint.path>operando/core/ldb</operando.core.ldb.endpoint.path>
+		<operando.core.ldb.basepath>${operando.core.ldb.protocol}${operando.core.ldb.host}:${operando.core.ldb.port}</operando.core.ldb.basepath>
+			
+		<operando.core.ldb.endpoint></operando.core.ldb.endpoint>
 		<operando.mysql.host>mysql.integration.operando.lan.esilab.org</operando.mysql.host>
 		<operando.mysql.port>3306</operando.mysql.port>
 		<operando.mysql.root.user>root</operando.mysql.root.user>
