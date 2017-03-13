@@ -110,6 +110,26 @@ var osp = {
                     self.home("failed");
                 }
                 else{
+                    self.swarm("changeUserOrganisation");
+                }
+            }));
+        }
+    },
+
+    changeUserOrganisation:{
+        node:"UsersManager",
+        code:function(){
+            var self = this;
+            var updateData = {
+                userId:self.ospUserId,
+                organisationId:"OSP"
+            };
+
+            updateUser(updateData, S(function (err, user) {
+                if (err) {
+                    self.error = err.message;
+                    self.home("failed");
+                } else {
                     self.swarm("removeOspRequestPhase");
                 }
             }));
@@ -158,7 +178,13 @@ var osp = {
                     self.home("failed");
                 } else {
                     self.ospList = ospList;
-                    self.swarm("getOSPsEmails");
+                    if(self.ospList.length === 0){
+                        self.home("success");
+                    }
+                    else{
+                        self.swarm("getOSPsEmails");
+                    }
+
                 }
             }))
         }

@@ -109,7 +109,7 @@ var initOperando = {
                     },
                     {
                         userId: new Buffer(uuid.v1()).toString('base64'),
-                        password: "psp4 ",
+                        password: "psp4",
                         email: "psp@rms.ro",
                         organisationId: "PSP"
                     },
