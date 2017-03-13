@@ -97,7 +97,16 @@ public class Test {
 
 	@org.junit.Test
 	public void testTicket() {
+		// GBE added code to get information form a properties file
+		Properties props;
+		props = loadProperties();
+
+		String basePath = props.getProperty("basePath");
+		System.out.println("basePath:" + basePath);
+
 		ApiClient apiClient = new ApiClient();
+
+		apiClient.setBasePath(basePath);
 
 		byte[] postBinaryBody = null;
 
