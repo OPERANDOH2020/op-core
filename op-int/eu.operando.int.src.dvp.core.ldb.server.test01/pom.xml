@@ -70,6 +70,7 @@
 								<echo>[project.build.sourceDirectory]=${project.build.sourceDirectory}</echo>
 								<echo>[docker.image.name]=${docker.image.name}</echo>
 								<echo>[docker.image.version]=${docker.image.version}</echo>
+								<echo>[operando.core.ldb.basepath]=${operando.core.ldb.basepath}</echo>
 							</tasks>
 						</configuration>
 					</execution>
