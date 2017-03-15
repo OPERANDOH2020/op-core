@@ -101,7 +101,8 @@ function rebootUsersManager(callback){
         }
     }
     function onRebootFinished(){
-        console.log("UsersManager available")
+        startSwarm("initOperando.js","init");
+        console.log("UsersManager available");
     }
 }
 
@@ -284,6 +285,41 @@ getUserInfo = function (userId, callback) {
     })();
 };
 
+validateUser = function (email, pass, organisationPretender, callback) {
+    flow.create("Validate Password", {
+        begin: function () {
+            persistence.filter("DefaultUser", {email: email}, this.continue("validatePassword"));
+        },
+        validatePassword: function (err, users) {
+            if(err){
+                callback(err);
+            }else if(users.length === 0 || !pass){
+                callback( new Error("invalidCredentials"));
+            }
+            else {
+                var user = users[0];
+
+                if (user.organisationId !== organisationPretender) {
+                    callback(new Error("accessDenied"));
+                }
+                else {
+                    hashThisPassword(pass, user.salt, function (err, hashedPassword) {
+                        if (err)
+                            callback(err);
+                        else if (hashedPassword !== user.password)
+                            callback(new Error("invalidCredentials"));
+                        else if (user.activationCode !== "0")
+                            callback(new Error("account_not_activated"));
+                        else
+                            callback(null, user.userId);
+                    });
+                }
+
+            }
+        }
+    })();
+};
+
 getUserId = function(email, callback){
     persistence.filter("DefaultUser",{"email":email},function(err,result){
         if(err){
@@ -338,34 +374,6 @@ setNewPassword = function(user,newPassword,callback){
         user.password = hashedPassword;
         persistence.saveObject(user,callback);
     });
-};
-
-validateUser = function (email, pass, callback) {
-    flow.create("Validate Password", {
-        begin: function () {
-            redisPersistence.filter("DefaultUser", {email: email}, this.continue("validatePassword"));
-        },
-        validatePassword: function (err, users) {
-            if(err){
-                callback(err);
-            }else if(users.length === 0 || !pass){
-                callback( new Error("invalidCredentials"));
-            }
-            else{
-                var user = users[0];
-                hashThisPassword(pass, user.salt, function (err, hashedPassword) {
-                    if (err)
-                        callback(err);
-                    else if (hashedPassword !== user.password)
-                        callback(new Error("invalidCredentials"));
-                    else if(user.activationCode!=="0")
-                        callback(new Error("account_not_activated"));
-                    else
-                        callback(null,user.userId);
-                });
-            }
-        }
-    })();
 };
 
 function hashThisPassword(plainPassword,salt,callback){
