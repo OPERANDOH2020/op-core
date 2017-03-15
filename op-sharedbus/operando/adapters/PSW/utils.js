@@ -50,7 +50,9 @@ function init(){
 
     exports.settingToNetwork = [];
     forEachSetting(function(settingObj,settingName,networkName){
-        exports.settingToNetwork.push(networkName);
+        if (settingObj['read']['availableSettings']&& Array.isArray(settingObj['read']['availableSettings'])!==true) {
+            exports.settingToNetwork.push(networkName);
+        }
     });
 
     numOptions = exports.settingToOptions.reduce(function(prev,options){return prev+options.length;},0);
