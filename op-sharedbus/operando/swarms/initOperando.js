@@ -114,6 +114,12 @@ var initOperando = {
                         organisationId: "PSP"
                     },
                     {
+                        userId: new Buffer(uuid.v1()).toString('base64'),
+                        password: "wizard",
+                        email: "privacy_wizard@rms.ro",
+                        organisationId: "Public"
+                    },
+                    {
                         userId:"emailServer",
                         password: "haraka",
                         email: "iAmAnEmailServer@plusprivacy.com",
