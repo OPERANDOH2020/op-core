@@ -160,6 +160,10 @@ addOrUpdateOspOffer = function (ospUserId, offerDetails, callback){
                 callback(new Error("Could not retrieve ospOffer by id"));
             } else
             {
+                var offerEndDate = new Date(offerDetails['end_date']);
+                offerEndDate.setHours(23,59,59,999);
+                offerDetails['end_date'] = offerEndDate.toISOString();
+                console.log(offerDetails);
                 redisPersistence.externalUpdate(ospOffer, offerDetails);
                 ospOffer['userId'] = ospUserId;
                 redisPersistence.saveObject(ospOffer, callback);
@@ -197,6 +201,71 @@ getOspOffers = function(ospUserId, callback){
     flow.create("getOSPOffers",{
         begin:function(){
             redisPersistence.filter("OspOffer",{userId:ospUserId},callback);
+        }
+    })();
+};
+
+
+getOSPOffer = function(offerId,callback){
+
+    flow.create("getOSPOffer",{
+        begin:function(){
+            redisPersistence.lookup("OspOffer",offerId,this.continue("checkOffer"));
+        },
+        checkOffer:function(err, offer){
+            if(redisPersistence.isFresh(offer)){
+                callback(new Error("Offer not found"));
+            }
+            else{
+                redisPersistence.lookup("OspDetails",offer.userId, function(err, ospDetails){
+                    if(err){
+                        callback(err);
+                    }
+                    else if(redisPersistence.isFresh(ospDetails)){
+                        callback(new Error(("OSPDetails with this userId not found")));
+                    }
+                    else{
+                        offer['website'] = ospDetails['website'];
+                        callback(null, offer);
+                    }
+                });
+            }
+        }
+    })();
+};
+
+getAllOffers = function(callback){
+    var availableOffers = [];
+    flow.create("getAllOffers",{
+        begin:function(){
+            redisPersistence.filter("OspOffer",{},this.continue("checkDate"));
+        },
+        checkDate:function(err, offers){
+            if(err){
+                callback(err);
+            }
+            else{
+                var currentDate = new Date();
+                availableOffers = offers.filter(function(offer){
+                    return (currentDate >= new Date(offer['start_date']) && currentDate <= new Date(offer['end_date']));
+                });
+
+                this.next("getOSPDetails");
+
+            }
+        },
+        getOSPDetails:function(){
+
+            availableOffers.forEach(function(offer){
+                    redisPersistence.lookup("OspDetails",offer.userId, function(err, ospDetails){
+                       if(!redisPersistence.isFresh(ospDetails)){
+                           offer['website'] = ospDetails['website'];
+                       }
+                    });
+            });
+
+            callback(null,availableOffers);
+
         }
     })();
 };

@@ -84,7 +84,7 @@ var privacyForBenefits = {
         }
     },
 
-    listAllPfbDeals: {
+    /*listAllPfbDeals: {
         node: "PrivacyForBenefitsManager",
         code:function(){
             var self = this;
@@ -102,7 +102,59 @@ var privacyForBenefits = {
                 }
             }));
         }
+    },*/
+
+    listAllPfbDeals: {
+        node: "OSPAdapter",
+        code:function(){
+            var self = this;
+            getAllOffers( S(function(err, deals){
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    if(self.meta['tenantId'] === "ios"){
+                        self.deals = [];
+                        self.home("gotAllDeals");
+                    }else{
+                        self.deals = deals;
+                    }
+
+                    self.swarm("checkUserDeals");
+                }
+            }));
+        }
     },
+
+    checkUserDeals: {
+        node: "PrivacyForBenefitsManager",
+        code: function () {
+
+            var self = this;
+            getUserDeals(self.meta.userId, S(function (err, userDeals) {
+                console.log(userDeals);
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    for (var j = 0; j < self.deals.length; j++) {
+                        for (var i = 0; i < userDeals.length; i++) {
+                            if (userDeals[i].pfbId === self.deals[j].offerId) {
+                                self.deals[j].subscribed = true;
+                                self.deals[j].voucher = userDeals[i].voucher;
+                                break;
+                            }
+                        }
+                        if(!self.deals[j].subscribed){
+                            self.deals[j].subscribed = false;
+                        }
+                    }
+                    self.home("gotAllDeals");
+                }
+            }));
+        }
+    },
+
 
     acceptPfBDeal: {
         node: "PrivacyForBenefitsManager",
@@ -132,10 +184,10 @@ var privacyForBenefits = {
 
 
     getService:{
-        node:"PrivacyForBenefitsManager",
+        node:"OSPAdapter",
         code:function(){
             var self = this;
-            getDealDetails(this.deal.pfbId, S(function(err, service){
+            getOSPOffer(this.deal.pfbId, S(function(err, service){
                  if(err){
                      console.log(err);
                  }
@@ -204,7 +256,7 @@ var privacyForBenefits = {
                 }
             }));
         }
-    },
+    }
 
 }
 privacyForBenefits;
