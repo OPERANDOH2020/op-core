@@ -20,7 +20,8 @@ var osp = {
         this.swarm("getOspRequestsFromManager");
     },
 
-    removeOSPRequest:function(ospUserId){
+    removeOSPRequest:function(ospUserId, feedbackMessage){
+        this.feedbackMessage = feedbackMessage;
         this.ospUserId = ospUserId;
         this.swarm("removeOspRequestPhase");
     },
@@ -94,6 +95,12 @@ var osp = {
                     self.error = err.message;
                     self.home("failed");
                 }else{
+
+                    startSwarm("emails.js", "sendEmail", "no-reply@" + thisAdapter.config.Core.operandoHost,
+                        ospRequest['email'],
+                        "Your OSP request was not accepted",
+                        "Unfortunately your request was not accepted. Below is the reason :  \n" +self.feedbackMessage);
+
                     self.home("success");
                 }
             }));
@@ -110,6 +117,14 @@ var osp = {
                     self.home("failed");
                 }
                 else{
+
+                    startSwarm("emails.js", "sendEmail", "no-reply@" + thisAdapter.config.Core.operandoHost,
+                        ospRequest['email'],
+                        "Your OSP request was accepted",
+                        "Congratulations,\n" +
+                        "Your OSP request was accepted\n" +
+                        "Login at http://plusprivacy.com/osp-login/ and start using the service");
+
                     self.swarm("changeUserOrganisation");
                 }
             }));

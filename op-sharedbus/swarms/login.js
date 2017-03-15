@@ -144,7 +144,18 @@ var loginSwarming = {
                         user['email'],
                         "Activate account",
                         "Your account has been registered \nTo activate it, please access the following link:\n http://" + thisAdapter.config.Core.operandoHost + "/osp-activation/?confirmation_code=" + user.activationCode);
+
+                    //send notification to OSP
+                    startSwarm("emails.js", "sendEmail", "no-reply@" + thisAdapter.config.Core.operandoHost,
+                        "psp@plusprivacy.com",
+                        "New OSP request",
+                        "A new OSP request was made from:\n" +
+                        "Name: " + self.ospData['name'] + "\n" +
+                        "Email: " + self.ospData['email'] + "\n" +
+                        "Please review it accept or deny it");
+
                     self.swarm("registerOSPRequest");
+
                 }
             }))
         }
