@@ -47,6 +47,11 @@ var osp = {
       this.offerId = offerId;
       this.swarm("deleteOspOfferPhase");
     },
+
+    getOffersStats:function(ospId){
+        this.ospId = ospId;
+        this.swarm("getOSPOffers");
+    },
     getOspRequestsFromManager: {
         node: "OSPRequests",
         code: function () {
@@ -279,6 +284,39 @@ var osp = {
                     self.home("success");
                 }
             }));
+        }
+    },
+
+    getOSPOffers:{
+        node:"OSPAdapter",
+        code: function(){
+            var self = this;
+            getOspOffers(self.ospId,S(function(err, offers){
+                if (err) {
+                    self.error = err.message;
+                    self.home("failed");
+                }
+                else {
+                    self.offersStats = offers;
+                    self.swarm("getAcceptedDeals");
+
+                }
+            }));
+        }
+    },
+    getAcceptedDeals:{
+        node:"PrivacyForBenefitsManager",
+        code:function(){
+            this.offersStats.forEach(function(offer){
+                getOSPAcceptedOffers(offer.offerId, S(function(err, acceptedOffers){
+                    if(err){
+                        console.log(err);
+                    }
+                    offer.deals_number = acceptedOffers.length;
+                }));
+            });
+
+            this.home("success");
         }
     }
 };

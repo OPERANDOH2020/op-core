@@ -59,7 +59,6 @@ var dummyVendors = [
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus dolor diam, pharetra vel velit in, finibus mollis purus. Sed luctus mattis porta. ",
         logo:"http://www.brandsoftheworld.com/sites/default/files/styles/logo-thumbnail/public/122010/etsy-thumb.png"
 
-
     },{
         serviceId: 7,
         website: "viagogo.fr",
@@ -77,36 +76,12 @@ var dummyVendors = [
     }
 ];
 
-
 var core = require("swarmcore");
 core.createAdapter("PrivacyForBenefitsManager");
 var apersistence = require('apersistence');
 var container = require("safebox").container;
 var flow = require("callflow");
 var voucher_codes = require('voucher-code-generator');
-
-apersistence.registerModel("PrivacyForBenefitsService", "Redis", {
-        serviceId: {
-            type: "string",
-            index: "true",
-            pk: "true"
-        },
-        website: {
-            type: "string",
-            index: "true"
-        },
-        benefit: {
-            type: "string"
-
-        }
-    },
-    function (err, model) {
-        if (err) {
-            console.log(model);
-        }
-    }
-);
-
 
 apersistence.registerModel("UserPfB", "Redis", {
         id: {
@@ -124,6 +99,9 @@ apersistence.registerModel("UserPfB", "Redis", {
         },
         voucher:{
             type: "string"
+        },
+        accepted_date:{
+            type:"date"
         }
     },
     function (err, model) {
@@ -190,39 +168,6 @@ getPfBDeal = function (userId, website, callback) {
 };
 
 
-/*getAllDeals = function(userId, callback){
-    var availableDeals = dummyVendors.slice(0);
-    flow.create("getAllDeals", {
-        begin: function(){
-            if (!userId) {
-                callback(new Error('Empty userId'), null);
-            }
-            else {
-                redisPersistence.filter("UserPfB", {userId:userId}, this.continue("getAllDeals"));
-            }
-        },
-        getAllDeals:function(err, deals){
-            if(err){
-                callback(err);
-            }
-            else{
-                var i = availableDeals.length;
-                while (i--) {
-                    for (var k = 0; k < deals.length; k++) {
-                        if (availableDeals[i].serviceId == deals[k].pfbId) {
-                            availableDeals.splice(i, 1);
-                            break;
-                        }
-                    }
-                }
-                callback(null, availableDeals);
-            }
-
-        }
-
-    })();
-
-};*/
 
 getUserDeals = function (userId, callback) {
     flow.create("get user accepted deals", {
@@ -236,97 +181,6 @@ getUserDeals = function (userId, callback) {
         }
     })();
 };
-
-
-/*getDealDetails = function(pfbId, callback){
-
-    var allDeals = dummyVendors;
-    var service = allDeals.filter(function(value){
-        return value.serviceId === pfbId;
-    });
-
-    if(service.length == 0){
-        callback(new Error("Service not found"), null);
-    }
-    else{
-        callback(null, service[0]);
-    }
-
-}*/
-
-/*getAllPfbDeals = function(userId, callback){
-    var allDeals = dummyVendors;
-
-    for(var i = 0; i<allDeals.length; i++){
-        allDeals[i].subscribed = false;
-    }
-
-    getUserDeals(userId, function(err, deals){
-
-      for (var i = 0; i<deals.length; i++){
-          for(var j = 0; j<allDeals.length; j++){
-              if(deals[i].serviceId === allDeals[j].serviceId)
-              {
-                  allDeals[j].subscribed = true;
-                  break;
-              }
-          }
-      }
-        callback(null,allDeals);
-
-    });
-};*/
-
-
-/*saveUserDeal = function (dealId, userId, callback) {
-    flow.create("store pfb deal", {
-        begin: function () {
-            if (!userId) {
-                callback(new Error('Empty userId'), null);
-            }
-            else {
-
-                for (var i = 0; i < dummyVendors.length; i++) {
-                    var deal = dummyVendors[i];
-
-                    if (deal.serviceId == dealId) {
-                        var deal = {
-                            userId: userId,
-                            pfbId: dealId,
-                        }
-                        redisPersistence.filter("UserPfB", deal, this.continue("saveDeal"));
-                        break;
-                    }
-                }
-            }
-        },
-
-        saveDeal: function (err) {
-            if(!err){
-
-                redisPersistence.lookup("UserPfB", generateUUID(), function (err, deal) {
-
-                    if (redisPersistence.isFresh(deal)) {
-                        deal.userId = userId;
-                        deal.pfbId = dealId;
-                        deal.voucher = voucher_codes.generate({
-                            pattern: "###",
-                            charset: voucher_codes.charset("alphabetic")
-                        })[0].toUpperCase()+" "+voucher_codes.generate({
-                            pattern: "#### #### #### #### ####",
-                            charset: voucher_codes.charset("numbers")
-                        })[0];
-                        redisPersistence.saveObject(deal, callback);
-                    }
-                })
-
-            }
-            else{
-                console.log("Save deal error",err);
-            }
-        }
-    })();
-}*/
 
 saveUserDeal = function (offerId, userId, callback) {
     console.log("aasad");
@@ -352,6 +206,7 @@ saveUserDeal = function (offerId, userId, callback) {
                     if (redisPersistence.isFresh(deal)) {
                         deal.userId = userId;
                         deal.pfbId = offerId;
+                        deal.accepted_date = new Date();
                         deal.voucher = voucher_codes.generate({
                                 pattern: "###",
                                 charset: voucher_codes.charset("alphabetic")
@@ -360,7 +215,6 @@ saveUserDeal = function (offerId, userId, callback) {
                                 charset: voucher_codes.charset("numbers")
                             })[0];
                         redisPersistence.saveObject(deal, callback);
-                        console.log("salvat");
                     }
                 })
 
@@ -395,6 +249,14 @@ removeUserDeal = function(dealId, userId, callback){
             }
         }
 
+    })();
+};
+
+getOSPAcceptedOffers = function(ospId,callback){
+    flow.create("getAcceptedOffers",{
+       begin:function(){
+            redisPersistence.filter("UserPfB",{pfbId:ospId}, callback);
+       }
     })();
 };
 
