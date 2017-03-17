@@ -16,6 +16,7 @@ node {
 		  sourcesPath = 'op-int/eu.operando.int.core.ldb.server.test00.src.dvp'
 		  sourcesRepo = 'https://github.com/OPERANDOH2020/op-core.git'
 		  credentialsId = gitCredentials
+		  sources = WORKSPACE
 	   }
 	   stage ('Source Collection'){
 		   checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: sources], [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: sourcesPath]]]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: credentialsId, url: sourcesRepo]]])
