@@ -6,16 +6,21 @@ node {
 	try {
 	   def mvnHome 
 	   stage('Independent') { 
-	      build job: 'eu.operando.int.core.ldb.client.jnk.tsk', propagate: false
-	      build job: 'eu.operando.int.interfaces.aapi.jnk.tsk', propagate: false
-	      build job: 'eu.operando.int.jnk.tsk', propagate: false
+	      build job: 'eu.operando.int.jnk.tsk.pre', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+
 	   }
 	   stage('Dependent lv1') { 
-	      build job: 'eu.operando.int.interfaces.aapi.client.jnk.tsk', propagate: false
-	      build job: 'eu.operando.int.jnk.tsk.dependencies', propagate: false
+	      build job: 'eu.operando.int.jnk.tsk.pre.dependencies', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 	   }
 	   stage('Dependent lv2') { 
-	      build job: 'eu.operando.int.jnk.tsk.resources', propagate: false
+	      build job: 'eu.operando.int.jnk.tsk.pre.resources', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	   }
+	   stage('Dependent lv3') { 
+	      build job: 'eu.operando.int.core.ldb.client.jnk.tsk.pre', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	      build job: 'eu.operando.int.interfaces.aapi.jnk.tsk.pre', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	   }
+	   stage('Dependent lv4') { 
+	      build job: 'eu.operando.int.interfaces.aapi.client.jnk.tsk.pre', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 	   }
 	   if (continueTasks) {
 	       stage('continue') {
