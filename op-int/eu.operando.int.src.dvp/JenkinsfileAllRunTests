@@ -1,6 +1,7 @@
 #!groovy
 node {	
     currentBuild.result = "SUCCESS"
+    echo "continueTasks: ${continueTasks}"
 
 	try {
 	   def mvnHome 
@@ -14,7 +15,12 @@ node {
 	   }
 	   stage('test03') { 
 	   }	   	   
-	  } catch (err) {
+	   if (continueTasks) {
+	       stage('continue') {
+	   	        build job: 'eu.operando.int.jnk.tsk.run.test', wait: false
+	   	   }
+	   }
+	   } catch (err) {
 
         currentBuild.result = "FAILURE"
 
