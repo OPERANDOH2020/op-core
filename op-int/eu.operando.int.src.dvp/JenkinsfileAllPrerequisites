@@ -1,6 +1,7 @@
 #!groovy
 node {	
     currentBuild.result = "SUCCESS"
+    echo "${continue}"
 
 	try {
 	   def mvnHome 
@@ -17,8 +18,9 @@ node {
 	      build job: 'eu.operando.int.jnk.tsk.resources', propagate: false
 	   }
 	   stage('continue') {
-	       when{continue}
-	   	   build job: 'eu.operando.int.jnk.tsk.build.images', wait: false
+	       if (continue) {
+	   	        build job: 'eu.operando.int.jnk.tsk.build.images', wait: false
+	   	   }
 	   }
 	   	   	   
 	  } catch (err) {
