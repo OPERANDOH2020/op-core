@@ -1,7 +1,7 @@
 #!groovy
 node {	
     currentBuild.result = "SUCCESS"
-    echo "${continueTasks}"
+    echo "continueTasks: ${continueTasks}"
 
 	try {
 	   def mvnHome 
@@ -17,7 +17,11 @@ node {
 	   stage('Dependent lv2') { 
 	      build job: 'eu.operando.int.jnk.tsk.resources', propagate: false
 	   }
-
+	   if (continueTasks) {
+	       stage('continue') {
+	   	        build job: 'eu.operando.int.jnk.tsk.build.images', wait: false
+	   	   }
+	   }
 	   	   	   
 	  } catch (err) {
 
