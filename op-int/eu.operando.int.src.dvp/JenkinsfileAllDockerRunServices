@@ -5,7 +5,7 @@ node {
 	try {
 	   def mvnHome 
 	   stage('Independent') { 
-	      build job: 'eu.operando.int.jnk.tsk.core.mysql.server.run', propagate: false
+	      build job: 'eu.operando.int.core.mysql.server.jnk.tsk.run', propagate: false
 	      
 	      build job: 'eu.operando.dev.common', propagate: false
 		  build job: 'eu.operando.dev.test.dependencies', propagate: false
@@ -26,7 +26,7 @@ node {
 
 	   }
 	   stage('Dependent lv3') { 
-		  build job: 'eu.operando.int.jnk.tsk.core.ldb.server.run', propagate: false
+		  build job: 'eu.operando.int.core.ldb.server.jnk.tsk.run', propagate: false
 
 		  build job: 'eu.operando.dev.core.ae.server', propagate: false
 		  build job: 'eu.operando.dev.core.bda.server', propagate: false

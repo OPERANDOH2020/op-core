@@ -5,14 +5,14 @@ node {
 	try {
 	   def mvnHome 
 	   stage('Independent') { 
-	      build job: 'eu.operando.int.jnk.tsk.core.mysql.server', propagate: false
-	      build job: 'eu.operando.int.jnk.tsk.core.ldb.server', propagate: false	      
+	      build job: 'eu.operando.int.core.mysql.server.jnk.tsk', propagate: false
+	      build job: 'eu.operando.int.core.ldb.server.jnk.tsk', propagate: false	      
 	   }
 	   stage('Dependent lv1') { 
 	   }	   	   
 	   stage('Tests') { 
-	   	  build job: 'eu.operando.int.jnk.tsk.core.mysql.server.test01', propagate: false
-	      build job: 'eu.operando.int.jnk.tsk.core.mysql.server.test01', propagate: false
+	   	  build job: 'eu.operando.int.core.ldb.server.test00.jnk.tsk', propagate: false
+	      build job: 'eu.operando.int.core.ldb.server.test01.jnk.tsk', propagate: false
 	   }
 	  } catch (err) {
 
