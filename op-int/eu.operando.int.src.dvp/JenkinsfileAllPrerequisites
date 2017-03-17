@@ -17,11 +17,11 @@ node {
 	   stage('Dependent lv2') { 
 	      build job: 'eu.operando.int.jnk.tsk.resources', propagate: false
 	   }
-	   stage('continue') {
-	       if (continue) {
-	   	        build job: 'eu.operando.int.jnk.tsk.build.images', wait: false
-	   	   }
-	   }
+//	   if (continue) {
+//	       stage('continue') {
+//	   	        build job: 'eu.operando.int.jnk.tsk.build.images', wait: false
+//	   	   }
+//	   }
 	   	   	   
 	  } catch (err) {
 
