@@ -22,7 +22,7 @@ node {
 		  credentialsId = gitCredentials
 		  sources = WORKSPACE
 		  sourcesServer = WORKSPACE+'/sourcesServer'
-		  sh "rm -rf ${sourcesPath}/sources"
+		  sh "rm -rf ${sources}/${sourcesPath}/sources"
 	   }
 	   stage ('Source Collection'){
 		   checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: sources], [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: sourcesPath]]]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: credentialsId, url: sourcesRepo]]])
