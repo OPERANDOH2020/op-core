@@ -13,7 +13,7 @@ node {
 		  // ** NOTE: This 'M3' Maven tool must be configured
 		  // **       in the global configuration.
 		  mvnHome = tool 'Maven 3.3.9 colocated'
-		  sourcesPath = 'op-int/eu.operando.int.src.dvp.dependencies'
+		  sourcesPath = 'op-int/eu.operando.int.dependencies.src.dvp'
 		  sourcesRepo = 'https://github.com/OPERANDOH2020/op-core.git'
 		  credentialsId = gitCredentials
 	   }
