@@ -54,7 +54,7 @@ node {
 		  build job: 'eu.operando.dev.core.pdb.server.load', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 		  build job: 'eu.operando.dev.demo.setup.scripts', propagate: false	 , parameters: [booleanParam(name: 'continueTasks', value: false)]  
 	   }
-	   if (continueTasks) {
+	   if (continueTasks == true) {
 	       stage('continue') {
 	   	        build job: 'eu.operando.int.jnk.tsk.run.tests', wait: false
 	   	   }
