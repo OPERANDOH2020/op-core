@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>eu.operando.int</groupId>
 	<version>ALPHA</version>
-	<artifactId>eu.operando.int.src.dvp.resources</artifactId>
+	<artifactId>eu.operando.int.resources.src.dvp</artifactId>
 	<packaging>jar</packaging>
 
 	<build>
@@ -28,13 +28,13 @@
 	<dependencies>
 		<dependency>
 			<groupId>eu.operando.int</groupId>
-			<artifactId>eu.operando.int.src.dvp.dependencies</artifactId>
+			<artifactId>eu.operando.int.dependencies.src.dvp</artifactId>
 			<version>ALPHA</version>
 			<type>pom</type>
 			<exclusions>
 				<exclusion>
 					<groupId>eu.operando.int</groupId>
-					<artifactId>eu.operando.int.src.dvp.resources</artifactId>
+					<artifactId>eu.operando.int.resources.src.dvp</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>

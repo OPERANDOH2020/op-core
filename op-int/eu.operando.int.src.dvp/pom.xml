@@ -55,12 +55,12 @@
 	<dependencies>
 		<dependency>
 			<groupId>eu.operando.int</groupId>
-			<artifactId>eu.operando.int.src.dvp.resources</artifactId>
+			<artifactId>eu.operando.int.resources.src.dvp</artifactId>
 			<version>ALPHA</version>
 		</dependency>
 		<dependency>
 			<groupId>eu.operando.int</groupId>
-			<artifactId>eu.operando.int.src.dvp.dependencies</artifactId>
+			<artifactId>eu.operando.int.dependencies.src.dvp</artifactId>
 			<version>ALPHA</version>
 			<type>pom</type>
 		</dependency>
