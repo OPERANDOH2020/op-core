@@ -42,7 +42,7 @@
 				<groupId>org.jolokia</groupId>
 				<artifactId>docker-maven-plugin</artifactId>
 				<!-- last version in https://mvnrepository.com/artifact/org.jolokia/docker-maven-plugin -->
-				<version>0.13.9</version>
+				<version>0.20.0</version>
 				<configuration>
 					<images>
 						<image>
