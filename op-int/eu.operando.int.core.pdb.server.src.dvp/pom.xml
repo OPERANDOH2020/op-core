@@ -96,31 +96,22 @@
 			<!-- this is to fix the warning "Build path specifies execution environment 
 				J2SE-1.5. There are no JREs installed in the workspace that are strictly 
 				compatible with this environment. -->
-			<!-- it maybe is adding problems problems <plugin> <groupId>org.apache.maven.plugins</groupId> 
-				<artifactId>maven-compiler-plugin</artifactId> <version>3.1</version> <configuration> 
-				<source>1.8</source> <target>1.8</target> </configuration> </plugin> -->
+			<!-- it maybe is adding problems problems -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
 			<!-- Plugin to copy the war into generated folder accessible to the docker 
 				file -->
 			<plugin>
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>2.7</version>
 				<executions>
-<!-- 					<execution> -->
-<!-- 						<id>copy-resource-config</id> -->
-<!-- 						<phase>generate-resources</phase> -->
-<!-- 						<goals> -->
-<!-- 							<goal>copy-resources</goal> -->
-<!-- 						</goals> -->
-<!-- 						<configuration> -->
-<!-- 							<outputDirectory>${sources.path}/src/main/resources/config</outputDirectory> -->
-<!-- 							<resources> -->
-<!-- 								<resource> -->
-<!-- 									<directory>src/main/resources/config</directory> -->
-<!-- 									<filtering>true</filtering> -->
-<!-- 								</resource> -->
-<!-- 							</resources> -->
-<!-- 						</configuration> -->
-<!-- 					</execution> -->
 					<execution>
 						<id>copy-resource-war</id>
 						<phase>package</phase>
@@ -255,7 +246,7 @@
 		<docker.image.version>${project.version}</docker.image.version>
 		<docker.port1.external>${operando.core.pdb.port}</docker.port1.external>
 		<docker.port1.mapping>${docker.port1.external}:8080</docker.port1.mapping>
-		
+
 		<mongo.host>${operando.mongo.host}</mongo.host>
 		<mongo.port>${operando.mongo.port}</mongo.port>
 		<interfaces.aapi.endpoint>${operando.interfaces.aapi.endpoint}</interfaces.aapi.endpoint>
