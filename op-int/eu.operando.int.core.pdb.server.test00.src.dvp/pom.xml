@@ -120,17 +120,9 @@
 		<!-- </resource> -->
 		<!-- </resources> -->
 	</build>
-	<dependencies>
-		<dependency>
-			<groupId>eu.operando</groupId>
-			<artifactId>eu.operando.core.ldb.server</artifactId>
-			<version>1.0.0</version>
-			<type>pom</type>
-			<scope>compile</scope>
-		</dependency>
-	</dependencies>
+
 	<properties>
-		<docker.name>eu.operando.core.ldb.server.test00</docker.name>
+		<docker.name>eu.operando.core.pdb.server.test00</docker.name>
 		<docker.image.name>${docker.registry.name}${docker.submitter}/${docker.name}</docker.image.name>
 		<docker.image.version>${project.version}</docker.image.version>
 		<core.pdb.endpoint>${operando.core.pdb.endpoint}</core.pdb.endpoint>
