@@ -25,7 +25,7 @@ from swagger_client.apis.osp_api import OSPApi
 class TestOSPApi(unittest.TestCase):
     """ OSPApi unit test stubs """
     BASE_PATH = "http://10.136.24.87:8080"
-    # BASE_PATH = "http://integration.operando.esilab.org:8096/operando/core"
+    BASE_PATH = "http://integration.operando.esilab.org:8096/operando/core"
     _osp_id = "xxxx"
     _osp_policy = None
 

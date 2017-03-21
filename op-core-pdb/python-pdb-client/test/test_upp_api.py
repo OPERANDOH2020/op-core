@@ -25,7 +25,7 @@ from swagger_client.apis.upp_api import UPPApi
 class TestUPPApi(unittest.TestCase):
     """ UPPApi unit test stubs """
     BASE_PATH = "http://10.136.24.87:8080"
-    # BASE_PATH = "http://integration.operando.esilab.org:8096/operando/core"
+    BASE_PATH = "http://integration.operando.esilab.org:8096/operando/core"
 
     def setUp(self):
         self.api = swagger_client.apis.upp_api.UPPApi()
