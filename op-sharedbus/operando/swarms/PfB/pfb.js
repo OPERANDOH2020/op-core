@@ -84,26 +84,6 @@ var privacyForBenefits = {
         }
     },
 
-    /*listAllPfbDeals: {
-        node: "PrivacyForBenefitsManager",
-        code:function(){
-            var self = this;
-            getAllPfbDeals(self.meta.userId, S(function(err, deals){
-                if(err){
-                    console.log(err);
-                }
-                else{
-                    if(self.meta['tenantId'] === "ios"){
-                        self.deals = [];
-                    }else{
-                        self.deals = deals;
-                    }
-                    self.home("gotAllDeals");
-                }
-            }));
-        }
-    },*/
-
     listAllPfbDeals: {
         node: "OSPAdapter",
         code:function(){

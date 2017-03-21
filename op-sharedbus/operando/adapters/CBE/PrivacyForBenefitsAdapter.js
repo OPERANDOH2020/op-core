@@ -78,38 +78,87 @@ var dummyVendors = [
 
 var core = require("swarmcore");
 core.createAdapter("PrivacyForBenefitsManager");
-var apersistence = require('apersistence');
+var persistence = undefined;
 var container = require("safebox").container;
 var flow = require("callflow");
 var voucher_codes = require('voucher-code-generator');
 
-apersistence.registerModel("UserPfB", "Redis", {
-        id: {
-            type: "string",
-            index: true,
-            pk: true
-        },
-        userId: {
-            type: "string",
-            index: true
-        },
-        pfbId: {
-            type: "string",
-            index: true
-        },
-        voucher:{
-            type: "string"
-        },
-        accepted_date:{
-            type:"date"
+
+function registerModels(callback){
+
+    var models = [
+        {
+            modelName: "UserPfB",
+            dataModel: {
+                id: {
+                    type: "string",
+                    index: true,
+                    pk: true,
+                    length: 254
+                },
+                userId: {
+                    type: "string",
+                    index: true,
+                    length: 254
+                },
+                pfbId: {
+                    type: "string",
+                    index: true,
+                    length: 254
+                },
+                voucher: {
+                    type: "string",
+                    length: 50
+                },
+                accepted_date: {
+                    type: "date"
+                }
+            }
         }
-    },
-    function (err, model) {
-        if (err) {
-            console.log(model);
+    ];
+
+    flow.create("registerModels",{
+        begin:function(){
+            this.errs = [];
+            var self = this;
+            models.forEach(function(model){
+                persistence.registerModel(model.modelName,model.dataModel,self.continue("registerDone"));
+            });
+
+        },
+        registerDone:function(err,result){
+            if(err) {
+                this.errs.push(err);
+            }
+        },
+        end:{
+            join:"registerDone",
+            code:function(){
+                if(callback && this.errs.length>0){
+                    callback(this.errs);
+                }else{
+                    callback(null);
+                }
+            }
         }
+    })();
+}
+
+container.declareDependency("PrivacyForBenefitsManager", ["mysqlPersistence"], function (outOfService, mysqlPersistence) {
+    if (!outOfService) {
+        persistence = mysqlPersistence;
+        registerModels(function(errs){
+            if(errs){
+                console.error(errs);
+            }
+        })
+
+    } else {
+        console.log("Disabling persistence...");
     }
-);
+});
+
+
 
 websiteHasPfBDeal = function (website) {
     for (var i = 0; i < dummyVendors.length; i++) {
@@ -133,7 +182,7 @@ getPfBDeal = function (userId, website, callback) {
             }
 
             if (deal) {
-                redisPersistence.filter("UserPfB", {userId: userId}, this.continue("checkWebsite"));
+                persistence.filter("UserPfB", {userId: userId}, this.continue("checkWebsite"));
             }
             else {
                 callback(null, null);
@@ -176,7 +225,7 @@ getUserDeals = function (userId, callback) {
                 callback(new Error('Empty userId'), null);
             }
             else {
-                redisPersistence.filter("UserPfB", {userId: userId}, callback);
+                persistence.filter("UserPfB", {userId: userId}, callback);
             }
         }
     })();
@@ -194,16 +243,16 @@ saveUserDeal = function (offerId, userId, callback) {
                     userId: userId,
                     pfbId: offerId
             };
-                redisPersistence.filter("UserPfB", deal, this.continue("saveDeal"));
+                persistence.filter("UserPfB", deal, this.continue("saveDeal"));
             }
         },
 
         saveDeal: function (err) {
             if(!err){
 
-                redisPersistence.lookup("UserPfB", generateUUID(), function (err, deal) {
+                persistence.lookup("UserPfB", generateUUID(), function (err, deal) {
 
-                    if (redisPersistence.isFresh(deal)) {
+                    if (persistence.isFresh(deal)) {
                         deal.userId = userId;
                         deal.pfbId = offerId;
                         deal.accepted_date = new Date();
@@ -214,7 +263,7 @@ saveUserDeal = function (offerId, userId, callback) {
                                 pattern: "#### #### #### #### ####",
                                 charset: voucher_codes.charset("numbers")
                             })[0];
-                        redisPersistence.saveObject(deal, callback);
+                        persistence.saveObject(deal, callback);
                     }
                 })
 
@@ -235,7 +284,7 @@ removeUserDeal = function(dealId, userId, callback){
                         pfbId: dealId
                     };
 
-                    redisPersistence.filter("UserPfB", dealData, this.continue("removeDeal"));
+                    persistence.filter("UserPfB", dealData, this.continue("removeDeal"));
         },
         removeDeal:function(err, deals){
             if(err){
@@ -243,7 +292,7 @@ removeUserDeal = function(dealId, userId, callback){
             }
             else{//console.log(deals);
                 deals.forEach(function(deal){
-                    redisPersistence.delete(deal);
+                    persistence.delete(deal);
                     callback(null,deal);
                 })
             }
@@ -255,7 +304,7 @@ removeUserDeal = function(dealId, userId, callback){
 getOSPAcceptedOffers = function(ospId,callback){
     flow.create("getAcceptedOffers",{
        begin:function(){
-            redisPersistence.filter("UserPfB",{pfbId:ospId}, callback);
+            persistence.filter("UserPfB",{pfbId:ospId}, callback);
        }
     })();
 };
@@ -272,11 +321,3 @@ function generateUUID() {
 }
 
 
-
-container.declareDependency("PrivacyForBenefitsManager", ["redisPersistence"], function (outOfService, redisPersistence) {
-    if (!outOfService) {
-        console.log("Enabling persistence...", redisPersistence);
-    } else {
-        console.log("Disabling persistence...");
-    }
-})

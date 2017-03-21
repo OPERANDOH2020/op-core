@@ -12,49 +12,84 @@
 
 var core = require("swarmcore");
 core.createAdapter("IdentityManager");
-
-var apersistence = require('apersistence');
+var persistence = undefined;
 var container = require("safebox").container;
 
 var flow = require("callflow");
 
-apersistence.registerModel("Identity", "Redis", {
-        userId: {
-            type: "string",
-            index: true
-        },
-        email: {
-            type: "string",
-            index: true,
-            pk: true
-        },
-        isDefault:{
-            type: "boolean",
-            index: true,
-            default: false
-        },
-        isReal:{
-            type: "boolean",
-            default: false,
-            index: true
-        },
-        deleted:{
-            type: "boolean",
-            default: false,
-            index:true
-        }
-    },
-    function (err, model) {
-        if (err) {
-            console.log(err);
-        }else{
-        }
-    }
-);
 
-container.declareDependency("IdentityManager", ["redisPersistence"], function (outOfService, redisPersistence) {
+function registerModels(callback){
+
+    var models = [
+        {
+            modelName:"Identity",
+            dataModel : {
+                userId: {
+                    type: "string",
+                    index: true,
+                    length: 254
+                },
+                email: {
+                    type: "string",
+                    index: true,
+                    pk: true,
+                    length:254
+                },
+                isDefault:{
+                    type: "boolean",
+                    index: true,
+                    default: false
+                },
+                isReal:{
+                    type: "boolean",
+                    default: false,
+                    index: true
+                },
+                deleted:{
+                    type: "boolean",
+                    default: false,
+                    index:true
+                }
+            }
+        }
+    ];
+
+    flow.create("registerModels",{
+        begin:function(){
+            this.errs = [];
+            var self = this;
+            models.forEach(function(model){
+                persistence.registerModel(model.modelName,model.dataModel,self.continue("registerDone"));
+            });
+
+        },
+        registerDone:function(err,result){
+            if(err) {
+                this.errs.push(err);
+            }
+        },
+        end:{
+            join:"registerDone",
+            code:function(){
+                if(callback && this.errs.length>0){
+                    callback(this.errs);
+                }else{
+                    callback(null);
+                }
+            }
+        }
+    })();
+}
+
+container.declareDependency("IdentityManager", ["mysqlPersistence"], function (outOfService, mysqlPersistence) {
     if (!outOfService) {
-        console.log("Enabling persistence...", redisPersistence);
+        persistence = mysqlPersistence;
+        registerModels(function(errs){
+            if(errs){
+                console.error(errs);
+            }
+        })
+
     } else {
         console.log("Disabling persistence...");
     }
@@ -66,19 +101,19 @@ createIdentity = function (identityData, callback){
 
     flow.create("create identity", {
         begin: function () {
-            redisPersistence.lookup.async("Identity", identityData.email, this.continue("createIdentity"));
+            persistence.lookup.async("Identity", identityData.email, this.continue("createIdentity"));
         },
         createIdentity: function (err, identity) {
             if (err) {
                 callback(err, null);
             }
             else {
-                if (!redisPersistence.isFresh(identity)) {
+                if (!persistence.isFresh(identity)) {
                     callback(new Error("Identity already exists"), null);
                 }
                 else {
-                    redisPersistence.externalUpdate(identity, identityData);
-                    redisPersistence.saveObject(identity, callback);
+                    persistence.externalUpdate(identity, identityData);
+                    persistence.saveObject(identity, callback);
 
                 }
             }
@@ -91,10 +126,10 @@ generateIdentity = function(callback){
         begin:function(){
             var identity = generateString().toLowerCase();
             console.log(identity);
-            redisPersistence.lookup.async("Identity", identity, this.continue("generateIdentity"));
+            persistence.lookup.async("Identity", identity, this.continue("generateIdentity"));
         },
         generateIdentity: function(err, identity){
-            if(redisPersistence.isFresh(identity)){
+            if(persistence.isFresh(identity)){
                 callback(null, identity);
             }
             else{
@@ -111,7 +146,7 @@ deleteIdentity = function (identityData, callback) {
                 callback(new Error("empty_email"), null);
             }
             else {
-                redisPersistence.findById("Identity", identityData.email, this.continue("markAsDeleted"));
+                persistence.findById("Identity", identityData.email, this.continue("markAsDeleted"));
             }
         },
 
@@ -127,10 +162,10 @@ deleteIdentity = function (identityData, callback) {
                     var markDeletedData={
                         deleted:true,
                         isDefault:false
-                    }
+                    };
 
-                    redisPersistence.externalUpdate(identity,markDeletedData);
-                    redisPersistence.saveObject(identity, this.continue("getDefaultIdentity"));
+                    persistence.externalUpdate(identity,markDeletedData);
+                    persistence.saveObject(identity, this.continue("getDefaultIdentity"));
                 }
             }
             else{
@@ -140,7 +175,7 @@ deleteIdentity = function (identityData, callback) {
             }
         },
         getDefaultIdentity:function(err, identity){
-            redisPersistence.filter("Identity", {isDefault:true, userId:identityData.userId, deleted:false}, this.continue("returnDefaultIdentity"));
+            persistence.filter("Identity", {isDefault:true, userId:identityData.userId, deleted:false}, this.continue("returnDefaultIdentity"));
         },
         returnDefaultIdentity:function(err, identities){
             if(err){
@@ -148,7 +183,7 @@ deleteIdentity = function (identityData, callback) {
             }
             else{
                if(identities.length === 0){
-                   redisPersistence.filter("Identity", {isReal:true, userId:identityData.userId, deleted:false}, this.continue("returnRealIdentity"));
+                   persistence.filter("Identity", {isReal:true, userId:identityData.userId, deleted:false}, this.continue("returnRealIdentity"));
                }
                 else{
                    callback(null, identities[0]);
@@ -164,7 +199,7 @@ deleteIdentity = function (identityData, callback) {
             }
             else{
                 identities[0].isDefault = true;
-                redisPersistence.saveObject(identities[0], callback);
+                persistence.saveObject(identities[0], callback);
             }
         }
     })();
@@ -175,7 +210,7 @@ getIdentities = function (userId, callback) {
         callback(new Error("userId_is_required"), null);
     }
     else {
-        redisPersistence.filter("Identity", {userId: userId, deleted:false}, callback);
+        persistence.filter("Identity", {userId: userId, deleted:false}, callback);
     }
 };
 
@@ -187,7 +222,7 @@ setDefaultIdentity = function(identity, callback){
                 callback(new Error("no_identity_provided"), null);
             }
             else {
-                redisPersistence.filter("Identity", {isDefault:true, userId:identity.userId, deleted:false}, this.continue("clearCurrentDefaultIdentity"));
+                persistence.filter("Identity", {isDefault:true, userId:identity.userId, deleted:false}, this.continue("clearCurrentDefaultIdentity"));
             }
         },
 
@@ -197,7 +232,7 @@ setDefaultIdentity = function(identity, callback){
                 identities.forEach(function(_identity, index){
                     _identity.isDefault = false;
                     (function (index) {
-                        redisPersistence.saveObject(_identity, function () {
+                        persistence.saveObject(_identity, function () {
                             if (index == identities.length-1) {
                                 self.next("retrieveCurrentIdentity");
                             }
@@ -211,7 +246,7 @@ setDefaultIdentity = function(identity, callback){
         },
 
         retrieveCurrentIdentity:function(){
-            redisPersistence.findById("Identity", identity.email, this.continue("updateNewIdentity"));
+            persistence.findById("Identity", identity.email, this.continue("updateNewIdentity"));
         },
         updateNewIdentity:function(err, identity){
             if(err){
@@ -219,7 +254,7 @@ setDefaultIdentity = function(identity, callback){
             }
             else{
                 identity.isDefault = true;
-                redisPersistence.saveObject(identity, callback);
+                persistence.saveObject(identity, callback);
             }
         }
     })();
@@ -230,7 +265,7 @@ setRealIdentity = function(user, callback){
     flow.create("add real identity",{
 
         begin:function(){
-            redisPersistence.lookup.async("Identity", user.email, this.continue("addRealIdentity"));
+            persistence.lookup.async("Identity", user.email, this.continue("addRealIdentity"));
         },
 
         addRealIdentity:function(err, identity){
@@ -238,7 +273,7 @@ setRealIdentity = function(user, callback){
                 callback(err, null);
             }
             else{
-                if (!redisPersistence.isFresh(identity)) {
+                if (!persistence.isFresh(identity)) {
                     callback(new Error("This identity already exists"), null);
                 }
                 else{
@@ -246,7 +281,7 @@ setRealIdentity = function(user, callback){
                     identity.isDefault = true;
                     identity.email = user.email;
                     identity.userId = user.userId;
-                    redisPersistence.saveObject(identity, callback);
+                    persistence.saveObject(identity, callback);
                 }
             }
         }
@@ -261,8 +296,8 @@ changeRealIdentity = function(user, callback){
                userId:user.userId,
                isReal:true,
                deleted:false
-           }
-           redisPersistence.filter("Identity", filter, this.continue("changeRealIdentity"));
+           };
+           persistence.filter("Identity", filter, this.continue("changeRealIdentity"));
        },
         changeRealIdentity:function(err, identities){
             if(err){
@@ -270,9 +305,9 @@ changeRealIdentity = function(user, callback){
             }
             else if(identities.length>0){
                 var identity = identities[0];
-                redisPersistence.delete(identity,function(){
+                persistence.delete(identity,function(){
                     identity.email = user.email;
-                    redisPersistence.saveObject(identity, callback);
+                    persistence.saveObject(identity, callback);
                 });
             }
         }
@@ -280,7 +315,7 @@ changeRealIdentity = function(user, callback){
 }
 
 getUserId = function(proxyEmail,callback){
-    redisPersistence.findById("Identity",proxyEmail,function(err,result){
+    persistence.findById("Identity",proxyEmail,function(err,result){
         if(err){
             callback(err);
             return;
