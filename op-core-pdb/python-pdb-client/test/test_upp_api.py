@@ -24,8 +24,8 @@ from swagger_client.apis.upp_api import UPPApi
 
 class TestUPPApi(unittest.TestCase):
     """ UPPApi unit test stubs """
-    # BASE_PATH = "http://10.136.24.87:8080"
-    BASE_PATH = "http://integration.operando.esilab.org:8096/operando/core"
+    BASE_PATH = "http://10.136.24.87:8080"
+    # BASE_PATH = "http://integration.operando.esilab.org:8096/operando/core"
 
     def setUp(self):
         self.api = swagger_client.apis.upp_api.UPPApi()
@@ -45,6 +45,11 @@ class TestUPPApi(unittest.TestCase):
         api_response = self.api.user_privacy_policy_get(upp_all_filter)
         upp_list_length = len(api_response)
         self.assertNotEqual(api_response, None)
+        try:
+           assert len(api_response) > 0
+        except Exception as e:
+           print("Test UPP failed to get any stored upp")
+           raise e
         upp = api_response[0]
 
         print("Test case for user_privacy_policy_post", upp_list_length)
