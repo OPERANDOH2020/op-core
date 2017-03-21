@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo $PDB_ENDPOINT
+echo Pdb Endpoint: $PDB_ENDPOINT
 
 all_Successful=0
 
