@@ -36,14 +36,14 @@
 					</execution>
 					<execution>
 						<id>add-resource</id>
-						<phase>process-resources</phase>
+						<phase>generate-resources</phase>
 						<goals>
 							<goal>add-resource</goal>
 						</goals>
 						<configuration>
 							<resources>
 								<resource>
-									<directory>${sources.path}/src/main/resources/config</directory>
+									<directory>src/main/resources/config</directory>
 									<filtering>true</filtering>
 								</resource>
 							</resources>
@@ -72,6 +72,10 @@
 								<echo>[docker.image.name]=${docker.image.name}</echo>
 								<echo>[docker.image.version]=${docker.image.version}</echo>
 								<echo>[docker.port1.mapping]=${docker.port1.mapping}</echo>
+								<echo>[operando.mongo.host]=${operando.mongo.host}</echo>
+								<echo>[operando.mongo.port]=${operando.mongo.port}</echo>
+								<echo>[operando.interfaces.aapi.endpoint]=${operando.interfaces.aapi.endpoint}</echo>
+								<echo>[operando.core.ldb.endpoint]=${operando.core.ldb.endpoint}</echo>
 							</tasks>
 						</configuration>
 					</execution>
@@ -101,24 +105,22 @@
 				<artifactId>maven-resources-plugin</artifactId>
 				<version>2.7</version>
 				<executions>
-					<execution>
-						<id>copy-resource-config</id>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>copy-resources</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>${sources.path}/src/main/resources/config</outputDirectory>
-							<resources>
-								<resource>
-									<directory>src/main/resources/config</directory>
-									<includes>
-										<include>*.properties</include>
-									</includes>
-								</resource>
-							</resources>
-						</configuration>
-					</execution>
+<!-- 					<execution> -->
+<!-- 						<id>copy-resource-config</id> -->
+<!-- 						<phase>generate-resources</phase> -->
+<!-- 						<goals> -->
+<!-- 							<goal>copy-resources</goal> -->
+<!-- 						</goals> -->
+<!-- 						<configuration> -->
+<!-- 							<outputDirectory>${sources.path}/src/main/resources/config</outputDirectory> -->
+<!-- 							<resources> -->
+<!-- 								<resource> -->
+<!-- 									<directory>src/main/resources/config</directory> -->
+<!-- 									<filtering>true</filtering> -->
+<!-- 								</resource> -->
+<!-- 							</resources> -->
+<!-- 						</configuration> -->
+<!-- 					</execution> -->
 					<execution>
 						<id>copy-resource-war</id>
 						<phase>package</phase>
@@ -253,5 +255,10 @@
 		<docker.image.version>${project.version}</docker.image.version>
 		<docker.port1.external>${operando.core.pdb.port}</docker.port1.external>
 		<docker.port1.mapping>${docker.port1.external}:8080</docker.port1.mapping>
+		
+		<mongo.host>${operando.mongo.host}</mongo.host>
+		<mongo.port>${operando.mongo.port}</mongo.port>
+		<interfaces.aapi.endpoint>${operando.interfaces.aapi.endpoint}</interfaces.aapi.endpoint>
+		<core.ldb.endpoint>${operando.core.ldb.endpoint}</core.ldb.endpoint>
 	</properties>
 </project>

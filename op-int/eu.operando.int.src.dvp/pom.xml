@@ -85,7 +85,7 @@
 		<operando.core.pdb.basepath>${operando.core.pdb.protocol}${operando.core.pdb.host}:${operando.core.pdb.port}</operando.core.pdb.basepath>			
 		<operando.core.pdb.endpoint>${operando.core.pdb.basepath}/${operando.core.pdb.endpoint.path}</operando.core.pdb.endpoint>
 
-		<operando.interfaces.aapi.host>pdb.integration.operando.lan.esilab.org</operando.interfaces.aapi.host>
+		<operando.interfaces.aapi.host>aapi.integration.operando.lan.esilab.org</operando.interfaces.aapi.host>
 		<operando.interfaces.aapi.protocol>http://</operando.interfaces.aapi.protocol>
 		<operando.interfaces.aapi.port>8135</operando.interfaces.aapi.port>
 		<operando.interfaces.aapi.endpoint.path>operando/interfaces/aapi</operando.interfaces.aapi.endpoint.path>
