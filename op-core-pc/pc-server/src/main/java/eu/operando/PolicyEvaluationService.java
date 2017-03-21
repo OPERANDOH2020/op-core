@@ -33,6 +33,7 @@ import com.google.common.io.Closeables;
 import com.jayway.jsonpath.JsonPath;
 import io.swagger.api.NotFoundException;
 import eu.operando.core.pdb.common.model.OSPDataRequest;
+import eu.operando.core.pdb.common.model.OSPDataRequest.ActionEnum;
 import io.swagger.model.PolicyEvaluationReport;
 import io.swagger.model.RequestEvaluation;
 import java.io.IOException;
@@ -280,6 +281,7 @@ public class PolicyEvaluationService {
              * Evaluate the oData field request against the UPP user access policies
              */
             for (OSPDataRequest rIn: ospRequest) {
+                ActionEnum actionInput = rIn.getAction();
                 OSPDataRequest r = actionCheck(rIn);
                 String oDataURL = r.getRequestedUrl();
                 String Category = odata.getElementDataPath(oDataURL);
@@ -308,7 +310,7 @@ public class PolicyEvaluationService {
                             RequestEvaluation rEv = new RequestEvaluation();
                                 rEv.setDatauser(r.getSubject());
                                 rEv.setDatafield(oDataURL);
-                                rEv.setAction(rIn.getAction().name());
+                                rEv.setAction(actionInput.name());
                             if(!perm) {
                                 permit = false;
                                 rEv.setResult(false);
@@ -341,7 +343,7 @@ public class PolicyEvaluationService {
                     RequestEvaluation rEv = new RequestEvaluation();
                                 rEv.setDatauser(r.getSubject());
                                 rEv.setDatafield(oDataURL);
-                                rEv.setAction(rIn.getAction().name());
+                                rEv.setAction(actionInput.name());
                                 rEv.setResult(permit);
                                 rp.addEvaluationsItem(rEv);
                 }

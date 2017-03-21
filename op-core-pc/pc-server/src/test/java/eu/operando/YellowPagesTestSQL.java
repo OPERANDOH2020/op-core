@@ -26,12 +26,7 @@
 /////////////////////////////////////////////////////////////////////////
 package eu.operando;
 
-import eu.operando.core.pdb.common.model.OSPDataRequest;
-import io.swagger.api.NotFoundException;
-import io.swagger.model.PolicyEvaluationReport;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import junit.framework.Assert;
 
 /**
  * The PC to PDB integration test, for the user data access workflow. This time
@@ -97,178 +92,77 @@ public class YellowPagesTestSQL {
         }
         tMethods.postDemoUPP(PAT_UPP);
         /**
-         * First call the PC API to evaluate Doctor select weight
+         * Doctor, Receptionist SELECT fields
          */
-        PolicyEvaluationService pS = new PolicyEvaluationService();
-        List<OSPDataRequest> accessRequest = tMethods.createBuildRequest(FIELDIDS, ROLE1, OSPID, ACTION);
-        System.out.println(accessRequest);
+        String accessRequest = tMethods.createRequest(FIELDIDS, ROLE1, OSPID, ACTION);
 
-        PolicyEvaluationReport jsonResponse = null;
-        try {
-            jsonResponse = pS.evaluate(OSPID, PAT, accessRequest, tMethods.getUPPURL());
-        } catch (NotFoundException ex) {
-            Logger.getLogger(YellowPagesTestSQL.class.getName()).log(Level.SEVERE, null, ex);
-        }
-//                tMethods.evaluatePC(PAT, "YellowPages", accessRequest);
-        String response = jsonResponse.toString();
+        String jsonResponse = tMethods.evaluatePC(PAT, OSPID, accessRequest);
+        Assert.assertEquals("false", tMethods.readPolicyReport("status", jsonResponse));
+        Assert.assertEquals("PREFS_CONFLICT", tMethods.readPolicyReport("compliance", jsonResponse));
+        System.out.println("DOCTOR SELECTs: ");
+        System.out.println(jsonResponse);
 
-        accessRequest = tMethods.createBuildRequest(FIELDIDS, ROLE2, OSPID, ACTION);
-        System.out.println(accessRequest);
+        accessRequest = tMethods.createRequest(FIELDIDS, ROLE2, OSPID, ACTION);
+        jsonResponse = tMethods.evaluatePC(PAT, OSPID, accessRequest);
+        Assert.assertEquals("false", tMethods.readPolicyReport("status", jsonResponse));
+        Assert.assertEquals("PREFS_CONFLICT", tMethods.readPolicyReport("compliance", jsonResponse));
+        System.out.println("RECEPS SELECTs: ");
+        System.out.println(jsonResponse);
 
-        try {
-            jsonResponse = pS.evaluate(OSPID, PAT, accessRequest, tMethods.getUPPURL());
-        } catch (NotFoundException ex) {
-            Logger.getLogger(YellowPagesTestSQL.class.getName()).log(Level.SEVERE, null, ex);
-        }
-//                tMethods.evaluatePC(PAT, "YellowPages", accessRequest);
-        response = jsonResponse.toString();
+        /**
+         * Doctor, Receptionist INSERT fields
+         */
+        accessRequest = tMethods.createRequest(FIELDIDS, ROLE1, OSPID, ACTION1);
 
-        accessRequest = tMethods.createBuildRequest(FIELDIDS, ROLE1, OSPID, ACTION1);
-        System.out.println(accessRequest);
+        jsonResponse = tMethods.evaluatePC(PAT, OSPID, accessRequest);
+        Assert.assertEquals("false", tMethods.readPolicyReport("status", jsonResponse));
+        Assert.assertEquals("PREFS_CONFLICT", tMethods.readPolicyReport("compliance", jsonResponse));
+        System.out.println("DOCTOR INSERTS: ");
+        System.out.println(jsonResponse);
 
-        try {
-            jsonResponse = pS.evaluate(OSPID, PAT, accessRequest, tMethods.getUPPURL());
-        } catch (NotFoundException ex) {
-            Logger.getLogger(YellowPagesTestSQL.class.getName()).log(Level.SEVERE, null, ex);
-        }
-//                tMethods.evaluatePC(PAT, "YellowPages", accessRequest);
-        response = jsonResponse.toString();
+        accessRequest = tMethods.createRequest(FIELDIDS, ROLE2, OSPID, ACTION1);
+        jsonResponse = tMethods.evaluatePC(PAT, OSPID, accessRequest);
+        Assert.assertEquals("false", tMethods.readPolicyReport("status", jsonResponse));
+        Assert.assertEquals("PREFS_CONFLICT", tMethods.readPolicyReport("compliance", jsonResponse));
+        System.out.println("RECEPS INSERTS: ");
+        System.out.println(jsonResponse);
 
-        accessRequest = tMethods.createBuildRequest(FIELDIDS, ROLE1, OSPID, ACTION2);
-        System.out.println(accessRequest);
+        /**
+         * Doctor, Receptionist UPDATE fields
+         */
+        accessRequest = tMethods.createRequest(FIELDIDS, ROLE1, OSPID, ACTION2);
 
-        try {
-            jsonResponse = pS.evaluate(OSPID, PAT, accessRequest, tMethods.getUPPURL());
-        } catch (NotFoundException ex) {
-            Logger.getLogger(YellowPagesTestSQL.class.getName()).log(Level.SEVERE, null, ex);
-        }
-//                tMethods.evaluatePC(PAT, "YellowPages", accessRequest);
-        response = jsonResponse.toString();
+        jsonResponse = tMethods.evaluatePC(PAT, OSPID, accessRequest);
+        Assert.assertEquals("false", tMethods.readPolicyReport("status", jsonResponse));
+        Assert.assertEquals("PREFS_CONFLICT", tMethods.readPolicyReport("compliance", jsonResponse));
+        System.out.println("DOCTOR UPDATES: ");
+        System.out.println(jsonResponse);
 
-        accessRequest = tMethods.createBuildRequest(FIELDIDS, ROLE1, OSPID, ACTION3);
-        System.out.println(accessRequest);
+        accessRequest = tMethods.createRequest(FIELDIDS, ROLE2, OSPID, ACTION2);
+        jsonResponse = tMethods.evaluatePC(PAT, OSPID, accessRequest);
+        Assert.assertEquals("false", tMethods.readPolicyReport("status", jsonResponse));
+        Assert.assertEquals("PREFS_CONFLICT", tMethods.readPolicyReport("compliance", jsonResponse));
+        System.out.println("RECEPS UPDATES: ");
+        System.out.println(jsonResponse);
 
-        try {
-            jsonResponse = pS.evaluate(OSPID, PAT, accessRequest, tMethods.getUPPURL());
-        } catch (NotFoundException ex) {
-            Logger.getLogger(YellowPagesTestSQL.class.getName()).log(Level.SEVERE, null, ex);
-        }
-//                tMethods.evaluatePC(PAT, "YellowPages", accessRequest);
-        response = jsonResponse.toString();
+        /**
+         * Doctor, Receptionist DELETE fields
+         */
+        accessRequest = tMethods.createRequest(FIELDIDS, ROLE1, OSPID, ACTION3);
 
-        accessRequest = tMethods.createBuildRequest(FIELDIDS, ROLE2, OSPID, ACTION1);
-        System.out.println(accessRequest);
+        jsonResponse = tMethods.evaluatePC(PAT, OSPID, accessRequest);
+        Assert.assertEquals("false", tMethods.readPolicyReport("status", jsonResponse));
+        Assert.assertEquals("PREFS_CONFLICT", tMethods.readPolicyReport("compliance", jsonResponse));
+        System.out.println("DOCTOR DELETES: ");
+        System.out.println(jsonResponse);
 
-        try {
-            jsonResponse = pS.evaluate(OSPID, PAT, accessRequest, tMethods.getUPPURL());
-        } catch (NotFoundException ex) {
-            Logger.getLogger(YellowPagesTestSQL.class.getName()).log(Level.SEVERE, null, ex);
-        }
-//                tMethods.evaluatePC(PAT, "YellowPages", accessRequest);
-        response = jsonResponse.toString();
+        accessRequest = tMethods.createRequest(FIELDIDS, ROLE2, OSPID, ACTION3);
+        jsonResponse = tMethods.evaluatePC(PAT, OSPID, accessRequest);
+        Assert.assertEquals("false", tMethods.readPolicyReport("status", jsonResponse));
+        Assert.assertEquals("PREFS_CONFLICT", tMethods.readPolicyReport("compliance", jsonResponse));
+        System.out.println("RECEPS DELETES: ");
+        System.out.println(jsonResponse);
 
-        accessRequest = tMethods.createBuildRequest(FIELDIDS, ROLE2, OSPID, ACTION2);
-        System.out.println(accessRequest);
-
-        try {
-            jsonResponse = pS.evaluate(OSPID, PAT, accessRequest, tMethods.getUPPURL());
-        } catch (NotFoundException ex) {
-            Logger.getLogger(YellowPagesTestSQL.class.getName()).log(Level.SEVERE, null, ex);
-        }
-//                tMethods.evaluatePC(PAT, "YellowPages", accessRequest);
-        response = jsonResponse.toString();
-
-        accessRequest = tMethods.createBuildRequest(FIELDIDS, ROLE2, OSPID, ACTION3);
-        System.out.println(accessRequest);
-
-        try {
-            jsonResponse = pS.evaluate(OSPID, PAT, accessRequest, tMethods.getUPPURL());
-        } catch (NotFoundException ex) {
-            Logger.getLogger(YellowPagesTestSQL.class.getName()).log(Level.SEVERE, null, ex);
-        }
-//                tMethods.evaluatePC(PAT, "YellowPages", accessRequest);
-        response = jsonResponse.toString();
     }
 }
 
-//        // Directly using the CORE service
-//        tMethods.postDemoUPP(PAT_UPP);
-//
-//        /**
-//         * Single Request
-//         */
-//
-//        jsonResponse = tMethods.evaluatePC(PAT, OSPID, accessRequest);
-//        System.out.println(jsonResponse);
-//
-//        if(!tMethods.readPolicyReport("status", jsonResponse).equalsIgnoreCase("true")){
-//            System.err.println("Integration test faild: Status must be true");
-//            System.exit(-1);
-//        }
-//
-//        if(!tMethods.readPolicyReport("compliance", jsonResponse).equalsIgnoreCase("VALID")){
-//            System.err.println("Integration test faild: Compliance must be VALID");
-//            System.exit(-1);
-//        }
-//
-//        /**
-//         * Double request by doctor.
-//         */
-//
-//        String accessRequest2 = tMethods.createRequest(FIELDIDS2, ROLE1, OSPID, ACTION2);
-//        System.out.println(accessRequest2);
-//
-//
-//        jsonResponse = tMethods.evaluatePC(PAT, OSPID, accessRequest2);
-//        System.out.println(jsonResponse);
-//
-//        if(!tMethods.readPolicyReport("status", jsonResponse).equalsIgnoreCase("true")){
-//            System.err.println("Integration test faild: Status must be true");
-//            System.exit(-1);
-//        }
-//
-//        if(!tMethods.readPolicyReport("compliance", jsonResponse).equalsIgnoreCase("VALID")){
-//            System.err.println("Integration test faild: Compliance must be VALID");
-//            System.exit(-1);
-//        }
-//
-//        /**
-//         * Double request by receptionist.
-//         */
-//
-//        String accessRequest3 = tMethods.createRequest(FIELDIDS2, ROLE2, OSPID, ACTION2);
-//        System.out.println(accessRequest3);
-//
-//        jsonResponse = tMethods.evaluatePC(PAT, OSPID, accessRequest3);
-//        System.out.println(jsonResponse);
-//
-//        if(!tMethods.readPolicyReport("status", jsonResponse).equalsIgnoreCase("false")){
-//            System.err.println("Integration test faild: Status must be false");
-//            System.exit(-1);
-//        }
-//
-//        if(!tMethods.readPolicyReport("compliance", jsonResponse).equalsIgnoreCase("PREFS_CONFLICT")){
-//            System.err.println("Integration test faild: Compliance must be PREFS_CONFLICT");
-//            System.exit(-1);
-//        }
-//
-//         /**
-//         * Double request by receptionist now that UPP has changed.
-//         */
-//        String accessRequest4 = tMethods.createRequest(FIELDIDS2, ROLE1, OSPID, ACTION3);
-//        System.out.println(accessRequest4);
-//        jsonResponse = tMethods.evaluatePC(PAT, OSPID, accessRequest4);
-//        System.out.println(jsonResponse);
-//
-//        if(!tMethods.readPolicyReport("status", jsonResponse).equalsIgnoreCase("true")){
-//            System.err.println("Integration test faild: Status must be true");
-//            System.exit(-1);
-//        }
-//
-//        if(!tMethods.readPolicyReport("compliance", jsonResponse).equalsIgnoreCase("VALID")){
-//            System.err.println("Integration test faild: Compliance must be VALID");
-//            System.exit(-1);
-//        }
-//
-//    }
-//}
