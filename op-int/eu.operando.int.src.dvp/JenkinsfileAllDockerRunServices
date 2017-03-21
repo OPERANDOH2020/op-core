@@ -8,7 +8,7 @@ node {
 	   stage('Independent') { 
 	      build job: 'eu.operando.int.core.mysql.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 	      build job: 'eu.operando.int.core.mongo.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
-	      
+      
 	      build job: 'eu.operando.dev.common', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 		  build job: 'eu.operando.dev.test.dependencies', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 
@@ -29,6 +29,7 @@ node {
 	   }
 	   stage('Dependent lv3') { 
 		  build job: 'eu.operando.int.core.ldb.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+		  build job: 'eu.operando.int.core.pdb.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 
 		  build job: 'eu.operando.dev.core.ae.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 		  build job: 'eu.operando.dev.core.bda.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
@@ -37,7 +38,7 @@ node {
 		  build job: 'eu.operando.dev.core.nagios.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 		  build job: 'eu.operando.dev.core.ose.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 		  build job: 'eu.operando.dev.core.pc.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
-		  build job: 'eu.operando.dev.core.pdb.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+//		  build job: 'eu.operando.dev.core.pdb.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 		  build job: 'eu.operando.dev.core.pfb.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 		  build job: 'eu.operando.dev.core.rm.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 		  build job: 'eu.operando.dev.demo.mono.yellowpages.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
