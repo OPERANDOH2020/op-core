@@ -45,6 +45,12 @@ class TestOSPApi(unittest.TestCase):
         osp_list_length = len(api_response)
         self.assertNotEqual(api_response, None)
         self.assertTrue(osp_list_length >= 1) 
+        try:
+           assert len(api_response) > 0
+        except Exception as e:
+           print("Test OSP failed to get any stored osp")
+           raise e
+
         osp_policy = api_response[0]
 
         print("Test case for o_sp_post", osp_list_length)

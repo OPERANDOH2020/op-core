@@ -44,7 +44,12 @@ class TestLegislationApi(unittest.TestCase):
         #print("get regulations:", api_response)
         reg_list_length = len(api_response)
         self.assertNotEqual(api_response, None)
-        regulation = api_response[0]
+        try:
+           assert len(api_response) > 0
+           regulation = api_response[0]
+        except Exception as e:
+           print("Test legislation failed to get any stored regulation")
+           raise e
 
         print("test regulations post")
         ls = "TEST TEST TEST"
