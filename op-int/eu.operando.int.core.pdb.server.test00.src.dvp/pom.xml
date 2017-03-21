@@ -39,10 +39,10 @@
 			</plugin>
 			<!-- added to support docker image creation -->
 			<plugin>
-				<groupId>org.jolokia</groupId>
+				<groupId>io.fabric8</groupId>
 				<artifactId>docker-maven-plugin</artifactId>
-				<!-- last version in https://mvnrepository.com/artifact/org.jolokia/docker-maven-plugin -->
 				<version>0.20.0</version>
+				<!-- last version in https://mvnrepository.com/artifact/org.jolokia/docker-maven-plugin -->
 				<configuration>
 					<images>
 						<image>
