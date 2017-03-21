@@ -32,11 +32,6 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
-
-
-
 public class AccessPolicy   {
 
   private String subject = null;
@@ -45,6 +40,9 @@ public class AccessPolicy   {
 
   public enum ActionEnum {
     COLLECT("Collect"),
+    CREATE("Create"),
+    DELETE("Delete"),
+    UPDATE("Update"),
     ACCESS("Access"),
     USE("Use"),
     DISCLOSE("Disclose"),
