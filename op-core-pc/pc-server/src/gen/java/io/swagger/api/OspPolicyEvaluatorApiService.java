@@ -27,7 +27,7 @@
 package io.swagger.api;
 
 
-import io.swagger.model.OSPDataRequest;
+import eu.operando.core.pdb.common.model.OSPDataRequest;
 
 import java.util.List;
 import io.swagger.api.NotFoundException;

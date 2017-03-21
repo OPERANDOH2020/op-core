@@ -37,7 +37,7 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import io.swagger.api.NotFoundException;
-import io.swagger.model.OSPDataRequest;
+import eu.operando.core.pdb.common.model.OSPDataRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -78,6 +78,10 @@ public class TestHelperMethods {
         if (props.getProperty("pc.api") != null) {
             PC_URL = props.getProperty("pc.api");
         }
+    }
+
+    public String getUPPURL(){
+        return this.PDB_UPP_URL;
     }
 
     /**
@@ -345,10 +349,10 @@ public class TestHelperMethods {
      * Build a request for a doctor at asl to access the debt information
      *  in the GA_PAtient record.
      */
-    public String createRequest(String[] elements, String subject, String osp) {
+    public String createRequest(String[] elements, String subject, String osp, String action) {
         List<OSPDataRequest> ospRequest = new ArrayList<OSPDataRequest>();
         for(String request: elements) {
-            ospRequest.add(OSPDataRequest(request, subject, osp));
+            ospRequest.add(OSPDataRequest(request, subject, osp, action));
         }
 
         return toJSONRequest(ospRequest);
@@ -358,18 +362,18 @@ public class TestHelperMethods {
      * Build a request for a doctor at asl to access the debt information
      *  in the GA_PAtient record.
      */
-    public List<OSPDataRequest> createBuildRequest(String[] elements, String subject, String osp) {
+    public List<OSPDataRequest> createBuildRequest(String[] elements, String subject, String osp, String action) {
         List<OSPDataRequest> ospRequest = new ArrayList<OSPDataRequest>();
         for(String request: elements) {
-            ospRequest.add(OSPDataRequest(request, subject, osp));
+            ospRequest.add(OSPDataRequest(request, subject, osp, action));
         }
 
         return ospRequest;
     }
 
-    public OSPDataRequest OSPDataRequest(String resource, String subject, String ospId){
+    public OSPDataRequest OSPDataRequest(String resource, String subject, String ospId, String action){
         OSPDataRequest osD = new OSPDataRequest();
-        osD.setAction(OSPDataRequest.ActionEnum.ACCESS);
+        osD.setAction(OSPDataRequest.ActionEnum.valueOf(action));
         osD.setRequesterId(ospId);
         osD.setSubject(subject);
         osD.requestedUrl(resource);

@@ -29,7 +29,7 @@ package eu.operando;
 import io.swagger.api.NotFoundException;
 //import io.swagger.client.ApiException;
 //import io.swagger.client.api.UPPApi;
-import io.swagger.model.OSPDataRequest;
+import eu.operando.core.pdb.common.model.OSPDataRequest;
 import io.swagger.model.PolicyEvaluationReport;
 import java.util.ArrayList;
 import java.util.List;

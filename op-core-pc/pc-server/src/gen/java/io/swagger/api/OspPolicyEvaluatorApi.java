@@ -33,7 +33,7 @@ import io.swagger.api.factories.OspPolicyEvaluatorApiServiceFactory;
 import io.swagger.annotations.ApiParam;
 
 
-import io.swagger.model.OSPDataRequest;
+import eu.operando.core.pdb.common.model.OSPDataRequest;
 import io.swagger.model.PolicyEvaluationReport;
 
 import java.util.List;
