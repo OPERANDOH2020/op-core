@@ -76,14 +76,14 @@
 		<operando.core.ldb.port>8090</operando.core.ldb.port>
 		<operando.core.ldb.endpoint.path>operando/core/ldb</operando.core.ldb.endpoint.path>
 		<operando.core.ldb.basepath>${operando.core.ldb.protocol}${operando.core.ldb.host}:${operando.core.ldb.port}</operando.core.ldb.basepath>			
-		<operando.core.ldb.endpoint>${operando.core.ldb.basepath}${operando.core.ldb.endpoint.path}</operando.core.ldb.endpoint>
+		<operando.core.ldb.endpoint>${operando.core.ldb.basepath}/${operando.core.ldb.endpoint.path}</operando.core.ldb.endpoint>
 		
 		<operando.core.pdb.host>pdb.integration.operando.lan.esilab.org</operando.core.pdb.host>
 		<operando.core.pdb.protocol>http://</operando.core.pdb.protocol>
 		<operando.core.pdb.port>8096</operando.core.pdb.port>
 		<operando.core.pdb.endpoint.path>operando/core/pdb</operando.core.pdb.endpoint.path>
 		<operando.core.pdb.basepath>${operando.core.pdb.protocol}${operando.core.pdb.host}:${operando.core.pdb.port}</operando.core.pdb.basepath>			
-		<operando.core.pdb.endpoint>${operando.core.pdb.basepath}${operando.core.pdb.endpoint.path}</operando.core.pdb.endpoint>
+		<operando.core.pdb.endpoint>${operando.core.pdb.basepath}/${operando.core.pdb.endpoint.path}</operando.core.pdb.endpoint>
 		
 		<operando.mysql.host>mysql.integration.operando.lan.esilab.org</operando.mysql.host>
 		<operando.mysql.port>3306</operando.mysql.port>
