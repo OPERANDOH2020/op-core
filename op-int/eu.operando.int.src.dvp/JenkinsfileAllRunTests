@@ -17,7 +17,7 @@ node {
 	   }	   	   
 	   if (continueTasks == 'true') {
 	       stage('continue') {
-	   	        build job: 'eu.operando.int.jnk.tsk.run.test', wait: false
+	   	        //build job: 'eu.operando.int.jnk.tsk.run.test', wait: false
 	   	   }
 	   }
 	   } catch (err) {
