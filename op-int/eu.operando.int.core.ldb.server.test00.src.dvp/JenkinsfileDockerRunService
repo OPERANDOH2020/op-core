@@ -15,16 +15,17 @@ node {
 		  mvnHome = tool 'Maven 3.3.9 colocated'
 		  sourcesPath = 'op-int/eu.operando.int.core.ldb.server.test00.src.dvp'
 		  sourcesRepo = 'https://github.com/OPERANDOH2020/op-core.git'
+		  sources = WORKSPACE
 		  credentialsId = gitCredentials
 	   }
 	   stage ('Source Collection'){
-		   checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'sources'], [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: sourcesPath]]]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: credentialsId, url: sourcesRepo]]])
+		   checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: sources], [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: sourcesPath]]]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: credentialsId, url: sourcesRepo]]])
 	   }  
 	   stage ('Docker stop'){
-		   sh "'${mvnHome}/bin/mvn' docker:stop -f sources/${sourcesPath}/pom.xml"
+		   sh "'${mvnHome}/bin/mvn' docker:stop -f ${sources}/${sourcesPath}/pom.xml"
 	   }
 	   stage ('Docker start'){
-		   sh "'${mvnHome}/bin/mvn' docker:start -f sources/${sourcesPath}/pom.xml"
+		   sh "'${mvnHome}/bin/mvn' docker:start -f ${sources}/${sourcesPath}/pom.xml"
 	   }	   
     } catch (err) {
 
