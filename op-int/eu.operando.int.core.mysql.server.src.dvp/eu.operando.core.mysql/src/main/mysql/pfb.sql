@@ -1,1 +1,0 @@
-CREATE DATABASE operando_privacyforbenefitdb;
