@@ -63,6 +63,8 @@ public class YellowPagesTest {
     private static final String ROLE1 = "Doctor";
     private static final String ROLE2 = "receptionist";
 
+    private static final String ACTION = "ACCESS";
+
     /**
      * Constructor for stateful method calls.
      */
@@ -100,7 +102,7 @@ public class YellowPagesTest {
          * response is a no user response.
          */
 
-        String accessRequest = tMethods.createRequest(FIELDIDS, ROLE1, OSPID);
+        String accessRequest = tMethods.createRequest(FIELDIDS, ROLE1, OSPID, ACTION);
         System.out.println(accessRequest);
 
         String jsonResponse = tMethods.evaluatePC(PAT, "YellowPages", accessRequest);
@@ -153,7 +155,7 @@ public class YellowPagesTest {
          * Double request by doctor.
          */
 
-        String accessRequest2 = tMethods.createRequest(FIELDIDS2, ROLE1, OSPID);
+        String accessRequest2 = tMethods.createRequest(FIELDIDS2, ROLE1, OSPID, ACTION);
         System.out.println(accessRequest2);
 
         jsonResponse = tMethods.evaluatePC(PETE, OSPID, accessRequest2);
@@ -186,7 +188,7 @@ public class YellowPagesTest {
          * Double request by receptionist.
          */
 
-        String accessRequest3 = tMethods.createRequest(FIELDIDS2, ROLE2, OSPID);
+        String accessRequest3 = tMethods.createRequest(FIELDIDS2, ROLE2, OSPID, ACTION);
         System.out.println(accessRequest3);
 
         jsonResponse = tMethods.evaluatePC(PETE, OSPID, accessRequest3);

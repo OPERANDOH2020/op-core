@@ -26,7 +26,7 @@
 /////////////////////////////////////////////////////////////////////////
 package eu.operando;
 
-import io.swagger.model.OSPDataRequest;
+import eu.operando.core.pdb.common.model.OSPDataRequest;
 import java.util.List;
 import junit.framework.Assert;
 import org.junit.Test;
@@ -62,6 +62,8 @@ public class IntegrationTest {
     private static final String OSPID = "YellowPages";
     private static final String ROLE1 = "Doctor";
     private static final String ROLE2 = "receptionist";
+
+    private static final String ACTION = "ACCESS";
 
 
     /**
@@ -102,7 +104,7 @@ public class IntegrationTest {
          * response is a no user response.
          */
 
-        List<OSPDataRequest> accessRequest = tMethods.createBuildRequest(FIELDIDS, ROLE1, OSPID);
+        List<OSPDataRequest> accessRequest = tMethods.createBuildRequest(FIELDIDS, ROLE1, OSPID, ACTION);
 
         String jsonResponse = tMethods.evaluateBuildPC(PETE, OSPID, accessRequest);
         Assert.assertEquals("true", tMethods.readPolicyReport("status", jsonResponse));
@@ -112,7 +114,7 @@ public class IntegrationTest {
         Assert.assertEquals("VALID", tMethods.readPolicyReport("compliance", jsonResponse));
         Assert.assertEquals("true", tMethods.readPolicyReport("status", jsonResponse));
 
-        List<OSPDataRequest> accessRequest2 = tMethods.createBuildRequest(FIELDIDS2, ROLE1, OSPID);
+        List<OSPDataRequest> accessRequest2 = tMethods.createBuildRequest(FIELDIDS2, ROLE1, OSPID, ACTION);
         jsonResponse = tMethods.evaluateBuildPC(PETE, OSPID, accessRequest2);
         Assert.assertEquals("VALID", tMethods.readPolicyReport("compliance", jsonResponse));
         Assert.assertEquals("true", tMethods.readPolicyReport("status", jsonResponse));
@@ -121,7 +123,7 @@ public class IntegrationTest {
         Assert.assertEquals("VALID", tMethods.readPolicyReport("compliance", jsonResponse));
         Assert.assertEquals("true", tMethods.readPolicyReport("status", jsonResponse));
 
-        List<OSPDataRequest> accessRequest3 = tMethods.createBuildRequest(FIELDIDS2, ROLE2, OSPID);
+        List<OSPDataRequest> accessRequest3 = tMethods.createBuildRequest(FIELDIDS2, ROLE2, OSPID, ACTION);
         jsonResponse = tMethods.evaluateBuildPC(PETE, OSPID, accessRequest3);
         Assert.assertEquals("VALID", tMethods.readPolicyReport("compliance", jsonResponse));
         Assert.assertEquals("true", tMethods.readPolicyReport("status", jsonResponse));

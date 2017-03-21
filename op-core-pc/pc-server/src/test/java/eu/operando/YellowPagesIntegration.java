@@ -66,6 +66,7 @@ public class YellowPagesIntegration {
     private static final String ROLE1 = "Doctor";
     private static final String ROLE2 = "Receptionist";
 
+    private static final String ACTION = "ACCESS";
 
     /**
      * A set of tests to check how the PC component evaluates requests
@@ -84,7 +85,7 @@ public class YellowPagesIntegration {
         }
 
         tMethods.postDemoUPP(USER_UPP);
-        String accessRequest = tMethods.createRequest(FIELDIDS, ROLE1, OSPID);
+        String accessRequest = tMethods.createRequest(FIELDIDS, ROLE1, OSPID, ACTION);
 
         /**
          * First call the PC API to evaluate a doctor's request to read 302's data record.
@@ -98,26 +99,26 @@ public class YellowPagesIntegration {
          * Call the PC API to evaluate a receptionist's request to read 302's data record.
          * Returns the list of fields they can and cannot see.
          */
-        accessRequest = tMethods.createRequest(FIELDIDS, ROLE2, OSPID);
+        accessRequest = tMethods.createRequest(FIELDIDS, ROLE2, OSPID, ACTION);
         jsonResponse = tMethods.evaluatePC(USER, OSPID, accessRequest);
         tMethods.assertPolicyResult(jsonResponse, "false", "PREFS_CONFLICT");
 
-        accessRequest = tMethods.createRequest(FIELDIDS2, ROLE1, OSPID);
-        jsonResponse = tMethods.evaluatePC(USER, OSPID, accessRequest);
-        System.out.println(jsonResponse);
-        tMethods.assertPolicyResult(jsonResponse, "false", "PREFS_CONFLICT");
-
-        accessRequest = tMethods.createRequest(FIELDIDS2, ROLE2, OSPID);
+        accessRequest = tMethods.createRequest(FIELDIDS2, ROLE1, OSPID, ACTION);
         jsonResponse = tMethods.evaluatePC(USER, OSPID, accessRequest);
         System.out.println(jsonResponse);
         tMethods.assertPolicyResult(jsonResponse, "false", "PREFS_CONFLICT");
 
-        accessRequest = tMethods.createRequest(FIELDIDS3, ROLE1, OSPID);
+        accessRequest = tMethods.createRequest(FIELDIDS2, ROLE2, OSPID, ACTION);
         jsonResponse = tMethods.evaluatePC(USER, OSPID, accessRequest);
         System.out.println(jsonResponse);
         tMethods.assertPolicyResult(jsonResponse, "false", "PREFS_CONFLICT");
 
-        accessRequest = tMethods.createRequest(FIELDIDS3, ROLE2, OSPID);
+        accessRequest = tMethods.createRequest(FIELDIDS3, ROLE1, OSPID, ACTION);
+        jsonResponse = tMethods.evaluatePC(USER, OSPID, accessRequest);
+        System.out.println(jsonResponse);
+        tMethods.assertPolicyResult(jsonResponse, "false", "PREFS_CONFLICT");
+
+        accessRequest = tMethods.createRequest(FIELDIDS3, ROLE2, OSPID, ACTION);
         jsonResponse = tMethods.evaluatePC(USER, OSPID, accessRequest);
         System.out.println(jsonResponse);
         tMethods.assertPolicyResult(jsonResponse, "false", "PREFS_CONFLICT");

@@ -34,11 +34,11 @@ import io.swagger.api.NotFoundException;
 import eu.operando.core.pdb.common.model.AccessPolicy;
 
 import eu.operando.core.pdb.common.model.OSPConsents;
-import io.swagger.model.OSPDataRequest;
-import io.swagger.model.OSPDataRequest.ActionEnum;
+import eu.operando.core.pdb.common.model.OSPDataRequest;
+import eu.operando.core.pdb.common.model.OSPDataRequest.ActionEnum;
 import eu.operando.core.pdb.common.model.OSPPrivacyPolicy;
 import io.swagger.model.PolicyEvaluationReport;
-import io.swagger.model.UserPreference;
+import eu.operando.core.pdb.common.model.UserPreference;
 import eu.operando.core.pdb.common.model.UserPrivacyPolicy;
 import java.io.IOException;
 import java.util.ArrayList;

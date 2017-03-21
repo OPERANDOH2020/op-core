@@ -26,7 +26,7 @@
 /////////////////////////////////////////////////////////////////////////
 package eu.operando;
 
-import io.swagger.model.OSPDataRequest;
+import eu.operando.core.pdb.common.model.OSPDataRequest;
 import java.util.List;
 import junit.framework.Assert;
 import org.junit.Test;
@@ -71,6 +71,8 @@ public class YPIntegrationTest {
     private static final String ROLE1 = "Doctor";
     private static final String ROLE2 = "Receptionist";
 
+    private static final String ACTION = "ACCESS";
+
     /**
      * Unit test to evaluate UPPs against OSP data requests. Test the Evaluate
      * method is working.
@@ -90,7 +92,7 @@ public class YPIntegrationTest {
         boolean response = tMethods.postDemoUPP(USER_UPP);
         Assert.assertEquals(response, true);
 
-        List<OSPDataRequest> accessRequest = tMethods.createBuildRequest(FIELDIDS, ROLE1, OSPID);
+        List<OSPDataRequest> accessRequest = tMethods.createBuildRequest(FIELDIDS, ROLE1, OSPID, ACTION);
 
         /**
          * First call the PC API to evaluate a doctor's request to read 302's data record.
@@ -105,27 +107,27 @@ public class YPIntegrationTest {
          * Call the PC API to evaluate a receptionist's request to read 302's data record.
          * Returns the list of fields they can and cannot see.
          */
-        accessRequest = tMethods.createBuildRequest(FIELDIDS, ROLE2, OSPID);
+        accessRequest = tMethods.createBuildRequest(FIELDIDS, ROLE2, OSPID, ACTION);
         jsonResponse = tMethods.evaluateBuildPC(USER, OSPID, accessRequest);
         Assert.assertEquals("false", tMethods.readPolicyReport("status", jsonResponse));
         Assert.assertEquals("PREFS_CONFLICT", tMethods.readPolicyReport("compliance", jsonResponse));
 
-        accessRequest = tMethods.createBuildRequest(FIELDIDS2, ROLE1, OSPID);
+        accessRequest = tMethods.createBuildRequest(FIELDIDS2, ROLE1, OSPID, ACTION);
         jsonResponse = tMethods.evaluateBuildPC(USER, OSPID, accessRequest);
         Assert.assertEquals("false", tMethods.readPolicyReport("status", jsonResponse));
         Assert.assertEquals("PREFS_CONFLICT", tMethods.readPolicyReport("compliance", jsonResponse));
 
-        accessRequest = tMethods.createBuildRequest(FIELDIDS2, ROLE2, OSPID);
+        accessRequest = tMethods.createBuildRequest(FIELDIDS2, ROLE2, OSPID, ACTION);
         jsonResponse = tMethods.evaluateBuildPC(USER, OSPID, accessRequest);
         Assert.assertEquals("false", tMethods.readPolicyReport("status", jsonResponse));
         Assert.assertEquals("PREFS_CONFLICT", tMethods.readPolicyReport("compliance", jsonResponse));
 
-        accessRequest = tMethods.createBuildRequest(FIELDIDS3, ROLE1, OSPID);
+        accessRequest = tMethods.createBuildRequest(FIELDIDS3, ROLE1, OSPID, ACTION);
         jsonResponse = tMethods.evaluateBuildPC(USER, OSPID, accessRequest);
         Assert.assertEquals("false", tMethods.readPolicyReport("status", jsonResponse));
         Assert.assertEquals("PREFS_CONFLICT", tMethods.readPolicyReport("compliance", jsonResponse));
 
-        accessRequest = tMethods.createBuildRequest(FIELDIDS3, ROLE2, OSPID);
+        accessRequest = tMethods.createBuildRequest(FIELDIDS3, ROLE2, OSPID, ACTION);
         jsonResponse = tMethods.evaluateBuildPC(USER, OSPID, accessRequest);
         Assert.assertEquals("false", tMethods.readPolicyReport("status", jsonResponse));
         Assert.assertEquals("PREFS_CONFLICT", tMethods.readPolicyReport("compliance", jsonResponse));

@@ -33,10 +33,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
-
-
-
 public class OSPDataRequest   {
 
   private String requesterId = null;
@@ -49,7 +45,12 @@ public class OSPDataRequest   {
     ACCESS("Access"),
     USE("Use"),
     DISCLOSE("Disclose"),
-    ARCHIVE("Archive");
+    ARCHIVE("Archive"),
+    SELECT("Select"),
+    UPDATE("Update"),
+    INSERT("Insert"),
+    DELETE("Delete"),
+    CREATE("Create");
 
     private String value;
 
