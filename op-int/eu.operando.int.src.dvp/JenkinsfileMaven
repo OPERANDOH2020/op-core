@@ -13,15 +13,16 @@ node {
 		  // ** NOTE: This 'M3' Maven tool must be configured
 		  // **       in the global configuration.
 		  mvnHome = tool 'Maven 3.3.9 colocated'
+		  sources = WORKSPACE
 		  sourcesPath = 'op-int/eu.operando.int.src.dvp'
 		  sourcesRepo = 'https://github.com/OPERANDOH2020/op-core.git'
 		  credentialsId = gitCredentials
 	   }
 	   stage ('Source Collection'){
-		   checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'sources'], [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: sourcesPath]]]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: credentialsId, url: sourcesRepo]]])
+		   checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: sources], [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: sourcesPath]]]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: credentialsId, url: sourcesRepo]]])
 	   }
 	   stage ('Maven Install'){
-		   sh "'${mvnHome}/bin/mvn' install:install -f sources/${sourcesPath}/pom.xml"
+		   sh "'${mvnHome}/bin/mvn' install:install -f ${sources}/${sourcesPath}/pom.xml"
 	   }
 	   
 	  } catch (err) {
