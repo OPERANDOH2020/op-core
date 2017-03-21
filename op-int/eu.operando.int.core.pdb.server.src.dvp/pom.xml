@@ -1,12 +1,13 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>eu.operando.int</groupId>
-    <artifactId>eu.operando.int.src.dvp</artifactId>
-    <version>ALPHA</version>
-  </parent>
-  <artifactId>eu.operando.int.core.pdb.server.src.dvp</artifactId>
-  <packaging>pom</packaging>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>eu.operando.int</groupId>
+		<artifactId>eu.operando.int.src.dvp</artifactId>
+		<version>ALPHA</version>
+	</parent>
+	<artifactId>eu.operando.int.core.pdb.server.src.dvp</artifactId>
+	<packaging>war</packaging>
 	<build>
 		<!-- First we define the source code directories for a java application 
 			server generated with swagger we will have two folders src/main and src/gen 
@@ -35,7 +36,7 @@
 					</execution>
 					<execution>
 						<id>add-resource</id>
-						<phase>generate-sources</phase>
+						<phase>process-resources</phase>
 						<goals>
 							<goal>add-resource</goal>
 						</goals>
@@ -91,16 +92,9 @@
 			<!-- this is to fix the warning "Build path specifies execution environment 
 				J2SE-1.5. There are no JREs installed in the workspace that are strictly 
 				compatible with this environment. -->
-			<!--   it maybe is adding problems problems
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin> -->
+			<!-- it maybe is adding problems problems <plugin> <groupId>org.apache.maven.plugins</groupId> 
+				<artifactId>maven-compiler-plugin</artifactId> <version>3.1</version> <configuration> 
+				<source>1.8</source> <target>1.8</target> </configuration> </plugin> -->
 			<!-- Plugin to copy the war into generated folder accessible to the docker 
 				file -->
 			<plugin>
@@ -108,7 +102,25 @@
 				<version>2.7</version>
 				<executions>
 					<execution>
-						<id>copy-resource-one</id>
+						<id>copy-resource-config</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${sources.path}/src/main/resources/config</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/resources/config</directory>
+									<includes>
+										<include>*.properties</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-resource-war</id>
 						<phase>package</phase>
 						<goals>
 							<goal>copy-resources</goal>
@@ -240,6 +252,6 @@
 		<docker.image.name>${docker.registry.name}${docker.submitter}/${docker.name}</docker.image.name>
 		<docker.image.version>${project.version}</docker.image.version>
 		<docker.port1.external>${operando.core.pdb.port}</docker.port1.external>
-		<docker.port1.mapping>${docker.port1.external}:8080</docker.port1.mapping>	
+		<docker.port1.mapping>${docker.port1.external}:8080</docker.port1.mapping>
 	</properties>
 </project>
