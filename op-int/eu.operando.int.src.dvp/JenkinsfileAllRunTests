@@ -15,7 +15,7 @@ node {
 	   }
 	   stage('test03') { 
 	   }	   	   
-	   if (continueTasks == true) {
+	   if (continueTasks == 'true') {
 	       stage('continue') {
 	   	        build job: 'eu.operando.int.jnk.tsk.run.test', wait: false
 	   	   }

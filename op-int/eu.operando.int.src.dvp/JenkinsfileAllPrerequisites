@@ -22,7 +22,7 @@ node {
 	   stage('Dependent lv4') { 
 	      build job: 'eu.operando.int.interfaces.aapi.client.jnk.tsk.pre', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 	   }
-	   if (continueTasks == true) {
+	   if (continueTasks == 'true') {
 	       stage('continue') {
 	   	        build job: 'eu.operando.int.jnk.tsk.build.images', wait: false
 	   	   }
