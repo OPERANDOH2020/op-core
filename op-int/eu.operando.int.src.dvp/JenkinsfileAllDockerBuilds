@@ -7,6 +7,7 @@ node {
 	   def mvnHome 
 	   stage('Independent') { 
 	      build job: 'eu.operando.int.core.mysql.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	      build job: 'eu.operando.int.core.mongo.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 	      build job: 'eu.operando.int.core.ldb.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
 	   }
 	   stage('Dependent lv1') { 
