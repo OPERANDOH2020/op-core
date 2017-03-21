@@ -205,11 +205,11 @@ public class OSPApiServiceImpl extends OSPApiService {
         return false;
     }
 
-    private boolean validateHeaderSt(HttpHeaders headers) {
+    private boolean validateHeaderSt1(HttpHeaders headers) {
         return true;
     }
 
-    private boolean validateHeaderSt1(HttpHeaders headers) {
+    private boolean validateHeaderSt(HttpHeaders headers) {
         if (headers != null) {
             List<String> stHeader = headers.getRequestHeader(stHeaderName);
             if (stHeader != null) {
