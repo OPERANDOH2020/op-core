@@ -2,14 +2,11 @@
 # we choose normal 
 FROM ubuntu
 
-RUN apt-get update && apt-get install mysql-client -y && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install curl -y && rm -rf /var/lib/apt/lists/*
 
-ENV MYSQL_DB_USER root
-ENV MYSQL_DB_PASSWORD root
-ENV MYSQL_DB_NAME operando_logdb
-ENV MYSQL_DB_HOST none
+ENV PDB_ENDPOINT none
 
-ADD sql sql
+ADD mongo mongo
 ADD run.sh .
 RUN chmod 750 run.sh
 ENV PATH /:$PATH

@@ -66,10 +66,7 @@
 								</wait>
 								<namingStrategy>alias</namingStrategy>
 								<env>
-									<MYSQL_DB_HOST>${mysql.db.host}</MYSQL_DB_HOST>
-									<MYSQL_DB_NAME>${mysql.db.name}</MYSQL_DB_NAME>
-									<MYSQL_DB_PASSWORD>${mysql.db.password}</MYSQL_DB_PASSWORD>
-									<MYSQL_DB_USER>${mysql.db.user}</MYSQL_DB_USER>
+									<PDB_ENDPOINT>${core.pdb.endpoint}</PDB_ENDPOINT>
 								</env>
 								<ports>
 								</ports>
@@ -136,10 +133,6 @@
 		<docker.name>eu.operando.core.ldb.server.test00</docker.name>
 		<docker.image.name>${docker.registry.name}${docker.submitter}/${docker.name}</docker.image.name>
 		<docker.image.version>${project.version}</docker.image.version>
-		<mysql.db.host>${operando.mysql.host}</mysql.db.host>
-		<mysql.db.port>${operando.mysql.port}</mysql.db.port>
-		<mysql.db.name>operando_logdb</mysql.db.name>
-		<mysql.db.user>${operando.mysql.root.user}</mysql.db.user>
-		<mysql.db.password>${operando.mysql.root.password}</mysql.db.password>
+		<core.pdb.endpoint>${operando.core.pdb.endpoint}</core.pdb.endpoint>
 	</properties>
 </project>

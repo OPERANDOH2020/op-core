@@ -1,0 +1,105 @@
+{
+    "osp_policy_id": "hospital osp policy 1",
+    "policy_text": "Hospital OSP",
+    "policy_url": "Hospital OSP",
+    "workflow": [
+    {
+        "requester_id": "my requester id",
+        "subject": "my example subject",
+        "requested_url": "my requested URL",
+        "action": "Access",
+        "attributes": [
+        {
+            "attribute_name": "my attribute name",
+            "attribute_value": "my attribute value"
+        },
+        {
+            "attribute_name": "my attribute nameA",
+            "attribute_value": "my attribute valueA"
+        }
+        ]
+    },
+    {
+        "requester_id": "my second requester id",
+        "subject": "my second example subject",
+        "requested_url": "my second requested URL",
+        "action": "Collect",
+        "attributes": [
+        {
+            "attribute_name": "my second attribute name",
+            "attribute_value": "my second attribute value"
+        },
+        {
+            "attribute_name": "my second attribute nameA",
+            "attribute_value": "my second attribute valueA"
+        }
+        ]
+    }
+    ],
+        "policies": [
+        {
+            "subject": "Doctor",
+            "permission": "True",
+            "action": "Access",
+            "resource": "Medical Information",
+            "attributes": [
+            {
+                "attribute_name": "attr1",
+                "attribute_value": "val1"
+            },
+            {
+                "attribute_name": "attr2",
+                "attribute_value": "val2"
+            }
+            ]
+        },
+        {
+            "subject": "Doctor",
+            "permission": "True",
+            "action": "Access",
+            "resource": "Financial Information",
+            "attributes": [
+            {
+                "attribute_name": "attr1",
+                "attribute_value": "val1"
+            },
+            {
+                "attribute_name": "attr1",
+                "attribute_value": "val2"
+            }
+            ]
+        },
+        {
+            "subject": "Doctor",
+            "permission": "False",
+            "action": "Use",
+            "resource": "Transport Information",
+            "attributes": [
+            {
+                "attribute_name": "attr1",
+                "attribute_value": "val1"
+            },
+            {
+                "attribute_name": "attr1",
+                "attribute_value": "val2"
+            }
+            ]
+        },
+        {
+            "subject": "Administrator",
+            "permission": "True",
+            "action": "Access",
+            "resource": "Financial Information",
+            "attributes": [
+            {
+                "attribute_name": "my sec attribute name",
+                "attribute_value": "my sec attribute value"
+            },
+            {
+                "attribute_name": "my sec attribute name",
+                "attribute_value": "my sec attribute value"
+            }
+            ]
+        }
+    ]
+}

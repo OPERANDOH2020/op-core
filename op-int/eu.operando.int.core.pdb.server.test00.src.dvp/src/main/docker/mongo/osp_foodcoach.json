@@ -1,0 +1,73 @@
+{
+    "osp_policy_id": "foodcoach policy 1",
+    "policy_text": "Food Coach demo",
+    "policy_url": "Food Coach demo",
+    "workflow": [
+    {
+        "requester_id": "my requester id",
+        "subject": "my example subject",
+        "requested_url": "my requested URL",
+        "action": "Access",
+        "attributes": [
+        {
+            "attribute_name": "my attribute name",
+            "attribute_value": "my attribute value"
+        },
+        {
+            "attribute_name": "my attribute nameA",
+            "attribute_value": "my attribute valueA"
+        }
+        ]
+    },
+    {
+        "requester_id": "my second requester id",
+        "subject": "my second example subject",
+        "requested_url": "my second requested URL",
+        "action": "Collect",
+        "attributes": [
+        {
+            "attribute_name": "my second attribute name",
+            "attribute_value": "my second attribute value"
+        },
+        {
+            "attribute_name": "my second attribute nameA",
+            "attribute_value": "my second attribute valueA"
+        }
+        ]
+    }
+    ],
+        "policies": [
+        {
+            "subject": "Dietician",
+            "permission": "True",
+            "action": "Access",
+            "resource": "Medical Information",
+            "attributes": [
+            {
+                "attribute_name": "attr1",
+                "attribute_value": "val1"
+            },
+            {
+                "attribute_name": "attr2",
+                "attribute_value": "val2"
+            }
+            ]
+        },
+        {
+            "subject": "Dietician",
+            "permission": "True",
+            "action": "Access",
+            "resource": "Financial Information",
+            "attributes": [
+            {
+                "attribute_name": "attr1",
+                "attribute_value": "val1"
+            },
+            {
+                "attribute_name": "attr1",
+                "attribute_value": "val2"
+            }
+            ]
+        }
+    ]
+}
