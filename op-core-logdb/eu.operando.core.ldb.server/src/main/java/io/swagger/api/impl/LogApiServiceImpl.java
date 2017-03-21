@@ -21,11 +21,13 @@ import javax.ws.rs.core.SecurityContext;
 import org.apache.log4j.Logger;
 import org.apache.log4j.MDC;
 
-import eu.operando.core.cas.client.api.DefaultApi;
-import eu.operando.core.cas.client.model.UserCredential;
 import io.swagger.api.ApiResponseMessage;
 import io.swagger.api.LogApiService;
 import io.swagger.api.NotFoundException;
+import io.swagger.client.ApiClient;
+import io.swagger.client.ApiException;
+import io.swagger.client.api.DefaultApi;
+import io.swagger.client.model.UserCredential;
 import io.swagger.model.LogRequest;
 import io.swagger.model.LogRequestTicket;
 
@@ -48,7 +50,7 @@ public class LogApiServiceImpl extends LogApiService {
 	public LogApiServiceImpl() {
 		super();
 		// setup aapi client     
-        eu.operando.core.cas.client.ApiClient aapiDefaultClient = new eu.operando.core.cas.client.ApiClient();
+		ApiClient aapiDefaultClient= new ApiClient();
         aapiDefaultClient.setBasePath(aapiBasePath);
         this.aapiClient = new DefaultApi(aapiDefaultClient);
         String logdbST = getServiceTicket(ldbLoginName, ldbLoginPassword, logdbSId);
@@ -208,12 +210,17 @@ public class LogApiServiceImpl extends LogApiService {
 	
 	 private boolean aapiTicketsStValidateGet(String st) {
 		 boolean result = true;
-	        try {
-	        	aapiClient.aapiTicketsStValidateGet(st, logdbSId);
-	        } catch (eu.operando.core.cas.client.ApiException ex) {
-	            ex.printStackTrace();
-	            result = false;
-	        }
+	        
+    	try {
+			aapiClient.aapiTicketsStValidateGet(st, logdbSId);
+		} catch (ApiException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    
+        /*ex.printStackTrace();
+        result = false;*/
+	       
 	        return result;
 	    }
 
@@ -230,7 +237,7 @@ public class LogApiServiceImpl extends LogApiService {
 	            st = aapiClient.aapiTicketsTgtPost(tgt, serviceId);
 	            System.out.println("logdb service ticket: " + st);
 
-	        } catch (eu.operando.core.cas.client.ApiException ex) {
+	        } catch (ApiException ex) {
 	            ex.printStackTrace();
 	        }
 	        return st;

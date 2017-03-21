@@ -292,11 +292,6 @@
 			<artifactId>jersey-multipart</artifactId>
 			<version>${jersey-version}</version>
 		</dependency>
-		<dependency>
-            <groupId>eu.operando</groupId>
-            <artifactId>eu.operando.core.cas.client</artifactId>
-            <version>1.0.0</version>
-        </dependency>
 	</dependencies>
 	<repositories>
 		<repository>

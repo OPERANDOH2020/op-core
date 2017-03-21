@@ -1,0 +1,106 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>eu.operando.int</groupId>
+	<artifactId>eu.operando.int.src.dvp</artifactId>
+	<version>ALPHA</version>
+	<packaging>pom</packaging>
+	<build>
+		<plugins>
+			<!-- this transform the operando.core.ldb.endpoint.path into the server.warname.generated -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>${build-helper-maven-plugin-version}</version>
+				<executions>
+					<execution>
+						<id>regex-property</id>
+						<goals>
+							<goal>regex-property</goal>
+						</goals>
+						<configuration>
+							<name>server.warName.generated</name>
+							<value>${server.endpoint.path}</value>
+							<regex>\/</regex>
+							<replacement>#</replacement>
+							<failIfNoMatch>false</failIfNoMatch>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- this load a property file that in case that we need to share parameters 
+				between maven and jenkins -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>properties-maven-plugin</artifactId>
+				<version>1.0.0</version>
+				<executions>
+					<execution>
+						<phase>initialize</phase>
+						<goals>
+							<goal>read-project-properties</goal>
+						</goals>
+						<configuration>
+							<urls>
+								<url>
+									jar:file:${settings.localRepository}/eu/operando/int/eu.operando.int.src.dvp.resources/ALPHA/eu.operando.int.src.dvp.resources-ALPHA.jar!/devops.properties
+								</url>
+							</urls>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>eu.operando.int</groupId>
+			<artifactId>eu.operando.int.resources.src.dvp</artifactId>
+			<version>ALPHA</version>
+		</dependency>
+		<dependency>
+			<groupId>eu.operando.int</groupId>
+			<artifactId>eu.operando.int.dependencies.src.dvp</artifactId>
+			<version>ALPHA</version>
+			<type>pom</type>
+		</dependency>
+	</dependencies>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<build-helper-maven-plugin-version>3.0.0</build-helper-maven-plugin-version>
+		<docker.registry.name>localhost:5000/</docker.registry.name>
+		<docker.submitter>operando</docker.submitter>
+		<!-- leave empty for docker hub; use e.g. "localhost:5000/" for a local docker registry -->
+		<operando.core.ldb.host>ldb.integration.operando.lan.esilab.org</operando.core.ldb.host>
+		<operando.core.ldb.protocol>http://</operando.core.ldb.protocol>
+		<operando.core.ldb.port>8090</operando.core.ldb.port>
+		<operando.core.ldb.endpoint.path>operando/core/ldb</operando.core.ldb.endpoint.path>
+		<operando.core.ldb.basepath>${operando.core.ldb.protocol}${operando.core.ldb.host}:${operando.core.ldb.port}</operando.core.ldb.basepath>			
+		<operando.core.ldb.endpoint>${operando.core.ldb.basepath}/${operando.core.ldb.endpoint.path}</operando.core.ldb.endpoint>
+		
+		<operando.core.pdb.host>pdb.integration.operando.lan.esilab.org</operando.core.pdb.host>
+		<operando.core.pdb.protocol>http://</operando.core.pdb.protocol>
+		<operando.core.pdb.port>8096</operando.core.pdb.port>
+		<operando.core.pdb.endpoint.path>operando/core/pdb</operando.core.pdb.endpoint.path>
+		<operando.core.pdb.basepath>${operando.core.pdb.protocol}${operando.core.pdb.host}:${operando.core.pdb.port}</operando.core.pdb.basepath>			
+		<operando.core.pdb.endpoint>${operando.core.pdb.basepath}/${operando.core.pdb.endpoint.path}</operando.core.pdb.endpoint>
+
+		<operando.interfaces.aapi.host>aapi.integration.operando.lan.esilab.org</operando.interfaces.aapi.host>
+		<operando.interfaces.aapi.protocol>http://</operando.interfaces.aapi.protocol>
+		<operando.interfaces.aapi.port>8135</operando.interfaces.aapi.port>
+		<operando.interfaces.aapi.endpoint.path>operando/interfaces/aapi</operando.interfaces.aapi.endpoint.path>
+		<operando.interfaces.aapi.basepath>${operando.interfaces.aapi.protocol}${operando.interfaces.aapi.host}:${operando.interfaces.aapi.port}</operando.interfaces.aapi.basepath>			
+		<operando.interfaces.aapi.endpoint>${operando.interfaces.aapi.basepath}/${operando.interfaces.aapi.endpoint.path}</operando.interfaces.aapi.endpoint>
+		
+		<operando.mysql.host>mysql.integration.operando.lan.esilab.org</operando.mysql.host>
+		<operando.mysql.port>3306</operando.mysql.port>
+		<operando.mysql.root.user>root</operando.mysql.root.user>
+		<operando.mysql.root.password>root</operando.mysql.root.password>
+		
+		<!-- I add the defintion of the variable to avoid the no value in regex error -->		
+		<server.endpoint.path>tobedefined</server.endpoint.path>
+		
+		<operando.mongo.host>mongo.integration.operando.lan.esilab.org</operando.mongo.host>
+		<operando.mongo.port>27017</operando.mongo.port>
+	</properties>
+</project>

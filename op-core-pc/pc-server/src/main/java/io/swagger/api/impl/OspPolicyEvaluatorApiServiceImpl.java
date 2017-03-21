@@ -33,7 +33,7 @@ import eu.operando.PolicyEvaluationService;
 import io.swagger.api.*;
 
 
-import io.swagger.model.OSPDataRequest;
+import eu.operando.core.pdb.common.model.OSPDataRequest;
 import io.swagger.model.PolicyEvaluationReport;
 
 import java.util.List;

@@ -1,0 +1,42 @@
+/**
+ * CURLS for Integration Actions.
+ */
+
+/**
+ * Single Field R (name or weight), Select Action, Roles: doctor, receptionist
+ */
+curl -H "Content-Type: application/json" -X POST -d "[{\"requester_id\": \"YellowPages\",\"subject\": \"doctor\",\"requested_url\": \"personalInfo.patient.name\",\"action\": \"Select\",\"attributes\": []}]" "http://integration.operando.esilab.org:8095/operando/core/pc/osp_policy_evaluator?user_id=pat_sql&osp_id=YellowPages"
+
+curl -H "Content-Type: application/json" -X POST -d "[{\"requester_id\": \"YellowPages\",\"subject\": \"doctor\",\"requested_url\": \"personalInfo.anthropometric.weight\",\"action\": \"Select\",\"attributes\": []}]" "http://integration.operando.esilab.org:8095/operando/core/pc/osp_policy_evaluator?user_id=pat_sql&osp_id=YellowPages"
+
+curl -H "Content-Type: application/json" -X POST -d "[{\"requester_id\": \"YellowPages\",\"subject\": \"receptionist\",\"requested_url\": \"personalInfo.patient.name\",\"action\": \"Select\",\"attributes\": []}]" "http://integration.operando.esilab.org:8095/operando/core/pc/osp_policy_evaluator?user_id=pat_sql&osp_id=YellowPages"
+
+curl -H "Content-Type: application/json" -X POST -d "[{\"requester_id\": \"YellowPages\",\"subject\": \"receptionist\",\"requested_url\": \"personalInfo.anthropometric.weight\",\"action\": \"Select\",\"attributes\": []}]" "http://integration.operando.esilab.org:8095/operando/core/pc/osp_policy_evaluator?user_id=pat_sql&osp_id=YellowPages"
+
+/**
+ * Multiple Field R,S,T (name or weight), Action A - Select, Update, Create, Delete, Roles: doctor, receptionist
+ */
+
+/**
+ * Doctor
+ */
+
+curl -H "Content-Type: application/json" -X POST -d "[{\"requester_id\": \"YellowPages\",\"subject\": \"doctor\",\"requested_url\": \"personalInfo.patient.name\",\"action\": \"Select\",\"attributes\": []},{\"requester_id\": \"YellowPages\",\"subject\": \"doctor\",\"requested_url\": \"personalInfo.anthropometric.weight\",\"action\": \"Select\",\"attributes\": []},{\"requester_id\": \"YellowPages\",\"subject\": \"doctor\",\"requested_url\": \"personalInfo.anthropometric.age\",\"action\": \"Select\",\"attributes\": []}]" "http://integration.operando.esilab.org:8095/operando/core/pc/osp_policy_evaluator?user_id=pat_sql&osp_id=YellowPages"
+
+curl -H "Content-Type: application/json" -X POST -d "[{\"requester_id\": \"YellowPages\",\"subject\": \"doctor\",\"requested_url\": \"personalInfo.patient.name\",\"action\": \"Insert\",\"attributes\": []},{\"requester_id\": \"YellowPages\",\"subject\": \"doctor\",\"requested_url\": \"personalInfo.anthropometric.weight\",\"action\": \"Insert\",\"attributes\": []},{\"requester_id\": \"YellowPages\",\"subject\": \"doctor\",\"requested_url\": \"personalInfo.anthropometric.age\",\"action\": \"Insert\",\"attributes\": []}]" "http://integration.operando.esilab.org:8095/operando/core/pc/osp_policy_evaluator?user_id=pat_sql&osp_id=YellowPages"
+
+curl -H "Content-Type: application/json" -X POST -d "[{\"requester_id\": \"YellowPages\",\"subject\": \"doctor\",\"requested_url\": \"personalInfo.patient.name\",\"action\": \"Update\",\"attributes\": []},{\"requester_id\": \"YellowPages\",\"subject\": \"doctor\",\"requested_url\": \"personalInfo.anthropometric.weight\",\"action\": \"Update\",\"attributes\": []},{\"requester_id\": \"YellowPages\",\"subject\": \"doctor\",\"requested_url\": \"personalInfo.anthropometric.age\",\"action\": \"Update\",\"attributes\": []}]" "http://integration.operando.esilab.org:8095/operando/core/pc/osp_policy_evaluator?user_id=pat_sql&osp_id=YellowPages"
+
+curl -H "Content-Type: application/json" -X POST -d "[{\"requester_id\": \"YellowPages\",\"subject\": \"doctor\",\"requested_url\": \"personalInfo.patient.name\",\"action\": \"Delete\",\"attributes\": []},{\"requester_id\": \"YellowPages\",\"subject\": \"doctor\",\"requested_url\": \"personalInfo.anthropometric.weight\",\"action\": \"Delete\",\"attributes\": []},{\"requester_id\": \"YellowPages\",\"subject\": \"doctor\",\"requested_url\": \"personalInfo.anthropometric.age\",\"action\": \"Delete\",\"attributes\": []}]" "http://integration.operando.esilab.org:8095/operando/core/pc/osp_policy_evaluator?user_id=pat_sql&osp_id=YellowPages"
+
+/**
+ * Receptionist
+ */
+
+curl -H "Content-Type: application/json" -X POST -d "[{\"requester_id\": \"YellowPages\",\"subject\": \"receptionist\",\"requested_url\": \"personalInfo.patient.name\",\"action\": \"Select\",\"attributes\": []},{\"requester_id\": \"YellowPages\",\"subject\": \"receptionist\",\"requested_url\": \"personalInfo.anthropometric.weight\",\"action\": \"Select\",\"attributes\": []},{\"requester_id\": \"YellowPages\",\"subject\": \"receptionist\",\"requested_url\": \"personalInfo.anthropometric.age\",\"action\": \"Select\",\"attributes\": []}]" "http://integration.operando.esilab.org:8095/operando/core/pc/osp_policy_evaluator?user_id=pat_sql&osp_id=YellowPages"
+
+curl -H "Content-Type: application/json" -X POST -d "[{\"requester_id\": \"YellowPages\",\"subject\": \"receptionist\",\"requested_url\": \"personalInfo.patient.name\",\"action\": \"Insert\",\"attributes\": []},{\"requester_id\": \"YellowPages\",\"subject\": \"receptionist\",\"requested_url\": \"personalInfo.anthropometric.weight\",\"action\": \"Insert\",\"attributes\": []},{\"requester_id\": \"YellowPages\",\"subject\": \"receptionist\",\"requested_url\": \"personalInfo.anthropometric.age\",\"action\": \"Insert\",\"attributes\": []}]" "http://integration.operando.esilab.org:8095/operando/core/pc/osp_policy_evaluator?user_id=pat_sql&osp_id=YellowPages"
+
+curl -H "Content-Type: application/json" -X POST -d "[{\"requester_id\": \"YellowPages\",\"subject\": \"receptionist\",\"requested_url\": \"personalInfo.patient.name\",\"action\": \"Update\",\"attributes\": []},{\"requester_id\": \"YellowPages\",\"subject\": \"receptionist\",\"requested_url\": \"personalInfo.anthropometric.weight\",\"action\": \"Update\",\"attributes\": []},{\"requester_id\": \"YellowPages\",\"subject\": \"receptionist\",\"requested_url\": \"personalInfo.anthropometric.age\",\"action\": \"Update\",\"attributes\": []}]" "http://integration.operando.esilab.org:8095/operando/core/pc/osp_policy_evaluator?user_id=pat_sql&osp_id=YellowPages"
+
+curl -H "Content-Type: application/json" -X POST -d "[{\"requester_id\": \"YellowPages\",\"subject\": \"receptionist\",\"requested_url\": \"personalInfo.patient.name\",\"action\": \"Delete\",\"attributes\": []},{\"requester_id\": \"YellowPages\",\"subject\": \"receptionist\",\"requested_url\": \"personalInfo.anthropometric.weight\",\"action\": \"Delete\",\"attributes\": []},{\"requester_id\": \"YellowPages\",\"subject\": \"receptionist\",\"requested_url\": \"personalInfo.anthropometric.age\",\"action\": \"Delete\",\"attributes\": []}]" "http://integration.operando.esilab.org:8095/operando/core/pc/osp_policy_evaluator?user_id=pat_sql&osp_id=YellowPages"

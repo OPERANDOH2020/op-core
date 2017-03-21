@@ -126,7 +126,7 @@
 	</resources>  
   </build>
   <dependencies>
-      <dependency>
+    <dependency>
         <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpclient</artifactId>
         <version>4.5.2</version>
@@ -182,28 +182,6 @@
       <version>${junit-version}</version>
       <scope>test</scope>
     </dependency>
-
-    <dependency>
-      <groupId>org.testng</groupId>
-      <artifactId>testng</artifactId>
-      <version>6.8.8</version>
-      <scope>test</scope>
-      <exclusions>
-        <exclusion>
-          <artifactId>junit</artifactId>
-          <groupId>junit</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>snakeyaml</artifactId>
-          <groupId>org.yaml</groupId>
-        </exclusion>
-        <exclusion>
-          <artifactId>bsh</artifactId>
-          <groupId>org.beanshell</groupId>
-        </exclusion>
-      </exclusions>
-    </dependency>
-
 
   </dependencies>
   <repositories>

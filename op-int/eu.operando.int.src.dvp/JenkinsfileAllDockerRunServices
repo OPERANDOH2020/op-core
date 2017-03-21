@@ -1,0 +1,78 @@
+#!groovy
+node {	
+    currentBuild.result = "SUCCESS"
+    echo "continueTasks: ${continueTasks}"
+
+	try {
+	   def mvnHome 
+	   stage('Independent') { 
+	      build job: 'eu.operando.int.core.mysql.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	      build job: 'eu.operando.int.core.mongo.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	      
+	      build job: 'eu.operando.dev.common', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+		  build job: 'eu.operando.dev.test.dependencies', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+
+//		  build job: 'eu.operando.dev.core.ae.server.prerequistes', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	   }
+	   stage('Dependent lv1') { 
+	   	  build job: 'eu.operando.dev.core.cas.client', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+//		  build job: 'eu.operando.dev.core.ldb.client', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+//		  build job: 'eu.operando.dev.core.pdb.common-model', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+		  build job: 'eu.operando.dev.core.pdb.client', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+//		  build job: 'eu.operando.dev.interfaces.aapi.client', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	   }
+	   stage('Dependent lv2') { 
+//		  build job: 'eu.operando.dev.core.mongo', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+//		  build job: 'eu.operando.dev.core.mysql', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+		  build job: 'eu.operando.dev.core.openldap.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+
+	   }
+	   stage('Dependent lv3') { 
+		  build job: 'eu.operando.int.core.ldb.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+
+		  build job: 'eu.operando.dev.core.ae.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+		  build job: 'eu.operando.dev.core.bda.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+		  build job: 'eu.operando.dev.core.cas.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+		  build job: 'eu.operando.dev.core.ldbsearch.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+		  build job: 'eu.operando.dev.core.nagios.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+		  build job: 'eu.operando.dev.core.ose.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+		  build job: 'eu.operando.dev.core.pc.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+		  build job: 'eu.operando.dev.core.pdb.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+		  build job: 'eu.operando.dev.core.pfb.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+		  build job: 'eu.operando.dev.core.rm.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+		  build job: 'eu.operando.dev.demo.mono.yellowpages.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+		  build job: 'eu.operando.dev.interfaces.aapi.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+		  build job: 'eu.operando.dev.interfaces.oapi.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+		  build job: 'eu.operando.dev.interfaces.rapi.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+		  build job: 'eu.operando.dev.pdr.dan.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+		  build job: 'eu.operando.dev.pdr.gk.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+		  build job: 'eu.operando.dev.pdr.rpm.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+		  build job: 'eu.operando.dev.webui.birt.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+		  build job: 'eu.operando.dev.webui.mono.console.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+		  build job: 'eu.operando.dev.webui.mono.reports.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	   }
+	   stage('Dependent lv4') { 
+		  build job: 'eu.operando.dev.core.pdb.server.load', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+		  build job: 'eu.operando.dev.demo.setup.scripts', propagate: false	 , parameters: [booleanParam(name: 'continueTasks', value: false)]  
+	   }
+	   if (continueTasks == 'true') {
+	       stage('continue') {
+	   	        build job: 'eu.operando.int.jnk.tsk.run.tests', wait: false
+	   	   }
+	   }
+	   	   	   
+	  } catch (err) {
+
+        currentBuild.result = "FAILURE"
+
+			  emailext (
+			      subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+			      body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+			        <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
+			      recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+			    )
+
+        throw err
+		}
+}
+

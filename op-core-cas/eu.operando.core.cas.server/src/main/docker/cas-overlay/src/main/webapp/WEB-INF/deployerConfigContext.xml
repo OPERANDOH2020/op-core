@@ -338,6 +338,11 @@ class="org.ldaptive.pool.PooledConnectionFactory"
            p:name="ldbs" 
            p:description="ldbs"
            p:serviceId="/operando/core/ldbsearch/log/search" p:evaluationOrder="10000027" />
+		<bean class="org.jasig.cas.services.RegexRegisteredService" 
+           p:id="27" 
+           p:name="complianceReport" 
+           p:description="complianceReport"
+           p:serviceId="GET/osps/.*/compliance-report" p:evaluationOrder="10000028" />
 		      
 		
 		

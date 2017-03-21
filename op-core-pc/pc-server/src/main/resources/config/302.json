@@ -1,0 +1,23 @@
+{
+    "user_id": "302",
+    "user_preferences": [{}],
+    "subscribed_osp_policies": [{
+        "osp_id": "YellowPages",
+        "access_policies": [{
+            "subject": "doctor",
+            "permission": "false",
+            "action": "Access",
+            "resource": "personalInfo.patient.name",
+            "attributes": [{}]
+        }, 
+        {
+            "subject": "doctor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "personalInfo.anthropometric.weight",
+            "attributes": [{}]
+        }]
+    }],
+    "subscribed_osp_settings": [{}
+    ]
+}

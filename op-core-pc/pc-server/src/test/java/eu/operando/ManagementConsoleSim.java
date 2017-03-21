@@ -29,7 +29,7 @@ package eu.operando;
 import io.swagger.api.NotFoundException;
 //import io.swagger.client.ApiException;
 //import io.swagger.client.api.UPPApi;
-import io.swagger.model.OSPDataRequest;
+import eu.operando.core.pdb.common.model.OSPDataRequest;
 import io.swagger.model.PolicyEvaluationReport;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,10 +52,10 @@ public class ManagementConsoleSim {
         try {
             ODATAPolicies odata = new ODATAPolicies();
             String category = odata.getElementDataPath("http://services.odata.org/g2cosp/patient('user1')/personal_information/gender");
-            int weighting = odata.getPreferenceRank(pS.getUPP("user1"), category, "health_care_professional");
-            weighting = odata.getPreferenceRank(pS.getUPP("user1"), "/valid_data/contact", "health_care_professional");
-            boolean grant = odata.grantOnWeighting(pS.getUPP("user1"), "Medical", "other", 6);
-            grant = odata.grantOnWeighting(pS.getUPP("user1"), "Medical", "health_care_professional", 6);
+            int weighting = odata.getPreferenceRank(pS.getUPP("_demo_user1"), category, "health_care_professional");
+            weighting = odata.getPreferenceRank(pS.getUPP("_demo_user1"), "/valid_data/contact", "health_care_professional");
+            boolean grant = odata.grantOnWeighting(pS.getUPP("_demo_user1"), "Medical", "other", 6);
+            grant = odata.grantOnWeighting(pS.getUPP("_demo_user1"), "Medical", "health_care_professional", 6);
             System.out.println("cat =" +  category + " weighting = " + weighting + grant);
         } catch (InvalidPreferenceException ex) {
             Logger.getLogger(ManagementConsoleSim.class.getName()).log(Level.SEVERE, null, ex);

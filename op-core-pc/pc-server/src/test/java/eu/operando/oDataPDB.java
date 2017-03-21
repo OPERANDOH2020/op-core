@@ -33,7 +33,7 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
 import io.swagger.api.NotFoundException;
-import io.swagger.model.OSPDataRequest;
+import eu.operando.core.pdb.common.model.OSPDataRequest;
 import io.swagger.model.PolicyEvaluationReport;
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,12 +50,12 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 /**
- * Set of 16 tests on three example users for policy evaluation. Each test
+ * Set of 16 unit tests on three example users for policy evaluation. Each test
  * is an incoming request to evaluate a policy.
  */
 public class oDataPDB {
 
-    private static final String PDB_URL = "http://integration.operando.esilab.org:8096/operando/core/pdb/policy_database";
+    private static final String PDB_URL = "http://integration.operando.esilab.org:8096/operando/core/pdb";
 
     /**
      * Constructor for stateful method calls.

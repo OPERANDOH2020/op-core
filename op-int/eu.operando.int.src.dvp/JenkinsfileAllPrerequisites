@@ -1,0 +1,45 @@
+#!groovy
+node {	
+    currentBuild.result = "SUCCESS"
+    echo "continueTasks: ${continueTasks}"
+
+	try {
+	   def mvnHome 
+	   stage('Independent') { 
+	      build job: 'eu.operando.int.jnk.tsk.pre', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+
+	   }
+	   stage('Dependent lv1') { 
+	      build job: 'eu.operando.int.dependencies.jnk.tsk.pre', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	   }
+	   stage('Dependent lv2') { 
+	      build job: 'eu.operando.int.resources.jnk.tsk.pre', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	   }
+	   stage('Dependent lv3') { 
+	      build job: 'eu.operando.int.core.ldb.client.jnk.tsk.pre', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	      build job: 'eu.operando.int.interfaces.aapi.jnk.tsk.pre', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	      build job: 'eu.operando.int.core.pdb.common-model.jnk.tsk.pre', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
+	   }
+	   stage('Dependent lv4') { 
+	      build job: 'eu.operando.int.interfaces.aapi.client.jnk.tsk.pre', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	   }
+	   if (continueTasks == 'true') {
+	       stage('continue') {
+	   	        build job: 'eu.operando.int.jnk.tsk.build.images', wait: false
+	   	   }
+	   }
+	   	   	   
+	  } catch (err) {
+
+        currentBuild.result = "FAILURE"
+
+			  emailext (
+			      subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+			      body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+			        <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
+			      recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+			    )
+
+        throw err
+		}
+}

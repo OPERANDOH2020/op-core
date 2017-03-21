@@ -50,14 +50,16 @@ public class OSPDataRequest   {
    */
   public enum ActionEnum {
     COLLECT("Collect"),
-
-        ACCESS("Access"),
-
-        USE("Use"),
-
-        DISCLOSE("Disclose"),
-
-        ARCHIVE("Archive");
+    ACCESS("Access"),
+    USE("Use"),
+    DISCLOSE("Disclose"),
+    ARCHIVE("Archive"),
+    SELECT("Select"),
+    UPDATE("Update"),
+    INSERT("Insert"),
+    DELETE("Delete"),
+    CREATE("Create");
+    
     private String value;
 
     ActionEnum(String value) {

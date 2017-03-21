@@ -32,7 +32,8 @@ import com.google.common.io.CharStreams;
 import com.google.common.io.Closeables;
 import com.jayway.jsonpath.JsonPath;
 import io.swagger.api.NotFoundException;
-import io.swagger.model.OSPDataRequest;
+import eu.operando.core.pdb.common.model.OSPDataRequest;
+import eu.operando.core.pdb.common.model.OSPDataRequest.ActionEnum;
 import io.swagger.model.PolicyEvaluationReport;
 import io.swagger.model.RequestEvaluation;
 import java.io.IOException;
@@ -155,8 +156,19 @@ public class PolicyEvaluationService {
     }
 
 
-    private EvalStatus evaluateRequest(String ospId, String uppProfile, OSPDataRequest ospRequest)  {
+    private OSPDataRequest actionCheck(OSPDataRequest ospRequest) {
+        if(ospRequest.getAction().compareTo(OSPDataRequest.ActionEnum.SELECT)==0){
+            ospRequest.setAction(OSPDataRequest.ActionEnum.ACCESS);
+        }
+        else if(ospRequest.getAction().compareTo(OSPDataRequest.ActionEnum.INSERT)==0){
+            ospRequest.setAction(OSPDataRequest.ActionEnum.CREATE);
+        }
+        return ospRequest;
+    }
+
+    private EvalStatus evaluateRequest(String ospId, String uppProfile, OSPDataRequest ospRequestInput)  {
         try {
+            OSPDataRequest ospRequest = actionCheck(ospRequestInput);
             ODATAPolicies odata = new ODATAPolicies();
             String oDataURL = ospRequest.getRequestedUrl();
             String Category = odata.getElementDataPath(oDataURL);
@@ -190,7 +202,7 @@ public class PolicyEvaluationService {
 
                         rEv.setDatauser(ospRequest.getSubject());
                         rEv.setDatafield(oDataURL);
-                        rEv.setAction(ospRequest.getAction().name());
+                        rEv.setAction(ospRequestInput.getAction().name());
                         rEv.setResult(false);
                     }
                 }
@@ -245,7 +257,7 @@ public class PolicyEvaluationService {
                  * Get the UPP from the PDB.
                  */
                 CloseableHttpClient httpclient = HttpClients.createDefault();
-                HttpGet httpget = new HttpGet(pdbURL + userId);
+                HttpGet httpget = new HttpGet(pdbURL +"/" + userId);
                 CloseableHttpResponse response1 = httpclient.execute(httpget);
 
                 /**
@@ -268,7 +280,9 @@ public class PolicyEvaluationService {
             /**
              * Evaluate the oData field request against the UPP user access policies
              */
-            for (OSPDataRequest r: ospRequest) {
+            for (OSPDataRequest rIn: ospRequest) {
+                ActionEnum actionInput = rIn.getAction();
+                OSPDataRequest r = actionCheck(rIn);
                 String oDataURL = r.getRequestedUrl();
                 String Category = odata.getElementDataPath(oDataURL);
                 JSONArray access_policies = JsonPath.read(uppProfile, "$.subscribed_osp_policies[?(@.osp_id=='"+ospId+"')].access_policies[?(@.resource=='"+ Category +"')]");
@@ -290,14 +304,13 @@ public class PolicyEvaluationService {
                 for(Object aP: access_policies) {
                     String subject = JsonPath.read(aP, "$.subject");
                     if(subject.equalsIgnoreCase(r.getSubject())) { // Check the subject
-                        found=true;
-
                         if (JsonPath.read(aP, "$.action").toString().equalsIgnoreCase(r.getAction().name())){ // Check the action
+                            found=true;
                             boolean perm = Boolean.parseBoolean(JsonPath.read(aP, "$.permission").toString());
                             RequestEvaluation rEv = new RequestEvaluation();
                                 rEv.setDatauser(r.getSubject());
                                 rEv.setDatafield(oDataURL);
-                                rEv.setAction(r.getAction().name());
+                                rEv.setAction(actionInput.name());
                             if(!perm) {
                                 permit = false;
                                 rEv.setResult(false);
@@ -308,15 +321,15 @@ public class PolicyEvaluationService {
                                 rp.addEvaluationsItem(rEv);
                             }
                         }
-                        else {
-                            permit = false;
-                            RequestEvaluation rEv = new RequestEvaluation();
-                                rEv.setDatauser(r.getSubject());
-                                rEv.setDatafield(oDataURL);
-                                rEv.setAction(r.getAction().name());
-                                rEv.setResult(false);
-                                rp.addEvaluationsItem(rEv);
-                        }
+//                        else {
+//                            permit = false;
+//                            RequestEvaluation rEv = new RequestEvaluation();
+//                                rEv.setDatauser(r.getSubject());
+//                                rEv.setDatafield(oDataURL);
+//                                rEv.setAction(r.getAction().name());
+//                                rEv.setResult(false);
+//                                rp.addEvaluationsItem(rEv);
+//                        }
                     }
                 }
                 if(!found){
@@ -330,7 +343,7 @@ public class PolicyEvaluationService {
                     RequestEvaluation rEv = new RequestEvaluation();
                                 rEv.setDatauser(r.getSubject());
                                 rEv.setDatafield(oDataURL);
-                                rEv.setAction(r.getAction().name());
+                                rEv.setAction(actionInput.name());
                                 rEv.setResult(permit);
                                 rp.addEvaluationsItem(rEv);
                 }
