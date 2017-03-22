@@ -121,7 +121,7 @@ function registerModels(callback){
     })();
 }
 
-container.declareDependency("OSPAdapter", ["mysqlPersistence"], function (outOfService, mysqlPersistence) {
+container.declareDependency("OSPAdapter", ["redisPersistence"], function (outOfService, mysqlPersistence) {
     if (!outOfService) {
         persistence = mysqlPersistence;
         registerModels(function(errs){

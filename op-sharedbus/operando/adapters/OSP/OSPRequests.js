@@ -68,7 +68,7 @@ function registerModels(callback){
     })();
 }
 
-container.declareDependency("OSPRequestAdapter", ["mysqlPersistence"], function (outOfService, mysqlPersistence) {
+container.declareDependency("OSPRequestAdapter", ["redisPersistence"], function (outOfService, mysqlPersistence) {
     if (!outOfService) {
         persistence = mysqlPersistence;
         registerModels(function(errs){

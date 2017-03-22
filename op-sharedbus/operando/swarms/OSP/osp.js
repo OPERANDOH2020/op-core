@@ -169,11 +169,15 @@ var osp = {
                             if (err) {
                                 console.error(err);
                                 emailToBeRetrieved--;
+                            } else if (user === null) {
+                                //orphan case
+                                emailToBeRetrieved--;
                             }
                             else {
                                 self.ospRequests[index]['email'] = user['email'];
                                 emailsRetrieved++;
                             }
+
                             if(emailsRetrieved === emailToBeRetrieved){
                                 self.home("success");
                             }
@@ -235,11 +239,15 @@ var osp = {
             for (var i = 0; i < self.ospList.length; i++) {
                 (function (index) {
                     getUserInfo(self.ospList[index].userId, S(function (err, user) {
+
                         if (err) {
                             console.error(err);
                             emailToBeRetrieved--;
                         }
-                        else {
+                        else if (user === null) {
+                            //orphan case
+                            emailToBeRetrieved--;
+                        } else {
                             self.ospList[index]['email'] = user['email'];
                             emailsRetrieved++;
                         }

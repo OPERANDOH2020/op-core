@@ -80,7 +80,7 @@ function registerModels(callback){
     })();
 }
 
-container.declareDependency("SessionManagerAdapter", ["mysqlPersistence"], function (outOfService, mysqlPersistence) {
+container.declareDependency("SessionManagerAdapter", ["redisPersistence"], function (outOfService, mysqlPersistence) {
     if (!outOfService) {
         persistence = mysqlPersistence;
         registerModels(function(errs){
