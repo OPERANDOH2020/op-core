@@ -38,7 +38,7 @@
 								<echo>[operando.core.rm.basepath]=${operando.core.rm.basepath}</echo>
 								<echo>[core.ldb.endpoint]=${core.ldb.endpoint}</echo>
 								<echo>[interfaces.aapi.endpoint]=${interfaces.aapi.endpoint}</echo>
-								<echo>[pdr.dan.endpoint]=${pdr.dan.endpoint}</echo>								
+								<echo>[pdr.dan.endpoint]=${pdr.dan.endpoint}</echo>
 							</tasks>
 						</configuration>
 					</execution>
@@ -95,6 +95,8 @@
 									<AAPI_ENDPOINT>${interfaces.aapi.endpoint}</AAPI_ENDPOINT>
 									<DAN_ENDPOINT>${pdr.dan.endpoint}</DAN_ENDPOINT>
 									<RM_URLPATH>${operando.core.rm.endpoint.path}</RM_URLPATH>
+									<AAPI_USER>operando</AAPI_USER>
+									<AAPI_PASSWORD>1234</AAPI_PASSWORD>
 								</env>
 								<ports>
 									<port>${docker.port1.mapping}</port>

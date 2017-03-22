@@ -26,6 +26,13 @@ OLD_LDB_ENDPOINT=http://server02tecnalia.westeurope.cloudapp.azure.com:8090/oper
 sed -i -e "s|$OLD_LDB_ENDPOINT|$LDB_ENDPOINT|" \
 /sources/app.py
 
+OLD_AAPI_USER=username
+sed -i -e "s|$OLD_AAPI_USER\n|$AAPI_USER\n|" \
+/sources/config.cfg
+OLD_AAPI_PASSWORD=password
+sed -i -e "s|$OLD_AAPI_PASSWORD\n|$AAPI_PASSWORD\n|" \
+/sources/config.cfg
+
 cd sources
 python app.py
 

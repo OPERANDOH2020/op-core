@@ -6,6 +6,8 @@ ENV DAN_ENDPOINT none
 ENV AAPI_ENDPOINT none
 ENV LDB_ENDPOINT none
 ENV RM_URLPATH none
+ENV AAPI_USER none
+ENV AAPI_PASSWORD none
 
 ADD sources sources
 ADD requirements.txt requirements.txt
