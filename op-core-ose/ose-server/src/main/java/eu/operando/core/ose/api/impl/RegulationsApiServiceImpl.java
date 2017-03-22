@@ -39,7 +39,7 @@ import io.swagger.client.api.LogApi;
 import io.swagger.client.ApiClient;
 import io.swagger.client.ApiException;
 import io.swagger.client.model.LogRequest;
-import io.swagger.client.model.LogRequest.LogDataTypeEnum;
+import io.swagger.client.model.LogRequest.LogLevelEnum;
 import io.swagger.client.model.LogRequest.LogPriorityEnum;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -62,7 +62,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
     }
 
     private void logRequest(String requesterId, String title, String description,
-            LogDataTypeEnum logDataType, LogPriorityEnum logPriority,
+            LogLevelEnum logDataType, LogPriorityEnum logPriority,
             ArrayList<String> keywords) {
 
         ArrayList<String> words = new ArrayList<String>(Arrays.asList("OSE", "Regulations"));
@@ -73,7 +73,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
         LogRequest logRequest = new LogRequest();
         logRequest.setUserId("OSE-Regulations");
         logRequest.setDescription(description);
-        logRequest.setLogDataType(logDataType);
+        logRequest.setLogLevel(logDataType);
         logRequest.setTitle(title);
         logRequest.setLogPriority(logPriority);
         logRequest.setRequesterId(requesterId);
@@ -110,7 +110,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
 
         logRequest("regulationsPost", "Regulation: ".concat(regulation.getRegId()),
                 "OSE regulations POST received",
-                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         RegulationWorkflow services = new RegulationWorkflow();
@@ -119,7 +119,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
 
 //            logRequest("regulationsPost", "Regulation".concat(regulation.getRegId()),
 //                    "OSE regulations POST failed",
-//                    LogDataTypeEnum.ERROR, LogPriorityEnum.HIGH,
+//                    LogLevelEnum.ERROR, LogPriorityEnum.HIGH,
 //                    new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(409).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -128,7 +128,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
 
         logRequest("regulationsPost", "Regulation".concat(regulation.getRegId()),
                 "OSE regulations POST complete",
-                LogRequest.LogDataTypeEnum.INFO, LogRequest.LogPriorityEnum.NORMAL,
+                LogRequest.LogLevelEnum.INFO, LogRequest.LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         return Response.status(Response.Status.CREATED).entity(new ApiResponseMessage(ApiResponseMessage.OK,
@@ -154,7 +154,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
 
         logRequest("Regulations PUT", "PUT",
                 "PDB regulations PUT received",
-                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         RegulationsMongo regMongo = new RegulationsMongo();
@@ -164,7 +164,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
 
             logRequest("Regulations PUT", "PUT",
                     "PDB regulations PUT failed",
-                    LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
+                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -173,7 +173,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
 
         logRequest("Regulations PUT", "PUT",
                 "PDB regulations PUT complete",
-                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         return Response.status(Response.Status.OK).entity(new ApiResponseMessage(ApiResponseMessage.OK,

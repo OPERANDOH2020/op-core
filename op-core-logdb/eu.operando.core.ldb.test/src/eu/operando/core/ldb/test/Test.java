@@ -28,13 +28,14 @@ import io.swagger.client.ApiClient;
 import io.swagger.client.ApiException;
 import io.swagger.client.Pair;
 import io.swagger.client.model.LogRequest;
-import io.swagger.client.model.LogRequest.LogDataTypeEnum;
+import io.swagger.client.model.LogRequest.LogLevelEnum;
 import io.swagger.client.model.LogRequest.LogPriorityEnum;
+import io.swagger.client.model.LogRequest.LogTypeEnum;
 import io.swagger.client.model.LogRequest.RequesterTypeEnum;
 
 public class Test {
 
-	// @org.junit.Test
+	@org.junit.Test
 	public void test() {
 		// GBE added code to get information form a properties file
 		Properties props;
@@ -72,16 +73,16 @@ public class Test {
 		LogRequest logRequest = new LogRequest();
 		logRequest.setUserId("001");
 		logRequest.setDescription("Log on 07/12 for testing purposes");
-		logRequest.setLogDataType(LogDataTypeEnum.INFO);
+		logRequest.setLogLevel(LogLevelEnum.INFO);
 		logRequest.setTitle("Log on 07/12");
 		logRequest.setLogPriority(LogPriorityEnum.LOW);
 		logRequest.setRequesterId("1007");
 		logRequest.setRequesterType(RequesterTypeEnum.MODULE);
 		ArrayList<String> keywords = new ArrayList<String>();
-		keywords.add("keywordA");
-		keywords.add("keywordB");
-		keywords.add("keywordC");
+		keywords.add("keyword1");		
 		logRequest.setKeywords(keywords);
+		logRequest.setLogType(LogTypeEnum.NOTIFICATION);
+		logRequest.setAffectedUserId("43");
 
 		Object postBody = logRequest;
 		System.out.println(postBody);
@@ -95,7 +96,7 @@ public class Test {
 		System.out.println(str);
 	}
 
-	@org.junit.Test
+	//@org.junit.Test
 	public void testTicket() {
 		// GBE added code to get information form a properties file
 		Properties props;
@@ -136,7 +137,7 @@ public class Test {
 		LogRequest logRequest = new LogRequest();
 		logRequest.setUserId("001");
 		logRequest.setDescription("Log on 07/12 for testing purposes");
-		logRequest.setLogDataType(LogDataTypeEnum.INFO);
+		logRequest.setLogLevel(LogLevelEnum.INFO);
 		logRequest.setTitle("Log on 07/12");
 		logRequest.setLogPriority(LogPriorityEnum.LOW);
 		logRequest.setRequesterId("1007");
@@ -146,6 +147,8 @@ public class Test {
 		keywords.add("keywordB");
 		keywords.add("keywordC");
 		logRequest.setKeywords(keywords);
+		logRequest.setLogType(LogTypeEnum.NOTIFICATION);
+		logRequest.setAffectedUserId("27");
 
 		Object postBody = logRequest;
 

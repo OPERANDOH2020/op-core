@@ -49,14 +49,16 @@ public class Test {
 	    String jsonKeyWords = new Gson().toJson(keyWords);
 	    List<Pair> queryParams = new ArrayList<Pair>();
 	    queryParams.add(new Pair ("dateFrom","2016-07-04 08:50:25"));
-	    queryParams.add(new Pair ("dateTo","2016-07-10 08:50:25"));
+	    queryParams.add(new Pair ("dateTo","2017-03-30 08:50:25"));
 	    queryParams.add(new Pair ("logLevel",""));
 	    queryParams.add(new Pair ("requesterType",""));
 	    queryParams.add(new Pair ("requesterId",""));
 	    queryParams.add(new Pair ("website_id",""));
 	    queryParams.add(new Pair ("logPriority",""));
 	    queryParams.add(new Pair ("title",""));
+	    //queryParams.add(new Pair ("logType",LogTypeEnum.NOTIFICATION.toString()));
 	    queryParams.add(new Pair ("keyWords",jsonKeyWords));
+	    //queryParams.add(new Pair ("affectedUserId","28"));
 	    
 	    Map<String, String> headerParams = new HashMap<String, String>(); 
 	    Map<String, Object> formParams = new HashMap<String, Object>(); 

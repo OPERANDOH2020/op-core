@@ -63,7 +63,7 @@ public class LogSearchApi {
    * @return InlineResponse200
    * @throws ApiException if fails to make API call
    */
-  public InlineResponse200 getLogs(String dateFrom, String dateTo, String logLevel, String requesterType, String requesterId, String logPriority, String title, List<String> keyWords) throws ApiException {
+  public InlineResponse200 getLogs(String dateFrom, String dateTo, String logLevel, String requesterType, String requesterId, String logPriority, String title, List<String> keyWords, String logType, String affectedUserId) throws ApiException {
     Object localVarPostBody = null;
     
     // create path and map variables
@@ -82,6 +82,8 @@ public class LogSearchApi {
     localVarQueryParams.addAll(apiClient.parameterToPairs("", "logPriority", logPriority));
     localVarQueryParams.addAll(apiClient.parameterToPairs("", "title", title));
     localVarQueryParams.addAll(apiClient.parameterToPairs("multi", "keyWords", keyWords));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "logType", logType));
+    localVarQueryParams.addAll(apiClient.parameterToPairs("", "affectedUserId", affectedUserId));
 
     
     

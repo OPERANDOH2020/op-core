@@ -128,6 +128,40 @@ public class LogRequestTicket {
   @JsonProperty("keywords")
   private List<String> keywords = new ArrayList<String>();
 
+  /**
+   * Type of the data logged.
+   */
+  public enum LogTypeEnum {
+    @JsonProperty("DATA_ACCESS")
+    DATA_ACCESS("DATA_ACCESS"),
+    
+    @JsonProperty("SYSTEM")
+    SYSTEM("SYSTEM"),
+    
+    @JsonProperty("NOTIFICATION")
+    NOTIFICATION("NOTIFICATION"),
+    
+    @JsonProperty("OTHER")
+    OTHER("OTHER");
+
+    private String value;
+
+    LogTypeEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+  }
+
+  @JsonProperty("logType")
+  private LogTypeEnum logType = null;
+
+  @JsonProperty("affectedUserId")
+  private String affectedUserId = null;
+
   public LogRequestTicket userId(String userId) {
     this.userId = userId;
     return this;
@@ -277,6 +311,42 @@ public class LogRequestTicket {
     this.keywords = keywords;
   }
 
+  public LogRequestTicket logType(LogTypeEnum logType) {
+    this.logType = logType;
+    return this;
+  }
+
+   /**
+   * Type of the data logged.
+   * @return logType
+  **/
+  @ApiModelProperty(example = "null", value = "Type of the data logged.")
+  public LogTypeEnum getLogType() {
+    return logType;
+  }
+
+  public void setLogType(LogTypeEnum logType) {
+    this.logType = logType;
+  }
+
+  public LogRequestTicket affectedUserId(String affectedUserId) {
+    this.affectedUserId = affectedUserId;
+    return this;
+  }
+
+   /**
+   * Id of the affected user.
+   * @return affectedUserId
+  **/
+  @ApiModelProperty(example = "null", value = "Id of the affected user.")
+  public String getAffectedUserId() {
+    return affectedUserId;
+  }
+
+  public void setAffectedUserId(String affectedUserId) {
+    this.affectedUserId = affectedUserId;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -294,12 +364,14 @@ public class LogRequestTicket {
         Objects.equals(this.logLevel, logRequestTicket.logLevel) &&
         Objects.equals(this.title, logRequestTicket.title) &&
         Objects.equals(this.description, logRequestTicket.description) &&
-        Objects.equals(this.keywords, logRequestTicket.keywords);
+        Objects.equals(this.keywords, logRequestTicket.keywords) &&
+        Objects.equals(this.logType, logRequestTicket.logType) &&
+        Objects.equals(this.affectedUserId, logRequestTicket.affectedUserId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(userId, requesterType, requesterId, logPriority, logLevel, title, description, keywords);
+    return Objects.hash(userId, requesterType, requesterId, logPriority, logLevel, title, description, keywords, logType, affectedUserId);
   }
 
 
@@ -316,6 +388,8 @@ public class LogRequestTicket {
     sb.append("    title: ").append(toIndentedString(title)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    keywords: ").append(toIndentedString(keywords)).append("\n");
+    sb.append("    logType: ").append(toIndentedString(logType)).append("\n");
+    sb.append("    affectedUserId: ").append(toIndentedString(affectedUserId)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -38,7 +38,7 @@ import io.swagger.api.ApiResponseMessage;
 import io.swagger.api.OspsApiService;
 import io.swagger.client.api.LogApi;
 import io.swagger.client.model.LogRequest;
-import io.swagger.client.model.LogRequest.LogDataTypeEnum;
+import io.swagger.client.model.LogRequest.LogLevelEnum;
 import io.swagger.client.model.LogRequest.LogPriorityEnum;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,7 +61,7 @@ public class OspsApiServiceImpl extends OspsApiService {
     }
 
     private void logRequest(String requesterId, String title, String description,
-            LogDataTypeEnum logDataType, LogPriorityEnum logPriority,
+            LogLevelEnum logDataType, LogPriorityEnum logPriority,
             ArrayList<String> keywords) {
 
         ArrayList<String> words = new ArrayList<String>(Arrays.asList("OSE", "OSP"));
@@ -72,7 +72,7 @@ public class OspsApiServiceImpl extends OspsApiService {
         LogRequest logRequest = new LogRequest();
         logRequest.setUserId("OSE-OSP");
         logRequest.setDescription(description);
-        logRequest.setLogDataType(logDataType);
+        logRequest.setLogLevel(logDataType);
         logRequest.setTitle(title);
         logRequest.setLogPriority(logPriority);
         logRequest.setRequesterId(requesterId);
@@ -96,7 +96,7 @@ public class OspsApiServiceImpl extends OspsApiService {
 
         logRequest("ospsPrivacyPolicyGet", ospId,
                 "PDB osp privacy settings GET received",
-                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("ospId", "userId")));
 
         OspsMongo ospsMongo = new OspsMongo();
@@ -104,7 +104,7 @@ public class OspsApiServiceImpl extends OspsApiService {
 
         logRequest("ospsPrivacyPolicyGet", ospId,
                 "PDB osp privacy settings GET complete",
-                LogDataTypeEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("ospId", "userId")));
 
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK,
