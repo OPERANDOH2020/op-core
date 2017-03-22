@@ -27,10 +27,10 @@ sed -i -e "s|$OLD_LDB_ENDPOINT|$LDB_ENDPOINT|" \
 /sources/app.py
 
 OLD_AAPI_USER=username
-sed -i -e "s|$OLD_AAPI_USER\n|$AAPI_USER\n|" \
+sed -i -e "s|$OLD_AAPI_USER$|$AAPI_USER|" \
 /sources/config.cfg
 OLD_AAPI_PASSWORD=password
-sed -i -e "s|$OLD_AAPI_PASSWORD\n|$AAPI_PASSWORD\n|" \
+sed -i -e "s|$OLD_AAPI_PASSWORD$|$AAPI_PASSWORD|" \
 /sources/config.cfg
 
 cd sources
