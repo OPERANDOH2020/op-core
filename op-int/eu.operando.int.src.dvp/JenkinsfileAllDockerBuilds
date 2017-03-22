@@ -16,6 +16,7 @@ node {
 	   	  build job: 'eu.operando.int.core.ldb.server.test.00.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 	   	  build job: 'eu.operando.int.core.pdb.server.test.00.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 	      build job: 'eu.operando.int.core.ldb.server.test.01.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	      build job: 'eu.operando.int.core.pdb.server.test.01.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 	   }
 	   if (continueTasks == 'true') {
 	       stage('continue') {
