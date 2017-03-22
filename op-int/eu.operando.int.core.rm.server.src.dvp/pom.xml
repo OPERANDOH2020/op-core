@@ -35,6 +35,9 @@
 								<echo>[docker.image.name]=${docker.image.name}</echo>
 								<echo>[docker.image.version]=${docker.image.version}</echo>
 								<echo>[operando.core.rm.basepath]=${operando.core.rm.basepath}</echo>
+								<echo>[core.ldb.endpoint]=${core.ldb.endpoint}</echo>
+								<echo>[interfaces.aapi.endpoint]=${interfaces.aapi.endpoint}</echo>
+								<echo>[pdr.dan.endpoint]=${pdr.dan.endpoint}</echo>								
 							</tasks>
 						</configuration>
 					</execution>
@@ -86,6 +89,12 @@
 							</build>
 							<run>
 								<namingStrategy>alias</namingStrategy>
+								<env>
+									<LDB_ENDPOINT>${core.ldb.endpoint}</LDB_ENDPOINT>
+									<AAPI_ENDPOINT>${interfaces.aapi.endpoint}</AAPI_ENDPOINT>
+									<DAN_ENDPOINT>${pdr.dan.endpoint}</DAN_ENDPOINT>
+									<RM_URLPATH>${operando.core.rm.endpoint.path}</RM_URLPATH>
+								</env>
 								<ports>
 									<port>${docker.port1.mapping}</port>
 								</ports>
@@ -162,5 +171,8 @@
 		<docker.image.version>${project.version}</docker.image.version>
 		<docker.port1.external>${operando.core.rm.port}</docker.port1.external>
 		<docker.port1.mapping>${docker.port1.external}:8080</docker.port1.mapping>
+		<core.ldb.endpoint>${operando.core.ldb.endpoint}</core.ldb.endpoint>
+		<interfaces.aapi.endpoint>${operando.interfaces.aapi.endpoint}</interfaces.aapi.endpoint>
+		<pdr.dan.endpoint>${operando.pdr.dan.endpoint}</pdr.dan.endpoint>
 	</properties>
 </project>

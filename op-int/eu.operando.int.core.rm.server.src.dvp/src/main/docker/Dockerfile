@@ -2,6 +2,11 @@
 # we choose normal 
 FROM python:2.7.12
 
+ENV DAN_ENDPOINT none
+ENV AAPI_ENDPOINT none
+ENV LDB_ENDPOINT none
+ENV RM_URLPATH 
+
 ADD sources sources
 ADD requirements.txt requirements.txt
 
@@ -11,8 +16,11 @@ EXPOSE 8080
 
 WORKDIR /sources
 
-CMD [ "python", "./app.py" ]
+ADD run.sh /run.sh
+RUN chmod 750 /run.sh
+ENV PATH /:$PATH
 
+CMD ["/run.sh"]
 
 
 

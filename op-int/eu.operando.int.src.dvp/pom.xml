@@ -99,6 +99,13 @@
 		<operando.interfaces.aapi.basepath>${operando.interfaces.aapi.protocol}${operando.interfaces.aapi.host}:${operando.interfaces.aapi.port}</operando.interfaces.aapi.basepath>			
 		<operando.interfaces.aapi.endpoint>${operando.interfaces.aapi.basepath}/${operando.interfaces.aapi.endpoint.path}</operando.interfaces.aapi.endpoint>
 		
+		<operando.pdr.dan.host>dan.integration.operando.lan.esilab.org</operando.pdr.dan.host>
+		<operando.pdr.dan.protocol>http://</operando.pdr.dan.protocol>
+		<operando.pdr.dan.port>8111</operando.pdr.dan.port>
+		<operando.pdr.dan.endpoint.path>operando/pdr/dan</operando.pdr.dan.endpoint.path>
+		<operando.pdr.dan.basepath>${operando.pdr.dan.protocol}${operando.pdr.dan.host}:${operando.pdr.dan.port}</operando.pdr.dan.basepath>			
+		<operando.pdr.dan.endpoint>${operando.pdr.dan.basepath}/${operando.pdr.dan.endpoint.path}</operando.pdr.dan.endpoint>
+		
 		<operando.mysql.host>mysql.integration.operando.lan.esilab.org</operando.mysql.host>
 		<operando.mysql.port>3306</operando.mysql.port>
 		<operando.mysql.root.user>root</operando.mysql.root.user>
