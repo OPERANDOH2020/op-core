@@ -1,43 +1,97 @@
+/*
+ * Copyright (c) 2016 ROMSOFT.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the The MIT License (MIT).
+ * which accompanies this distribution, and is available at
+ * http://opensource.org/licenses/MIT
+ *
+ * Contributors:
+ *    RAFAEL MASTALERU (ROMSOFT)
+ * Initially developed in the context of OPERANDO EU project www.operando.eu
+ */
+
 var core = require("swarmcore");
 core.createAdapter("SessionManager");
 
-var apersistence = require('apersistence');
 var container = require("safebox").container;
-
 var myCfg = getMyConfig("SessionManager");
 
 var sessionMaxIdleTime = 94608000;//one year
 var sessionMinIdleTime = 8640;//one day
+var persistence = undefined;
+var flow = require("callflow");
 
 if (myCfg.sessionTime != undefined) {
     sessionMaxIdleTime = myCfg.sessionTime;
 }
 
-var flow = require("callflow");
+function registerModels(callback){
+    var models = [
+        {
+            modelName:"DefaultSession",
+            dataModel : {
+                userId: {
+                    type: "string",
+                    index :true,
+                    length:254
+                },
+                sessionId: {
+                    type: "string",
+                    pk: true,
+                    index: true,
+                    length:254
+                },
+                expirationDate: {
+                    type: "string",
+                    length:254
+                },
+                ipAddress:{
+                    type:"string",
+                    length:254
+                }
+            }
+        }
+    ];
 
-apersistence.registerModel("DefaultSession", "Redis", {
-    ctor: function () {
-    },
-    userId: {
-        type: "string",
-        index :true
-    },
-    sessionId: {
-        type: "string",
-        pk: true,
-        index: true
-    },
-    expirationDate: {
-        type: "string"
-    },
-    ipAddress:{
-        type:"string"
-    }
-}, function(err, model){
-    if(err){
-        console.log(model);
-    }
+    flow.create("registerModels",{
+        begin:function(){
+            this.errs = [];
+            var self = this;
+            models.forEach(function(model){
+                persistence.registerModel(model.modelName,model.dataModel,self.continue("registerDone"));
+            });
 
+        },
+        registerDone:function(err,result){
+            if(err) {
+                this.errs.push(err);
+            }
+        },
+        end:{
+            join:"registerDone",
+            code:function(){
+                if(callback && this.errs.length>0){
+                    callback(this.errs);
+                }else{
+                    callback(null);
+                }
+            }
+        }
+    })();
+}
+
+container.declareDependency("SessionManagerAdapter", ["mysqlPersistence"], function (outOfService, mysqlPersistence) {
+    if (!outOfService) {
+        persistence = mysqlPersistence;
+        registerModels(function(errs){
+            if(errs){
+                console.error(errs);
+            }
+        });
+
+    } else {
+        console.log("Disabling persistence...");
+    }
 });
 
 
@@ -48,13 +102,14 @@ createOrUpdateSession = function(sessionData, callback){
                 callback(new Error('Empty userId'), null);
             }
             else {
-                redisPersistence.lookup.async("DefaultSession", sessionData.sessionId, this.continue("createSession"));
+                persistence.lookup.async("DefaultSession", sessionData.sessionId, this.continue("createSession"));
             }
         },
         createSession: function (err, session) {
+            console.log(session);
             sessionData.expirationDate = parseInt(Date.now()) + parseInt(sessionMaxIdleTime);
-            redisPersistence.externalUpdate(session, sessionData);
-            redisPersistence.saveObject(session, callback);
+            persistence.externalUpdate(session, sessionData);
+            persistence.saveObject(session, callback);
         }
     })();
 }
@@ -62,18 +117,18 @@ createOrUpdateSession = function(sessionData, callback){
 deleteSession = function (sessionId, userId, callback) {
     flow.create("delete session", {
         begin: function () {
-            redisPersistence.findById("DefaultSession", sessionId, this.continue("deleteSession"));
+            persistence.findById("DefaultSession", sessionId, this.continue("deleteSession"));
         },
         deleteSession: function (err, session) {
             if (err) {
                 callback(err, null);
             }
             else {
-                if (redisPersistence.isFresh(session)) {
+                if (persistence.isFresh(session)) {
                     callback(new Error("Could not find a session with id " + sessionId), null);
                 }
                 else {
-                    redisPersistence.deleteById("DefaultSession", sessionId, callback);
+                    persistence.deleteById("DefaultSession", sessionId, callback);
                 }
             }
         }
@@ -88,7 +143,7 @@ getUserBySession = function (sessionId, callback) {
                 callback(new Error("sessionId is required"), null);
             }
             else {
-                redisPersistence.findById("DefaultSession", sessionId, this.continue("getUser"));
+                persistence.findById("DefaultSession", sessionId, this.continue("getUser"));
             }
         },
         getUser:function(err, session){
@@ -110,7 +165,7 @@ deleteUserSessions = function(sessionId,callback){
                 callback(new Error("sessionId is required"), null);
             }
             else{
-                redisPersistence.findById("DefaultSession", sessionId, this.continue("findSessions"));
+                persistence.findById("DefaultSession", sessionId, this.continue("findSessions"));
             }
         },
         findSessions: function(err, session) {
@@ -118,7 +173,11 @@ deleteUserSessions = function(sessionId,callback){
                 this.callback(err, null);
             }
             else if(session != null && session.userId) {
-                redisPersistence.filter("DefaultSession", {"userId": session.userId}, this.continue("deleteUserSessions"));
+                persistence.filter("DefaultSession", {"userId": session.userId}, this.continue("deleteUserSessions"));
+            }
+            else{
+                //do not change this err key
+                callback(new Error("session_not_found"));
             }
         },
         deleteUserSessions: function (err, sessions) {
@@ -133,7 +192,7 @@ deleteUserSessions = function(sessionId,callback){
         },
         deleteSingleSession:function(session){
             console.log(session);
-            redisPersistence.delete(session);
+            persistence.delete(session);
         },
 
         end:{
@@ -162,14 +221,14 @@ sessionIsValid = function (newSession, sessionId, userId, callback) {
                 return;
             }
 
-            redisPersistence.findById("DefaultSession", sessionId, this.continue("validateSession"));
+            persistence.findById("DefaultSession", sessionId, this.continue("validateSession"));
 
         },
         validateSession: function (err, session) {
             if (err) {
                 callback(err, session);
             }
-            else if (!session || redisPersistence.isFresh(session)) {
+            else if (!session || persistence.isFresh(session)) {
                 callback(new Error("Session not found"), false);
             }
             else {
@@ -179,7 +238,7 @@ sessionIsValid = function (newSession, sessionId, userId, callback) {
                 else {
                     session.expirationDate = parseInt(Date.now()) + parseInt(sessionMaxIdleTime);
                     session.sessionId = newSession;
-                    redisPersistence.saveObject(session, callback);
+                    persistence.saveObject(session, callback);
                 }
             }
         }
@@ -188,10 +247,4 @@ sessionIsValid = function (newSession, sessionId, userId, callback) {
 }
 
 
-container.declareDependency("SessionManagerAdapter", ["redisPersistence"], function (outOfService, redisPersistence) {
-    if (!outOfService) {
-        console.log("Enabling persistence...");
-    } else {
-        console.log("Disabling persistence...");
-    }
-})
+

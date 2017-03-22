@@ -86,17 +86,40 @@ var registerSwarming = {
         node:"UsersManager",
         code:function(){
             var self = this;
-            activateUser(this.validationCode, S(function (err, result) {
+            activateUser(this.validationCode, S(function (err, user) {
                 if (err) {                      
                     console.log(err);
                     self.error = err.message;
                     self.home("failed");
                 } else {
-                    self.home("success");
+                    self.activatedUserId = user.userId;
+                    self.swarm("createUserSession");
                 }
             }))
         }
     },
+
+    createUserSession:{
+        node:"SessionManager",
+        code:function(){
+            var self = this;
+            var sessionData = {
+                userId: this.activatedUserId,
+                sessionId: this.getSessionId()
+            };
+
+            createOrUpdateSession(sessionData, S(function (error, session) {
+                if (error) {
+                    console.log(error);
+                }
+                else {
+                    self.validatedUserSession = session;
+                    self.home("success");
+                }
+            }));
+        }
+    },
+
 
     sendActivationCode:function (userEmail) {
         this.email = userEmail;

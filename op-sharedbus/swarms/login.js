@@ -94,13 +94,14 @@ var loginSwarming = {
         code: function () {
             var self = this;
             deleteUserSessions(this.getSessionId(), S(function (err, result) {
-                if (err) {
+                if (err && err.message !== "session_not_found") {
                     console.log(err);
                 }
                 else {
                     self.home("logoutSucceed");
                     sessionsRegistry.disableOutlet(self.meta.outletId);
                 }
+
             }));
         }
     },
@@ -285,7 +286,7 @@ var loginSwarming = {
             var outlet = sessionsRegistry.getTemporarily(this.meta.outletId);
             sessionsRegistry.registerOutlet(outlet);
             enableOutlet(this);
-            console.log("Session restored for ", this.userId, "!");
+            console.log("Session restored for ", this.meta.tenantId, this.userId, "!");
             this.home("restoreSucceed");
         }
     },

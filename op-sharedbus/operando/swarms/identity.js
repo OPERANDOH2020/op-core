@@ -91,7 +91,6 @@ var identitySwarming = {
                     self.swarm("checkUserNotifications");
                 }
             }));
-
         }
     },
 

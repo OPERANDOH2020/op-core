@@ -12,90 +12,130 @@
 
 var core = require("swarmcore");
 core.createAdapter("OSPAdapter");
-var apersistence = require('apersistence');
+var persistence = undefined;
 var container = require("safebox").container;
 var flow = require("callflow");
 var uuid = require('uuid');
 
-apersistence.registerModel("OspDetails", "Redis", {
-        userId: {
-            type: "string",
-            index: true,
-            pk: true
-        },
-        name: {
-            type: "string"
-        },
-        phone: {
-            type: "string"
-        },
-        website: {
-            type: "string",
-            index: true
-        },
-        deals_description: {
-            type: "string"
-        },
-        osp_accepted_time:{
-            type:"string",
-            default:"0"
-        }
-    },
-    function (err, model) {
-        if (err) {
-            console.log(err);
-        } else {
-        }
-    }
-);
 
-
-apersistence.registerModel("OspOffer", "Redis", {
-        userId: {
-            type: "string",
-            index: true
+function registerModels(callback){
+    var models = [
+        {
+            modelName:"OspDetails",
+            dataModel : {
+                userId: {
+                    type: "string",
+                    index: true,
+                    pk: true,
+                    length:254
+                },
+                name: {
+                    type: "string",
+                    length:254
+                },
+                phone: {
+                    type: "string",
+                    length:30
+                },
+                website: {
+                    type: "string",
+                    index: true,
+                    length:128
+                },
+                deals_description: {
+                    type: "string",
+                    length:2048
+                },
+                osp_accepted_time:{
+                    type:"string",
+                    default:"0"
+                }
+            }
         },
-        offerId:{
-            type: "string",
-            index: true,
-            pk:true
-        },
-        name: {
-            type: "string"
-        },
-        logo:{
-            type: "string"
-        },
-        description: {
-            type: "string"
-        },
-        start_date:{
-            type:"string"
-        },
-        end_date:{
-            type:"string"
-        },
-        impact_score:{
-            type:"string",
-            default:"0"
+        {
+            modelName:"OspOffer",
+            dataModel : {
+                userId: {
+                    type: "string",
+                    index: true,
+                    length:254
+                },
+                offerId:{
+                    type: "string",
+                    index: true,
+                    pk:true,
+                    length:254
+                },
+                name: {
+                    type: "string",
+                    length:254
+                },
+                logo:{
+                    type: "string",
+                    length:6000
+                },
+                description: {
+                    type: "string",
+                    length:5000
+                },
+                start_date:{
+                    type:"string",
+                    length:254
+                },
+                end_date:{
+                    type:"string",
+                    length:254
+                },
+                impact_score:{
+                    type:"string",
+                    default:"0"
+                }
+            }
         }
-    },
-    function (err, model) {
-        if (err) {
-            console.log(err);
-        } else {
+    ];
+
+    flow.create("registerModels",{
+        begin:function(){
+            this.errs = [];
+            var self = this;
+            models.forEach(function(model){
+                persistence.registerModel(model.modelName,model.dataModel,self.continue("registerDone"));
+            });
+
+        },
+        registerDone:function(err,result){
+            if(err) {
+                this.errs.push(err);
+            }
+        },
+        end:{
+            join:"registerDone",
+            code:function(){
+                if(callback && this.errs.length>0){
+                    callback(this.errs);
+                }else{
+                    callback(null);
+                }
+            }
         }
-    }
-);
+    })();
+}
 
-
-container.declareDependency("OSPAdapter", ["redisPersistence"], function (outOfService, redisPersistence) {
+container.declareDependency("OSPAdapter", ["mysqlPersistence"], function (outOfService, mysqlPersistence) {
     if (!outOfService) {
-        console.log("Enabling persistence...", redisPersistence);
+        persistence = mysqlPersistence;
+        registerModels(function(errs){
+            if(errs){
+                console.error(errs);
+            }
+        })
+
     } else {
         console.log("Disabling persistence...");
     }
 });
+
+
 
 registerNewOSP = function (userId, ospDetailsData, callback) {
     flow.create("register new OSP", {
