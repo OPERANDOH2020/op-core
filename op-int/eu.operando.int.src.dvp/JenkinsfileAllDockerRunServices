@@ -8,19 +8,18 @@ node {
 	   stage('Independent') { 
 	      build job: 'eu.operando.int.core.mysql.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 	      build job: 'eu.operando.int.core.mongo.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
-      
-//		  build job: 'eu.operando.dev.core.ae.server.prerequistes', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+
+		  build job: 'eu.operando.int.core.rm.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	          
+		  build job: 'eu.operando.int.core.pdb.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 	   }
 	   stage('Dependent lv1') { 
-		  build job: 'eu.operando.dev.core.pdb.client', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	      //adds structure to DB
+	      build job: 'eu.operando.int.core.ldb.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 	   }
-	   stage('Dependent lv2') { 
-		  build job: 'eu.operando.dev.core.openldap.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	   stage('Dependent lv2') {
 	   }
 	   stage('Dependent lv3') { 
-		  build job: 'eu.operando.int.core.ldb.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
-		  build job: 'eu.operando.int.core.pdb.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
-
+		  build job: 'eu.operando.dev.core.openldap.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 		  build job: 'eu.operando.dev.core.ae.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 		  build job: 'eu.operando.dev.core.bda.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 		  build job: 'eu.operando.dev.core.cas.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
@@ -29,7 +28,6 @@ node {
 		  build job: 'eu.operando.dev.core.ose.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 		  build job: 'eu.operando.dev.core.pc.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 		  build job: 'eu.operando.dev.core.pfb.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
-		  build job: 'eu.operando.dev.core.rm.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 		  build job: 'eu.operando.dev.demo.mono.yellowpages.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 		  build job: 'eu.operando.dev.interfaces.aapi.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 		  build job: 'eu.operando.dev.interfaces.oapi.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
