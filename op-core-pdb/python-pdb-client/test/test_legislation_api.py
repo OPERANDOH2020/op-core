@@ -38,10 +38,24 @@ class TestLegislationApi(unittest.TestCase):
 
     # @unittest.skip("demo skipping")
     def test_regulations_all(self):
+        print("test regulation")
+        my_reg = swagger_client.models.PrivacyRegulation()
+        my_reg.reg_id = "my reg id"
+        my_reg.legislation_sector = "my new photos"
+        my_reg.reason = "no reason"
+        my_reg.private_information_type = "Geographic"
+        my_reg.action = "delete my pictures"
+        my_reg.required_consent = "opt-in"
+
+        api_response = self.api.regulations_post(my_reg)
+        my_reg_id = api_response.reg_id
+        self.assertNotEqual(api_response.reg_id, None)
+        self.assertEqual(api_response.legislation_sector, my_reg.legislation_sector)
+ 
         print("Test regulations get with filter")
         reg_all_filter = "{\"legislation_sector\":\"\"}"
         api_response = self.api.regulations_get(reg_all_filter)
-        #print("get regulations:", api_response)
+        # print("get regulations:", api_response)
         reg_list_length = len(api_response)
         self.assertNotEqual(api_response, None)
         try:
@@ -78,6 +92,8 @@ class TestLegislationApi(unittest.TestCase):
 
         api_response = self.api.regulations_get(reg_all_filter)
         self.assertEqual(reg_list_length, len(api_response))
+       
+        api_response = self.api.regulations_reg_id_delete(my_reg_id)
 
         pass
 

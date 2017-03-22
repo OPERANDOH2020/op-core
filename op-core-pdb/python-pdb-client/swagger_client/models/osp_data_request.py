@@ -141,7 +141,7 @@ class OSPDataRequest(object):
         :param action: The action of this OSPDataRequest.
         :type: str
         """
-        allowed_values = ["Collect", "Access", "Use", "Disclose", "Archive"]
+        allowed_values = ["Collect", "Access", "Use", "Disclose", "Archive", "Select", "Update", "Insert", "Delete", "Create"]
         if action not in allowed_values:
             raise ValueError(
                 "Invalid value for `action` ({0}), must be one of {1}"
