@@ -50,7 +50,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<docker.registry.name>10.0.0.4:5000/</docker.registry.name><!-- leave 
+		<docker.registry.name>localhost:5000/</docker.registry.name><!-- leave 
 			empty for docker hub; use e.g. "localhost:5000/" for a local docker registry -->
 		<docker.repository.name>${docker.registry.name}tecnalia/${project.artifactId}</docker.repository.name>
 	</properties>
