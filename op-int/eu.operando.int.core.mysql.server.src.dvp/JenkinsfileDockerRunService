@@ -20,6 +20,9 @@ node {
 	   stage ('Source Collection'){
 		   checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'sources'], [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: sourcesPath]]]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: credentialsId, url: sourcesRepo]]])
 	   }     	   	   
+	   stage ('Variables echo'){
+		   sh "'${mvnHome}/bin/mvn' antrun:run@echo -f ${sources}/${sourcesPath}/pom.xml"
+	   }
 	   stage ('Docker stop'){
 		   sh "'${mvnHome}/bin/mvn' docker:stop -f sources/${sourcesPath}/pom.xml"
 	   }
