@@ -8,7 +8,7 @@ WORKDIR  /sources
 RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install --no-cache-dir -r test-requirements.txt
 
-ADD run.sh .
+ADD run.sh /.
 RUN chmod 750 run.sh
 ENV PATH /:$PATH
 

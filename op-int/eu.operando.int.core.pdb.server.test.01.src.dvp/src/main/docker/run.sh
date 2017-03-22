@@ -2,6 +2,7 @@
 
 all_Successful=0
 
+cd sources
 python -m unittest
 if [ $? -eq 0 ]
 then
