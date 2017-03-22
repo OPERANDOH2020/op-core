@@ -1,7 +1,5 @@
 #!/bin/bash
 
-echo Pdb Endpoint: $PDB_ENDPOINT
-
 all_Successful=0
 
 python -m unittest
