@@ -161,7 +161,7 @@
 	</build>
 	<properties>
 		<server.endpoint.path>${operando.core.pdb.endpoint.path}</server.endpoint.path>
-		<docker.name>eu.operando.core.pdb.server.test01</docker.name>
+		<docker.name>eu.operando.core.pdb.server.test.01</docker.name>
 		<docker.image.name>${docker.registry.name}${docker.submitter}/${docker.name}</docker.image.name>
 		<docker.image.version>${project.version}</docker.image.version>
 	</properties>
