@@ -9,7 +9,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 EXPOSE 8080
 
-WORDIR /sources
+WORKDIR /sources
 
 CMD [ "python", "./app.py" ]
 
