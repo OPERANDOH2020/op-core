@@ -8,6 +8,9 @@ echo RM Url Path: $RM_URLPATH
 # http://askubuntu.com/questions/76808/how-do-i-use-variables-in-a-sed-command
 # I replace the endpoint path
 sed -i "s|path\[:7\] != \"Results\"|\path != \"$RM_URLPATH\/Results\"|g"  /sources/app.py
+RM_URLPATH_LENGHT=${#RM_URLPATH}+9
+echo RM Url Path lenght: $RM_URLPATH_LENGHT
+sed -i "s|path\[8:\]|\path\[$RM_URLPATH_LENGHT:\]|g"  /sources/app.py
 
 #__DAN_url = 'https://snf-706921.vm.okeanos.grnet.gr:8443/op-pdr-dan/%s'
 OLD_DAN_ENDPOINT=https://snf-706921.vm.okeanos.grnet.gr:8443/op-pdr-dan
