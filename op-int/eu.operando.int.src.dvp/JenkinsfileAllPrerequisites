@@ -7,7 +7,6 @@ node {
 	   def mvnHome 
 	   stage('Independent') { 
 	      build job: 'eu.operando.int.jnk.tsk.pre', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
-
 	   }
 	   stage('Dependent lv1') { 
 	      build job: 'eu.operando.int.dependencies.jnk.tsk.pre', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
@@ -16,12 +15,16 @@ node {
 	      build job: 'eu.operando.int.resources.jnk.tsk.pre', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 	   }
 	   stage('Dependent lv3') { 
-	      build job: 'eu.operando.int.core.ldb.client.jnk.tsk.pre', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
-	      build job: 'eu.operando.int.interfaces.aapi.jnk.tsk.pre', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	      build job: 'eu.operando.int.core.ae.arx.src.dvp', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
 	      build job: 'eu.operando.int.core.pdb.common-model.jnk.tsk.pre', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
+	      build job: 'eu.operando.int.core.ldb.client.jnk.tsk.pre', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	      build job: 'eu.operando.int.core.pdb.cas.client.jnk.tsk.pre', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	      build job: 'eu.operando.int.interfaces.aapi.jnk.tsk.pre', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	      build job: 'eu.operando.int.test.dependencies.jnk.tsk.pre', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
 	   }
 	   stage('Dependent lv4') { 
-	      build job: 'eu.operando.int.interfaces.aapi.client.jnk.tsk.pre', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	      build job: 'eu.operando.int.interfaces.aapi.client.jnk.tsk.pre', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	   
+	      build job: 'eu.operando.int.common.jnk.tsk.pre', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 	   }
 	   if (continueTasks == 'true') {
 	       stage('continue') {

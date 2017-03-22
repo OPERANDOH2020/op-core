@@ -1,0 +1,67 @@
+<!-- * Copyright (c) 2016 {TECNALIA}. * All rights reserved. This program 
+	and the accompanying materials * are made available under the terms of the 
+	The MIT License (MIT). * which accompanies this distribution, and is available 
+	at * http://opensource.org/licenses/MIT * * Contributors: * Gorka Mikel Echevarría 
+	{TECNALIA} * Gorka Benguria Elguezabal {TECNALIA} * Initially developed in 
+	the context of OPERANDO EU project www.operando.eu -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>eu.operando.int.core.ae.arx.server</artifactId>
+	<packaging>pom</packaging>
+	<name>eu.operando.core.ae.server</name>
+	<build>
+		<sourceDirectory>src/main/java</sourceDirectory>
+		<plugins>
+			<!-- added to install arx download -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>wagon-maven-plugin</artifactId>
+				<version>1.0</version>
+				<executions>
+					<execution>
+						<id>default-cli</id>
+						<goals>
+							<goal>download-single</goal>
+						</goals>
+						<configuration>
+							<serverId>deidentifier</serverId>
+							<url>https://github.com/fstahnke</url>
+							<fromFile>arx-rgr/blob/master/lib/libarx-3.3.1.jar?raw=true</fromFile>
+							<toFile>${project.build.directory}/libarx/libarx-3.3.1.jar</toFile>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- end of addition -->
+			<!-- added to install arx dependency -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-install-plugin</artifactId>
+				<version>2.2</version>
+				<executions>
+					<execution>
+						<id>default-cli</id>
+						<goals>
+							<goal>install-file</goal>
+						</goals>
+						<configuration>
+							<file>${project.build.directory}/libarx/libarx-3.3.1.jar</file>
+							<groupId>org.deidentifier</groupId>
+							<artifactId>libarx</artifactId>
+							<version>3.3.1</version>
+							<packaging>jar</packaging>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- end of addition -->
+		</plugins>
+	</build>
+	<parent>
+		<groupId>eu.operando.int</groupId>
+		<artifactId>eu.operando.int.src.dvp</artifactId>
+		<version>ALPHA</version>
+	</parent>
+</project>

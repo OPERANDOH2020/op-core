@@ -49,11 +49,11 @@ public class LogApiServiceImpl extends LogApiService {
 	 */
 	public LogApiServiceImpl() {
 		super();
-		// setup aapi client     
+		/*// setup aapi client     
 		ApiClient aapiDefaultClient= new ApiClient();
         aapiDefaultClient.setBasePath(aapiBasePath);
         this.aapiClient = new DefaultApi(aapiDefaultClient);
-        String logdbST = getServiceTicket(ldbLoginName, ldbLoginPassword, logdbSId);
+        String logdbST = getServiceTicket(ldbLoginName, ldbLoginPassword, logdbSId);*/
 	}
 
 	/*
