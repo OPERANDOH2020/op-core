@@ -124,7 +124,7 @@
 		<!-- </resources> -->
 	</build>
 	<properties>
-		<docker.name>eu.operando.core.ldb.server.test00</docker.name>
+		<docker.name>eu.operando.core.ldb.server.test.00</docker.name>
 		<docker.image.name>${docker.registry.name}${docker.submitter}/${docker.name}</docker.image.name>
 		<docker.image.version>${project.version}</docker.image.version>
 		<mysql.db.host>${operando.mysql.host}</mysql.db.host>
