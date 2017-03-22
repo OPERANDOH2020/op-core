@@ -91,6 +91,12 @@ def logdata(requesterId, action, actiontype):
 @app.route('/', defaults={'path': ''}, methods=['POST', 'GET', 'PUT'])
 @app.route('/<path:path>', methods=['POST', 'GET', 'PUT'])
 def catch_all(path):
+# GBE added for monitoring purposes
+    if path == "monitor":
+        resp = jsonify({'status': 200, 'message': 'RM listening', })
+        resp.status_code = 200
+        return resp
+# GBE End
     if path[:7] != "Results":
         resp = jsonify({'status': 401, 'message': 'Invalid address', })
         resp.status_code = 404
