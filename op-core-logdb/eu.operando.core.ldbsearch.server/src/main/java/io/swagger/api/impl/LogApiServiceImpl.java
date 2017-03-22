@@ -26,8 +26,6 @@ import java.util.Properties;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-import org.apache.log4j.Logger;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -35,9 +33,6 @@ import io.swagger.api.ApiResponseMessage;
 import io.swagger.api.LogApiService;
 import io.swagger.api.NotFoundException;
 import io.swagger.model.LogResponse;
-import io.swagger.model.LogResponse.LogLevelEnum;
-import io.swagger.model.LogResponse.LogPriorityEnum;
-import io.swagger.model.LogResponse.RequesterTypeEnum;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-06-06T10:10:57.937Z")
 public class LogApiServiceImpl extends LogApiService {
@@ -46,12 +41,12 @@ public class LogApiServiceImpl extends LogApiService {
 	private ResultSet resultSet = null;
 	
 	//@Override
-    public Response getLogsTest(String dateFrom, String dateTo, String logLevel, String requesterType, String requesterId, String logPriority, String title, String keyWords, SecurityContext securityContext)
+    public Response getLogsTest(String dateFrom, String dateTo, String logLevel, String requesterType, String requesterId, String logPriority, String title, String keyWords, String logType, String affectedUserId, SecurityContext securityContext)
     throws NotFoundException {
         // do some magic!
     	
     	String strSelect;
-    	strSelect = composeSqlQuery(dateFrom, dateTo, logLevel, requesterType, requesterId, logPriority, title, keyWords);
+    	strSelect = composeSqlQuery(dateFrom, dateTo, logLevel, requesterType, requesterId, logPriority, title, keyWords, logType, affectedUserId);
     	
     	Properties props;
     	props = loadDbProperties();
@@ -89,15 +84,19 @@ public class LogApiServiceImpl extends LogApiService {
 			 logResponse = new LogResponse();
 			 logResponse.setLogDate(resultSet.getString("DATED"));	
 			 //GBE: Attention!!! if the value is in lowercase it crashes, we add a uppercase function
-			 LogLevelEnum logLevelEnum = LogLevelEnum.valueOf(resultSet.getString("LEVEL").toUpperCase());
-			 logResponse.setLogLevel(logLevelEnum);
-			 LogPriorityEnum logPriorityEnum = LogPriorityEnum.valueOf(resultSet.getString("LOGPRIORITY").toUpperCase());
-			 logResponse.setLogPriority(logPriorityEnum);
+			 if (resultSet.getString("LEVEL")!=null)
+				 logResponse.setLogLevel(resultSet.getString("LEVEL").toUpperCase());
+			 
+			 if (resultSet.getString("LOGPRIORITY")!=null)				 
+				 logResponse.setLogPriority(resultSet.getString("LOGPRIORITY").toUpperCase());
 			 logResponse.setRequesterId(resultSet.getString("REQUESTERID"));
-			 RequesterTypeEnum requesterTypeEnum = RequesterTypeEnum.valueOf(resultSet.getString("REQUESTERTYPE").toUpperCase());
-			 logResponse.setRequesterType(requesterTypeEnum);
+			 if (resultSet.getString("REQUESTERTYPE")!=null)			 	
+				 logResponse.setRequesterType(resultSet.getString("REQUESTERTYPE").toUpperCase());
 			 logResponse.setTitle(resultSet.getString("TITLE"));
-			 logResponse.setDescription(resultSet.getString("MESSAGE"));
+			 logResponse.setDescription(resultSet.getString("MESSAGE"));			 
+			 if (resultSet.getString("LOGTYPE")!=null)
+				 logResponse.setLogType(resultSet.getString("LOGTYPE").toUpperCase());
+			 logResponse.setAffectedUserId(resultSet.getString("AFFECTED_USER_ID"));
 
 			 logResponsesArray.add(logResponse);
 		 }
@@ -141,9 +140,11 @@ public class LogApiServiceImpl extends LogApiService {
 	 * @param logPriority
 	 * @param title
 	 * @param keyWords
+	 * @param affectedUserId 
+	 * @param logType 
 	 */
 	private String composeSqlQuery(String dateFrom, String dateTo, String logLevel, String requesterType,
-			String requesterId, String logPriority, String title, String keyWords) {
+			String requesterId, String logPriority, String title, String keyWords, String logType, String affectedUserId) {
 		String strSelect = "select * from operando_logdb.LOGS";    
 	    StringBuffer strBufferSelect = new StringBuffer(strSelect);
 	    String keyValue = "";
@@ -177,7 +178,7 @@ public class LogApiServiceImpl extends LogApiService {
 	    	}
 	    	if ((requesterId!=null)&(!requesterId.equals(""))){
 	    		if (boolAnd)
-	    			strBufferSelect.append(" & ");
+	    			strBufferSelect.append(" AND ");
 	    		strBufferSelect.append("REQUESTERID='"+requesterId+"'");
 	    		boolAnd = true;
 	    	}
@@ -208,7 +209,23 @@ public class LogApiServiceImpl extends LogApiService {
 	    			boolOr = true;
 	    		}
 	    		    		
-	    	}    	    	
+	    	}
+	    	if (logType!=null){
+	    		if (!logType.equals("")){	    	
+	    			if (boolAnd)
+	    				strBufferSelect.append(" AND ");
+	    			strBufferSelect.append("LOGTYPE='"+logType+"'");
+	    			boolAnd = true;
+	    		}	    		
+	    	}
+	    	if (affectedUserId!=null){
+	    		if (!affectedUserId.equals("")){
+	    			if (boolAnd)
+	    				strBufferSelect.append(" AND ");
+	    			strBufferSelect.append("AFFECTED_USER_ID='"+affectedUserId+"'");
+	    			boolAnd = true;
+	    		}
+	    	}
 	    	strSelect = strBufferSelect.toString();
 	    }
 	    
@@ -220,9 +237,9 @@ public class LogApiServiceImpl extends LogApiService {
      * This method returns 0 to n log records that are stored in the log database depending on a filter (log4j is used internally) 
      */
     @Override
-    public Response getLogs(String dateFrom, String dateTo, String logLevel, String requesterType, String requesterId, String logPriority, String title, String keyWords, SecurityContext securityContext) throws NotFoundException {
+    public Response getLogs(String dateFrom, String dateTo, String logLevel, String requesterType, String requesterId, String logPriority, String title, String keyWords, String logType, String affectedUserId, SecurityContext securityContext) throws NotFoundException {
 		String strSelect;
-		strSelect = composeSqlQuery(dateFrom, dateTo, logLevel, requesterType, requesterId, logPriority, title, keyWords);    	
+		strSelect = composeSqlQuery(dateFrom, dateTo, logLevel, requesterType, requesterId, logPriority, title, keyWords, logType, affectedUserId);    	
 	    
 	     //GBE added code to get db information form a properties file
 		Properties props;

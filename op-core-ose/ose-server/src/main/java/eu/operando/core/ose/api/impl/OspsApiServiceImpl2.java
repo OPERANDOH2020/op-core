@@ -65,7 +65,7 @@
 //        LogRequest logRequest = new LogRequest();
 //        logRequest.setUserId("003");
 //        logRequest.setDescription(description);
-//        logRequest.setLogDataType(LogRequest.LogDataTypeEnum.INFO);
+//        logRequest.setLogLevel(LogRequest.LogLevelEnum.INFO);
 //        logRequest.setTitle("OSE" + title);
 //        logRequest.setLogPriority(LogRequest.LogPriorityEnum.LOW);
 //        logRequest.setRequesterId(requesterId);

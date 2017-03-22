@@ -49,11 +49,12 @@ public class LogApiServiceImpl extends LogApiService {
 	 */
 	public LogApiServiceImpl() {
 		super();
-		/*// setup aapi client     
-		ApiClient aapiDefaultClient= new ApiClient();
+		// setup aapi client     
+		/*ApiClient aapiDefaultClient= new ApiClient();
         aapiDefaultClient.setBasePath(aapiBasePath);
         this.aapiClient = new DefaultApi(aapiDefaultClient);
         String logdbST = getServiceTicket(ldbLoginName, ldbLoginPassword, logdbSId);*/
+		//GEV commented due to some problems appeared on 2017-03-20
 	}
 
 	/*
@@ -69,7 +70,8 @@ public class LogApiServiceImpl extends LogApiService {
 		// GBE I comment this because in tomcat the file is not there, what I do
 		// instead is to put a copy of the file with log4j.properties
 		// PropertyConfigurator.configure(classLoader.getResource("config/log4jMySql.properties"));
-		// GBE end		
+		// GBE end
+		System.out.println("LogApiServiceImpl.log");
 		if ((request.getUserId() == null) || (request.getUserId() == "")) {
 			return Response.status(400)
 					.entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "UserId parameter cannot be empty"))
@@ -95,12 +97,12 @@ public class LogApiServiceImpl extends LogApiService {
 		}
 		MDC.put("logPriority", request.getLogPriority());
 		
-		if ((request.getLogDataType() == null) || (request.getLogDataType().toString() == "")) {
+		if ((request.getLogLevel() == null) || (request.getLogLevel().toString() == "")) {
 			return Response.status(400)
 					.entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "logLevel parameter cannot be empty"))
 					.build();
 		}
-		MDC.put("logLevel", request.getLogDataType());
+		MDC.put("logLevel", request.getLogLevel());
 		if (request.getKeywords() != null){ 
 			MDC.put("keywords", request.getKeywords().toString());
 		}
@@ -117,6 +119,20 @@ public class LogApiServiceImpl extends LogApiService {
 					.build();
 		}
 		log.info(request.getDescription());
+		if ((request.getLogType() == null) || (request.getLogType().toString() == "")) {
+			MDC.put("logType", "");
+		}
+		else{
+			MDC.put("logType", request.getLogType());
+		}
+		
+		if ((request.getAffectedUserId() == null) || (request.getAffectedUserId() == "")) {
+			MDC.put("affectedUserId", "");
+		}
+		else{
+			MDC.put("affectedUserId", request.getAffectedUserId());
+		}
+				
 		return Response.ok()
 				.entity(new ApiResponseMessage(ApiResponseMessage.OK, "The log message has been registered!")).build();
 	}

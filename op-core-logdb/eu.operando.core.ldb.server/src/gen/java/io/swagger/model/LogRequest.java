@@ -14,14 +14,15 @@
 
 package io.swagger.model;
 
-import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
+
+import io.swagger.annotations.ApiModelProperty;
 
 /**
  * LogRequest
@@ -36,7 +37,7 @@ public class LogRequest   {
    */
   public enum RequesterTypeEnum {
     PROCESS("PROCESS"),
-    
+
     MODULE("MODULE");
 
     private String value;
@@ -73,11 +74,11 @@ public class LogRequest   {
    */
   public enum LogPriorityEnum {
     LOW("LOW"),
-    
+
     NORMAL("NORMAL"),
-    
+
     HIGH("HIGH"),
-    
+
     CRITICAL("CRITICAL");
 
     private String value;
@@ -107,20 +108,20 @@ public class LogRequest   {
   private LogPriorityEnum logPriority = null;
 
   /**
-   * Type of the data to be logged.
+   * Logging level.
    */
-  public enum LogDataTypeEnum {
+  public enum LogLevelEnum {
     INFO("INFO"),
-    
+
     WARN("WARN"),
-    
-    ERROS("ERROS"),
-    
+
+    ERROR("ERROR"),
+
     FATAL("FATAL");
 
     private String value;
 
-    LogDataTypeEnum(String value) {
+    LogLevelEnum(String value) {
       this.value = value;
     }
 
@@ -131,8 +132,8 @@ public class LogRequest   {
     }
 
     @JsonCreator
-    public static LogDataTypeEnum fromValue(String text) {
-      for (LogDataTypeEnum b : LogDataTypeEnum.values()) {
+    public static LogLevelEnum fromValue(String text) {
+      for (LogLevelEnum b : LogLevelEnum.values()) {
         if (String.valueOf(b.value).equals(text)) {
           return b;
         }
@@ -141,8 +142,8 @@ public class LogRequest   {
     }
   }
 
-  @JsonProperty("logDataType")
-  private LogDataTypeEnum logDataType = null;
+  @JsonProperty("logLevel")
+  private LogLevelEnum logLevel = null;
 
   @JsonProperty("title")
   private String title = null;
@@ -152,6 +153,40 @@ public class LogRequest   {
 
   @JsonProperty("keywords")
   private List<String> keywords = new ArrayList<String>();
+
+  /**
+   * Type of the data logged.
+   */
+  public enum LogTypeEnum {
+    
+    DATA_ACCESS("DATA_ACCESS"),
+    
+    
+    SYSTEM("SYSTEM"),
+    
+    
+    NOTIFICATION("NOTIFICATION"),
+    
+   
+    OTHER("OTHER");
+
+    private String value;
+
+    LogTypeEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+  }
+
+  @JsonProperty("logType")
+  private LogTypeEnum logType = null;
+
+  @JsonProperty("affectedUserId")
+  private String affectedUserId = null;
 
   public LogRequest userId(String userId) {
     this.userId = userId;
@@ -225,22 +260,22 @@ public class LogRequest   {
     this.logPriority = logPriority;
   }
 
-  public LogRequest logDataType(LogDataTypeEnum logDataType) {
-    this.logDataType = logDataType;
+  public LogRequest logLevel(LogLevelEnum logLevel) {
+    this.logLevel = logLevel;
     return this;
   }
 
    /**
    * Type of the data to be logged.
-   * @return logDataType
+   * @return logLevel
   **/
   @ApiModelProperty(value = "Type of the data to be logged.")
-  public LogDataTypeEnum getLogDataType() {
-    return logDataType;
+  public LogLevelEnum getLogLevel() {
+    return logLevel;
   }
 
-  public void setLogDataType(LogDataTypeEnum logDataType) {
-    this.logDataType = logDataType;
+  public void setLogLevel(LogLevelEnum logLevel) {
+    this.logLevel = logLevel;
   }
 
   public LogRequest title(String title) {
@@ -302,6 +337,42 @@ public class LogRequest   {
     this.keywords = keywords;
   }
 
+  public LogRequest logType(LogTypeEnum logType) {
+    this.logType = logType;
+    return this;
+  }
+
+   /**
+   * Type of the data logged.
+   * @return logType
+  **/
+  @ApiModelProperty(example = "null", value = "Type of the data logged.")
+  public LogTypeEnum getLogType() {
+    return logType;
+  }
+
+  public void setLogType(LogTypeEnum logType) {
+    this.logType = logType;
+  }
+
+  public LogRequest affectedUserId(String affectedUserId) {
+    this.affectedUserId = affectedUserId;
+    return this;
+  }
+
+   /**
+   * Id of the affected user.
+   * @return affectedUserId
+  **/
+  @ApiModelProperty(example = "null", value = "Id of the affected user.")
+  public String getAffectedUserId() {
+    return affectedUserId;
+  }
+
+  public void setAffectedUserId(String affectedUserId) {
+    this.affectedUserId = affectedUserId;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -316,15 +387,17 @@ public class LogRequest   {
         Objects.equals(this.requesterType, logRequest.requesterType) &&
         Objects.equals(this.requesterId, logRequest.requesterId) &&
         Objects.equals(this.logPriority, logRequest.logPriority) &&
-        Objects.equals(this.logDataType, logRequest.logDataType) &&
+        Objects.equals(this.logLevel, logRequest.logLevel) &&
         Objects.equals(this.title, logRequest.title) &&
         Objects.equals(this.description, logRequest.description) &&
-        Objects.equals(this.keywords, logRequest.keywords);
+        Objects.equals(this.keywords, logRequest.keywords) &&
+        Objects.equals(this.logType, logRequest.logType) &&
+        Objects.equals(this.affectedUserId, logRequest.affectedUserId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(userId, requesterType, requesterId, logPriority, logDataType, title, description, keywords);
+    return Objects.hash(userId, requesterType, requesterId, logPriority, logLevel, title, description, keywords, logType, affectedUserId);
   }
 
 
@@ -332,15 +405,17 @@ public class LogRequest   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class LogRequest {\n");
-    
+
     sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
     sb.append("    requesterType: ").append(toIndentedString(requesterType)).append("\n");
     sb.append("    requesterId: ").append(toIndentedString(requesterId)).append("\n");
     sb.append("    logPriority: ").append(toIndentedString(logPriority)).append("\n");
-    sb.append("    logDataType: ").append(toIndentedString(logDataType)).append("\n");
+    sb.append("    logLevel: ").append(toIndentedString(logLevel)).append("\n");
     sb.append("    title: ").append(toIndentedString(title)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    keywords: ").append(toIndentedString(keywords)).append("\n");
+    sb.append("    logType: ").append(toIndentedString(logType)).append("\n");
+    sb.append("    affectedUserId: ").append(toIndentedString(affectedUserId)).append("\n");
     sb.append("}");
     return sb.toString();
   }

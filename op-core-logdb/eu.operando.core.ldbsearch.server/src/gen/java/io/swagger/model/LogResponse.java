@@ -19,262 +19,253 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 import io.swagger.annotations.ApiModelProperty;
 
-
 /**
  * LogResponse
  */
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaClientCodegen", date = "2016-06-09T09:43:59.324Z")
-public class LogResponse   {
-  
-  private String logDate = null;
+public class LogResponse {
 
-  /**
-   * Source type from which comes the request.
-   */
-  public enum RequesterTypeEnum {
-    PROCESS("PROCESS"),
-    MODULE("MODULE");
+	private String logDate = null;
 
-    private String value;
+	private String requesterType = null;
 
-    RequesterTypeEnum(String value) {
-      this.value = value;
-    }
+	private String requesterId = null;
 
-    @Override
-    @JsonValue
-    public String toString() {
-      return String.valueOf(value);
-    }
-  }
+	private String logPriority = null;
 
-  private RequesterTypeEnum requesterType = null;
-  private String requesterId = null;
+	private String logLevel = null;
 
-  /**
-   * Priority level of the data to be logged.
-   */
-  public enum LogPriorityEnum {
-    LOW("LOW"),
-    NORMAL("NORMAL"),
-    HIGH("HIGH"),
-    CRITICAL("CRITICAL");
+	private String title = null;
 
-    private String value;
+	private String description = null;
 
-    LogPriorityEnum(String value) {
-      this.value = value;
-    }
+	private String logType = null;
 
-    @Override
-    @JsonValue
-    public String toString() {
-      return String.valueOf(value);
-    }
-  }
+	private String affectedUserId = null;
 
-  private LogPriorityEnum logPriority = null;
+	public LogResponse logDate(String logDate) {
+		this.logDate = logDate;
+		return this;
+	}
 
-  /**
-   * Type of the data to be logged.
-   */
-  public enum LogLevelEnum {
-    INFO("INFO"),
-    WARN("WARN"),
-    ERROR("ERROR"),
-    FATAL("FATAL");
+	/**
+	 * Date when the log was generated.
+	 * 
+	 * @return logDate
+	 **/
+	@ApiModelProperty(example = "null", value = "Date when the log was generated.")
+	public String getLogDate() {
+		return logDate;
+	}
 
-    private String value;
+	public void setLogDate(String logDate) {
+		this.logDate = logDate;
+	}
 
-    LogLevelEnum(String value) {
-      this.value = value;
-    }
+	public LogResponse requesterType(String requesterType) {
+		this.requesterType = requesterType;
+		return this;
+	}
 
-    @Override
-    @JsonValue
-    public String toString() {
-      return String.valueOf(value);
-    }
-  }
+	/**
+	 * Source type from which comes the request.
+	 * 
+	 * @return requesterType
+	 **/
+	@ApiModelProperty(example = "null", value = "Source type from which comes the request.")
+	public String getRequesterType() {
+		return requesterType;
+	}
 
-  private LogLevelEnum logLevel = null;
-  private String title = null;
-  private String description = null;
+	public void setRequesterType(String requesterType) {
+		this.requesterType = requesterType;
+	}
 
-  
-  /**
-   * Date when the log was generated.
-   **/
-  public LogResponse logDate(String logDate) {
-    this.logDate = logDate;
-    return this;
-  }
-  
-  @ApiModelProperty(example = "null", value = "Date when the log was generated.")
-  @JsonProperty("logDate")
-  public String getLogDate() {
-    return logDate;
-  }
-  public void setLogDate(String logDate) {
-    this.logDate = logDate;
-  }
+	public LogResponse requesterId(String requesterId) {
+		this.requesterId = requesterId;
+		return this;
+	}
 
+	/**
+	 * Id of the requester (e.g the id of an OSP).
+	 * 
+	 * @return requesterId
+	 **/
+	@ApiModelProperty(example = "null", value = "Id of the requester (e.g the id of an OSP).")
+	public String getRequesterId() {
+		return requesterId;
+	}
 
-  /**
-   * Source type from which comes the request.
-   **/
-  public LogResponse requesterType(RequesterTypeEnum requesterType) {
-    this.requesterType = requesterType;
-    return this;
-  }
-  
-  @ApiModelProperty(example = "null", value = "Source type from which comes the request.")
-  @JsonProperty("requesterType")
-  public RequesterTypeEnum getRequesterType() {
-    return requesterType;
-  }
-  public void setRequesterType(RequesterTypeEnum requesterType) {
-    this.requesterType = requesterType;
-  }
+	public void setRequesterId(String requesterId) {
+		this.requesterId = requesterId;
+	}
 
+	public LogResponse logPriority(String logPriority) {
+		this.logPriority = logPriority;
+		return this;
+	}
 
-  /**
-   * Id of the requester (e.g the id of an OSP).
-   **/
-  public LogResponse requesterId(String requesterId) {
-    this.requesterId = requesterId;
-    return this;
-  }
-  
-  @ApiModelProperty(example = "null", value = "Id of the requester (e.g the id of an OSP).")
-  @JsonProperty("requesterId")
-  public String getRequesterId() {
-    return requesterId;
-  }
-  public void setRequesterId(String requesterId) {
-    this.requesterId = requesterId;
-  }
+	/**
+	 * Priority level of the data to be logged.
+	 * 
+	 * @return logPriority
+	 **/
+	@ApiModelProperty(example = "null", value = "Priority level of the data to be logged.")
+	public String getLogPriority() {
+		return logPriority;
+	}
 
+	public void setLogPriority(String logPriority) {
+		this.logPriority = logPriority;
+	}
 
-  /**
-   * Priority level of the data to be logged.
-   **/
-  public LogResponse logPriority(LogPriorityEnum logPriority) {
-    this.logPriority = logPriority;
-    return this;
-  }
-  
-  @ApiModelProperty(example = "null", value = "Priority level of the data to be logged.")
-  @JsonProperty("logPriority")
-  public LogPriorityEnum getLogPriority() {
-    return logPriority;
-  }
-  public void setLogPriority(LogPriorityEnum logPriority) {
-    this.logPriority = logPriority;
-  }
+	public LogResponse logLevel(String logLevel) {
+		this.logLevel = logLevel;
+		return this;
+	}
 
+	/**
+	 * Type of the data to be logged.
+	 * 
+	 * @return logLevel
+	 **/
+	@ApiModelProperty(example = "null", value = "Type of the data to be logged.")
+	public String getLogLevel() {
+		return logLevel;
+	}
 
-  /**
-   * Type of the data to be logged.
-   **/
-  public LogResponse logLevel(LogLevelEnum logLevel) {
-    this.logLevel = logLevel;
-    return this;
-  }
-  
-  @ApiModelProperty(example = "null", value = "Type of the data to be logged.")
-  @JsonProperty("logLevel")
-  public LogLevelEnum getLogLevel() {
-    return logLevel;
-  }
-  public void setLogLevel(LogLevelEnum logLevel) {
-    this.logLevel = logLevel;
-  }
+	public void setLogLevel(String logLevel) {
+		this.logLevel = logLevel;
+	}
 
+	public LogResponse title(String title) {
+		this.title = title;
+		return this;
+	}
 
-  /**
-   * Subject of the logged event.
-   **/
-  public LogResponse title(String title) {
-    this.title = title;
-    return this;
-  }
-  
-  @ApiModelProperty(example = "null", value = "Subject of the logged event.")
-  @JsonProperty("title")
-  public String getTitle() {
-    return title;
-  }
-  public void setTitle(String title) {
-    this.title = title;
-  }
+	/**
+	 * Subject of the logged event.
+	 * 
+	 * @return title
+	 **/
+	@ApiModelProperty(example = "null", value = "Subject of the logged event.")
+	public String getTitle() {
+		return title;
+	}
 
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-  /**
-   * Description of the logged event.
-   **/
-  public LogResponse description(String description) {
-    this.description = description;
-    return this;
-  }
-  
-  @ApiModelProperty(example = "null", value = "Description of the logged event.")
-  @JsonProperty("description")
-  public String getDescription() {
-    return description;
-  }
-  public void setDescription(String description) {
-    this.description = description;
-  }
+	public LogResponse description(String description) {
+		this.description = description;
+		return this;
+	}
 
+	/**
+	 * Description of the logged event.
+	 * 
+	 * @return description
+	 **/
+	@ApiModelProperty(example = "null", value = "Description of the logged event.")
+	public String getDescription() {
+		return description;
+	}
 
-  @Override
-  public boolean equals(java.lang.Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    LogResponse logResponse = (LogResponse) o;
-    return Objects.equals(this.logDate, logResponse.logDate) &&
-        Objects.equals(this.requesterType, logResponse.requesterType) &&
-        Objects.equals(this.requesterId, logResponse.requesterId) &&
-        Objects.equals(this.logPriority, logResponse.logPriority) &&
-        Objects.equals(this.logLevel, logResponse.logLevel) &&
-        Objects.equals(this.title, logResponse.title) &&
-        Objects.equals(this.description, logResponse.description);
-  }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(logDate, requesterType, requesterId, logPriority, logLevel, title, description);
-  }
+	public LogResponse logType(String logType) {
+		this.logType = logType;
+		return this;
+	}
 
-  @Override
-  public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("class LogResponse {\n");
-    
-    sb.append("    logDate: ").append(toIndentedString(logDate)).append("\n");
-    sb.append("    requesterType: ").append(toIndentedString(requesterType)).append("\n");
-    sb.append("    requesterId: ").append(toIndentedString(requesterId)).append("\n");
-    sb.append("    logPriority: ").append(toIndentedString(logPriority)).append("\n");
-    sb.append("    logLevel: ").append(toIndentedString(logLevel)).append("\n");
-    sb.append("    title: ").append(toIndentedString(title)).append("\n");
-    sb.append("    description: ").append(toIndentedString(description)).append("\n");
-    sb.append("}");
-    return sb.toString();
-  }
+	/**
+	 * Type of the data logged.
+	 * 
+	 * @return logType
+	 **/
+	@ApiModelProperty(example = "null", value = "Type of the data logged.")
+	public String getLogType() {
+		return logType;
+	}
 
-  /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
-   */
-  private String toIndentedString(java.lang.Object o) {
-    if (o == null) {
-      return "null";
-    }
-    return o.toString().replace("\n", "\n    ");
-  }
-}                                                 
+	public void setLogType(String logType) {
+		this.logType = logType;
+	}
+
+	public LogResponse affectedUserId(String affectedUserId) {
+		this.affectedUserId = affectedUserId;
+		return this;
+	}
+
+	/**
+	 * Id of the affected user.
+	 * 
+	 * @return affectedUserId
+	 **/
+	@ApiModelProperty(example = "null", value = "Id of the affected user.")
+	public String getAffectedUserId() {
+		return affectedUserId;
+	}
+
+	public void setAffectedUserId(String affectedUserId) {
+		this.affectedUserId = affectedUserId;
+	}
+
+	@Override
+	public boolean equals(java.lang.Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+		LogResponse logResponse = (LogResponse) o;
+		return Objects.equals(this.logDate, logResponse.logDate)
+				&& Objects.equals(this.requesterType, logResponse.requesterType)
+				&& Objects.equals(this.requesterId, logResponse.requesterId)
+				&& Objects.equals(this.logPriority, logResponse.logPriority)
+				&& Objects.equals(this.logLevel, logResponse.logLevel) && Objects.equals(this.title, logResponse.title)
+				&& Objects.equals(this.description, logResponse.description)
+				&& Objects.equals(this.logType, logResponse.logType)
+				&& Objects.equals(this.affectedUserId, logResponse.affectedUserId);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(logDate, requesterType, requesterId, logPriority, logLevel, title, description, logType,
+				affectedUserId);
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("class LogResponse {\n");
+
+		sb.append("    logDate: ").append(toIndentedString(logDate)).append("\n");
+		sb.append("    requesterType: ").append(toIndentedString(requesterType)).append("\n");
+		sb.append("    requesterId: ").append(toIndentedString(requesterId)).append("\n");
+		sb.append("    logPriority: ").append(toIndentedString(logPriority)).append("\n");
+		sb.append("    logLevel: ").append(toIndentedString(logLevel)).append("\n");
+		sb.append("    title: ").append(toIndentedString(title)).append("\n");
+		sb.append("    description: ").append(toIndentedString(description)).append("\n");
+		sb.append("    logType: ").append(toIndentedString(logType)).append("\n");
+		sb.append("    affectedUserId: ").append(toIndentedString(affectedUserId)).append("\n");
+		sb.append("}");
+		return sb.toString();
+	}
+
+	/**
+	 * Convert the given object to string with each line indented by 4 spaces
+	 * (except the first line).
+	 */
+	private String toIndentedString(java.lang.Object o) {
+		if (o == null) {
+			return "null";
+		}
+		return o.toString().replace("\n", "\n    ");
+	}
+
+}

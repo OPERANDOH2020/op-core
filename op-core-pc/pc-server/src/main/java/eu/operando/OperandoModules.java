@@ -67,7 +67,7 @@
 //                    */
 //                   logRequest(logApi, "PC - Validate Header", "username: ".concat(serviceID),
 //                    "Ticket validation failed ".concat(serviceID),
-//                    LogRequest.LogDataTypeEnum.WARN, LogRequest.LogPriorityEnum.LOW,
+//                    LogRequest.LogLevelEnum.WARN, LogRequest.LogPriorityEnum.LOW,
 //                    new ArrayList<String>(Arrays.asList("PC", "validateHeaderSt1")));
 //                    return false;
 //                }
@@ -77,7 +77,7 @@
 //    }
 //
 //    public void logRequest(LogApi logApi, String requesterId, String title, String description,
-//            LogRequest.LogDataTypeEnum logDataType, LogRequest.LogPriorityEnum logPriority,
+//            LogRequest.LogLevelEnum logDataType, LogRequest.LogPriorityEnum logPriority,
 //            ArrayList<String> keywords) {
 //
 //        ArrayList<String> words = new ArrayList<String>(Arrays.asList("PDB", "UPP"));
@@ -88,7 +88,7 @@
 //        LogRequest logRequest = new LogRequest();
 //        logRequest.setUserId("PC");
 //        logRequest.setDescription(description);
-//        logRequest.setLogDataType(logDataType);
+//        logRequest.setLogLevel(logDataType);
 //        logRequest.setTitle(title);
 //        logRequest.setLogPriority(logPriority);
 //        logRequest.setRequesterId(requesterId);

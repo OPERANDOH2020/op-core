@@ -17,17 +17,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
 
 import io.swagger.annotations.ApiModelProperty;
 
 /**
  * LogRequestTicket
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2017-02-21T08:54:19.037Z")
-public class LogRequestTicket   {
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaClientCodegen", date = "2017-02-21T08:54:23.905Z")
+public class LogRequestTicket {
   @JsonProperty("userId")
   private String userId = null;
 
@@ -35,8 +33,10 @@ public class LogRequestTicket   {
    * Source type from which comes the request.
    */
   public enum RequesterTypeEnum {
+    @JsonProperty("PROCESS")
     PROCESS("PROCESS"),
     
+    @JsonProperty("MODULE")
     MODULE("MODULE");
 
     private String value;
@@ -46,19 +46,8 @@ public class LogRequestTicket   {
     }
 
     @Override
-    @JsonValue
     public String toString() {
       return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static RequesterTypeEnum fromValue(String text) {
-      for (RequesterTypeEnum b : RequesterTypeEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
     }
   }
 
@@ -72,12 +61,16 @@ public class LogRequestTicket   {
    * Priority level of the data to be logged.
    */
   public enum LogPriorityEnum {
+    @JsonProperty("LOW")
     LOW("LOW"),
     
+    @JsonProperty("NORMAL")
     NORMAL("NORMAL"),
     
+    @JsonProperty("HIGH")
     HIGH("HIGH"),
     
+    @JsonProperty("CRITICAL")
     CRITICAL("CRITICAL");
 
     private String value;
@@ -87,19 +80,8 @@ public class LogRequestTicket   {
     }
 
     @Override
-    @JsonValue
     public String toString() {
       return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static LogPriorityEnum fromValue(String text) {
-      for (LogPriorityEnum b : LogPriorityEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
     }
   }
 
@@ -110,12 +92,16 @@ public class LogRequestTicket   {
    * Logging level.
    */
   public enum LogLevelEnum {
+    @JsonProperty("INFO")
     INFO("INFO"),
     
+    @JsonProperty("WARN")
     WARN("WARN"),
     
+    @JsonProperty("ERROS")
     ERROS("ERROS"),
     
+    @JsonProperty("FATAL")
     FATAL("FATAL");
 
     private String value;
@@ -125,19 +111,8 @@ public class LogRequestTicket   {
     }
 
     @Override
-    @JsonValue
     public String toString() {
       return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static LogLevelEnum fromValue(String text) {
-      for (LogLevelEnum b : LogLevelEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
     }
   }
 
@@ -153,6 +128,40 @@ public class LogRequestTicket   {
   @JsonProperty("keywords")
   private List<String> keywords = new ArrayList<String>();
 
+  /**
+   * Type of the data logged.
+   */
+  public enum LogTypeEnum {
+    @JsonProperty("DATA_ACCESS")
+    DATA_ACCESS("DATA_ACCESS"),
+    
+    @JsonProperty("SYSTEM")
+    SYSTEM("SYSTEM"),
+    
+    @JsonProperty("NOTIFICATION")
+    NOTIFICATION("NOTIFICATION"),
+    
+    @JsonProperty("OTHER")
+    OTHER("OTHER");
+
+    private String value;
+
+    LogTypeEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    public String toString() {
+      return String.valueOf(value);
+    }
+  }
+
+  @JsonProperty("logType")
+  private LogTypeEnum logType = null;
+
+  @JsonProperty("affectedUserId")
+  private String affectedUserId = null;
+
   public LogRequestTicket userId(String userId) {
     this.userId = userId;
     return this;
@@ -162,8 +171,7 @@ public class LogRequestTicket   {
    * Id of the user.
    * @return userId
   **/
-  @JsonProperty("userId")
-  @ApiModelProperty(value = "Id of the user.")
+  @ApiModelProperty(example = "null", value = "Id of the user.")
   public String getUserId() {
     return userId;
   }
@@ -181,8 +189,7 @@ public class LogRequestTicket   {
    * Source type from which comes the request.
    * @return requesterType
   **/
-  @JsonProperty("requesterType")
-  @ApiModelProperty(value = "Source type from which comes the request.")
+  @ApiModelProperty(example = "null", value = "Source type from which comes the request.")
   public RequesterTypeEnum getRequesterType() {
     return requesterType;
   }
@@ -200,8 +207,7 @@ public class LogRequestTicket   {
    * Id of the requester (e.g the id of an OSP).
    * @return requesterId
   **/
-  @JsonProperty("requesterId")
-  @ApiModelProperty(value = "Id of the requester (e.g the id of an OSP).")
+  @ApiModelProperty(example = "null", value = "Id of the requester (e.g the id of an OSP).")
   public String getRequesterId() {
     return requesterId;
   }
@@ -219,8 +225,7 @@ public class LogRequestTicket   {
    * Priority level of the data to be logged.
    * @return logPriority
   **/
-  @JsonProperty("logPriority")
-  @ApiModelProperty(value = "Priority level of the data to be logged.")
+  @ApiModelProperty(example = "null", value = "Priority level of the data to be logged.")
   public LogPriorityEnum getLogPriority() {
     return logPriority;
   }
@@ -238,8 +243,7 @@ public class LogRequestTicket   {
    * Logging level.
    * @return logLevel
   **/
-  @JsonProperty("logLevel")
-  @ApiModelProperty(value = "Logging level.")
+  @ApiModelProperty(example = "null", value = "Logging level.")
   public LogLevelEnum getLogLevel() {
     return logLevel;
   }
@@ -257,8 +261,7 @@ public class LogRequestTicket   {
    * Subject of the event to be logged.
    * @return title
   **/
-  @JsonProperty("title")
-  @ApiModelProperty(value = "Subject of the event to be logged.")
+  @ApiModelProperty(example = "null", value = "Subject of the event to be logged.")
   public String getTitle() {
     return title;
   }
@@ -276,8 +279,7 @@ public class LogRequestTicket   {
    * Description of the event to be logged.
    * @return description
   **/
-  @JsonProperty("description")
-  @ApiModelProperty(value = "Description of the event to be logged.")
+  @ApiModelProperty(example = "null", value = "Description of the event to be logged.")
   public String getDescription() {
     return description;
   }
@@ -300,14 +302,49 @@ public class LogRequestTicket   {
    * Array of keywords to facilitate search
    * @return keywords
   **/
-  @JsonProperty("keywords")
-  @ApiModelProperty(value = "Array of keywords to facilitate search")
+  @ApiModelProperty(example = "null", value = "Array of keywords to facilitate search")
   public List<String> getKeywords() {
     return keywords;
   }
 
   public void setKeywords(List<String> keywords) {
     this.keywords = keywords;
+  }
+
+  public LogRequestTicket logType(LogTypeEnum logType) {
+    this.logType = logType;
+    return this;
+  }
+
+   /**
+   * Type of the data logged.
+   * @return logType
+  **/
+  @ApiModelProperty(example = "null", value = "Type of the data logged.")
+  public LogTypeEnum getLogType() {
+    return logType;
+  }
+
+  public void setLogType(LogTypeEnum logType) {
+    this.logType = logType;
+  }
+
+  public LogRequestTicket affectedUserId(String affectedUserId) {
+    this.affectedUserId = affectedUserId;
+    return this;
+  }
+
+   /**
+   * Id of the affected user.
+   * @return affectedUserId
+  **/
+  @ApiModelProperty(example = "null", value = "Id of the affected user.")
+  public String getAffectedUserId() {
+    return affectedUserId;
+  }
+
+  public void setAffectedUserId(String affectedUserId) {
+    this.affectedUserId = affectedUserId;
   }
 
 
@@ -327,12 +364,14 @@ public class LogRequestTicket   {
         Objects.equals(this.logLevel, logRequestTicket.logLevel) &&
         Objects.equals(this.title, logRequestTicket.title) &&
         Objects.equals(this.description, logRequestTicket.description) &&
-        Objects.equals(this.keywords, logRequestTicket.keywords);
+        Objects.equals(this.keywords, logRequestTicket.keywords) &&
+        Objects.equals(this.logType, logRequestTicket.logType) &&
+        Objects.equals(this.affectedUserId, logRequestTicket.affectedUserId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(userId, requesterType, requesterId, logPriority, logLevel, title, description, keywords);
+    return Objects.hash(userId, requesterType, requesterId, logPriority, logLevel, title, description, keywords, logType, affectedUserId);
   }
 
 
@@ -349,6 +388,8 @@ public class LogRequestTicket   {
     sb.append("    title: ").append(toIndentedString(title)).append("\n");
     sb.append("    description: ").append(toIndentedString(description)).append("\n");
     sb.append("    keywords: ").append(toIndentedString(keywords)).append("\n");
+    sb.append("    logType: ").append(toIndentedString(logType)).append("\n");
+    sb.append("    affectedUserId: ").append(toIndentedString(affectedUserId)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -363,5 +404,6 @@ public class LogRequestTicket   {
     }
     return o.toString().replace("\n", "\n    ");
   }
+  
 }
 
