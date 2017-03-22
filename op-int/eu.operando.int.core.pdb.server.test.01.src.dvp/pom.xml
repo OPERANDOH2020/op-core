@@ -160,7 +160,6 @@
 		<!-- </resources> -->
 	</build>
 	<properties>
-		<junit-version>4.8.1</junit-version>
 		<server.endpoint.path>${operando.core.pdb.endpoint.path}</server.endpoint.path>
 		<docker.name>eu.operando.core.pdb.server.test01</docker.name>
 		<docker.image.name>${docker.registry.name}${docker.submitter}/${docker.name}</docker.image.name>
