@@ -3,7 +3,7 @@
 all_Successful=0
 
 cd sources
-python -m unittest
+python3 -m unittest
 if [ $? -eq 0 ]
 then
   echo "ALL SUCCESSFUL"
