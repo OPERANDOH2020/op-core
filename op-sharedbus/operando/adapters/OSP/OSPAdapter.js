@@ -140,20 +140,20 @@ container.declareDependency("OSPAdapter", ["mysqlPersistence"], function (outOfS
 registerNewOSP = function (userId, ospDetailsData, callback) {
     flow.create("register new OSP", {
         begin: function () {
-            redisPersistence.lookup("OspDetails", userId, this.continue("createOSP"));
+            persistence.lookup("OspDetails", userId, this.continue("createOSP"));
         },
         createOSP: function (err, ospDetails) {
             console.log(ospDetails);
             if (err) {
                 callback(err, null);
             }
-            else if (!redisPersistence.isFresh(ospDetails)) {
+            else if (!persistence.isFresh(ospDetails)) {
                 callback(new Error("OspAlreadyRegistered"), null);
             }
             else {
                 ospDetails['osp_accepted_time'] = Date.now();
-                redisPersistence.externalUpdate(ospDetails, ospDetailsData);
-                redisPersistence.saveObject(ospDetails, callback);
+                persistence.externalUpdate(ospDetails, ospDetailsData);
+                persistence.saveObject(ospDetails, callback);
             }
         }
     })();
@@ -162,7 +162,7 @@ registerNewOSP = function (userId, ospDetailsData, callback) {
 getOSPs = function(callback){
     flow.create("getOSPs",{
         begin:function(){
-            redisPersistence.filter("OspDetails",{},callback);
+            persistence.filter("OspDetails",{},callback);
         }
     })();
 };
@@ -171,13 +171,13 @@ getOSPs = function(callback){
 addOrUpdateOspOffer = function (ospUserId, offerDetails, callback){
     flow.create("addOspOffer", {
         begin: function () {
-            redisPersistence.lookup("OspDetails", ospUserId, this.continue("checkOspOffer"));
+            persistence.lookup("OspDetails", ospUserId, this.continue("checkOspOffer"));
         },
         checkOspOffer: function (err, osp) {
             if (err) {
                 callback(err);
             }
-            else if (redisPersistence.isFresh(osp)) {
+            else if (persistence.isFresh(osp)) {
                 callback(new Error("ospUserDoestNotExists"));
             }
             else {
@@ -193,7 +193,7 @@ addOrUpdateOspOffer = function (ospUserId, offerDetails, callback){
             else{
                 ospOfferId = uuid.v1().split("-").join("");
             }
-            redisPersistence.lookup("OspOffer", ospOfferId, this.continue("createOspOffer"));
+            persistence.lookup("OspOffer", ospOfferId, this.continue("createOspOffer"));
         },
         createOspOffer: function (err, ospOffer) {
             if (err) {
@@ -204,9 +204,9 @@ addOrUpdateOspOffer = function (ospUserId, offerDetails, callback){
                 offerEndDate.setHours(23,59,59,999);
                 offerDetails['end_date'] = offerEndDate.toISOString();
                 console.log(offerDetails);
-                redisPersistence.externalUpdate(ospOffer, offerDetails);
+                persistence.externalUpdate(ospOffer, offerDetails);
                 ospOffer['userId'] = ospUserId;
-                redisPersistence.saveObject(ospOffer, callback);
+                persistence.saveObject(ospOffer, callback);
             }
         }
     })();
@@ -220,18 +220,18 @@ deleteOspOffer = function (offerId, callback) {
                 callback(new Error("offerIdRequired"));
             }
             else {
-                redisPersistence.lookup("OspOffer", offerId, this.continue("deleteOffer"));
+                persistence.lookup("OspOffer", offerId, this.continue("deleteOffer"));
             }
         },
         deleteOffer: function (err, offer) {
             if (err) {
                 callback(err);
             }
-            else if (redisPersistence.isFresh(offer)) {
+            else if (persistence.isFresh(offer)) {
                 callback(new Error("ospOfferDoesNotExists"));
             }
             else {
-                redisPersistence.deleteById("OspOffer", offerId, callback);
+                persistence.deleteById("OspOffer", offerId, callback);
             }
         }
     })();
@@ -240,7 +240,7 @@ deleteOspOffer = function (offerId, callback) {
 getOspOffers = function(ospUserId, callback){
     flow.create("getOSPOffers",{
         begin:function(){
-            redisPersistence.filter("OspOffer",{userId:ospUserId},callback);
+            persistence.filter("OspOffer",{userId:ospUserId},callback);
         }
     })();
 };
@@ -250,18 +250,18 @@ getOSPOffer = function(offerId,callback){
 
     flow.create("getOSPOffer",{
         begin:function(){
-            redisPersistence.lookup("OspOffer",offerId,this.continue("checkOffer"));
+            persistence.lookup("OspOffer",offerId,this.continue("checkOffer"));
         },
         checkOffer:function(err, offer){
-            if(redisPersistence.isFresh(offer)){
+            if(persistence.isFresh(offer)){
                 callback(new Error("Offer not found"));
             }
             else{
-                redisPersistence.lookup("OspDetails",offer.userId, function(err, ospDetails){
+                persistence.lookup("OspDetails",offer.userId, function(err, ospDetails){
                     if(err){
                         callback(err);
                     }
-                    else if(redisPersistence.isFresh(ospDetails)){
+                    else if(persistence.isFresh(ospDetails)){
                         callback(new Error(("OSPDetails with this userId not found")));
                     }
                     else{
@@ -278,7 +278,7 @@ getAllOffers = function(callback){
     var availableOffers = [];
     flow.create("getAllOffers",{
         begin:function(){
-            redisPersistence.filter("OspOffer",{},this.continue("checkDate"));
+            persistence.filter("OspOffer",{},this.continue("checkDate"));
         },
         checkDate:function(err, offers){
             if(err){
@@ -297,8 +297,8 @@ getAllOffers = function(callback){
         getOSPDetails:function(){
 
             availableOffers.forEach(function(offer){
-                    redisPersistence.lookup("OspDetails",offer.userId, function(err, ospDetails){
-                       if(!redisPersistence.isFresh(ospDetails)){
+                    persistence.lookup("OspDetails",offer.userId, function(err, ospDetails){
+                       if(!persistence.isFresh(ospDetails)){
                            offer['website'] = ospDetails['website'];
                        }
                     });
