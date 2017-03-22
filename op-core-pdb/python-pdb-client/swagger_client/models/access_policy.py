@@ -118,7 +118,7 @@ class AccessPolicy(object):
         :param action: The action of this AccessPolicy.
         :type: str
         """
-        allowed_values = ["Collect", "Access", "Use", "Disclose", "Archive"]
+        allowed_values = ["Collect", "Create", "Delete", "Update", "Access", "Use", "Disclose", "Archive"]
         if action not in allowed_values:
             raise ValueError(
                 "Invalid value for `action` ({0}), must be one of {1}"
