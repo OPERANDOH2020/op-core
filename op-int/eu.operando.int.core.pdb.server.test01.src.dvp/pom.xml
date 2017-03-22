@@ -1,20 +1,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>eu.operando.int.core.pdb.server.test.00.src.dvp</artifactId>
-	<packaging>pom</packaging>
 	<parent>
 		<groupId>eu.operando.int</groupId>
 		<artifactId>eu.operando.int.src.dvp</artifactId>
 		<version>ALPHA</version>
 	</parent>
+	<artifactId>eu.operando.int.core.pdb.server.test01.src.dvp</artifactId>
+	<packaging>pom</packaging>
+	<!-- First we define the source code directories for a java application 
+		server generated with swagger we will have two folders src/main and src/gen 
+		maven conventions stablish one source folder but others can be added using 
+		build-helper-maven-plugin add-source -->
+	<!-- this is not considered and I need to add using the build-helper-maven-plugin -->
+	<!-- <sourceDirectory>${sources.path}/src/main/java</sourceDirectory> -->
 	<build>
-		<!-- First we define the source code directories for a java application 
-			server generated with swagger we will have two folders src/main and src/gen 
-			maven conventions stablish one source folder but others can be added using 
-			build-helper-maven-plugin add-source -->
-		<!-- this is not considered and I need to add using the build-helper-maven-plugin -->
-		<!-- <sourceDirectory>${sources.path}/src/main/java</sourceDirectory> -->
 		<plugins>
 			<!-- We check the value of some properties values -->
 			<plugin>
@@ -30,9 +30,38 @@
 						<configuration>
 							<tasks>
 								<echo>Displaying values of properties</echo>
+								<echo>[sources.path]=${sources.path}</echo>
+								<echo>[project.build.sourceDirectory]=${project.build.sourceDirectory}</echo>
 								<echo>[docker.image.name]=${docker.image.name}</echo>
 								<echo>[docker.image.version]=${docker.image.version}</echo>
+								<echo>[operando.core.ldb.basepath]=${operando.core.ldb.basepath}</echo>
 							</tasks>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- Plugin to copy the war into generated folder accessible to the docker 
+				file -->
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.7</version>
+				<executions>
+					<execution>
+						<id>copy-resource-one</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>src/main/docker/sources</outputDirectory>
+							<resources>
+								<resource>
+									<directory>sources</directory>
+									<includes>
+										<include>*</include>
+									</includes>
+								</resource>
+							</resources>
 						</configuration>
 					</execution>
 				</executions>
@@ -42,7 +71,6 @@
 				<groupId>io.fabric8</groupId>
 				<artifactId>docker-maven-plugin</artifactId>
 				<version>0.20.0</version>
-				<!-- last version in https://mvnrepository.com/artifact/org.jolokia/docker-maven-plugin -->
 				<configuration>
 					<images>
 						<image>
@@ -65,19 +93,13 @@
 									<log>ALL SUCCESSFUL</log>
 								</wait>
 								<namingStrategy>alias</namingStrategy>
-								<env>
-									<PDB_ENDPOINT>${core.pdb.endpoint}</PDB_ENDPOINT>
-								</env>
-								<ports>
-								</ports>
 							</run>
 						</image>
 					</images>
-					<!-- <docker.follow></docker.follow> -->
 				</configuration>
 			</plugin>
-			<!-- end of addition -->
 		</plugins>
+
 		<pluginManagement>
 			<plugins>
 				<!--This plugin's configuration is used to store Eclipse m2e settings 
@@ -106,6 +128,23 @@
 										<execute></execute>
 									</action>
 								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.codehaus.mojo
+										</groupId>
+										<artifactId>
+											build-helper-maven-plugin
+										</artifactId>
+										<versionRange>1.0</versionRange>
+										<goals>
+											<goal>add-source</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute></execute>
+									</action>
+								</pluginExecution>
 							</pluginExecutions>
 						</lifecycleMappingMetadata>
 					</configuration>
@@ -120,11 +159,11 @@
 		<!-- </resource> -->
 		<!-- </resources> -->
 	</build>
-
 	<properties>
-		<docker.name>eu.operando.core.pdb.server.test00</docker.name>
+		<junit-version>4.8.1</junit-version>
+		<server.endpoint.path>${operando.core.pdb.endpoint.path}</server.endpoint.path>
+		<docker.name>eu.operando.core.pdb.server.test01</docker.name>
 		<docker.image.name>${docker.registry.name}${docker.submitter}/${docker.name}</docker.image.name>
 		<docker.image.version>${project.version}</docker.image.version>
-		<core.pdb.endpoint>${operando.core.pdb.endpoint}</core.pdb.endpoint>
 	</properties>
 </project>
