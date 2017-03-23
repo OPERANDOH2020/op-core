@@ -1,33 +1,18 @@
-# I take a official python image https://hub.docker.com/_/python/
+# I take a official mono image https://hub.docker.com/_/osixia/openldap
 # we choose normal 
-FROM python:2.7.12
+FROM osixia/openldap:1.1.7
 
-ENV RM_URLPATH none
-ENV OLD_DAN_ENDPOINT https://snf-706921.vm.okeanos.grnet.gr:8443/op-pdr-dan
-ENV DAN_ENDPOINT http://pdr.dan.operando.lan.esilab.org:8111/operando/pdr/dan
-ENV OLD_AAPI_ENDPOINT https://snf-706921.vm.okeanos.grnet.gr:8443/authentication
-ENV AAPI_ENDPOINT http://aapi.integration.operando.lan.esilab.org:8135/operando/interfaces/aapi
-ENV OLD_LDB_ENDPOINT http://server02tecnalia.westeurope.cloudapp.azure.com:8090/operando/core/ldb
-ENV LDB_ENDPOINT http://ldb.integration.operando.lan.esilab.org:8090/operando/core/ldb
-ENV OLD_AAPI_USER username
-ENV AAPI_USER operando
-ENV OLD_AAPI_PASSWORD password
-ENV AAPI_PASSWORD 1234
+# ADD bootstrap /container/service/slapd/assets/config/bootstrap
 
-ADD sources sources
-ADD requirements.txt requirements.txt
+ADD aapi-ldap.ldif .
+ADD acl.ldif .
+ADD startup.sh /container/service/slapd/startup.sh
+RUN chown openldap:openldap /container/service/slapd/startup.sh
+RUN chmod 775 /container/service/slapd/startup.sh
 
-RUN pip install --no-cache-dir -r requirements.txt
+# Expose default ldap and ldaps ports
+EXPOSE 389 636
 
-EXPOSE 8080
-
-WORKDIR /sources
-
-ADD run.sh /run.sh
-RUN chmod 750 /run.sh
-ENV PATH /:$PATH
-
-CMD ["/run.sh"]
-
-
+ENTRYPOINT ["/container/tool/run"]
+#ENTRYPOINT ["/import.sh"]
 
