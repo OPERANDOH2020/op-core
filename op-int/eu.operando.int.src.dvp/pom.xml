@@ -146,10 +146,10 @@
 		<operando.core.as.openldap.protocol2>ldaps://</operando.core.as.openldap.protocol2>
 		<operando.core.as.openldap.port1>389</operando.core.as.openldap.port1>
 		<operando.core.as.openldap.port1>636</operando.core.as.openldap.port1>
-		<operando.core.as.openldap.basepath1>${operando.pdr.dan.protocol1}${operando.pdr.dan.host}:${operando.pdr.dan.port1}</operando.core.as.openldap.basepath1>
-		<operando.core.as.openldap.endpoint1>${operando.pdr.dan.basepath1}</operando.core.as.openldap.endpoint1>
-		<operando.core.as.openldap.basepath2>${operando.pdr.dan.protocol2}${operando.pdr.dan.host}:${operando.pdr.dan.port2}</operando.core.as.openldap.basepath2>
-		<operando.core.as.openldap.endpoint2>${operando.pdr.dan.basepath2}</operando.core.as.openldap.endpoint2>
+		<operando.core.as.openldap.basepath1>${operando.core.as.openldap.protocol1}${operando.core.as.openldap.host}:${operando.core.as.openldap.port1}</operando.core.as.openldap.basepath1>
+		<operando.core.as.openldap.endpoint1>${operando.core.as.openldap.basepath1}</operando.core.as.openldap.endpoint1>
+		<operando.core.as.openldap.basepath2>${operando.core.as.openldap.protocol2}${operando.core.as.openldap.host}:${operando.core.as.openldap.port2}</operando.core.as.openldap.basepath2>
+		<operando.core.as.openldap.endpoint2>${operando.core.as.openldap.basepath2}</operando.core.as.openldap.endpoint2>
 
 		<operando.mysql.host>mysql.integration.operando.lan.esilab.org</operando.mysql.host>
 		<operando.mysql.port>3306</operando.mysql.port>
