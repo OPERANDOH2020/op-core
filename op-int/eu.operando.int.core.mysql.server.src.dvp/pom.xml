@@ -25,10 +25,7 @@
 						<configuration>
 							<tasks>
 								<echo>Displaying values of properties</echo>
-								<echo>[sources.path]=${sources.path}</echo>
 								<echo>[project.build.sourceDirectory]=${project.build.sourceDirectory}</echo>
-								<echo>[server.endpoint.path]=${server.endpoint.path}</echo>
-								<echo>[server.warName]=${server.warName}</echo>
 								<echo>[docker.image.name]=${docker.image.name}</echo>
 								<echo>[docker.image.version]=${docker.image.version}</echo>
 								<echo>[docker.port1.mapping]=${docker.port1.mapping}</echo>
