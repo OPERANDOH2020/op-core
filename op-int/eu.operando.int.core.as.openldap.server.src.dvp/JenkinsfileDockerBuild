@@ -32,6 +32,7 @@ node {
 		   sh "'${mvnHome}/bin/mvn' antrun:run@echo -f ${sources}/${sourcesPath}/pom.xml"
 	   }
 	   stage ('Source Move'){
+	   	   sh "mkdir -p ${sources}/${sourcesPath}/sources"	   
 	   	   sh "mv ${sourcesServer}/${sourcesServerPath}/*.ldif ${sources}/${sourcesPath}/sources"	   
 	   }
 	   stage ('Maven Package jar'){
