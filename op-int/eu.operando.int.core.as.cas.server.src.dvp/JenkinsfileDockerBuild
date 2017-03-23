@@ -16,7 +16,7 @@ node {
 		  // **       in the global configuration.
 		  mvnHome = tool 'Maven 3.3.9 colocated'
 		  sourcesPath = 'op-int/eu.operando.int.core.as.cas.server.src.dvp'
-		  sourcesServerPath = 'op-core-cas/eu.operando.core.openldap.server/src/main/docker'
+		  sourcesServerPath = 'op-core-cas/eu.operando.core.cas.server/src/main/docker'
 		  sourcesRepo = 'https://github.com/OPERANDOH2020/op-core.git'
 		  sourcesServerRepo = sourcesRepo
 		  credentialsId = gitCredentials
@@ -33,7 +33,10 @@ node {
 	   }
 	   stage ('Source Move'){
 	   	   sh "mkdir -p ${sources}/${sourcesPath}/sources"	   
-	   	   sh "mv ${sourcesServer}/${sourcesServerPath}/*.ldif ${sources}/${sourcesPath}/sources"	   
+	   	   sh "mv ${sourcesServer}/${sourcesServerPath}/cas-overlay ${sources}/${sourcesPath}/sources/."	   
+	   	   sh "mv ${sourcesServer}/${sourcesServerPath}/certs ${sources}/${sourcesPath}/sources/."	   
+	   	   sh "mv ${sourcesServer}/${sourcesServerPath}/etc ${sources}/${sourcesPath}/sources/."	   
+	   	   sh "mv ${sourcesServer}/${sourcesServerPath}/pom.xml ${sources}/${sourcesPath}/sources/."	   
 	   }
 	   stage ('Maven Package jar'){
 		   sh "'${mvnHome}/bin/mvn' package -f ${sources}/${sourcesPath}/pom.xml"
