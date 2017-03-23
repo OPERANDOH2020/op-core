@@ -2,11 +2,16 @@
 # we choose normal 
 FROM python:2.7.12
 
-ENV DAN_ENDPOINT none
-ENV AAPI_ENDPOINT none
-ENV LDB_ENDPOINT none
 ENV RM_URLPATH none
+ENV OLD_DAN_ENDPOINT https://snf-706921.vm.okeanos.grnet.gr:8443/op-pdr-dan
+ENV DAN_ENDPOINT none
+ENV OLD_AAPI_ENDPOINT https://snf-706921.vm.okeanos.grnet.gr:8443/authentication
+ENV AAPI_ENDPOINT none
+ENV OLD_LDB_ENDPOINT http://server02tecnalia.westeurope.cloudapp.azure.com:8090/operando/core/ldb
+ENV LDB_ENDPOINT none
+ENV OLD_AAPI_USER username
 ENV AAPI_USER none
+ENV OLD_AAPI_PASSWORD password
 ENV AAPI_PASSWORD none
 
 ADD sources sources
