@@ -13,7 +13,7 @@ node {
 	   stage('Dependent lv1') { 
 	      //adds structure to DB
 	      build job: 'eu.operando.int.core.ldb.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
-		  build job: 'eu.operando.dev.core.cas.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+		  build job: 'eu.operando.int.core.as.cas.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	          
 	   }
 	   stage('Dependent lv2') {
 		  build job: 'eu.operando.dev.interfaces.aapi.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
