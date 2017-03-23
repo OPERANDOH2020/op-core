@@ -6,7 +6,7 @@
 		<artifactId>eu.operando.int.src.dvp</artifactId>
 		<version>ALPHA</version>
 	</parent>
-	<artifactId>eu.operando.int.src.dvp.core.mysql.server</artifactId>
+	<artifactId>eu.operando.int.phpmyadmin.server.src.dvp</artifactId>
 	<packaging>pom</packaging>
 	<build>
 		<plugins>
@@ -74,10 +74,10 @@
 	</build>
 	<properties>
 		<server.endpoint.path>none</server.endpoint.path>
-		<docker.name>eu.operando.phpldapadmin.server</docker.name>
+		<docker.name>eu.operando.phpmyadmin.server</docker.name>
 		<docker.image.name>${docker.registry.name}${docker.submitter}/${docker.name}</docker.image.name>
 		<docker.image.version>${project.version}</docker.image.version>
-		<docker.port1.external>${operando.phpldapadmin.port}</docker.port1.external>
+		<docker.port1.external>${operando.phpmyadmin.port}</docker.port1.external>
 		<docker.port1.mapping>${docker.port1.external}:80</docker.port1.mapping>
 	</properties>
 </project>

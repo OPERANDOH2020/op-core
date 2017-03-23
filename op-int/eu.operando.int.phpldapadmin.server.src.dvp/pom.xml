@@ -6,7 +6,7 @@
 		<artifactId>eu.operando.int.src.dvp</artifactId>
 		<version>ALPHA</version>
 	</parent>
-	<artifactId>eu.operando.int.src.dvp.phpldapadmin.server</artifactId>
+	<artifactId>eu.operando.int.phldapadmin.server.src.dvp</artifactId>
 	<packaging>pom</packaging>
 	<build>
 		<plugins>
