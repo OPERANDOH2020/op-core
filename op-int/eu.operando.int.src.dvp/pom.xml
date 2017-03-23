@@ -178,6 +178,18 @@
 		<operando.mysql.root.user>root</operando.mysql.root.user>
 		<operando.mysql.root.password>root</operando.mysql.root.password>
 
+		<operando.phpldapadmin.host>phpldapadmin.integration.operando.lan.esilab.org</operando.phpldapadmin.host>
+		<operando.phpldapadmin.protocol>http://</operando.phpldapadmin.protocol>
+		<operando.phpldapadmin.port>8107</operando.phpldapadmin.port>
+		<operando.phpldapadmin.basepath>${operando.phpldapadmin.protocol}${operando.phpldapadmin.host}:${operando.phpldapadmin.port}</operando.phpldapadmin.basepath>
+		<operando.phpldapadmin.endpoint>${operando.phpldapadmin.basepath}/</operando.phpldapadmin.endpoint>
+
+		<operando.phpmyadmin.host>phpmyadmin.integration.operando.lan.esilab.org</operando.phpmyadmin.host>
+		<operando.phpmyadmin.protocol>http://</operando.phpmyadmin.protocol>
+		<operando.phpmyadmin.port>8104</operando.phpmyadmin.port>
+		<operando.phpmyadmin.basepath>${operando.phpmyadmin.protocol}${operando.phpmyadmin.host}:${operando.phpmyadmin.port}</operando.phpmyadmin.basepath>
+		<operando.phpmyadmin.endpoint>${operando.phpmyadmin.basepath}/</operando.phpmyadmin.endpoint>
+
 		<!-- I add the defintion of the variable to avoid the no value in regex 
 			error -->
 		<server.endpoint.path>tobedefined</server.endpoint.path>
