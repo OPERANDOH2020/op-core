@@ -7,6 +7,40 @@
 	<packaging>pom</packaging>
 	<build>
 		<plugins>
+			<!-- We check the value of some properties values -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.1</version>
+				<executions>
+					<execution>
+						<id>echobase</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<echo>Displaying inherited properties common for all builds</echo>
+								<echo>[docker.registry.name]=${docker.registry.name}</echo>
+								<echo>[docker.submitter]=${docker.submitter}</echo>
+
+								<echo>[operando.core.ldb.endpoint]=${operando.core.ldb.endpoint}</echo>
+								<echo>[operando.core.pdb.endpoint]=${operando.core.pdb.endpoint}</echo>
+								<echo>[operando.core.rm.endpoint]=${operando.core.rm.endpoint}</echo>
+								<echo>[operando.interfaces.aapi.endpoint]=${operando.interfaces.aapi.endpoint}</echo>
+								<echo>[operando.pdr.dan.endpoint]=${operando.pdr.dan.endpoint}</echo>
+								<echo>[operando.core.as.openldap.endpoint1]=${operando.core.as.openldap.endpoint1}</echo>
+								<echo>[operando.core.as.openldap.endpoint2]=${operando.core.as.openldap.endpoint2}</echo>
+								<echo>[operando.mysql.host]=${operando.mysql.host}</echo>
+								<echo>[operando.mysql.port]=${operando.mysql.port}</echo>
+								<echo>[operando.mongo.host]=${operando.mongo.host}</echo>
+								<echo>[operando.mongo.port]=${operando.mongo.port}</echo>
+							</tasks>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<!-- this transform the operando.core.ldb.endpoint.path into the server.warname.generated -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -70,50 +104,62 @@
 		<build-helper-maven-plugin-version>3.0.0</build-helper-maven-plugin-version>
 		<docker.registry.name>localhost:5000/</docker.registry.name>
 		<docker.submitter>operando</docker.submitter>
-		<!-- leave empty for docker hub; use e.g. "localhost:5000/" for a local docker registry -->
+		<!-- leave empty for docker hub; use e.g. "localhost:5000/" for a local 
+			docker registry -->
 		<operando.core.ldb.host>ldb.integration.operando.lan.esilab.org</operando.core.ldb.host>
 		<operando.core.ldb.protocol>http://</operando.core.ldb.protocol>
 		<operando.core.ldb.port>8090</operando.core.ldb.port>
 		<operando.core.ldb.endpoint.path>operando/core/ldb</operando.core.ldb.endpoint.path>
-		<operando.core.ldb.basepath>${operando.core.ldb.protocol}${operando.core.ldb.host}:${operando.core.ldb.port}</operando.core.ldb.basepath>			
+		<operando.core.ldb.basepath>${operando.core.ldb.protocol}${operando.core.ldb.host}:${operando.core.ldb.port}</operando.core.ldb.basepath>
 		<operando.core.ldb.endpoint>${operando.core.ldb.basepath}/${operando.core.ldb.endpoint.path}</operando.core.ldb.endpoint>
-		
+
 		<operando.core.pdb.host>pdb.integration.operando.lan.esilab.org</operando.core.pdb.host>
 		<operando.core.pdb.protocol>http://</operando.core.pdb.protocol>
 		<operando.core.pdb.port>8096</operando.core.pdb.port>
 		<operando.core.pdb.endpoint.path>operando/core/pdb</operando.core.pdb.endpoint.path>
-		<operando.core.pdb.basepath>${operando.core.pdb.protocol}${operando.core.pdb.host}:${operando.core.pdb.port}</operando.core.pdb.basepath>			
+		<operando.core.pdb.basepath>${operando.core.pdb.protocol}${operando.core.pdb.host}:${operando.core.pdb.port}</operando.core.pdb.basepath>
 		<operando.core.pdb.endpoint>${operando.core.pdb.basepath}/${operando.core.pdb.endpoint.path}</operando.core.pdb.endpoint>
 
 		<operando.core.rm.host>rm.integration.operando.lan.esilab.org</operando.core.rm.host>
 		<operando.core.rm.protocol>http://</operando.core.rm.protocol>
 		<operando.core.rm.port>8102</operando.core.rm.port>
 		<operando.core.rm.endpoint.path>operando/core/rm</operando.core.rm.endpoint.path>
-		<operando.core.rm.basepath>${operando.core.rm.protocol}${operando.core.rm.host}:${operando.core.rm.port}</operando.core.rm.basepath>			
+		<operando.core.rm.basepath>${operando.core.rm.protocol}${operando.core.rm.host}:${operando.core.rm.port}</operando.core.rm.basepath>
 		<operando.core.rm.endpoint>${operando.core.rm.basepath}/${operando.core.rm.endpoint.path}</operando.core.rm.endpoint>
 
 		<operando.interfaces.aapi.host>aapi.integration.operando.lan.esilab.org</operando.interfaces.aapi.host>
 		<operando.interfaces.aapi.protocol>http://</operando.interfaces.aapi.protocol>
 		<operando.interfaces.aapi.port>8135</operando.interfaces.aapi.port>
 		<operando.interfaces.aapi.endpoint.path>operando/interfaces/aapi</operando.interfaces.aapi.endpoint.path>
-		<operando.interfaces.aapi.basepath>${operando.interfaces.aapi.protocol}${operando.interfaces.aapi.host}:${operando.interfaces.aapi.port}</operando.interfaces.aapi.basepath>			
+		<operando.interfaces.aapi.basepath>${operando.interfaces.aapi.protocol}${operando.interfaces.aapi.host}:${operando.interfaces.aapi.port}</operando.interfaces.aapi.basepath>
 		<operando.interfaces.aapi.endpoint>${operando.interfaces.aapi.basepath}/${operando.interfaces.aapi.endpoint.path}</operando.interfaces.aapi.endpoint>
-		
+
 		<operando.pdr.dan.host>dan.integration.operando.lan.esilab.org</operando.pdr.dan.host>
 		<operando.pdr.dan.protocol>http://</operando.pdr.dan.protocol>
 		<operando.pdr.dan.port>8111</operando.pdr.dan.port>
 		<operando.pdr.dan.endpoint.path>operando/pdr/dan</operando.pdr.dan.endpoint.path>
-		<operando.pdr.dan.basepath>${operando.pdr.dan.protocol}${operando.pdr.dan.host}:${operando.pdr.dan.port}</operando.pdr.dan.basepath>			
+		<operando.pdr.dan.basepath>${operando.pdr.dan.protocol}${operando.pdr.dan.host}:${operando.pdr.dan.port}</operando.pdr.dan.basepath>
 		<operando.pdr.dan.endpoint>${operando.pdr.dan.basepath}/${operando.pdr.dan.endpoint.path}</operando.pdr.dan.endpoint>
-		
+
+		<operando.core.as.openldap.host>openldap.as.integration.operando.lan.esilab.org</operando.core.as.openldap.host>
+		<operando.core.as.openldap.protocol1>ldap://</operando.core.as.openldap.protocol1>
+		<operando.core.as.openldap.protocol2>ldaps://</operando.core.as.openldap.protocol2>
+		<operando.core.as.openldap.port1>389</operando.core.as.openldap.port1>
+		<operando.core.as.openldap.port1>636</operando.core.as.openldap.port1>
+		<operando.core.as.openldap.basepath1>${operando.pdr.dan.protocol1}${operando.pdr.dan.host}:${operando.pdr.dan.port1}</operando.core.as.openldap.basepath1>
+		<operando.core.as.openldap.endpoint1>${operando.pdr.dan.basepath1}</operando.core.as.openldap.endpoint1>
+		<operando.core.as.openldap.basepath2>${operando.pdr.dan.protocol2}${operando.pdr.dan.host}:${operando.pdr.dan.port2}</operando.core.as.openldap.basepath2>
+		<operando.core.as.openldap.endpoint2>${operando.pdr.dan.basepath2}</operando.core.as.openldap.endpoint2>
+
 		<operando.mysql.host>mysql.integration.operando.lan.esilab.org</operando.mysql.host>
 		<operando.mysql.port>3306</operando.mysql.port>
 		<operando.mysql.root.user>root</operando.mysql.root.user>
 		<operando.mysql.root.password>root</operando.mysql.root.password>
-		
-		<!-- I add the defintion of the variable to avoid the no value in regex error -->		
+
+		<!-- I add the defintion of the variable to avoid the no value in regex 
+			error -->
 		<server.endpoint.path>tobedefined</server.endpoint.path>
-		
+
 		<operando.mongo.host>mongo.integration.operando.lan.esilab.org</operando.mongo.host>
 		<operando.mongo.port>27017</operando.mongo.port>
 	</properties>
