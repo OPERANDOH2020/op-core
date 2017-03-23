@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>eu.operando.int.core.as.openldap.server.src.dvp</artifactId>
+	<artifactId>eu.operando.int.core.as.cas.server.src.dvp</artifactId>
 	<packaging>pom</packaging>
 	<parent>
 		<groupId>eu.operando.int</groupId>
@@ -86,11 +86,6 @@
 							<run>
 								<namingStrategy>alias</namingStrategy>
 								<env>
-									<LDAP_DOMAIN>${operando.core.as.openldap.domain}</LDAP_DOMAIN>
-									<LDAP_ORGANISATION>${operando.core.as.openldap.organisation}</LDAP_ORGANISATION>
-									<LDAP_ADMIN_PASSWORD>${operando.core.as.openldap.admin_password}</LDAP_ADMIN_PASSWORD>
-									<HOSTNAME>${operando.core.as.openldap.hostname}</HOSTNAME>
-									<LDAP_TLS_VERIFY_CLIENT>${operando.core.as.openldap.tls_verify_client}</LDAP_TLS_VERIFY_CLIENT>									
 								</env>
 								<ports>
 									<port>${docker.port1.mapping}</port>
@@ -168,8 +163,8 @@
 		<docker.image.name>${docker.registry.name}${docker.submitter}/${docker.name}</docker.image.name>
 		<docker.image.version>${project.version}</docker.image.version>
 		<docker.port1.external>${operando.core.as.openldap.port1}</docker.port1.external>
-		<docker.port1.mapping>${docker.port1.external}:389</docker.port1.mapping>
+		<docker.port1.mapping>${docker.port1.external}:8080</docker.port1.mapping>
 		<docker.port2.external>${operando.core.as.openldap.port2}</docker.port2.external>
-		<docker.port2.mapping>${docker.port2.external}:636</docker.port2.mapping>				
+		<docker.port2.mapping>${docker.port2.external}:8443</docker.port2.mapping>				
 	</properties>
 </project>

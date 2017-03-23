@@ -37,6 +37,8 @@
 								<echo>[operando.core.as.openldap.admin_password]=${operando.core.as.openldap.admin_password}</echo>
 								<echo>[operando.core.as.openldap.hostname]=${operando.core.as.openldap.hostname}</echo>
 								<echo>[operando.core.as.openldap.tls_verify_client]=${operando.core.as.openldap.tls_verify_client}</echo>
+								<echo>[operando.core.as.cas.endpoint1]=${operando.core.as.cas.endpoint1}</echo>
+								<echo>[operando.core.as.cas.endpoint2]=${operando.core.as.cas.endpoint2}</echo>
 								<echo>[operando.mysql.host]=${operando.mysql.host}</echo>
 								<echo>[operando.mysql.port]=${operando.mysql.port}</echo>
 								<echo>[operando.mongo.host]=${operando.mongo.host}</echo>
@@ -160,11 +162,16 @@
 		<operando.core.as.openldap.admin_password>admin</operando.core.as.openldap.admin_password>
 		<operando.core.as.openldap.hostname>integration.operando.dmz.lab.esilab.org</operando.core.as.openldap.hostname>
 		<operando.core.as.openldap.tls_verify_client>allow</operando.core.as.openldap.tls_verify_client>
-		<LDAP_DOMAIN>nodomain</LDAP_DOMAIN>
-		<LDAP_ORGANISATION>nodomain</LDAP_ORGANISATION>
-		<LDAP_ADMIN_PASSWORD>admin</LDAP_ADMIN_PASSWORD>
-		<HOSTNAME>integration.operando.dmz.lab.esilab.org</HOSTNAME>
-		<LDAP_TLS_VERIFY_CLIENT>allow</LDAP_TLS_VERIFY_CLIENT>
+
+		<operando.core.as.cas.host>cas.as.integration.operando.lan.esilab.org</operando.core.as.cas.host>
+		<operando.core.as.cas.protocol1>http://</operando.core.as.cas.protocol1>
+		<operando.core.as.cas.protocol2>https://</operando.core.as.cas.protocol2>
+		<operando.core.as.cas.port1>8101</operando.core.as.cas.port1>
+		<operando.core.as.cas.port2>8105</operando.core.as.cas.port2>
+		<operando.core.as.cas.basepath1>${operando.core.as.cas.protocol1}${operando.core.as.cas.host}:${operando.core.as.cas.port1}</operando.core.as.cas.basepath1>
+		<operando.core.as.cas.endpoint1>${operando.core.as.cas.basepath1}</operando.core.as.cas.endpoint1>
+		<operando.core.as.cas.basepath2>${operando.core.as.cas.protocol2}${operando.core.as.cas.host}:${operando.core.as.cas.port2}</operando.core.as.cas.basepath2>
+		<operando.core.as.cas.endpoint2>${operando.core.as.cas.basepath2}</operando.core.as.cas.endpoint2>
 
 		<operando.mysql.host>mysql.integration.operando.lan.esilab.org</operando.mysql.host>
 		<operando.mysql.port>3306</operando.mysql.port>
