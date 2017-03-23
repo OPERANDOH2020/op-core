@@ -16,18 +16,19 @@ node {
 		  sourcesPath = 'op-int/eu.operando.int.core.mysql.server.src.dvp'
 		  sourcesRepo = 'https://github.com/OPERANDOH2020/op-core.git'
 		  credentialsId = gitCredentials
+		  sources = WORKSPACE
 	   }
 	   stage ('Source Collection'){
-		   checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'sources'], [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: sourcesPath]]]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: credentialsId, url: sourcesRepo]]])
+		   checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: sources], [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: sourcesPath]]]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: credentialsId, url: sourcesRepo]]])
 	   }     	   	   
 	   stage ('Variables echo'){
 		   sh "'${mvnHome}/bin/mvn' antrun:run@echo -f ${sources}/${sourcesPath}/pom.xml"
 	   }
 	   stage ('Docker stop'){
-		   sh "'${mvnHome}/bin/mvn' docker:stop -f sources/${sourcesPath}/pom.xml"
+		   sh "'${mvnHome}/bin/mvn' docker:stop -f ${sources}/${sourcesPath}/pom.xml"
 	   }
 	   stage ('Docker start'){
-		   sh "'${mvnHome}/bin/mvn' docker:start -f sources/${sourcesPath}/pom.xml"
+		   sh "'${mvnHome}/bin/mvn' docker:start -f ${sources}/${sourcesPath}/pom.xml"
 	   }	   
     } catch (err) {
 
