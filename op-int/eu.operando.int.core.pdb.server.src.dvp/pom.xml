@@ -75,9 +75,8 @@
 								<echo>[docker.port1.mapping]=${docker.port1.mapping}</echo>
 								<echo>[operando.mongo.host]=${operando.mongo.host}</echo>
 								<echo>[operando.mongo.port]=${operando.mongo.port}</echo>
-								<echo>[core.ldb.endpoint]=${core.ldb.endpoint}</echo>
 								<echo>[interfaces.aapi.endpoint]=${interfaces.aapi.endpoint}</echo>
-								<echo>[operando.core.ldb.endpoint]=${operando.core.ldb.endpoint}</echo>
+								<echo>[core.ldb.endpoint]=${core.ldb.endpoint}</echo>
 							</tasks>
 						</configuration>
 					</execution>
@@ -155,6 +154,12 @@
 							</build>
 							<run>
 								<namingStrategy>alias</namingStrategy>
+								<env>
+									<MONGO_HOST>${operando.mongo.host}</MONGO_HOST>
+									<MONGO_PORT>${operando.mongo.port}</MONGO_PORT>
+									<LDB_ENDPOINT>${core.ldb.endpoint}</LDB_ENDPOINT>
+									<AAPI_ENDPOINT>${interfaces.aapi.endpoint}</AAPI_ENDPOINT>
+								</env>								
 								<ports>
 									<port>${docker.port1.mapping}</port>
 								</ports>
