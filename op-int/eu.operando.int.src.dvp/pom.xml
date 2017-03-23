@@ -32,6 +32,11 @@
 								<echo>[operando.pdr.dan.endpoint]=${operando.pdr.dan.endpoint}</echo>
 								<echo>[operando.core.as.openldap.endpoint1]=${operando.core.as.openldap.endpoint1}</echo>
 								<echo>[operando.core.as.openldap.endpoint2]=${operando.core.as.openldap.endpoint2}</echo>
+								<echo>[operando.core.as.openldap.domain]=${operando.core.as.openldap.domain}</echo>
+								<echo>[operando.core.as.openldap.organisation]=${operando.core.as.openldap.organisation}</echo>
+								<echo>[operando.core.as.openldap.admin_password]=${operando.core.as.openldap.admin_password}</echo>
+								<echo>[operando.core.as.openldap.hostname]=${operando.core.as.openldap.hostname}</echo>
+								<echo>[operando.core.as.openldap.tls_verify_client]=${operando.core.as.openldap.tls_verify_client}</echo>
 								<echo>[operando.mysql.host]=${operando.mysql.host}</echo>
 								<echo>[operando.mysql.port]=${operando.mysql.port}</echo>
 								<echo>[operando.mongo.host]=${operando.mongo.host}</echo>
@@ -150,6 +155,16 @@
 		<operando.core.as.openldap.endpoint1>${operando.core.as.openldap.basepath1}</operando.core.as.openldap.endpoint1>
 		<operando.core.as.openldap.basepath2>${operando.core.as.openldap.protocol2}${operando.core.as.openldap.host}:${operando.core.as.openldap.port2}</operando.core.as.openldap.basepath2>
 		<operando.core.as.openldap.endpoint2>${operando.core.as.openldap.basepath2}</operando.core.as.openldap.endpoint2>
+		<operando.core.as.openldap.domain>nodomain</operando.core.as.openldap.domain>
+		<operando.core.as.openldap.organisation>nodomain</operando.core.as.openldap.organisation>
+		<operando.core.as.openldap.admin_password>admin</operando.core.as.openldap.admin_password>
+		<operando.core.as.openldap.hostname>integration.operando.dmz.lab.esilab.org</operando.core.as.openldap.hostname>
+		<operando.core.as.openldap.tls_verify_client>allow</operando.core.as.openldap.tls_verify_client>
+		<LDAP_DOMAIN>nodomain</LDAP_DOMAIN>
+		<LDAP_ORGANISATION>nodomain</LDAP_ORGANISATION>
+		<LDAP_ADMIN_PASSWORD>admin</LDAP_ADMIN_PASSWORD>
+		<HOSTNAME>integration.operando.dmz.lab.esilab.org</HOSTNAME>
+		<LDAP_TLS_VERIFY_CLIENT>allow</LDAP_TLS_VERIFY_CLIENT>
 
 		<operando.mysql.host>mysql.integration.operando.lan.esilab.org</operando.mysql.host>
 		<operando.mysql.port>3306</operando.mysql.port>

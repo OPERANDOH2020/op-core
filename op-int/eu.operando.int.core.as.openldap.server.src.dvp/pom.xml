@@ -31,14 +31,9 @@
 						<configuration>
 							<tasks>
 								<echo>Displaying values of properties</echo>
-								<echo>[sources.path]=${sources.path}</echo>
-								<echo>[project.build.sourceDirectory]=${project.build.sourceDirectory}</echo>
 								<echo>[docker.image.name]=${docker.image.name}</echo>
 								<echo>[docker.image.version]=${docker.image.version}</echo>
-								<echo>[operando.core.rm.basepath]=${operando.core.rm.basepath}</echo>
-								<echo>[core.ldb.endpoint]=${core.ldb.endpoint}</echo>
-								<echo>[interfaces.aapi.endpoint]=${interfaces.aapi.endpoint}</echo>
-								<echo>[pdr.dan.endpoint]=${pdr.dan.endpoint}</echo>
+								
 							</tasks>
 						</configuration>
 					</execution>
@@ -91,12 +86,11 @@
 							<run>
 								<namingStrategy>alias</namingStrategy>
 								<env>
-									<LDB_ENDPOINT>${core.ldb.endpoint}</LDB_ENDPOINT>
-									<AAPI_ENDPOINT>${interfaces.aapi.endpoint}</AAPI_ENDPOINT>
-									<DAN_ENDPOINT>${pdr.dan.endpoint}</DAN_ENDPOINT>
-									<RM_URLPATH>${operando.core.rm.endpoint.path}</RM_URLPATH>
-									<AAPI_USER>operando</AAPI_USER>
-									<AAPI_PASSWORD>1234</AAPI_PASSWORD>
+									<LDAP_DOMAIN>${operando.core.as.openldap.domain}</LDAP_DOMAIN>
+									<LDAP_ORGANISATION>${operando.core.as.openldap.organisation}</LDAP_ORGANISATION>
+									<LDAP_ADMIN_PASSWORD>${operando.core.as.openldap.admin_password}</LDAP_ADMIN_PASSWORD>
+									<HOSTNAME>${operando.core.as.openldap.hostname}</HOSTNAME>
+									<LDAP_TLS_VERIFY_CLIENT>${operando.core.as.openldap.tls_verify_client}</LDAP_TLS_VERIFY_CLIENT>									
 								</env>
 								<ports>
 									<port>${docker.port1.mapping}</port>
@@ -177,9 +171,6 @@
 		<docker.port1.external>${operando.core.as.openldap.port1}</docker.port1.external>
 		<docker.port1.mapping>${docker.port1.external}:389</docker.port1.mapping>
 		<docker.port2.external>${operando.core.as.openldap.port2}</docker.port2.external>
-		<docker.port2.mapping>${docker.port2.external}:636</docker.port2.mapping>
-		<core.ldb.endpoint>${operando.core.ldb.endpoint}</core.ldb.endpoint>
-		<interfaces.aapi.endpoint>${operando.interfaces.aapi.endpoint}</interfaces.aapi.endpoint>
-		<pdr.dan.endpoint>${operando.pdr.dan.endpoint}</pdr.dan.endpoint>
+		<docker.port2.mapping>${docker.port2.external}:636</docker.port2.mapping>				
 	</properties>
 </project>

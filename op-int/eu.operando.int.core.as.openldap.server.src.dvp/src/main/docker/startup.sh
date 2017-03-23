@@ -109,7 +109,7 @@ EOF
   # start OpenLDAP
   #
 
-  # get previous hostname if OpenLDAP was started with replication
+  #ï¿½get previous hostname if OpenLDAP was started with replication
   # to avoid configuration pbs
   PREVIOUS_HOSTNAME_PARAM=""
   if [ -e "$WAS_STARTED_WITH_REPLICATION" ]; then
@@ -132,7 +132,7 @@ EOF
 
     log-helper debug "Check previous TLS certificates..."
 
-    # fix for #73
+    #ï¿½fix for #73
     # image started with an existing database/config created before 1.1.5
     [[ -z "$PREVIOUS_LDAP_TLS_CA_CRT_PATH" ]] && PREVIOUS_LDAP_TLS_CA_CRT_PATH="${CONTAINER_SERVICE_DIR}/slapd/assets/certs/$LDAP_TLS_CA_CRT_FILENAME"
     [[ -z "$PREVIOUS_LDAP_TLS_CRT_PATH" ]] && PREVIOUS_LDAP_TLS_CRT_PATH="${CONTAINER_SERVICE_DIR}/slapd/assets/certs/$LDAP_TLS_CRT_FILENAME"
@@ -365,11 +365,11 @@ EOF
 
 
   log-helper info "OPERANDO: Adding aapi-ldap.ldif... "
-  log-helper debug "ldapmodify -Y EXTERNAL -Q -H ldapi:/// -c -a -f /aapi-ldap.ldif 2>&1 | log-helper debug || ldapmodify -h localhost -p 389 -D cn=admin,$LDAP_BASE_DN -w $LDAP_ADMIN_PASSWORD -c -f aapi-ldap.ldif 2>&1 | log-helper debug"
-  #  ldapmodify -Y EXTERNAL -Q -H ldapi:/// -c -a -f /aapi-ldap.ldif 2>&1 | log-helper debug || ldapmodify -h localhost -p 389 -D cn=admin,$LDAP_BASE_DN -w $LDAP_ADMIN_PASSWORD -c -f aapi-ldap.ldif 2>&1 | log-helper debug || true
-  ldapadd -h localhost -p 389 -D cn=admin,$LDAP_BASE_DN -w $LDAP_ADMIN_PASSWORD -c -f aapi-ldap.ldif 2>&1 | log-helper debug || true
-  log-helper debug "ldapmodify  -Y EXTERNAL -H ldapi:/// -f acl.ldif 2>&1 | log-helper debug || true"
-  ldapmodify  -Y EXTERNAL -H ldapi:/// -f acl.ldif 2>&1 | log-helper debug || true
+  log-helper debug "ldapmodify -Y EXTERNAL -Q -H ldapi:/// -c -a -f /sources/aapi-ldap.ldif 2>&1 | log-helper debug || ldapmodify -h localhost -p 389 -D cn=admin,$LDAP_BASE_DN -w $LDAP_ADMIN_PASSWORD -c -f /sources/aapi-ldap.ldif 2>&1 | log-helper debug"
+  #  ldapmodify -Y EXTERNAL -Q -H ldapi:/// -c -a -f /sources/aapi-ldap.ldif 2>&1 | log-helper debug || ldapmodify -h localhost -p 389 -D cn=admin,$LDAP_BASE_DN -w $LDAP_ADMIN_PASSWORD -c -f /sources/aapi-ldap.ldif 2>&1 | log-helper debug || true
+  ldapadd -h localhost -p 389 -D cn=admin,$LDAP_BASE_DN -w $LDAP_ADMIN_PASSWORD -c -f /sources/aapi-ldap.ldif 2>&1 | log-helper debug || true
+  log-helper debug "ldapmodify  -Y EXTERNAL -H ldapi:/// -f /sources/acl.ldif 2>&1 | log-helper debug || true"
+  ldapmodify  -Y EXTERNAL -H ldapi:/// -f /sources/acl.ldif 2>&1 | log-helper debug || true
 
   #
   # stop OpenLDAP

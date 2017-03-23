@@ -2,10 +2,8 @@
 # we choose normal 
 FROM osixia/openldap:1.1.7
 
-# ADD bootstrap /container/service/slapd/assets/config/bootstrap
+ADD sources sources
 
-ADD aapi-ldap.ldif .
-ADD acl.ldif .
 ADD startup.sh /container/service/slapd/startup.sh
 RUN chown openldap:openldap /container/service/slapd/startup.sh
 RUN chmod 775 /container/service/slapd/startup.sh
