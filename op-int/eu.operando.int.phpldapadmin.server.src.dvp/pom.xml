@@ -56,7 +56,7 @@
 							<run>
 								<namingStrategy>alias</namingStrategy>
 								<env>
-									<MYSQL_ROOT_PASSWORD>${operando.mysql.root.password}</MYSQL_ROOT_PASSWORD>
+									<PHPLDAPADMIN_LDAP_HOSTS>${operando.core.as.openldap.host}</PHPLDAPADMIN_LDAP_HOSTS>
 								</env>
 								<ports>
 									<port>${docker.port1.mapping}</port>
