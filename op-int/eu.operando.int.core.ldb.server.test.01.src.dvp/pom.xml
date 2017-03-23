@@ -6,7 +6,7 @@
 		<artifactId>eu.operando.int.src.dvp</artifactId>
 		<version>ALPHA</version>
 	</parent>
-	<artifactId>eu.operando.int.core.ldb.server.test01.src.dvp</artifactId>
+	<artifactId>eu.operando.int.core.ldb.server.test.01.src.dvp</artifactId>
 	<!-- First we define the source code directories for a java application 
 		server generated with swagger we will have two folders src/main and src/gen 
 		maven conventions stablish one source folder but others can be added using 
