@@ -155,6 +155,22 @@
 		<operando.pdr.dan.basepath>${operando.pdr.dan.protocol}${operando.pdr.dan.host}:${operando.pdr.dan.port}</operando.pdr.dan.basepath>
 		<operando.pdr.dan.endpoint>${operando.pdr.dan.basepath}/${operando.pdr.dan.endpoint.path}</operando.pdr.dan.endpoint>
 
+		<operando.pdr.gk.host>gk.integration.operando.lan.esilab.org</operando.pdr.gk.host>
+		<operando.pdr.gk.protocol>http://</operando.pdr.gk.protocol>
+		<operando.pdr.gk.port>8110</operando.pdr.gk.port>
+		<operando.pdr.gk.endpoint.path>operando/pdr/gk</operando.pdr.gk.endpoint.path>
+		<operando.pdr.gk.basepath>${operando.pdr.gk.protocol}${operando.pdr.gk.host}:${operando.pdr.gk.port}</operando.pdr.gk.basepath>
+		<operando.pdr.gk.endpoint>${operando.pdr.gk.basepath}/${operando.pdr.gk.endpoint.path}</operando.pdr.gk.endpoint>
+		<operando.pdr.gk.user>operando</operando.pdr.gk.user>
+		<operando.pdr.gk.password>1234</operando.pdr.gk.password>
+
+		<operando.pdr.rpm.host>rpm.integration.operando.lan.esilab.org</operando.pdr.rpm.host>
+		<operando.pdr.rpm.protocol>http://</operando.pdr.rpm.protocol>
+		<operando.pdr.rpm.port>8112</operando.pdr.rpm.port>
+		<operando.pdr.rpm.endpoint.path>operando/pdr/rpm</operando.pdr.rpm.endpoint.path>
+		<operando.pdr.rpm.basepath>${operando.pdr.rpm.protocol}${operando.pdr.rpm.host}:${operando.pdr.rpm.port}</operando.pdr.rpm.basepath>
+		<operando.pdr.rpm.endpoint>${operando.pdr.rpm.basepath}/${operando.pdr.rpm.endpoint.path}</operando.pdr.rpm.endpoint>
+
 		<operando.core.as.openldap.host>openldap.as.integration.operando.lan.esilab.org</operando.core.as.openldap.host>
 		<operando.core.as.openldap.protocol1>ldap://</operando.core.as.openldap.protocol1>
 		<operando.core.as.openldap.protocol2>ldaps://</operando.core.as.openldap.protocol2>
