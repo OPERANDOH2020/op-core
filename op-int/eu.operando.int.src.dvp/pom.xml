@@ -28,6 +28,13 @@
 								<echo>[operando.core.ldb.endpoint]=${operando.core.ldb.endpoint}</echo>
 								<echo>[operando.core.pdb.endpoint]=${operando.core.pdb.endpoint}</echo>
 								<echo>[operando.core.rm.endpoint]=${operando.core.rm.endpoint}</echo>
+								<echo>[operando.core.ae.endpoint]=${operando.core.ae.endpoint}</echo>
+								<echo>[operando.core.ldb.search.endpoint]=${operando.core.ldb.search.endpoint}</echo>
+								<echo>[operando.core.bda.endpoint]=${operando.core.bda.endpoint}</echo>
+								<echo>[operando.core.pfb.endpoint]=${operando.core.pfb.endpoint}</echo>
+								<echo>[operando.core.ose.endpoint]=${operando.core.ose.endpoint}</echo>
+								<echo>[operando.core.pc.endpoint]=${operando.core.pc.endpoint}</echo>
+								<echo>[operando.core.sos.nagios.endpoint]=${operando.core.sos.nagios.endpoint}</echo>
 								<echo>[operando.interfaces.aapi.endpoint]=${operando.interfaces.aapi.endpoint}</echo>
 								<echo>[operando.pdr.dan.endpoint]=${operando.pdr.dan.endpoint}</echo>
 								<echo>[operando.core.as.openldap.endpoint1]=${operando.core.as.openldap.endpoint1}</echo>
@@ -189,6 +196,55 @@
 		<operando.phpmyadmin.port>8104</operando.phpmyadmin.port>
 		<operando.phpmyadmin.basepath>${operando.phpmyadmin.protocol}${operando.phpmyadmin.host}:${operando.phpmyadmin.port}</operando.phpmyadmin.basepath>
 		<operando.phpmyadmin.endpoint>${operando.phpmyadmin.basepath}/</operando.phpmyadmin.endpoint>
+
+		<operando.core.ae.host>ae.integration.operando.lan.esilab.org</operando.core.ae.host>
+		<operando.core.ae.protocol>http://</operando.core.ae.protocol>
+		<operando.core.ae.port>8092</operando.core.ae.port>
+		<operando.core.ae.endpoint.path>operando/core/ae</operando.core.ae.endpoint.path>
+		<operando.core.ae.basepath>${operando.core.ae.protocol}${operando.core.ae.host}:${operando.core.ae.port}</operando.core.ae.basepath>
+		<operando.core.ae.endpoint>${operando.core.ae.basepath}/${operando.core.ae.endpoint.path}</operando.core.ae.endpoint>
+
+		<operando.core.ldb.search.host>ldb.search.integration.operando.lan.esilab.org</operando.core.ldb.search.host>
+		<operando.core.ldb.search.protocol>http://</operando.core.ldb.search.protocol>
+		<operando.core.ldb.search.port>8091</operando.core.ldb.search.port>
+		<operando.core.ldb.search.endpoint.path>operando/core/ldbsearch</operando.core.ldb.search.endpoint.path>
+		<operando.core.ldb.search.basepath>${operando.core.ldb.search.protocol}${operando.core.ldb.search.host}:${operando.core.ldb.search.port}</operando.core.ldb.search.basepath>
+		<operando.core.ldb.search.endpoint>${operando.core.ldb.search.basepath}/${operando.core.ldb.search.endpoint.path}</operando.core.ldb.search.endpoint>
+
+		<operando.core.pfb.host>pfb.integration.operando.lan.esilab.org</operando.core.pfb.host>
+		<operando.core.pfb.protocol>http://</operando.core.pfb.protocol>
+		<operando.core.pfb.port>8093</operando.core.pfb.port>
+		<operando.core.pfb.endpoint.path>operando/core/pfb</operando.core.pfb.endpoint.path>
+		<operando.core.pfb.basepath>${operando.core.pfb.protocol}${operando.core.pfb.host}:${operando.core.pfb.port}</operando.core.pfb.basepath>
+		<operando.core.pfb.endpoint>${operando.core.pfb.basepath}/${operando.core.pfb.endpoint.path}</operando.core.pfb.endpoint>
+
+		<operando.core.bda.host>bda.integration.operando.lan.esilab.org</operando.core.bda.host>
+		<operando.core.bda.protocol>http://</operando.core.bda.protocol>
+		<operando.core.bda.port>8098</operando.core.bda.port>
+		<operando.core.bda.endpoint.path>operando/core/bda</operando.core.bda.endpoint.path>
+		<operando.core.bda.basepath>${operando.core.bda.protocol}${operando.core.bda.host}:${operando.core.bda.port}</operando.core.bda.basepath>
+		<operando.core.bda.endpoint>${operando.core.bda.basepath}/${operando.core.bda.endpoint.path}</operando.core.bda.endpoint>
+
+		<operando.core.ose.host>ose.integration.operando.lan.esilab.org</operando.core.ose.host>
+		<operando.core.ose.protocol>http://</operando.core.ose.protocol>
+		<operando.core.ose.port>8094</operando.core.ose.port>
+		<operando.core.ose.endpoint.path>operando/core/ose</operando.core.ose.endpoint.path>
+		<operando.core.ose.basepath>${operando.core.ose.protocol}${operando.core.ose.host}:${operando.core.ose.port}</operando.core.ose.basepath>
+		<operando.core.ose.endpoint>${operando.core.ose.basepath}/${operando.core.ose.endpoint.path}</operando.core.ose.endpoint>
+
+		<operando.core.pc.host>pc.integration.operando.lan.esilab.org</operando.core.pc.host>
+		<operando.core.pc.protocol>http://</operando.core.pc.protocol>
+		<operando.core.pc.port>8095</operando.core.pc.port>
+		<operando.core.pc.endpoint.path>operando/core/pc</operando.core.pc.endpoint.path>
+		<operando.core.pc.basepath>${operando.core.pc.protocol}${operando.core.pc.host}:${operando.core.pc.port}</operando.core.pc.basepath>
+		<operando.core.pc.endpoint>${operando.core.pc.basepath}/${operando.core.pc.endpoint.path}</operando.core.pc.endpoint>
+
+		<operando.core.sos.nagios.host>sos.integration.operando.lan.esilab.org</operando.core.sos.nagios.host>
+		<operando.core.sos.nagios.protocol>http://</operando.core.sos.nagios.protocol>
+		<operando.core.sos.nagios.port>8106</operando.core.sos.nagios.port>
+		<operando.core.sos.nagios.endpoint.path></operando.core.sos.nagios.endpoint.path>
+		<operando.core.sos.nagios.basepath>${operando.core.sos.nagios.protocol}${operando.core.sos.nagios.host}:${operando.core.sos.nagios.port}</operando.core.sos.nagios.basepath>
+		<operando.core.sos.nagios.endpoint>${operando.core.sos.nagios.basepath}/${operando.core.sos.nagios.endpoint.path}</operando.core.sos.nagios.endpoint>
 
 		<!-- I add the defintion of the variable to avoid the no value in regex 
 			error -->
