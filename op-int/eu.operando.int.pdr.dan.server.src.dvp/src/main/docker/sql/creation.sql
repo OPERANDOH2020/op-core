@@ -1,5 +1,3 @@
---CREATE DATABASE  IF NOT EXISTS `dan` /*!40100 DEFAULT CHARACTER SET latin1 */;
---USE `dan`;
 -- MySQL dump 10.13  Distrib 5.7.9, for Win64 (x86_64)
 --
 -- Host: snf-706921.vm.okeanos.grnet.gr    Database: dan
