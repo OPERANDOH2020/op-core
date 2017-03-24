@@ -150,10 +150,6 @@
 							<run>
 								<namingStrategy>alias</namingStrategy>
 								<env>
-									<MYSQL_DB_HOST>${mysql.db.host}</MYSQL_DB_HOST>
-									<MYSQL_DB_NAME>${mysql.db.name}</MYSQL_DB_NAME>
-									<MYSQL_DB_PASSWORD>${mysql.db.password}</MYSQL_DB_PASSWORD>
-									<MYSQL_DB_USER>${mysql.db.user}</MYSQL_DB_USER>
 								</env>
 								<ports>
 									<port>${docker.port1.mapping}</port>
