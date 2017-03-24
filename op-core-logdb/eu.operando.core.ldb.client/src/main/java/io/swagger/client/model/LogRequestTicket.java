@@ -98,8 +98,8 @@ public class LogRequestTicket {
     @JsonProperty("WARN")
     WARN("WARN"),
     
-    @JsonProperty("ERROS")
-    ERROS("ERROS"),
+    @JsonProperty("ERROR")
+    ERROR("ERROR"),
     
     @JsonProperty("FATAL")
     FATAL("FATAL");
