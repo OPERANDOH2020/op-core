@@ -26,6 +26,11 @@ node {
 	      build job: 'eu.operando.int.pdr.gk.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
 	      build job: 'eu.operando.int.pdr.rpm.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
 	      build job: 'eu.operando.int.pdr.dan.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
+	      build job: 'eu.operando.int.webui.rg.birt.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
+	      build job: 'eu.operando.int.webui.rg.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
+	      build job: 'eu.operando.int.webui.console.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
+	      build job: 'eu.operando.int.demo.yellowpages.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
+	      build job: 'eu.operando.int.demo.yellowpages.server.test.01.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
 	   }
 	   stage('Dependent lv1') { 
 	   }	   	   
