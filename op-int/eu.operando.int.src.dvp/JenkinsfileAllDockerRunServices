@@ -16,7 +16,8 @@ node {
 		  build job: 'eu.operando.int.core.as.cas.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	          
 	   }
 	   stage('Dependent lv2') {
-		  build job: 'eu.operando.dev.interfaces.aapi.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+		  build job: 'eu.operando.int.interfaces.aapi.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+		  build job: 'eu.operando.int.interfaces.oapi.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 		  build job: 'eu.operando.int.core.pdb.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 	      build job: 'eu.operando.int.core.ae.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 	      build job: 'eu.operando.int.core.pfb.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
@@ -28,7 +29,6 @@ node {
 	   }
 	   stage('Dependent lv3') { 
 		  build job: 'eu.operando.dev.demo.mono.yellowpages.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
-		  build job: 'eu.operando.dev.interfaces.oapi.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 		  build job: 'eu.operando.dev.interfaces.rapi.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 		  build job: 'eu.operando.dev.pdr.dan.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 		  build job: 'eu.operando.dev.pdr.gk.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
