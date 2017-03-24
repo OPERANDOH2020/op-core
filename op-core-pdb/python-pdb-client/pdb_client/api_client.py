@@ -206,7 +206,7 @@ class ApiClient(object):
             # Convert attribute name to json key in
             # model definition for request.
             obj_dict = {obj.attribute_map[attr]: getattr(obj, attr)
-                        for attr, _ in iteritems(obj.swagger_types)
+                        for attr, _ in iteritems(obj.pdb_types)
                         if getattr(obj, attr) is not None}
 
         return {key: self.sanitize_for_serialization(val)
@@ -616,10 +616,10 @@ class ApiClient(object):
         """
         instance = klass()
 
-        if not instance.swagger_types:
+        if not instance.pdb_types:
             return data
 
-        for attr, attr_type in iteritems(instance.swagger_types):
+        for attr, attr_type in iteritems(instance.pdb_types):
             if data is not None \
                and instance.attribute_map[attr] in data \
                and isinstance(data, (list, dict)):

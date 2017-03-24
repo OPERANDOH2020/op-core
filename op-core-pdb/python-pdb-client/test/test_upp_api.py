@@ -17,21 +17,49 @@ import os
 import sys
 import unittest
 
-import swagger_client
-from swagger_client.rest import ApiException
-from swagger_client.apis.upp_api import UPPApi
+import pdb_client
+from pdb_client.rest import ApiException
+from pdb_client.apis.upp_api import UPPApi
 
+import aapi_client
+from aapi_client.rest import ApiException as AApiException
+from aapi_client.models import UserCredential
 
 class TestUPPApi(unittest.TestCase):
     """ UPPApi unit test stubs """
     BASE_PATH = "http://10.136.24.87:8080"
     BASE_PATH = "http://integration.operando.esilab.org:8096/operando/core"
 
+    AAPI_PATH = "http://integration.operando.esilab.org:8135/operando/interfaces/aapi"
+    _osp_id = "pdb/user_privacy_policy/.*"
+    _osp_policy = None
+
     def setUp(self):
-        self.api = swagger_client.apis.upp_api.UPPApi()
+        # try to get sertice ticket
+        aapi_cli = aapi_client.ApiClient(host=self.AAPI_PATH)
+        aapi = aapi_client.apis.DefaultApi(aapi_cli)
+        user_credential =  UserCredential("panos2", "operando")
+        self.tgt = ""
+        try:
+            self.tgt = aapi.aapi_tickets_post(user_credential)
+            print("setUp got ticket: ", self.tgt)
+        except AApiException as e:
+            print("Exception when trying to get a ticket %s\n" % e)
+
+        self.st = ""
+        if self.tgt:
+            try:
+                self.st = aapi.aapi_tickets_tgt_post(self.tgt, self._osp_id)
+                print("setUp got service ticket:", self.st)
+            except AApiException as e:
+                print("Exception when tryint to get OSP service ticket %s\n", e)
+
+        self.api = pdb_client.apis.upp_api.UPPApi()
         base_path = "".join([self.BASE_PATH, "/pdb"])
-        api_client = swagger_client.ApiClient(host=base_path)
-        self.api = swagger_client.apis.upp_api.UPPApi(api_client)
+        api_client = pdb_client.ApiClient(host=base_path)
+        if self.st:
+            api_client.set_default_header("Service-Ticket", self.st)
+        self.api = pdb_client.apis.upp_api.UPPApi(api_client)
 
     def tearDown(self):
         pass

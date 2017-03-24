@@ -30,7 +30,7 @@ class OSPDataRequest(object):
         :param dict attributeMap: The key is attribute name
                                   and the value is json key in definition.
         """
-        self.swagger_types = {
+        self.pdb_types = {
             'requester_id': 'str',
             'subject': 'str',
             'requested_url': 'str',
@@ -179,7 +179,7 @@ class OSPDataRequest(object):
         """
         result = {}
 
-        for attr, _ in iteritems(self.swagger_types):
+        for attr, _ in iteritems(self.pdb_types):
             value = getattr(self, attr)
             if isinstance(value, list):
                 result[attr] = list(map(

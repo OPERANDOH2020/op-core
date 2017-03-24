@@ -30,7 +30,7 @@ class PrivacyRegulation(object):
         :param dict attributeMap: The key is attribute name
                                   and the value is json key in definition.
         """
-        self.swagger_types = {
+        self.pdb_types = {
             'reg_id': 'str',
             'legislation_sector': 'str',
             'reason': 'str',
@@ -199,7 +199,7 @@ class PrivacyRegulation(object):
         """
         result = {}
 
-        for attr, _ in iteritems(self.swagger_types):
+        for attr, _ in iteritems(self.pdb_types):
             value = getattr(self, attr)
             if isinstance(value, list):
                 result[attr] = list(map(
