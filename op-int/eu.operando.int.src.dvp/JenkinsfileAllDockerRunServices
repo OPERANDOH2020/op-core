@@ -16,6 +16,7 @@ node {
 		  build job: 'eu.operando.int.core.as.cas.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	          
 	   }
 	   stage('Dependent lv2') {
+		  build job: 'eu.operando.int.pdr.dan.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 		  build job: 'eu.operando.int.pdr.gk.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 		  build job: 'eu.operando.int.pdr.rpm.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 		  build job: 'eu.operando.int.interfaces.rapi.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
