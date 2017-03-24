@@ -28,16 +28,16 @@ node {
 		   checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: sources], [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: sourcesPath]]]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: credentialsId, url: sourcesRepo]]])
 		   checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: sourcesServer], [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: sourcesServerPath]]]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: credentialsId, url: sourcesServerRepo]]])
 	   }
-	   stage ('Variables echo'){
-		   sh "'${mvnHome}/bin/mvn' antrun:run@echobase -f ${sources}/${sourcesPath}/pom.xml"
-		   sh "'${mvnHome}/bin/mvn' antrun:run@echo -f ${sources}/${sourcesPath}/pom.xml"
-	   }
 	   stage ('Source Move'){
 	   	   sh "mkdir -p ${sources}/${sourcesPath}/sources"	   
 	   	   sh "mv ${sourcesServer}/${sourcesServerPath}/cas-overlay ${sources}/${sourcesPath}/sources/."	   
 	   	   sh "mv ${sourcesServer}/${sourcesServerPath}/certs ${sources}/${sourcesPath}/sources/."	   
 	   	   sh "mv ${sourcesServer}/${sourcesServerPath}/etc ${sources}/${sourcesPath}/sources/."	   
 	   	   sh "mv ${sourcesServer}/${sourcesServerPath}/pom.xml ${sources}/${sourcesPath}/sources/."	   
+	   }
+	   stage ('Variables echo'){
+		   sh "'${mvnHome}/bin/mvn' antrun:run@echobase -f ${sources}/${sourcesPath}/pom.xml"
+		   sh "'${mvnHome}/bin/mvn' antrun:run@echo -f ${sources}/${sourcesPath}/pom.xml"
 	   }
 	   stage ('Maven Package jar'){
 		   sh "'${mvnHome}/bin/mvn' package -f ${sources}/${sourcesPath}/pom.xml"
