@@ -16,9 +16,9 @@ node {
 		  // **       in the global configuration.
 		  mvnHome = tool 'Maven 3.3.9 colocated'
 		  sourcesPath = 'op-int/eu.operando.int.interfaces.oapi.server.src.dvp'
-		  sourcesServerPath = 'op-core-logdb/eu.operando.interfaces.oapi.server'
+		  sourcesServerPath = 'op-interfaces-oapi'
 		  sourcesRepo = 'https://github.com/OPERANDOH2020/op-core.git'
-		  sourcesServerRepo = sourcesRepo
+		  sourcesServerRepo = 'https://github.com/OPERANDOH2020/op-interfaces.git'
 		  credentialsId = gitCredentials
 		  sources = WORKSPACE
 		  sourcesServer = WORKSPACE+'/sourcesServer'
