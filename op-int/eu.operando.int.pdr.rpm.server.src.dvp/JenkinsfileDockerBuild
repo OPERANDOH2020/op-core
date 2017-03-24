@@ -16,7 +16,7 @@ node {
 		  // **       in the global configuration.
 		  mvnHome = tool 'Maven 3.3.9 colocated'
 		  sourcesPath = 'op-int/eu.operando.int.pdr.rpm.server.src.dvp'
-		  sourcesServerPath = 'op-pdr-rpm'
+		  sourcesServerPath = 'op-pdr-rpm/eu.operando.pdr.rpm.server'
 		  sourcesRepo = 'https://github.com/OPERANDOH2020/op-core.git'
 		  sourcesServerRepo = 'https://github.com/OPERANDOH2020/op-pdr.git'
 		  credentialsId = gitCredentials
