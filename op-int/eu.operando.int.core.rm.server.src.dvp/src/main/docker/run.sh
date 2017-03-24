@@ -12,7 +12,7 @@ echo RM Url Path lenght: $RM_URLPATH_LENGHT
 sed -i "s|path\[:7\] != \"Results\"|\path\[:$RM_URLPATH_LENGHT\+8\] != \"$RM_URLPATH\/Results\"|g"  /sources/app.py
 sed -i "s|path == \"monitor\"|\path == \"$RM_URLPATH\/monitor\"|g"  /sources/app.py
 
-sed -i "s|path\[$RM_URLPATH_LENGHT\+9:\]|\path\[$RM_URLPATH_LENGHT:\]|g"  /sources/app.py
+sed -i "s|path\[8:\]|\path\[$RM_URLPATH_LENGHT\+9:\]|g"  /sources/app.py
 
 #__DAN_url = 'https://snf-706921.vm.okeanos.grnet.gr:8443/op-pdr-dan/%s'
 #OLD_DAN_ENDPOINT=https://snf-706921.vm.okeanos.grnet.gr:8443/op-pdr-dan
