@@ -29,6 +29,7 @@ node {
 		   checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: sourcesServer], [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: sourcesServerPath]]]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: credentialsId, url: sourcesServerRepo]]])
 	   }
 	   stage ('Variables echo'){
+		   sh "'${mvnHome}/bin/mvn' antrun:run@echobase -f ${sources}/${sourcesPath}/pom.xml"
 		   sh "'${mvnHome}/bin/mvn' antrun:run@echo -f ${sources}/${sourcesPath}/pom.xml"
 	   }
 	   stage ('Source Move'){
