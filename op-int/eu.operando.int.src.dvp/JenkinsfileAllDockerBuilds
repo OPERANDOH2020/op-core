@@ -13,6 +13,7 @@ node {
 	      build job: 'eu.operando.int.core.rm.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
 	      build job: 'eu.operando.int.core.as.openldap.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
 	      build job: 'eu.operando.int.core.as.cas.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
+	      build job: 'eu.operando.int.core.ae.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
 	   }
 	   stage('Dependent lv1') { 
 	   }	   	   

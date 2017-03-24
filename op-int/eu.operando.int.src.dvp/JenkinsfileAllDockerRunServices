@@ -18,9 +18,9 @@ node {
 	   stage('Dependent lv2') {
 		  build job: 'eu.operando.dev.interfaces.aapi.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 		  build job: 'eu.operando.int.core.pdb.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	      build job: 'eu.operando.int.core.ae.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 	   }
 	   stage('Dependent lv3') { 
-		  build job: 'eu.operando.dev.core.ae.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 		  build job: 'eu.operando.dev.core.bda.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 		  build job: 'eu.operando.dev.core.ldbsearch.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 		  build job: 'eu.operando.dev.core.nagios.server', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
