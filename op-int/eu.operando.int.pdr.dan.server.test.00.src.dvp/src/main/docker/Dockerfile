@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install mysql-client -y && rm -rf /var/lib/apt/lis
 
 ENV MYSQL_DB_USER root
 ENV MYSQL_DB_PASSWORD root
-ENV MYSQL_DB_NAME operando_logdb
+ENV MYSQL_DB_NAME operando_dan
 ENV MYSQL_DB_HOST none
 
 ADD sql sql

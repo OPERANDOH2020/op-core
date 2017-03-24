@@ -130,7 +130,7 @@
 		<docker.image.version>${project.version}</docker.image.version>
 		<mysql.db.host>${operando.mysql.host}</mysql.db.host>
 		<mysql.db.port>${operando.mysql.port}</mysql.db.port>
-		<mysql.db.name>operando_logdb</mysql.db.name>
+		<mysql.db.name>operando_dan</mysql.db.name>
 		<mysql.db.user>${operando.mysql.root.user}</mysql.db.user>
 		<mysql.db.password>${operando.mysql.root.password}</mysql.db.password>
 	</properties>
