@@ -278,6 +278,12 @@
 		<operando.interfaces.rapi.basepath>${operando.interfaces.rapi.protocol}${operando.interfaces.rapi.host}:${operando.interfaces.rapi.port}</operando.interfaces.rapi.basepath>
 		<operando.interfaces.rapi.endpoint>${operando.interfaces.rapi.basepath}/${operando.interfaces.rapi.endpoint.path}</operando.interfaces.rapi.endpoint>
 
+		<operando.webui.rg.birt.host>rapi.integration.operando.lan.esilab.org</operando.webui.rg.birt.host>
+		<operando.webui.rg.birt.protocol>http://</operando.webui.rg.birt.protocol>
+		<operando.webui.rg.birt.port>8120</operando.webui.rg.birt.port>
+		<operando.webui.rg.birt.endpoint.path>operando/interfaces/rapi</operando.webui.rg.birt.endpoint.path>
+		<operando.webui.rg.birt.basepath>${operando.webui.rg.birt.protocol}${operando.webui.rg.birt.host}:${operando.webui.rg.birt.port}</operando.webui.rg.birt.basepath>
+		<operando.webui.rg.birt.endpoint>${operando.webui.rg.birt.basepath}/${operando.webui.rg.birt.endpoint.path}</operando.webui.rg.birt.endpoint>
 
 		<!-- I add the defintion of the variable to avoid the no value in regex 
 			error -->
