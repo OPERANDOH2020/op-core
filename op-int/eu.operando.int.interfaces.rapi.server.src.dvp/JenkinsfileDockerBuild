@@ -32,7 +32,7 @@ node {
 	   	   sh "mv ${sourcesServer}/${sourcesServerPath} ${sources}/${sourcesPath}/sources"	   
 	   }
 	   stage ('Source Maven Install'){
-		   sh "'${mvnHome}/bin/mvn' package install:install -DskipTests -f ${sources}/${sourcesPath}/sources/pom.xml"
+		   sh "'${mvnHome}/bin/mvn' package install:install -Dmaven.test.skip=true -f ${sources}/${sourcesPath}/sources/pom.xml"
 	   }
 	   stage ('Variables echo'){
 		   sh "'${mvnHome}/bin/mvn' antrun:run@echobase -f ${sources}/${sourcesPath}/pom.xml"
