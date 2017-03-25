@@ -40,7 +40,6 @@ node {
 	   stage('Dependent lv4') { 
 	      //RM has strong dependency over AAPI and it must be run after
 		  build job: 'eu.operando.int.core.rm.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	          
-		  build job: 'eu.operando.dev.demo.setup.scripts', propagate: false	 , parameters: [booleanParam(name: 'continueTasks', value: false)]  
 	   }
 	   if (continueTasks == 'true') {
 	       stage('continue') {
