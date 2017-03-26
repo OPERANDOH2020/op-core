@@ -14,3 +14,5 @@ else
   echo "Errorcode: $?"
   echo "ERROR"
 fi
+
+echo "Leaving..."

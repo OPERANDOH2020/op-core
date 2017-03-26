@@ -51,4 +51,4 @@ else
   echo "ERROR"
 fi
 
-echo "Leaving"
+echo "Leaving..."
