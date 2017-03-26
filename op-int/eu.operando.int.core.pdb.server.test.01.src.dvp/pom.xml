@@ -92,6 +92,7 @@
 								</log>
 								<wait>
 									<log>ALL_SUCCESSFUL</log>
+									<time>40000</time>
 								</wait>
 								<namingStrategy>alias</namingStrategy>
 							</run>
