@@ -43,6 +43,7 @@ fi
 if [ $all_Successful -eq 0 ]
 then
   echo "ALL SUCCESSFUL"
+  echo "ALL SUCCESSFUL"
 else
   echo "ERROR"
 fi
