@@ -42,8 +42,13 @@ fi
 
 if [ $all_Successful -eq 0 ]
 then
-  echo "ALL SUCCESSFUL"
+  echo "Final Result:"
+  echo "Errorcode: $?"
   echo "ALL SUCCESSFUL"
 else
+  echo "Final Result:"
+  echo "Errorcode: $?"
   echo "ERROR"
 fi
+
+echo "Leaving"
