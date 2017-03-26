@@ -12,7 +12,7 @@ ADD run.sh /run.sh
 RUN chmod 750 /run.sh
 ENV PATH /:$PATH
 
-CMD ["run.sh"]
+CMD ["/run.sh"]
 
 
 
