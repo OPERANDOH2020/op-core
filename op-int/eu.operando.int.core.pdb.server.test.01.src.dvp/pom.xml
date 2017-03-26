@@ -91,7 +91,7 @@
 									<color>red</color>
 								</log>
 								<wait>
-									<log>ALL_SUCCESSFUL</log>
+									<log>ALL SUCCESSFUL</log>
 									<time>40000</time>
 								</wait>
 								<namingStrategy>alias</namingStrategy>
