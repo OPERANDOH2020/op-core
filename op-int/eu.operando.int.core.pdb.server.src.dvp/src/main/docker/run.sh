@@ -1,5 +1,4 @@
 #!/bin/bash
-#!/bin/bash
 
 OLD_MONGO_HOST=mongo.integration.operando.lan.esilab.org
 MONGO_HOST=changed
