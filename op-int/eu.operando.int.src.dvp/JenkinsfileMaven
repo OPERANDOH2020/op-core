@@ -24,8 +24,6 @@ node {
 		  gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
 		  // short SHA, possibly better for chat notifications, etc.
 		  sh "env"
-		  sh "echo ${GIT_COMMIT}"
-		  sh "echo ${GIT_PREVIOUS_COMMIT}"
 	   }
 	   stage ('Source Collection'){
 		   checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: sources], [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: sourcesPath]]]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: credentialsId, url: sourcesRepo]]])
