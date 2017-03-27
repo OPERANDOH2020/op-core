@@ -216,6 +216,8 @@ public class OSPApiServiceImpl extends OSPApiService {
                 String st = stHeader.get(0);
                 try {
                     aapiClient.aapiTicketsStValidateGet(st, pdbOSPSId);
+                    Logger.getLogger(RegulationsApiServiceImpl.class.getName()).log(Level.INFO,
+                            "Service Ticket validation succeeded");
                     return true;
                 } catch (eu.operando.core.cas.client.ApiException ex) {
                     Logger.getLogger(RegulationsApiServiceImpl.class.getName()).log(Level.WARNING,
