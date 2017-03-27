@@ -23,7 +23,7 @@ node {
 		  // Most typical, if you're not cloning into a sub directory
 		  gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
 		  // short SHA, possibly better for chat notifications, etc.
-		  sh "echo ${gitCommit}"
+		  sh "env"
 	   }
 	   stage ('Source Collection'){
 		   checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: sources], [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: sourcesPath]]]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: credentialsId, url: sourcesRepo]]])
