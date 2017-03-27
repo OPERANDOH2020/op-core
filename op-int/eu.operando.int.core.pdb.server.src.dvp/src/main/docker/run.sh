@@ -11,7 +11,7 @@ echo LDB Endpoint: $LDB_ENDPOINT
 
 WAR_FILENAME=operando#core#pdb
 WAR_FILE=$WAR_FILENAME.war
-WAR_DIR=/usr/local/tomcat/webapp
+WAR_DIR=/usr/local/tomcat/webapps
 TMP_DIR=/tmp
 echo War Filename: $WAR_FILENAME
 echo War File: $WAR_FILE
