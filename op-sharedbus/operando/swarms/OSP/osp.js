@@ -80,7 +80,10 @@ var osp = {
                 }
                 else {
                     if (ospDataRequests.length > 0) {
-                        self.requestData = ospDataRequests[0];
+
+                        var requestData = ospDataRequests[0];
+                        delete requestData['__meta'];
+                        self.requestData = requestData;
                         self.swarm("acceptOspRequestPhase");
                     }
                     else {

@@ -34,8 +34,7 @@ function registerModels(callback){
                     length:2048
                 },
                 request_time:{
-                    type:"string",
-                    default:"0"
+                    type:"datetime"
                 }
             }
         }
@@ -68,7 +67,7 @@ function registerModels(callback){
     })();
 }
 
-container.declareDependency("OSPRequestAdapter", ["redisPersistence"], function (outOfService, mysqlPersistence) {
+container.declareDependency("OSPRequestAdapter", ["mysqlPersistence"], function (outOfService, mysqlPersistence) {
     if (!outOfService) {
         persistence = mysqlPersistence;
         registerModels(function(errs){
@@ -97,7 +96,7 @@ registerNewOSPRequest = function (userId, ospDetailsData, callback) {
                 callback(new Error("OspAlreadyRegistered"), null);
             }
             else {
-                ospRequestDetails['request_time'] = Date.now();
+                ospRequestDetails['request_time'] = new Date();
                 persistence.externalUpdate(ospRequestDetails, ospDetailsData);
                 persistence.saveObject(ospRequestDetails, callback);
             }

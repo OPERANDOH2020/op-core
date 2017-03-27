@@ -65,6 +65,10 @@ var userInfoSwarming =
         this.newPassword = newPassword;
         this.swarm("changeUserPassword");
     },
+    generateAnAuthenticationToken:function(){
+        this.sessionId = this.getSessionId();
+        this.swarm("generateAuthenticationToken");
+    },
 
     checkUserInfo: {
         node: "UsersManager",
@@ -187,6 +191,24 @@ var userInfoSwarming =
                     }))
                 }
             }))
+        }
+    },
+    generateAuthenticationToken:{
+        node:"SessionManager",
+        code:function(){
+            var userId = this.meta.userId;
+            var self = this;
+            generateAuthenticationToken(userId, this.sessionId, S(function(err, authenticationToken){
+                if(err){
+                    self.error = err.message;
+                    self.home("generateAuthenticationTokenFailed");
+                }
+                else{
+                    self.authenticationToken = authenticationToken;
+                    self.home("generateAuthenticationTokenSuccess");
+                }
+
+            }));
         }
     }
 }

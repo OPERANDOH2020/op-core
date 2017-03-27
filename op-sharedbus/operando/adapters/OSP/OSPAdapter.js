@@ -47,8 +47,7 @@ function registerModels(callback){
                     length:2048
                 },
                 osp_accepted_time:{
-                    type:"string",
-                    default:"0"
+                    type:"datetime"
                 }
             }
         },
@@ -121,7 +120,7 @@ function registerModels(callback){
     })();
 }
 
-container.declareDependency("OSPAdapter", ["redisPersistence"], function (outOfService, mysqlPersistence) {
+container.declareDependency("OSPAdapter", ["mysqlPersistence"], function (outOfService, mysqlPersistence) {
     if (!outOfService) {
         persistence = mysqlPersistence;
         registerModels(function(errs){
@@ -143,7 +142,6 @@ registerNewOSP = function (userId, ospDetailsData, callback) {
             persistence.lookup("OspDetails", userId, this.continue("createOSP"));
         },
         createOSP: function (err, ospDetails) {
-            console.log(ospDetails);
             if (err) {
                 callback(err, null);
             }
@@ -151,7 +149,8 @@ registerNewOSP = function (userId, ospDetailsData, callback) {
                 callback(new Error("OspAlreadyRegistered"), null);
             }
             else {
-                ospDetails['osp_accepted_time'] = Date.now();
+                ospDetails['osp_accepted_time'] = new Date();
+                delete ospDetailsData['request_time'];
                 persistence.externalUpdate(ospDetails, ospDetailsData);
                 persistence.saveObject(ospDetails, callback);
             }
@@ -247,7 +246,6 @@ getOspOffers = function(ospUserId, callback){
 
 
 getOSPOffer = function(offerId,callback){
-
     flow.create("getOSPOffer",{
         begin:function(){
             persistence.lookup("OspOffer",offerId,this.continue("checkOffer"));
