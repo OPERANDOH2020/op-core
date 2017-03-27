@@ -15,6 +15,21 @@ node {
 	      build job: 'eu.operando.int.core.as.cas.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
 	      build job: 'eu.operando.int.core.ae.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
 	      build job: 'eu.operando.int.core.pfb.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
+	      build job: 'eu.operando.int.core.ldb.search.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
+	      build job: 'eu.operando.int.core.bda.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
+	      build job: 'eu.operando.int.core.ose.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
+	      build job: 'eu.operando.int.core.pc.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
+	      build job: 'eu.operando.int.core.sos.nagios.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
+	      build job: 'eu.operando.int.interfaces.oapi.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
+	      build job: 'eu.operando.int.interfaces.aapi.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
+	      build job: 'eu.operando.int.interfaces.rapi.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
+	      build job: 'eu.operando.int.pdr.gk.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
+	      build job: 'eu.operando.int.pdr.rpm.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
+	      build job: 'eu.operando.int.pdr.dan.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
+	      build job: 'eu.operando.int.webui.rg.birt.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
+	      build job: 'eu.operando.int.webui.rg.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
+	      build job: 'eu.operando.int.webui.console.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
+	      build job: 'eu.operando.int.demo.yellowpages.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
 	   }
 	   stage('Dependent lv1') { 
 	   }	   	   
@@ -23,8 +38,12 @@ node {
 	   	  build job: 'eu.operando.int.core.pdb.server.test.00.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 	   	  build job: 'eu.operando.int.core.ae.server.test.00.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 	   	  build job: 'eu.operando.int.core.pfb.server.test.00.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	   	  build job: 'eu.operando.int.core.bda.server.test.00.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	   	  build job: 'eu.operando.int.pdr.dan.server.test.00.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	   	  build job: 'eu.operando.int.webui.rg.server.test.00.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 	      build job: 'eu.operando.int.core.ldb.server.test.01.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 	      build job: 'eu.operando.int.core.pdb.server.test.01.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	      build job: 'eu.operando.int.demo.yellowpages.server.test.01.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
 	   }
 	   if (continueTasks == 'true') {
 	       stage('continue') {

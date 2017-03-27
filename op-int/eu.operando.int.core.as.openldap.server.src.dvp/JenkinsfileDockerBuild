@@ -37,7 +37,7 @@ node {
 		   sh "'${mvnHome}/bin/mvn' antrun:run@echo -f ${sources}/${sourcesPath}/pom.xml"
 	   }
 	   stage ('Maven Package jar'){
-		   sh "'${mvnHome}/bin/mvn' package -f ${sources}/${sourcesPath}/pom.xml"
+		   sh "'${mvnHome}/bin/mvn' package -Dmaven.test.skip=true -f ${sources}/${sourcesPath}/pom.xml"
 	   }	   
 	   stage ('Maven Docker stop'){
 		   sh "'${mvnHome}/bin/mvn' docker:stop -f ${sources}/${sourcesPath}/pom.xml"

@@ -10,10 +10,14 @@ node {
 	      build job: 'eu.operando.int.core.pdb.server.test.00.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 	      build job: 'eu.operando.int.core.ae.server.test.00.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 	      build job: 'eu.operando.int.core.pfb.server.test.00.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	      build job: 'eu.operando.int.core.bda.server.test.00.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	      build job: 'eu.operando.int.pdr.dan.server.test.00.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	      build job: 'eu.operando.int.webui.rg.server.test.00.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 	   }
 	   stage('test01') { 
 	      build job: 'eu.operando.int.core.ldb.server.test.01.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 	      build job: 'eu.operando.int.core.pdb.server.test.01.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	      build job: 'eu.operando.int.demo.yellowpages.server.test.01.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 	   }
 	   stage('test02') { 
 	   }

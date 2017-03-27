@@ -20,7 +20,10 @@ node {
 	      build job: 'eu.operando.int.core.ldb.client.jnk.tsk.pre', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 	      build job: 'eu.operando.int.core.pdb.cas.client.jnk.tsk.pre', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 	      build job: 'eu.operando.int.interfaces.aapi.jnk.tsk.pre', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	      build job: 'eu.operando.int.pdr.rpm.jnk.tsk.pre', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	      build job: 'eu.operando.int.pdr.dan.jnk.tsk.pre', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 	      build job: 'eu.operando.int.test.dependencies.jnk.tsk.pre', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	      
+	      build job: 'eu.operando.int.core.pdb.client.jnk.tsk.pre', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 	   }
 	   stage('Dependent lv4') { 
 	      build job: 'eu.operando.int.interfaces.aapi.client.jnk.tsk.pre', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]	   
