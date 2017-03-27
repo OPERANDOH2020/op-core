@@ -1,14 +1,5 @@
 #!/bin/bash
 
-OLD_MONGO_HOST=mongo.integration.operando.lan.esilab.org
-MONGO_HOST=changed
-OLD_MONGO_PORT=27017
-MONGO_PORT=changed
-OLD_AAPI_ENDPOINT=http://aapi.integration.operando.lan.esilab.org:8135/operando/interfaces/aapi
-AAPI_ENDPOINT=changed
-OLD_LDB_ENDPOINT=http://ldb.integration.operando.lan.esilab.org:8090/operando/core/ldb
-LDB_ENDPOINT=changed
-
 echo MONGO Host OLD: $OLD_MONGO_HOST
 echo MONGO Host: $MONGO_HOST
 echo MONGO Port OLD: $OLD_MONGO_PORT
