@@ -141,7 +141,7 @@ node {
 			        				sh "echo \"${sourcesCurrentCommit}\" > ${sourcesLastCommitFile}"
 			        			}
                    			    if (currentVerbose) println ("sourcesCurrentCommit = " + sourcesCurrentCommit)
-                    		    if (sourcesCurrentCommit=="")||(sourcesCurrentCommit!=sourcesLastCommit)) {
+                    		    if ((sourcesCurrentCommit=="")||(sourcesCurrentCommit!=sourcesLastCommit)) {
                     		        requiresBuild=true
                     		    }
                     		    else{
