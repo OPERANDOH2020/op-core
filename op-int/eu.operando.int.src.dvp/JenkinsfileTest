@@ -20,7 +20,7 @@ node {
 		  sh "env"
 	   }
 	   stage ('Test whether checkout is necessary'){
-		  sh "ls ."
+		  sh "ls -R"
 		  sh "pwd"
 //		  sh "ls ${sources}/${sourcesPath}"
 	   }
