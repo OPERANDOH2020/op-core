@@ -51,18 +51,16 @@ node {
 			currentVerbose=true //forDebugging purposes
 			if (currentVerbose) println ("verbose = " + currentVerbose)
 			
-			if (currentVerbose) println ("scmCredentials = " + scmCredentials)
 			if (hasSources) {
 				try{
-				    if (scmCredentials==null){ error "No scm credentials to retrieve the source code"}
+				    if (scmCredentials==null){ error "scm credentials empty"}
 				    hasCredentials=true;
 				} catch (err){
-				    println ("No scm credentials to retrieve the source code")
+				    println ("No scm credentials param")
 				}			
+				if (!hasCredentials){ error "No scm credentials to retrieve the source code" }				
+				if (currentVerbose) println ("scmCredentials = " + scmCredentials)
 			}
-			if (!hasCredentials||hasSources){ error "No scm credentials to retrieve the source code" }
-			
-			if (currentVerbose) println ("scmCredentials = " + scmCredentials)
 
 			try{
 			    currentContinueTasks=(continueTasks=="true")
