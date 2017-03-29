@@ -15,7 +15,11 @@ node {
 		
 		//Computed vars
 		def devopsSourcesPath
+		def devopsSourcesGitRepoPath
+		def devopsSourcesGitPath
 		def sourcesPath
+		def sourcesGitRepoPath
+		def sourcesGitPath
 		def workspace
 		def jenkinsWorkspace
 
@@ -70,6 +74,14 @@ node {
 			if (currentVerbose) println ("continueTasks = " + currentContinueTasks)				
 		}
 
+		def devopsSourcesPath
+		def devopsSourcesGitRepoPath
+		def devopsSourcesGitPath
+		def sourcesPath
+		def sourcesGitRepoPath
+		def sourcesGitPath
+
+
 		stage ('Calculate Variables'){
 		    workspace=WORKSPACE
 			if (currentVerbose) println ("workspace = " + workspace)				
@@ -80,12 +92,24 @@ node {
 		    devopsSourcesPath=workspace
 			if (currentVerbose) println ("devopsSourcesPath = " + devopsSourcesPath)
 			
+		    devopsSourcesGitRepoPath=jenkinsWorkspace
+			if (currentVerbose) println ("devopsSourcesGitRepoPath = " + devopsSourcesGitRepoPath)
+
+		    devopsSourcesGitPath=devopsSourcesGitRepoPath + "/" + devopsSourcesRelativePath
+			if (currentVerbose) println ("devopsSourcesGitPath = " + devopsSourcesGitPath)
+
 		    devopsSourcesLastCommitFile=devopsSourcesPath+"/src.dvp.last.commit"
 			if (currentVerbose) println ("devopsSourcesLastCommitFile = " + devopsSourcesLastCommitFile)
 
 			if (hasSources){
     		    sourcesPath=workspace+"/sources"
 	    		if (currentVerbose) println ("sourcesPath = " + sourcesPath)
+				
+			    sourcesGitRepoPath=workspace+"/sourcesRepo"
+				if (currentVerbose) println ("sourcesGitRepoPath = " + sourcesGitRepoPath)
+	
+			    sourcesGitPath=sourcesGitRepoPath + "/" + sourcesRelativePath
+				if (currentVerbose) println ("sourcesGitPath = " + sourcesGitPath)
 
         		sourcesLastCommitFile=devopsSourcesPath+"/src.last.commit"
 	    		if (currentVerbose) println ("sourcesLastCommitFile = " + sourcesLastCommitFile)
@@ -94,7 +118,7 @@ node {
 		
 		if(hasSources){
 		    stage ('Gather Sources'){
-		        checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: sourcesPath], [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: sourcesRelativePath]]]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: scmCredentials, url: sourcesRepo]]])
+		        checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: sourcesGitRepoPath], [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: sourcesRelativePath]]]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: scmCredentials, url: sourcesRepo]]])
     		    if (currentVerbose) println ("Sources checkout to " + sourcesPath)
 		    }
 		}
@@ -108,7 +132,7 @@ node {
     		    devopsSourcesLastCommit = sh(returnStdout: true, script: "cat ${devopsSourcesLastCommitFile}").trim()
     		    if (currentVerbose) println ("devopsSourcesLastCommit = " + devopsSourcesLastCommit)
 		        try{
-		            devopsSourcesCurrentCommit = sh(returnStdout: true, script: "git -C ${jenkinsWorkspace} rev-parse HEAD").trim()
+		            devopsSourcesCurrentCommit = sh(returnStdout: true, script: "git -C ${devopsSourcesGitRepoPath} rev-parse HEAD").trim()
     			} catch (err){
     			}
 			    if (currentVerbose) println ("devopsSourcesCurrentCommit = " + devopsSourcesCurrentCommit)
@@ -125,7 +149,7 @@ node {
             		    sourcesLastCommit = sh(returnStdout: true, script: "cat ${sourcesLastCommitFile}").trim()
             		    if (currentVerbose) println ("sourcesLastCommit = " + sourcesLastCommit)
         		        try{
-        		            sourcesCurrentCommit = sh(returnStdout: true, script: "git -C ${sourcesPath} rev-parse HEAD").trim()
+        		            sourcesCurrentCommit = sh(returnStdout: true, script: "git -C ${sourcesGitRepoPath} rev-parse HEAD").trim()
             			} catch (err){
             			}
            			    if (currentVerbose) println ("sourcesCurrentCommit = " + sourcesCurrentCommit)
@@ -149,27 +173,32 @@ node {
                 // **       in the global configuration.
                 mvnHome = tool 'Maven 3.3.9 colocated'
             }
-            stage ('Source Move'){
-                  sh "mv ${jenkinsWorkspace}/src ${devopsSourcesPath}"	   
-                  sh "mv ${jenkinsWorkspace}/pom.xml ${devopsSourcesPath}"	   
+            stage ('Devops Source Move'){
+                  sh "mv ${devopsSourcesGitPath}/src ${devopsSourcesPath}"	   
+                  sh "mv ${devopsSourcesGitPath}/pom.xml ${devopsSourcesPath}"
+            }
+            if(hasSources){
+	            stage ('Source Move'){
+	                  sh "mv ${sourcesGitPath} ${sourcesPath}"
+	            }
+                stage ('Source Maven Install'){
+                   sh "'${mvnHome}/bin/mvn' clean install:install -Dmaven.test.skip=true -f ${sourcesPath}/pom.xml"
+                }	            
             }
             if(currentVerbose){
                 stage ('Variables echo'){
-                   sh "'${mvnHome}/bin/mvn' antrun:run@echobase -f ${sources}/${sourcesPath}/pom.xml"
-                   sh "'${mvnHome}/bin/mvn' antrun:run@echo -f ${sources}/${sourcesPath}/pom.xml"
+                   sh "'${mvnHome}/bin/mvn' antrun:run@echobase -f ${devopsSourcesPath}/pom.xml"
+                   sh "'${mvnHome}/bin/mvn' antrun:run@echo -f ${devopsSourcesPath}/pom.xml"
                 }
             }
             stage ('Assess package need'){
                 String packageLine="";
-                packageLine=sh(returnStdout: true, script: "cat ${sourcesPath}/pom.xml | grep 'maven-war'").trim()
+                packageLine=sh(returnStdout: true, script: "cat ${devopsSourcesPath}/pom.xml | grep 'maven-war'").trim()
                 if(packageLine!=""){
                     requiresPackage=true;
                 }
             }
             if (requiresPackage){
-                stage ('Source Maven Install'){
-                   sh "'${mvnHome}/bin/mvn' clean install:install -Dmaven.test.skip=true -f ${dockerSourcesPath}/pom.xml"
-                }
                 stage ('Maven Package jar'){
                    sh "'${mvnHome}/bin/mvn' clean package -Dmaven.test.skip=true -f ${dockerSourcesPath}/pom.xml"
                 }
