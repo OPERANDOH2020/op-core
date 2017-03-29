@@ -171,7 +171,7 @@ node {
             }
             if(hasSources){
 	            stage ('Source Move'){
-	                  sh "mv ${sourcesGitPath} ${sourcesPath}"
+	                  sh "mv ${sourcesGitPath}/* ${sourcesPath}"
 	            }
                 stage ('Source Maven Install'){
                    sh "'${mvnHome}/bin/mvn' clean install:install -Dmaven.test.skip=true -f ${sourcesPath}/pom.xml"
