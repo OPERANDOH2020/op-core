@@ -11,7 +11,7 @@ node {
 		def sourcesRelativePath="op-core-bigdataanalytics/eu.operando.core.bda.server"//previously sourcesServerPath
 		def sourcesRepo=devopsSourcesRepo//previously sourcesServerRepo
 		
-		Boolean hasSources = (sourcesPath!=null)&&(sourcesRepo!=null)
+		Boolean hasSources = (sourcesRelativePath!=null)&&(sourcesRepo!=null)
 		
 		//Computed vars
 		def devopsSourcesPath
