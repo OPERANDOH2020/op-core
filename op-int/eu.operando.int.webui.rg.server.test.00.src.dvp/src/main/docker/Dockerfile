@@ -9,6 +9,7 @@ ENV MYSQL_DB_PASSWORD root
 ENV MYSQL_DB_NAME_TEST1 operando_data
 ENV MYSQL_DB_NAME_TEST2 operando_report
 ENV MYSQL_DB_HOST none
+ENV RG_BIRT_ENDPOINT http://integration.operando.lan.esilab.org:8120/operando/webui/birt/
 
 ADD sql sql
 ADD run.sh .
