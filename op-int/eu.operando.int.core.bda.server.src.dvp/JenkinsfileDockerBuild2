@@ -113,7 +113,7 @@ node {
     		    }
     		    else{
     		        try{
-    		            String devopsSourcesCurrentCommit = sh(returnStdout: true, script: "git -C ${jenkinsWorkspace} rev-parse HEAD").trim()
+    		            devopsSourcesCurrentCommit = sh(returnStdout: true, script: "git -C ${jenkinsWorkspace} rev-parse HEAD").trim()
         			} catch (err){
         			}
         			if (devopsSourcesCurrentCommit!=''){
@@ -134,7 +134,7 @@ node {
                 		    }
                 		    else{
                 		        try{
-                		            String sourcesCurrentCommit = sh(returnStdout: true, script: "git -C ${sourcesPath} rev-parse HEAD").trim()
+                		            sourcesCurrentCommit = sh(returnStdout: true, script: "git -C ${sourcesPath} rev-parse HEAD").trim()
                     			} catch (err){
                     			}
 			        			if (devopsSourcesCurrentCommit!=''){
