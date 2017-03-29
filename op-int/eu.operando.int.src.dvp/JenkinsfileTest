@@ -31,7 +31,7 @@ node {
 		  sh "echo previous sha ${gitCommit}"
 	   }
 	   stage ('Source Collection'){       
-		   checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: sources], [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: sourcesPath]]]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: credentialsId, url: sourcesRepo]]])
+// 	      checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: sources], [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: sourcesPath]]]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: credentialsId, url: sourcesRepo]]])
 		  sh "echo next sha ${env.GIT_COMMIT}"
 		  sh "ls ${sources}/${sourcesPath}"
 		  String gitCommitnext = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
