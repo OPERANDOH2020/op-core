@@ -27,11 +27,15 @@ node {
 	   stage ('Test whether checkout is necessary'){
 	      //http://unix.stackexchange.com/questions/297360/abort-pipeline-build-if-no-new-commits
 		  sh "echo previous sha ${env.GIT_COMMIT}"
+		  String gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+		  sh "echo previous sha ${gitCommit}"
 	   }
 	   stage ('Source Collection'){       
 		   checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: sources], [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: sourcesPath]]]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: credentialsId, url: sourcesRepo]]])
 		  sh "echo next sha ${env.GIT_COMMIT}"
 		  sh "ls ${sources}/${sourcesPath}"
+		  String gitCommitnext = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+		  sh "echo next sha ${gitCommitnext}"
 	   }
 
 	   
