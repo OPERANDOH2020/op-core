@@ -36,6 +36,7 @@ node {
 		  sh "ls ${sources}/${sourcesPath}"
 		  String gitCommitnext = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
 		  sh "echo next sha ${gitCommitnext}"
+		  sh "env"
 	   }
 
 	   
