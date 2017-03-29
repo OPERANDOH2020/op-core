@@ -1,0 +1,53 @@
+#!groovy
+node {	
+    currentBuild.result = "SUCCESS"
+
+	try {
+	   def mvnHome 
+	   def sourcesPath
+	   def sourcesRepo
+	   def credentialsId
+
+	   stage('Preparation') { // for display purposes
+		  // Get the Maven tool.
+		  // ** NOTE: This 'M3' Maven tool must be configured
+		  // **       in the global configuration.
+		  mvnHome = tool 'Maven 3.3.9 colocated'
+		  sources = WORKSPACE
+		  sourcesPath = 'op-int/eu.operando.int.src.dvp'
+		  sourcesRepo = 'https://github.com/OPERANDOH2020/op-core.git'
+		  credentialsId = gitCredentials
+		  // These should all be performed at the point where you've
+		  // checked out your sources on the agent. A 'git' executable
+		  // must be available.
+		  // Most typical, if you're not cloning into a sub directory
+		  gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
+		  // short SHA, possibly better for chat notifications, etc.
+		  sh "env"
+	   }
+	   stage ('Test whether checkout is necessary'){
+		  sh "echo previous $GIT_COMMIT"
+	   }
+	   stage ('Test whether checkout is necessary'){
+		  sh "ls ${sources}/${sourcesPath}"
+	   }
+	   stage ('Source Collection'){       
+		   checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: sources], [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: sourcesPath]]]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: credentialsId, url: sourcesRepo]]])
+		  sh "echo next $GIT_COMMIT"
+	   }
+
+	   
+	  } catch (err) {
+
+        currentBuild.result = "FAILURE"
+
+			  emailext (
+			      subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+			      body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+			        <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
+			      recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+			    )
+
+        throw err
+		}
+}
