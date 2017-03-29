@@ -51,6 +51,7 @@ node {
 			currentVerbose=true //forDebugging purposes
 			if (currentVerbose) println ("verbose = " + currentVerbose)
 			
+			if (currentVerbose) println ("scmCredentials = " + scmCredentials)
 			if (hasSources) {
 				try{
 				    if (scmCredentials==null){ error "No scm credentials to retrieve the source code"}
