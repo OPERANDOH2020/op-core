@@ -20,7 +20,9 @@ node {
 		  sh "env"
 	   }
 	   stage ('Test whether checkout is necessary'){
-		  sh "ls ${sources}/${sourcesPath}"
+		  sh "ls ."
+		  sh "pwd"
+//		  sh "ls ${sources}/${sourcesPath}"
 	   }
 	   stage ('Test whether checkout is necessary'){
 	      //http://unix.stackexchange.com/questions/297360/abort-pipeline-build-if-no-new-commits
