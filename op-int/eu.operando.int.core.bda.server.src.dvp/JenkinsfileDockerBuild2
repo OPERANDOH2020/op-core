@@ -47,6 +47,9 @@ node {
 		String sourcesLastCommit
 		String sourcesCurrentCommit
 		
+		String devopsSourcesDiffPreviousCommit
+		String sourcesLastDiffPreviousCommit
+		
 		String mvnHome;
 		
 		stage ('Params processing'){
@@ -156,8 +159,15 @@ node {
     				sh "echo \"${devopsSourcesCurrentCommit}\" > ${devopsSourcesLastCommitFile}"
     			}
     		    if (devopsSourcesCurrentCommit!=devopsSourcesLastCommit) {
- 		  			hasNewDevopsSources=true
-    		        requiresBuild=true
+    		    	try{
+    		    		devopsSourcesDiffPreviousCommit=sh(returnStdout: true, script: "git -C ${devopsSourcesGitRepoPath} diff HEAD:${devopsSourcesRelativePath} HEAD^:${devopsSourcesRelativePath}").trim()
+    		    	} catch(err) {
+    		    	}
+ 			    	if (currentVerbose) println ("devopsSourcesDiffPreviousCommit = " + devopsSourcesDiffPreviousCommit)
+ 			    	if (devopsSourcesDiffPreviousCommit==""){
+ 		  				hasNewDevopsSources=true
+    		        	requiresBuild=true
+ 			    	}
 			    }
 		        if (hasSources)
 		        {
@@ -173,8 +183,15 @@ node {
         				sh "echo \"${sourcesCurrentCommit}\" > ${sourcesLastCommitFile}"
         			}
         		    if (sourcesCurrentCommit!=sourcesLastCommit) {
-						hasNewSources=true
-        		        requiresBuild=true
+	    		    	try{
+	    		    		sourcesDiffPreviousCommit=sh(returnStdout: true, script: "git -C ${sourcesGitRepoPath} diff HEAD:${sourcesRelativePath} HEAD^:${sourcesRelativePath}").trim()
+	    		    	} catch(err) {
+	    		    	}
+	 			    	if (currentVerbose) println ("devopsSourcesDiffPreviousCommit = " + devopsSourcesDiffPreviousCommit)
+	 			    	if (devopsSourcesDiffPreviousCommit==""){
+	 		  				hasNewDevopsSources=true
+	    		        	requiresBuild=true
+	 			    	}
         		    }
 		        }
     		}
@@ -247,7 +264,7 @@ node {
                 }
             } else {
                 stage ('Maven Devops Package'){
-                    sh "'${mvnHome}/bin/mvn' clean install --non-recursive -Dmaven.test.skip=true -f ${dockerSourcesPath}/pom.xml"
+                    sh "'${mvnHome}/bin/mvn' clean package --non-recursive -Dmaven.test.skip=true -f ${dockerSourcesPath}/pom.xml"
                 }            
             }
             if (currentStopContainer){
