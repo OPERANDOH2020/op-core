@@ -1,56 +1,210 @@
 #!groovy
+//http://groovy-lang.org/semantics.html
+
 node {	
     currentBuild.result = "SUCCESS"
+	try	{
+	
+		//Provided vars
+		def devopsSourcesRelativePath
+		def devopsSourcesRepo
+		def sourcesRelativePath="dff"//previously sourcesServerPath
+		def sourcesRepo="ersr"//previously sourcesServerRepo
+		
+		Boolean hasSources = (sourcesPath!=null)&&(sourcesRepo!=null)
+		
+		//Computed vars
+		def devopsSourcesPath
+		def sourcesPath
+		def workspace
+		def jenkinsWorkspace
 
-	try {
-	   def mvnHome 
-	   def sourcesPath
-	   def sourcesRepo
-	   def credentialsId
+		Boolean currentVerbose=false
+		Boolean currentForce=false
+		Boolean hasCredentials=false
+		Boolean currentContinueTasks=true
+		Boolean requiresBuild=false
+		Boolean requiresPackage=false
+		
+		String devopsSourcesLastCommitFile
+		String sourcesLastCommitFile
 
-	   stage('Preparation') { // for display purposes
-		  // Get the Maven tool.
-		  // ** NOTE: This 'M3' Maven tool must be configured
-		  // **       in the global configuration.
-		  mvnHome = tool 'Maven 3.3.9 colocated'
-		  sources = WORKSPACE
-		  sourcesPath = 'op-int/eu.operando.int.src.dvp'
-		  sourcesRepo = 'https://github.com/OPERANDOH2020/op-core.git'
-		  credentialsId = gitCredentials
-		  sh "env"
-	   }
-	   stage ('Test whether checkout is necessary'){
-		  sh "ls -R"
-		  sh "pwd"
-//		  sh "ls ${sources}/${sourcesPath}"
-	   }
-	   stage ('Test whether checkout is necessary'){
-	      //http://unix.stackexchange.com/questions/297360/abort-pipeline-build-if-no-new-commits
-		  sh "echo previous sha ${env.GIT_COMMIT}"
-		  String gitCommit = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-		  sh "echo previous sha ${gitCommit}"
-	   }
-	   stage ('Source Collection'){       
-// 	      checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: sources], [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: sourcesPath]]]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: credentialsId, url: sourcesRepo]]])
-		  sh "echo next sha ${env.GIT_COMMIT}"
-		  sh "ls ${sources}/${sourcesPath}"
-		  String gitCommitnext = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
-		  sh "echo next sha ${gitCommitnext}"
-		  sh "env"
-	   }
+		String devopsSourcesLastCommit
+		String devopsSourcesCurrentCommit
+		String sourcesLastCommit
+		String sourcesCurrentCommit
+		
+		String mvnHome;
+		
+		stage ('Params processing'){
+			//def scmCredentials -> defaults to undefined
+			//def continueTasks -> defaults to "true"
+			//def verbose -> defaults to "false"
+			//def force -> defaults to "false"
+			//WARNING JENKINS SEND BOOLEANS AS STRING
 
-	   
-	  } catch (err) {
+			try{
+			    currentVerbose=(verbose=="true")
+			} catch (err){
+			    println ("verbosity not provided defaults to false")
+			}
+			currentVerbose=true //forDebugging purposes
+			if (currentVerbose) println ("verbose = " + currentVerbose)
+			
+			if (hasSources) {
+				try{
+				    if (scmCredentials==null){ error "No scm credentials to retrieve the source code"}
+				    hasCredentials=true;
+				} catch (err){
+				    println ("No scm credentials to retrieve the source code")
+				}			
+			}
+			if (!hasCredentials||hasSources){ error "No scm credentials to retrieve the source code" }
+			
+			if (currentVerbose) println ("scmCredentials = " + scmCredentials)
 
-        currentBuild.result = "FAILURE"
-
-			  emailext (
-			      subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-			      body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-			        <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
-			      recipientProviders: [[$class: 'DevelopersRecipientProvider']]
-			    )
-
-        throw err
+			try{
+			    currentContinueTasks=(continueTasks=="true")
+			} catch (err){
+			    println ("continueTasks not provided defaults to true")
+			}
+			if (currentVerbose) println ("continueTasks = " + currentContinueTasks)				
 		}
+
+		stage ('Calculate Variables'){
+		    workspace=WORKSPACE
+			if (currentVerbose) println ("workspace = " + workspace)				
+		    
+		    jenkinsWorkspace=WORKSPACE+"/../workspace@script"
+			if (currentVerbose) println ("jenkinsWorkspace = " + jenkinsWorkspace)				
+
+		    devopsSourcesPath=workspace
+			if (currentVerbose) println ("devopsSourcesPath = " + devopsSourcesPath)
+			
+		    devopsSourcesLastCommitFile=devopsSourcesPath+"/src.dvp.last.commit"
+			if (currentVerbose) println ("devopsSourcesLastCommitFile = " + devopsSourcesLastCommitFile)
+
+			if (hasSources){
+    		    sourcesPath=workspace+"/sources"
+	    		if (currentVerbose) println ("sourcesPath = " + sourcesPath)
+
+        		sourcesLastCommitFile=devopsSourcesPath+"/src.dvp.last.commit"
+	    		if (currentVerbose) println ("sourcesLastCommitFile = " + sourcesLastCommitFile)
+			}
+		}
+		
+		if(hasSources){
+		    stage ('Gather Sources'){
+		        checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: sourcesPath], [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: sourcesRelativePath]]]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: credentialsId, url: sourcesRepo]]])
+    		    if (currentVerbose) println ("Sources checkout to " + sourcesPath)
+		    }
+		}
+		
+		if(currentForce){
+	        requiresBuild=true
+		}
+		else{
+    		stage ('Assess Built Need'){
+    		    sh "touch ${devopsSourcesLastCommitFile}" 
+    		    devopsSourcesLastCommit = sh(returnStdout: true, script: "cat ${devopsSourcesLastCommitFile}").trim()
+    		    if (currentVerbose) println ("devopsSourcesLastCommit = " + devopsSourcesLastCommit)
+    		    if (devopsSourcesLastCommit=="") {
+    		        requiresBuild=true
+    		    }
+    		    else{
+    		        try{
+    		            String devopsSourcesCurrentCommit = sh(returnStdout: true, script: "git -C ${jenkinsWorkspace} rev-parse HEAD").trim()
+        			} catch (err){
+        			}
+    			    if (currentVerbose) println ("devopsSourcesCurrentCommit = " + devopsSourcesCurrentCommit)
+        		    if ((devopsSourcesCurrentCommit=="")||(devopsSourcesCurrentCommit!=devopsSourcesLastCommit)) {
+        		        requiresBuild=true
+        		    }
+        		    else{
+        		        if (hasSources)
+        		        {
+                		    sh "touch ${sourcesLastCommitFile}" 
+                		    sourcesLastCommit = sh(returnStdout: true, script: "cat ${sourcesLastCommitFile}").trim()
+                		    if (currentVerbose) println ("sourcesLastCommit = " + sourcesLastCommit)
+                		    if (sourcesLastCommit=="") {
+                		        requiresBuild=true
+                		    }
+                		    else{
+                		        try{
+                		            String sourcesCurrentCommit = sh(returnStdout: true, script: "git -C ${sourcesPath} rev-parse HEAD").trim()
+                    			} catch (err){
+                    			}
+                			    if (currentVerbose) println ("sourcesCurrentCommit = " + sourcesCurrentCommit)
+                    		    if (sourcesCurrentCommit=="")||(sourcesCurrentCommit!=sourcesLastCommit)) {
+                    		        requiresBuild=true
+                    		    }
+                    		    else{
+                    		        requiresBuild=false //redundant
+                    		    }
+                		    } 
+        		        }
+        		    }
+    		    }
+    		}
+		}
+        if(){
+            stage ('prepare Buid Variables'){
+                // Get the Maven tool.
+                // ** NOTE: This 'M3' Maven tool must be configured
+                // **       in the global configuration.
+                mvnHome = tool 'Maven 3.3.9 colocated'
+            }
+            stage ('Source Move'){
+                  sh "mv ${jenkinsWorkspace}/src ${devopsSourcesPath}"	   
+                  sh "mv ${jenkinsWorkspace}/pom.xml ${devopsSourcesPath}"	   
+            }
+            if(currentVerbose){
+                stage ('Variables echo'){
+                   sh "'${mvnHome}/bin/mvn' antrun:run@echobase -f ${sources}/${sourcesPath}/pom.xml"
+                   sh "'${mvnHome}/bin/mvn' antrun:run@echo -f ${sources}/${sourcesPath}/pom.xml"
+                }
+            }
+            stage ('Assess package need'){
+                String packageLine="";
+                packageLine=sh(returnStdout: true, script: "cat ${sourcesPath}/pom.xml | grep 'maven-war'").trim()
+                if(packageLine!=""){
+                    requiresPackage=true;
+                }
+            }
+            if (requiresPackage){
+                stage ('Source Maven Install'){
+                   sh "'${mvnHome}/bin/mvn' clean install:install -Dmaven.test.skip=true -f ${dockerSourcesPath}/pom.xml"
+                }
+                stage ('Maven Package jar'){
+                   sh "'${mvnHome}/bin/mvn' clean package -Dmaven.test.skip=true -f ${dockerSourcesPath}/pom.xml"
+                }
+            }
+            stage ('Maven Docker stop'){
+               sh "'${mvnHome}/bin/mvn' docker:stop -f ${dockerSourcesPath}/pom.xml"
+            }
+            stage ('Maven Build docker image'){
+               sh "'${mvnHome}/bin/mvn' docker:build -f ${dockerSourcesPath}/pom.xml"
+            }	   	   	   
+            stage ('Maven Build docker push'){
+               sh "'${mvnHome}/bin/mvn' docker:push -f ${dockerSourcesPath}/pom.xml"
+            }
+    	   if (continueTasks == 'true') {
+                stage('continue') {
+                   //build job: 'eu.operando.int.jnk.tsk.build.images', wait: false
+                }
+    	   }            
+        }
+	} catch (err) {
+
+    currentBuild.result = "FAILURE"
+
+		  emailext (
+		      subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+		      body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+		        <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
+		      recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+		    )
+
+    throw err
+	}
 }
