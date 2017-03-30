@@ -206,13 +206,13 @@ node {
 	            }
             	stage ('Assess sources install need'){          	
                  	pomFile=sh(returnStdout: true, script: "ls ${sourcesPath}/pom.xml").trim()
-	            	hasPomFile=(""==pomFile)
+	            	hasPomFile=(""!=pomFile)
  					if (currentVerbose) println ("hasPomFile = " + hasPomFile)
                 }	            
                 if (hasPomFile){
 	                stage ('Source Maven Install'){
 	                 	pomPackaging=sh(returnStdout: true, script: "grep \\\"<packaging>.*pom.*</packaging>\\\" ${sourcesPath}/pom.xml").trim()
-	                 	hasPomPackaging=(""==pomPackaging)
+	                 	hasPomPackaging=(""!=pomPackaging)
 	 					if (currentVerbose) println ("hasPomPackaging = " + hasPomPackaging)
 	 					if 	(hasPomPackaging){
 	                    	sh "'${mvnHome}/bin/mvn' install:install --non-recursive -Dmaven.test.skip=true -f ${sourcesPath}/pom.xml"
@@ -230,7 +230,7 @@ node {
             }
             stage ('Assess package/install need'){          	
                 devopsPomPackaging=sh(returnStdout: true, script: "grep \\\"<packaging>.*pom.*</packaging>\\\" ${devopsSourcesPath}/pom.xml").trim()
-                hasDevopsPomPackaging=(""==devopsPomPackaging)
+                hasDevopsPomPackaging=(""!=devopsPomPackaging)
  				if (currentVerbose) println ("hasDevopsPomPackaging = " + hasDevopsPomPackaging)				
             }           
             if (hasDevopsPomPackaging){
