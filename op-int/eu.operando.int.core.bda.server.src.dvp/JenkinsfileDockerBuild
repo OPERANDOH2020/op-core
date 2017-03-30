@@ -105,9 +105,9 @@ node {
 			}
 			if (currentVerbose) println ("continueTasks = " + currentContinueTasks)							
 			try{
-			    currentForceBuild=(ForceBuild=="true")
+			    currentForceBuild=(forceBuild=="true")
 			} catch (err){
-			    println ("ForceBuild not provided defaults to false")
+			    println ("forceBuild not provided defaults to false")
 			}
 			if (currentVerbose) println ("currentForceBuild = " + currentForceBuild)							
 			try{
@@ -167,6 +167,8 @@ node {
 		    }
 		}		
 		if(currentForceBuild){
+			hasNewDevopsSources=true
+			hasNewSources=true
 	        requiresBuild=true
 		}
 		else{
