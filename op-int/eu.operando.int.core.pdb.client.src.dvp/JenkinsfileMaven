@@ -221,6 +221,14 @@ node {
                 // **       in the global configuration.
                 mvnHome = tool 'Maven 3.3.9 colocated'
             }
+            if(hasNewDevopsSources){
+	            stage ('Devops Source Move'){
+	                  sh "rm -rf ${devopsSourcesPath}/src"	   
+	                  sh "mv ${devopsSourcesGitPath}/src ${devopsSourcesPath}"	   
+	                  sh "rm -rf ${devopsSourcesPath}/pom.xml"	   
+	                  sh "mv ${devopsSourcesGitPath}/pom.xml ${devopsSourcesPath}/pom.xml"
+	            }
+            }
             if(hasNewSources){
 	            stage ('Source Move'){
                   sh "rm -rf ${sourcesPath}"	   
