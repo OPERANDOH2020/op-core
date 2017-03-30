@@ -45,6 +45,8 @@ node {
 		String devopsPomPackaging=""
 		Boolean hasPomPackaging=false
 		String pomPackaging=""
+		Boolean hasDevopsPomFile=false
+		String devopsPomFile=""
 		Boolean hasPomFile=false
 		String pomFile=""
 				
@@ -249,6 +251,32 @@ node {
 	 					}
 	                }
                 }
+            } else {
+	           	stage ('Assess Devops Install Need'){          	
+					try {
+					    devopsPomFile=sh(returnStdout: true, script: "ls ${devopsSourcesPath}/pom.xml 2>/dev/null").trim()
+					} catch (err){
+					}
+	            	hasDevopsPomFile=(""!=pomFile)
+ 					if (currentVerbose) println ("hasDevopsPomFile = " + hasDevopsPomFile)
+	                }	            
+	                if (hasDevopsPomFile){
+		                stage ('Source Maven Install'){
+		                 	try {
+		                 		devopsPomPackaging=sh(returnStdout: true, script: "grep '<packaging>.*pom.*</packaging>' ${devopsSourcesPath}/pom.xm").trim()
+		                 	} catch (err){
+		                 	}
+		 					if (currentVerbose) println ("devopsPomPackaging = " + devopsPomPackaging)				
+		                 	hasDevopsPomPackaging=(""!=devopsPomPackaging)
+		 					if (currentVerbose) println ("hasDevopsPomPackaging = " + hasDevopsPomPackaging)
+		 					if 	(hasDevopsPomPackaging){
+		                    	sh "'${mvnHome}/bin/mvn' install:install --non-recursive -Dmaven.test.skip=true -f ${devopsSourcesPath}/pom.xml"
+		 					} else {
+			                    sh "'${mvnHome}/bin/mvn' clean install --non-recursive -Dmaven.test.skip=true -f ${devopsSourcesPath}/pom.xml"				
+		 					}
+		                }
+	                }
+                }            	
             }
 			if (currentContinueTasks) {
 				stage('Launch Depending Tasks') {
