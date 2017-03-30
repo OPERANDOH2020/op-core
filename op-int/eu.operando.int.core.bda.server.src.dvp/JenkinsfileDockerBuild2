@@ -231,21 +231,21 @@ node {
             }
             stage ('Assess package/install need'){          	
   	            sh "echo begin test"
- 	            try{sh "grep '<packaging>.*pom.*</packaging>' ${devopsSourcesPath}/pom.xml"}catch(){} 
- 	            try{sh "grep \"<packaging>.*pom.*</packaging>\" ${devopsSourcesPath}/pom.xml"}catch(){}  
- 	            try{sh "grep \'<packaging>.*pom.*</packaging>\' ${devopsSourcesPath}/pom.xml"}catch(){}  
- 	            try{sh "grep \\\'<packaging>.*pom.*</packaging>\\\' ${devopsSourcesPath}/pom.xml"}catch(){}  
- 	            try{sh "grep pom ${devopsSourcesPath}/pom.xml"}catch(){}  
- 	            try{sh "grep '<packaging>.*pom.*</packaging>' pom.xml"}catch(){} 
- 	            try{sh "grep \"<packaging>.*pom.*</packaging>\" pom.xml"}catch(){}  
- 	            try{sh "grep \'<packaging>.*pom.*</packaging>\' pom.xml"}catch(){}  
- 	            try{sh "grep \\\'<packaging>.*pom.*</packaging>\\\' pom.xml"}catch(){}  
- 	            try{sh "grep pom pom.xml"}catch(){}  
-	            try{sh "grep '<packaging>.*pom.*</packaging>' sources/pom.xml"}catch(){} 
- 	            try{sh "grep \"<packaging>.*pom.*</packaging>\" sources/pom.xml"}catch(){}  
- 	            try{sh "grep \'<packaging>.*pom.*</packaging>\' sources/pom.xml"}catch(){}  
- 	            try{sh "grep \\\'<packaging>.*pom.*</packaging>\\\' sources/pom.xml"}catch(){}  
- 	            try{sh "grep pom sources/pom.xml"}catch(){}  
+ 	            try{sh "grep '<packaging>.*pom.*</packaging>' ${devopsSourcesPath}/pom.xml"}catch(err){} 
+ 	            try{sh "grep \"<packaging>.*pom.*</packaging>\" ${devopsSourcesPath}/pom.xml"}catch(err){}  
+ 	            try{sh "grep \'<packaging>.*pom.*</packaging>\' ${devopsSourcesPath}/pom.xml"}catch(err){}  
+ 	            try{sh "grep \\\'<packaging>.*pom.*</packaging>\\\' ${devopsSourcesPath}/pom.xml"}catch(err){}  
+ 	            try{sh "grep pom ${devopsSourcesPath}/pom.xml"}catch(err){}  
+ 	            try{sh "grep '<packaging>.*pom.*</packaging>' pom.xml"}catch(err){} 
+ 	            try{sh "grep \"<packaging>.*pom.*</packaging>\" pom.xml"}catch(err){}  
+ 	            try{sh "grep \'<packaging>.*pom.*</packaging>\' pom.xml"}catch(err){}  
+ 	            try{sh "grep \\\'<packaging>.*pom.*</packaging>\\\' pom.xml"}catch(err){}  
+ 	            try{sh "grep pom pom.xml"}catch(err){}  
+	            try{sh "grep '<packaging>.*pom.*</packaging>' sources/pom.xml"}catch(err){} 
+ 	            try{sh "grep \"<packaging>.*pom.*</packaging>\" sources/pom.xml"}catch(err){}  
+ 	            try{sh "grep \'<packaging>.*pom.*</packaging>\' sources/pom.xml"}catch(err){}  
+ 	            try{sh "grep \\\'<packaging>.*pom.*</packaging>\\\' sources/pom.xml"}catch(err){}  
+ 	            try{sh "grep pom sources/pom.xml"}catch(err){}  
  	            sh "echo end test"
                 devopsPomPackaging=sh(returnStdout: true, script: "grep '<packaging>.*pom.*</packaging>' ${devopsSourcesPath}/pom.xml").trim()
                 hasDevopsPomPackaging=(""!=devopsPomPackaging)
