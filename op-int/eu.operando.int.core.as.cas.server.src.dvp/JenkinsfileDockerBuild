@@ -265,7 +265,7 @@ node {
 	                 	hasPomPackaging=(""!=pomPackaging)
 	 					if (currentVerbose) println ("hasPomPackaging = " + hasPomPackaging)
 	 					if 	(hasPomPackaging){
-	                    	sh "'${mvnHome}/bin/mvn' install:install --non-recursive -Dmaven.test.skip=true -f ${sourcesPath}/pom.xml"
+	                    	sh "'${mvnHome}/bin/mvn' clean package install:install --non-recursive -Dmaven.test.skip=true -f ${sourcesPath}/pom.xml"
 	 					} else {
 		                    sh "'${mvnHome}/bin/mvn' clean package install:install --non-recursive -Dmaven.test.skip=true -f ${sourcesPath}/pom.xml"				
 	 					}
