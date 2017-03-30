@@ -32,7 +32,10 @@ node {
 		Boolean hasNewSources=false
 		Boolean requiresBuild=false
 		Boolean requiresPackage=false
-		
+
+		Boolean hasDevopsPomPackaging=false
+		Boolean hasPomPackaging=false
+				
 		String devopsSourcesLastCommitFile
 		String sourcesLastCommitFile
 
@@ -195,37 +198,45 @@ node {
 	              sh "mv ${sourcesGitPath}/* ${sourcesPath}"
 	            }
                 stage ('Source Maven Install'){
-                   sh "'${mvnHome}/bin/mvn' clean install:install -Dmaven.test.skip=true -f ${sourcesPath}/pom.xml"
+                 	hasPomPackaging=(""==sh(returnStdout: true, script: "grep '<packaging>.*pom.*</packaging>' ${sourcesPath}/pom.xml").trim())
+ 					if (currentVerbose) println ("hasPomPackaging = " + hasPomPackaging)
+ 					if 	(hasPomPackaging){
+                    	sh "'${mvnHome}/bin/mvn' install:install --non-recursive -Dmaven.test.skip=true -f ${sourcesPath}/pom.xml"
+ 					} else {
+	                    sh "'${mvnHome}/bin/mvn' clean install --non-recursive -Dmaven.test.skip=true -f ${sourcesPath}/pom.xml"				
+ 					}
                 }	            
             }
             if(currentVerbose){
                 stage ('Variables echo'){
-                   sh "'${mvnHome}/bin/mvn' antrun:run@echobase -f ${devopsSourcesPath}/pom.xml"
-                   sh "'${mvnHome}/bin/mvn' antrun:run@echo -f ${devopsSourcesPath}/pom.xml"
+                	sh "'${mvnHome}/bin/mvn' antrun:run@echobase -f ${devopsSourcesPath}/pom.xml"
+                    sh "'${mvnHome}/bin/mvn' antrun:run@echo -f ${devopsSourcesPath}/pom.xml"
                 }
             }
-            stage ('Assess package need'){
-                String packageLine="";
-                packageLine=sh(returnStdout: true, script: "cat ${devopsSourcesPath}/pom.xml | grep 'maven-war'").trim()
-                if(packageLine!=""){
-                    requiresPackage=true;
+            stage ('Assess package/install need'){
+                hasDevopsPomPackaging=(""==packageLine=sh(returnStdout: true, script: "grep '<packaging>.*pom.*</packaging>' ${devopsSourcesPath}/pom.xml").trim())
+ 				if (currentVerbose) println ("hasDevopsPomPackaging = " + hasDevopsPomPackaging)				
                 }
-            }
-            if (requiresPackage){
-                stage ('Maven Package jar'){
-                   sh "'${mvnHome}/bin/mvn' clean package -Dmaven.test.skip=true -f ${dockerSourcesPath}/pom.xml"
+            }           
+            if (hasDevopsPomPackaging){
+                stage ('Maven Devops Install'){
+                    sh "'${mvnHome}/bin/mvn' install:install --non-recursive -Dmaven.test.skip=true -f ${dockerSourcesPath}/pom.xml"
                 }
+            } else {
+                stage ('Maven Devops Package'){
+                    sh "'${mvnHome}/bin/mvn' clean install --non-recursive -Dmaven.test.skip=true -f ${dockerSourcesPath}/pom.xml"
+                }            
             }
             if (currentStopContainer){
 	            stage ('Maven Docker stop'){
-	               sh "'${mvnHome}/bin/mvn' docker:stop -f ${dockerSourcesPath}/pom.xml"
+	                sh "'${mvnHome}/bin/mvn' docker:stop --non-recursive -Dmaven.test.skip=true -f ${dockerSourcesPath}/pom.xml"
 	            }
             }
             stage ('Maven Build docker image'){
-               sh "'${mvnHome}/bin/mvn' docker:build -f ${dockerSourcesPath}/pom.xml"
+                sh "'${mvnHome}/bin/mvn' docker:build --non-recursive -Dmaven.test.skip=true -f ${dockerSourcesPath}/pom.xml"
             }	   	   	   
             stage ('Maven Build docker push'){
-               sh "'${mvnHome}/bin/mvn' docker:push -f ${dockerSourcesPath}/pom.xml"
+                sh "'${mvnHome}/bin/mvn' docker:push --non-recursive -Dmaven.test.skip=true -f ${dockerSourcesPath}/pom.xml"
             }
 			if (continueTasks == 'true') {
 				stage('continue') {
@@ -234,16 +245,13 @@ node {
 			}            
         }
 	} catch (err) {
-
-    currentBuild.result = "FAILURE"
-
-		  emailext (
-		      subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-		      body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-		        <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
-		      recipientProviders: [[$class: 'DevelopersRecipientProvider']]
-		    )
-
-    throw err
+	    currentBuild.result = "FAILURE"
+			emailext (
+				subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+				body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+				<p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
+				recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+			)
+	    throw err
 	}
 }
