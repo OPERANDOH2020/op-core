@@ -260,23 +260,23 @@ node {
             }           
             if (hasDevopsPomPackaging){
                 stage ('Maven Devops Install'){
-                    sh "'${mvnHome}/bin/mvn' install:install --non-recursive -Dmaven.test.skip=true -f ${dockerSourcesPath}/pom.xml"
+                    sh "'${mvnHome}/bin/mvn' install:install --non-recursive -Dmaven.test.skip=true -f ${devopsSourcesPath}/pom.xml"
                 }
             } else {
                 stage ('Maven Devops Package'){
-                    sh "'${mvnHome}/bin/mvn' clean package --non-recursive -Dmaven.test.skip=true -f ${dockerSourcesPath}/pom.xml"
+                    sh "'${mvnHome}/bin/mvn' clean package --non-recursive -Dmaven.test.skip=true -f ${devopsSourcesPath}/pom.xml"
                 }            
             }
             if (currentStopContainer){
 	            stage ('Maven Docker stop'){
-	                sh "'${mvnHome}/bin/mvn' docker:stop --non-recursive -Dmaven.test.skip=true -f ${dockerSourcesPath}/pom.xml"
+	                sh "'${mvnHome}/bin/mvn' docker:stop --non-recursive -Dmaven.test.skip=true -f ${devopsSourcesPath}/pom.xml"
 	            }
             }
             stage ('Maven Build docker image'){
-                sh "'${mvnHome}/bin/mvn' docker:build --non-recursive -Dmaven.test.skip=true -f ${dockerSourcesPath}/pom.xml"
+                sh "'${mvnHome}/bin/mvn' docker:build --non-recursive -Dmaven.test.skip=true -f ${devopsSourcesPath}/pom.xml"
             }	   	   	   
             stage ('Maven Build docker push'){
-                sh "'${mvnHome}/bin/mvn' docker:push --non-recursive -Dmaven.test.skip=true -f ${dockerSourcesPath}/pom.xml"
+                sh "'${mvnHome}/bin/mvn' docker:push --non-recursive -Dmaven.test.skip=true -f ${devopsSourcesPath}/pom.xml"
             }
 			if (continueTasks == 'true') {
 				stage('continue') {
