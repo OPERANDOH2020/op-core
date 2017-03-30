@@ -24,7 +24,6 @@ node {
 		def jenkinsWorkspace
 
 		Boolean currentVerbose=false
-		Boolean currentForce=false
 		Boolean hasCredentials=false
 		Boolean currentContinueTasks=true
 		Boolean currentForce=false
