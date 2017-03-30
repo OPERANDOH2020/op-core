@@ -141,6 +141,7 @@ var userInfoSwarming =
                 else {
                     var newPassword = self['newPassword'];
                     delete self['newPassword'];
+                    self.home("passwordSuccessfullyChanged");
                     startSwarm("emails.js",
                         "sendEmail",
                         "no-reply@"+thisAdapter.config.Core.operandoHost,

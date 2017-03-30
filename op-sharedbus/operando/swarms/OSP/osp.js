@@ -114,6 +114,20 @@ var osp = {
             }));
         }
     },
+    removeAcceptedOspMembershipRequestPhase:{
+        node:"OSPRequests",
+        code:function(){
+            var self = this;
+            removeOSPRequest(this.ospUserId, S(function(err, ospRequest){
+                if(err){
+                    self.error = err.message;
+                    self.home("failed");
+                }else{
+                    self.home("success");
+                }
+            }));
+        }
+    },
     acceptOspRequestPhase:{
       node:"OSPAdapter",
         code:function(){
@@ -153,7 +167,7 @@ var osp = {
                     self.error = err.message;
                     self.home("failed");
                 } else {
-                    self.swarm("removeOspRequestPhase");
+                    self.swarm("removeAcceptedOspMembershipRequestPhase");
                 }
             }));
         }

@@ -90,7 +90,7 @@ var loginSwarming = {
     },
 
     logout: function () {
-        console.log("logout");
+        console.log("Logout. Destroying session ",this.getSessionId());
         this.swarm("userLogout");
     },
 
@@ -98,7 +98,7 @@ var loginSwarming = {
         node: "SessionManager",
         code: function () {
             var self = this;
-            deleteSession(this.meta.sessionId, S(function (err, result) {
+            deleteSession(this.getSessionId(), S(function (err, result) {
                 if (err && err.message !== "session_not_found") {
                     console.log(err);
                 }
@@ -118,9 +118,8 @@ var loginSwarming = {
         else {
             console.log("Let's restore session");
             this.sessionId = clientSessionId;
-            this.outletSession = this.getSessionId();
             this.userId = userId;
-            this.swarm("validateSession");
+            this.swarm("getOutlets", this.getEntryAdapter());
         }
     },
 
@@ -176,6 +175,72 @@ var loginSwarming = {
 
         }
     },
+
+    getOutlets: {
+        node: "EntryPoint",
+        code: function () {
+            var outlets = sessionsRegistry.findOutletsForSession(this.sessionId);
+            if(!outlets || outlets.length === 0){
+
+                this.home("restoreFailed");
+                this.oldSessionId = this.sessionId;
+                this.newSessionId = this.getSessionId();
+                this.swarm("removeOldSession");
+
+            }
+            else {
+                for (var v in outlets) {
+                    if (outlets[v].getSessionId() === this.sessionId) {
+                        this.restoredOutletId = outlets[v].getOutletId();
+                        this.swarm("validateSession");
+                        break;
+                    }
+                }
+            }
+        }
+    },
+
+    removeOldSession:{
+        node:"SessionManager",
+        code: function(){
+            var self = this;
+            deleteSession(self.oldSessionId, S(function(err){
+                if(err){
+                    self.error = err.message;
+                    self.home("restoreFailed");
+                }
+                else{
+                    self.swarm("renewUserSession");
+                }
+            }))
+        }
+    },
+
+    renewUserSession:{
+        node:"SessionManager",
+        code: function(){
+            var self = this;
+            var sessionData = {
+                userId:this.userId,
+                sessionId:this.newSessionId
+            };
+            createOrUpdateSession(sessionData, S(function(err,session){
+                if(err){
+                    self.error = err.message;
+                    self.home("restoreFailed");
+                }
+                else
+                 if(session){
+                     console.log("A new session was created!");
+                     self.sessionId = session.sessionId;
+                     self.authenticated = true;
+                     self.setSessionId(self.sessionId);
+                     self.swarm("restoreSwarms", self.getEntryAdapter());
+                 }
+            }));
+        }
+    },
+
     validateSession: {
         node: "SessionManager",
         code: function () {
@@ -186,7 +251,7 @@ var loginSwarming = {
             }
 
             else {
-                sessionIsValid(self.outletSession, self.sessionId, self.userId, S(function (err, newSession) {
+                sessionIsValid(self.sessionId, self.userId, S(function (err, newSession) {
 
                     if (err) {
                         console.log(err);
@@ -197,6 +262,7 @@ var loginSwarming = {
                             console.log("Session is valid");
                             self.sessionId = newSession.sessionId;
                             self.authenticated = true;
+                            self.setSessionId(self.sessionId);
                             self.swarm("restoreSwarms", self.getEntryAdapter());
                         }
                         else {
@@ -306,13 +372,13 @@ var loginSwarming = {
             }
         }
     },
-    restoreSwarms: {   //phase that is never executed... given as documentation
+    restoreSwarms: {
         node: "EntryPoint",
         code: function () {
             var outlet = sessionsRegistry.getTemporarily(this.meta.outletId);
             sessionsRegistry.registerOutlet(outlet);
             enableOutlet(this);
-            console.log("Session restored for ", this.meta.tenantId, this.userId, "!");
+            outlet.renameSession(this.getSessionId());
             this.home("restoreSucceed");
         }
     },
@@ -322,6 +388,7 @@ var loginSwarming = {
             var outlet = sessionsRegistry.getTemporarily(this.meta.outletId);
             sessionsRegistry.registerOutlet(outlet);
             enableOutlet(this);
+            outlet.renameSession(this.getSessionId());
             this.home("tokenLoginSuccessfully");
         }
     },

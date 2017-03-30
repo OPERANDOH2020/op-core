@@ -50,21 +50,6 @@ function registerModels(callback){
                     length:254
                 }
             }
-        },{
-            modelName:"AuthenticationToken",
-            dataModel : {
-                userId: {
-                    type: "string",
-                    index :true,
-                    length:254
-                },
-                authenticationToken: {
-                    type: "string",
-                    pk: true,
-                    index: true,
-                    length:254
-                }
-            }
         }
 
     ];
@@ -165,7 +150,7 @@ generateAuthenticationToken = function(userId, sessionId, callback){
     else {
         callback(new Error("couldNotGenerateToken"), null);
     }
-}
+};
 
 validateAuthenticationToken = function(userId, currentSession, authenticationToken, callback){
     flow.create("validateAuthenticationToken",{
@@ -194,7 +179,7 @@ validateAuthenticationToken = function(userId, currentSession, authenticationTok
         }
 
     })();
-}
+};
 
 deleteSession = function (sessionId, callback) {
     flow.create("delete session", {
@@ -215,7 +200,7 @@ deleteSession = function (sessionId, callback) {
             }
         }
     })();
-}
+};
 
 getUserBySession = function (sessionId, callback) {
 
@@ -238,7 +223,7 @@ getUserBySession = function (sessionId, callback) {
             }
         }
     })();
-}
+};
 
 deleteUserSessions = function(session, callback){
    flow.create("delete all user sessions", {
@@ -271,8 +256,7 @@ deleteUserSessions = function(session, callback){
     })();
 };
 
-sessionIsValid = function (newSession, sessionId, userId, callback) {
-    console.log(sessionId);
+sessionIsValid = function (sessionId, userId, callback) {
 
     flow.create("validate session", {
         begin: function () {
@@ -309,37 +293,12 @@ sessionIsValid = function (newSession, sessionId, userId, callback) {
                     var currentDateTime = currentDate.getTime();
                     var expirationDate = new Date(currentDateTime + parseInt(sessionMaxIdleTime));
 
-                    this.newSession = {
-                        userId:userId,
-                        sessionId:newSession,
-                        expirationDate:new Date(expirationDate + parseInt(sessionMaxIdleTime))
-                    };
-                    persistence.delete(session, this.continue("createNewSessionId"));
-
+                    session['expirationDate'] = expirationDate;
+                    persistence.saveObject(session, callback);
                 }
-            }
-        },
-        createNewSessionId:function(err){
-            if (err) {
-                console.err(err);
-            }
-            else {
-                var self = this;
-                persistence.lookup("DefaultSession",this.newSession.sessionId, this.continue("updateNewSessionData"));
-
-            }
-        },
-        updateNewSessionData:function(err, newSession){
-            if(err){
-                console.err(err);
-            }
-            else {
-                persistence.externalUpdate(newSession,this.newSession);
-                persistence.saveObject(newSession, callback);
             }
         }
     })();
-
 };
 
 

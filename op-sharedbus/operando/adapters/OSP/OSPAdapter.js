@@ -70,8 +70,7 @@ function registerModels(callback){
                     length:254
                 },
                 logo:{
-                    type: "string",
-                    length:6000
+                    type: "base64image"
                 },
                 description: {
                     type: "string",
