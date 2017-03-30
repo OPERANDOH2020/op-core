@@ -223,10 +223,13 @@ node {
             }
             if(hasNewDevopsSources){
 	            stage ('Devops Source Move'){
-	                  sh "rm -rf ${devopsSourcesPath}/src"	   
-	                  sh "mv ${devopsSourcesGitPath}/src ${devopsSourcesPath}"	   
-	                  sh "rm -rf ${devopsSourcesPath}/pom.xml"	   
-	                  sh "mv ${devopsSourcesGitPath}/pom.xml ${devopsSourcesPath}/pom.xml"
+					try {
+				    	sh "rm -rf ${devopsSourcesPath}/src 2>/dev/null"	   
+				    	sh "mv ${devopsSourcesGitPath}/src ${devopsSourcesPath} 2>/dev/null"	   
+					} catch (err){
+					}
+				    sh "rm -rf ${devopsSourcesPath}/pom.xml"	   
+				    sh "mv ${devopsSourcesGitPath}/pom.xml ${devopsSourcesPath}/pom.xml"
 	            }
             }
             if(hasNewSources){
