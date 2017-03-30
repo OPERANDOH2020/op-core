@@ -25,8 +25,11 @@ node {
 		Boolean currentVerbose=false
 		Boolean hasCredentials=false
 		Boolean currentContinueTasks=true
-		Boolean currentForce=false
+		Boolean currentForceBuild=false
 		Boolean currentStopContainer=true
+		Boolean currentForceClear=false
+		Boolean currentClearOnFail=false
+		Boolean currentForcePush=false
 		Boolean hasNewDevopsSources=false
 		Boolean hasNewSources=false
 		Boolean requiresBuild=false
@@ -61,7 +64,7 @@ node {
 			//def verbose -> defaults to "false"
 			//def scmCredentials -> defaults to undefined
 			//def continueTasks -> defaults to "true"
-			//def force -> defaults to "false"
+			//def ForceBuild -> defaults to "false"
 			//def stopContainer -> defaults to "true"
 			//WARNING JENKINS SEND BOOLEANS AS STRING
 
@@ -92,11 +95,11 @@ node {
 			if (currentVerbose) println ("continueTasks = " + currentContinueTasks)		
 					
 			try{
-			    currentForce=(force=="true")
+			    currentForceBuild=(ForceBuild=="true")
 			} catch (err){
-			    println ("force not provided defaults to false")
+			    println ("ForceBuild not provided defaults to false")
 			}
-			if (currentVerbose) println ("currentForce = " + currentForce)			
+			if (currentVerbose) println ("currentForceBuild = " + currentForceBuild)			
 				
 			try{
 			    currentStopContainer=(stopContainer=="true")
@@ -104,8 +107,33 @@ node {
 			    println ("stopContainer not provided defaults to true")
 			}
 			if (currentVerbose) println ("currentStopContainer = " + currentStopContainer)				
-		}
 
+			try{
+			    currentForceClear=(forceClear=="true")
+			} catch (err){
+			    println ("forceClear not provided defaults to false")
+			}
+			if (currentVerbose) println ("currentForceClear = " + currentForceClear)				
+				
+			try{
+			    currentClearOnFail=(clearOnFail=="true")
+			} catch (err){
+			    println ("clearOnFail not provided defaults to false")
+			}
+			if (currentVerbose) println ("currentClearOnFail = " + currentClearOnFail)				
+				
+			try{
+			    currentForcePush=(forcePush=="true")
+			} catch (err){
+			    println ("forcePush not provided defaults to false")
+			}
+			if (currentVerbose) println ("currentForcePush = " + currentForcePush)				
+		}
+		if (currentForceClear){
+			stage ('Forced Clear'){
+            	sh "rm -rf ${WORKSPACE}/src"	   			
+			}
+		}
 		stage ('Calculate Variables'){
 		    workspace=WORKSPACE
 			if (currentVerbose) println ("workspace = " + workspace)				
@@ -150,7 +178,7 @@ node {
 		    }
 		}
 		
-		if(currentForce){
+		if(currentForceBuild){
 	        requiresBuild=true
 		}
 		else{
@@ -283,23 +311,25 @@ node {
             stage ('Docker Build Image'){
                 devopsImageBuildResult = sh(returnStdout: true, script: "'${mvnHome}/bin/mvn' docker:build --non-recursive -Dmaven.test.skip=true -f ${devopsSourcesPath}/pom.xml").trim()                
             }
-		    if (currentVerbose) println ("devopsImageBuildResult = " + devopsImageBuildResult)
-		    sh "touch ${devopsImageLastSha256File}" 
-		    devopsImageLastSha256 = sh(returnStdout: true, script: "cat ${devopsImageLastSha256File}").trim()
-		    if (currentVerbose) println ("devopsImageLastSha256 = " + devopsImageLastSha256)
-	        try{
-	            devopsImageCurrentSha256 = (devopsImageBuildResult =~ /Built image sha256:(.*)$/)[0][1]
-			} catch (err){
-			}			
-		    if (currentVerbose) println ("devopsImageCurrentSha256 = " + devopsImageCurrentSha256)
-			if (devopsImageCurrentSha256!=''){
-				sh "echo \"${devopsImageCurrentSha256}\" > ${devopsImageLastSha256File}"
-				if (devopsImageLastSha256!=devopsImageCurrentSha256){            	   	   	   
-		            stage ('Docker Push'){
-						sh "'${mvnHome}/bin/mvn' docker:push --non-recursive -Dmaven.test.skip=true -f ${devopsSourcesPath}/pom.xml"
-		            }
-	            }				
+        	if (!currentForcePush){
+			    if (currentVerbose) println ("devopsImageBuildResult = " + devopsImageBuildResult)
+			    sh "touch ${devopsImageLastSha256File}" 
+			    devopsImageLastSha256 = sh(returnStdout: true, script: "cat ${devopsImageLastSha256File}").trim()
+			    if (currentVerbose) println ("devopsImageLastSha256 = " + devopsImageLastSha256)
+		        try{
+		            devopsImageCurrentSha256 = (devopsImageBuildResult =~ /Built image sha256:(.*)$/)[0][1]
+				} catch (err){
+				}			
+			    if (currentVerbose) println ("devopsImageCurrentSha256 = " + devopsImageCurrentSha256)
+				if (devopsImageCurrentSha256!=''){
+					sh "echo \"${devopsImageCurrentSha256}\" > ${devopsImageLastSha256File}"			
+				}
 			}
+			if (currentForcePush||(devopsImageLastSha256!=devopsImageCurrentSha256)){            	   	   	   
+	            stage ('Docker Push'){
+					sh "'${mvnHome}/bin/mvn' docker:push --non-recursive -Dmaven.test.skip=true -f ${devopsSourcesPath}/pom.xml"
+	            }
+            }				
 			if (continueTasks == 'true') {
 				stage('Launch Depending Tasks') {
 			    	//build job: 'eu.operando.int.jnk.tsk.build.images', wait: false
@@ -308,12 +338,17 @@ node {
         }
 	} catch (err) {
 	    currentBuild.result = "FAILURE"
-			emailext (
-				subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
-				body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
-				<p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
-				recipientProviders: [[$class: 'DevelopersRecipientProvider']]
-			)
+		emailext (
+			subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
+			body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
+			<p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
+			recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+		)
+		if (currentClearOnFail){
+			stage ('Clear on Fail'){
+            	sh "rm -rf ${WORKSPACE}/src"	   			
+			}
+		}		
 	    throw err
 	}
 }
