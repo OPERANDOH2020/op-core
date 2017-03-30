@@ -268,7 +268,7 @@ node {
 					    devopsPomFile=sh(returnStdout: true, script: "ls ${devopsSourcesPath}/pom.xml 2>/dev/null").trim()
 					} catch (err){
 					}
-	            	hasDevopsPomFile=(""!=pomFile)
+	            	hasDevopsPomFile=(""!=devopsPomFile)
  					if (currentVerbose) println ("hasDevopsPomFile = " + hasDevopsPomFile)
 	                if (hasDevopsPomFile){
 		                stage ('Source Maven Install'){
