@@ -323,7 +323,7 @@ node {
 			if (currentContinueTasks) {
 				stage('Launch Depending Tasks') {
 					int i=0;
-					for (i=0;i<dependingTasks.size;i++){
+					for (i=0;i<dependingTasks.size();i++){
 						if (dependingTasks[i]!=""){
 			    			//build job: 'eu.operando.int.jnk.tsk.build.images', wait: false
 			    			if (currentVerbose) println ("starting job " + dependingTasks[i])
