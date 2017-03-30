@@ -8,7 +8,7 @@ node {
 	def devopsSourcesRelativePath = 'op-int/eu.operando.int.core.bda.server.src.dvp'
 	def devopsSourcesRepo = 'https://github.com/OPERANDOH2020/op-core.git'
 	def dependingTasks=[
-	"eu.operando.int.core.bda.server.test.00.jnk.tsk.run",
+	"",
 	""
 	]
 	//Params defaults

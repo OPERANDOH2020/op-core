@@ -10,7 +10,7 @@ node {
 	def sourcesRelativePath="op-core-cas/eu.operando.core.openldap.server/src/main/docker"
 	def sourcesRepo=devopsSourcesRepo
 	def dependingTasks=[
-	"eu.operando.int.core.bda.server.jnk.tsk.run",
+	"",
 	""
 	]
 	//Params defaults

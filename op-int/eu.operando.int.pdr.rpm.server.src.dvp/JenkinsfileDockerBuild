@@ -10,7 +10,7 @@ node {
 	def sourcesRelativePath='op-pdr-rpm/eu.operando.pdr.rpm.server'
 	def sourcesRepo='https://github.com/OPERANDOH2020/op-pdr.git'
 	def dependingTasks=[
-	"eu.operando.int.pdr.rpm.server.jnk.tsk.run",
+	"",
 	""
 	]
 	//Params defaults
