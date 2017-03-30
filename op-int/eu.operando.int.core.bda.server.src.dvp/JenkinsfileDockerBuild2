@@ -125,6 +125,9 @@ node {
 		    devopsSourcesLastCommitFile=devopsSourcesPath+"/src.dvp.last.commit"
 			if (currentVerbose) println ("devopsSourcesLastCommitFile = " + devopsSourcesLastCommitFile)
 
+		    devopsImageLastSha256File=devopsSourcesPath+"/dkr.img.last.sha256"
+			if (currentVerbose) println ("devopsImageLastSha256File = " + devopsImageLastSha256File)
+
 			if (hasSources){
     		    sourcesPath=workspace+"/sources"
 	    		if (currentVerbose) println ("sourcesPath = " + sourcesPath)
@@ -286,12 +289,16 @@ node {
 	        try{
 	            devopsImageCurrentSha256 = (devopsImageBuildResult =~ /Built image sha256:(.*)$/)[0][1]
 			} catch (err){
+			}			
+		    if (currentVerbose) println ("devopsImageCurrentSha256 = " + devopsImageCurrentSha256)
+			if (devopsImageCurrentSha256!=''){
+				sh "echo \"${devopsImageCurrentSha256}\" > ${devopsImageLastSha256File}"
+				if (devopsImageLastSha256!=devopsImageCurrentSha256){            	   	   	   
+		            stage ('Docker Push'){
+						sh "'${mvnHome}/bin/mvn' docker:push --non-recursive -Dmaven.test.skip=true -f ${devopsSourcesPath}/pom.xml"
+		            }
+	            }				
 			}
-			if (devopsImageLastSha256!=devopsImageCurrentSha256){            	   	   	   
-	            stage ('Docker Push'){
-					sh "'${mvnHome}/bin/mvn' docker:push --non-recursive -Dmaven.test.skip=true -f ${devopsSourcesPath}/pom.xml"
-	            }
-            }
 			if (continueTasks == 'true') {
 				stage('Launch Depending Tasks') {
 			    	//build job: 'eu.operando.int.jnk.tsk.build.images', wait: false
