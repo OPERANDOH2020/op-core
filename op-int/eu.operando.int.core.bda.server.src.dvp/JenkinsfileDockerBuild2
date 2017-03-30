@@ -187,8 +187,8 @@ node {
 	    		    		sourcesDiffPreviousCommit=sh(returnStdout: true, script: "git -C ${sourcesGitRepoPath} diff HEAD:${sourcesRelativePath} HEAD^:${sourcesRelativePath}").trim()
 	    		    	} catch(err) {
 	    		    	}
-	 			    	if (currentVerbose) println ("devopsSourcesDiffPreviousCommit = " + devopsSourcesDiffPreviousCommit)
-	 			    	if (devopsSourcesDiffPreviousCommit==""){
+	 			    	if (currentVerbose) println ("sourcesDiffPreviousCommit = " + sourcesDiffPreviousCommit)
+	 			    	if (sourcesDiffPreviousCommit==""){
 	 		  				hasNewDevopsSources=true
 	    		        	requiresBuild=true
 	 			    	}
