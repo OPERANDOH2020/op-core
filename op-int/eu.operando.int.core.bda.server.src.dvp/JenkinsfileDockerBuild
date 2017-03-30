@@ -307,7 +307,7 @@ node {
 			    devopsImageLastSha256 = sh(returnStdout: true, script: "cat ${devopsImageLastSha256File}").trim()
 			    if (currentVerbose) println ("devopsImageLastSha256 = " + devopsImageLastSha256)
 		        try{
-		            devopsImageCurrentSha256 = (devopsImageBuildResult =~ /Built image sha256:(.*)\/n/)[0][1]
+		            devopsImageCurrentSha256 = (devopsImageBuildResult =~ /Built image sha256:(.*)\n/)[0][1]
 				} catch (err){
 				}			
 			    if (currentVerbose) println ("devopsImageCurrentSha256 = " + devopsImageCurrentSha256)
