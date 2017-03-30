@@ -1,23 +1,4 @@
 #!groovy
-node {	
-    currentBuild.result = "SUCCESS"
-
-	try {
-	   def mvnHome 
-	   def sourcesPath
-	   def sourcesRepo
-	   def credentialsId
-
-	   stage('Preparation') { // for display purposes
-		  // Get the Maven tool.
-		  // ** NOTE: This 'M3' Maven tool must be configured
-		  // **       in the global configuration.
-		  mvnHome = tool 'Maven 3.3.9 colocated'
-		  sources = WORKSPACE
-		  sourcesPath = 'op-pdr-rpm'
-		  sourcesRepo = 'https://github.com/OPERANDOH2020/op-pdr.git'
-		  credentialsId = gitCredentials
-#!groovy
 //http://groovy-lang.org/semantics.html
 
 node {	
