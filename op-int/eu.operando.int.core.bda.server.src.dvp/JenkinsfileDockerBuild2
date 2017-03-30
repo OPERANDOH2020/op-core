@@ -185,7 +185,7 @@ node {
 	            stage ('Devops Source Move'){
 	                  sh "rm -rf ${devopsSourcesPath}"	   
 	                  sh "mv ${devopsSourcesGitPath}/src ${devopsSourcesPath}"	   
-	                  sh "rm -rf $${devopsSourcesPath}/pom.xml"	   
+	                  sh "rm -rf ${devopsSourcesPath}/pom.xml"	   
 	                  sh "mv ${devopsSourcesGitPath}/pom.xml ${devopsSourcesPath}/pom.xml"
 	            }
             }
