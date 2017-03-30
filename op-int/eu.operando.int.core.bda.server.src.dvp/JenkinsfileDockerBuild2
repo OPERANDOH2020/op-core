@@ -9,6 +9,10 @@ node {
 		def devopsSourcesRepo = 'https://github.com/OPERANDOH2020/op-core.git'
 		def sourcesRelativePath="op-core-bigdataanalytics/eu.operando.core.bda.server"//previously sourcesServerPath
 		def sourcesRepo=devopsSourcesRepo//previously sourcesServerRepo
+		def dependingTasks=[
+		"eu.operando.int.core.bda.server.jnk.tsk.run",
+		""
+		]
 		
 		Boolean hasSources = (sourcesRelativePath!=null)&&(sourcesRepo!=null)
 		
@@ -316,7 +320,13 @@ node {
             }				
 			if (continueTasks == 'true') {
 				stage('Launch Depending Tasks') {
-			    	//build job: 'eu.operando.int.jnk.tsk.build.images', wait: false
+					dependingTasks.eachWithIndex { a, i ->
+						if (a!=""){
+			    			//build job: 'eu.operando.int.jnk.tsk.build.images', wait: false
+			    			if (currentVerbose) println ("starting job " + a)
+			    			build job: a, wait: false, parameters: [booleanParam(name: 'stopContainer', value: false)]
+						}
+					}
 			    }
 			}            
         }
