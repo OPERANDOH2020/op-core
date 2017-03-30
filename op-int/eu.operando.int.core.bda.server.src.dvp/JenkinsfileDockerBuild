@@ -322,11 +322,12 @@ node {
             }				
 			if (currentContinueTasks) {
 				stage('Launch Depending Tasks') {
-					dependingTasks.eachWithIndex { a, i ->
-						if (a!=""){
+					int i=0;
+					for (i=0;i<dependingTasks.length;i++){
+						if (dependingTasks[i]!=""){
 			    			//build job: 'eu.operando.int.jnk.tsk.build.images', wait: false
-			    			if (currentVerbose) println ("starting job " + a)
-			    			build job: a, wait: false, parameters: [booleanParam(name: 'stopContainer', value: false)]
+			    			if (currentVerbose) println ("starting job " + dependingTasks[i])
+			    			build job: dependingTasks[i], wait: false, parameters: [booleanParam(name: 'stopContainer', value: false)]
 						}
 					}
 			    }
