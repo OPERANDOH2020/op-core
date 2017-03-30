@@ -36,6 +36,8 @@ node {
 		String devopsPomPackaging=""
 		Boolean hasPomPackaging=false
 		String domPackaging=""
+		Boolean hasPomFile=false
+		String pomFile=""
 				
 		String devopsSourcesLastCommitFile
 		String sourcesLastCommitFile
@@ -198,16 +200,23 @@ node {
                   sh "mkdir ${sourcesPath}"	   
 	              sh "mv ${sourcesGitPath}/* ${sourcesPath}"
 	            }
-                stage ('Source Maven Install'){
-                 	pomPackaging=sh(returnStdout: true, script: "grep \"<packaging>.*pom.*</packaging>\" ${sourcesPath}/pom.xml").trim()
-                 	hasPomPackaging=(""==pomPackaging)
- 					if (currentVerbose) println ("hasPomPackaging = " + hasPomPackaging)
- 					if 	(hasPomPackaging){
-                    	sh "'${mvnHome}/bin/mvn' install:install --non-recursive -Dmaven.test.skip=true -f ${sourcesPath}/pom.xml"
- 					} else {
-	                    sh "'${mvnHome}/bin/mvn' clean install --non-recursive -Dmaven.test.skip=true -f ${sourcesPath}/pom.xml"				
- 					}
+            	stage ('Assess sources install need'){          	
+                 	pomFile=sh(returnStdout: true, script: "ls ${sourcesPath}/pom.xml").trim()
+	            	hasPomFile=(""==pomFile)
+ 					if (currentVerbose) println ("hasPomFile = " + hasPomFile)
                 }	            
+                if (hasPomFile){
+	                stage ('Source Maven Install'){
+	                 	pomPackaging=sh(returnStdout: true, script: "grep \"<packaging>.*pom.*</packaging>\" ${sourcesPath}/pom.xml").trim()
+	                 	hasPomPackaging=(""==pomPackaging)
+	 					if (currentVerbose) println ("hasPomPackaging = " + hasPomPackaging)
+	 					if 	(hasPomPackaging){
+	                    	sh "'${mvnHome}/bin/mvn' install:install --non-recursive -Dmaven.test.skip=true -f ${sourcesPath}/pom.xml"
+	 					} else {
+		                    sh "'${mvnHome}/bin/mvn' clean install --non-recursive -Dmaven.test.skip=true -f ${sourcesPath}/pom.xml"				
+	 					}
+	                }
+                }
             }
             if(currentVerbose){
                 stage ('Variables echo'){
