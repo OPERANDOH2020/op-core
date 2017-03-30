@@ -283,6 +283,7 @@ node {
             stage ('Docker Build Image'){
                 devopsImageBuildResult = sh(returnStdout: true, script: "'${mvnHome}/bin/mvn' docker:build --non-recursive -Dmaven.test.skip=true -f ${devopsSourcesPath}/pom.xml").trim()                
             }
+		    if (currentVerbose) println ("devopsImageBuildResult = " + devopsImageBuildResult)
 		    sh "touch ${devopsImageLastSha256File}" 
 		    devopsImageLastSha256 = sh(returnStdout: true, script: "cat ${devopsImageLastSha256File}").trim()
 		    if (currentVerbose) println ("devopsImageLastSha256 = " + devopsImageLastSha256)
