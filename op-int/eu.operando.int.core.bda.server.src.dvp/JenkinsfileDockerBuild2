@@ -76,7 +76,6 @@ node {
 			} catch (err){
 			    println ("verbosity not provided defaults to false")
 			}
-			currentVerbose=true //forDebugging purposes
 			if (currentVerbose) println ("verbose = " + currentVerbose)
 			
 			if (hasSources) {
