@@ -35,7 +35,7 @@ node {
 		Boolean hasDevopsPomPackaging=false
 		String devopsPomPackaging=""
 		Boolean hasPomPackaging=false
-		String domPackaging=""
+		String pomPackaging=""
 		Boolean hasPomFile=false
 		String pomFile=""
 				
