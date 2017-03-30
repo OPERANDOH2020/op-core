@@ -182,7 +182,7 @@ node {
             }
              if(hasNewDevopsSources){
 	            stage ('Devops Source Move'){
-	                  sh "rm -rf ${devopsSourcesPath}"	   
+	                  sh "rm -rf ${devopsSourcesPath}/src"	   
 	                  sh "mv ${devopsSourcesGitPath}/src ${devopsSourcesPath}"	   
 	                  sh "rm -rf ${devopsSourcesPath}/pom.xml"	   
 	                  sh "mv ${devopsSourcesGitPath}/pom.xml ${devopsSourcesPath}/pom.xml"
@@ -191,7 +191,8 @@ node {
             if(hasNewSources){
 	            stage ('Source Move'){
                   sh "rm -rf ${sourcesPath}"	   
-	                  sh "mv ${sourcesGitPath} ${sourcesPath}"
+                  sh "mkdir ${sourcesPath}"	   
+	              sh "mv ${sourcesGitPath}/* ${sourcesPath}"
 	            }
                 stage ('Source Maven Install'){
                    sh "'${mvnHome}/bin/mvn' clean install:install -Dmaven.test.skip=true -f ${sourcesPath}/pom.xml"
