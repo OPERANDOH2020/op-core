@@ -271,7 +271,7 @@ node {
 	            	hasDevopsPomFile=(""!=devopsPomFile)
  					if (currentVerbose) println ("hasDevopsPomFile = " + hasDevopsPomFile)
 	                if (hasDevopsPomFile){
-		                stage ('Source Maven Install'){
+		                stage ('Devops Source Maven Install'){
 		                 	try {
 		                 		devopsPomPackaging=sh(returnStdout: true, script: "grep '<packaging>.*pom.*</packaging>' ${devopsSourcesPath}/pom.xm").trim()
 		                 	} catch (err){
