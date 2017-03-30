@@ -50,9 +50,14 @@ node {
 		String devopsSourcesDiffPreviousCommit
 		String sourcesLastDiffPreviousCommit
 		
+		String devopsImageLastSha256File
+		String devopsImageBuildResult
+		String devopsImageLastSha256=""
+		String devopsImageCurrentSha256=""
+
 		String mvnHome;
 		
-		stage ('Params processing'){
+		stage ('Params Processing'){
 			//def verbose -> defaults to "false"
 			//def scmCredentials -> defaults to undefined
 			//def continueTasks -> defaults to "true"
@@ -201,7 +206,7 @@ node {
        	if (currentVerbose) println ("requiresBuild = " + requiresBuild)
 		
         if(requiresBuild){
-            stage ('prepare Buid Variables'){
+            stage ('Prepare Buid Variables'){
                 // Get the Maven tool.
                 // ** NOTE: This 'M3' Maven tool must be configured
                 // **       in the global configuration.
@@ -221,7 +226,7 @@ node {
                   sh "mkdir ${sourcesPath}"	   
 	              sh "mv ${sourcesGitPath}/* ${sourcesPath}"
 	            }
-            	stage ('Assess sources install need'){          	
+            	stage ('Assess Sources Install Need'){          	
                  	pomFile=sh(returnStdout: true, script: "ls ${sourcesPath}/pom.xml").trim()
 	            	hasPomFile=(""!=pomFile)
  					if (currentVerbose) println ("hasPomFile = " + hasPomFile)
@@ -244,12 +249,12 @@ node {
                 }
             }
             if(currentVerbose){
-                stage ('Variables echo'){
+                stage ('Variables Echo'){
                 	sh "'${mvnHome}/bin/mvn' antrun:run@echobase -f ${devopsSourcesPath}/pom.xml"
                     sh "'${mvnHome}/bin/mvn' antrun:run@echo -f ${devopsSourcesPath}/pom.xml"
                 }
             }
-            stage ('Assess package/install need'){          	
+            stage ('Assess Package/Install Need'){          	
              	try {
                 	devopsPomPackaging=sh(returnStdout: true, script: "grep '<packaging>.*pom.*</packaging>' ${devopsSourcesPath}/pom.xml").trim()
              	} catch (err){
@@ -268,18 +273,27 @@ node {
                 }            
             }
             if (currentStopContainer){
-	            stage ('Maven Docker stop'){
+	            stage ('Docker Stop'){
 	                sh "'${mvnHome}/bin/mvn' docker:stop --non-recursive -Dmaven.test.skip=true -f ${devopsSourcesPath}/pom.xml"
 	            }
             }
-            stage ('Maven Build docker image'){
-                sh "'${mvnHome}/bin/mvn' docker:build --non-recursive -Dmaven.test.skip=true -f ${devopsSourcesPath}/pom.xml"
-            }	   	   	   
-            stage ('Maven Build docker push'){
-                sh "'${mvnHome}/bin/mvn' docker:push --non-recursive -Dmaven.test.skip=true -f ${devopsSourcesPath}/pom.xml"
+            stage ('Docker Build Image'){
+                devopsImageBuildResult = sh(returnStdout: true, script: "'${mvnHome}/bin/mvn' docker:build --non-recursive -Dmaven.test.skip=true -f ${devopsSourcesPath}/pom.xml").trim()                
+            }
+		    sh "touch ${devopsImageLastSha256File}" 
+		    devopsImageLastSha256 = sh(returnStdout: true, script: "cat ${devopsImageLastSha256File}").trim()
+		    if (currentVerbose) println ("devopsImageLastSha256 = " + devopsImageLastSha256)
+	        try{
+	            devopsImageCurrentSha256 = (devopsImageBuildResult =~ /Built image sha256:(.*)$/)[0][1]
+			} catch (err){
+			}
+			if (devopsImageLastSha256!=devopsImageCurrentSha256){            	   	   	   
+	            stage ('Docker Push'){
+					sh "'${mvnHome}/bin/mvn' docker:push --non-recursive -Dmaven.test.skip=true -f ${devopsSourcesPath}/pom.xml"
+	            }
             }
 			if (continueTasks == 'true') {
-				stage('continue') {
+				stage('Launch Depending Tasks') {
 			    	//build job: 'eu.operando.int.jnk.tsk.build.images', wait: false
 			    }
 			}            
