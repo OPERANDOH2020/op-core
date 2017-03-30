@@ -231,6 +231,7 @@ node {
             }
             stage ('Assess package/install need'){          	
  	            sh "grep '<packaging>.*pom.*</packaging>' ${devopsSourcesPath}/pom.xml" //test
+ 	            sh "echo end test"
                 devopsPomPackaging=sh(returnStdout: true, script: "grep '<packaging>.*pom.*</packaging>' ${devopsSourcesPath}/pom.xml").trim()
                 hasDevopsPomPackaging=(""!=devopsPomPackaging)
  				if (currentVerbose) println ("hasDevopsPomPackaging = " + hasDevopsPomPackaging)				
