@@ -30,6 +30,7 @@ node {
 		Boolean currentForceClear=false
 		Boolean currentClearOnFail=false
 		Boolean currentForcePush=false
+		
 		Boolean hasNewDevopsSources=false
 		Boolean hasNewSources=false
 		Boolean requiresBuild=false
@@ -66,8 +67,10 @@ node {
 			//def continueTasks -> defaults to "true"
 			//def ForceBuild -> defaults to "false"
 			//def stopContainer -> defaults to "true"
+			//def forceClear -> defaults to "false"
+			//def clearOnFail -> defaults to "false"
+			//def forcePush -> defaults to "false"
 			//WARNING JENKINS SEND BOOLEANS AS STRING
-
 			try{
 			    currentVerbose=(verbose=="true")
 			} catch (err){
@@ -86,42 +89,36 @@ node {
 				if (!hasCredentials){ error "No scm credentials to retrieve the source code" }				
 				if (currentVerbose) println ("scmCredentials = " + scmCredentials)
 			}
-
 			try{
 			    currentContinueTasks=(continueTasks=="true")
 			} catch (err){
 			    println ("continueTasks not provided defaults to true")
 			}
-			if (currentVerbose) println ("continueTasks = " + currentContinueTasks)		
-					
+			if (currentVerbose) println ("continueTasks = " + currentContinueTasks)							
 			try{
 			    currentForceBuild=(ForceBuild=="true")
 			} catch (err){
 			    println ("ForceBuild not provided defaults to false")
 			}
-			if (currentVerbose) println ("currentForceBuild = " + currentForceBuild)			
-				
+			if (currentVerbose) println ("currentForceBuild = " + currentForceBuild)							
 			try{
 			    currentStopContainer=(stopContainer=="true")
 			} catch (err){
 			    println ("stopContainer not provided defaults to true")
 			}
 			if (currentVerbose) println ("currentStopContainer = " + currentStopContainer)				
-
 			try{
 			    currentForceClear=(forceClear=="true")
 			} catch (err){
 			    println ("forceClear not provided defaults to false")
 			}
-			if (currentVerbose) println ("currentForceClear = " + currentForceClear)				
-				
+			if (currentVerbose) println ("currentForceClear = " + currentForceClear)								
 			try{
 			    currentClearOnFail=(clearOnFail=="true")
 			} catch (err){
 			    println ("clearOnFail not provided defaults to false")
 			}
-			if (currentVerbose) println ("currentClearOnFail = " + currentClearOnFail)				
-				
+			if (currentVerbose) println ("currentClearOnFail = " + currentClearOnFail)								
 			try{
 			    currentForcePush=(forcePush=="true")
 			} catch (err){
@@ -136,48 +133,36 @@ node {
 		}
 		stage ('Calculate Variables'){
 		    workspace=WORKSPACE
-			if (currentVerbose) println ("workspace = " + workspace)				
-		    
+			if (currentVerbose) println ("workspace = " + workspace)						    
 		    jenkinsWorkspace=WORKSPACE+"/../workspace\\@script"
 			if (currentVerbose) println ("jenkinsWorkspace = " + jenkinsWorkspace)				
-
 		    devopsSourcesPath=workspace
-			if (currentVerbose) println ("devopsSourcesPath = " + devopsSourcesPath)
-			
+			if (currentVerbose) println ("devopsSourcesPath = " + devopsSourcesPath)			
 		    devopsSourcesGitRepoPath=jenkinsWorkspace
 			if (currentVerbose) println ("devopsSourcesGitRepoPath = " + devopsSourcesGitRepoPath)
-
 		    devopsSourcesGitPath=devopsSourcesGitRepoPath + "/" + devopsSourcesRelativePath
 			if (currentVerbose) println ("devopsSourcesGitPath = " + devopsSourcesGitPath)
-
 		    devopsSourcesLastCommitFile=devopsSourcesPath+"/src.dvp.last.commit"
 			if (currentVerbose) println ("devopsSourcesLastCommitFile = " + devopsSourcesLastCommitFile)
-
 		    devopsImageLastSha256File=devopsSourcesPath+"/dkr.img.last.sha256"
 			if (currentVerbose) println ("devopsImageLastSha256File = " + devopsImageLastSha256File)
-
 			if (hasSources){
     		    sourcesPath=workspace+"/sources"
-	    		if (currentVerbose) println ("sourcesPath = " + sourcesPath)
-				
+	    		if (currentVerbose) println ("sourcesPath = " + sourcesPath)				
 			    sourcesGitRepoPath=workspace+"/sourcesRepo"
-				if (currentVerbose) println ("sourcesGitRepoPath = " + sourcesGitRepoPath)
-	
+				if (currentVerbose) println ("sourcesGitRepoPath = " + sourcesGitRepoPath)	
 			    sourcesGitPath=sourcesGitRepoPath + "/" + sourcesRelativePath
 				if (currentVerbose) println ("sourcesGitPath = " + sourcesGitPath)
-
         		sourcesLastCommitFile=devopsSourcesPath+"/src.last.commit"
 	    		if (currentVerbose) println ("sourcesLastCommitFile = " + sourcesLastCommitFile)
 			}
-		}
-		
+		}		
 		if(hasSources){
 		    stage ('Gather Sources'){
 		        checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: sourcesGitRepoPath], [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: sourcesRelativePath]]]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: scmCredentials, url: sourcesRepo]]])
     		    if (currentVerbose) println ("Sources checkout to " + sourcesPath)
 		    }
-		}
-		
+		}		
 		if(currentForceBuild){
 	        requiresBuild=true
 		}
