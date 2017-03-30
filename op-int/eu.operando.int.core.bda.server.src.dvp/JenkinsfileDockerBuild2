@@ -182,41 +182,6 @@ node {
        	if (currentVerbose) println ("hasNewDevopsSources = " + hasNewDevopsSources)
        	if (currentVerbose) println ("hasNewSources = " + hasNewSources)
        	if (currentVerbose) println ("requiresBuild = " + requiresBuild)
-
-
-  	            sh "echo begin test"
- 	            try{sh "grep '<packaging>.*pom.*</packaging>' ${devopsSourcesPath}/pom.xml 2>&1"}catch(err){} 
- 	            try{sh "grep \"<packaging>.*pom.*</packaging>\" ${devopsSourcesPath}/pom.xml 2>&1"}catch(err){}  
- 	            try{sh "grep \'<packaging>.*pom.*</packaging>\' ${devopsSourcesPath}/pom.xml 2>&1"}catch(err){}  
- 	            try{sh "grep \\\'<packaging>.*pom.*</packaging>\\\' ${devopsSourcesPath}/pom.xml 2>&1"}catch(err){}  
- 	            try{sh "grep pom ${devopsSourcesPath}/pom.xml 2>&1"}catch(err){}  
- 	            try{sh "grep '<packaging>.*pom.*</packaging>' pom.xml 2>&1"}catch(err){} 
- 	            try{sh "grep \"<packaging>.*pom.*</packaging>\" pom.xml 2>&1"}catch(err){}  
- 	            try{sh "grep \'<packaging>.*pom.*</packaging>\' pom.xml 2>&1"}catch(err){}  
- 	            try{sh "grep \\\'<packaging>.*pom.*</packaging>\\\' pom.xml 2>&1"}catch(err){}  
- 	            try{sh "grep pom pom.xml 2>&1"}catch(err){}  
-	            try{sh "grep '<packaging>.*pom.*</packaging>' sources/pom.xml 2>&1"}catch(err){} 
- 	            try{sh "grep \"<packaging>.*pom.*</packaging>\" sources/pom.xml 2>&1"}catch(err){}  
- 	            try{sh "grep \'<packaging>.*pom.*</packaging>\' sources/pom.xml 2>&1"}catch(err){}  
- 	            try{sh "grep \\\'<packaging>.*pom.*</packaging>\\\' sources/pom.xml 2>&1"}catch(err){}  
- 	            try{sh "grep pom sources/pom.xml 2>&1"}catch(err){}  
-  	            try{sh "grep '<packaging>.*</packaging>' ${devopsSourcesPath}/pom.xml 2>&1"}catch(err){} 
- 	            try{sh "grep \"<packaging>.*</packaging>\" ${devopsSourcesPath}/pom.xml 2>&1"}catch(err){}  
- 	            try{sh "grep \'<packaging>.*</packaging>\' ${devopsSourcesPath}/pom.xml 2>&1"}catch(err){}  
- 	            try{sh "grep \\\'<packaging>.*</packaging>\\\' ${devopsSourcesPath}/pom.xml 2>&1"}catch(err){}  
- 	            try{sh "grep pom ${devopsSourcesPath}/pom.xml 2>&1"}catch(err){}  
- 	            try{sh "grep '<packaging>.*</packaging>' pom.xml 2>&1"}catch(err){} 
- 	            try{sh "grep \"<packaging>.*</packaging>\" pom.xml 2>&1"}catch(err){}  
- 	            try{sh "grep \'<packaging>.*</packaging>\' pom.xml 2>&1"}catch(err){}  
- 	            try{sh "grep \\\'<packaging>.*</packaging>\\\' pom.xml 2>&1"}catch(err){}  
- 	            try{sh "grep pom pom.xml 2>&1"}catch(err){}  
-	            try{sh "grep '<packaging>.*</packaging>' sources/pom.xml 2>&1"}catch(err){} 
- 	            try{sh "grep \"<packaging>.*</packaging>\" sources/pom.xml 2>&1"}catch(err){}  
- 	            try{sh "grep \'<packaging>.*</packaging>\' sources/pom.xml 2>&1"}catch(err){}  
- 	            try{sh "grep \\\'<packaging>.*</packaging>\\\' sources/pom.xml 2>&1"}catch(err){}  
- 	            try{sh "grep pom sources/pom.xml 2>&1"}catch(err){}  
- 	            sh "echo end test"
-
 		
         if(requiresBuild){
             stage ('prepare Buid Variables'){
@@ -246,8 +211,7 @@ node {
                 }	            
                 if (hasPomFile){
 	                stage ('Source Maven Install'){
-	                 	sh "grep '<packaging>.*pom.*</packaging>' ${sourcesPath}/pom.xml" //test
-	                 	pomPackaging=sh(returnStdout: true, script: "grep '<packaging>.*pom.*</packaging>' ${sourcesPath}/pom.xml").trim()
+	                 	pomPackaging=sh(returnStdout: true, script: "grep '<packaging>.*pom.*</packaging>' ${sourcesPath}/pom.xml 2>&1").trim()
 	                 	hasPomPackaging=(""!=pomPackaging)
 	 					if (currentVerbose) println ("hasPomPackaging = " + hasPomPackaging)
 	 					if 	(hasPomPackaging){
