@@ -166,11 +166,14 @@ node {
                 mvnHome = tool 'Maven 3.3.9 colocated'
             }
             stage ('Devops Source Move'){
+                  sh "rm -rf ${devopsSourcesPath}"	   
                   sh "mv ${devopsSourcesGitPath}/src ${devopsSourcesPath}"	   
-                  sh "mv ${devopsSourcesGitPath}/pom.xml ${devopsSourcesPath}"
+                  sh "rm -rf $${devopsSourcesPath}/pom.xml"	   
+                  sh "mv ${devopsSourcesGitPath}/pom.xml ${devopsSourcesPath}/pom.xml"
             }
             if(hasSources){
 	            stage ('Source Move'){
+                  sh "rm -rf ${sourcesPath}"	   
 	                  sh "mv ${sourcesGitPath} ${sourcesPath}"
 	            }
                 stage ('Source Maven Install'){
