@@ -156,7 +156,7 @@ node {
     				sh "echo \"${devopsSourcesCurrentCommit}\" > ${devopsSourcesLastCommitFile}"
     			}
     		    if (devopsSourcesCurrentCommit!=devopsSourcesLastCommit) {
- 		  			=true
+ 		  			hasNewDevopsSources=true
     		        requiresBuild=true
 			    }
 		        if (hasSources)
