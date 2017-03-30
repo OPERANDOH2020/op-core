@@ -164,7 +164,7 @@ node {
     		    	} catch(err) {
     		    	}
  			    	if (currentVerbose) println ("devopsSourcesDiffPreviousCommit = " + devopsSourcesDiffPreviousCommit)
- 			    	if (devopsSourcesDiffPreviousCommit==""){
+ 			    	if (devopsSourcesDiffPreviousCommit!=""){
  		  				hasNewDevopsSources=true
     		        	requiresBuild=true
  			    	}
@@ -188,7 +188,7 @@ node {
 	    		    	} catch(err) {
 	    		    	}
 	 			    	if (currentVerbose) println ("sourcesDiffPreviousCommit = " + sourcesDiffPreviousCommit)
-	 			    	if (sourcesDiffPreviousCommit==""){
+	 			    	if (sourcesDiffPreviousCommit!=""){
 	 		  				hasNewDevopsSources=true
 	    		        	requiresBuild=true
 	 			    	}
