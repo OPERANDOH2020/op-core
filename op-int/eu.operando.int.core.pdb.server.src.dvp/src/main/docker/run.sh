@@ -1,14 +1,4 @@
 #!/bin/bash
-#!/bin/bash
-
-OLD_MONGO_HOST=mongo.integration.operando.lan.esilab.org
-MONGO_HOST=changed
-OLD_MONGO_PORT=27017
-MONGO_PORT=changed
-OLD_AAPI_ENDPOINT=http://aapi.integration.operando.lan.esilab.org:8135/operando/interfaces/aapi
-AAPI_ENDPOINT=changed
-OLD_LDB_ENDPOINT=http://ldb.integration.operando.lan.esilab.org:8090/operando/core/ldb
-LDB_ENDPOINT=changed
 
 echo MONGO Host OLD: $OLD_MONGO_HOST
 echo MONGO Host: $MONGO_HOST
@@ -21,7 +11,7 @@ echo LDB Endpoint: $LDB_ENDPOINT
 
 WAR_FILENAME=operando#core#pdb
 WAR_FILE=$WAR_FILENAME.war
-WAR_DIR=/usr/local/tomcat/webapp
+WAR_DIR=/usr/local/tomcat/webapps
 TMP_DIR=/tmp
 echo War Filename: $WAR_FILENAME
 echo War File: $WAR_FILE

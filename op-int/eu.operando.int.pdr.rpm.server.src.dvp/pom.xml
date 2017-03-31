@@ -43,7 +43,7 @@
 						<configuration>
 							<resources>
 								<resource>
-									<directory>${sources.path}/src/main/resources/config</directory>
+									<directory>${sources.path}/src/main/resources</directory>
 									<filtering>true</filtering>
 								</resource>
 							</resources>
