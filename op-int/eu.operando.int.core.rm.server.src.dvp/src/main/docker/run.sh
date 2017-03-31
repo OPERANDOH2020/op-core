@@ -12,7 +12,7 @@ echo RM Url Path lenght: $RM_URLPATH_LENGHT
 sed -i -e "s|$OLD_RM_URLPATH|$RM_URLPATH|" \
 /sources/app.py
 
-sed -i "s|path == \"monitor\"|\path == \"$RM_URLPATH\/monitor\"|g"  \
+sed -i "s|addr == \"monitor\"|addr == \"$RM_URLPATH\/monitor\"|g"  \
 /sources/app.py
 
 sed -i -e "s|$OLD_DAN_ENDPOINT|$DAN_ENDPOINT|" \
