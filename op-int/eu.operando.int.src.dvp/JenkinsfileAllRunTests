@@ -1,10 +1,42 @@
 #!groovy
 node {	
     currentBuild.result = "SUCCESS"
-    echo "continueTasks: ${continueTasks}"
+ 
+ 	//Params defaults
+	Boolean currentVerbose=false
+	Boolean currentContinueTasks=true
+	Boolean currentStopContainer=false
 
 	try {
-	   def mvnHome 
+
+		stage ('Params Processing'){
+			//def verbose -> defaults to "false"
+			//def scmCredentials -> defaults to undefined
+			//def continueTasks -> defaults to "true"
+			//def ForceBuild -> defaults to "false"
+			//def stopContainer -> defaults to "true"
+			//def forceClear -> defaults to "false"
+			//def clearOnFail -> defaults to "false"
+			//def forcePush -> defaults to "false"
+			//WARNING JENKINS SEND BOOLEANS AS STRING
+			try{
+			    currentVerbose=(verbose=="true")
+			} catch (err){
+			    println ("verbosity not provided defaults to false")
+			}
+			if (currentVerbose) println ("verbose = " + currentVerbose)
+			try{
+			    currentContinueTasks=(continueTasks=="true")
+			} catch (err){
+			    println ("continueTasks not provided defaults to true")
+			}
+			if (currentVerbose) println ("continueTasks = " + currentContinueTasks)							
+			try{
+			    currentStopContainer=(stopContainer=="true")
+			} catch (err){
+			    println ("stopContainer not provided defaults to true")
+			}
+		}
 	   stage('test00') { 
 	      build job: 'eu.operando.int.core.ldb.server.test.00.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
 	      build job: 'eu.operando.int.core.pdb.server.test.00.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
@@ -23,22 +55,19 @@ node {
 	   }
 	   stage('test03') { 
 	   }	   	   
-	   if (continueTasks == 'true') {
+	   if (currentContinueTasks) {
 	       stage('continue') {
-	   	        //build job: 'eu.operando.int.jnk.tsk.run.test', wait: false
+	   	        //build job: 'eu.operando.int.jnk.tsk.run.test', wait: false, parameters: [booleanParam(name: 'stopContainer', value: false)]
 	   	   }
 	   }
 	   } catch (err) {
-
         currentBuild.result = "FAILURE"
-
 			  emailext (
 			      subject: "FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'",
 			      body: """<p>FAILED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]':</p>
 			        <p>Check console output at &QUOT;<a href='${env.BUILD_URL}'>${env.JOB_NAME} [${env.BUILD_NUMBER}]</a>&QUOT;</p>""",
 			      recipientProviders: [[$class: 'DevelopersRecipientProvider']]
 			    )
-
         throw err
 		}
 }
