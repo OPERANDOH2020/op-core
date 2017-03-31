@@ -62,6 +62,7 @@ node {
 			    println ("continueTasks not provided defaults to true")
 			}
 			if (currentVerbose) println ("continueTasks = " + currentContinueTasks)							
+			if (currentVerbose) println ("stopContainer = " + stopContainer)				
 			try{
 			    currentStopContainer=((stopContainer=="true")||(stopContainer==true))
 			} catch (err){
