@@ -21,7 +21,7 @@ __hdr = {"Content-Type": "application/json", "Accept": "*/*", }
 __aapi_tgt_url = "http://integration.operando.esilab.org:8135/operando/interfaces/aapi/aapi/tickets"
 __aapi_st_url = 'http://integration.operando.esilab.org:8135/operando/interfaces/aapi/aapi/tickets/%s'
 # config.get('URLs', 'URL_LOGDB')
-__URL_LOGDB = "http://ldb.integration.operando.lan.esilab.org:8090/operando/core/ldb/"
+__URL_LOGDB = "http://ldb.integration.operando.esilab.org:8090/operando/core/ldb/"
 # config.get('URLs', 'DAN_url')
 __DAN_url = "http://integration.operando.esilab.org:8111/operando/pdr/dan/%s"
 __URL_PC = "http://integration.operando.esilab.org:8095/operando/core/pc"
@@ -54,6 +54,6 @@ headers = {'service-ticket': ST, "osp-identifier": "YellowPages",
 r = requests.get('http://127.0.0.1:8102/Users(4)?$format=json', headers=headers)
 # r = requests.get('http://127.0.0.1:8102/Users(2)/MetadatavalueDetails?$format=json&$expand=MetadatafieldregistryDetails', headers=headers)
 
-# r = requests.get('http://127.0.0.1  :8102/Users?$format=json', headers=headers)
+# r = requests.get('http://127.0.0.1:8102/Users?$format=json', headers=headers)
 # r = requests.get('http://127.0.0.1:8102/Users?$format=json', headers=headers)
 print r.text

@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>eu.operando.int.core.rm.server.src.dvp</artifactId>
+	<artifactId>eu.operando.int.core.rm.test.01.server.src.dvp</artifactId>
 	<packaging>pom</packaging>
 	<parent>
 		<groupId>eu.operando.int</groupId>
@@ -98,7 +98,6 @@
 									<RM_URLPATH>${operando.core.rm.endpoint.path}</RM_URLPATH>
 								</env>
 								<ports>
-									<port>${docker.port1.mapping}</port>
 								</ports>
 							</run>
 						</image>
@@ -168,13 +167,14 @@
 	</build>
 	<properties>
 		<server.endpoint.path>${operando.core.rm.endpoint.path}</server.endpoint.path>
-		<docker.name>eu.operando.core.rm.server</docker.name>
+		<docker.name>eu.operando.core.rm.server.test.01</docker.name>
 		<docker.image.name>${docker.registry.name}${docker.submitter}/${docker.name}</docker.image.name>
 		<docker.image.version>${project.version}</docker.image.version>
 		<docker.port1.external>${operando.core.rm.port}</docker.port1.external>
 		<docker.port1.mapping>${docker.port1.external}:8102</docker.port1.mapping>
 		<core.ldb.endpoint>${operando.core.ldb.endpoint}</core.ldb.endpoint>
 		<core.pc.endpoint>${operando.core.pc.endpoint}</core.pc.endpoint>
+		<core.rm.endpoint>${operando.core.rm.endpoint}</core.rm.endpoint>
 		<interfaces.aapi.endpoint>${operando.interfaces.aapi.endpoint}</interfaces.aapi.endpoint>
 		<pdr.dan.endpoint>${operando.pdr.dan.endpoint}</pdr.dan.endpoint>
 	</properties>
