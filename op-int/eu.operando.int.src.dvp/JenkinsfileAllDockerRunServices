@@ -38,6 +38,7 @@ node {
 			}
 		}
 	   stage('Independent') { 
+	      build job: 'eu.operando.int.core.mysql.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false), booleanParam(name: 'stopContainer', value: false)]	      
 	      build job: 'eu.operando.int.core.mongo.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false), booleanParam(name: 'stopContainer', value: false)]	      
 		  build job: 'eu.operando.int.core.as.openldap.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false), booleanParam(name: 'stopContainer', value: false)]	      	          
 	   }
