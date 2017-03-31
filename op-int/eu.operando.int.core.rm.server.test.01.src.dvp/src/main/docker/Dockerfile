@@ -13,7 +13,7 @@ ENV LDB_ENDPOINT http://ldb.integration.operando.lan.esilab.org:8090/operando/co
 ENV OLD_PC_ENDPOINT http://integration.operando.esilab.org:8095/operando/core/pc
 ENV PC_ENDPOINT http://integration.operando.lan.esilab.org:8095/operando/core/pc
 ENV OLD_RM_ENDPOINT http://127.0.0.1:8102
-ENV RM_ENDPOINT http://integration.operando.lan.esilab.org:8102/operando/core/pc
+ENV RM_ENDPOINT http://integration.operando.lan.esilab.org:8102
 ENV OLD_AAPI_USER rmuser
 ENV AAPI_USER rmuser
 ENV OLD_AAPI_PASSWORD r1ghts
