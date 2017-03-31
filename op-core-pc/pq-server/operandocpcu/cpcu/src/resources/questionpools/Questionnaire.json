@@ -1,0 +1,31 @@
+[
+	{
+		"QuestionString":"this is question one",
+		"Weight":0.2,
+		"Category":"MEDICAL",
+		"PrivacyRating":1,
+		"Metadata": "This question relates to doing this stuff"
+	},
+	{
+		"QuestionString":"this is question two",
+		"Weight":0.2,
+		"Category":"MEDICAL",
+		"PrivacyRating":2,
+		"Metadata": "This question relates to doing this stuff"
+	},
+	{
+		"QuestionString":"this is question three",
+		"Weight":0.2,
+		"Category":"MEDICAL",
+		"PrivacyRating":3,
+		"Metadata": "This question relates to doing this stuff"
+	},
+	{
+		"QuestionString":"this is question four",
+		"Weight":0.2,
+		"Category":"MEDICAL",
+		"PrivacyRating":4,
+		"Metadata": "This question relates to doing this stuff"
+	}
+	
+]

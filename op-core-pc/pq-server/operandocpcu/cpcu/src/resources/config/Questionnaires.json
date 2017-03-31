@@ -1,0 +1,38 @@
+[
+   {
+      "generatedQuestions":false,
+      "metadata":"This Questionnaire relates to this",
+      "classLoader":"Default",
+      "id":0,
+      "type":"Initial",
+      "processor":"Default",
+      "dependancies":-1
+   },
+   {
+      "generatedQuestions":false,
+      "metadata":"This Questionnaire relates to privacy",
+      "classLoader":"Default",
+      "id":1,
+      "type":"Privacy",
+      "processor":"Default",
+      "dependancies":0
+   },
+   {
+      "generatedQuestions":true,
+      "metadata":"This Questionnaire relates to services",
+      "classLoader":"Service",
+      "id":2,
+      "type":"Service",
+      "processor":"Service",
+      "dependancies":1
+   },
+   {
+      "generatedQuestions":true,
+      "metadata":"This is the Action Test Questionnaire",
+      "classLoader":"Action",
+      "id":3,
+      "type":"Action",
+      "processor":"Action",
+      "dependancies":1
+   }
+]

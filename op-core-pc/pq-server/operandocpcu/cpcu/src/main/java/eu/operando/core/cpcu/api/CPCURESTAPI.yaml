@@ -1,0 +1,729 @@
+swagger: '2.0'
+info:
+  description: >-
+    A REST API to access and edit Questionnaires and Services within the CPCU
+    platform
+  version: '2.0'
+  title: REST API for CPCU Operando
+  termsOfService: 'http://www.operando.eu/terms/'
+  contact:
+    name: IT Innovation
+    url: 'http://www.operando.eu/support'
+    email: support@operando.eu
+  license:
+    name: MIT
+    url: 'http://opensource.org/licenses/MIT'
+host: 'localhost:8080'
+basePath: /operandocpcu
+tags:
+  - name: main-api-controller
+    description: >-
+      Contains the API operations for accessing, editing and deleting Questions,
+      Questionnaires and Services outside of the normal Application operation.
+paths:
+  /api/qp:
+    get:
+      tags:
+        - main-api-controller
+      summary: getQuestionpl
+      operationId: getQuestionplUsingGET
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/QuestionConfiguration'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/api/qp/{questionnaireID}':
+    get:
+      tags:
+        - main-api-controller
+      summary: Retrieves a Question pool
+      description: >-
+        Gets the entire Question pool for a given Questionnaire. NOTE: This
+        returns all the Questions, not a subset (as done in the Application)
+      operationId: getQuestionPoolUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+        - '*/*'
+      parameters:
+        - name: questionnaireID
+          in: path
+          description: questionnaireID
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/QuestionConfiguration'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - main-api-controller
+      summary: Adds a Question
+      description: ' Adds a new Question to a specfic Questionnaire'
+      operationId: addQuestionUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - name: questionnaireID
+          in: path
+          description: The questionnaireID of the Questionnaire that contains the Question
+          required: true
+          type: string
+        - in: body
+          name: qc
+          description: >-
+            The QuestionnaireConfiguration which defines the parameters to
+            create a new Questionnaire
+          required: true
+          schema:
+            $ref: '#/definitions/QuestionConfiguration'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/api/qp/{questionnaireID}/{questionID}':
+    post:
+      tags:
+        - main-api-controller
+      summary: Updates a Question
+      description: >-
+        Updates a specfic Question within a Questionnaire with the given JSON
+        Data
+      operationId: updateQuestionUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - name: questionnaireID
+          in: path
+          description: The questionnaireID of the Questionnaire that contains the Question
+          required: true
+          type: string
+        - name: questionID
+          in: path
+          description: The questionID which identifies the Question to be updated
+          required: true
+          type: string
+        - in: body
+          name: qc
+          description: >-
+            The QuestionnaireConfiguration which defines the parameters to
+            create a new Questionnaire
+          required: true
+          schema:
+            $ref: '#/definitions/QuestionConfiguration'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - main-api-controller
+      summary: Deletes a Question
+      description: Deletes a specific Question within a Questionnaire
+      operationId: deleteQuestionUsingDELETE
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - name: questionnaireID
+          in: path
+          description: The questionnaireID of the Questionnaire that contains the Question
+          required: true
+          type: string
+        - name: questionID
+          in: path
+          description: The questionID which identifies the Question to be deleted
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  '/api/qpid/{questionnaireID}/{validateID}':
+    get:
+      tags:
+        - main-api-controller
+      summary: Verifies an ID is valid
+      description: Checks through the Questionnaire List to make sure the ID is valid
+      operationId: validateQuestionIDUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: questionnaireID
+          in: path
+          description: questionnaireID
+          required: true
+          type: integer
+          format: int32
+        - name: validateID
+          in: path
+          description: validateID
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/qu:
+    get:
+      tags:
+        - main-api-controller
+      summary: Reads Questionnaires
+      description: >-
+        Gets the accessible questionnaires as a JSON String. If optional
+        parameters are filled, then a specific Questionnaire can be returned.
+        Must be correctly capitalised to returnthe correct result. Will return a
+        JSON Array if multiple Objects satisfy the predicate.
+      operationId: getQuestionnairesUsingGET
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - name: search
+          in: query
+          description: 'The String to search by, when searching for a specific Questionnaire'
+          required: false
+          type: string
+        - name: field
+          in: query
+          description: >-
+            The field to search for the String. This can be any valid field in
+            the Questionnaire.
+          required: false
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/QuestionnaireConfiguration'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - main-api-controller
+      summary: Creates a Questionnaire
+      description: Creates a new Questionnaire and adds it to the accessible Questionnaires
+      operationId: createQuestionnaireUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: qc
+          description: >-
+            The QuestionnaireConfiguration which defines the parameters to
+            create a new Questionnaire
+          required: true
+          schema:
+            $ref: '#/definitions/QuestionnaireConfiguration'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/api/qu/{questionnaireID}':
+    get:
+      tags:
+        - main-api-controller
+      summary: Reads a specific Questionnaire
+      description: Gets a specific Questionnaire as a JSON String
+      operationId: getSpecificQuestionnaireUsingGET
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - name: questionnaireID
+          in: path
+          description: questionnaireID
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/QuestionnaireConfiguration'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - main-api-controller
+      summary: Updates a Questionnaire
+      description: >-
+        Updates a new Questionnaire and adds it back to the accessible
+        Questionnaires
+      operationId: updateQuestionniareUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: qc
+          description: >-
+            The QuestionnaireConfiguration which defines the parameters to
+            create a new Questionnaire
+          required: true
+          schema:
+            $ref: '#/definitions/QuestionnaireConfiguration'
+        - name: questionnaireID
+          in: path
+          description: The Questionnaire ID to be updated
+          required: false
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - main-api-controller
+      summary: Deletes a Questionnaire
+      description: Deletes a specific Questionnaire
+      operationId: deleteQuestionnaireUsingDELETE
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - name: questionnaireID
+          in: path
+          description: >-
+            The questionnaireID of the Questionnaire that contains the Question
+            to be deleted
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  '/api/quid/{validateID}':
+    get:
+      tags:
+        - main-api-controller
+      summary: Verifies an ID is valid
+      description: Checks through the Questionnaire List to make sure the ID is valid
+      operationId: validateQuestionnaireIDUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: validateID
+          in: path
+          description: validateID
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/reload:
+    get:
+      tags:
+        - main-api-controller
+      summary: Reload
+      description: >-
+        Reloads the Active configuration within the Application, this means that
+        any changes made within the API are then accessible to the CPCU
+        Application.
+      operationId: reloadAppUsingGET
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /api/se:
+    get:
+      tags:
+        - main-api-controller
+      summary: Read Services
+      description: >-
+        Returns the JSON representation of the currently accessible services. If
+        the parameters are filled then a specific service can be returned.
+      operationId: getServicesUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+        - '*/*'
+      parameters:
+        - name: search
+          in: query
+          description: 'The String to search by, when searching for a specific service'
+          required: false
+          type: string
+        - name: field
+          in: query
+          description: >-
+            The field to search for the String. This can be any valid field in
+            the Service.
+          required: false
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ServiceConfiguration'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - main-api-controller
+      summary: Creates a Service
+      description: Creates a new Service and adds it to the accessible Services
+      operationId: createServiceUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: sc
+          description: >-
+            The ServiceConfiguration containing the parameters to create a new
+            Service
+          required: true
+          schema:
+            $ref: '#/definitions/ServiceConfiguration'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  '/api/se/{serviceID}':
+    get:
+      tags:
+        - main-api-controller
+      summary: Reads a specific Service
+      description: Gets a specific Service as a JSON String
+      operationId: getSpecificServiceUsingGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+        - '*/*'
+      parameters:
+        - name: serviceID
+          in: path
+          description: serviceID
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ServiceConfiguration'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - main-api-controller
+      summary: Updates a Service
+      description: Updates a specific service with the data submitted to this operation.
+      operationId: updateServiceUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - in: body
+          name: sc
+          description: >-
+            The ServiceConfiguration containing the parameters to create a new
+            Service
+          required: true
+          schema:
+            $ref: '#/definitions/ServiceConfiguration'
+        - name: serviceID
+          in: path
+          description: The ServiceID of the service to be updated
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - main-api-controller
+      summary: Deletes a Service
+      description: Deletes a specific service from the accessible services
+      operationId: deleteServiceUsingDELETE
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - name: serviceID
+          in: path
+          description: The ServiceID to be deleted
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /api/show:
+    get:
+      tags:
+        - main-api-controller
+      summary: Display the Admin Panel
+      description: >-
+        This displays a UI in which the Questionnaires and Questions can be
+        altered
+      operationId: showPageUsingGET
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/ModelAndView'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+definitions:
+  ServiceConfiguration:
+    type: object
+    properties:
+      aquisitionMethod:
+        type: string
+      dataLocation:
+        type: string
+      id:
+        type: integer
+        format: int32
+      metadata:
+        type: string
+      preference:
+        type: string
+      roleLocation:
+        type: string
+  QuestionnaireConfiguration:
+    type: object
+    properties:
+      classLoader:
+        type: string
+      dependancies:
+        type: integer
+        format: int32
+      generatedQuestions:
+        type: boolean
+      id:
+        type: integer
+        format: int32
+      metadata:
+        type: string
+      processor:
+        type: string
+      type:
+        type: string
+  ModelAndView:
+    type: object
+    properties:
+      empty:
+        type: boolean
+      model:
+        type: object
+      modelMap:
+        type: object
+        additionalProperties:
+          type: object
+      reference:
+        type: boolean
+      status:
+        type: string
+      view:
+        $ref: '#/definitions/View'
+      viewName:
+        type: string
+  QuestionConfiguration:
+    type: object
+    properties:
+      category:
+        type: string
+      id:
+        type: integer
+        format: int32
+      metadata:
+        type: string
+      privacyRanking:
+        type: integer
+        format: int32
+      questionString:
+        type: string
+      weight:
+        type: number
+        format: double
+  View:
+    type: object
+    properties:
+      contentType:
+        type: string

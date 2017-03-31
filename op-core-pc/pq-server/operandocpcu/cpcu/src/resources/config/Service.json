@@ -1,0 +1,10 @@
+[
+	{
+		"id":0,
+		"aquisitionMethod":"File",
+		"roleLocation":"roles.json",
+		"dataLocation":"data.json",
+		"preference":"MEDICAL",
+		"metadata": "This Service relates to this"
+	}
+]

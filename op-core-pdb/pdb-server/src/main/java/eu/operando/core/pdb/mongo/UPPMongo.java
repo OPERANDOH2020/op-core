@@ -31,7 +31,12 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoException;
+import com.mongodb.MongoWriteConcernException;
+import com.mongodb.MongoWriteException;
 import com.mongodb.WriteResult;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.result.DeleteResult;
 import com.mongodb.util.JSON;
 import eu.operando.core.pdb.common.model.UserPrivacyPolicy;
 import java.io.IOException;
@@ -39,6 +44,8 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.DeserializationConfig;
@@ -56,28 +63,44 @@ import org.codehaus.jettison.json.JSONObject;
 public class UPPMongo {
 
     private MongoClient mongo;
+    private MongoCollection<Document> uppCollection;
     private UserPrivacyPolicy upp;
     private DB db;
     private DBCollection uppTable;
 
     public UPPMongo() {
-        try {
-            this.mongo = new MongoClient("mongo.integration.operando.dmz.lab.esilab.org", 27017);
-            //this.mongo = new MongoClient("localhost", 27017);
 
-            // get database
-            this.db = mongo.getDB("pdb");
+        this.mongo = new MongoClient("mongo.integration.operando.dmz.lab.esilab.org", 27017);
+        //this.mongo = new MongoClient("localhost", 27017);
 
-            // get collection
-            this.uppTable = db.getCollection("upp");
-            System.out.println(this.uppTable.toString());
+        initialiseCollections();
+    }
 
-            this.upp = new UserPrivacyPolicy();
-            //} catch (UnknownHostException e) {
-            //  e.printStackTrace();
-        } catch (MongoException e) {
-            e.printStackTrace();
-        }
+    /**
+     *
+     * @param hostname
+     * @param port
+     */
+//    public UPPMongo(String hostname, int port) {
+//
+//        mongo = new MongoClient(hostname, port);
+//
+//        initialiseCollections();
+//    }
+
+    /**
+     *
+     */
+    private void initialiseCollections() {
+        MongoDatabase database;
+
+        // get database
+        database = mongo.getDatabase("pdb");
+
+        // get collection
+        uppCollection = database.getCollection("upp");
+
+        //this.mongo.close();
     }
 
     public UPPMongo(String hostname, int port) {
@@ -92,32 +115,35 @@ public class UPPMongo {
             System.out.println(this.uppTable.toString());
 
             this.upp = new UserPrivacyPolicy();
-
+            
+            initialiseCollections();
+            
         } catch (MongoException e) {
             e.printStackTrace();
         }
     }
-
+    /**
+     *
+     * @param ospId
+     * @return
+     */
     public boolean deleteUPPById(String uppId) {
         System.out.println("deleting: " + uppId);
-        boolean res = false;
-        BasicDBObject searchQuery = new BasicDBObject();
+        boolean ret = false;
+
         try {
-            searchQuery.put("userId", uppId);
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            return res;
+            Bson filter = new Document("userId", uppId);
+            DeleteResult result = uppCollection.deleteOne(filter);
+            ret = result.wasAcknowledged();
+        } catch (MongoWriteException ex) {
+            ex.printStackTrace();
+        } catch (MongoWriteConcernException ex) {
+            ex.printStackTrace();
+        } catch (MongoException ex) {
+            ex.printStackTrace();
         }
 
-        DBObject result = this.uppTable.findOne(searchQuery);
-
-        if (result == null) {
-            res = false;
-        } else {
-            this.uppTable.remove(result);
-            res = true;
-        }
-        return res;
+        return ret;
     }
 
     public static String toCamelCase(String inputString) {
@@ -150,13 +176,13 @@ public class UPPMongo {
         Class aClass = UserPrivacyPolicy.class;
         try {
             Field field = aClass.getDeclaredField(nKey);
-        } catch (NoSuchFieldException ex){ 
+        } catch (NoSuchFieldException ex) {
             System.err.println("no such field found " + nKey);
             return false;
         }
         return true;
     }
-    
+
     public String getUPPByFilter(String filter) {
         String result = null;
         BasicDBObject query = new BasicDBObject();
@@ -175,7 +201,7 @@ public class UPPMongo {
                 System.out.println("found key " + key);
                 System.out.println("converting key " + toCamelCase(key));
                 String cKey = toCamelCase(key);
-                if(!isAValidFieldName(cKey)) {
+                if (!isAValidFieldName(cKey)) {
                     System.out.println("Not a valid key name found: " + cKey);
                     return null;
                 }
@@ -330,6 +356,8 @@ public class UPPMongo {
         }
         return result;
     }
+
+    
 
     public String storeUPP(UserPrivacyPolicy upp) {
         String userId = upp.getUserId();
