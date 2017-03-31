@@ -13,9 +13,7 @@ sed -i -e "s|$OLD_RM_URLPATH|$RM_URLPATH|" \
 /sources/app.py
 
 sed -i "s|path == \"monitor\"|\path == \"$RM_URLPATH\/monitor\"|g"  \
-
-
-sed -i "s|path\[8:\]|\path\[$(($RM_URLPATH_LENGHT + 9)):\]|g"  /sources/app.py
+/sources/app.py
 
 sed -i -e "s|$OLD_DAN_ENDPOINT|$DAN_ENDPOINT|" \
 /sources/app.py
@@ -44,7 +42,8 @@ sed -i -e "s|$OLD_AAPI_USER$|$AAPI_USER|" \
 sed -i -e "s|$OLD_AAPI_PASSWORD$|$AAPI_PASSWORD|" \
 /sources/config.cfg
 
-cd sources
+cd /sources
+
 python app.py
 
 
