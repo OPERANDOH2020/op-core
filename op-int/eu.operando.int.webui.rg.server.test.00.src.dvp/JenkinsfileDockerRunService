@@ -1,4 +1,4 @@
-!groovy
+#!groovy
 //http://groovy-lang.org/semantics.html
 
 node {	
