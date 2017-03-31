@@ -20,19 +20,19 @@ node {
 			//def forcePush -> defaults to "false"
 			//WARNING JENKINS SEND BOOLEANS AS STRING
 			try{
-			    currentVerbose=(verbose=="true")
+			    currentVerbose=((verbose=="true")||(verbose==true))
 			} catch (err){
 			    println ("verbosity not provided defaults to false")
 			}
 			if (currentVerbose) println ("verbose = " + currentVerbose)
 			try{
-			    currentContinueTasks=(continueTasks=="true")
+			    currentContinueTasks=((continueTasks=="true")||(continueTasks==true))
 			} catch (err){
 			    println ("continueTasks not provided defaults to true")
 			}
 			if (currentVerbose) println ("continueTasks = " + currentContinueTasks)							
 			try{
-			    currentStopContainer=(stopContainer=="true")
+			    currentStopContainer=((stopContainer=="true")||(stopContainer==true))
 			} catch (err){
 			    println ("stopContainer not provided defaults to true")
 			}

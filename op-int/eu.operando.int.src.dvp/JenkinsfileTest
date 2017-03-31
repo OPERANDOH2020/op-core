@@ -44,7 +44,7 @@ node {
 			//WARNING JENKINS SEND BOOLEANS AS STRING
 
 			try{
-			    currentVerbose=(verbose=="true")
+			    currentVerbose=((verbose=="true")||(verbose==true))
 			} catch (err){
 			    println ("verbosity not provided defaults to false")
 			}
@@ -64,7 +64,7 @@ node {
 			if (currentVerbose) println ("scmCredentials = " + scmCredentials)
 
 			try{
-			    currentContinueTasks=(continueTasks=="true")
+			    currentContinueTasks=((continueTasks=="true")||(continueTasks==true))
 			} catch (err){
 			    println ("continueTasks not provided defaults to true")
 			}
