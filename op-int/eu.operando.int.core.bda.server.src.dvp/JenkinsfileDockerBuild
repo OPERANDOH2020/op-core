@@ -173,6 +173,7 @@ node {
             workspaceContent=sh(returnStdout: true, script: "ls ${workspace} 2>/dev/null").trim()
         } catch (err){
         }
+        if (currentVerbose) println ("workspaceContent = " + workspaceContent)
         hasEmptyWorkspace=(""==workspaceContent)
         if (currentVerbose) println ("hasEmptyWorkspace = " + hasEmptyWorkspace)
 		if(currentForceBuild||hasEmptyWorkspace){
