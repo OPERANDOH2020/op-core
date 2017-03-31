@@ -348,6 +348,12 @@ def handleUpdate(request, addr):
 @app.route('/', defaults={'path': ''}, methods=['POST', 'GET', 'PUT'])
 @app.route('/<path:path>', methods=["GET", "POST", "PUT"])
 def catch_all(path):
+    # GBE added for monitoring purposes
+    if path == "monitor":
+        resp = jsonify({'status': 200, 'message': 'RM listening', })
+        resp.status_code = 200
+        return resp
+    # GBE End
     # Depending on the OData call act accordingly...
     if request.method == "POST":
         # handle an insert
