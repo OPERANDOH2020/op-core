@@ -32,7 +32,7 @@ __url_pc = config.get('URLs', 'url_pc')
 __aapi_tgt_url = "http://integration.operando.esilab.org:8135/operando/interfaces/aapi/aapi/tickets"
 __aapi_st_url = 'http://integration.operando.esilab.org:8135/operando/interfaces/aapi/aapi/tickets/%s'
 # config.get('URLs', 'URL_LOGDB')
-__URL_LOGDB = "http://ldb.integration.operando.lan.esilab.org:8090/operando/core/ldb/"
+__URL_LOGDB = "http://ldb.integration.operando.esilab.org:8090/operando/core/ldb/"
 # config.get('URLs', 'DAN_url')
 __DAN_url = "http://integration.operando.esilab.org:8111/operando/pdr/dan/%s"
 __URL_PC = "http://integration.operando.esilab.org:8095/operando/core/pc/osp_policy_evaluator"
