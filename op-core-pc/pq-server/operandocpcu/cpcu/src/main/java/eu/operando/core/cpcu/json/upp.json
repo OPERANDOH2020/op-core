@@ -1,0 +1,32 @@
+{
+   "UserPrivacyPolicy":{
+      "user_id":"",
+      "user_preferences":[
+         {
+            "informationtype":"",
+            "category":"",
+            "preference":0
+         }
+      ],
+      "subscribed_osp_policies":[
+         {
+
+         }
+      ],
+      "subscribed_osp_settings":[
+         {
+            "osp_id":"",
+            "osp_settings":[
+               {
+                  "osp_id":"",
+                  "osp_settings":[
+                     {
+
+                     }
+                  ]
+               }
+            ]
+         }
+      ]
+   }
+}

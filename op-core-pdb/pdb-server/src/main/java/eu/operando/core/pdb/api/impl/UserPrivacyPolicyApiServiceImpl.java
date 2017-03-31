@@ -52,6 +52,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Properties;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -72,10 +74,13 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
     String uppLoginName = "xxxxx";
     String uppLoginPassword = "xxxxx";
     String stHeaderName = "Service-Ticket";
+    String logdbST = "";
+    long ticketLifeTime = 1000L * 60 * 60;
 
     String mongoServerHost = "localhost";
     int mongoServerPort = 27017;
     UPPMongo uppMongodb = null;
+    Timer timer;
 
     Properties prop = null;
 
@@ -91,11 +96,23 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
         this.aapiClient = new DefaultApi(aapiDefaultClient);
 
         // setup logdb client
-        ApiClient apiClient = new ApiClient();
+        final ApiClient apiClient = new ApiClient();
         apiClient.setBasePath(logdbBasePath);
 
+        TimerTask timerTask = new TimerTask() {
+            //@Override
+            public void run() {
+                Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "upp TIMER RUN now");
+                logdbST = getServiceTicket(uppLoginName, uppLoginPassword, logdbSId);
+                apiClient.addDefaultHeader(stHeaderName, logdbST);
+            }
+        };
+
+        timer = new Timer();
+        timer.scheduleAtFixedRate(timerTask, 0, ticketLifeTime);
+
         // get service ticket for logdb service
-        String logdbST = getServiceTicket(uppLoginName, uppLoginPassword, logdbSId);
+        logdbST = getServiceTicket(uppLoginName, uppLoginPassword, logdbSId);
         apiClient.addDefaultHeader(stHeaderName, logdbST);
         this.logApi = new LogApi(apiClient);
 
@@ -229,7 +246,6 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
         }
     }
 
-    
     @Override
     public Response userPrivacyPolicyGet(String filter, SecurityContext securityContext, HttpHeaders headers)
             throws NotFoundException {
@@ -318,8 +334,8 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
     @Override
     public Response userPrivacyPolicyUserIdDelete(String userId, SecurityContext securityContext, HttpHeaders headers)
             throws NotFoundException {
-        
-    Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.INFO, "upp DELET policy {0}", userId);
+
+        Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.INFO, "upp DELET policy {0}", userId);
 
         if (!validateHeaderSt(headers)) {
             return Response.status(Response.Status.UNAUTHORIZED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,

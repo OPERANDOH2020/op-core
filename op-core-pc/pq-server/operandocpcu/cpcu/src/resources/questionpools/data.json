@@ -1,0 +1,12 @@
+[
+	{
+		"category":"DIET_INFORMATION",
+		"rank":1,
+		"metadata": "This data relates to the diet information we currently have on an individual"
+	},
+	{
+		"category":"FINANCE",
+		"rank":4,
+		"metadata": "This includes bank details and payment amounts"
+	}
+]

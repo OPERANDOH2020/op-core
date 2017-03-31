@@ -51,6 +51,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Properties;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -70,11 +72,14 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
     String logdbBasePath = "http://integration.operando.esilab.org:8090/operando/core/ldb";
     String regLoginName = "xxxxx";
     String regLoginPassword = "xxxxx";
-    String stHeaderName = "Service-Ticket";
+    String stHeaderName = "Service-Ticket";    
+    String logdbST = "";
+    long ticketLifeTime = 1000L * 60 * 60;
 
     String mongoServerHost = "localhost";
     int mongoServerPort = 27017;
-    RegulationsMongo ospMongodb = null;
+    RegulationsMongo regMongodb = null;
+    Timer timer;
 
     Properties prop = null;
 
@@ -90,16 +95,28 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
         this.aapiClient = new DefaultApi(aapiDefaultClient);
 
         // setup logdb client
-        ApiClient apiClient = new ApiClient();
+        final ApiClient apiClient = new ApiClient();
         apiClient.setBasePath(logdbBasePath);
 
+        TimerTask timerTask = new TimerTask() {
+            //@Override
+            public void run() {
+                Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "Regulations TIMER RUN now");
+                logdbST = getServiceTicket(regLoginName, regLoginPassword, logdbSId);
+                apiClient.addDefaultHeader(stHeaderName, logdbST);
+            }
+        };
+
+        timer = new Timer();
+        timer.scheduleAtFixedRate(timerTask, 0, ticketLifeTime);
+
         // get service ticket for logdb service
-        String logdbST = getServiceTicket(regLoginName, regLoginPassword, logdbSId);
+        logdbST = getServiceTicket(regLoginName, regLoginPassword, logdbSId);
         apiClient.addDefaultHeader(stHeaderName, logdbST);
-        this.logApi = new LogApi(apiClient);
+        this.logApi = new LogApi(apiClient);        
 
         // setup mongo part
-        ospMongodb = new RegulationsMongo(mongoServerHost, mongoServerPort);
+        regMongodb = new RegulationsMongo(mongoServerHost, mongoServerPort);
     }
 
     private void loadParams() {
@@ -252,7 +269,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
                 LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        String regList = ospMongodb.getRegulationByFilter(filter);
+        String regList = regMongodb.getRegulationByFilter(filter);
 
         if (regList == null) {
             logRequest("regulations GET", "GET",
@@ -292,8 +309,8 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
                     "Error. The document (PrivacyRegulation) does not provide legislation_sector.")).build();
         }
 
-        String regId = ospMongodb.storeRegulation(regulation);
-        String storedReg = ospMongodb.getRegulationById(regId);
+        String regId = regMongodb.storeRegulation(regulation);
+        String storedReg = regMongodb.getRegulationById(regId);
         
         if (storedReg == null) {
 
@@ -339,7 +356,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
                 LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        boolean delAction = ospMongodb.deleteRegulationById(regId);
+        boolean delAction = regMongodb.deleteRegulationById(regId);
 
         if (!delAction) {
 
@@ -379,7 +396,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
                 LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        String prString = ospMongodb.getRegulationById(regId);
+        String prString = regMongodb.getRegulationById(regId);
 
         if (prString == null) {
 
@@ -416,7 +433,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
                 LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        boolean updateAction = ospMongodb.updateRegulation(regId, regulation);
+        boolean updateAction = regMongodb.updateRegulation(regId, regulation);
 
         if (!updateAction) {
             logRequest("regulations PUT", "PUT",
