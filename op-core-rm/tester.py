@@ -46,10 +46,14 @@ def GetST(tgt):
     return response.text
 
 TGT = Log2CAS("gatekeeper", "gatekeeper")
+print "TGT returned by Log2CAS: %s" %TGT
 ST = GetST(TGT)
+print "ST returned by GetST: %s" %ST
 
 headers = {'service-ticket': ST, "osp-identifier": "YellowPages",
            "psp-user-identifier": "Wendy"}
+print "header to be used: %s" %headers
+
 # done
 r = requests.get('http://127.0.0.1:8102/Users(4)?$format=json', headers=headers)
 # r = requests.get('http://127.0.0.1:8102/Users(2)/MetadatavalueDetails?$format=json&$expand=MetadatafieldregistryDetails', headers=headers)
