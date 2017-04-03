@@ -46,5 +46,16 @@ cd /sources
 
 python tester.py
 
+if [ $? -eq 0 ]
+then
+  echo "Final Result:"
+  echo "Errorcode: $?"
+  echo "ALL SUCCESSFUL"
+else
+  echo "Final Result:"
+  echo "Errorcode: $?"
+  echo "ERROR"
+fi
 
+echo "Leaving..."
 
