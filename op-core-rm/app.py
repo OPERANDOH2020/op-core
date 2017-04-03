@@ -105,7 +105,7 @@ def GetST():
 
 def ValidateReceivedTicket(tckt, sID):
     print "Validating Ticket %s" %tckt
-    print "for service %s" %sID 
+    print "for service %s" %sID
     r = requests.get(__aapi_tckt_val_url %
                      (tckt, '/operando/rm/'), verify=False)
     try:
