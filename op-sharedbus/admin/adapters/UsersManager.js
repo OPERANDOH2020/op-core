@@ -299,7 +299,7 @@ validateUser = function (email, pass, organisationPretender, callback) {
             else {
                 var user = users[0];
 
-                if (user.organisationId !== organisationPretender) {
+                if (user.organisationId !== organisationPretender && organisationPretender!=="Public") {
                     callback(new Error("accessDenied"));
                 }
                 else {
