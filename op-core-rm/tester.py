@@ -67,7 +67,9 @@ try:
     r.raise_for_status()  # Raises a HTTPError if the status is 4xx, 5xxx
 except (requests.exceptions.ConnectionError, requests.exceptions.Timeout):
     print "Down"
+    exit(15)
 except requests.exceptions.HTTPError:
     print "4xx, 5xx"
+    exit(15)
 else:
     print "All good!"  # Proceed to do stuff with `r` 
