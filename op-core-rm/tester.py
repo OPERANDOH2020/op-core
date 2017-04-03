@@ -8,6 +8,7 @@ import ssl
 import requests
 import json
 import ConfigParser
+import requests.exceptions
 
 # load credentials
 config = ConfigParser.RawConfigParser()
@@ -61,3 +62,12 @@ r = requests.get('http://127.0.0.1:8102/Users(4)?$format=json', headers=headers)
 # r = requests.get('http://127.0.0.1:8102/Users?$format=json', headers=headers)
 # r = requests.get('http://127.0.0.1:8102/Users?$format=json', headers=headers)
 print r.text
+
+try:
+    r.raise_for_status()  # Raises a HTTPError if the status is 4xx, 5xxx
+except (requests.exceptions.ConnectionError, requests.exceptions.Timeout):
+    print "Down"
+except requests.exceptions.HTTPError:
+    print "4xx, 5xx"
+else:
+    print "All good!"  # Proceed to do stuff with `r` 
