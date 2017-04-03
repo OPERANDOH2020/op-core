@@ -89,6 +89,13 @@
 								</assembly>
 							</build>
 							<run>
+								<log>
+									<enabled>true</enabled>
+									<color>red</color>
+								</log>
+								<wait>
+									<log>ALL SUCCESSFUL</log>
+								</wait>
 								<namingStrategy>alias</namingStrategy>
 								<env>
 									<LDB_ENDPOINT>${core.ldb.endpoint}</LDB_ENDPOINT>
