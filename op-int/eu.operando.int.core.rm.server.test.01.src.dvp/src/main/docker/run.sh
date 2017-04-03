@@ -10,36 +10,36 @@ echo RM Url Path lenght: $RM_URLPATH_LENGHT
 # http://askubuntu.com/questions/76808/how-do-i-use-variables-in-a-sed-command
 # I replace the endpoint path
 
-sed -i -e "s|$OLD_DAN_ENDPOINT|$DAN_ENDPOINT|" \
+sed -i -e "s|$OLD_DAN_ENDPOINT|$DAN_ENDPOINT|g" \
 /sources/tester.py
-sed -i -e "s|$OLD_DAN_ENDPOINT|$DAN_ENDPOINT|" \
+sed -i -e "s|$OLD_DAN_ENDPOINT|$DAN_ENDPOINT|g" \
 /sources/config.cfg
 
-sed -i -e "s|$OLD_AAPI_ENDPOINT|$AAPI_ENDPOINT|" \
+sed -i -e "s|$OLD_AAPI_ENDPOINT|$AAPI_ENDPOINT|g" \
 /sources/tester.py
-sed -i -e "s|$OLD_AAPI_ENDPOINT|$AAPI_ENDPOINT|" \
+sed -i -e "s|$OLD_AAPI_ENDPOINT|$AAPI_ENDPOINT|g" \
 /sources/config.cfg
 
-sed -i -e "s|$OLD_LDB_ENDPOINT|$LDB_ENDPOINT|" \
+sed -i -e "s|$OLD_LDB_ENDPOINT|$LDB_ENDPOINT|g" \
 /sources/tester.py
-sed -i -e "s|$OLD_LDB_ENDPOINT|$LDB_ENDPOINT|" \
+sed -i -e "s|$OLD_LDB_ENDPOINT|$LDB_ENDPOINT|g" \
 /sources/config.cfg
 
-sed -i -e "s|$OLD_PC_ENDPOINT|$PC_ENDPOINT|" \
+sed -i -e "s|$OLD_PC_ENDPOINT|$PC_ENDPOINT|g" \
 /sources/tester.py
-sed -i -e "s|$OLD_PC_ENDPOINT|$PC_ENDPOINT|" \
+sed -i -e "s|$OLD_PC_ENDPOINT|$PC_ENDPOINT|g" \
 /sources/config.cfg
 
-sed -i -e "s|$OLD_RM_ENDPOINT|$RM_ENDPOINT|" \
+sed -i -e "s|$OLD_RM_ENDPOINT|$RM_ENDPOINT|g" \
 /sources/tester.py
-sed -i -e "s|$OLD_RM_ENDPOINT|$RM_ENDPOINT|" \
+sed -i -e "s|$OLD_RM_ENDPOINT|$RM_ENDPOINT|g" \
 /sources/config.cfg
 
 #OLD_AAPI_USER=username
-sed -i -e "s|$OLD_AAPI_USER$|$AAPI_USER|" \
+sed -i -e "s|$OLD_AAPI_USER$|$AAPI_USER|g" \
 /sources/config.cfg
 #OLD_AAPI_PASSWORD=password
-sed -i -e "s|$OLD_AAPI_PASSWORD$|$AAPI_PASSWORD|" \
+sed -i -e "s|$OLD_AAPI_PASSWORD$|$AAPI_PASSWORD|g" \
 /sources/config.cfg
 
 cd /sources
