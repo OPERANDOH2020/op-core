@@ -5,7 +5,7 @@ node {
 	//Required constants
     currentBuild.result = "SUCCESS"
 	//Provided vars
-	def devopsSourcesRelativePath = 'op-int/eu.operando.int.core.pc.pq.server.src.dvp'
+	def devopsSourcesRelativePath = 'op-int/eu.operando.int.core.pc.server.src.dvp'
 	def devopsSourcesRepo = 'https://github.com/OPERANDOH2020/op-core.git'
 	def dependingTasks=[
 	"",
