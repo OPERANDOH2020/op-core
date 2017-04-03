@@ -63,7 +63,8 @@ node {
 	      build job: 'eu.operando.int.webui.rg.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false), booleanParam(name: 'stopContainer', value: false)]	      	      
 	      build job: 'eu.operando.int.webui.console.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false), booleanParam(name: 'stopContainer', value: false)]	      	      
 	      build job: 'eu.operando.int.demo.yellowpages.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false), booleanParam(name: 'stopContainer', value: false)]	            
-	   }
+	      build job: 'eu.operando.int.core.pc.pq.server.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false), booleanParam(name: 'stopContainer', value: false)]	            
+		   }
 	   stage('Dependent lv1') { 
 	   }	   	   
 	   stage('Tests') { 
