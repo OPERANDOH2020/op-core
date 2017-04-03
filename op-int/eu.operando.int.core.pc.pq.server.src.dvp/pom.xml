@@ -34,7 +34,7 @@
 							</sources>
 						</configuration>
 					</execution>
-                                        <execution>
+					<execution>
 						<id>add-resource</id>
 						<phase>generate-sources</phase>
 						<goals>
@@ -43,7 +43,7 @@
 						<configuration>
 							<resources>
 								<resource>
-									<directory>${sources.path}/src/main/resources</directory>
+									<directory>${sources.path}/src/resources</directory>
 									<filtering>true</filtering>
 								</resource>
 							</resources>
@@ -85,14 +85,14 @@
 				<version>2.1.1</version>
 				<configuration>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
-					<!--<webXml>${sources.path}/src/main/webapp/WEB-INF/web.xml</webXml>-->
+					<!--<webXml>${sources.path}/src/main/webapp/WEB-INF/web.xml</webXml> -->
 					<warName>${server.warName}</warName>
 				</configuration>
 			</plugin>
 			<!-- this is to fix the warning "Build path specifies execution environment 
 				J2SE-1.5. There are no JREs installed in the workspace that are strictly 
 				compatible with this environment. -->
-			<!--   it maybe is adding problems problems -->
+			<!-- it maybe is adding problems problems -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -101,7 +101,7 @@
 					<source>1.8</source>
 					<target>1.8</target>
 				</configuration>
-			</plugin> 
+			</plugin>
 			<!-- Plugin to copy the war into generated folder accessible to the docker 
 				file -->
 			<plugin>
@@ -243,7 +243,7 @@
 		<docker.image.name>${docker.registry.name}${docker.submitter}/${docker.name}</docker.image.name>
 		<docker.image.version>${project.version}</docker.image.version>
 		<docker.port1.external>${operando.core.pc.pq.port}</docker.port1.external>
-		<docker.port1.mapping>${docker.port1.external}:8080</docker.port1.mapping>		
-	    <project.build.sourceEncoding>Cp1252</project.build.sourceEncoding>
+		<docker.port1.mapping>${docker.port1.external}:8080</docker.port1.mapping>
+		<project.build.sourceEncoding>Cp1252</project.build.sourceEncoding>
 	</properties>
 </project>
