@@ -408,7 +408,8 @@ public class Test {
 		
 		InputStream fis = null;
 		try {
-		    fis = Test.class.getResourceAsStream("db.properties");
+//		    fis = Test.class.getResourceAsStream("db.properties"); //GBE this produce null pointer exception when running the class with java
+			fis = ClassLoader.getSystemResourceAsStream("test.properties");			
 		    props.load(fis);
 		}     catch (IOException e) {
 		    // TODO Auto-generated catch block
@@ -423,7 +424,8 @@ public class Test {
 		
 		InputStream fis = null;
 		try {
-		    fis = Test.class.getResourceAsStream("test.properties");
+//		    fis = Test.class.getResourceAsStream("test.properties");
+			fis = ClassLoader.getSystemResourceAsStream("test.properties");
 		    props.load(fis);
 		}     catch (IOException e) {
 		    // TODO Auto-generated catch block
