@@ -99,7 +99,7 @@ public class Test {
 		
 		Object postBody = dataUnit;
 		try {
-			String str = apiClient.invokeAPI(path,"POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+		    String str = apiClient.invokeAPI(path,"POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType).toString();
 			System.out.println(str);			
 		} catch (ApiException e) {
 			System.out.println(e.toString());
@@ -279,7 +279,7 @@ public class Test {
 	    GenericType returnType = new GenericType<String>() {};
 	     try {
 	    	     	
-	    	 String str = apiClient.invokeAPI(path, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, returnType);
+	    	 String str = apiClient.invokeAPI(path, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, returnType).toString();
 	    	 System.out.println(str);
 	    	 //next an example of a value returned
 	    	 //{"code":4,"type":"ok","message":"[SURNAME, NUMBER_OF_CHILDREN, MARITAL_STATUS, EDUCATION, NAME, CELL_PHONE_NUMBER, SALARY_CLASS, COUNTRY, EMAIL_ADDRESS, RACE, OCCUPATION, GENDER, WORK_CLASS, DATE_OF_BIRTH, IDENTIFICATION_NUMBER][*, 2, Married-civ-spouse, Bachelors, *, *, <=50K, United-States, *, White, Tech-suppo, Male, Private, *, *][*, 2, Married-civ-spouse, Bachelors, *, *, <=50K, United-States, *, Asian-Pac-Islander, Tech-suppo, Male, Private, *, *][*, 2, Married-civ-spouse, Bachelors, *, *, <=50K, United-States, *, Amer-Indian-Eskimo, Tech-suppo, Male, Private, *, *][*, 2, Married-civ-spouse, Bachelors, *, *, <=50K, United-States, *, Other, Tech-suppo, Male, Private, *, *][*, 2, Married-civ-spouse, Bachelors, *, *, <=50K, United-States, *, Black, Tech-suppo, Male, Private, *, *]"}
