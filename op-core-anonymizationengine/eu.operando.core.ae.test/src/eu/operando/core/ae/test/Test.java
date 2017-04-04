@@ -54,6 +54,7 @@ public class Test {
 	private static ResultSet resultSet = null;
 	static Logger mainLogger = null;
 	static Properties props = null;	
+	static Properties props2 = null;	
     static {
         mainLogger = Logger.getLogger("eu.operando.core.ae.test");
     }
@@ -214,7 +215,13 @@ public class Test {
 		
 		int kAnonymity = 2;
 		
+		props2 = loadTestProperties();
+		String basePath = props2.getProperty("basePath");
+		System.out.println("basePath:" + basePath);
+
 		ApiClient apiClient = new ApiClient();
+
+		apiClient.setBasePath(basePath);
 		Object localVarPostBody = null;		
 				
 	
@@ -405,5 +412,19 @@ public class Test {
 		
 		return props;
 	}
-
+	private static Properties loadTestProperties() {
+		Properties props;
+		props = new Properties();
+		
+		InputStream fis = null;
+		try {
+		    fis = Test.class.getResourceAsStream("test.properties");
+		    props.load(fis);
+		}     catch (IOException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		}
+		
+		return props;
+	}
 }
