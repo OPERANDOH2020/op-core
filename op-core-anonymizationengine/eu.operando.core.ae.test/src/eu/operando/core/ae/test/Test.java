@@ -185,6 +185,11 @@ public class Test {
 		dataTypeMap.put("SALARY_CLASS", AEDataType.STRING);				
 		
 		props = loadDbProperties();
+		System.out.println("dbdriver:" + props.getProperty("jdbc.driverClassName"));
+		System.out.println("db url:" + props.getProperty("jdbc.url"));
+		System.out.println("db user:" + props.getProperty("jdbc.username"));
+		System.out.println("db password:" + props.getProperty("jdbc.password"));
+		
 		Class.forName(props.getProperty("jdbc.driverClassName"));		
 		connect = DriverManager.getConnection(props.getProperty("jdbc.url"), props.getProperty("jdbc.username"), props.getProperty("jdbc.password"));
 		
