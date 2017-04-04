@@ -51,6 +51,6 @@
 		<operando.core.ae.basepath>http://localhost:8080</operando.core.ae.basepath>
 		<mysql.host>localhost</mysql.host>
 		<mysql.port>3306</mysql.port>
-		<mysql.dbname>operando_logdb</mysql.dbname>
+		<mysql.dbname>operando_personaldatadb</mysql.dbname>
 	</properties>
 </project>
