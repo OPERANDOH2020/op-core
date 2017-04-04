@@ -254,5 +254,10 @@
 		<docker.name>eu.operando.core.ae.server.test.01</docker.name>
 		<docker.image.name>${docker.registry.name}${docker.submitter}/${docker.name}</docker.image.name>
 		<docker.image.version>${project.version}</docker.image.version>
+		<mysql.host>${operando.mysql.host}</mysql.host>
+		<mysql.port>${operando.mysql.port}</mysql.port>
+		<mysql.dbname>operando_logdb</mysql.dbname>
+		<mysql.user>${operando.mysql.root.user}</mysql.user>
+		<mysql.password>${operando.mysql.root.password}</mysql.password>
 	</properties>
 </project>
