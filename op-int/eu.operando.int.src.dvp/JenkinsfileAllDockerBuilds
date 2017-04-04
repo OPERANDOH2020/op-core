@@ -78,6 +78,8 @@ node {
 	      build job: 'eu.operando.int.core.ldb.server.test.01.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false), booleanParam(name: 'stopContainer', value: false)]	      
 	      build job: 'eu.operando.int.core.pdb.server.test.01.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false), booleanParam(name: 'stopContainer', value: false)]	      
 	      build job: 'eu.operando.int.demo.yellowpages.server.test.01.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false), booleanParam(name: 'stopContainer', value: false)]	      
+	      build job: 'eu.operando.int.core.rm.server.test.01.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false), booleanParam(name: 'stopContainer', value: false)]	      
+	      build job: 'eu.operando.int.core.ae.server.test.01.jnk.tsk', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false), booleanParam(name: 'stopContainer', value: false)]	      
 	   }
 	   if (currentContinueTasks) {
 	       stage('continue') {
