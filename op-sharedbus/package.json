@@ -44,7 +44,7 @@
     "acl-magic"    :     ">=1.0.10",
     "apersistence":"git+https://mastaleru@github.com/PrivateSky/apersistence.git#master",
     "semantic-firewall" : ">=0.5.1",
-    "double-check" : ">=0.5.1",
+    "double-check" : ">=0.1.5",
     "transrest" :">=0.5.0",
     "callflow"  :">=0.5.4",
     "whys" : ">=0.2.1",
