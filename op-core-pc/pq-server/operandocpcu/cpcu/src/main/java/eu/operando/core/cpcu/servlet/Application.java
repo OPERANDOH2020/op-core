@@ -126,7 +126,7 @@ class MainAPIController {
     @RequestMapping(value = "/se/{serviceID}", method = RequestMethod.GET)
     ResponseEntity<List<ServiceConfiguration>> getSpecificService(@PathVariable int serviceID) {
         try {
-            return new ResponseEntity<>(handler.getConfigAPI().searchServices(Integer.toString(serviceID), "ID"), HttpStatus.CREATED);
+            return new ResponseEntity<>(handler.getConfigAPI().searchServices(Integer.toString(serviceID), "id"), HttpStatus.CREATED);
         } catch (IOException | ParseException e) {
             QuestionnaireHandler.getLogger().error("An error occured when getting a specific the service " + e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -141,6 +141,7 @@ class MainAPIController {
     ResponseEntity<?> createService(@ApiParam(value = "The ServiceConfiguration containing the parameters to create a new Service", required = true)
             @RequestBody ServiceConfiguration sc) {
         try {
+            QuestionnaireHandler.getLogger().info("got new service: " + sc.getMetadata());
             handler.getConfigAPI().addService(sc);
         } catch (Exception e) {
             QuestionnaireHandler.getLogger().error("An error occured when creating a service " + e);
@@ -231,7 +232,7 @@ class MainAPIController {
     @RequestMapping(value = "/qu/{questionnaireID}", method = RequestMethod.GET)
     ResponseEntity<List<QuestionnaireConfiguration>> getSpecificQuestionnaire(@PathVariable int questionnaireID) {
         try {
-            return new ResponseEntity<>(handler.getConfigAPI().searchQuestionnaires(Integer.toString(questionnaireID), "ID"), HttpStatus.CREATED);
+            return new ResponseEntity<>(handler.getConfigAPI().searchQuestionnaires(Integer.toString(questionnaireID), "id"), HttpStatus.CREATED);
         } catch (IOException | ParseException e) {
             QuestionnaireHandler.getLogger().error("An error occured when getting a specific questionnaire " + e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

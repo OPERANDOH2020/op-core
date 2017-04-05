@@ -22,8 +22,6 @@
 //      Created for Project :   OPERANDO
 //
 /////////////////////////////////////////////////////////////////////////
-
-
 /*
  * @author ra16 <ra16@it-innovation.soton.ac.uk
  */
@@ -394,15 +392,47 @@ public class QuestionnaireHandler {
             //AbstractQuestionnaire q = getQuestionnaire(1, session, serviceID);
             getLogger().info("Servicing " + session + " client accessing preferences");
 
+            JSONArray prefArray = new JSONArray();
+
             File privacyPrefsFile = new File(getUserDataFile(session) + "/"
                     + serviceIdentifier + getJSONObjectFromJSON(1).get("type") + "preferences.json");
 
             if (privacyPrefsFile.exists()) {
                 JSONParser parser = new JSONParser();
                 JSONArray resultArray = (JSONArray) parser.parse(new FileReader(privacyPrefsFile));
+                for (int n = 0; n < resultArray.size(); n++) {
+                    JSONObject obj = (JSONObject) resultArray.get(n);
+                    JSONObject newPref = new JSONObject();
+                    newPref.put("preference", obj.get("Result").toString());
+                    newPref.put("category", obj.get("Category").toString());
+                    prefArray.add(newPref);
+                }
+            }
 
-                getLogger().info("Array result size: " + resultArray.size());
-                return generatePreferencesResponse("", resultArray.toJSONString(), session);
+            File actionPrefsFile = new File(getUserDataFile(session) + "/"
+                    + serviceIdentifier + getJSONObjectFromJSON(3).get("type") + "preferences.json");
+
+            if (actionPrefsFile.exists()) {
+                JSONParser parser = new JSONParser();
+                JSONArray resultArray = (JSONArray) parser.parse(new FileReader(actionPrefsFile));
+                for (int n = 0; n < resultArray.size(); n++) {
+                    JSONObject obj = (JSONObject) resultArray.get(n);
+                    JSONObject newPref = new JSONObject();
+                    String[] split = obj.get("Category").toString().split(" ");
+                    if (split.length == 5) {
+                        newPref.put("preference", obj.get("Result").toString());
+                        newPref.put("category", split[3]);
+                        newPref.put("role", split[0]);
+                        newPref.put("action", split[2]);
+                        prefArray.add(newPref);
+                    } else {
+                        getLogger().info("SKIP preference for: " + obj.get("Category"));
+                    }
+                }
+            }
+            if (prefArray.size() > 0) {
+                getLogger().info("Array result size: " + prefArray.size());
+                return generatePreferencesResponse("", prefArray.toJSONString(), session);
             }
             getLogger().info("An error occured while handling request from " + session + " for preference results");
         } catch (Exception e) {

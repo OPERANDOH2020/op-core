@@ -342,6 +342,8 @@ public class ConfigurationAPI {
 		obj.put("preferences", sc.getPreference());
 		obj.put("metadata", sc.getMetadata());
 
+                arr.add(obj);
+                
 		writeServiceConfiguration(arr);
 		return true;
 	}
