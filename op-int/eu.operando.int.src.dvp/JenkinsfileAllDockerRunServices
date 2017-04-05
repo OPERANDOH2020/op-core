@@ -20,19 +20,19 @@ node {
 			//def forcePush -> defaults to "false"
 			//WARNING JENKINS SEND BOOLEANS AS STRING
 			try{
-			    currentVerbose=(verbose=="true")
+			    currentVerbose=((verbose=="true")||(verbose==true))
 			} catch (err){
 			    println ("verbosity not provided defaults to false")
 			}
 			if (currentVerbose) println ("verbose = " + currentVerbose)
 			try{
-			    currentContinueTasks=(continueTasks=="true")
+			    currentContinueTasks=((continueTasks=="true")||(continueTasks==true))
 			} catch (err){
 			    println ("continueTasks not provided defaults to true")
 			}
 			if (currentVerbose) println ("continueTasks = " + currentContinueTasks)							
 			try{
-			    currentStopContainer=(stopContainer=="true")
+			    currentStopContainer=((stopContainer=="true")||(stopContainer==true))
 			} catch (err){
 			    println ("stopContainer not provided defaults to true")
 			}
@@ -66,6 +66,7 @@ node {
 	      build job: 'eu.operando.int.webui.rg.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false), booleanParam(name: 'stopContainer', value: true)]	            
 	      build job: 'eu.operando.int.webui.console.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false), booleanParam(name: 'stopContainer', value: true)]	      	      
 	      build job: 'eu.operando.int.demo.yellowpages.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false), booleanParam(name: 'stopContainer', value: true)]	            
+	      build job: 'eu.operando.int.core.pc.pq.server.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false), booleanParam(name: 'stopContainer', value: true)]	            
 	   }
 	   stage('Dependent lv3') { 
 	   }
@@ -75,7 +76,7 @@ node {
 	   }
 	   if (currentContinueTasks) {
 	       stage('continue') {
-	   	        build job: 'eu.operando.int.jnk.tsk.run.tests', wait: false, parameters: [booleanParam(name: 'stopContainer', value: false)]
+	   	        build job: 'eu.operando.int.jnk.tsk.run.tests', wait: false, parameters: [booleanParam(name: 'stopContainer', value: true)]
 	   	   }
 	   }	   	   	   
 	  } catch (err) {

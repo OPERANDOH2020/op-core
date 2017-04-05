@@ -20,36 +20,38 @@ node {
 			//def forcePush -> defaults to "false"
 			//WARNING JENKINS SEND BOOLEANS AS STRING
 			try{
-			    currentVerbose=(verbose=="true")
+			    currentVerbose=((verbose=="true")||(verbose==true))
 			} catch (err){
 			    println ("verbosity not provided defaults to false")
 			}
 			if (currentVerbose) println ("verbose = " + currentVerbose)
 			try{
-			    currentContinueTasks=(continueTasks=="true")
+			    currentContinueTasks=((continueTasks=="true")||(continueTasks==true))
 			} catch (err){
 			    println ("continueTasks not provided defaults to true")
 			}
 			if (currentVerbose) println ("continueTasks = " + currentContinueTasks)							
 			try{
-			    currentStopContainer=(stopContainer=="true")
+			    currentStopContainer=((stopContainer=="true")||(stopContainer==true))
 			} catch (err){
 			    println ("stopContainer not provided defaults to true")
 			}
 		}
 	   stage('test00') { 
-	      build job: 'eu.operando.int.core.ldb.server.test.00.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
-	      build job: 'eu.operando.int.core.pdb.server.test.00.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
-	      build job: 'eu.operando.int.core.ae.server.test.00.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
-	      build job: 'eu.operando.int.core.pfb.server.test.00.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
-	      build job: 'eu.operando.int.core.bda.server.test.00.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
-	      build job: 'eu.operando.int.pdr.dan.server.test.00.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
-	      build job: 'eu.operando.int.webui.rg.server.test.00.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	      build job: 'eu.operando.int.core.ldb.server.test.00.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false), booleanParam(name: 'stopContainer', value: true)]
+	      build job: 'eu.operando.int.core.pdb.server.test.00.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false), booleanParam(name: 'stopContainer', value: true)]
+	      build job: 'eu.operando.int.core.ae.server.test.00.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false), booleanParam(name: 'stopContainer', value: true)]
+	      build job: 'eu.operando.int.core.pfb.server.test.00.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false), booleanParam(name: 'stopContainer', value: true)]
+	      build job: 'eu.operando.int.core.bda.server.test.00.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false), booleanParam(name: 'stopContainer', value: true)]
+	      build job: 'eu.operando.int.pdr.dan.server.test.00.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false), booleanParam(name: 'stopContainer', value: true)]
+	      build job: 'eu.operando.int.webui.rg.server.test.00.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false), booleanParam(name: 'stopContainer', value: true)]
 	   }
 	   stage('test01') { 
-	      build job: 'eu.operando.int.core.ldb.server.test.01.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
-	      build job: 'eu.operando.int.core.pdb.server.test.01.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
-	      build job: 'eu.operando.int.demo.yellowpages.server.test.01.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false)]
+	      build job: 'eu.operando.int.core.ldb.server.test.01.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false), booleanParam(name: 'stopContainer', value: true)]
+	      build job: 'eu.operando.int.core.rm.server.test.01.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false), booleanParam(name: 'stopContainer', value: true)]
+	      build job: 'eu.operando.int.core.ae.server.test.01.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false), booleanParam(name: 'stopContainer', value: true)]
+	      build job: 'eu.operando.int.core.pdb.server.test.01.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false), booleanParam(name: 'stopContainer', value: true)]
+	      build job: 'eu.operando.int.demo.yellowpages.server.test.01.jnk.tsk.run', propagate: false, parameters: [booleanParam(name: 'continueTasks', value: false), booleanParam(name: 'stopContainer', value: true)]
 	   }
 	   stage('test02') { 
 	   }

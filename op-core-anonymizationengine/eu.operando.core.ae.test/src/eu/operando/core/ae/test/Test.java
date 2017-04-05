@@ -54,6 +54,7 @@ public class Test {
 	private static ResultSet resultSet = null;
 	static Logger mainLogger = null;
 	static Properties props = null;	
+	static Properties props2 = null;	
     static {
         mainLogger = Logger.getLogger("eu.operando.core.ae.test");
     }
@@ -98,7 +99,7 @@ public class Test {
 		
 		Object postBody = dataUnit;
 		try {
-			String str = apiClient.invokeAPI(path,"POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType);
+		    String str = apiClient.invokeAPI(path,"POST", queryParams, postBody, headerParams, formParams, accept, contentType, authNames, returnType).toString();
 			System.out.println(str);			
 		} catch (ApiException e) {
 			System.out.println(e.toString());
@@ -184,6 +185,11 @@ public class Test {
 		dataTypeMap.put("SALARY_CLASS", AEDataType.STRING);				
 		
 		props = loadDbProperties();
+		System.out.println("dbdriver:" + props.getProperty("jdbc.driverClassName"));
+		System.out.println("db url:" + props.getProperty("jdbc.url"));
+		System.out.println("db user:" + props.getProperty("jdbc.username"));
+		System.out.println("db password:" + props.getProperty("jdbc.password"));
+		
 		Class.forName(props.getProperty("jdbc.driverClassName"));		
 		connect = DriverManager.getConnection(props.getProperty("jdbc.url"), props.getProperty("jdbc.username"), props.getProperty("jdbc.password"));
 		
@@ -214,7 +220,13 @@ public class Test {
 		
 		int kAnonymity = 2;
 		
+		props2 = loadTestProperties();
+		String basePath = props2.getProperty("basePath");
+		System.out.println("basePath:" + basePath);
+
 		ApiClient apiClient = new ApiClient();
+
+		apiClient.setBasePath(basePath);
 		Object localVarPostBody = null;		
 				
 	
@@ -267,7 +279,7 @@ public class Test {
 	    GenericType returnType = new GenericType<String>() {};
 	     try {
 	    	     	
-	    	 String str = apiClient.invokeAPI(path, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, returnType);
+	    	 String str = apiClient.invokeAPI(path, "POST", localVarQueryParams, localVarPostBody, localVarHeaderParams, localVarFormParams, localVarAccept, localVarContentType, localVarAuthNames, returnType).toString();
 	    	 System.out.println(str);
 	    	 //next an example of a value returned
 	    	 //{"code":4,"type":"ok","message":"[SURNAME, NUMBER_OF_CHILDREN, MARITAL_STATUS, EDUCATION, NAME, CELL_PHONE_NUMBER, SALARY_CLASS, COUNTRY, EMAIL_ADDRESS, RACE, OCCUPATION, GENDER, WORK_CLASS, DATE_OF_BIRTH, IDENTIFICATION_NUMBER][*, 2, Married-civ-spouse, Bachelors, *, *, <=50K, United-States, *, White, Tech-suppo, Male, Private, *, *][*, 2, Married-civ-spouse, Bachelors, *, *, <=50K, United-States, *, Asian-Pac-Islander, Tech-suppo, Male, Private, *, *][*, 2, Married-civ-spouse, Bachelors, *, *, <=50K, United-States, *, Amer-Indian-Eskimo, Tech-suppo, Male, Private, *, *][*, 2, Married-civ-spouse, Bachelors, *, *, <=50K, United-States, *, Other, Tech-suppo, Male, Private, *, *][*, 2, Married-civ-spouse, Bachelors, *, *, <=50K, United-States, *, Black, Tech-suppo, Male, Private, *, *]"}
@@ -396,7 +408,8 @@ public class Test {
 		
 		InputStream fis = null;
 		try {
-		    fis = Test.class.getResourceAsStream("db.properties");
+//		    fis = Test.class.getResourceAsStream("db.properties"); //GBE this produce null pointer exception when running the class with java
+			fis = ClassLoader.getSystemResourceAsStream("db.properties");			
 		    props.load(fis);
 		}     catch (IOException e) {
 		    // TODO Auto-generated catch block
@@ -405,5 +418,20 @@ public class Test {
 		
 		return props;
 	}
-
+	private static Properties loadTestProperties() {
+		Properties props;
+		props = new Properties();
+		
+		InputStream fis = null;
+		try {
+//		    fis = Test.class.getResourceAsStream("test.properties");
+			fis = ClassLoader.getSystemResourceAsStream("test.properties");
+		    props.load(fis);
+		}     catch (IOException e) {
+		    // TODO Auto-generated catch block
+		    e.printStackTrace();
+		}
+		
+		return props;
+	}
 }

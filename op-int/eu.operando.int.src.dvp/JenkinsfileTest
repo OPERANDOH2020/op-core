@@ -44,7 +44,7 @@ node {
 			//WARNING JENKINS SEND BOOLEANS AS STRING
 
 			try{
-			    currentVerbose=(verbose=="true")
+			    currentVerbose=((verbose=="true")||(verbose==true))
 			} catch (err){
 			    println ("verbosity not provided defaults to false")
 			}
@@ -64,7 +64,7 @@ node {
 			if (currentVerbose) println ("scmCredentials = " + scmCredentials)
 
 			try{
-			    currentContinueTasks=(continueTasks=="true")
+			    currentContinueTasks=((continueTasks=="true")||(continueTasks==true))
 			} catch (err){
 			    println ("continueTasks not provided defaults to true")
 			}
@@ -93,6 +93,14 @@ node {
 			}
 		}
 		
+		try {
+            workspaceContent=sh(returnStdout: true, script: "ls ${workspace} 2>/dev/null").trim()
+        } catch (err){
+        }
+        
+        if (currentVerbose) println ("workspaceContent = " + workspaceContent)
+		hasEmptyWorkspace=(""==workspaceContent)
+        if (currentVerbose) println ("hasEmptyWorkspace = " + hasEmptyWorkspace)
 		if(hasSources){
 		    stage ('Gather Sources'){
 		        checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: sourcesPath], [$class: 'SparseCheckoutPaths', sparseCheckoutPaths: [[path: sourcesRelativePath]]]], submoduleCfg: [], userRemoteConfigs: [[credentialsId: credentialsId, url: sourcesRepo]]])

@@ -255,6 +255,13 @@
 		<operando.core.pc.basepath>${operando.core.pc.protocol}${operando.core.pc.host}:${operando.core.pc.port}</operando.core.pc.basepath>
 		<operando.core.pc.endpoint>${operando.core.pc.basepath}/${operando.core.pc.endpoint.path}</operando.core.pc.endpoint>
 
+		<operando.core.pc.pq.host>pq.pc.integration.operando.lan.esilab.org</operando.core.pc.pq.host>
+		<operando.core.pc.pq.protocol>http://</operando.core.pc.pq.protocol>
+		<operando.core.pc.pq.port>8097</operando.core.pc.pq.port>
+		<operando.core.pc.pq.endpoint.path>operandocpcu</operando.core.pc.pq.endpoint.path>
+		<operando.core.pc.pq.basepath>${operando.core.pc.pq.protocol}${operando.core.pc.pq.host}:${operando.core.pc.pq.port}</operando.core.pc.pq.basepath>
+		<operando.core.pc.pq.endpoint>${operando.core.pc.pq.basepath}/${operando.core.pc.pq.endpoint.path}</operando.core.pc.pq.endpoint>
+
 		<operando.core.sos.nagios.host>sos.integration.operando.lan.esilab.org</operando.core.sos.nagios.host>
 		<operando.core.sos.nagios.protocol>http://</operando.core.sos.nagios.protocol>
 		<operando.core.sos.nagios.port>8106</operando.core.sos.nagios.port>
