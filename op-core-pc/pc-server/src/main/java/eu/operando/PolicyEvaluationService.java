@@ -128,10 +128,15 @@ public class PolicyEvaluationService {
      */
     protected  PolicyEvaluationService() {
         UppDB = new HashMap<String, String>();
-        loadDemoUPP("_demo_user1", "upp1.json");
-        loadDemoUPP("_demo_user2", "upp2.json");
-        loadDemoUPP("_demo_user3", "upp3.json");
-        loadDemoUPP("osp1", "osp1.json");
+        try{
+            loadDemoUPP("_demo_user1", "upp1.json");
+            loadDemoUPP("_demo_user2", "upp2.json");
+            loadDemoUPP("_demo_user3", "upp3.json");
+            loadDemoUPP("osp1", "osp1.json");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     /**
