@@ -17,7 +17,7 @@ var persistence = undefined;
 var  container = require("safebox").container;
 var flow = require("callflow");
 var uuid = require('uuid');
-
+var apersistence = require('apersistence');
 
 var signupNotifications = {
 
@@ -74,23 +74,14 @@ function registerModels(callback){
                 type: "string",
                 length:254
             },
-            forUser:{
+            zone:{
                 type: "string",
                 index: true,
-                length:254
+                length:254 // hardcoded for operando
             },
-            type:{
-                type: "string",
-                index: true,
+            action:{
+                type:"string",  // switch and edit
                 length:254
-            },
-            category:{
-                type:"string",
-                length:254
-            },
-            actions:{
-                type:"string",
-                length:1024
             },
             title:{
                 type: "string",
@@ -100,45 +91,62 @@ function registerModels(callback){
                 type: "string",
                 length:1024
             },
-            delivered:{
-                type: "boolean"
-            },
-            date:{
+            expirationDate:{
                 type: "date"
             },
-            dismissed:{
-                type: "boolean",
-                default: false
+            creationDate:{
+                type:"date",
             }
         }
-    }
-];
-
-flow.create("registerModels",{
-    begin:function(){
-        this.errs = [];
-        var self = this;
-        models.forEach(function(model){
-            persistence.registerModel(model.modelName,model.dataModel,self.continue("registerDone"));
-        });
-
     },
-    registerDone:function(err,result){
-        if(err) {
-            this.errs.push(err);
-        }
-    },
-    end:{
-        join:"registerDone",
-        code:function(){
-            if(callback && this.errs.length>0){
-                callback(this.errs);
-            }else{
-                callback(null);
+        {
+
+            modelName:"DismissedNotifications",
+            dataModel:{
+                "id":{
+                    type:"string",
+                    length:254,
+                    pk:true
+                },
+                "userId":{
+                    type:"string",
+                    length:254,
+                    index:true
+                },
+                "notificationId":{
+                    type:"string",
+                    length:254
+                }
+
             }
         }
-    }
-})()
+    ];
+
+    flow.create("registerModels",{
+        begin:function(){
+            this.errs = [];
+            var self = this;
+            models.forEach(function(model){
+                persistence.registerModel(model.modelName,model.dataModel,self.continue("registerDone"));
+            });
+
+        },
+        registerDone:function(err,result){
+            if(err) {
+                this.errs.push(err);
+            }
+        },
+        end:{
+            join:"registerDone",
+            code:function(){
+                if(callback && this.errs.length>0){
+                    callback(this.errs);
+                }else{
+                    callback(null);
+                }
+            }
+        }
+    })()
 }
 
 container.declareDependency("NotificationUAMAdapter", ["mysqlPersistence"], function (outOfService, mysqlPersistence) {
@@ -149,25 +157,18 @@ container.declareDependency("NotificationUAMAdapter", ["mysqlPersistence"], func
                 console.error(errs);
             }
         })
-
     } else {
         console.log("Disabling persistence...");
     }
 });
 
-
-
-getNotifications = function (userId, callback) {
-    flow.create("Get notifications for user", {
-        begin: function () {
-            persistence.filter("Notification", {forUser: userId, dismissed:false}, this.continue("getNotifications"));
-        },
-        getNotifications: function (err, notifications) {
-            callback(err, notifications);
-        }
-    })();
+createNotification = function (rawNotificationData, callback) {
+    var notification = apersistence.createRawObject('Notification',uuid.v1());
+    rawNotificationData.expirationDate = new Date(rawNotificationData.expirationDate)
+    persistence.externalUpdate(notification,rawNotificationData);
+    notification.creationDate = new Date();
+    persistence.save(notification, callback);
 };
-
 
 deleteNotification = function (notificationId, callback) {
     flow.create("Delete Notification", {
@@ -179,38 +180,6 @@ deleteNotification = function (notificationId, callback) {
         }
     })();
 };
-
-
-
-createNotification = function (sender, userId, type, category, title, description, callback) {
-
-    flow.create("Create Notification", {
-        begin: function () {
-            if (!userData.userId) {
-                callback(new Error('Empty userId'), null);
-            }
-            else {
-                persistence.lookup("Notification", uuid.v1(), this.continue("createNotification"));
-            }
-        },
-        createNotification: function (err, notification) {
-            if (!persistence.isFresh(notification)) {
-                callback(new Error("notification with identical id " + notification.notificationId + " already exists"), null);
-            } else {
-                notification.sender        = sender;
-                notification.forUser        = userId;
-                notification.title          = title;
-                notification.description    = description;
-                notification.type           = type;
-                notification.action         = action;
-                notification.category       = category;
-
-                persistence.save(notification, callback);
-            }
-        }
-    })();
-}
-
 
 updateNotification = function (notificationDump, callback) {
     flow.create("Update notification", {
@@ -233,6 +202,77 @@ updateNotification = function (notificationDump, callback) {
         }
     })();
 };
+
+getNotifications = function (userZone, callback) {
+
+    flow.create("Get notifications for user", {
+        begin: function () {
+            this.notifications = [];
+            this.isDissmissed = {};
+            this.errs = [];
+            persistence.filter('DismissedNotifications',{"userId":userId},this.continue("gotDismissedNotifications"))
+        },
+
+        gotDismissedNotifications:function(err,dismissedNotifications){
+            if(err){
+                this.errs.push(err);
+            }else{
+                var self = this;
+                dismissedNotifications.forEach(function(dismissedNotification){
+                    self.isDissmissed[dismissedNotification.notificationId] = true;
+                })
+            }
+
+            persistence.filter("Notification", {forUser: userId}, this.continue("gotNotifications"));
+            if(typeof userZones !=='function'){
+                userZones.forEach(function(zone){
+                    persistence.filter("Notification",{forUser:userId},self.continue("gotNotifications"));
+                })
+            }
+        },
+
+        gotNotifications:function(err,notifications){
+            if(err){
+                this.errs.push(err);
+            }else{
+                var self = this;
+                notifications.forEach(function(notification){
+                    if(!self.isDissmissed[notification.notificationId]){
+                        self.notifications.push(notification);
+                    }
+                })
+            }
+        },
+
+        deliverNotifications: {
+            join:"gotNotifications",
+            code:function () {
+                if(this.errs.length>0){
+                    callback(this.errs, this.notifications);
+                }else{
+                    callback(undefined,this.notifications)
+                }
+            }
+        }
+    })();
+};
+
+dismissNotification = function(userIdOrZone,notificationId,callback){
+    var dismissedNotification = apersistence.createRawObject("DismissedNotifications",uuid.v1());
+    dismissedNotification.userId = userIdOrZone;
+    dismissedNotification.notificationId = notificationId;
+    persistence.save(dismissedNotification,callback);
+};
+
+filterNotifications = function(filter,callback){
+    persistence.filter("Notification",filter,callback);
+}
+
+notifyLoggedUsers = function (notification,callback) {
+    console.log("[*] NOTIFY LOGGED USERS NOT IMPLEMENTED YET");
+    process.nextTick(callback)
+}
+
 
 generateSignupNotifications = function (userId, callback) {
     flow.create("createSignupNotifications", {
@@ -282,7 +322,6 @@ generateSignupNotifications = function (userId, callback) {
 
     })();
 };
-
 
 clearIdentityNotifications = function(userId){
     clearNotification(userId,signupNotifications.identity.category);
@@ -340,5 +379,3 @@ clearNotification = function(userId, category){
 
     })();
 };
-
-
