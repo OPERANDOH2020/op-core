@@ -5,7 +5,7 @@ import io.swagger.api.factories.ConsentApiServiceFactory;
 
 import io.swagger.annotations.ApiParam;
 
-import io.swagger.model.UserConsents;
+import eu.operando.core.pdb.common.model.UserConsents;
 
 import io.swagger.api.NotFoundException;
 

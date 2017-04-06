@@ -22,7 +22,6 @@
 //      Created for Project :   OPERANDO
 //
 /////////////////////////////////////////////////////////////////////////
-
 package eu.operando.core.ose.mongo;
 
 import com.mongodb.BasicDBObject;
@@ -32,6 +31,8 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoException;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import com.mongodb.util.JSON;
 import eu.operando.core.pdb.client.ApiClient;
 import eu.operando.core.pdb.client.ApiException;
@@ -46,6 +47,7 @@ import eu.operando.core.pdb.client.api.PUTApi;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import org.bson.Document;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -54,12 +56,19 @@ import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONException;
 
 /**
- * The set of operations used by the OSE component to access information
- * stored in the Mongo DB instance of the policy database (PDB).
+ * The set of operations used by the OSE component to access information stored
+ * in the Mongo DB instance of the policy database (PDB).
  */
 public class OspsMongo {
 
     private MongoClient mongo;
+
+    private MongoCollection<Document> ospsPSCollection;
+    private MongoCollection<Document> ospsPPCollection;
+    private MongoCollection<Document> uppCollection;
+
+    private String uppBasePath = "http://localhost:8080/policy_database";
+
     private DB db;
     private DB db2;
     /**
@@ -77,7 +86,10 @@ public class OspsMongo {
      */
     private DBCollection ospPPTable;
 
-    private String uppBasePath = "http://localhost:8080/policy_database";
+    public OspsMongo(String hostname, int port) {
+        mongo = new MongoClient(hostname, port);
+        initialiseCollections();
+    }
 
     public OspsMongo() {
         try {
@@ -98,10 +110,28 @@ public class OspsMongo {
         }
     }
 
+    private void initialiseCollections() {
+        MongoDatabase oseDatabase;
+        MongoDatabase pdbDatabase;
+
+        // get database
+        oseDatabase = mongo.getDatabase("ose");
+        pdbDatabase = mongo.getDatabase("pdb");
+
+        // get collection
+        ospsPSCollection = oseDatabase.getCollection("osp_ps");
+        ospsPPCollection = oseDatabase.getCollection("pp");
+        
+        uppCollection = pdbDatabase.getCollection("upp");
+        
+        //this.mongo.close();
+    }
+
     /**
      * Return the list of OSP identifiers who fall into the named sector.
-     * @param sector The sector type e.g. healthcare.
-     * Return the list of OPERANDO OSP ids.
+     *
+     * @param sector The sector type e.g. healthcare. Return the list of
+     * OPERANDO OSP ids.
      */
     public List<String> getOSPbySector(String sector) {
         List<String> listOSPs = new ArrayList<String>();
@@ -110,7 +140,7 @@ public class OspsMongo {
 
         DBCursor cursor = this.ospPPTable.find(whereQuery);
         System.out.println("DB = " + cursor);
-        while(cursor.hasNext()) {
+        while (cursor.hasNext()) {
             DBObject result = cursor.next();
             if (result != null) {
                 System.out.println(result);
@@ -123,6 +153,7 @@ public class OspsMongo {
 
     /**
      * Get the set of users who have subscribed to an OSP
+     *
      * @param ospId The OPERANDO ID of the OSP
      * @return The list of operando user ids.
      */
@@ -133,7 +164,7 @@ public class OspsMongo {
         System.out.println(ospId);
         DBCursor cursor = this.uppTable.find(whereQuery);
         System.out.println("DB = " + cursor);
-        while(cursor.hasNext()) {
+        while (cursor.hasNext()) {
             DBObject result = cursor.next();
             if (result != null) {
                 System.out.println(result);
@@ -344,7 +375,6 @@ public class OspsMongo {
         }
 
         //TODO check userPrivacySettings with ospSettings
-
         //update upp with new OSPSettings
         OSPSettings updatedOspSetting = new OSPSettings();
         updatedOspSetting.setOspId(ospId);

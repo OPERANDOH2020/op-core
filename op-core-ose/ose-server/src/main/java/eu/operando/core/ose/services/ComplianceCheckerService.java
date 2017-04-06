@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////
 //
-// © University of Southampton IT Innovation Centre, 2016
+// ï¿½ University of Southampton IT Innovation Centre, 2016
 //
 // Copyright in this library belongs to the University of Southampton
 // University Road, Highfield, Southampton, UK, SO17 1BJ
@@ -31,7 +31,7 @@ import eu.operando.core.pdb.common.model.AccessReason;
 import io.swagger.api.NotFoundException;
 import eu.operando.core.pdb.common.model.OSPReasonPolicy;
 import eu.operando.core.pdb.common.model.PrivacyRegulation;
-import io.swagger.model.ComplianceEvaluation;
+import eu.operando.core.pdb.common.model.ComplianceEvaluation;
 import java.util.ArrayList;
 import java.util.List;
 

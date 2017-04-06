@@ -22,7 +22,6 @@
 //      Created for Project :   OPERANDO
 //
 /////////////////////////////////////////////////////////////////////////
-
 package eu.operando.core.ose.mongo;
 
 import com.mongodb.BasicDBObject;
@@ -31,19 +30,25 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoCommandException;
 import com.mongodb.MongoException;
+import com.mongodb.MongoWriteConcernException;
+import com.mongodb.MongoWriteException;
 import com.mongodb.WriteResult;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import com.mongodb.util.JSON;
 import eu.operando.core.pdb.common.model.PrivacyRegulation;
 import eu.operando.core.pdb.common.model.PrivacyRegulationInput;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.bson.types.ObjectId;
+import org.bson.Document;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jettison.json.JSONException;
 
 /**
  *
@@ -52,6 +57,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 public class RegulationsMongo {
 
     private MongoClient mongo;
+    private MongoCollection<Document> regulationsCollection;
+
     private DB db;
     private DBCollection regulationTable;
 
@@ -66,6 +73,23 @@ public class RegulationsMongo {
         } catch (MongoException e) {
             e.printStackTrace();
         }
+        initialiseCollections();
+    }
+
+    public RegulationsMongo(String hostname, int port) {
+        mongo = new MongoClient(hostname, port);
+        initialiseCollections();
+    }
+
+    private void initialiseCollections() {
+        MongoDatabase pdbDatabase;
+
+        // get database
+        pdbDatabase = mongo.getDatabase("pdb");
+
+        regulationsCollection = pdbDatabase.getCollection("regulations");
+
+        //this.mongo.close();
     }
 
     private eu.operando.core.pdb.common.model.PrivacyRegulation getRegulation(DBObject regObj) {
@@ -101,13 +125,20 @@ public class RegulationsMongo {
         obj.add(new BasicDBObject("private_information_type", data));
         andQuery.put("$and", obj);
 
-        DBCursor cursor = regulationTable.find(andQuery);
-
-        while (cursor.hasNext()) {
-            DBObject result = cursor.next();
-            if (result != null) {
-                eu.operando.core.pdb.common.model.PrivacyRegulation regObj = getRegulation(result);
-                regs.add(regObj);
+        List<Document> documents = regulationsCollection.find(andQuery).into(new ArrayList<Document>());
+        for(Document document : documents){
+            PrivacyRegulation prObj = null;
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                prObj = mapper.readValue(document.toJson(), PrivacyRegulation.class);
+                regs.add(prObj);
+            }catch (JsonGenerationException e) {
+                e.printStackTrace();
+            } catch (JsonMappingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
 
@@ -142,7 +173,7 @@ public class RegulationsMongo {
         boolean result = true;
         String storeAction = null;
 
-        for(PrivacyRegulation pr : regulationList) {
+        for (PrivacyRegulation pr : regulationList) {
             storeAction = storeRegulation(pr);
             if (storeAction != null) {
                 result = false;
@@ -152,19 +183,27 @@ public class RegulationsMongo {
         return result;
     }
 
+    /**
+     *
+     * @param reg
+     * @return
+     */
     public String storeRegulation(PrivacyRegulation reg) {
         String result = null;
         try {
             ObjectMapper mapper = new ObjectMapper();
             String jsonInString = mapper.writeValueAsString(reg);
-            Object obj = JSON.parse(jsonInString);
-            DBObject document = (DBObject) obj;
+            Document doc = Document.parse(jsonInString);
+            regulationsCollection.insertOne(doc);
+            result = doc.get("_id").toString();
 
-            regulationTable.insert(document);
-            ObjectId id = (ObjectId) document.get("_id");
-            result = id.toString();
+        } catch (MongoWriteException ex) {
+            ex.printStackTrace();
+        } catch (MongoWriteConcernException ex) {
+            ex.printStackTrace();
+        } catch (MongoCommandException ex) {
+            ex.printStackTrace();
         } catch (MongoException e) {
-            result = null;
             e.printStackTrace();
         } catch (JsonGenerationException e) {
             e.printStackTrace();

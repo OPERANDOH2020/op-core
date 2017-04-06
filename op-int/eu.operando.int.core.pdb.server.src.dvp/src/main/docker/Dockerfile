@@ -2,6 +2,8 @@
 # we choose normal 
 FROM tomcat:7
 
+RUN apt-get update && apt-get install openjdk-7-jdk -y && rm -rf /var/lib/apt/lists/*
+
 ENV OLD_MONGO_HOST mongo.integration.operando.lan.esilab.org
 ENV MONGO_HOST mongo.integration.operando.lan.esilab.org
 ENV OLD_MONGO_PORT 27017
