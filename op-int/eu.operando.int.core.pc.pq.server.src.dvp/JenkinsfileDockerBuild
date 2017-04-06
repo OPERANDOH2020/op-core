@@ -59,8 +59,8 @@ node {
 		String sourcesLastCommit
 		String sourcesCurrentCommit
 		
-		String devopsSourcesDiffPreviousCommit=""
-		String sourcesLastDiffPreviousCommit=""
+		String devopsSourcesDiffPreviousCommit
+		String sourcesLastDiffPreviousCommit
 		
 		String devopsImageLastSha256File
 		String devopsImageBuildResult
