@@ -1,0 +1,174 @@
+[
+    {
+        "domain": ".google.com",
+        "expires": "Thu, 05 Oct 2017 02:54:19 GMT",
+        "expiry": 1507172059,
+        "httponly": false,
+        "name": "__utmz",
+        "path": "/policies/terms/",
+        "secure": false,
+        "value": "173272373.1491404059.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none)"
+    },
+    {
+        "domain": ".google.com",
+        "httponly": false,
+        "name": "__utmc",
+        "path": "/policies/terms/",
+        "secure": false,
+        "value": "173272373"
+    },
+    {
+        "domain": ".google.com",
+        "expires": "Wed, 05 Apr 2017 15:24:19 GMT",
+        "expiry": 1491405859,
+        "httponly": false,
+        "name": "__utmb",
+        "path": "/policies/terms/",
+        "secure": false,
+        "value": "173272373.1.10.1491404059"
+    },
+    {
+        "domain": ".google.com",
+        "expires": "Fri, 05 Apr 2019 14:54:19 GMT",
+        "expiry": 1554476059,
+        "httponly": false,
+        "name": "__utma",
+        "path": "/policies/terms/",
+        "secure": false,
+        "value": "173272373.621941165.1491404059.1491404059.1491404059.1"
+    },
+    {
+        "domain": ".google.com",
+        "expires": "Wed, 05 Apr 2017 15:04:19 GMT",
+        "expiry": 1491404659,
+        "httponly": false,
+        "name": "__utmt",
+        "path": "/policies/terms/",
+        "secure": false,
+        "value": "1"
+    },
+    {
+        "domain": ".linkedin.com",
+        "expires": "Wed, 05 Apr 2017 15:04:19 GMT",
+        "expiry": 1491404659,
+        "httponly": false,
+        "name": "RT",
+        "path": "/",
+        "secure": false,
+        "value": "s=1491404059020&r=https%3A%2F%2Fwww.linkedin.com%2Flegal%2Fprivacy-policy"
+    },
+    {
+        "domain": ".linkedin.com",
+        "httponly": false,
+        "name": "lang",
+        "path": "/",
+        "secure": false,
+        "value": "\"v=2&lang=en-us\""
+    },
+    {
+        "domain": "www.linkedin.com",
+        "expires": "Fri, 05 Apr 2019 14:54:16 GMT",
+        "expiry": 1554476056,
+        "httponly": false,
+        "name": "visit",
+        "path": "/",
+        "secure": false,
+        "value": "\"v=1&G\""
+    },
+    {
+        "domain": "www.linkedin.com",
+        "expires": "Wed, 05 Apr 2017 15:24:15 GMT",
+        "expiry": 1491405855,
+        "httponly": false,
+        "name": "leo_auth_token",
+        "path": "/",
+        "secure": false,
+        "value": "\"GST:8uxo8hXVrLXfsUkqogoKMHbJyTS2DffUEHx_kdbirKSdj0KUgLP1XA:1491404056:4a1f1f2d57fbdd8515baa398b548dbfedb809cee\""
+    },
+    {
+        "domain": ".linkedin.com",
+        "expires": "Thu, 06 Apr 2017 14:54:15 GMT",
+        "expiry": 1491490455,
+        "httponly": false,
+        "name": "lidc",
+        "path": "/",
+        "secure": false,
+        "value": "\"b=VGST08:g=281:u=1:i=1491404055:t=1491490455:s=AQEksQmTWKV9w-jHCyuygIqCGeQ0_l5T\""
+    },
+    {
+        "domain": ".www.linkedin.com",
+        "expires": "Sat, 06 Apr 2019 02:31:47 GMT",
+        "expiry": 1554517907,
+        "httponly": true,
+        "name": "bscookie",
+        "path": "/",
+        "secure": true,
+        "value": "\"v=1&20170405145415ea2572cc-14ed-40d5-894f-6a000254296fAQHY8zmGDMHlO1ovaDsMVCOoyymEWDQi\""
+    },
+    {
+        "domain": ".linkedin.com",
+        "expires": "Sat, 06 Apr 2019 02:31:47 GMT",
+        "expiry": 1554517907,
+        "httponly": false,
+        "name": "bcookie",
+        "path": "/",
+        "secure": false,
+        "value": "\"v=2&54022056-4d23-432c-8072-e57bacd5bd23\""
+    },
+    {
+        "domain": ".www.linkedin.com",
+        "httponly": false,
+        "name": "JSESSIONID",
+        "path": "/",
+        "secure": false,
+        "value": "ajax:8456852743701468888"
+    },
+    {
+        "domain": ".twitter.com",
+        "expires": "Wed, 05 Apr 2017 14:55:14 GMT",
+        "expiry": 1491404114,
+        "httponly": false,
+        "name": "_gat_b",
+        "path": "/",
+        "secure": false,
+        "value": "1"
+    },
+    {
+        "domain": ".twitter.com",
+        "expires": "Wed, 05 Apr 2017 14:55:14 GMT",
+        "expiry": 1491404114,
+        "httponly": false,
+        "name": "_gat_a",
+        "path": "/",
+        "secure": false,
+        "value": "1"
+    },
+    {
+        "domain": ".twitter.com",
+        "expires": "Fri, 05 Apr 2019 14:54:14 GMT",
+        "expiry": 1554476054,
+        "httponly": false,
+        "name": "_ga",
+        "path": "/",
+        "secure": false,
+        "value": "GA1.2.1440820185.1491404054"
+    },
+    {
+        "domain": "twitter.com",
+        "httponly": false,
+        "name": "has_js",
+        "path": "/",
+        "secure": false,
+        "value": "1"
+    },
+    {
+        "domain": ".twitter.com",
+        "expires": "Fri, 05 Apr 2019 14:54:12 GMT",
+        "expiry": 1554476052,
+        "httponly": false,
+        "name": "guest_id",
+        "path": "/",
+        "secure": false,
+        "value": "v1%3A149140405284034418"
+    }
+]

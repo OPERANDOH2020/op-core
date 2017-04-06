@@ -1,0 +1,130 @@
+[
+    {
+        "domain": ".linkedin.com",
+        "httponly": false,
+        "name": "lang",
+        "path": "/",
+        "secure": false,
+        "value": "\"v=2&lang=ro-ro\""
+    },
+    {
+        "domain": "www.linkedin.com",
+        "expires": "Fri, 05 Apr 2019 14:54:09 GMT",
+        "expiry": 1554476049,
+        "httponly": false,
+        "name": "visit",
+        "path": "/",
+        "secure": false,
+        "value": "\"v=1&M\""
+    },
+    {
+        "domain": ".ads.linkedin.com",
+        "expires": "Thu, 05 Oct 2017 02:54:08 GMT",
+        "expiry": 1507172048,
+        "httponly": false,
+        "name": "BizoID",
+        "path": "/",
+        "secure": true,
+        "value": "9c3cb9c5-d178-43b3-99c0-08bc76e34c98"
+    },
+    {
+        "domain": ".ads.linkedin.com",
+        "expires": "Thu, 05 Oct 2017 02:54:08 GMT",
+        "expiry": 1507172048,
+        "httponly": false,
+        "name": "BizoData",
+        "path": "/",
+        "secure": true,
+        "value": "Jr3BxHJOIisO8dcBN8fLo0IiiHGAKl0mBJKwXt38eFMnd8kVXhDRH80jZXMthf2YipisDm8uLb945H2LLhJUptCJ9VpgeUxisd0nFjYNqNkSvE7is8pHTp6q1OYLASJZILtiidtv6ipe8buSyipnlLMqHLnRAQ8EiifuQ8Uip1tisVgI79tSHKuTutZfMz4oc4EE6HlmzEKXsGuW7Y0Dhd7nn16Gl0cOtBIVcLhUGoGNptA1e6rLPisSUlzOItGf79JJ0bAwUY8x0ZQCaNoZ0DzMOV3rvl8r30o2emSOGaJpY"
+    },
+    {
+        "domain": ".linkedin.com",
+        "expires": "Wed, 05 Apr 2017 15:04:06 GMT",
+        "expiry": 1491404646,
+        "httponly": false,
+        "name": "RT",
+        "path": "/",
+        "secure": false,
+        "value": "s=1491404046003&r=https%3A%2F%2Fwww.linkedin.com%2Fuas%2Flogin"
+    },
+    {
+        "domain": ".linkedin.com",
+        "expires": "Thu, 06 Apr 2017 09:53:55 GMT",
+        "expiry": 1491472435,
+        "httponly": false,
+        "name": "lidc",
+        "path": "/",
+        "secure": false,
+        "value": "\"b=TB94:g=594:u=2:i=1491404045:t=1491472435:s=AQFQqypiTVLMVoGotV_BaJAzwLAKoG1r\""
+    },
+    {
+        "domain": ".linkedin.com",
+        "expires": "Tue, 04 Jul 2017 14:54:05 GMT",
+        "expiry": 1499180045,
+        "httponly": false,
+        "name": "liap",
+        "path": "/",
+        "secure": false,
+        "value": "true"
+    },
+    {
+        "domain": ".www.linkedin.com",
+        "expires": "Thu, 05 Apr 2018 14:54:05 GMT",
+        "expiry": 1522940045,
+        "httponly": true,
+        "name": "li_at",
+        "path": "/",
+        "secure": true,
+        "value": "AQEDASJMuNIEr8E9AAABWz6bvIEAAAFbQFMwgU0AVpSYYUijhvCzzSAAt84VAAlm5nKf2WCBU80D4v_drQAs4YvhsBPAyv9P_X7x2WPbF4wOS_LZzauu_in2aEefn4VPvGTkK8QiLKHampatlyc_vs5R"
+    },
+    {
+        "domain": ".www.linkedin.com",
+        "expires": "Tue, 04 Jul 2017 14:54:05 GMT",
+        "expiry": 1499180045,
+        "httponly": false,
+        "name": "JSESSIONID",
+        "path": "/",
+        "secure": true,
+        "value": "\"ajax:2685388347168910072\""
+    },
+    {
+        "domain": ".www.linkedin.com",
+        "expires": "Tue, 04 Jul 2017 14:54:05 GMT",
+        "expiry": 1499180045,
+        "httponly": false,
+        "name": "sl",
+        "path": "/",
+        "secure": false,
+        "value": "\"v=1&v9ZJO\""
+    },
+    {
+        "domain": ".google.com",
+        "expires": "Thu, 05 Oct 2017 14:54:02 GMT",
+        "expiry": 1507215242,
+        "httponly": true,
+        "name": "NID",
+        "path": "/",
+        "secure": false,
+        "value": "100=WD-2AZ0Q9J9kZkAV-Z7mCTdB3sIwxdD9Pd8L9qReFuSizp6u6j0hdCEv9VksCRqEXE21AQWTBWRRHBISa52yjOT4V7F4qrsO571Cfk_z7z-DqQ3Jn8NYSX5rikY_NcGW"
+    },
+    {
+        "domain": ".www.linkedin.com",
+        "expires": "Sat, 06 Apr 2019 02:31:33 GMT",
+        "expiry": 1554517893,
+        "httponly": true,
+        "name": "bscookie",
+        "path": "/",
+        "secure": true,
+        "value": "\"v=1&201704051454012282616d-ea23-4a6f-8bf1-ce79622493ffAQG0aQ4569VHIVgO8mxGvAsjdJf1SbgG\""
+    },
+    {
+        "domain": ".linkedin.com",
+        "expires": "Sat, 06 Apr 2019 02:31:33 GMT",
+        "expiry": 1554517893,
+        "httponly": false,
+        "name": "bcookie",
+        "path": "/",
+        "secure": false,
+        "value": "\"v=2&44c117f0-4a2f-4508-8c9f-a92902cdeeda\""
+    }
+]

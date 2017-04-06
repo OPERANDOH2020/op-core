@@ -1,0 +1,144 @@
+[
+    {
+        "domain": ".twitter.com",
+        "httponly": true,
+        "name": "_twitter_sess",
+        "path": "/",
+        "secure": true,
+        "value": "BAh7CiIKZmxhc2hJQzonQWN0aW9uQ29udHJvbGxlcjo6Rmxhc2g6OkZsYXNo%250ASGFzaHsABjoKQHVzZWR7ADoPY3JlYXRlZF9hdGwrCCN2pjdbAToMY3NyZl9p%250AZCIlN2EwOTAxMWY5OWYxMzBlMzVkNDBhZDc0MmNkY2UwOGY6B2lkIiU3MTZk%250AMjAwN2YxYTc5NWE2OWNlZDQzNmQ0NTU5MmRkYjoJdXNlcmwrCQFwF8Hnw8gL--62b33599f4f5c1eb03880b7ba90659808a02a646"
+    },
+    {
+        "domain": ".twitter.com",
+        "expires": "Sat, 03 Apr 2027 14:54:11 GMT",
+        "expiry": 1806764051,
+        "httponly": false,
+        "name": "dnt",
+        "path": "/",
+        "secure": false,
+        "value": "1"
+    },
+    {
+        "domain": ".linkedin.com",
+        "expires": "Wed, 05 Apr 2017 15:04:10 GMT",
+        "expiry": 1491404650,
+        "httponly": false,
+        "name": "RT",
+        "path": "/",
+        "secure": false,
+        "value": "s=1491404050205&r=https%3A%2F%2Fwww.linkedin.com%2Fpsettings%2Fprivacy"
+    },
+    {
+        "domain": ".twitter.com",
+        "expires": "Wed, 05 Apr 2017 19:28:28 GMT",
+        "expiry": 1491409708,
+        "httponly": false,
+        "name": "ct0",
+        "path": "/",
+        "secure": true,
+        "value": "e114aa4c7016b7732e952db3fe97b5f5"
+    },
+    {
+        "domain": ".linkedin.com",
+        "httponly": false,
+        "name": "lang",
+        "path": "/",
+        "secure": false,
+        "value": "\"v=2&lang=ro-ro\""
+    },
+    {
+        "domain": ".twitter.com",
+        "httponly": false,
+        "name": "has_js",
+        "path": "/",
+        "secure": false,
+        "value": "1"
+    },
+    {
+        "domain": ".twitter.com",
+        "expires": "Fri, 28 Apr 2017 14:52:21 GMT",
+        "expiry": 1493380341,
+        "httponly": true,
+        "name": "SSESS3c8b2bbd5af1180dab341c61a9900084",
+        "path": "/",
+        "secure": true,
+        "value": "6m3tragc97ht3g8kgo6kb0l3m1"
+    },
+    {
+        "domain": ".www.linkedin.com",
+        "expires": "Fri, 05 Apr 2019 09:58:01 GMT",
+        "expiry": 1554447481,
+        "httponly": false,
+        "name": "visit",
+        "path": "/",
+        "secure": false,
+        "value": "\"v=1&M\""
+    },
+    {
+        "domain": ".twitter.com",
+        "expires": "Thu, 04 Apr 2019 06:28:27 GMT",
+        "expiry": 1554348507,
+        "httponly": false,
+        "name": "guest_id",
+        "path": "/",
+        "secure": false,
+        "value": "v1%3A149128730778899142"
+    },
+    {
+        "domain": ".twitter.com",
+        "expires": "Wed, 03 Oct 2018 06:28:28 GMT",
+        "expiry": 1538537308,
+        "httponly": true,
+        "name": "kdt",
+        "path": "/",
+        "secure": true,
+        "value": "V9WCUFhZUhUhkjzuqiSn8WMam6vDh2glvKY6XLoh"
+    },
+    {
+        "domain": ".twitter.com",
+        "expires": "Fri, 02 Apr 2027 06:28:28 GMT",
+        "expiry": 1806636508,
+        "httponly": false,
+        "name": "remember_checked_on",
+        "path": "/",
+        "secure": false,
+        "value": "1"
+    },
+    {
+        "domain": ".twitter.com",
+        "expires": "Fri, 02 Apr 2027 06:28:28 GMT",
+        "expiry": 1806636508,
+        "httponly": false,
+        "name": "twid",
+        "path": "/",
+        "secure": true,
+        "value": "\"u=849143929903738881\""
+    },
+    {
+        "domain": ".twitter.com",
+        "expires": "Fri, 02 Apr 2027 06:28:28 GMT",
+        "expiry": 1806636508,
+        "httponly": true,
+        "name": "auth_token",
+        "path": "/",
+        "secure": true,
+        "value": "811c163a84c6108d4f3240936116d32b3ee84252"
+    },
+    {
+        "domain": ".twitter.com",
+        "httponly": false,
+        "name": "lang",
+        "path": "/",
+        "secure": false,
+        "value": "en"
+    },
+    {
+        "domain": ".twitter.com",
+        "expires": "Fri, 05 Apr 2019 11:27:52 GMT",
+        "expiry": 1554452872,
+        "httponly": false,
+        "name": "_ga",
+        "path": "/",
+        "secure": false,
+        "value": "GA1.2.413524164.1491391143"
+    }
+]
