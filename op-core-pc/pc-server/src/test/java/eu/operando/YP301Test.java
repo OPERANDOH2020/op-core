@@ -30,7 +30,7 @@ package eu.operando;
  * Integration test for Yellow Pages:
  *
  * One User - flat field id scheme
- * Doctor can read weight but cannot read name
+ * Three roles (doctor, receptionist and website admin)
  */
 public class YP301Test {
 
