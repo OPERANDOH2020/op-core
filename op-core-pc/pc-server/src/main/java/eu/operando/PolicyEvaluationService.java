@@ -277,10 +277,7 @@ public class PolicyEvaluationService {
     }
 
     private String getUPPviaMongo(String userId){
-        long time1 = System.currentTimeMillis();
-        String upp = uppMongodb.getUPPById(userId);
-        System.out.println("time = " + (System.currentTimeMillis() - time1));
-        return upp;
+        return uppMongodb.getUPPById(userId);
     }
 
     /**
@@ -321,7 +318,7 @@ public class PolicyEvaluationService {
                 }
             }
             else{
-                uppProfile = getUPPviaPDB(userId, pdbURL);
+                uppProfile = getUPPviaMongo(userId);
                 if(uppProfile==null) {
                     rp.setStatus("false");
                     rp.setCompliance("NO_POLICY");
