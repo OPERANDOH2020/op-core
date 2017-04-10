@@ -61,6 +61,10 @@ public class TestHelperMethods {
 
     private final Client client;
 
+    /**
+     * Initialise the endpoints from the PC configuration file
+     * in operando.properties.
+     */
     public TestHelperMethods() {
         client = new Client();
         OperandoProperties oPropertiesMethods = new OperandoProperties();
@@ -80,6 +84,10 @@ public class TestHelperMethods {
         }
     }
 
+    /**
+     * Getter for the UPP URL
+     * @return URL
+     */
     public String getUPPURL(){
         return this.PDB_UPP_URL;
     }

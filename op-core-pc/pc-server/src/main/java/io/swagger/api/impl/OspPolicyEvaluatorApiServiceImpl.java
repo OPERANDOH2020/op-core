@@ -158,6 +158,10 @@ public class OspPolicyEvaluatorApiServiceImpl extends OspPolicyEvaluatorApiServi
     public Response ospPolicyEvaluatorPost(String userId, String ospId, List<OSPDataRequest> ospRequest, SecurityContext securityContext)
             throws NotFoundException {
 
+        if((userId==null)||(ospId==null)){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
         /**
          * Check the ST in the request. Only valid tickets can call the evaluation API.
          */
