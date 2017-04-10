@@ -292,17 +292,25 @@ getAllOffers = function(callback){
             }
         },
         getOSPDetails:function(){
-
-            availableOffers.forEach(function(offer){
+            var size = availableOffers.length;
+            if(size === 0){
+                callback(null,availableOffers);
+            }
+            else{
+                availableOffers.forEach(function(offer){
                     persistence.lookup("OspDetails",offer.userId, function(err, ospDetails){
-                       if(!persistence.isFresh(ospDetails)){
-                           offer['website'] = ospDetails['website'];
-                       }
+                        size --;
+                        if(!persistence.isFresh(ospDetails)){
+                            offer['website'] = ospDetails['website'];
+                        }
+                        if(size === 0){
+                            callback(null,availableOffers);
+                        }
                     });
-            });
-
-            callback(null,availableOffers);
+                });
+            }
 
         }
+
     })();
 };
