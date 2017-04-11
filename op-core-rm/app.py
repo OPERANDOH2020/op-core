@@ -32,7 +32,7 @@ __url_pc = config.get('URLs', 'url_pc')
 __aapi_tgt_url = "http://integration.operando.esilab.org:8135/operando/interfaces/aapi/aapi/tickets"
 __aapi_st_url = 'http://integration.operando.esilab.org:8135/operando/interfaces/aapi/aapi/tickets/%s'
 # config.get('URLs', 'URL_LOGDB')
-__URL_LOGDB = "http://ldb.integration.operando.lan.esilab.org:8090/operando/core/ldb/"
+__URL_LOGDB = "http://ldb.integration.operando.esilab.org:8090/operando/core/ldb/log/"
 # config.get('URLs', 'DAN_url')
 __DAN_url = "http://integration.operando.esilab.org:8111/operando/pdr/dan/%s"
 __URL_PC = "http://integration.operando.esilab.org:8095/operando/core/pc/osp_policy_evaluator"
@@ -124,14 +124,14 @@ def ValidateReceivedTicket(tckt, sID):
     return False
 
 
-def logdata(requesterId, action, actiontype):
-    return True
+def logdata(requesterId, action, actiontype,affectedUserID=""):
     logdata = {}
     logdata["requesterType"] = "MODULE"
     logdata["userId"] = "001"
     logdata["requesterId"] = requesterId
     logdata["logPriority"] = "LOW"
-    logdata["logDataType"] = "INFO"
+    logdata["logDataType"] = "data_access"
+    logdata["logLevel"] = "INFO"
     logdata["title"] = actiontype
     logdata["description"] = action
     logdata["keywords"] = ["query"]
@@ -313,13 +313,11 @@ def handleInsert(request, addr):
                       data=json.dumps(request.json), verify=False)
     # return Response(r.text, status=200, mimetype='application/json')
     if r.status_code == 200:
-        # ks = json.loads(request.data)
-        # logdata("requesterId", "insert into table %s" % addr,
-                # "fieds:%s||status:%s" % (joinSTR(ks.keys()), "Granted"))
+        ks = json.loads(request.data)
+        logdata("RM", "insert into table %s" % addr,"fieds:%s||status:%s" % (joinSTR(ks.keys()), "Granted"))
         return Response(r.text, status=200, mimetype='application/json')
     else:
-        return Response(r.text,
-                        status=r.status_code, mimetype='application/json')
+		return Response(r.text,status=r.status_code, mimetype='application/json')
 
 
 # this is an update
