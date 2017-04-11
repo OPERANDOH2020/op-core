@@ -8,4 +8,4 @@ ADD run.sh .
 RUN chmod 750 run.sh
 ENV PATH /usr/local/tomcat:$PATH
 
-ENTRYPOINT ["run.sh"]
+ENTRYPOINT ["sh","run.sh"]
