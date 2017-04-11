@@ -41,6 +41,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.minidev.json.JSONArray;
@@ -76,6 +77,7 @@ public class PolicyEvaluationService {
      * REST APIs of the PC component.
      */
     private static PolicyEvaluationService instance = null;
+    private UPPMongo uppMongodb = null;
 
     /**
      * Operation to use to enforce singleton pattern.
@@ -128,10 +130,42 @@ public class PolicyEvaluationService {
      */
     protected  PolicyEvaluationService() {
         UppDB = new HashMap<String, String>();
-        loadDemoUPP("_demo_user1", "upp1.json");
-        loadDemoUPP("_demo_user2", "upp2.json");
-        loadDemoUPP("_demo_user3", "upp3.json");
-        loadDemoUPP("osp1", "osp1.json");
+        Properties props = loadDbProperties();
+
+//        uppMongodb = new UPPMongo(props.getProperty("mongo.server.host"), Integer.parseInt(props.getProperty("mongo.server.port")));
+        try{
+            loadDemoUPP("_demo_user1", "upp1.json");
+            loadDemoUPP("_demo_user2", "upp2.json");
+            loadDemoUPP("_demo_user3", "upp3.json");
+            loadDemoUPP("osp1", "osp1.json");
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Load the configuration properties from the resource file in JAR/WAR and
+     * turn then into JAVA properties class.
+     * @return The list of JAVA properties reflecting the configuration.
+     */
+    private Properties loadDbProperties() {
+        Properties props;
+        props = new Properties();
+
+        InputStream fis = null;
+        try {
+            fis = this.getClass().getClassLoader().getResourceAsStream("operando.properties");
+            props.load(fis);
+        }
+        catch (IOException e) {
+            // Display to console for debugging purposes.
+            System.err.println("Error reading Configuration properties file");
+
+            // Add logging code to log an error configuring the API on startup
+        }
+
+        return props;
     }
 
     /**
@@ -215,6 +249,37 @@ public class PolicyEvaluationService {
         }
     }
 
+    private String getUPPviaPDB(String userId, String pdbURL){
+        String uppProfile = null;
+        try {
+
+            /**
+             * Get the UPP from the PDB.
+             */
+            CloseableHttpClient httpclient = HttpClients.createDefault();
+            HttpGet httpget = new HttpGet(pdbURL +"/" + userId);
+            CloseableHttpResponse response1 = httpclient.execute(httpget);
+
+            /**
+             * If there is no UPP, then it returns an non-compliance report
+             * with a NO_POLICY statement.
+             */
+            HttpEntity entity = response1.getEntity();
+            if(response1.getStatusLine().getStatusCode()==404) {
+                return null;
+            }
+            uppProfile = EntityUtils.toString(entity);
+
+        } catch (IOException ex) {
+            return null;
+        }
+        return uppProfile;
+    }
+
+    private String getUPPviaMongo(String userId){
+        return uppMongodb.getUPPById(userId);
+    }
+
     /**
      * Core implementation of the policy evaluation service. Evaluates if a set
      * of requests matches a user's privacy preferences.
@@ -229,12 +294,6 @@ public class PolicyEvaluationService {
     public PolicyEvaluationReport evaluate(String ospId, String userId, List<OSPDataRequest> ospRequest, String pdbURL) throws NotFoundException {
 
         try {
-
-            System.out.println("New Evaluation Request");
-            System.out.println("--------------------------------------------------");
-            System.out.println("Evaluating User Policy: " + userId);
-            System.out.println("Request from: " + ospId);
-
             /**
              * The response to be sent - yes/no along with a report of why something
              * has been denied.
@@ -253,26 +312,12 @@ public class PolicyEvaluationService {
                 }
             }
             else{
-                /**
-                 * Get the UPP from the PDB.
-                 */
-                CloseableHttpClient httpclient = HttpClients.createDefault();
-                HttpGet httpget = new HttpGet(pdbURL +"/" + userId);
-                CloseableHttpResponse response1 = httpclient.execute(httpget);
-
-                /**
-                 * If there is no UPP, then it returns an non-compliance report
-                 * with a NO_POLICY statement.
-                 */
-                HttpEntity entity = response1.getEntity();
-                System.out.println(response1.getStatusLine().getStatusCode());
-                if(response1.getStatusLine().getStatusCode()==404) {
+                uppProfile = getUPPviaPDB(userId, pdbURL);
+                if(uppProfile==null) {
                     rp.setStatus("false");
                     rp.setCompliance("NO_POLICY");
                     return rp;
                 }
-                uppProfile = EntityUtils.toString(entity);
-                System.out.println(uppProfile);
             }
 
             boolean permit = true;
@@ -286,7 +331,7 @@ public class PolicyEvaluationService {
                 String oDataURL = r.getRequestedUrl();
                 String Category = odata.getElementDataPath(oDataURL);
                 JSONArray access_policies = JsonPath.read(uppProfile, "$.subscribed_osp_policies[?(@.osp_id=='"+ospId+"')].access_policies[?(@.resource=='"+ Category +"')]");
-                while((access_policies.size() == 0) && (Category.length() > 0)) {
+                while((access_policies.isEmpty()) && (Category.length() > 0)) {
                     try{
                         Category = Category.substring(0, Category.lastIndexOf("/"));
                         System.out.println("Category 22 = " + Category);
@@ -361,7 +406,7 @@ public class PolicyEvaluationService {
             String policyReport = rp.toString();
             System.out.println(policyReport);
             return rp;
-        } catch (InvalidPreferenceException | IOException | ParseException ex) {
+        } catch (InvalidPreferenceException | ParseException ex) {
             System.err.println("Evaluation error - " + ex.getMessage());
             PolicyEvaluationReport rp = new PolicyEvaluationReport();
             rp.setStatus("false");

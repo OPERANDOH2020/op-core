@@ -30,6 +30,7 @@ CREATE TABLE `METADATAFIELDREGISTRY` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
 --
 -- Table structure for table `METADATAVALUES`
 --
@@ -38,7 +39,7 @@ DROP TABLE IF EXISTS `METADATAVALUES`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `METADATAVALUES` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `metadatafield_id` int(11) DEFAULT NULL,
   `text_value` varchar(255) DEFAULT NULL,
   `lang` varchar(45) DEFAULT '*',
@@ -48,7 +49,7 @@ CREATE TABLE `METADATAVALUES` (
   KEY `metadata_field_fkey_idx` (`metadatafield_id`),
   CONSTRAINT `metadata_field_fkey` FOREIGN KEY (`metadatafield_id`) REFERENCES `METADATAFIELDREGISTRY` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   CONSTRAINT `user_fkey` FOREIGN KEY (`user_id`) REFERENCES `USER` (`iduser`) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=98 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -80,8 +81,6 @@ CREATE TABLE `USER` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
-/*!40000 ALTER TABLE `USER` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

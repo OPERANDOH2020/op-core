@@ -205,9 +205,9 @@ public class asl_gat {
          * Upload the OSP policy to the PDB database. Simulate registering
          * of a new OSP policy.
          */
-        OSP_ID = tMethods.ospQuerybyFriendlyName("aslbergamo_gat");
+        OSP_ID = tMethods.ospQuerybyFriendlyName("YellowPages");
         if(OSP_ID == null) {
-            OSP_ID =tMethods.createOSP("aslbergamo_gat.json");
+            OSP_ID =tMethods.createOSP("yellowpages.json");
             if(OSP_ID == null) {
                 System.err.println("Error with aslbergamo_gat on server, exiting ...");
                 System.exit(-1);
