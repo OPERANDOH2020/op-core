@@ -30,8 +30,15 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoCommandException;
 import com.mongodb.MongoException;
+import com.mongodb.MongoWriteConcernException;
+import com.mongodb.MongoWriteException;
 import com.mongodb.WriteResult;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.result.UpdateResult;
 import com.mongodb.util.JSON;
 import eu.operando.core.pdb.common.model.PrivacyRegulation;
 import eu.operando.core.pdb.common.model.PrivacyRegulationInput;
@@ -40,6 +47,8 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.DeserializationConfig;
@@ -57,62 +66,63 @@ import org.codehaus.jettison.json.JSONObject;
 public class RegulationsMongo {
 
     private MongoClient mongo;
-    private PrivacyRegulation regulation;
-    private DB db;
-    private DBCollection regulationTable;
+    private MongoCollection<Document> regCollection;
 
     public RegulationsMongo() {
-        try {
-            this.mongo = new MongoClient("mongo.integration.operando.dmz.lab.esilab.org", 27017);
-            // this.mongo = new MongoClient("localhost", 27017);
-            // get database
-            this.db = mongo.getDB("pdb");
-            // get collection
-            this.regulationTable = db.getCollection("regulations");
 
-            this.regulation = new PrivacyRegulation();
-            //} catch (UnknownHostException e) {
-            //    e.printStackTrace();
-        } catch (MongoException e) {
-            e.printStackTrace();
-        }
+        //this.mongo = new MongoClient("mongo.integration.operando.dmz.lab.esilab.org", 27017);
+        this.mongo = new MongoClient("localhost", 27017);
+
+        initialiseCollections();
     }
 
+    /**
+     *
+     * @param hostname
+     * @param port
+     */
     public RegulationsMongo(String hostname, int port) {
-        try {
-            this.mongo = new MongoClient(hostname, port);
 
-            // get database
-            this.db = mongo.getDB("pdb");
-            // get collection
-            this.regulationTable = db.getCollection("regulations");
+        mongo = new MongoClient(hostname, port);
 
-            this.regulation = new PrivacyRegulation();
-
-        } catch (MongoException e) {
-            e.printStackTrace();
-        }
+        initialiseCollections();
     }
 
+    /**
+     *
+     */
+    private void initialiseCollections() {
+        MongoDatabase database;
+
+        // get database
+        database = mongo.getDatabase("pdb");
+
+        // get collection
+        regCollection = database.getCollection("regulations");
+        //this.mongo.close();
+    }
+
+    /**
+     *
+     * @param regId
+     * @return
+     */
     public boolean deleteRegulationById(String regId) {
-        boolean res = false;
-        BasicDBObject searchQuery = new BasicDBObject();
+        boolean ret = false;
+
         try {
-            searchQuery.put("_id", new ObjectId(regId));
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            return res;
+            Bson filter = new Document("_id", new ObjectId(regId));
+            DeleteResult result = regCollection.deleteOne(filter);
+            ret = result.wasAcknowledged();
+        } catch (MongoWriteException ex) {
+            ex.printStackTrace();
+        } catch (MongoWriteConcernException ex) {
+            ex.printStackTrace();
+        } catch (MongoException ex) {
+            ex.printStackTrace();
         }
 
-        DBObject result = this.regulationTable.findOne(searchQuery);
-
-        if (result == null) {
-            res = false;
-        } else {
-            this.regulationTable.remove(result);
-            res = true;
-        }
-        return res;
+        return ret;
     }
 
     public static String toCamelCase(String inputString) {
@@ -145,7 +155,7 @@ public class RegulationsMongo {
         Class aClass = PrivacyRegulation.class;
         try {
             Field field = aClass.getDeclaredField(nKey);
-        } catch (NoSuchFieldException ex){ 
+        } catch (NoSuchFieldException ex) {
             System.err.println("no such field found " + nKey);
             return false;
         }
@@ -166,7 +176,7 @@ public class RegulationsMongo {
                 System.out.println("found key " + key);
                 System.out.println("converting key " + toCamelCase(key));
                 String cKey = toCamelCase(key);
-                if(!isAValidFieldName(cKey)) {
+                if (!isAValidFieldName(cKey)) {
                     System.out.println("Not a valid key name found: " + cKey);
                     return null;
                 }
@@ -181,11 +191,28 @@ public class RegulationsMongo {
 
         List<PrivacyRegulation> arrPRObj = new ArrayList<PrivacyRegulation>();
 
-        DBCursor cursor = this.regulationTable.find(query);
-        while (cursor.hasNext()) {
-            BasicDBObject regObj = (BasicDBObject) cursor.next();
-            System.out.println("Adding result " + regObj.toString());
-            arrPRObj.add(getRegulation(regObj));
+        List<Document> documents = regCollection.find(query).into(new ArrayList<Document>());
+        //System.out.println("FOUND " + documents.size());
+
+        for (Document document : documents) {
+            //System.out.println("DOCUMENT ++:" + document.toString());
+            PrivacyRegulation ospObj = null;
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                ospObj = mapper.readValue(document.toJson(), PrivacyRegulation.class);
+                //add policy id
+                ospObj.setRegId(document.get("_id").toString());
+
+                arrPRObj.add(ospObj);
+
+            } catch (JsonGenerationException e) {
+                e.printStackTrace();
+            } catch (JsonMappingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         try {
@@ -200,85 +227,81 @@ public class RegulationsMongo {
             e.printStackTrace();
         }
 
-        System.out.println("RESULT (list): " + result);
+        System.out.println("GET Regulations by filter RESULT (list): " + result);
 
         return result;
     }
 
-    private PrivacyRegulation getRegulation(DBObject regObj) {
-        PrivacyRegulation prObj = null;
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            prObj = mapper.readValue(regObj.toString(), PrivacyRegulation.class);
-            prObj.setRegId(regObj.get("_id").toString());
-
-        } catch (JsonGenerationException e) {
-            e.printStackTrace();
-        } catch (JsonMappingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return prObj;
-    }
-
     public String getRegulationById(String regId) {
-        PrivacyRegulation prObj;
         String jsonInString = null;
-        System.out.println("Searching for " + regId);
-
-        // find
-        BasicDBObject searchQuery = new BasicDBObject();
+        Bson filter = null;
         try {
-            searchQuery.put("_id", new ObjectId(regId));
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            return jsonInString;
+            filter = new Document("_id", new ObjectId(regId));
+        } catch (IllegalArgumentException ex) {
+            ex.printStackTrace();
+            return null;
         }
 
-        DBObject result = this.regulationTable.findOne(searchQuery);
-        if (result != null) {
-            prObj = getRegulation(result);
+        List<Document> result = (List<Document>) regCollection.find(filter).into(new ArrayList<Document>());
+
+        if (!result.isEmpty()) {
+            Document doc = result.get(0);
+
+            PrivacyRegulation ospObj = null;
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+                ospObj = mapper.readValue(doc.toJson(), PrivacyRegulation.class);
+                //add policy id
+                ospObj.setRegId(doc.get("_id").toString());
+            } catch (JsonGenerationException e) {
+                e.printStackTrace();
+            } catch (JsonMappingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            //ospObj.setOspPolicyId(ospId);
             try {
                 ObjectMapper mapper = new ObjectMapper();
                 mapper.getSerializationConfig().enable(SerializationConfig.Feature.WRITE_ENUMS_USING_TO_STRING);
                 mapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
 
-                jsonInString = mapper.writeValueAsString(prObj);
-                result.removeField("_id");
-                System.out.println("get regulation mapped: " + mapper.writeValueAsString(result));
-                System.out.println("get regulation mapped: " + mapper.writeValueAsString(jsonInString));
-                System.out.println("get regulation mapped raw: " + jsonInString);
+                jsonInString = mapper.writeValueAsString(ospObj);
             } catch (JsonMappingException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
         return jsonInString;
     }
 
-    public boolean updateRegulation(String regId, PrivacyRegulationInput reg) {
+    public boolean updateRegulation(String regId, PrivacyRegulationInput regulation) {
         boolean result = false;
+        Bson filter = null;
+        try {
+            filter = new Document("_id", new ObjectId(regId));
+        } catch (IllegalArgumentException ex) {
+            ex.printStackTrace();
+            return result;
+        }
+
         try {
             ObjectMapper mapper = new ObjectMapper();
-            String jsonInString = mapper.writeValueAsString(reg);
-            Object obj = JSON.parse(jsonInString);
-            DBObject document = (DBObject) obj;
-            BasicDBObject searchQuery;
+            String jsonInString = mapper.writeValueAsString(regulation);
+            Document doc = Document.parse(jsonInString);
 
             try {
-                searchQuery = new BasicDBObject().append("_id", new ObjectId(regId));
-            } catch (IllegalArgumentException e) {
-                e.printStackTrace();
-                return result;
+                UpdateResult ur = regCollection.replaceOne(filter, doc);
+                result = ur.wasAcknowledged();
+            } catch (MongoWriteException ex) {
+                ex.printStackTrace();
+            } catch (MongoWriteConcernException ex) {
+                ex.printStackTrace();
+            } catch (MongoException ex) {
+                ex.printStackTrace();
             }
-
-            WriteResult wr = regulationTable.update(searchQuery, document);
-
-            result = wr.isUpdateOfExisting();
 
         } catch (JsonGenerationException e) {
             e.printStackTrace();
@@ -290,24 +313,22 @@ public class RegulationsMongo {
         return result;
     }
 
-    public ObjectId storeRegulationDirect(PrivacyRegulationInput reg) {
+    public ObjectId storeRegulationDirect(PrivacyRegulationInput regulation) {
         ObjectId result = null;
         try {
             ObjectMapper mapper = new ObjectMapper();
-            //mapper.getSerializationConfig().enable(SerializationConfig.Feature.WRITE_ENUMS_USING_TO_STRING);
-            //mapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
+            String jsonInString = mapper.writeValueAsString(regulation);
+            Document doc = Document.parse(jsonInString);
+            regCollection.insertOne(doc);
+            result = (ObjectId) doc.get("_id");
 
-            String jsonInString = mapper.writeValueAsString(reg);
-
-            System.out.println("jsonInString: " + jsonInString);
-
-            Object obj = JSON.parse(jsonInString);
-            DBObject document = (DBObject) obj;
-
-            regulationTable.insert(document);
-            result = (ObjectId) document.get("_id");
+        } catch (MongoWriteException ex) {
+            ex.printStackTrace();
+        } catch (MongoWriteConcernException ex) {
+            ex.printStackTrace();
+        } catch (MongoCommandException ex) {
+            ex.printStackTrace();
         } catch (MongoException e) {
-            result = null;
             e.printStackTrace();
         } catch (JsonGenerationException e) {
             e.printStackTrace();
@@ -320,15 +341,8 @@ public class RegulationsMongo {
     }
 
     public String storeRegulation(PrivacyRegulationInput reg) {
-        String result = null;
         ObjectId id = storeRegulationDirect(reg);
-//        if (id != null) {
-//            //System.out.println("storeRegulation id: " + id.toString());
-//            result = getRegulationById(id.toString());
-//            //System.out.println("storeRegulation result: " + result.toString());
-//        }
         return id.toString();
-        //return result;
     }
 
 }

@@ -265,7 +265,7 @@ public class OSPPrivacyPolicyMongo {
         //FindIterable<Document> res = ospCollection.find(filter);
         List<Document> result = (List<Document>) ospCollection.find(filter).into(new ArrayList<Document>());
 
-        if (result != null) {
+        if (!result.isEmpty()) {
             Document doc = result.get(0);
 
             OSPPrivacyPolicy ospObj = null;
@@ -443,7 +443,7 @@ public class OSPPrivacyPolicyMongo {
         
         List<Document> result = (List<Document>) ospPPCollection.find(filter).into(new ArrayList<Document>());
 
-        if (result != null) {
+        if (!result.isEmpty()) {
             Document doc = result.get(0);
 
             OSPReasonPolicy ospReasonObj = null;
@@ -496,7 +496,7 @@ public class OSPPrivacyPolicyMongo {
 
         List<Document> result = (List<Document>) ospPPCollection.find(filter).into(new ArrayList<Document>());
 
-        if (result != null) {
+        if (!result.isEmpty()) {
             Document doc = result.get(0);
 
             OSPReasonPolicy ospReasonObj = null;
@@ -552,7 +552,7 @@ public class OSPPrivacyPolicyMongo {
 
         List<Document> result = (List<Document>) ospPPCollection.find(filter).into(new ArrayList<Document>());
 
-        if (result != null) {
+        if (!result.isEmpty()) {
             Document doc = result.get(0);
 
             OSPReasonPolicy ospReasonObj = null;
@@ -621,7 +621,7 @@ public class OSPPrivacyPolicyMongo {
 
         List<Document> result = (List<Document>) ospPPCollection.find(filter).into(new ArrayList<Document>());
 
-        if (result != null) {
+        if (!result.isEmpty()) {
             Document doc = result.get(0);
 
             OSPReasonPolicy ospReasonObj = null;
@@ -697,7 +697,7 @@ public class OSPPrivacyPolicyMongo {
 
         List<Document> result = (List<Document>) ospPPCollection.find(filter).into(new ArrayList<Document>());
 
-        if (result != null) {
+        if (!result.isEmpty()) {
             Document doc = result.get(0);
 
             OSPReasonPolicy ospReasonObj = null;
