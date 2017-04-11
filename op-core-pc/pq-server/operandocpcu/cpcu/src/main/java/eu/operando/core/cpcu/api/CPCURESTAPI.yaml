@@ -21,6 +21,106 @@ tags:
       Contains the API operations for accessing, editing and deleting Questions,
       Questionnaires and Services outside of the normal Application operation.
 paths:
+  '/cpcu/{userID}/{serviceID}/{questionnaireID}':
+    get:
+      tags:
+        - GETCPCU
+      summary: Get service specific questionnaire 
+      operationId: getCPCUGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+        - '*/*'
+      parameters:
+        - name: userID
+          in: path
+          description: userID
+          required: true
+          type: string
+        - name: serviceID
+          in: path
+          description: service ID
+          required: true
+          type: integer
+          format: int32
+        - name: questionnaireID
+          in: path
+          description: questionnaire ID
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '202':
+          description: OK
+          schema:
+            $ref: '#/definitions/QNRootObject'
+    post:
+      tags:
+        - POSTCPCU
+      summary: Reply to questionnaire
+      operationId: postCPCUPOST
+      consumes:
+        - application/json
+      produces:
+        - '*/*'
+      parameters:
+        - name: userID
+          in: path
+          description: userID
+          required: true
+          type: string
+        - name: serviceID
+          in: path
+          description: service ID
+          required: true
+          type: integer
+          format: int32
+        - name: questionnaireID
+          in: path
+          description: questionnaire ID
+          required: true
+          type: integer
+          format: int32
+        - in: body
+          name: qn
+          description: questionnaire answered
+          required: true
+          schema:
+            $ref: '#/definitions/QNRootObject'
+      responses:
+        '202':
+          description: OK
+          schema:
+            $ref: '#/definitions/QNRootObject'
+  '/cpcu/{userID}/{serviceID}/':
+    get:
+      tags:
+        - GETPreferences
+      summary: Get service specific questionnaire preferences
+      operationId: getPreferencesGET
+      consumes:
+        - application/json
+      produces:
+        - application/json
+        - '*/*'
+      parameters:
+        - name: userID
+          in: path
+          description: userID
+          required: true
+          type: string
+        - name: serviceID
+          in: path
+          description: service ID
+          required: true
+          type: integer
+          format: int32
+      responses:
+        '202':
+          description: OK
+          schema:
+            $ref: '#/definitions/PrefRootObject'
   /api/qp:
     get:
       tags:
@@ -355,7 +455,7 @@ paths:
         - name: questionnaireID
           in: path
           description: The Questionnaire ID to be updated
-          required: false
+          required: true
           type: integer
           format: int32
       responses:
@@ -649,7 +749,99 @@ paths:
           description: Forbidden
         '404':
           description: Not Found
+
 definitions:
+  Preference:
+    type: object
+    properties:
+      role:
+        type: string
+      preference:
+        type: string
+      action:
+        type: string
+      category:
+        type: string
+  PrefResponse:
+    type: object
+    properties:
+      error:
+        type: string
+      session:
+        type: string
+      preferences:
+        type: array
+        items:
+          $ref: '#/definitions/Preference'
+  PrefRootObject:
+    type: object
+    properties:
+      response:
+          $ref: '#/definitions/PrefResponse'
+  Statement:
+    type: object
+    properties:
+      statementString:
+        type: string
+      metadata:
+        type: string
+      rating:
+        type: integer
+        format: int32
+      privacyRanking:
+        type: integer
+        format: int32
+      weight:
+        type: number
+        format: double
+      role:
+        type: string
+      roleRank:
+        type: integer
+        format: int32
+      action:
+        type: string
+      actionRole:
+        type: integer
+        format: int32
+  QNCategory:
+    type: object
+    properties:
+      title:
+        type: string
+      statements: 
+          type: array
+          items:
+            $ref: '#/definitions/Statement'
+  Questionnaire:
+    type: object
+    properties:
+      metadata:
+        type: string
+      category:
+          type: array
+          items:
+            $ref: '#/definitions/QNCategory'
+      type:
+        type: string
+      title:
+        type: string
+      serviceID:
+        type: string
+  QNResponse:
+    type: object
+    properties:
+      error:
+        type: string
+      session:
+        type: string
+      questionnaire:
+          $ref: '#/definitions/Questionnaire'
+  QNRootObject:
+    type: object
+    properties:
+      response:
+          $ref: '#/definitions/QNResponse'
   ServiceConfiguration:
     type: object
     properties:
