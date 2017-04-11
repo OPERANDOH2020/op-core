@@ -285,35 +285,28 @@
 		<operando.interfaces.rapi.basepath>${operando.interfaces.rapi.protocol}${operando.interfaces.rapi.host}:${operando.interfaces.rapi.port}</operando.interfaces.rapi.basepath>
 		<operando.interfaces.rapi.endpoint>${operando.interfaces.rapi.basepath}/${operando.interfaces.rapi.endpoint.path}</operando.interfaces.rapi.endpoint>
 
-		<operando.webui.rg.birt.host>rapi.integration.operando.lan.esilab.org</operando.webui.rg.birt.host>
-		<operando.webui.rg.birt.protocol>http://</operando.webui.rg.birt.protocol>
-		<operando.webui.rg.birt.port>8120</operando.webui.rg.birt.port>
-		<operando.webui.rg.birt.endpoint.path>operando/interfaces/rapi</operando.webui.rg.birt.endpoint.path>
-		<operando.webui.rg.birt.basepath>${operando.webui.rg.birt.protocol}${operando.webui.rg.birt.host}:${operando.webui.rg.birt.port}</operando.webui.rg.birt.basepath>
-		<operando.webui.rg.birt.endpoint>${operando.webui.rg.birt.basepath}/${operando.webui.rg.birt.endpoint.path}</operando.webui.rg.birt.endpoint>
-
-		<operando.webui.rg.host>rapi.integration.operando.lan.esilab.org</operando.webui.rg.host>
+		<operando.webui.rg.host>rg.integration.operando.lan.esilab.org</operando.webui.rg.host>
 		<operando.webui.rg.protocol>http://</operando.webui.rg.protocol>
 		<operando.webui.rg.port>8122</operando.webui.rg.port>
 		<operando.webui.rg.endpoint.path>Results</operando.webui.rg.endpoint.path>
 		<operando.webui.rg.basepath>${operando.webui.rg.protocol}${operando.webui.rg.host}:${operando.webui.rg.port}</operando.webui.rg.basepath>
 		<operando.webui.rg.endpoint>${operando.webui.rg.basepath}/${operando.webui.rg.endpoint.path}</operando.webui.rg.endpoint>
 
-		<operando.webui.console.host>rapi.integration.operando.lan.esilab.org</operando.webui.console.host>
+		<operando.webui.console.host>console.integration.operando.lan.esilab.org</operando.webui.console.host>
 		<operando.webui.console.protocol>http://</operando.webui.console.protocol>
 		<operando.webui.console.port>8121</operando.webui.console.port>
 		<operando.webui.console.endpoint.path>admin</operando.webui.console.endpoint.path>
 		<operando.webui.console.basepath>${operando.webui.console.protocol}${operando.webui.console.host}:${operando.webui.console.port}</operando.webui.console.basepath>
 		<operando.webui.console.endpoint>${operando.webui.console.basepath}/${operando.webui.console.endpoint.path}</operando.webui.console.endpoint>
 
-		<operando.webui.rg.birt.host>rapi.integration.operando.lan.esilab.org</operando.webui.rg.birt.host>
+		<operando.webui.rg.birt.host>birt.rg.integration.operando.lan.esilab.org</operando.webui.rg.birt.host>
 		<operando.webui.rg.birt.protocol>http://</operando.webui.rg.birt.protocol>
 		<operando.webui.rg.birt.port>8120</operando.webui.rg.birt.port>
 		<operando.webui.rg.birt.endpoint.path>operando/webui/birt</operando.webui.rg.birt.endpoint.path>
 		<operando.webui.rg.birt.basepath>${operando.webui.rg.birt.protocol}${operando.webui.rg.birt.host}:${operando.webui.rg.birt.port}</operando.webui.rg.birt.basepath>
 		<operando.webui.rg.birt.endpoint>${operando.webui.rg.birt.basepath}/${operando.webui.rg.birt.endpoint.path}</operando.webui.rg.birt.endpoint>
 
-		<operando.demo.yellowpages.host>rapi.integration.operando.lan.esilab.org</operando.demo.yellowpages.host>
+		<operando.demo.yellowpages.host>yellowpages.integration.operando.lan.esilab.org</operando.demo.yellowpages.host>
 		<operando.demo.yellowpages.protocol>http://</operando.demo.yellowpages.protocol>
 		<operando.demo.yellowpages.port>8140</operando.demo.yellowpages.port>
 		<operando.demo.yellowpages.endpoint.path>yellowpages</operando.demo.yellowpages.endpoint.path>
