@@ -108,6 +108,7 @@ class TestUPPApi(unittest.TestCase):
         self.assertEqual(upp_list_length, len(api_response))
 
 
+    @unittest.skip("demo skipping")
     def test_user_privacy_policy_get(self):
         """
         Test case for user_privacy_policy_get
@@ -116,6 +117,7 @@ class TestUPPApi(unittest.TestCase):
         """
         pass
 
+    @unittest.skip("demo skipping")
     def test_user_privacy_policy_post(self):
         """
         Test case for user_privacy_policy_post
@@ -124,6 +126,7 @@ class TestUPPApi(unittest.TestCase):
         """
         pass
 
+    @unittest.skip("demo skipping")
     def test_user_privacy_policy_user_id_delete(self):
         """
         Test case for user_privacy_policy_user_id_delete
@@ -132,6 +135,7 @@ class TestUPPApi(unittest.TestCase):
         """
         pass
 
+    @unittest.skip("demo skipping")
     def test_user_privacy_policy_user_id_get(self):
         """
         Test case for user_privacy_policy_user_id_get
@@ -140,6 +144,7 @@ class TestUPPApi(unittest.TestCase):
         """
         pass
 
+    @unittest.skip("demo skipping")
     def test_user_privacy_policy_user_id_put(self):
         """
         Test case for user_privacy_policy_user_id_put
