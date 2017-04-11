@@ -31,7 +31,7 @@ class TestLegislationApi(unittest.TestCase):
     BASE_PATH = "http://integration.operando.esilab.org:8096/operando/core"
 
     AAPI_PATH = "http://integration.operando.esilab.org:8135/operando/interfaces/aapi"
-    _osp_id = "pdb/OSP/.*"
+    _osp_id = "pdb/regulations/.*"
     _osp_policy = None
 
     def setUp(self):
@@ -125,6 +125,7 @@ class TestLegislationApi(unittest.TestCase):
 
         pass
 
+    @unittest.skip("demo skipping")
     def test_regulations_get(self):
         """
         Test case for regulations_get
@@ -133,6 +134,7 @@ class TestLegislationApi(unittest.TestCase):
         """
         pass
 
+    @unittest.skip("demo skipping")
     def test_regulations_post(self):
         """
         Test case for regulations_post
@@ -141,6 +143,7 @@ class TestLegislationApi(unittest.TestCase):
         """
         pass
 
+    @unittest.skip("demo skipping")
     def test_regulations_reg_id_delete(self):
         """
         Test case for regulations_reg_id_delete
@@ -149,6 +152,7 @@ class TestLegislationApi(unittest.TestCase):
         """
         pass
 
+    @unittest.skip("demo skipping")
     def test_regulations_reg_id_get(self):
         """
         Test case for regulations_reg_id_get
@@ -157,6 +161,7 @@ class TestLegislationApi(unittest.TestCase):
         """
         pass
 
+    @unittest.skip("demo skipping")
     def test_regulations_reg_id_put(self):
         """
         Test case for regulations_reg_id_put

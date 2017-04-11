@@ -357,8 +357,6 @@ public class UPPMongo {
         return result;
     }
 
-    
-
     public String storeUPP(UserPrivacyPolicy upp) {
         String userId = upp.getUserId();
         String result = null;

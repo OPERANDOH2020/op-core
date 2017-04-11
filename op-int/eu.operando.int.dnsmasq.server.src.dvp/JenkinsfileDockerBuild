@@ -5,10 +5,10 @@ node {
 	//Required constants
     currentBuild.result = "SUCCESS"
 	//Provided vars
-	def devopsSourcesRelativePath = 'op-int/eu.operando.int.core.pdb.cas.client.src.dvp'
+	def devopsSourcesRelativePath = 'op-int/eu.operando.int.dnsmasq.server.src.dvp'
 	def devopsSourcesRepo = 'https://github.com/OPERANDOH2020/op-core.git'
-	def sourcesRelativePath='op-core-pdb/aapi-client'
-	def sourcesRepo='https://github.com/OPERANDOH2020/op-core.git'
+	def sourcesRelativePath=null
+	def sourcesRepo=null
 	def dependingTasks=[
 	"",
 	""
@@ -48,8 +48,6 @@ node {
 		String devopsPomPackaging=""
 		Boolean hasPomPackaging=false
 		String pomPackaging=""
-		Boolean hasDevopsPomFile=false
-		String devopsPomFile=""
 		Boolean hasPomFile=false
 		String pomFile=""
 				
@@ -68,6 +66,11 @@ node {
 		String devopsSourcesDiffPreviousCommit
 		String sourcesLastDiffPreviousCommit
 		
+		String devopsImageLastSha256File
+		String devopsImageBuildResult
+		String devopsImageLastSha256=""
+		String devopsImageCurrentSha256=""
+
 		String mvnHome;
 		
 		stage ('Params Processing'){
@@ -78,6 +81,7 @@ node {
 			//def stopContainer -> defaults to "true"
 			//def forceClear -> defaults to "false"
 			//def clearOnFail -> defaults to "false"
+			//def forcePush -> defaults to "false"
 			//WARNING JENKINS SEND BOOLEANS AS STRING
 			try{
 			    currentVerbose=((verbose=="true")||(verbose==true))
@@ -125,6 +129,12 @@ node {
 			    println ("forceClear not provided defaults to false")
 			}
 			if (currentVerbose) println ("currentForceClear = " + currentForceClear)								
+			try{
+			    currentForcePush=((forcePush=="true")||(forcePush==true))
+			} catch (err){
+			    println ("forcePush not provided defaults to false")
+			}
+			if (currentVerbose) println ("currentForcePush = " + currentForcePush)				
 		}
 		if (currentForceClear){
 			stage ('Forced Clear'){
@@ -146,6 +156,8 @@ node {
 			if (currentVerbose) println ("devopsSourcesLastCommitFile = " + devopsSourcesLastCommitFile)
             devopsSourcesLastChangedCommitFile=devopsSourcesPath+"/src.dvp.last.changed.commit"
 			if (currentVerbose) println ("devopsSourcesLastChangedCommitFile = " + devopsSourcesLastChangedCommitFile)
+		    devopsImageLastSha256File=devopsSourcesPath+"/dkr.img.last.sha256"
+			if (currentVerbose) println ("devopsImageLastSha256File = " + devopsImageLastSha256File)
 			if (hasSources){
     		    sourcesPath=workspace+"/sources"
 	    		if (currentVerbose) println ("sourcesPath = " + sourcesPath)				
@@ -248,25 +260,12 @@ node {
                 // **       in the global configuration.
                 mvnHome = tool 'Maven 3.3.9 colocated'
             }
-            if(hasNewDevopsSources){
+             if(hasNewDevopsSources){
 	            stage ('Devops Source Move'){
-			        try {
-				    	sh "rm -rf ${devopsSourcesPath}/src 2>/dev/null"
-					} catch (err){
-					}
-			        try {
-				    		sh "mv ${devopsSourcesGitPath}/src ${devopsSourcesPath} 2>/dev/null"
-					} catch (err){
-					}
-			        try {
-				    	sh "mv ${devopsSourcesGitPath}/src ${devopsSourcesPath} 2>/dev/null"
-					} catch (err){
-					}
-			        try {
-				    	sh "mv ${devopsSourcesGitPath}/pom.xml ${devopsSourcesPath}/pom.xml 2>/dev/null"
-					} catch (err){
-					}
-
+	                  sh "rm -rf ${devopsSourcesPath}/src"	   
+	                  sh "mv ${devopsSourcesGitPath}/src ${devopsSourcesPath}"	   
+	                  sh "rm -rf ${devopsSourcesPath}/pom.xml"	   
+	                  sh "mv ${devopsSourcesGitPath}/pom.xml ${devopsSourcesPath}/pom.xml"
 	            }
             }
             if(hasNewSources){
@@ -295,36 +294,62 @@ node {
 	 					if 	(hasPomPackaging){
 	                    	sh "'${mvnHome}/bin/mvn' install:install --non-recursive -Dmaven.test.skip=true -f ${sourcesPath}/pom.xml"
 	 					} else {
-		                    sh "'${mvnHome}/bin/mvn' clean package install --non-recursive -Dmaven.test.skip=true -f ${sourcesPath}/pom.xml"				
+		                    sh "'${mvnHome}/bin/mvn' clean package install:install --non-recursive -Dmaven.test.skip=true -f ${sourcesPath}/pom.xml"				
 	 					}
 	                }
+                }
+            }
+            if(currentVerbose){
+                stage ('Variables Echo'){
+                	sh "'${mvnHome}/bin/mvn' antrun:run@echobase -f ${devopsSourcesPath}/pom.xml"
+                    sh "'${mvnHome}/bin/mvn' antrun:run@echo -f ${devopsSourcesPath}/pom.xml"
+                }
+            }
+            stage ('Assess Package/Install Need'){          	
+             	try {
+                	devopsPomPackaging=sh(returnStdout: true, script: "grep '<packaging>.*pom.*</packaging>' ${devopsSourcesPath}/pom.xml").trim()
+             	} catch (err){
+             	}
+	 			if (currentVerbose) println ("devopsPomPackaging = " + devopsPomPackaging)				
+                hasDevopsPomPackaging=(""!=devopsPomPackaging)
+ 				if (currentVerbose) println ("hasDevopsPomPackaging = " + hasDevopsPomPackaging)				
+            }           
+            if (hasDevopsPomPackaging){
+                stage ('Maven Devops Install'){
+                    sh "'${mvnHome}/bin/mvn' clean package install:install --non-recursive -Dmaven.test.skip=true -f ${devopsSourcesPath}/pom.xml"
                 }
             } else {
-	           	stage ('Assess Devops Install Need'){          	
-					try {
-					    devopsPomFile=sh(returnStdout: true, script: "ls ${devopsSourcesPath}/pom.xml 2>/dev/null").trim()
-					} catch (err){
-					}
-	            	hasDevopsPomFile=(""!=devopsPomFile)
- 					if (currentVerbose) println ("hasDevopsPomFile = " + hasDevopsPomFile)
-	                if (hasDevopsPomFile){
-		                stage ('Devops Source Maven Install'){
-		                 	try {
-		                 		devopsPomPackaging=sh(returnStdout: true, script: "grep '<packaging>.*pom.*</packaging>' ${devopsSourcesPath}/pom.xm").trim()
-		                 	} catch (err){
-		                 	}
-		 					if (currentVerbose) println ("devopsPomPackaging = " + devopsPomPackaging)				
-		                 	hasDevopsPomPackaging=(""!=devopsPomPackaging)
-		 					if (currentVerbose) println ("hasDevopsPomPackaging = " + hasDevopsPomPackaging)
-		 					if 	(hasDevopsPomPackaging){
-		                    	sh "'${mvnHome}/bin/mvn' install:install --non-recursive -Dmaven.test.skip=true -f ${devopsSourcesPath}/pom.xml"
-		 					} else {
-			                    sh "'${mvnHome}/bin/mvn' clean install --non-recursive -Dmaven.test.skip=true -f ${devopsSourcesPath}/pom.xml"				
-	 						}
-	 					}
-	                }
-                }
-            }            	
+                stage ('Maven Devops Package'){
+                    sh "'${mvnHome}/bin/mvn' clean package --non-recursive -Dmaven.test.skip=true -f ${devopsSourcesPath}/pom.xml"
+                }            
+            }
+            if (currentStopContainer){
+	            stage ('Docker Stop'){
+	                sh "'${mvnHome}/bin/mvn' docker:stop --non-recursive -Dmaven.test.skip=true -f ${devopsSourcesPath}/pom.xml"
+	            }
+            }
+            stage ('Docker Build Image'){
+                devopsImageBuildResult = sh(returnStdout: true, script: "'${mvnHome}/bin/mvn' docker:build --non-recursive -Dmaven.test.skip=true -f ${devopsSourcesPath}/pom.xml").trim()                
+            }
+        	if (!currentForcePush){
+			    if (currentVerbose) println ("devopsImageBuildResult = " + devopsImageBuildResult)
+			    sh "touch ${devopsImageLastSha256File}" 
+			    devopsImageLastSha256 = sh(returnStdout: true, script: "cat ${devopsImageLastSha256File}").trim()
+			    if (currentVerbose) println ("devopsImageLastSha256 = " + devopsImageLastSha256)
+		        try{
+		            devopsImageCurrentSha256 = (devopsImageBuildResult =~ /Built image sha256:(.*)\n/)[0][1]
+				} catch (err){
+				}			
+			    if (currentVerbose) println ("devopsImageCurrentSha256 = " + devopsImageCurrentSha256)
+				if (devopsImageCurrentSha256!=''){
+					sh "echo \"${devopsImageCurrentSha256}\" > ${devopsImageLastSha256File}"			
+				}
+			}
+			if (currentForcePush||(devopsImageLastSha256!=devopsImageCurrentSha256)){            	   	   	   
+	            stage ('Docker Push'){
+					sh "'${mvnHome}/bin/mvn' docker:push --non-recursive -Dmaven.test.skip=true -f ${devopsSourcesPath}/pom.xml"
+	            }
+            }				
 			if (currentContinueTasks) {
 				stage('Launch Depending Tasks') {
 					int i=0;

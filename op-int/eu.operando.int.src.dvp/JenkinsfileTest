@@ -27,11 +27,15 @@ node {
 		Boolean requiresPackage=false
 		
 		String devopsSourcesLastCommitFile
+        String devopsSourcesLastChangedCommitFile
 		String sourcesLastCommitFile
+        String sourcesLastChangedCommitFile
 
 		String devopsSourcesLastCommit
+        String devopsSourcesLastChangedCommit
 		String devopsSourcesCurrentCommit
 		String sourcesLastCommit
+        String sourcesLastChangedCommit
 		String sourcesCurrentCommit
 		
 		String mvnHome;
@@ -83,6 +87,8 @@ node {
 			
 		    devopsSourcesLastCommitFile=devopsSourcesPath+"/src.dvp.last.commit"
 			if (currentVerbose) println ("devopsSourcesLastCommitFile = " + devopsSourcesLastCommitFile)
+            devopsSourcesLastChangedCommitFile=devopsSourcesPath+"/src.dvp.last.changed.commit"
+			if (currentVerbose) println ("devopsSourcesLastChangedCommitFile = " + devopsSourcesLastChangedCommitFile)
 
 			if (hasSources){
     		    sourcesPath=workspace+"/sources"
