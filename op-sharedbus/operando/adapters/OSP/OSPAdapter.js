@@ -77,16 +77,10 @@ function registerModels(callback){
                     length:5000
                 },
                 start_date:{
-                    type:"string",
-                    length:254
+                    type:"datetime"
                 },
                 end_date:{
-                    type:"string",
-                    length:254
-                },
-                impact_score:{
-                    type:"string",
-                    default:"0"
+                    type:"datetime"
                 }
             }
         }
@@ -167,6 +161,7 @@ getOSPs = function(callback){
 
 
 addOrUpdateOspOffer = function (ospUserId, offerDetails, callback){
+    console.log(offerDetails);
     flow.create("addOspOffer", {
         begin: function () {
             persistence.lookup("OspDetails", ospUserId, this.continue("checkOspOffer"));
@@ -186,7 +181,8 @@ addOrUpdateOspOffer = function (ospUserId, offerDetails, callback){
         createOspOfferId: function () {
             var ospOfferId;
             if(offerDetails.offerId){
-                ospOfferId= offerDetails.offerId;
+                ospOfferId = offerDetails.offerId;
+                console.log(ospOfferId);
             }
             else{
                 ospOfferId = uuid.v1().split("-").join("");
@@ -200,8 +196,8 @@ addOrUpdateOspOffer = function (ospUserId, offerDetails, callback){
             {
                 var offerEndDate = new Date(offerDetails['end_date']);
                 offerEndDate.setHours(23,59,59,999);
-                offerDetails['end_date'] = offerEndDate.toISOString();
-                console.log(offerDetails);
+                offerDetails['start_date'] = new Date(offerDetails['start_date']);
+                offerDetails['end_date'] = offerEndDate;
                 persistence.externalUpdate(ospOffer, offerDetails);
                 ospOffer['userId'] = ospUserId;
                 persistence.saveObject(ospOffer, callback);
@@ -284,7 +280,7 @@ getAllOffers = function(callback){
             else{
                 var currentDate = new Date();
                 availableOffers = offers.filter(function(offer){
-                    return (currentDate >= new Date(offer['start_date']) && currentDate <= new Date(offer['end_date']));
+                    return (currentDate >= offer['start_date'] && currentDate <= offer['end_date']);
                 });
 
                 this.next("getOSPDetails");

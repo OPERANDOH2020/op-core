@@ -52,6 +52,16 @@ var osp = {
         this.ospId = ospId;
         this.swarm("getOSPOffers");
     },
+    getCurrentUserOffers:function(){
+        this.ospId = this.meta.userId;
+        this.swarm("getOSPOffers");
+    },
+    getOfferStatistics:function(offerId){
+        this.ospId = this.meta.userId;
+        this.offerId = offerId;
+        this.swarm("verifyOfferOwner");
+
+    },
     getOspRequestsFromManager: {
         node: "OSPRequests",
         code: function () {
@@ -218,6 +228,10 @@ var osp = {
                     self.error = err.message;
                     self.home("failed");
                 } else {
+                    ospList.forEach(function(osp){
+                        delete osp["__meta"];
+                    });
+
                     self.ospList = ospList;
                     if(self.ospList.length === 0){
                         self.home("success");
@@ -240,6 +254,9 @@ var osp = {
                     self.error = err.message;
                     self.home("failed");
                 } else {
+                    offers.forEach(function(offer){
+                       delete offer["__meta"];
+                    });
                     self.offers = offers;
                     self.home("success");
                 }
@@ -288,6 +305,7 @@ var osp = {
                     self.home("failed");
                 }
                 else {
+                    delete offer["__meta"];
                     self.offer = offer;
                     self.home("success");
                 }
@@ -316,7 +334,7 @@ var osp = {
         node:"OSPAdapter",
         code: function(){
             var self = this;
-            getOspOffers(self.ospId,S(function(err, offers){
+            getOspOffers(self.ospId, S(function (err, offers) {
                 if (err) {
                     self.error = err.message;
                     self.home("failed");
@@ -324,7 +342,6 @@ var osp = {
                 else {
                     self.offersStats = offers;
                     self.swarm("getAcceptedDeals");
-
                 }
             }));
         }
@@ -343,6 +360,66 @@ var osp = {
 
             this.home("success");
         }
+    },
+
+    getOfferAcceptedDeals:{
+        node:"PrivacyForBenefitsManager",
+        code:function(){
+            var self = this;
+                getOSPAcceptedOffers(self.offerId, S(function(err, acceptedOffers){
+                    if(err){
+                        console.log(err);
+                    }
+
+                    self.offerStats = [];
+                    var start_date = new Date(self.offer['start_date']);
+                    while(start_date < new Date(self.offer['end_date'])){
+                        var currentDate = {
+                            time:start_date.toDateString(),
+                            impact:0
+                        };
+                        start_date.setDate(start_date.getDate()+1);
+                        for(var i = 0; i<acceptedOffers.length; i++){
+                            if(acceptedOffers[i]['accepted_date']<start_date){
+                                currentDate.impact = +1;
+                                acceptedOffers.splice(i,1);
+                                i--;
+                            }
+                        }
+                        self.offerStats.push(currentDate);
+
+                    }
+                    self.home("success");
+                }));
+        }
+    },
+
+    verifyOfferOwner:{
+        node:"OSPAdapter",
+        code:function(){
+            var self = this;
+            getOspOffers(self.ospId,S(function(err, offers){
+                if (err) {
+                    self.error = err.message;
+                    self.home("failed");
+                }
+                else {
+                    self.offer = offers.find(function(offer){
+                        return offer.offerId === self.offerId;
+                    });
+                    if(self.offer){
+                        self.swarm("getOfferAcceptedDeals");
+                    }
+                    else{
+                        self.error = ("noOfferFound");
+                        self.home("failed");
+                    }
+
+                }
+            }));
+        }
     }
+
+
 };
 osp;
