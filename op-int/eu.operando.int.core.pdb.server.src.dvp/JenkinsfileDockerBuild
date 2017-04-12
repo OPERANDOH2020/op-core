@@ -241,8 +241,8 @@ node {
 	    		    	}
 	 			    	if (currentVerbose) println ("sourcesDiffPreviousCommit = " + sourcesDiffPreviousCommit)
 	 			    	if (sourcesDiffPreviousCommit!=""){
-                            devopsSourcesLastChangedCommitFile}"
-		  				    hasNewSources=true
+                            sh "echo \"${sourcesCurrentCommit}\" > ${sourcesLastChangedCommitFile}"
+ 		  				    hasNewSources=true
 	    		        	requiresBuild=true
 	 			    	}
         		    }
