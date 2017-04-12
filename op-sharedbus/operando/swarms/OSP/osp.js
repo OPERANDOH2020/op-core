@@ -104,6 +104,7 @@ var osp = {
             }));
         }
     },
+
     removeOspRequestPhase:{
         node:"OSPRequests",
         code:function(){
@@ -113,17 +114,17 @@ var osp = {
                     self.error = err.message;
                     self.home("failed");
                 }else{
-                    self.ospRequesterId = ospRequest.userId;
                     self.swarm("getUserEmailAndSendFeedback");
                 }
             }));
         }
     },
+
     getUserEmailAndSendFeedback:{
       node:"UsersManager",
       code:function(){
           var self = this;
-          getUserInfo(self.ospRequesterId, S(function(err, user){
+          getUserInfo(self.ospUserId, S(function(err, user){
               if(err){
                   console.log(err)
               }
@@ -136,9 +137,9 @@ var osp = {
                   self.home("success");
               }
           }));
-
       }
     },
+
     removeAcceptedOspMembershipRequestPhase:{
         node:"OSPRequests",
         code:function(){
@@ -153,6 +154,7 @@ var osp = {
             }));
         }
     },
+
     acceptOspRequestPhase:{
       node:"OSPAdapter",
         code:function(){
@@ -166,8 +168,8 @@ var osp = {
                 else{
 
                     self.ospRequesterId = ospRequest.userId;
+                    console.log("AICI", self.ospRequesterId);
                     self.swarm("getUserEmailAndSendMembershipAcceptance");
-
                 }
             }));
         }
@@ -195,8 +197,6 @@ var osp = {
 
         }
     },
-
-
 
     changeUserOrganisation:{
         node:"UsersManager",
