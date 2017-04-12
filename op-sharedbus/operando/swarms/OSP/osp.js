@@ -113,7 +113,7 @@ var osp = {
                     self.error = err.message;
                     self.home("failed");
                 }else{
-
+                    console.log("EMAIL",ospRequest['email']);
                     startSwarm("emails.js", "sendEmail", "no-reply@" + thisAdapter.config.Core.operandoHost,
                         ospRequest['email'],
                         "Your OSP request was not accepted",
