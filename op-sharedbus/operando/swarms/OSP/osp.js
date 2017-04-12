@@ -113,16 +113,31 @@ var osp = {
                     self.error = err.message;
                     self.home("failed");
                 }else{
-                    console.log("EMAIL",ospRequest['email']);
-                    startSwarm("emails.js", "sendEmail", "no-reply@" + thisAdapter.config.Core.operandoHost,
-                        ospRequest['email'],
-                        "Your OSP request was not accepted",
-                        "Unfortunately your request was not accepted. Below is the reason :  \n" +self.feedbackMessage);
-
-                    self.home("success");
+                    self.ospRequesterId = ospRequest.userId;
+                    self.swarm("getUserEmailAndSendFeedback");
                 }
             }));
         }
+    },
+    getUserEmailAndSendFeedback:{
+      node:"UsersManager",
+      code:function(){
+          var self = this;
+          getUserInfo(self.ospRequesterId, S(function(err, user){
+              if(err){
+                  console.log(err)
+              }
+              else{
+                  startSwarm("emails.js", "sendEmail", "no-reply@" + thisAdapter.config.Core.operandoHost,
+                      user['email'],
+                      "Your OSP request was not accepted",
+                      "Unfortunately your request was not accepted. Below is the reason :  \n" +self.feedbackMessage);
+
+                  self.home("success");
+              }
+          }));
+
+      }
     },
     removeAcceptedOspMembershipRequestPhase:{
         node:"OSPRequests",
@@ -150,6 +165,23 @@ var osp = {
                 }
                 else{
 
+                    self.ospRequesterId = ospRequest.userId;
+                    self.swarm("getUserEmailAndSendMembershipAcceptance");
+
+                }
+            }));
+        }
+    },
+
+    getUserEmailAndSendMembershipAcceptance:{
+        node:"UsersManager",
+        code:function(){
+            var self = this;
+            getUserInfo(self.ospRequesterId, S(function(err, user){
+                if(err){
+                    console.log(err)
+                }
+                else{
                     startSwarm("emails.js", "sendEmail", "no-reply@" + thisAdapter.config.Core.operandoHost,
                         ospRequest['email'],
                         "Your OSP request was accepted",
@@ -160,8 +192,11 @@ var osp = {
                     self.swarm("changeUserOrganisation");
                 }
             }));
+
         }
     },
+
+
 
     changeUserOrganisation:{
         node:"UsersManager",
