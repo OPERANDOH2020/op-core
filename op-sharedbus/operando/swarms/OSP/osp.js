@@ -127,7 +127,7 @@ var osp = {
               if(err){
                   console.log(err)
               }
-              else{
+              else{console.log(user);
                   startSwarm("emails.js", "sendEmail", "no-reply@" + thisAdapter.config.Core.operandoHost,
                       user['email'],
                       "Your OSP request was not accepted",
@@ -181,9 +181,9 @@ var osp = {
                 if(err){
                     console.log(err)
                 }
-                else{
+                else{console.log(user);
                     startSwarm("emails.js", "sendEmail", "no-reply@" + thisAdapter.config.Core.operandoHost,
-                        ospRequest['email'],
+                        user['email'],
                         "Your OSP request was accepted",
                         "Congratulations,\n" +
                         "Your OSP request was accepted\n" +
