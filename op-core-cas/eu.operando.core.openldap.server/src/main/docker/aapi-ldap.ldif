@@ -56,7 +56,7 @@ cn: FoodCoach
 departmentNumber: string::string;;
 displayName: FoodCoach
 employeeNumber: string::string;;
-employeeType: string::string;;
+employeeType: role::OSP;;
 sn: FoodCoach
 uid: FoodCoach
 userPassword:: Rm9vZENvYWNo
