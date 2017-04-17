@@ -2567,6 +2567,20 @@ sn: daniele798
 uid: daniele798
 userPassword:: dkVqd0FDRDBlcw==
 
+dn: uid=YellowPages,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: YellowPages
+departmentNumber: string::string;;
+displayName: YellowPages
+employeeNumber: string::string;;
+employeeType: role::OSP;;
+sn: YellowPages
+uid: YellowPages
+userPassword:: RGFuaQ==
+
 dn: ou=Groups,dc=nodomain
 objectClass: organizationalUnit
 objectClass: top
