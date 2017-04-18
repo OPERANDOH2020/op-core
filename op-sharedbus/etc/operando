@@ -13,6 +13,7 @@
      "mysqlDatabaseName":"operando",
      "operandoHost":"plusprivacy.com",
      "adminEmail":"zeev@arteevo.com",
+     "phantomJsPath":"/home/ciprian/phantomjs-2.1.1-linux-x86_64/bin/",
      "paths":[
         {"core":"etc/coreSwarms"      ,"enabled":true},
 	    {"core":"etc/xSwarms"         ,"enabled":false},
@@ -35,7 +36,7 @@
                         {"core":"etc/adapters/Core.js",                               "enabled":true, "step":1},
                         {"core":"etc/relay/RedisRelay.js",                            "enabled":true, "args":["-n", "RESEARCH", "-r", "localhost", "-p", "6379" ], "step":2},
                         {"core":"etc/adapters/DefaultLogger.js",                      "enabled":true, "step":3},
-                        {"node":"admin/adapters/UsersManager.js",                     "enabled":true  , "step":4},
+                        {"node":"admin/adapters/UsersManager/UsersManager.js",        "enabled":true  , "step":4},
                         {"node":"admin/adapters/SessionManager.js",                   "enabled":true  , "step":4},
                         {"node":"operando/adapters/ES/IdentityAdapter.js",            "enabled":true  , "step":4},
                         {"node":"operando/adapters/OSP/OSPAdapter.js",                "enabled":true  , "step":4},
@@ -51,8 +52,8 @@
                         {"node":"operando/adapters/PSW/WatchDogAdapter.js",           "enabled":true  , "step":10},
                         {"node":"operando/adapters/EmailAdapter.js",                  "enabled":true  ,"args":["-host", "localhost", "-port", "25" ], "step":10},
                         {"node":"operando/adapters/WD/SocialNetworkSettingsAdapter.js","enabled":true  , "step":10},
-                        {"node":"admin/adapters/TestsManager.js",                      "enabled":false, "step":5},
-                        {"core":"etc/adapters/AccessAdapter.js",                     "enabled":true, "step":5}
+                        {"node":"operando/adapters/WebCrawler/CrawlerAdapter.js"      ,"enabled":true  , "step":10},
+                        {"node":"admin/adapters/TestsManager.js",                      "enabled":false, "step":5}
             ]
    },
   "ClientAdapter":{

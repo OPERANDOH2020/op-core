@@ -67,7 +67,7 @@ var privacyWizardSwarm = {
     provideFeedback:{
         node: "WatchDogAdapter",
         code: function () {
-            addFeedback(this.current_settings);
+            storeUserPreferences(this.current_settings);
             this.home("wizardCompleted");
             this.swarm("updateNotifications");
         }

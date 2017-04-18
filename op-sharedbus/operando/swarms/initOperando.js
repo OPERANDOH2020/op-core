@@ -120,11 +120,18 @@ var initOperando = {
                         organisationId: "Public"
                     },
                     {
-                        userId:"emailServer",
+                        userId:new Buffer(uuid.v1()).toString('base64'),
                         password: "haraka",
                         email: "iAmAnEmailServer@plusprivacy.com",
                         organisationId: "Public"
-                    }
+                    },
+                    {
+                        userId:new Buffer(uuid.v1()).toString('base64'),
+                        password: "test",
+                        email: "test@plusprivacy.com",
+                        organisationId: "Public"
+                    },
+
                 ];
 
                 var createdUsers = [];

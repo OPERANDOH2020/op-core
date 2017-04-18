@@ -13,7 +13,7 @@
 
 var notificationSwarming = {
     getNotifications: function () {
-        this.swarm("getUserNotifications");
+        this.swarm("getUserZones");
     },
     getUserZones:{
         node:"UsersManager",
@@ -155,11 +155,10 @@ var notificationSwarming = {
                 }];
             this.home("success");
         }
-
     },
     
     EULAChange:function(url){
-        var notification = {}
+        var notification = {};
         notification.title = "EULA change";
         notification.zone = "Analysts";
         notification.action = "Access link "+url;
@@ -179,6 +178,40 @@ var notificationSwarming = {
         notification.sender = "Web Crawler";
         this.notification = notification;
         this.swarm('send');
+    },
+
+    registerInZone:function(zoneName){
+        var possibleZones = ['iOS','Android','Extension'];
+        if(possibleZones.indexOf(zoneName)===-1){
+            self.err = new Error('The possible user zones are: ',possibleZones).message;
+            self.home('failed')
+        }else{
+            this.zone = zoneName;
+            self.swarm('attachUserToZone');
+        }
+    },
+    attachUserToZone:{
+        node:"UsersManager",
+        code:function(){
+            var self = this;
+            createZone(this.zone,S(function(err,result){
+                if(err){
+                    self.err = err.message;
+                    self.home('failed');
+                }else {
+                    addUserToZone(self.meta.userId, self.zone, S(function (err, result) {
+                        if (err) {
+                            self.err = err.message;
+                            self.home('failed');
+                        }else{
+                            self.home('success');
+                        }
+                    }))
+                }
+            }))
+        }
     }
+
+
 }
 notificationSwarming;
