@@ -38,7 +38,7 @@ var signupNotifications = {
         action_name:"identity",
         type: "info-notification",
         category: "identity",
-        zone:"USER"
+        zone:"Extension"
     },
     deals: {
         sender: "WatchDog",
@@ -47,7 +47,7 @@ var signupNotifications = {
         action_name:"privacy-for-benefits",
         type: "info-notification",
         category: "deals",
-        zone:"USER"
+        zone:"Extension"
     }
 };
 

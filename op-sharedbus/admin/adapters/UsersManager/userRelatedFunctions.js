@@ -410,13 +410,14 @@ exports.zonesOfUser = function(userId,callback){
             persistence.filter("UserZoneMapping",{"userId":userId},this.continue("loadMappings"))
         },
         loadMappings:function(err,zoneMappings){
+            var self = this;
             if(err){
                 callback(err)
             }else {
                 this.errors = [];
                 this.zones = [];
                 zoneMappings.forEach(function(zoneMapping){
-                    zoneMapping.__meta.loadLazyField('zone',this.continue('zoneLoaded'));
+                    zoneMapping.__meta.loadLazyField('zone',self.continue('zoneLoaded'));
                 })
             }
         },
@@ -446,9 +447,9 @@ exports.zonesOfUser = function(userId,callback){
 exports.createZone = function(zoneName,callback){
     flow.create("createZone",{
         begin:function(){
-            persistence.lookup("zoneName",this.continue("gotZoneObject"));
+            persistence.lookup("Zone",zoneName,this.continue("gotZoneObject"));
         },
-        gotZoneObject:function(err,zoneObj){
+        gotZoneObject:function(err, zoneObj){
             if(err){
                 callback(err);
             }else{
@@ -460,7 +461,7 @@ exports.createZone = function(zoneName,callback){
             }
         },
         error:callback
-    })
+    })();
 };
 
 exports.removeZone = function(zoneName,callback){

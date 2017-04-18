@@ -183,11 +183,11 @@ var notificationSwarming = {
     registerInZone:function(zoneName){
         var possibleZones = ['iOS','Android','Extension'];
         if(possibleZones.indexOf(zoneName)===-1){
-            self.err = new Error('The possible user zones are: ',possibleZones).message;
-            self.home('failed')
+            this.err = new Error('The possible user zones are: ',possibleZones).message;
+            this.home('failed')
         }else{
             this.zone = zoneName;
-            self.swarm('attachUserToZone');
+            this.swarm('attachUserToZone');
         }
     },
     attachUserToZone:{
