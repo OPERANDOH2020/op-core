@@ -236,17 +236,17 @@ public class OspPolicyComputerApiServiceImpl extends OspPolicyComputerApiService
                 /**
                  * If there is no UPP, then complete fail.
                  */
-                System.out.println(policyResponse.getEntity(String.class));
                 if(policyResponse.getStatus()==404) {
                     return Response.status(400).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "User doesn't exist")).build();
                 }
-                return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "UPP updated for OSP: "
-                        + policyResponse.getStatus() + policyResponse.getEntity(String.class))).build();
+                return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "UPP updated for OSP: ")).build();
             } catch (UniformInterfaceException | ClientHandlerException ex) {
+                System.err.println("error - " + ex.getMessage());
                 return Response.status(400).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "Compute failed")).build();
             }
 
         } catch (IOException ex) {
+            System.err.println("error - " + ex.getMessage());
             Logger.getLogger(OspPolicyComputerApiServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             return Response.status(400).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "Compute failed")).build();
         }

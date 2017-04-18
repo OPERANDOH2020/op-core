@@ -222,14 +222,14 @@ public class TestHelperMethods {
      * @return The Operando ospID for the OSP with this friendly data.
      */
     public String ospQuerybyFriendlyName(String friendlyName) {
-        String ospAPI = PDB_OSP_URL+"/OSP/?filter=%7B%27policyText%27:%27" + friendlyName + "%27%7D" ;
+        String ospAPI = PDB_OSP_URL+"/?filter=%7B%27policyText%27:%27" + friendlyName + "%27%7D" ;
         WebResource webResourcePDB = client.resource(ospAPI);
         ClientResponse policyResponse = webResourcePDB.type("application/json").get(ClientResponse.class);
         if(policyResponse.getStatus() != 200) {
             return null;
         }
         String filterResults = policyResponse.getEntity(String.class);
-        JSONArray access_policies = JsonPath.read(filterResults, "$..[?(@.policy_text=='" + friendlyName + "')]");
+        JSONArray access_policies = JsonPath.read(filterResults, "$..[?(@.policy_url=='" + friendlyName + "')]");
         for(Object aP: access_policies) {
             String id = JsonPath.read(aP, "$.osp_policy_id");
             if(id != null)
@@ -259,7 +259,7 @@ public class TestHelperMethods {
                 System.err.println("POST " + fileLoc + "error message:" + policyResponse.getEntity(String.class));
                 return null;
             }
-            return ospQuerybyFriendlyName(JsonPath.parse(content).read("$.policy_text", String.class));
+            return ospQuerybyFriendlyName(JsonPath.parse(content).read("$.policy_url", String.class));
         } catch (IOException e) {
             // Display to console for debugging purposes.
             System.err.println("POST " + fileLoc + "Error creating UPP in pdb - " + e.getLocalizedMessage());
