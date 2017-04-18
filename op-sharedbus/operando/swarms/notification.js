@@ -104,7 +104,7 @@ var notificationSwarming = {
         }
     },
 
-    getFilteredNotifications(filter){
+    getFilteredNotifications:function(filter){
         if(!filter){
             this.filter = {}
         }else{

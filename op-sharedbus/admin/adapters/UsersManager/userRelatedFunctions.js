@@ -39,13 +39,13 @@ exports.createUser = function (userData, callback) {
                     if(err){
                         callback(err)
                     }else{
-                        exports.addUserToZone(newUser.userId,"USER",callback);
+                        callback(undefined,user);
                     }
                 })
             });
         }
     });
-}
+};
 
 exports.filterUsers = function(conditions,callback){
     persistence.filter("DefaultUser",conditions,function(err,result){

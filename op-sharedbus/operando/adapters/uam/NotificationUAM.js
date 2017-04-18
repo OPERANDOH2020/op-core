@@ -27,7 +27,8 @@ var signupNotifications = {
         description: "You have not filled all your social network privacy settings yet. Doing so will tailor your social network privacy settings to your preferences. You can also optimize your social network privacy settings in a single click, using settings recommended by PrivacyPlus.",
         action_name:"social-network-privacy",
         type: "info-notification",
-        category: "privacy-questionnaire"
+        category: "privacy-questionnaire",
+        zone:"USER"
 
     },
     identity: {
@@ -36,7 +37,8 @@ var signupNotifications = {
         description: "You have not yet generated alternative email identities. Doing so will enable you to sign up on websites without disclosing your real email.",
         action_name:"identity",
         type: "info-notification",
-        category: "identity"
+        category: "identity",
+        zone:"USER"
     },
     deals: {
         sender: "WatchDog",
@@ -44,7 +46,8 @@ var signupNotifications = {
         description: "You have not yet accepted any privacy deals. Privacy deals enable you to trade some of your privacy for valuable benefits.",
         action_name:"privacy-for-benefits",
         type: "info-notification",
-        category: "deals"
+        category: "deals",
+        zone:"USER"
     }
 };
 

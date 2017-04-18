@@ -257,7 +257,7 @@ setDefaultIdentity = function(identity, callback){
             }
         }
     })();
-}
+};
 
 setRealIdentity = function(user, callback){
 
@@ -278,7 +278,6 @@ setRealIdentity = function(user, callback){
                 else{
                     identity.isReal = true;
                     identity.isDefault = true;
-                    identity.email = user.email;
                     identity.userId = user.userId;
                     persistence.saveObject(identity, callback);
                 }

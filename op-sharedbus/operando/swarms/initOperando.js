@@ -130,7 +130,7 @@ var initOperando = {
                         password: "test",
                         email: "test@plusprivacy.com",
                         organisationId: "Public"
-                    },
+                    }
 
                 ];
 
