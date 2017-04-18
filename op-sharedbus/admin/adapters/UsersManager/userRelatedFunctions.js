@@ -23,7 +23,7 @@ container.declareDependency("userFunctionality",["mysqlPersistence",'userRelated
     }
 });
 
-exports.createUser = function (userData,userZones, callback) {
+exports.createUser = function (userData, callback) {
     persistence.filter("DefaultUser",{"email":userData.email},function(err,result){
         if(err){
             callback(err)
@@ -144,7 +144,6 @@ exports.newUserIsValid = function (newUser, callback) {
                     if(thisAdapter.config.development && thisAdapter.config.development === true ){
                         activationCode = "0";
                     }
-
                     createUser({
                         password: newUser.password,
                         email: newUser.email,
