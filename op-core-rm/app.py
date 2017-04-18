@@ -208,7 +208,7 @@ def handleSelect(request, addr):
                             # find the proper field to strip the data
                             for f in jsonResponse["d"]["results"]:
                                 if f["MetadatafieldregistryDetails"]["Element"] == ev["datafield"]:
-                                    f["TextValue"] = "***STRIPPED***"
+                                    f["TextValue"] = "***PERMISSION DENIED***"
                     return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
                 else:
                     return Response(json.dumps({"d": {"error": "unknown"}}), status=400, mimetype='application/json')
@@ -224,7 +224,7 @@ def handleSelect(request, addr):
                     # there is a conflict in the policies
                     for ev in policies["evaluations"]:
                         if ev["result"] == "false":
-                            jsonResponse[ev["datafield"]] = "***STRIPPED***"
+                            jsonResponse[ev["datafield"]] = "***PERMISSION DENIED***"
                     return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
                 else:
                     return Response(json.dumps({"d": {"error": "unknown"}}), status=400, mimetype='application/json')
@@ -254,7 +254,7 @@ def handleSelect(request, addr):
                                 # find the proper field to strip the data
                                 for j in range(len(jsonResponse["d"]["results"][i]["MetadatavalueDetails"]["results"])):
                                     if jsonResponse["d"]["results"][i]["MetadatavalueDetails"]["results"][j]["MetadatafieldregistryDetails"]["Element"] == ev["datafield"]:
-                                        jsonResponse["d"]["results"][i]["MetadatavalueDetails"]["results"][j]["TextValue"] = "***STRIPPED***"
+                                        jsonResponse["d"]["results"][i]["MetadatavalueDetails"]["results"][j]["TextValue"] = "***PERMISSION DENIED***"
 
                     else:
                         jsonResponse["d"]["results"][i]={"error":"uknown"}
@@ -273,7 +273,7 @@ def handleSelect(request, addr):
                         # there is a conflict in the policies
                         for ev in policies["evaluations"]:
                             if ev["result"] == "false":
-                                jsonResponse["d"]["results"][i]["datafield"]="***STRIPPED***"
+                                jsonResponse["d"]["results"][i]["datafield"]="***PERMISSION DENIED***"
                     else:
                         jsonResponse["d"]["results"][i]={"error":"unknown"}
 
