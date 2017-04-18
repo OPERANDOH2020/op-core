@@ -44,7 +44,7 @@ getRecommenderParams = function(){
     }
 }
 
-addFeedback = function(current_settings){
+storeUserPreferences = function(current_settings){
     fs.appendFile(storageFile,current_settings,function(err){
         if(err){
             console.log("Error: "+err+" occured for user choices: "+current_settings);
@@ -52,4 +52,4 @@ addFeedback = function(current_settings){
     });
 };
 
-
+recalculateTheRecomenderParameters = utils.recomputeConditionalProbabilitites

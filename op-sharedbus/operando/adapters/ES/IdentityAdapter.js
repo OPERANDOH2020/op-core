@@ -125,8 +125,7 @@ generateIdentity = function(callback){
     flow.create("generateIdentity",{
         begin:function(){
             var identity = generateString().toLowerCase();
-            console.log(identity);
-            persistence.lookup.async("Identity", identity, this.continue("generateIdentity"));
+            persistence.lookup("Identity", identity, this.continue("generateIdentity"));
         },
         generateIdentity: function(err, identity){
             if(persistence.isFresh(identity)){

@@ -55,7 +55,6 @@ var signupNotifications = {
         type: "info-notification",
         category: "deals"
     }
-
 };
 
 function registerModels(callback){
@@ -95,7 +94,7 @@ function registerModels(callback){
                 type: "date"
             },
             creationDate:{
-                type:"date",
+                type:"date"
             }
         }
     },
