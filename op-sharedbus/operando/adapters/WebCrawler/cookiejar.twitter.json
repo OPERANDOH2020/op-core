@@ -9,8 +9,8 @@
     },
     {
         "domain": ".twitter.com",
-        "expires": "Sat, 03 Apr 2027 14:54:11 GMT",
-        "expiry": 1806764051,
+        "expires": "Sat, 10 Apr 2027 12:05:16 GMT",
+        "expiry": 1807358716,
         "httponly": false,
         "name": "dnt",
         "path": "/",
@@ -19,23 +19,13 @@
     },
     {
         "domain": ".linkedin.com",
-        "expires": "Wed, 05 Apr 2017 15:04:10 GMT",
-        "expiry": 1491404650,
+        "expires": "Wed, 12 Apr 2017 12:15:15 GMT",
+        "expiry": 1491999315,
         "httponly": false,
         "name": "RT",
         "path": "/",
         "secure": false,
-        "value": "s=1491404050205&r=https%3A%2F%2Fwww.linkedin.com%2Fpsettings%2Fprivacy"
-    },
-    {
-        "domain": ".twitter.com",
-        "expires": "Wed, 05 Apr 2017 19:28:28 GMT",
-        "expiry": 1491409708,
-        "httponly": false,
-        "name": "ct0",
-        "path": "/",
-        "secure": true,
-        "value": "e114aa4c7016b7732e952db3fe97b5f5"
+        "value": "s=1491998715049&r=https%3A%2F%2Fwww.linkedin.com%2Fstart%2Fjoin%3Ftrk%3Dlogin_reg_redirect%26session_redirect%3Dhttps%253A%252F%252Fwww.linkedin.com%252Fpsettings%252Fprivacy"
     },
     {
         "domain": ".linkedin.com",
@@ -140,5 +130,35 @@
         "path": "/",
         "secure": false,
         "value": "GA1.2.413524164.1491391143"
+    },
+    {
+        "domain": ".twitter.com",
+        "expires": "Wed, 12 Apr 2017 16:19:02 GMT",
+        "expiry": 1492003142,
+        "httponly": false,
+        "name": "ct0",
+        "path": "/",
+        "secure": true,
+        "value": "857bc5f3ae41793de511cadef6617952"
+    },
+    {
+        "domain": ".doubleclick.net",
+        "expires": "Fri, 12 Apr 2019 10:49:08 GMT",
+        "expiry": 1555055348,
+        "httponly": false,
+        "name": "id",
+        "path": "/",
+        "secure": false,
+        "value": "22da5fba7931008d||t=1491994148|et=730|cs=002213fd489ea383beb042c4b2"
+    },
+    {
+        "domain": ".doubleclick.net",
+        "expires": "Fri, 12 Apr 2019 10:49:08 GMT",
+        "expiry": 1555055348,
+        "httponly": true,
+        "name": "IDE",
+        "path": "/",
+        "secure": false,
+        "value": "AHWqTUnXmQmo0HXScXa6_uUSxGLqPzFw_uKhmLAAm9yvxG-TcDZLNfvyTQ"
     }
 ]
