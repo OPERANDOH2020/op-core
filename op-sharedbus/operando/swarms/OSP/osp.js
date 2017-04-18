@@ -128,7 +128,7 @@ var osp = {
               if(err){
                   console.log(err)
               }
-              else{console.log(user);
+              else{
                   startSwarm("emails.js", "sendEmail", "no-reply@" + thisAdapter.config.Core.operandoHost,
                       user['email'],
                       "Your OSP request was not accepted",
@@ -160,7 +160,6 @@ var osp = {
         code:function(){
             var self = this;
             registerNewOSP(self.ospUserId, self.requestData, S(function(err, ospRequest){
-                console.log(err, ospRequest);
                 if(err){
                     self.error = err.message;
                     self.home("failed");
@@ -168,7 +167,6 @@ var osp = {
                 else{
 
                     self.ospRequesterId = ospRequest.userId;
-                    console.log("AICI", self.ospRequesterId);
                     self.swarm("getUserEmailAndSendMembershipAcceptance");
                 }
             }));
@@ -183,7 +181,7 @@ var osp = {
                 if(err){
                     console.log(err)
                 }
-                else{console.log(user);
+                else{
                     startSwarm("emails.js", "sendEmail", "no-reply@" + thisAdapter.config.Core.operandoHost,
                         user['email'],
                         "Your OSP request was accepted",

@@ -161,7 +161,6 @@ getOSPs = function(callback){
 
 
 addOrUpdateOspOffer = function (ospUserId, offerDetails, callback){
-    console.log(offerDetails);
     flow.create("addOspOffer", {
         begin: function () {
             persistence.lookup("OspDetails", ospUserId, this.continue("checkOspOffer"));
@@ -182,7 +181,6 @@ addOrUpdateOspOffer = function (ospUserId, offerDetails, callback){
             var ospOfferId;
             if(offerDetails.offerId){
                 ospOfferId = offerDetails.offerId;
-                console.log(ospOfferId);
             }
             else{
                 ospOfferId = uuid.v1().split("-").join("");
