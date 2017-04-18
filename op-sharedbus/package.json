@@ -56,7 +56,9 @@
     "windows-cpu":">=0.1.4",
     "checksum" :">=0.1.0",
 	"voucher-code-generator":">=1.0.0",
-	"uuid":">=2.0.0"
+	"uuid":">=2.0.0",
+    "image-diff":">=1.6.3",
+    "nodemailer-smtp-transport":">0.0.0"
 
   },
   "optionalDependencies": {},

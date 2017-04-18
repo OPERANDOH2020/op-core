@@ -1,6 +1,7 @@
+/**
+ * Created by ciprian on 3/23/17.
+ */
 
-var core = require("swarmcore");
-core.createAdapter("UsersManager");
 
 const crypto = require('crypto');
 var container = require("safebox").container;
@@ -9,147 +10,44 @@ var uuid = require('uuid');
 var passwordMinLength = 4;
 var persistence = undefined;
 var saltLength = 48;
+var apersistence = require('apersistence');
 
-container.declareDependency("UsersManagerAdapter",["mysqlPersistence"],function(outOfService,mysqlPersistence){
+
+container.declareDependency("userFunctionality",["mysqlPersistence",'userRelatedTypes'],function(outOfService,mysqlPersistence,types){
     if(outOfService){
-        console.log("UsersManager failed");
+        console.log("Could not provide users-related functionality");
     }else{
-        console.log("Initialising UsersManager");
         persistence = mysqlPersistence;
-        rebootUsersManager();
+        console.log("User-related functionality available in UsersManager");
+        return exports;
     }
 });
 
-
-function rebootUsersManager(callback){
-    registerModels(callback?callback:onRebootFinished);
-
-    function registerModels(callback){
-        var userModel = {
-            userId: {
-                type: "string",
-                pk: true,
-                index: true,
-                length:254
-            },
-            organisationId: {
-                type: "string",
-                index: true
-            },
-            password: {
-                type: "string",
-                length:1024
-            },
-
-            email: {
-                type: "string",
-                index:true,
-                length:254
-            },
-            is_active: {
-                type: "boolean",
-                default:true
-            },
-            zones:{
-                type:"string"
-            },
-            salt:{
-                type:"string",
-                length:saltLength*2
-
-            },
-            activationCode:{
-                type: "string",
-                index:true,
-                length:254,
-                default:"0"
-            }
-        };
-
-        var organisationModel = {
-            organisationId: {
-                type: "string",
-                pk: true,
-                index: true
-            },
-            displayName: {
-                type: "string"
-            },
-            agent: {
-                type: "string"
-            }
-        };
-
-        var errs = [];
-        var left = 2;
-
-        persistence.registerModel("DefaultUser",userModel,onRegisterDone);
-        persistence.registerModel("Organisation",organisationModel,onRegisterDone);
-
-        function onRegisterDone(err,result){
-            if(err) {
-                errs.push(err);
-            }
-            left--;
-            if(left==0){
-                if(errs.length>0){
-                    callback(errs);
-                }else{
-                    callback(null);
-                }
-            }
-        }
-    }
-    function onRebootFinished(){
-        startSwarm("initOperando.js","init");
-        console.log("UsersManager available");
-    }
-}
-
-createUser = function (userData, callback) {
+exports.createUser = function (userData,userZones, callback) {
     persistence.filter("DefaultUser",{"email":userData.email},function(err,result){
         if(err){
             callback(err)
         }else if(result.length>0){
             callback(new Error("User with email "+userData.email+" already exists"));
         }else{
-
-            if(!userData.userId){
-                userData.userId = uuid.v1().split("-").join("");
-            }
-            persistence.lookup("DefaultUser", userData.userId, function(err,user){
-                if(err){
-                    callback(new Error("Could not retrieve user by id"))
-                }else if(!persistence.isFresh(user)){
-                    callback(new Error("User with id "+userData.userId+" already exists"));
-                }else{
-                    if(!userData.zones){
-                        userData.zones = "user";
-                    }else {
-                        userData.zones += ",user";
+            var user = apersistence.createRawObject("DefaultUser",uuid.v1());
+            userData.salt = crypto.randomBytes(saltLength).toString('base64');
+            hashThisPassword(userData.password,userData.salt,function(err,hashedPassword){
+                userData.password = hashedPassword;
+                persistence.externalUpdate(user,userData);
+                persistence.save(user,function(err,newUser){
+                    if(err){
+                        callback(err)
+                    }else{
+                        exports.addUserToZone(newUser.userId,"USER",callback);
                     }
-                    userData.salt = crypto.randomBytes(saltLength).toString('base64');
-                    user.salt = userData.salt;
-                    hashThisPassword(userData.password,userData.salt,function(err,hashedPassword){
-                        userData.password = hashedPassword;
-                        persistence.externalUpdate(user,userData);
-                        persistence.save(user,function(err,newUser){
-                            if(err){
-                                console.log(err);
-                                callback(new Error("Could not create user"))
-                            }else{
-                                delete user['password'];
-                                callback(undefined,user);
-                            }
-                        })
-                    });
-                }
+                })
             });
         }
     });
-};
+}
 
-filterUsers = function(conditions,callback){
+exports.filterUsers = function(conditions,callback){
     persistence.filter("DefaultUser",conditions,function(err,result){
         /*
          if(result.length>0){
@@ -165,7 +63,7 @@ filterUsers = function(conditions,callback){
     });
 };
 
-deleteUser = function (userData,callback) {
+exports.deleteUser = function (userData,callback) {
     flow.create("delete user", {
         begin: function () {
             persistence.deleteById("DefaultUser", userData.userId, this.continue("deleteReport"));
@@ -176,7 +74,7 @@ deleteUser = function (userData,callback) {
     })();
 };
 
-updateUser = function (userJsonObj, callback) {
+exports.updateUser = function (userJsonObj, callback) {
     flow.create("update user", {
         begin: function () {
             persistence.lookup("DefaultUser", userJsonObj.userId, this.continue("updateUser"));
@@ -201,7 +99,7 @@ updateUser = function (userJsonObj, callback) {
     })();
 };
 
-activateUser = function(activationCode,callback){
+exports.activateUser = function(activationCode,callback){
     filterUsers({"activationCode":activationCode},function(err,users){
         if(err){
             callback(err);
@@ -214,7 +112,7 @@ activateUser = function(activationCode,callback){
     })
 };
 
-newUserIsValid = function (newUser, callback) {
+exports.newUserIsValid = function (newUser, callback) {
     //TO DO: Change name of the function. Something like : "createPublicUser"
 
     flow.create("user is valid", {
@@ -264,7 +162,7 @@ newUserIsValid = function (newUser, callback) {
     })();
 };
 
-getUserInfo = function (userId, callback) {
+exports.getUserInfo = function (userId, callback) {
     flow.create("retrieve user info", {
         begin: function () {
             persistence.findById("DefaultUser", userId, this.continue("info"));
@@ -285,7 +183,9 @@ getUserInfo = function (userId, callback) {
     })();
 };
 
-validateUser = function (email, pass, organisationPretender, callback) {
+exports.validateUser = function (email, pass, organisationPretender, callback) {
+
+
     flow.create("Validate Password", {
         begin: function () {
             persistence.filter("DefaultUser", {email: email}, this.continue("validatePassword"));
@@ -320,7 +220,7 @@ validateUser = function (email, pass, organisationPretender, callback) {
     })();
 };
 
-getUserId = function(email, callback){
+exports.getUserId = function(email, callback){
     persistence.filter("DefaultUser",{"email":email},function(err,result){
         if(err){
             callback(err);
@@ -335,7 +235,7 @@ getUserId = function(email, callback){
     });
 };
 
-changeUserPassword = function(userId, currentPassword, newPassword, callback){
+exports.changeUserPassword = function(userId, currentPassword, newPassword, callback){
     flow.create("Validate Password", {
         begin: function () {
 
@@ -368,7 +268,7 @@ changeUserPassword = function(userId, currentPassword, newPassword, callback){
     })();
 };
 
-setNewPassword = function(user,newPassword,callback){
+exports.setNewPassword = function(user,newPassword,callback){
     user.salt = crypto.randomBytes(48).toString('base64');
     hashThisPassword(newPassword,user.salt,function(err,hashedPassword){
         user.password = hashedPassword;
@@ -387,7 +287,7 @@ function hashThisPassword(plainPassword,salt,callback){
     });
 };
 
-createOrganisation = function (organisationDump, callback) {
+exports.createOrganisation = function (organisationDump, callback) {
     flow.create("create organisation", {
         begin: function () {
             persistence.lookup("Organisation", organisationDump.organisationId, this.continue("createOrganisation"));
@@ -412,7 +312,7 @@ createOrganisation = function (organisationDump, callback) {
     })();
 };
 
-deleteOrganisation = function (organisationId,callback) {
+exports.deleteOrganisation = function (organisationId,callback) {
     flow.create("delete organisation", {
         begin: function () {
             persistence.deleteById("Organisation", organisationId, this.continue("deleteReport"));
@@ -423,7 +323,7 @@ deleteOrganisation = function (organisationId,callback) {
     })();
 };
 
-getOrganisations = function (callback) {
+exports.getOrganisations = function (callback) {
     flow.create("get all organizations", {
         begin: function () {
             persistence.filter("Organisation",{}, this.continue("info"));
@@ -434,7 +334,7 @@ getOrganisations = function (callback) {
     })();
 };
 
-updateOrganisation = function (organisationDump, callback) {
+exports.updateOrganisation = function (organisationDump, callback) {
     flow.create("update organization", {
         begin: function () {
             persistence.lookup("Organisation", organisationDump.organisationId, this.continue("updateOrganisation"));
@@ -457,3 +357,151 @@ updateOrganisation = function (organisationDump, callback) {
         }
     })();
 };
+
+
+exports.addUserToZone = function(userId,zoneName,callback){
+    flow.create("addUserToZone",{
+        begin:function(){
+            var self = this;
+            persistence.filter("UserZoneMapping",{"userId":userId},this.continue("verifyDuplicates"))
+        },
+        verifyDuplicates:function(err,zoneMappings){
+            if(err){
+                callback(err)
+            }else {
+                var userAlreadyBelongs = zoneMappings.some(function (zoneMapping) {
+                    return zoneMapping.zoneName === zoneName;
+                })
+                if (userAlreadyBelongs) {
+                    callback();
+                } else {
+                    this.next("addToZone");
+                }
+            }
+        },
+        addToZone:function(){
+
+            var newAssociation = apersistence.modelUtilities.createRaw("UserZoneMapping",uuid.v1().split("-").join(""));
+            newAssociation.zoneName = zoneName;
+            newAssociation.userId = userId;
+            persistence.save(newAssociation,callback);
+        }
+    })()
+};
+
+exports.removeUserFromZone = function(userId,zoneName,callback){
+    flow.create("removeUserFromZone",{
+        begin:function(){
+            var self = this;
+            persistence.filter("UserZoneMapping",{"userId":userId,"zoneName":zoneName},this.continue("remove"))
+        },
+        remove:function(err,userZoneAssociation){
+            if(err || userZoneAssociation.length===0){
+                callback(err);
+            }else{
+                persistence.delete(userZoneAssociation[0],callback)
+            }
+        }
+    })()
+};
+
+exports.zonesOfUser = function(userId,callback){
+    flow.create("getZonesOfUsers",{
+        begin:function(){
+            persistence.filter("UserZoneMapping",{"userId":userId},this.continue("loadMappings"))
+        },
+        loadMappings:function(err,zoneMappings){
+            if(err){
+                callback(err)
+            }else {
+                this.errors = [];
+                this.zones = [];
+                zoneMappings.forEach(function(zoneMapping){
+                    zoneMapping.__meta.loadLazyField('zone',this.continue('zoneLoaded'));
+                })
+            }
+        },
+        zoneLoaded:function(err,filledZoneMapping){
+            if(err){
+                this.errors.push(err);
+            }else{
+                this.zones.push(filledZoneMapping.zone)
+            }
+        },
+
+
+        zonesLoaded:{
+            join:"zoneLoaded",
+            code:function(){
+                if(this.errors.length>0){
+                    callback(this.errors,this.zones);
+                }else{
+                    callback(undefined,this.zones);
+                }
+            }
+        }
+    })()
+};
+
+
+exports.createZone = function(zoneName,callback){
+    flow.create("createZone",{
+        begin:function(){
+            persistence.lookup("zoneName",this.continue("gotZoneObject"));
+        },
+        gotZoneObject:function(err,zoneObj){
+            if(err){
+                callback(err);
+            }else{
+                if(zoneObj.__meta.freshRawObject===true){
+                    persistence.save(zoneObj,callback)
+                }else{
+                    callback(undefined,zoneObj);
+                }
+            }
+        },
+        error:callback
+    })
+};
+
+exports.removeZone = function(zoneName,callback){
+    persistence.deleteById("Zone",zoneName,callback);
+};
+
+exports.usersInZone = function(zoneName,callback){
+    flow.create("getZonesOfUsers",{
+        begin:function(){
+            persistence.filter("UserZoneMapping",{"zoneName":zoneName},this.continue("loadMappings"))
+        },
+        loadMappings:function(err,zoneMappings){
+            if(err){
+                callback(err)
+            }else {
+                this.errors = [];
+                this.users = [];
+                zoneMappings.forEach(function(zoneMapping){
+                    zoneMapping.__meta.loadLazyField('user',this.continue('userLoaded'));
+                })
+            }
+        },
+        userLoaded:function(err,filledZoneMapping){
+            if(err){
+                this.errors.push(err);
+            }else{
+                this.users.push(filledZoneMapping.user)
+            }
+        },
+        usersLoaded:{
+            join:"userLoaded",
+            code:function(){
+                if(this.errors.length>0){
+                    callback(this.errors,this.users);
+                }else{
+                    callback(undefined,this.users);
+                }
+            }
+        }
+    })()
+};
+
+
