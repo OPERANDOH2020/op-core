@@ -58,24 +58,28 @@ function registerModels(callback){
                 type:"string",
                 pk:true,
                 index:true,
-                length:254
+                length:255
             },
             sender:{
                 type: "string",
-                length:254
+                length:255
             },
             zone:{
                 type: "string",
                 index: true,
-                length:254 // hardcoded for operando
+                length:255 // hardcoded for operando
             },
-            action:{
-                type:"string",  // switch and edit
-                length:254
+            action_argument:{
+                type:"string",
+                length:255
+            },
+            action_name:{
+                type:"string",
+                length:255
             },
             title:{
                 type: "string",
-                length:254
+                length:255
             },
             description:{
                 type: "string",
@@ -95,17 +99,17 @@ function registerModels(callback){
             dataModel:{
                 "id":{
                     type:"string",
-                    length:254,
+                    length:255,
                     pk:true
                 },
                 "userId":{
                     type:"string",
-                    length:254,
+                    length:255,
                     index:true
                 },
                 "notificationId":{
                     type:"string",
-                    length:254
+                    length:255
                 }
 
             }
