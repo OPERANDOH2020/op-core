@@ -46,6 +46,12 @@ var loginSwarming = {
         this.swarm('inputValidationCheck');
     },
 
+    tokenLogin:function(userId, authenticationToken){
+        this.userId = userId;
+        this.authenticationToken = authenticationToken;
+        this.swarm("validateAuthenticationToken");
+    },
+
     inputValidationCheck: {
         node: "UsersManager",
         code: function () {
@@ -84,8 +90,7 @@ var loginSwarming = {
     },
 
     logout: function () {
-        console.log("logout");
-        this.sessionId = this.getSessionId();
+        console.log("Logout. Destroying session ",this.getSessionId());
         this.swarm("userLogout");
     },
 
@@ -93,7 +98,7 @@ var loginSwarming = {
         node: "SessionManager",
         code: function () {
             var self = this;
-            deleteUserSessions(this.getSessionId(), S(function (err, result) {
+            deleteSession(this.getSessionId(), S(function (err, result) {
                 if (err && err.message !== "session_not_found") {
                     console.log(err);
                 }
@@ -101,7 +106,6 @@ var loginSwarming = {
                     self.home("logoutSucceed");
                     sessionsRegistry.disableOutlet(self.meta.outletId);
                 }
-
             }));
         }
     },
@@ -114,9 +118,8 @@ var loginSwarming = {
         else {
             console.log("Let's restore session");
             this.sessionId = clientSessionId;
-            this.outletSession = this.getSessionId();
             this.userId = userId;
-            this.swarm("validateSession");
+            this.swarm("getOutlets", this.getEntryAdapter());
         }
     },
 
@@ -172,6 +175,72 @@ var loginSwarming = {
 
         }
     },
+
+    getOutlets: {
+        node: "EntryPoint",
+        code: function () {
+            var outlets = sessionsRegistry.findOutletsForSession(this.sessionId);
+            if(!outlets || outlets.length === 0){
+
+                this.home("restoreFailed");
+                this.oldSessionId = this.sessionId;
+                this.newSessionId = this.getSessionId();
+                this.swarm("removeOldSession");
+
+            }
+            else {
+                for (var v in outlets) {
+                    if (outlets[v].getSessionId() === this.sessionId) {
+                        this.restoredOutletId = outlets[v].getOutletId();
+                        this.swarm("validateSession");
+                        break;
+                    }
+                }
+            }
+        }
+    },
+
+    removeOldSession:{
+        node:"SessionManager",
+        code: function(){
+            var self = this;
+            deleteSession(self.oldSessionId, S(function(err){
+                if(err){
+                    self.error = err.message;
+                    self.home("restoreFailed");
+                }
+                else{
+                    self.swarm("renewUserSession");
+                }
+            }))
+        }
+    },
+
+    renewUserSession:{
+        node:"SessionManager",
+        code: function(){
+            var self = this;
+            var sessionData = {
+                userId:this.userId,
+                sessionId:this.newSessionId
+            };
+            createOrUpdateSession(sessionData, S(function(err,session){
+                if(err){
+                    self.error = err.message;
+                    self.home("restoreFailed");
+                }
+                else
+                 if(session){
+                     console.log("A new session was created!");
+                     self.sessionId = session.sessionId;
+                     self.authenticated = true;
+                     self.setSessionId(self.sessionId);
+                     self.swarm("restoreSwarms", self.getEntryAdapter());
+                 }
+            }));
+        }
+    },
+
     validateSession: {
         node: "SessionManager",
         code: function () {
@@ -182,10 +251,10 @@ var loginSwarming = {
             }
 
             else {
-                sessionIsValid(self.outletSession, self.sessionId, self.userId, S(function (err, newSession) {
+                sessionIsValid(self.sessionId, self.userId, S(function (err, newSession) {
 
                     if (err) {
-                        console.log(err.message);
+                        console.log(err);
                         self.home("restoreFailed");
                     }
                     else {
@@ -193,6 +262,7 @@ var loginSwarming = {
                             console.log("Session is valid");
                             self.sessionId = newSession.sessionId;
                             self.authenticated = true;
+                            self.setSessionId(self.sessionId);
                             self.swarm("restoreSwarms", self.getEntryAdapter());
                         }
                         else {
@@ -202,6 +272,28 @@ var loginSwarming = {
                 }));
             }
 
+        }
+    },
+
+    validateAuthenticationToken :{
+        node:"SessionManager",
+        code:function() {
+            var self = this;
+            validateAuthenticationToken(this.userId, this.getSessionId(), this.authenticationToken, S(function (err, session) {
+                delete self['authenticationToken'];
+                if (err) {
+                    console.log(err);
+                    delete self['userId'];
+                    self.home("tokenLoginFailed");
+                }
+                else {
+                    console.log("Authentication token validated!");
+                    self.sessionId = session.sessionId;
+                    self.meta.userId = self.userId;
+                    self.authenticated = true;
+                    self.swarm("enableSwarmsFromTokenAuthentication", self.getEntryAdapter());
+                }
+            }));
         }
     },
 
@@ -280,14 +372,24 @@ var loginSwarming = {
             }
         }
     },
-    restoreSwarms: {   //phase that is never executed... given as documentation
+    restoreSwarms: {
         node: "EntryPoint",
         code: function () {
             var outlet = sessionsRegistry.getTemporarily(this.meta.outletId);
             sessionsRegistry.registerOutlet(outlet);
             enableOutlet(this);
-            console.log("Session restored for ", this.meta.tenantId, this.userId, "!");
+            outlet.renameSession(this.getSessionId());
             this.home("restoreSucceed");
+        }
+    },
+    enableSwarmsFromTokenAuthentication:{
+        node:"EntryPoint",
+        code:function(){
+            var outlet = sessionsRegistry.getTemporarily(this.meta.outletId);
+            sessionsRegistry.registerOutlet(outlet);
+            enableOutlet(this);
+            outlet.renameSession(this.getSessionId());
+            this.home("tokenLoginSuccessfully");
         }
     },
 
@@ -306,8 +408,12 @@ var loginSwarming = {
             createOrUpdateSession(sessionData, S(function (error, session) {
                 if (error) {
                     console.log(error);
+                    self.home("restoreFailed");
                 }
                 else {
+                    if(session.authenticationToken){
+                        self.authenticationToken = session.authenticationToken;
+                    }
                     self.swarm("enableSwarms", self.getEntryAdapter());
                 }
             }));

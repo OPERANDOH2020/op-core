@@ -47,8 +47,7 @@ function registerModels(callback){
                     length:2048
                 },
                 osp_accepted_time:{
-                    type:"string",
-                    default:"0"
+                    type:"datetime"
                 }
             }
         },
@@ -71,24 +70,17 @@ function registerModels(callback){
                     length:254
                 },
                 logo:{
-                    type: "string",
-                    length:6000
+                    type: "base64image"
                 },
                 description: {
                     type: "string",
                     length:5000
                 },
                 start_date:{
-                    type:"string",
-                    length:254
+                    type:"datetime"
                 },
                 end_date:{
-                    type:"string",
-                    length:254
-                },
-                impact_score:{
-                    type:"string",
-                    default:"0"
+                    type:"datetime"
                 }
             }
         }
@@ -140,20 +132,20 @@ container.declareDependency("OSPAdapter", ["mysqlPersistence"], function (outOfS
 registerNewOSP = function (userId, ospDetailsData, callback) {
     flow.create("register new OSP", {
         begin: function () {
-            redisPersistence.lookup("OspDetails", userId, this.continue("createOSP"));
+            persistence.lookup("OspDetails", userId, this.continue("createOSP"));
         },
         createOSP: function (err, ospDetails) {
-            console.log(ospDetails);
             if (err) {
                 callback(err, null);
             }
-            else if (!redisPersistence.isFresh(ospDetails)) {
+            else if (!persistence.isFresh(ospDetails)) {
                 callback(new Error("OspAlreadyRegistered"), null);
             }
             else {
-                ospDetails['osp_accepted_time'] = Date.now();
-                redisPersistence.externalUpdate(ospDetails, ospDetailsData);
-                redisPersistence.saveObject(ospDetails, callback);
+                ospDetails['osp_accepted_time'] = new Date();
+                delete ospDetailsData['request_time'];
+                persistence.externalUpdate(ospDetails, ospDetailsData);
+                persistence.saveObject(ospDetails, callback);
             }
         }
     })();
@@ -162,22 +154,23 @@ registerNewOSP = function (userId, ospDetailsData, callback) {
 getOSPs = function(callback){
     flow.create("getOSPs",{
         begin:function(){
-            redisPersistence.filter("OspDetails",{},callback);
+            persistence.filter("OspDetails",{},callback);
         }
     })();
 };
 
 
 addOrUpdateOspOffer = function (ospUserId, offerDetails, callback){
+    console.log(offerDetails);
     flow.create("addOspOffer", {
         begin: function () {
-            redisPersistence.lookup("OspDetails", ospUserId, this.continue("checkOspOffer"));
+            persistence.lookup("OspDetails", ospUserId, this.continue("checkOspOffer"));
         },
         checkOspOffer: function (err, osp) {
             if (err) {
                 callback(err);
             }
-            else if (redisPersistence.isFresh(osp)) {
+            else if (persistence.isFresh(osp)) {
                 callback(new Error("ospUserDoestNotExists"));
             }
             else {
@@ -188,12 +181,13 @@ addOrUpdateOspOffer = function (ospUserId, offerDetails, callback){
         createOspOfferId: function () {
             var ospOfferId;
             if(offerDetails.offerId){
-                ospOfferId= offerDetails.offerId;
+                ospOfferId = offerDetails.offerId;
+                console.log(ospOfferId);
             }
             else{
                 ospOfferId = uuid.v1().split("-").join("");
             }
-            redisPersistence.lookup("OspOffer", ospOfferId, this.continue("createOspOffer"));
+            persistence.lookup("OspOffer", ospOfferId, this.continue("createOspOffer"));
         },
         createOspOffer: function (err, ospOffer) {
             if (err) {
@@ -202,11 +196,11 @@ addOrUpdateOspOffer = function (ospUserId, offerDetails, callback){
             {
                 var offerEndDate = new Date(offerDetails['end_date']);
                 offerEndDate.setHours(23,59,59,999);
-                offerDetails['end_date'] = offerEndDate.toISOString();
-                console.log(offerDetails);
-                redisPersistence.externalUpdate(ospOffer, offerDetails);
+                offerDetails['start_date'] = new Date(offerDetails['start_date']);
+                offerDetails['end_date'] = offerEndDate;
+                persistence.externalUpdate(ospOffer, offerDetails);
                 ospOffer['userId'] = ospUserId;
-                redisPersistence.saveObject(ospOffer, callback);
+                persistence.saveObject(ospOffer, callback);
             }
         }
     })();
@@ -220,18 +214,18 @@ deleteOspOffer = function (offerId, callback) {
                 callback(new Error("offerIdRequired"));
             }
             else {
-                redisPersistence.lookup("OspOffer", offerId, this.continue("deleteOffer"));
+                persistence.lookup("OspOffer", offerId, this.continue("deleteOffer"));
             }
         },
         deleteOffer: function (err, offer) {
             if (err) {
                 callback(err);
             }
-            else if (redisPersistence.isFresh(offer)) {
+            else if (persistence.isFresh(offer)) {
                 callback(new Error("ospOfferDoesNotExists"));
             }
             else {
-                redisPersistence.deleteById("OspOffer", offerId, callback);
+                persistence.deleteById("OspOffer", offerId, callback);
             }
         }
     })();
@@ -240,28 +234,27 @@ deleteOspOffer = function (offerId, callback) {
 getOspOffers = function(ospUserId, callback){
     flow.create("getOSPOffers",{
         begin:function(){
-            redisPersistence.filter("OspOffer",{userId:ospUserId},callback);
+            persistence.filter("OspOffer",{userId:ospUserId},callback);
         }
     })();
 };
 
 
 getOSPOffer = function(offerId,callback){
-
     flow.create("getOSPOffer",{
         begin:function(){
-            redisPersistence.lookup("OspOffer",offerId,this.continue("checkOffer"));
+            persistence.lookup("OspOffer",offerId,this.continue("checkOffer"));
         },
         checkOffer:function(err, offer){
-            if(redisPersistence.isFresh(offer)){
+            if(persistence.isFresh(offer)){
                 callback(new Error("Offer not found"));
             }
             else{
-                redisPersistence.lookup("OspDetails",offer.userId, function(err, ospDetails){
+                persistence.lookup("OspDetails",offer.userId, function(err, ospDetails){
                     if(err){
                         callback(err);
                     }
-                    else if(redisPersistence.isFresh(ospDetails)){
+                    else if(persistence.isFresh(ospDetails)){
                         callback(new Error(("OSPDetails with this userId not found")));
                     }
                     else{
@@ -278,7 +271,7 @@ getAllOffers = function(callback){
     var availableOffers = [];
     flow.create("getAllOffers",{
         begin:function(){
-            redisPersistence.filter("OspOffer",{},this.continue("checkDate"));
+            persistence.filter("OspOffer",{},this.continue("checkDate"));
         },
         checkDate:function(err, offers){
             if(err){
@@ -287,7 +280,7 @@ getAllOffers = function(callback){
             else{
                 var currentDate = new Date();
                 availableOffers = offers.filter(function(offer){
-                    return (currentDate >= new Date(offer['start_date']) && currentDate <= new Date(offer['end_date']));
+                    return (currentDate >= offer['start_date'] && currentDate <= offer['end_date']);
                 });
 
                 this.next("getOSPDetails");
@@ -295,17 +288,25 @@ getAllOffers = function(callback){
             }
         },
         getOSPDetails:function(){
-
-            availableOffers.forEach(function(offer){
-                    redisPersistence.lookup("OspDetails",offer.userId, function(err, ospDetails){
-                       if(!redisPersistence.isFresh(ospDetails)){
-                           offer['website'] = ospDetails['website'];
-                       }
+            var size = availableOffers.length;
+            if(size === 0){
+                callback(null,availableOffers);
+            }
+            else{
+                availableOffers.forEach(function(offer){
+                    persistence.lookup("OspDetails",offer.userId, function(err, ospDetails){
+                        size --;
+                        if(!persistence.isFresh(ospDetails)){
+                            offer['website'] = ospDetails['website'];
+                        }
+                        if(size === 0){
+                            callback(null,availableOffers);
+                        }
                     });
-            });
-
-            callback(null,availableOffers);
+                });
+            }
 
         }
+
     })();
 };

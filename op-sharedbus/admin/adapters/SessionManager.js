@@ -15,7 +15,7 @@ core.createAdapter("SessionManager");
 
 var container = require("safebox").container;
 var myCfg = getMyConfig("SessionManager");
-
+var jwt = require('jsonwebtoken');
 var sessionMaxIdleTime = 94608000;//one year
 var sessionMinIdleTime = 8640;//one day
 var persistence = undefined;
@@ -24,6 +24,7 @@ var flow = require("callflow");
 if (myCfg.sessionTime != undefined) {
     sessionMaxIdleTime = myCfg.sessionTime;
 }
+
 
 function registerModels(callback){
     var models = [
@@ -42,8 +43,7 @@ function registerModels(callback){
                     length:254
                 },
                 expirationDate: {
-                    type: "string",
-                    length:254
+                    type: "datetime"
                 },
                 ipAddress:{
                     type:"string",
@@ -51,6 +51,7 @@ function registerModels(callback){
                 }
             }
         }
+
     ];
 
     flow.create("registerModels",{
@@ -102,22 +103,88 @@ createOrUpdateSession = function(sessionData, callback){
                 callback(new Error('Empty userId'), null);
             }
             else {
-                persistence.lookup.async("DefaultSession", sessionData.sessionId, this.continue("createSession"));
+                persistence.lookup("DefaultSession", sessionData.sessionId, this.continue("createSession"));
             }
         },
         createSession: function (err, session) {
-            console.log(session);
-            sessionData.expirationDate = parseInt(Date.now()) + parseInt(sessionMaxIdleTime);
+            this.sessionIsNew = false;
+            if(persistence.isFresh(session)){
+                this.sessionIsNew = true;
+             }
+
+            var currentDate = new Date();
+            var currentDateTime = currentDate.getTime();
+            sessionData.expirationDate = new Date(currentDateTime + parseInt(sessionMaxIdleTime));
             persistence.externalUpdate(session, sessionData);
-            persistence.saveObject(session, callback);
+            console.log("Before save",session);
+            persistence.saveObject(session, this.continue("createAuthenticationToken"));
+        },
+        createAuthenticationToken :function(err, session){
+            if(err){
+                callback(err, null);
+            }else{
+                if (this.sessionIsNew === true) {
+                    var token = jwt.sign(
+                        {
+                            sessionId: session.sessionId,
+                            userId: session.userId
+                        }, 'pulsatileTinnitus',{expiresIn:60});
+                    session['authenticationToken'] = token;
+                }
+
+                callback(null, session);
+            }
         }
     })();
-}
+};
 
-deleteSession = function (sessionId, userId, callback) {
+generateAuthenticationToken = function(userId, sessionId, callback){
+    var token = jwt.sign(
+        {
+            sessionId: sessionId,
+            userId: userId
+        }, 'pulsatileTinnitus', {expiresIn: 60});
+    if (token) {
+        callback(null, token);
+    }
+    else {
+        callback(new Error("couldNotGenerateToken"), null);
+    }
+};
+
+validateAuthenticationToken = function(userId, currentSession, authenticationToken, callback){
+    flow.create("validateAuthenticationToken",{
+        begin:function(){
+            var self = this;
+            jwt.verify(authenticationToken, 'pulsatileTinnitus', function(err, decoded) {
+                if(err){
+                    callback(err);
+                }
+                else {
+                    if (decoded['userId'] === userId) {
+                        self.next("createSession");
+                    }
+                    else {
+                        callback(new Error("userIdTokenMismatch"));
+                    }
+                }
+            });
+        },
+        createSession:function(){
+            var sessionData = {
+                sessionId:currentSession,
+                userId:userId
+            };
+            createOrUpdateSession(sessionData, callback);
+        }
+
+    })();
+};
+
+deleteSession = function (sessionId, callback) {
     flow.create("delete session", {
         begin: function () {
-            persistence.findById("DefaultSession", sessionId, this.continue("deleteSession"));
+            persistence.lookup("DefaultSession", sessionId, this.continue("deleteSession"));
         },
         deleteSession: function (err, session) {
             if (err) {
@@ -133,7 +200,7 @@ deleteSession = function (sessionId, userId, callback) {
             }
         }
     })();
-}
+};
 
 getUserBySession = function (sessionId, callback) {
 
@@ -143,6 +210,7 @@ getUserBySession = function (sessionId, callback) {
                 callback(new Error("sessionId is required"), null);
             }
             else {
+                console.log("Session",sessionId);
                 persistence.findById("DefaultSession", sessionId, this.continue("getUser"));
             }
         },
@@ -155,34 +223,18 @@ getUserBySession = function (sessionId, callback) {
             }
         }
     })();
-}
+};
 
-deleteUserSessions = function(sessionId,callback){
-    var f = flow.create("delete all user sessions", {
-        begin:function(sessionId, callback){
-            this.callback = callback;
-            if (!sessionId) {
-                callback(new Error("sessionId is required"), null);
-            }
-            else{
-                persistence.findById("DefaultSession", sessionId, this.continue("findSessions"));
-            }
-        },
-        findSessions: function(err, session) {
-            if (err) {
-                this.callback(err, null);
-            }
-            else if(session != null && session.userId) {
-                persistence.filter("DefaultSession", {"userId": session.userId}, this.continue("deleteUserSessions"));
-            }
-            else{
-                //do not change this err key
-                callback(new Error("session_not_found"));
-            }
+deleteUserSessions = function(session, callback){
+   flow.create("delete all user sessions", {
+        begin:function(){
+
+            persistence.filter("DefaultSession", {"userId": session.userId}, this.continue("deleteUserSessions"));
+
         },
         deleteUserSessions: function (err, sessions) {
             if (err) {
-                this.callback(err, null);
+                callback(err, null);
             } else {
                 var self = this;
                 sessions.forEach(function(session){
@@ -198,15 +250,13 @@ deleteUserSessions = function(sessionId,callback){
         end:{
             join:"deleteSingleSession",
             code:function(err, response){
-                this.callback(err, response);
+                callback(err, response);
             }
         }
-    });
-    try{f(sessionId,callback)}catch(e){console.log(e);}
+    })();
+};
 
-}
-
-sessionIsValid = function (newSession, sessionId, userId, callback) {
+sessionIsValid = function (sessionId, userId, callback) {
 
     flow.create("validate session", {
         begin: function () {
@@ -221,30 +271,35 @@ sessionIsValid = function (newSession, sessionId, userId, callback) {
                 return;
             }
 
-            persistence.findById("DefaultSession", sessionId, this.continue("validateSession"));
+            persistence.lookup("DefaultSession", sessionId, this.continue("validateSession"));
 
         },
         validateSession: function (err, session) {
+
             if (err) {
                 callback(err, session);
             }
             else if (!session || persistence.isFresh(session)) {
-                callback(new Error("Session not found"), false);
+                callback(new Error("Session not found"), null);
             }
             else {
-                if (parseInt(session.expirationDate) < parseInt(Date.now())) {
-                    callback(new Error("Session is expired"), false);
+                if (session.expirationDate < new Date() || session.userId !== userId) {
+                    persistence.delete(session, function(){
+                        callback(new Error("Session is expired"), false);
+                    });
                 }
                 else {
-                    session.expirationDate = parseInt(Date.now()) + parseInt(sessionMaxIdleTime);
-                    session.sessionId = newSession;
+                    var currentDate = new Date();
+                    var currentDateTime = currentDate.getTime();
+                    var expirationDate = new Date(currentDateTime + parseInt(sessionMaxIdleTime));
+
+                    session['expirationDate'] = expirationDate;
                     persistence.saveObject(session, callback);
                 }
             }
         }
     })();
-
-}
+};
 
 
 

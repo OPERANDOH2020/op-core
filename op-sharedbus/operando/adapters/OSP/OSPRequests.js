@@ -1,65 +1,104 @@
 var core = require("swarmcore");
 core.createAdapter("OSPRequests");
-var apersistence = require('apersistence');
+var persistence = undefined;
 var container = require("safebox").container;
 var flow = require("callflow");
 
-apersistence.registerModel("OspRequest", "Redis", {
-        userId: {
-            type: "string",
-            index: true,
-            pk: true
-        },
-        name: {
-            type: "string"
-        },
-        phone: {
-            type: "string"
-        },
-        website: {
-            type: "string",
-            index: true
-        },
-        deals_description: {
-            type: "string"
-        },
-        request_time:{
-            type:"string",
-            default:"0"
-        }
-    },
-    function (err, model) {
-        if (err) {
-            console.log(err);
-        } else {
-        }
-    }
-);
 
-container.declareDependency("OSPRequestAdapter", ["redisPersistence"], function (outOfService, redisPersistence) {
+function registerModels(callback){
+    var models = [
+        {
+            modelName:"OspRequest",
+            dataModel : {
+                userId: {
+                    type: "string",
+                    index: true,
+                    pk: true,
+                    length:254
+                },
+                name: {
+                    type: "string",
+                    length:254
+                },
+                phone: {
+                    type: "string",
+                    length:30
+                },
+                website: {
+                    type: "string",
+                    index: true,
+                    length:128
+                },
+                deals_description: {
+                    type: "string",
+                    length:2048
+                },
+                request_time:{
+                    type:"datetime"
+                }
+            }
+        }
+    ];
+
+    flow.create("registerModels",{
+        begin:function(){
+            this.errs = [];
+            var self = this;
+            models.forEach(function(model){
+                persistence.registerModel(model.modelName,model.dataModel,self.continue("registerDone"));
+            });
+
+        },
+        registerDone:function(err,result){
+            if(err) {
+                this.errs.push(err);
+            }
+        },
+        end:{
+            join:"registerDone",
+            code:function(){
+                if(callback && this.errs.length>0){
+                    callback(this.errs);
+                }else{
+                    callback(null);
+                }
+            }
+        }
+    })();
+}
+
+container.declareDependency("OSPRequestAdapter", ["mysqlPersistence"], function (outOfService, mysqlPersistence) {
     if (!outOfService) {
-        console.log("Enabling persistence...", redisPersistence);
+        persistence = mysqlPersistence;
+        registerModels(function(errs){
+            if(errs){
+                console.error(errs);
+            }
+        })
+
     } else {
         console.log("Disabling persistence...");
     }
 });
 
+
+
 registerNewOSPRequest = function (userId, ospDetailsData, callback) {
     flow.create("register new OSP request", {
         begin: function () {
-            redisPersistence.lookup.async("OspRequest", userId, this.continue("createOSPRequest"));
+            persistence.lookup.async("OspRequest", userId, this.continue("createOSPRequest"));
         },
         createOSPRequest: function (err, ospRequestDetails) {
             if (err) {
                 callback(err, null);
             }
-            else if (!redisPersistence.isFresh(ospRequestDetails)) {
+            else if (!persistence.isFresh(ospRequestDetails)) {
                 callback(new Error("OspAlreadyRegistered"), null);
             }
             else {
-                ospRequestDetails['request_time'] = Date.now();
-                redisPersistence.externalUpdate(ospRequestDetails, ospDetailsData);
-                redisPersistence.saveObject(ospRequestDetails, callback);
+                ospRequestDetails['request_time'] = new Date();
+                persistence.externalUpdate(ospRequestDetails, ospDetailsData);
+                persistence.saveObject(ospRequestDetails, callback);
             }
         }
     })();
@@ -68,7 +107,7 @@ registerNewOSPRequest = function (userId, ospDetailsData, callback) {
 getOSPRequests = function (callback) {
     flow.create("getAllOSPRequests", {
         begin: function () {
-            redisPersistence.filter("OspRequest", {}, callback);
+            persistence.filter("OspRequest", {}, callback);
         }
     })();
 };
@@ -76,7 +115,7 @@ getOSPRequests = function (callback) {
 getOSPRequest = function(userId,callback){
     flow.create("getOspRequestData", {
         begin:function(){
-            redisPersistence.filter("OspRequest", {userId:userId}, callback);
+            persistence.filter("OspRequest", {userId:userId}, callback);
         }
     })();
 };
@@ -88,7 +127,7 @@ removeOSPRequest = function (userId, callback) {
                 callback(new Error("userIdRequired"));
             }
             else {
-                redisPersistence.findById("OspRequest", userId, this.continue("deleteRequest"));
+                persistence.findById("OspRequest", userId, this.continue("deleteRequest"));
             }
         },
 
@@ -97,7 +136,7 @@ removeOSPRequest = function (userId, callback) {
                 callback(new Error("ospRequestNotFound"));
             }
             else{
-                redisPersistence.deleteById("OspRequest", userId, callback);
+                persistence.deleteById("OspRequest", userId, callback);
             }
         }
     })();

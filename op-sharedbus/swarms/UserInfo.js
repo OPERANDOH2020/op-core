@@ -65,6 +65,10 @@ var userInfoSwarming =
         this.newPassword = newPassword;
         this.swarm("changeUserPassword");
     },
+    generateAnAuthenticationToken:function(){
+        this.sessionId = this.getSessionId();
+        this.swarm("generateAuthenticationToken");
+    },
 
     checkUserInfo: {
         node: "UsersManager",
@@ -137,6 +141,7 @@ var userInfoSwarming =
                 else {
                     var newPassword = self['newPassword'];
                     delete self['newPassword'];
+                    self.home("passwordSuccessfullyChanged");
                     startSwarm("emails.js",
                         "sendEmail",
                         "no-reply@"+thisAdapter.config.Core.operandoHost,
@@ -187,6 +192,24 @@ var userInfoSwarming =
                     }))
                 }
             }))
+        }
+    },
+    generateAuthenticationToken:{
+        node:"SessionManager",
+        code:function(){
+            var userId = this.meta.userId;
+            var self = this;
+            generateAuthenticationToken(userId, this.sessionId, S(function(err, authenticationToken){
+                if(err){
+                    self.error = err.message;
+                    self.home("generateAuthenticationTokenFailed");
+                }
+                else{
+                    self.authenticationToken = authenticationToken;
+                    self.home("generateAuthenticationTokenSuccess");
+                }
+
+            }));
         }
     }
 }

@@ -118,7 +118,7 @@ exports.newUserIsValid = function (newUser, callback) {
     flow.create("user is valid", {
         begin: function () {
             if(!newUser.email){
-                callback(new Error("Email is invalid!"));
+                callback(new Error("emailIsInvalid"));
             }
             else if(!newUser.password || newUser.password.length < passwordMinLength){
                 callback(new Error("Password must contain at least "+passwordMinLength+" characters"));
@@ -199,7 +199,7 @@ exports.validateUser = function (email, pass, organisationPretender, callback) {
             else {
                 var user = users[0];
 
-                if (user.organisationId !== organisationPretender) {
+                if (user.organisationId !== organisationPretender && organisationPretender!=="Public") {
                     callback(new Error("accessDenied"));
                 }
                 else {
@@ -209,7 +209,7 @@ exports.validateUser = function (email, pass, organisationPretender, callback) {
                         else if (hashedPassword !== user.password)
                             callback(new Error("invalidCredentials"));
                         else if (user.activationCode !== "0")
-                            callback(new Error("account_not_activated"));
+                            callback(new Error("accountNotActivated"));
                         else
                             callback(null, user.userId);
                     });

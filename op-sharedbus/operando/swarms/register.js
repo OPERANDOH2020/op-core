@@ -107,7 +107,6 @@ var registerSwarming = {
                 userId: this.activatedUserId,
                 sessionId: this.getSessionId()
             };
-
             createOrUpdateSession(sessionData, S(function (error, session) {
                 if (error) {
                     console.log(error);
