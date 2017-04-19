@@ -19,7 +19,8 @@ var notificationSwarming = {
         node:"UsersManager",
         code:function() {
             var self = this;
-            zonesOfUser(this.meta.userId, function (err, zones) {
+            zonesOfUser(this.meta.userId, S(function (err, zones) {
+
                 if (err) {
                     self.err = err.message;
                     self.home('failed');
@@ -29,14 +30,14 @@ var notificationSwarming = {
                     });
                     self.swarm("getUserNotifications");
                 }
-            })
+            }))
         }
     },
     getUserNotifications:{
         node:"NotificationUAM",
         code:function(){
             var self  = this;
-            getNotifications(this.meta.userId,this.zones, S(function(err, notifications){
+            getNotifications(this.meta.userId, this.zones, S(function(err, notifications){
                 if(err){
                     self.err = err.message;
                     console.log(err);
@@ -50,12 +51,8 @@ var notificationSwarming = {
         }
     },
 
-    dismissNotification:function(notificationId, userId){
-        if(!userId){
-            this.userId = this.meta.userId;
-        }else{
-            this.userId = userId;
-        }
+    dismissNotification:function(notificationId){
+        this.userId = this.meta.userId;
         this.notificationId = notificationId;
         this.swarm("dismissUserNotification");
     },
@@ -63,7 +60,7 @@ var notificationSwarming = {
         node:"NotificationUAM",
         code:function(){
             var self  = this;
-            dismissNotification(this.userId,S(function(err){
+            dismissNotification(this.userId, this.notificationId,S(function(err){
                 if(err){
                     self.err = err.message;
                     console.log(err);

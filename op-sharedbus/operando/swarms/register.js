@@ -38,25 +38,10 @@ var registerSwarming = {
                         user['email'],
                         "Activate account",
                         "Your account has been registered \nTo activate it, please access the following link:\n http://" + thisAdapter.config.Core.operandoHost + "/activate/?confirmation_code=" + user.activationCode);
-                    self.swarm("setUserNotifications");
+                    self.swarm("setRealIdentity");
                 }    
             }))
         }
-    },
-
-    setUserNotifications:{
-          node:"NotificationUAM",
-          code:function(){
-              var self = this;
-              generateSignupNotifications(this.user.userId, S(function(err, notifications){
-                  if(err){
-                      console.log(err);
-                      self.error = err.message;
-                      self.home('error');
-                  }
-                  self.swarm("setRealIdentity");
-              }));
-          }
     },
 
     setRealIdentity :{

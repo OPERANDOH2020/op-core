@@ -170,7 +170,7 @@ var loginSwarming = {
         code: function () {
             var self = this;
             registerNewOSPRequest(self.user.userId, this.ospData, S(function(err, ospDetails){
-                self.swarm("setUserNotifications");
+                self.swarm("setRealIdentity");
             }))
 
         }
@@ -419,21 +419,6 @@ var loginSwarming = {
             }));
         }
     },
-    setUserNotifications:{
-        node:"NotificationUAM",
-        code:function(){
-            var self = this;
-            generateSignupNotifications(this.user.userId, S(function(err, notifications){
-                if(err){
-                    console.log(err);
-                    self.error = err.message;
-                    self.home('error');
-                }
-                self.swarm("setRealIdentity");
-            }));
-        }
-    },
-
     setRealIdentity :{
         node:"IdentityManager",
         code:function(){

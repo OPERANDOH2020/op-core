@@ -61,11 +61,8 @@ var emailsSwarming = {
         code:function(){
             var self = this;
 
-            console.log("\n\n\n",self.conversation);
 
             getUserEmail(self.conversation.receiver,S(function(err,email){
-                console.log("\n\n\n",arguments);
-
                 if(err){
                     self.error = err;
                     console.log("User with id "+self.conversation.receiver+" could not be retrieved\n",err);

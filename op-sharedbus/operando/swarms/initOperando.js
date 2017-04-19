@@ -12,6 +12,7 @@ var initOperando = {
     init:function(){
         console.log("Initializing operando");
         this.swarm("createDefaultOrganisations");
+        this.swarm("addDefaultNotificationsInSystem");
     },
     createDefaultOrganisations:{
         node:"UsersManager",
@@ -211,7 +212,7 @@ var initOperando = {
                     "isReal": true,
                     "isDefault": false,
                     "deleted": false
-                })
+                });
 
 
                 var errors=[];
@@ -235,13 +236,27 @@ var initOperando = {
                 });
             }
 
-            createDefaultIdentities(function(errors,results){
+            createDefaultIdentities(function(errors, results){
                 if(errors && errors.length>0){
                     console.log("Could not create admin identities\nErrors:",errors);
                 }else{
                     console.log("The admin identities were created");
                 }
             })
+        }
+    },
+
+    addDefaultNotificationsInSystem:{
+        node:"NotificationUAM",
+        code:function(){
+            generateSignupNotifications(function(err, notifications){
+                if(err){
+                    console.log(err.message);
+                }
+                else{
+                    console.log("Generated ", notifications.length +" default notifications");
+                }
+            });
         }
     }
 };

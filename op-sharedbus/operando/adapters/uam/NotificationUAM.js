@@ -26,18 +26,13 @@ var signupNotifications = {
         title: "Privacy Questionnaire",
         description: "You have not filled all your social network privacy settings yet. Doing so will tailor your social network privacy settings to your preferences. You can also optimize your social network privacy settings in a single click, using settings recommended by PrivacyPlus.",
         action_name:"social-network-privacy",
-        type: "info-notification",
-        category: "privacy-questionnaire",
-        zone:"USER"
-
+        zone:"Extension"
     },
     identity: {
         sender: "WatchDog",
         title: "Add identity",
         description: "You have not yet generated alternative email identities. Doing so will enable you to sign up on websites without disclosing your real email.",
         action_name:"identity",
-        type: "info-notification",
-        category: "identity",
         zone:"Extension"
     },
     deals: {
@@ -45,8 +40,6 @@ var signupNotifications = {
         title: "Privacy deals",
         description: "You have not yet accepted any privacy deals. Privacy deals enable you to trade some of your privacy for valuable benefits.",
         action_name:"privacy-for-benefits",
-        type: "info-notification",
-        category: "deals",
         zone:"Extension"
     }
 };
@@ -200,7 +193,7 @@ updateNotification = function (notificationDump, callback) {
     })();
 };
 
-getNotifications = function (userZone, callback) {
+getNotifications = function (userId, userZones, callback) {
 
     flow.create("Get notifications for user", {
         begin: function () {
@@ -211,6 +204,7 @@ getNotifications = function (userZone, callback) {
         },
 
         gotDismissedNotifications:function(err,dismissedNotifications){
+
             if(err){
                 this.errs.push(err);
             }else{
@@ -219,13 +213,10 @@ getNotifications = function (userZone, callback) {
                     self.isDissmissed[dismissedNotification.notificationId] = true;
                 })
             }
-
-            persistence.filter("Notification", {forUser: userId}, this.continue("gotNotifications"));
-            if(typeof userZones !=='function'){
-                userZones.forEach(function(zone){
-                    persistence.filter("Notification",{forUser:userId},self.continue("gotNotifications"));
-                })
-            }
+            persistence.filter("Notification", {zone: userId}, this.continue("gotNotifications"));
+            userZones.forEach(function(zone){
+                    persistence.filter("Notification",{zone:zone},self.continue("gotNotifications"));
+            })
         },
 
         gotNotifications:function(err,notifications){
@@ -254,7 +245,7 @@ getNotifications = function (userZone, callback) {
     })();
 };
 
-dismissNotification = function(userIdOrZone,notificationId,callback){
+dismissNotification = function(userIdOrZone, notificationId, callback){
     var dismissedNotification = apersistence.createRawObject("DismissedNotifications",uuid.v1());
     dismissedNotification.userId = userIdOrZone;
     dismissedNotification.notificationId = notificationId;
@@ -271,16 +262,31 @@ notifyLoggedUsers = function (notification,callback) {
 }
 
 
-generateSignupNotifications = function (userId, callback) {
+generateSignupNotifications = function (callback) {
     flow.create("createSignupNotifications", {
         begin: function () {
             this.notifications = [];
-            this.next("iterateNotifications");
+            this.next("getNotificationsFromSystem");
+        },
+
+        getNotificationsFromSystem : function(){
+            persistence.filter("Notification", {},this.continue("checkNotificationsFromSystem"));
+        },
+        checkNotificationsFromSystem: function(err, notifications){
+            if(err){
+                console.log(err.message)
+            }
+            else{
+                if(notifications.length === 0){
+                    this.next("iterateNotifications");
+                }
+                else{
+                    this.next("noNotificationCreated");
+                }
+            }
         },
 
         iterateNotifications: function () {
-            //this does not work
-            //Object.keys(signupNotifications).forEach(this.continue("createNotification"));
 
             var self = this;
             Object.keys(signupNotifications).forEach(function(key, index){
@@ -299,20 +305,20 @@ generateSignupNotifications = function (userId, callback) {
                     for (var i in signupNotifications[key]) {
                         notification[i] = signupNotifications[key][i];
                     }
-                    notification.forUser = userId;
                     persistence.save(notification, self.continue("notificationCreated"));
                 }
-
             });
         },
         notificationCreated:function(err, notification){
             console.log(uuid.v1());
             this.notifications.push(notification);
         },
+        noNotificationCreated: function () {
+            callback(undefined,[]);
+        },
         end:{
             join:"notificationCreated",
             code:function(){
-                console.log("Generated ", this.notifications.length, " notifications");
                 callback(null, this.notifications);
             }
         }
@@ -321,19 +327,20 @@ generateSignupNotifications = function (userId, callback) {
 };
 
 clearIdentityNotifications = function(userId){
-    clearNotification(userId,signupNotifications.identity.category);
+    clearNotification(userId,signupNotifications.identity.action_name);
 }
 
 clearDealsNotifications = function(userId){
-    clearNotification(userId,signupNotifications.deals.category);
+    clearNotification(userId,signupNotifications.deals.action_name);
 }
 
 clearSocialNetwork = function(userId){
-    clearNotification(userId,signupNotifications.privacy_questionnaire.category);
+    clearNotification(userId,signupNotifications.privacy_questionnaire.action_name);
 }
 
 
-clearNotification = function(userId, category){
+clearNotification = function(userId, action_name){
+    var self = this;
     flow.create("dismissIdentitiesNotifications", {
 
         begin:function(){
@@ -341,38 +348,23 @@ clearNotification = function(userId, category){
                 console.log(new Error("userId is invalid"));
             }
             else{
-                console.log(userId);
-                console.log(signupNotifications.identity.category);
-                persistence.filter("Notification", {forUser: userId, category:category}, this.continue("dismissNotifications"));
+                persistence.filter("Notification", {action_name: action_name}, this.continue("dismissNotificationsByAction"));
             }
         },
-        dismissNotifications:function(err,notifications){
+        dismissNotificationsByAction:function(err, notifications){
+
             if(err){
                 console.log(err);
             }
             else{
-                var self = this;
                 notifications.forEach(function(notification){
-
-                    var notificationDump = {
-                        notificationId:notification.notificationId,
-                        dismissed:true
-                    }
-                    updateNotification(notificationDump, self.continue("notificationUpdated"));
-                })
-            }
-        },
-
-        notificationUpdated:function(){
-
-        },
-
-        end:{
-            join:"notificationUpdated",
-            code:function(){
-                console.log(category +" notifications dismissed");
+                    self.dismissNotification(userId, notification.notificationId, function(){
+                        console.log("Notification dismissed by action");
+                    });
+                });
             }
         }
+
 
     })();
 };
