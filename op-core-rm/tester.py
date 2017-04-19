@@ -49,7 +49,7 @@ def logdata(requesterId, action, actiontype,affectedUserID=""):
     logdata = {}
     logdata["requesterType"] = "MODULE"
     logdata["userId"] = "001"    
-	logdata["affectedUserId"] = affectedUserID
+    logdata["affectedUserId"] = affectedUserID
     logdata["requesterId"] = requesterId
     logdata["logPriority"] = "LOW"
     logdata["logType"] = "DATA_ACCESS"
@@ -77,9 +77,9 @@ headers = {'service-ticket': ST, "osp-identifier": "YellowPages",
 r = requests.get('http://integration.operando.esilab.org:8102/Users(301)?$format=json', headers=headers)
 # r = requests.get('http://127.0.0.1:8102/Users(301)/MetadatavalueDetails?$format=json&$expand=MetadatafieldregistryDetails', headers=headers)
 
-logdata("Dani", "stamatis says logged by:%s||status:%s" % ("tester", "Allowed"), "Select", 301)
+logdata("Dani", "logged by:%s||status:%s" % ("tester", "Allowed"), "Select", 301)
 					
 
 # r = requests.get('http://127.0.0.1:8102/Users?$format=json', headers=headers)
 # r = requests.get('http://127.0.0.1:8102/Users?$format=json', headers=headers)
-# print r.text
+print r.text
