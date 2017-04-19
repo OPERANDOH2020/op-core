@@ -48,10 +48,11 @@ def GetST(tgt):
 def logdata(requesterId, action, actiontype,affectedUserID=""):
     logdata = {}
     logdata["requesterType"] = "MODULE"
-    logdata["userId"] = "001"
+    logdata["userId"] = "001"    
+	logdata["affectedUserId"] = affectedUserID
     logdata["requesterId"] = requesterId
     logdata["logPriority"] = "LOW"
-    logdata["logDataType"] = "data_access"
+    logdata["logType"] = "DATA_ACCESS"
     logdata["logLevel"] = "INFO"
     logdata["title"] = actiontype
     logdata["description"] = action
@@ -62,9 +63,9 @@ def logdata(requesterId, action, actiontype,affectedUserID=""):
         logmsg = log_resp.text
         msg = json.loads(logmsg)
         if msg["type"].lower() != "ok":
-            print "error logging"
-    except:
-        print "error logging"
+            print "error logging", msg
+    except Exception, e:
+        print "error logging", e
 		
 TGT = Log2CAS("gatekeeper", "gatekeeper")
 ST = GetST(TGT)
@@ -76,8 +77,9 @@ headers = {'service-ticket': ST, "osp-identifier": "YellowPages",
 r = requests.get('http://integration.operando.esilab.org:8102/Users(301)?$format=json', headers=headers)
 # r = requests.get('http://127.0.0.1:8102/Users(301)/MetadatavalueDetails?$format=json&$expand=MetadatafieldregistryDetails', headers=headers)
 
-logdata("RM", "logged by tester","status", "Granted")
+logdata("Dani", "stamatis says logged by:%s||status:%s" % ("tester", "Allowed"), "Select", 301)
+					
 
 # r = requests.get('http://127.0.0.1:8102/Users?$format=json', headers=headers)
 # r = requests.get('http://127.0.0.1:8102/Users?$format=json', headers=headers)
-print r.text
+# print r.text
