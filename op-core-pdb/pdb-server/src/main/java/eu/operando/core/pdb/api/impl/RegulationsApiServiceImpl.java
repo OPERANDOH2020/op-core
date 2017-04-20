@@ -72,7 +72,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
     String logdbBasePath = "http://integration.operando.esilab.org:8090/operando/core/ldb";
     String regLoginName = "xxxxx";
     String regLoginPassword = "xxxxx";
-    String stHeaderName = "Service-Ticket";    
+    String stHeaderName = "Service-Ticket";
     String logdbST = "";
     long ticketLifeTime = 1000L * 60 * 60;
 
@@ -113,7 +113,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
         // get service ticket for logdb service
         logdbST = getServiceTicket(regLoginName, regLoginPassword, logdbSId);
         apiClient.addDefaultHeader(stHeaderName, logdbST);
-        this.logApi = new LogApi(apiClient);        
+        this.logApi = new LogApi(apiClient);
 
         // setup mongo part
         regMongodb = new RegulationsMongo(mongoServerHost, mongoServerPort);
@@ -196,21 +196,24 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
     }
 
     private void logRequest(String requesterId, String title, String description,
-            LogLevelEnum logDataType, LogPriorityEnum logPriority,
+            LogLevelEnum logLevel, LogPriorityEnum logPriority, LogRequest.LogTypeEnum logType,
             ArrayList<String> keywords) {
 
-        ArrayList<String> words = new ArrayList<String>(Arrays.asList("PDB", "Regulations"));
+        ArrayList<String> words = new ArrayList<String>(Arrays.asList("PDB", "UPP"));
         for (String word : keywords) {
             words.add(word);
         }
+
         LogRequest logRequest = new LogRequest();
-        logRequest.setUserId("PDB-Regulations");
+        logRequest.setUserId("PDB-UPP");
+        logRequest.setRequesterType(LogRequest.RequesterTypeEnum.PROCESS);
+
         logRequest.setDescription(description);
-        logRequest.setLogLevel(logDataType);
+        logRequest.setLogLevel(logLevel);
         logRequest.setTitle(title);
         logRequest.setLogPriority(logPriority);
         logRequest.setRequesterId(requesterId);
-        logRequest.setRequesterType(LogRequest.RequesterTypeEnum.PROCESS);
+        logRequest.setLogType(logType);
 
         logRequest.setKeywords(words);
 
@@ -221,6 +224,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
             Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.SEVERE, "failed to log", ex);
         }
     }
+
 
     private boolean aapiTicketsStValidateGet(String st) {
         try {
@@ -266,7 +270,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
 
         logRequest("regulations GET", "GET",
                 "regulations GET received",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogRequest.LogTypeEnum.SYSTEM,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         String regList = regMongodb.getRegulationByFilter(filter);
@@ -274,7 +278,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
         if (regList == null) {
             logRequest("regulations GET", "GET",
                     "regulations GET failed",
-                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogRequest.LogTypeEnum.SYSTEM,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(Response.Status.METHOD_NOT_ALLOWED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -282,7 +286,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
         }
         logRequest("regulations GET", "GET",
                 "regulations GET ok",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogRequest.LogTypeEnum.SYSTEM,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         return Response.ok(regList, MediaType.APPLICATION_JSON).build();
@@ -300,7 +304,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
 
         logRequest("regulations POST", "POST",
                 "regulations POST received",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogRequest.LogTypeEnum.SYSTEM,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         if (regulation.getLegislationSector() == null) {
@@ -311,12 +315,12 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
 
         String regId = regMongodb.storeRegulation(regulation);
         String storedReg = regMongodb.getRegulationById(regId);
-        
+
         if (storedReg == null) {
 
             logRequest("regulations POST", "POST",
                     "regulations POST failed",
-                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogRequest.LogTypeEnum.SYSTEM,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(405).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -325,7 +329,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
 
         logRequest("regulations POST", "POST",
                 "regulations POST ok",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogRequest.LogTypeEnum.SYSTEM,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         Logger.getLogger(RegulationsApiServiceImpl.class.getName()).log(Level.INFO, "regulations POST stored id: {0}", storedReg);
@@ -353,7 +357,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
 
         logRequest("regulations DELETE", "DELETE",
                 "regulations DELETE received",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogRequest.LogTypeEnum.SYSTEM,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         boolean delAction = regMongodb.deleteRegulationById(regId);
@@ -364,7 +368,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
 
             logRequest("regulations DELETE", "DELETE",
                     "regulations DELETE failed",
-                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogRequest.LogTypeEnum.SYSTEM,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -373,7 +377,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
 
         logRequest("regulations DELETE", "DELETE",
                 "regulations DELETE ok",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogRequest.LogTypeEnum.SYSTEM,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         return Response.status(Response.Status.NO_CONTENT).entity(new ApiResponseMessage(ApiResponseMessage.OK,
@@ -393,7 +397,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
 
         logRequest("regulations GET", "GET",
                 "regulations GET received",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogRequest.LogTypeEnum.SYSTEM,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         String prString = regMongodb.getRegulationById(regId);
@@ -402,7 +406,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
 
             logRequest("regulations GET", "GET",
                     "regulations GET failed",
-                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogRequest.LogTypeEnum.SYSTEM,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -411,7 +415,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
 
         logRequest("regulations GET", "GET",
                 "regulations GET ok",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogRequest.LogTypeEnum.SYSTEM,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         return Response.ok(prString, MediaType.APPLICATION_JSON).build();
@@ -430,7 +434,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
 
         logRequest("regulations PUT", "PUT",
                 "regulations PUT received",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogRequest.LogTypeEnum.SYSTEM,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         boolean updateAction = regMongodb.updateRegulation(regId, regulation);
@@ -438,7 +442,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
         if (!updateAction) {
             logRequest("regulations PUT", "PUT",
                     "regulations PUT failed",
-                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogRequest.LogTypeEnum.SYSTEM,
                     new ArrayList<String>(Arrays.asList("one", "two")));
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. No document exists to be updated.")).build();
@@ -446,7 +450,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
 
         logRequest("regulations PUT", "PUT",
                 "regulations PUT ok",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogRequest.LogTypeEnum.SYSTEM,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         return Response.status(Response.Status.NO_CONTENT).entity(new ApiResponseMessage(ApiResponseMessage.OK,
