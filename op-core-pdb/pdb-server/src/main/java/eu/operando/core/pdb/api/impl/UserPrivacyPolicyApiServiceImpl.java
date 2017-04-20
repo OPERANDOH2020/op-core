@@ -46,6 +46,7 @@ import java.util.logging.Logger;
 import javax.ws.rs.core.MediaType;
 import eu.operando.core.cas.client.api.DefaultApi;
 import eu.operando.core.cas.client.model.UserCredential;
+import io.swagger.client.model.LogRequest.LogTypeEnum;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -219,7 +220,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
     }
 
     private void logRequest(String requesterId, String title, String description,
-            LogLevelEnum logDataType, LogPriorityEnum logPriority,
+            LogLevelEnum logLevel, LogPriorityEnum logPriority, LogTypeEnum logType,
             ArrayList<String> keywords) {
 
         ArrayList<String> words = new ArrayList<String>(Arrays.asList("PDB", "UPP"));
@@ -229,12 +230,14 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
 
         LogRequest logRequest = new LogRequest();
         logRequest.setUserId("PDB-UPP");
+        logRequest.setRequesterType(LogRequest.RequesterTypeEnum.PROCESS);
+
         logRequest.setDescription(description);
-        logRequest.setLogLevel(logDataType);
+        logRequest.setLogLevel(logLevel);
         logRequest.setTitle(title);
         logRequest.setLogPriority(logPriority);
         logRequest.setRequesterId(requesterId);
-        logRequest.setRequesterType(LogRequest.RequesterTypeEnum.PROCESS);
+        logRequest.setLogType(logType);
 
         logRequest.setKeywords(words);
 
@@ -259,7 +262,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
 
         logRequest("userPrivacyPolicyGet", "filter: ".concat(filter),
                 "PDB user privacy policy received for ".concat(filter),
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         String getString = uppMongodb.getUPPByFilter(filter);
@@ -268,7 +271,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
 
             logRequest("userPrivacyPolicyGet", "filter: ".concat(filter),
                     "PDB user privacy policy GET failed",
-                    LogLevelEnum.ERROR, LogPriorityEnum.HIGH,
+                    LogLevelEnum.ERROR, LogPriorityEnum.HIGH, LogTypeEnum.NOTIFICATION,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(Response.Status.METHOD_NOT_ALLOWED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -277,7 +280,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
 
         logRequest("userPrivacyPolicyGet", "filter: ".concat(filter),
                 "PDB user privacy policy GET ok",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         return Response.ok(getString, MediaType.APPLICATION_JSON).build();
@@ -294,29 +297,29 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
                     "Error. The service ticket failed to validate.")).build();
         }
 
-        logRequest("userPrivacyPolicyPost", "upp: ".concat(upp.getUserId()),
-                "PDB user privacy policy POST received",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
-                new ArrayList<String>(Arrays.asList("one", "two")));
+        logRequest("UPP POST request: ".concat(upp.getUserId()), "Privacy Settings update requested",
+                "Your privacy settings were updated because of changes you made through the dashboard.",
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.SYSTEM,
+                new ArrayList<String>(Arrays.asList("POST")));
 
         String userId = uppMongodb.storeUPP(upp);
         //String storedUpp = uppMongodb.getUPPById(userId);
 
         if (userId == null) {
 
-            logRequest("userPrivacyPolicyPost", "upp: ".concat(upp.getUserId()),
-                    "PDB user privacy policy POST failed",
-                    LogLevelEnum.ERROR, LogPriorityEnum.HIGH,
-                    new ArrayList<String>(Arrays.asList("one", "two")));
+            logRequest("UPP POST request: ".concat(upp.getUserId()), "Privacy Settings update request",
+                    "Your privacy settings were failed to update.",
+                    LogLevelEnum.ERROR, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
+                    new ArrayList<String>(Arrays.asList("POST")));
 
             return Response.status(Response.Status.METHOD_NOT_ALLOWED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The document (UPP) at this id has previously been created in the database.")).build();
         }
 
-        logRequest("userPrivacyPolicyPost", "upp: ".concat(upp.getUserId()),
-                "PDB user privacy policy POST failed",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
-                new ArrayList<String>(Arrays.asList("one", "two")));
+        logRequest("UPP POST request: ".concat(upp.getUserId()), "Privacy Settings updated",
+                "Your privacy settings were updated because of changes you made through the dashboard.",
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
+                new ArrayList<String>(Arrays.asList("POST")));
 
 //        return Response.status(Response.Status.CREATED).entity(new ApiResponseMessage(ApiResponseMessage.OK,
 //                userId)).build();
@@ -344,7 +347,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
 
         logRequest("userPrivacyPolicyDelete", "userId: ".concat(userId),
                 "PDB user privacy policy DELETE received",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                 new ArrayList<String>(Arrays.asList("delete", "userId")));
 
         boolean delAction = uppMongodb.deleteUPPById(userId);
@@ -353,7 +356,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
 
             logRequest("userPrivacyPolicyDelete", "userId: ".concat(userId),
                     "PDB user privacy policy DELETE failed",
-                    LogLevelEnum.ERROR, LogPriorityEnum.HIGH,
+                    LogLevelEnum.ERROR, LogPriorityEnum.HIGH, LogTypeEnum.NOTIFICATION,
                     new ArrayList<String>(Arrays.asList("delete", "userId")));
 
             System.out.println("cannot delete UPP " + userId);
@@ -363,7 +366,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
 
         logRequest("userPrivacyPolicyDelete", "userId: ".concat(userId),
                 "PDB user privacy policy DELETE ok",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                 new ArrayList<String>(Arrays.asList("delete", "userId")));
 
         return Response.status(Response.Status.NO_CONTENT).entity(new ApiResponseMessage(ApiResponseMessage.OK,
@@ -383,7 +386,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
 
         logRequest("userPrivacyPolicyUserIdGet", "userId: ".concat(userId),
                 "PDB user privacy policy GET received",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         String getString = uppMongodb.getUPPById(userId);
@@ -392,7 +395,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
 
             logRequest("userPrivacyPolicyUserIdGet", "userId: ".concat(userId),
                     "PDB user privacy policy GET failed",
-                    LogLevelEnum.ERROR, LogPriorityEnum.HIGH,
+                    LogLevelEnum.ERROR, LogPriorityEnum.HIGH, LogTypeEnum.NOTIFICATION,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -401,7 +404,7 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
 
         logRequest("userPrivacyPolicyUserIdGet", "userId: ".concat(userId),
                 "PDB user privacy policy GET ok",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         return Response.ok(getString, MediaType.APPLICATION_JSON).build();
@@ -418,27 +421,26 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
                     "Error. The service ticket failed to validate.")).build();
         }
 
-        logRequest("userPrivacyPolicyPut", "userId: ".concat(userId),
-                "PDB user privacy policy PUT received",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
-                new ArrayList<String>(Arrays.asList("one", "two")));
+        logRequest("UPP PUT request: ".concat(upp.getUserId()), "Privacy Settings update requested",
+                "Your privacy settings were updated because of changes you made through the dashboard.",
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.SYSTEM,
+                new ArrayList<String>(Arrays.asList("PUT")));
 
         boolean updateAction = uppMongodb.updateUPP(userId, upp);
 
         if (!updateAction) {
-            logRequest("userPrivacyPolicyPut", "userId: ".concat(userId),
-                    "PDB user privacy policy PUT failed",
-                    LogLevelEnum.ERROR, LogPriorityEnum.HIGH,
-                    new ArrayList<String>(Arrays.asList("one", "two")));
+            logRequest("UPP PUT request: ".concat(upp.getUserId()), "Privacy Settings update request",
+                    "Your privacy settings were failed to update.",
+                    LogLevelEnum.ERROR, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
+                    new ArrayList<String>(Arrays.asList("PUT")));
 
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. No document exists to be updated.")).build();
         }
-
-        logRequest("userPrivacyPolicyPut", "userId: ".concat(userId),
-                "PDB user privacy policy PUT ok",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
-                new ArrayList<String>(Arrays.asList("one", "two")));
+        logRequest("UPP PUT request: ".concat(upp.getUserId()), "Privacy Settings updated",
+                "Your privacy settings were updated because of changes you made through the dashboard.",
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
+                new ArrayList<String>(Arrays.asList("POST")));
 
         return Response.status(Response.Status.NO_CONTENT).entity(new ApiResponseMessage(ApiResponseMessage.OK,
                 "The document (UPP) was successfully updated in the database.")).build();

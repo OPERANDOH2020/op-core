@@ -49,6 +49,8 @@ import javax.ws.rs.core.MediaType;
 import eu.operando.core.cas.client.api.DefaultApi;
 //import eu.operando.core.cas.client.ApiException;
 import eu.operando.core.cas.client.model.UserCredential;
+import io.swagger.client.ApiException;
+import io.swagger.client.model.LogRequest.LogTypeEnum;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -237,7 +239,7 @@ public class OSPApiServiceImpl extends OSPApiService {
     }
 
     private void logRequest(String requesterId, String title, String description,
-            LogLevelEnum logDataType, LogPriorityEnum logPriority,
+            LogLevelEnum logLevel, LogPriorityEnum logPriority, LogRequest.LogTypeEnum logType,
             ArrayList<String> keywords) {
 
         ArrayList<String> words = new ArrayList<String>(Arrays.asList("PDB", "OSP"));
@@ -247,19 +249,21 @@ public class OSPApiServiceImpl extends OSPApiService {
 
         LogRequest logRequest = new LogRequest();
         logRequest.setUserId("PDB-OSP");
+        logRequest.setRequesterType(LogRequest.RequesterTypeEnum.PROCESS);
+
         logRequest.setDescription(description);
-        logRequest.setLogLevel(logDataType);
+        logRequest.setLogLevel(logLevel);
         logRequest.setTitle(title);
         logRequest.setLogPriority(logPriority);
         logRequest.setRequesterId(requesterId);
-        logRequest.setRequesterType(LogRequest.RequesterTypeEnum.PROCESS);
+        logRequest.setLogType(logType);
 
         logRequest.setKeywords(words);
 
         try {
             String response = this.logApi.lodDB(logRequest);
             Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.INFO, response);
-        } catch (io.swagger.client.ApiException ex) {
+        } catch (ApiException ex) {
             Logger.getLogger(UserPrivacyPolicyApiServiceImpl.class.getName()).log(Level.SEVERE, "failed to log", ex);
         }
     }
@@ -276,7 +280,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
         logRequest("PDB OSP", "GET OSP",
                 "OSP GET received",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                 new ArrayList<String>(Arrays.asList("PDB", "OSP", "received")));
 
         String ospString = ospMongodb.getOSPByFilter(filter);
@@ -285,7 +289,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
             logRequest("PDB OSP", "GET OSP",
                     "OSP GET failed",
-                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                     new ArrayList<String>(Arrays.asList("PDB", "OSP", "failed")));
 
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -294,7 +298,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
         logRequest("PDB OSP", "GET OSP",
                 "OSP GET ok",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                 new ArrayList<String>(Arrays.asList("PDB", "OSP", "ok")));
 
         return Response.ok(ospString, MediaType.APPLICATION_JSON).build();
@@ -312,7 +316,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
         logRequest("OSP GET access reasons", "GET",
                 "OSP GET access reasons received",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         String ospString = ospMongodb.getOSPAccessReasonsById(ospId);
@@ -321,7 +325,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
             logRequest("OSP GET access reasons", "GET",
                     "OSP GET access reasons failed",
-                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -330,7 +334,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
         logRequest("OSP GET access reasons", "GET",
                 "OSP GET access reasons complete",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         return Response.ok(ospString, MediaType.APPLICATION_JSON).build();
@@ -347,7 +351,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
         logRequest("OSP DELETE", "DELETE",
                 "OSP DELETE received",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         boolean delAction = ospMongodb.deleteOSPById(ospId);
@@ -358,7 +362,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
             logRequest("OSP DELETE", "DELETE",
                     "OSP DELETE failed",
-                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -367,7 +371,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
         logRequest("OSP DELETE", "DELETE",
                 "OSP DELETE complete",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         return Response.status(Response.Status.NO_CONTENT).entity(new ApiResponseMessage(ApiResponseMessage.OK,
@@ -386,7 +390,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
         logRequest("OSP GET", "GET",
                 "OSP GET received",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         String ospString = ospMongodb.getOSPById(ospId);
@@ -395,7 +399,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
             logRequest("OSP GET", "GET",
                     "OSP GET failed",
-                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(Response.Status.METHOD_NOT_ALLOWED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -404,7 +408,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
         logRequest("OSP GET", "GET",
                 "OSP GET complete",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         return Response.ok(ospString, MediaType.APPLICATION_JSON).build();
@@ -422,7 +426,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
         logRequest("OSP GET", "GET",
                 "OSP GET received",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         String ospString = ospMongodb.getPolicyOSPById(ospId);
@@ -431,7 +435,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
             logRequest("OSP GET", "GET",
                     "OSP GET failed",
-                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -440,7 +444,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
         logRequest("OSP GET", "GET",
                 "OSP GET complete",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         return Response.ok(ospString, MediaType.APPLICATION_JSON).build();
@@ -458,7 +462,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
         logRequest("OSP POST access reasons", "POST",
                 "OSP POST access reasons received",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         boolean ospString = ospMongodb.privacyPolicyAccessReasonsPost(ospId, ospPolicy);
@@ -467,7 +471,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
             logRequest("OSP POST access reasons", "POST",
                     "OSP POST access reasons failed",
-                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(Response.Status.METHOD_NOT_ALLOWED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -476,7 +480,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
         logRequest("OSP POST access reasons", "POST",
                 "OSP POST access reasons complete",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         // TODO: response should be created 201 not 200?
@@ -495,7 +499,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
         logRequest("OSP DELETE access reason", "DELETE",
                 "OSP DELETE access reason received",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         boolean response = ospMongodb.accessReasonIdDelete(ospId, reasonId);
@@ -504,7 +508,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
             logRequest("OSP DELETE access reason", "DELETE",
                     "OSP DELETE access reason failed",
-                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -513,7 +517,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
         logRequest("OSP DELETE access reason", "DELETE",
                 "OSP DELETE access reason complete",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         //return Response.ok("OK", MediaType.APPLICATION_JSON).build();
@@ -532,7 +536,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
         logRequest("OSP PUT access reason", "PUT",
                 "OSP PUT access reason received",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         boolean response = ospMongodb.accessReasonIdUpdate(ospId, reasonId, ospPolicy);
@@ -541,7 +545,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
             logRequest("OSP PUT access reason", "PUT",
                     "OSP PUT access reason failed",
-                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -550,7 +554,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
         logRequest("OSP PUT access reason", "PUT",
                 "OSP PUT access reason complete",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         // TODO return 204
@@ -568,28 +572,28 @@ public class OSPApiServiceImpl extends OSPApiService {
                     "Error. The service ticket failed to validate.")).build();
         }
 
-        logRequest("OSP PUT", "PUT",
-                "OSP PUT received",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
-                new ArrayList<String>(Arrays.asList("one", "two")));
+        logRequest("OSP PUT request: ", ospId + " Privacy Policy change requested",
+                ospId + " requested to change their Privacy Policy.",
+                LogLevelEnum.INFO, LogPriorityEnum.HIGH, LogTypeEnum.SYSTEM,
+                new ArrayList<String>(Arrays.asList("PUT")));
 
         boolean ret = ospMongodb.updateReasonPolicyOSP(ospId, ospPolicy);
 
         if (!ret) {
 
-            logRequest("OSP PUT", "PUT",
-                    "OSP PUT failed",
-                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
-                    new ArrayList<String>(Arrays.asList("one", "two")));
+            logRequest("OSP PUT request: ", ospId + " Privacy Policy change requested",
+                    ospId + " has failed to change their Privacy Policy.",
+                    LogLevelEnum.ERROR, LogPriorityEnum.HIGH, LogTypeEnum.NOTIFICATION,
+                    new ArrayList<String>(Arrays.asList("PUT")));
 
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error - the reason policy does not exist")).build();
         }
-
-        logRequest("OSP PUT", "PUT",
-                "OSP PUT reason policy complete",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
-                new ArrayList<String>(Arrays.asList("one", "two")));
+        
+        logRequest("OSP PUT request: ", ospId + " Privacy Policy change",
+                ospId + " changed their Privacy Policy. Take a look at their Privacy Policy for details.",
+                LogLevelEnum.INFO, LogPriorityEnum.HIGH, LogTypeEnum.NOTIFICATION,
+                new ArrayList<String>(Arrays.asList("PUT")));;
 
         return Response.status(Response.Status.NO_CONTENT).build();
         //return Response.ok("OK", MediaType.APPLICATION_JSON).build();
@@ -607,7 +611,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
         logRequest("OSP PUT", "PUT",
                 "OSP PUT received",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         boolean updateAction = ospMongodb.updateOSP(ospId, ospPolicy);
@@ -616,7 +620,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
             logRequest("OSP PUT", "PUT",
                     "OSP PUT failed",
-                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -625,7 +629,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
         logRequest("OSP PUT", "PUT",
                 "OSP PUT complete",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         return Response.status(Response.Status.NO_CONTENT).entity(new ApiResponseMessage(ApiResponseMessage.OK,
@@ -645,7 +649,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
         logRequest("OSP POST", "POST",
                 "OSP POST received",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         String ospId = ospMongodb.storeOSP(ospPolicy);
@@ -654,7 +658,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
             logRequest("OSP POST", "POST",
                     "OSP POST failed",
-                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                     new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(Response.Status.METHOD_NOT_ALLOWED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
@@ -663,7 +667,7 @@ public class OSPApiServiceImpl extends OSPApiService {
 
         logRequest("OSP POST", "POST",
                 "OSP POST complete",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
 //        return Response.status(Response.Status.CREATED).entity(new ApiResponseMessage(ApiResponseMessage.OK,
