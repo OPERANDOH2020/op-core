@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generato il: Dic 05, 2016 alle 15:11
+-- Generato il: Apr 13, 2017 alle 16:11
 -- Versione del server: 5.1.73
 -- Versione PHP: 5.3.3
 
@@ -50,7 +50,7 @@ INSERT INTO `t_data_aslbergamo_gambling_diseases` (`ID`, `typeofrelateddiseases`
 (4, 'ulcerative-colitis', 0, 0, 1, 3),
 (5, 'ulcerative-colitis', 0, 0, 1, 4),
 (6, 'cirrhosis\r\n', 1, 1, 1, 4),
-(7, 'AIDS\r\n', 1, 1, 1, 4),
+(7, 'AIDS', 1, 1, 1, 4),
 (8, 'AIDS', 0, 0, 1, 6),
 (9, 'Obesity and Overweight', 1, 1, 1, 4),
 (10, 'Obesity and Overweight', 0, 0, 1, 2),

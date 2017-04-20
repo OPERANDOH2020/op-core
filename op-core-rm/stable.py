@@ -32,7 +32,7 @@ __url_pc = config.get('URLs', 'url_pc')
 __aapi_tgt_url = "http://integration.operando.esilab.org:8135/operando/interfaces/aapi/aapi/tickets"
 __aapi_st_url = 'http://integration.operando.esilab.org:8135/operando/interfaces/aapi/aapi/tickets/%s'
 # config.get('URLs', 'URL_LOGDB')
-__URL_LOGDB = "http://ldb.integration.operando.lan.esilab.org:8090/operando/core/ldb/"
+__URL_LOGDB = "http://ldb.integration.operando.esilab.org:8090/operando/core/ldb/log/"
 # config.get('URLs', 'DAN_url')
 __DAN_url = "http://integration.operando.esilab.org:8111/operando/pdr/dan/%s"
 __URL_PC = "http://integration.operando.esilab.org:8095/operando/core/pc/osp_policy_evaluator"
@@ -124,14 +124,15 @@ def ValidateReceivedTicket(tckt, sID):
     return False
 
 
-def logdata(requesterId, action, actiontype):
-    return True
+def logdata(requesterId, action, actiontype,affectedUserID=""):
     logdata = {}
     logdata["requesterType"] = "MODULE"
-    logdata["userId"] = "001"
+    logdata["userId"] = "001"    
+    logdata["affectedUserId"] = affectedUserID
     logdata["requesterId"] = requesterId
     logdata["logPriority"] = "LOW"
-    logdata["logDataType"] = "INFO"
+    logdata["logType"] = "DATA_ACCESS"
+    logdata["logLevel"] = "INFO"
     logdata["title"] = actiontype
     logdata["description"] = action
     logdata["keywords"] = ["query"]
@@ -141,9 +142,9 @@ def logdata(requesterId, action, actiontype):
         logmsg = log_resp.text
         msg = json.loads(logmsg)
         if msg["type"].lower() != "ok":
-            print "error logging"
-    except:
-        print "error logging"
+            print "error logging", msg
+    except Exception, e:
+        print "error logging", e
 
 
 # handle a select query
@@ -203,12 +204,18 @@ def handleSelect(request, addr):
 
                 elif policies["compliance"] == "PREFS_CONFLICT":
                     # there is a conflict in the policies
+		    restrictedFields = []
                     for ev in policies["evaluations"]:
                         if ev["result"] == "false":
                             # find the proper field to strip the data
                             for f in jsonResponse["d"]["results"]:
                                 if f["MetadatafieldregistryDetails"]["Element"] == ev["datafield"]:
-                                    f["TextValue"] = "***STRIPPED***"
+		                    restrictedFields.append(ev["datafield"])
+                                    f["TextValue"] = "***PERMISSION DENIED***"
+			
+		    logdata(req_db, "fieds:%s||status:%s" % (joinSTR(restrictedFields), "Denied"), "Select", userid)
+		    logdata(req_db, "fieds:%s||status:%s" % (joinSTR(list(set(restrictedFields) - set(fields2query))), "Allowed"), "Select", userid)
+		    
                     return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
                 else:
                     return Response(json.dumps({"d": {"error": "unknown"}}), status=400, mimetype='application/json')
@@ -222,10 +229,15 @@ def handleSelect(request, addr):
                     return Response(json.dumps({"error": "Policies restrictions"}), status=200, mimetype='application/json')
                 elif policies["compliance"] == "PREFS_CONFLICT":
                     # there is a conflict in the policies
+		    restrictedFields = []
                     for ev in policies["evaluations"]:
                         if ev["result"] == "false":
-                            jsonResponse[ev["datafield"]] = "***STRIPPED***"
-                    return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
+                            restrictedFields.append(ev["datafield"])
+                            jsonResponse[ev["datafield"]] = "***PERMISSION DENIED***"
+                        
+	    	    logdata(req_db, "fieds:%s||status:%s" % (joinSTR(restrictedFields), "Denied"), "Select", userid)
+                    logdata(req_db, "fieds:%s||status:%s" % (joinSTR(list(set(restrictedFields) - set(fields2query))), "Allowed"), "Select", userid)
+	   	    return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
                 else:
                     return Response(json.dumps({"d": {"error": "unknown"}}), status=400, mimetype='application/json')
         # case we don't know the user id from the oData query, so we need to go
@@ -249,16 +261,22 @@ def handleSelect(request, addr):
                         jsonResponse["d"]["results"][i]={"error":"Policies restrictions"}
                     elif policies["compliance"] == "PREFS_CONFLICT":
                         # there is a conflict in the policies
+			restrictedFields = []
                         for ev in policies["evaluations"]:
                             if ev["result"] == "false":
                                 # find the proper field to strip the data
                                 for j in range(len(jsonResponse["d"]["results"][i]["MetadatavalueDetails"]["results"])):
                                     if jsonResponse["d"]["results"][i]["MetadatavalueDetails"]["results"][j]["MetadatafieldregistryDetails"]["Element"] == ev["datafield"]:
-                                        jsonResponse["d"]["results"][i]["MetadatavalueDetails"]["results"][j]["TextValue"] = "***STRIPPED***"
+			  	        restrictedFields.append(ev["datafield"])
+                                        jsonResponse["d"]["results"][i]["MetadatavalueDetails"]["results"][j]["TextValue"] = "***PERMISSION DENIED***"
 
                     else:
                         jsonResponse["d"]["results"][i]={"error":"uknown"}
-                return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
+                    
+	            logdata(req_db, "fieds:%s||status:%s" % (joinSTR(restrictedFields), "Denied"), "Select", userid)
+                    logdata(req_db, "fieds:%s||status:%s" % (joinSTR(list(set(restrictedFields) - set(fields2query))), "Allowed"), "Select", userid)                  
+                
+		return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
 
             else:
                 rows=jsonResponse["d"]["results"]
@@ -271,12 +289,17 @@ def handleSelect(request, addr):
                         jsonResponse["d"]["results"][i]={"error":"Policies restrictions"}
                     elif policies["compliance"] == "PREFS_CONFLICT":
                         # there is a conflict in the policies
+			restrictedFields = []
                         for ev in policies["evaluations"]:
                             if ev["result"] == "false":
-                                jsonResponse["d"]["results"][i]["datafield"]="***STRIPPED***"
+                                restrictedFields.append(jsonResponse["d"]["results"][i][datafield])							
+                                jsonResponse["d"]["results"][i]["datafield"]="***PERMISSION DENIED***"
                     else:
-                        jsonResponse["d"]["results"][i]={"error":"unknown"}
-
+                        jsonResponse["d"]["results"][i]={"error":"unknown"}				
+                    
+	    	    logdata(req_db, "fieds:%s||status:%s" % (joinSTR(restrictedFields), "Denied"), "Select", jsonResponse["d"]["results"][i]["Iduser"])
+                    logdata(req_db, "fieds:%s||status:%s" % (joinSTR(list(set(restrictedFields) - set(fields2query))), "Allowed"), "Select", jsonResponse["d"]["results"][i]["Iduser"])
+					
                 return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
     else:
         # return json/xml
@@ -313,13 +336,11 @@ def handleInsert(request, addr):
                       data=json.dumps(request.json), verify=False)
     # return Response(r.text, status=200, mimetype='application/json')
     if r.status_code == 200:
-        # ks = json.loads(request.data)
-        # logdata("requesterId", "insert into table %s" % addr,
-                # "fieds:%s||status:%s" % (joinSTR(ks.keys()), "Granted"))
+        ks = json.loads(request.data)
+        logdata("RM", "insert into table %s" % addr,"fieds:%s||status:%s" % (joinSTR(ks.keys()), "Granted"))
         return Response(r.text, status=200, mimetype='application/json')
     else:
-        return Response(r.text,
-                        status=r.status_code, mimetype='application/json')
+		return Response(r.text,status=r.status_code, mimetype='application/json')
 
 
 # this is an update

@@ -52,8 +52,8 @@ public class asl_gat {
      */
     private static final String PDB_URL = "http://integration.operando.esilab.org:8096/operando/core/pdb";
 
-    private static final String PC_URL = "http://integration.operando.esilab.org:8095/operando/core/pc";
-
+//    private static final String PC_URL = "http://integration.operando.esilab.org:8095/operando/core/pc";
+private static final String PC_URL = "http://localhost:8081";
     private static String OSP_ID = null;
 
     /**
@@ -110,7 +110,7 @@ public class asl_gat {
         ClientResponse pcServiceResponse = pcService.type("application/json").post(ClientResponse.class);
         if (pcServiceResponse.getStatus() != 200) {
            System.err.println("Error: the evaluation call produced an error");
-           System.err.println(pcServiceResponse.getStatus() + ":" + pcServiceResponse.getEntity(String.class));
+           return pcServiceResponse.getEntity(String.class);
         }
         return pcServiceResponse.getEntity(String.class);
     }
@@ -205,9 +205,9 @@ public class asl_gat {
          * Upload the OSP policy to the PDB database. Simulate registering
          * of a new OSP policy.
          */
-        OSP_ID = tMethods.ospQuerybyFriendlyName("YellowPages");
+        OSP_ID = tMethods.ospQuerybyFriendlyName("aslbergamo");
         if(OSP_ID == null) {
-            OSP_ID =tMethods.createOSP("yellowpages.json");
+            OSP_ID =tMethods.createOSP("aslbergamo_gat.json");
             if(OSP_ID == null) {
                 System.err.println("Error with aslbergamo_gat on server, exiting ...");
                 System.exit(-1);
@@ -228,7 +228,7 @@ public class asl_gat {
         /**
          * Simulate a user signing up and subscribing to the asl_gat
          */
-        String jsonResponse = computePC("pete2", OSP_ID);
+        String jsonResponse = computePC("pete", OSP_ID);
         System.out.println(jsonResponse);
 
         /**
@@ -239,7 +239,7 @@ public class asl_gat {
         String accessRequest = createRequest();
         System.out.println(accessRequest);
 
-        jsonResponse = evaluatePC("pete2", OSP_ID, accessRequest);
+        jsonResponse = evaluatePC("pete", OSP_ID, accessRequest);
         System.out.println(jsonResponse);
 
         if(!readPolicyReport("status", jsonResponse).equalsIgnoreCase("false")){
@@ -253,7 +253,7 @@ public class asl_gat {
         }
         accessRequest = createRequestTwo();
         System.out.println(accessRequest);
-        jsonResponse = evaluatePC("pete2", OSP_ID, accessRequest);
+        jsonResponse = evaluatePC("pete", OSP_ID, accessRequest);
         System.out.println(jsonResponse);
 
         if(!readPolicyReport("status", jsonResponse).equalsIgnoreCase("true")){
