@@ -184,6 +184,8 @@ def handleSelect(request, addr):
         # check whether we have the IDs in the oData query
         # let's check whether the query has the user id
         uID_split = re.findall('\((.*?)\)', addr)
+        if len(uID_split) == 0:
+			return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
         if len(uID_split) == 1:
             userid = uID_split[0]
             # now we check whether the query returns metadata or not
@@ -391,7 +393,6 @@ def catch_all(path):
 if __name__ == '__main__':
     TGT = Log2CAS()
     ST = GetST()
-    logdata("test", "test", "test")
     # start the service
     app.run(host='0.0.0.0', port=8102, threaded=True, debug=True)
     #app.run(port=8102, threaded=True, debug=True)
