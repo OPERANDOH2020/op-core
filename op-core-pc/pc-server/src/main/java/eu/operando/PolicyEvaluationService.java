@@ -312,8 +312,8 @@ public class PolicyEvaluationService {
                 }
             }
             else{
-//                uppProfile = getUPPviaPDB(userId, pdbURL);
-                uppProfile = getUPPviaMongo(userId);
+                uppProfile = getUPPviaPDB(userId, pdbURL);
+//                uppProfile = getUPPviaMongo(userId);
                 if(uppProfile==null) {
                     rp.setStatus("false");
                     rp.setCompliance("NO_POLICY");
