@@ -132,7 +132,7 @@ public class PolicyEvaluationService {
         UppDB = new HashMap<String, String>();
         Properties props = loadDbProperties();
 
-//        uppMongodb = new UPPMongo(props.getProperty("mongo.server.host"), Integer.parseInt(props.getProperty("mongo.server.port")));
+        uppMongodb = new UPPMongo(props.getProperty("mongo.server.host"), Integer.parseInt(props.getProperty("mongo.server.port")));
         try{
             loadDemoUPP("_demo_user1", "upp1.json");
             loadDemoUPP("_demo_user2", "upp2.json");
