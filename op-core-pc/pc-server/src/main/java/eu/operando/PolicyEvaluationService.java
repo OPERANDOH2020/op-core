@@ -57,6 +57,8 @@ import org.apache.http.util.EntityUtils;
  */
 public class PolicyEvaluationService {
 
+    private static int resourceCounter = 0;
+
     private class EvalStatus {
         public boolean found;
         public boolean permit;
@@ -246,6 +248,7 @@ public class PolicyEvaluationService {
     public PolicyEvaluationReport evaluate(String ospId, String userId, List<OSPDataRequest> ospRequest, String pdbURL) throws NotFoundException {
 
         try {
+            resourceCounter++;
             /**
              * The response to be sent - yes/no along with a report of why something
              * has been denied.
@@ -358,7 +361,9 @@ public class PolicyEvaluationService {
 
             String policyReport = rp.toString();
             System.out.println(policyReport);
-            System.gc();
+            if(resourceCounter%30 == 0) {
+                System.gc();
+            }
             return rp;
         } catch (InvalidPreferenceException | ParseException ex) {
             System.err.println("Evaluation error - " + ex.getMessage());
