@@ -42,8 +42,6 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import net.minidev.json.JSONArray;
 import org.apache.http.HttpEntity;
 import org.apache.http.ParseException;
@@ -200,55 +198,6 @@ public class PolicyEvaluationService {
         return ospRequest;
     }
 
-    private EvalStatus evaluateRequest(String ospId, String uppProfile, OSPDataRequest ospRequestInput)  {
-        try {
-            OSPDataRequest ospRequest = actionCheck(ospRequestInput);
-            ODATAPolicies odata = new ODATAPolicies();
-            String oDataURL = ospRequest.getRequestedUrl();
-            String Category = odata.getElementDataPath(oDataURL);
-
-            JSONArray access_policies = JsonPath.read(uppProfile, "$.subscribed_osp_policies[?(@.osp_id=='"+ospId+"')].access_policies[?(@.resource=='"+ Category +"')]");
-
-            boolean found = false;
-            boolean permit = true;
-            RequestEvaluation rEv = new RequestEvaluation();
-
-            // For each of the access requests in the list
-            for(Object aP: access_policies) {
-                String subject = JsonPath.read(aP, "$.subject");
-                if(subject.equalsIgnoreCase(ospRequest.getSubject())) { // Check the subject
-                    found=true;
-                    if (JsonPath.read(aP, "$.action").toString().equalsIgnoreCase(ospRequest.getAction().name())){ // Check the action
-                        boolean perm = Boolean.parseBoolean(JsonPath.read(aP, "$.permission").toString());
-                        rEv.setDatauser(ospRequest.getSubject());
-                        rEv.setDatafield(oDataURL);
-                        rEv.setAction(ospRequest.getAction().name());
-                        if(!perm) {
-                            permit = false;
-                            rEv.setResult(false);
-                        }
-                        else{
-                            rEv.setResult(true);
-                        }
-                    }
-                    else {
-                        permit = false;
-
-                        rEv.setDatauser(ospRequest.getSubject());
-                        rEv.setDatafield(oDataURL);
-                        rEv.setAction(ospRequestInput.getAction().name());
-                        rEv.setResult(false);
-                    }
-                }
-            }
-            EvalStatus response = new EvalStatus(found, permit, rEv);
-            return response;
-        } catch (InvalidPreferenceException ex) {
-            Logger.getLogger(PolicyEvaluationService.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
-    }
-
     private String getUPPviaPDB(String userId, String pdbURL){
         String uppProfile = null;
         try {
@@ -269,6 +218,9 @@ public class PolicyEvaluationService {
                 return null;
             }
             uppProfile = EntityUtils.toString(entity);
+            httpclient.close();
+            response1.close();
+            httpget.releaseConnection();
 
         } catch (IOException ex) {
             return null;
@@ -406,6 +358,7 @@ public class PolicyEvaluationService {
 
             String policyReport = rp.toString();
             System.out.println(policyReport);
+            System.gc();
             return rp;
         } catch (InvalidPreferenceException | ParseException ex) {
             System.err.println("Evaluation error - " + ex.getMessage());
