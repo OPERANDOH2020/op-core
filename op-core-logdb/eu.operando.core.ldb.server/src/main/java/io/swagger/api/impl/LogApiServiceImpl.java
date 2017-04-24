@@ -113,25 +113,29 @@ public class LogApiServiceImpl extends LogApiService {
 					.build();
 		}
 		MDC.put("title", request.getTitle());
-		if ((request.getDescription() == null) || (request.getDescription() == "")) {
-			return Response.status(400)
-					.entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "description parameter cannot be empty"))
-					.build();
-		}
-		log.info(request.getDescription());
+		
 		if ((request.getLogType() == null) || (request.getLogType().toString() == "")) {
-			MDC.put("logType", "");
+			return Response.status(400)
+					.entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "logType parameter cannot be empty"))
+					.build();
 		}
 		else{
 			MDC.put("logType", request.getLogType());
 		}
 		
 		if ((request.getAffectedUserId() == null) || (request.getAffectedUserId() == "")) {
-			MDC.put("affectedUserId", "");
+			MDC.put("affectedUserId", "no_user");
 		}
 		else{
 			MDC.put("affectedUserId", request.getAffectedUserId());
 		}
+		
+		if ((request.getDescription() == null) || (request.getDescription() == "")) {
+			return Response.status(400)
+					.entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "description parameter cannot be empty"))
+					.build();
+		}
+		log.info(request.getDescription());
 				
 		return Response.ok()
 				.entity(new ApiResponseMessage(ApiResponseMessage.OK, "The log message has been registered!")).build();
