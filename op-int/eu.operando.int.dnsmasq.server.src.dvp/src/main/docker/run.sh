@@ -1,5 +1,6 @@
 #!/bin/bash
 
+echo "$LOCAL_IP integration.operando.dmz.lab.esilab.org" >> /etc/hosts
 echo "$LOCAL_IP integration.operando.lan.esilab.org" >> /etc/hosts
 echo "$LOCAL_IP integration.operando.esilab.org" >> /etc/hosts
 echo "$LOCAL_IP ldb.integration.operando.lan.esilab.org" >> /etc/hosts
@@ -22,8 +23,12 @@ echo "$LOCAL_IP openldap.as.integration.operando.lan.esilab.org" >> /etc/hosts
 echo "$LOCAL_IP openldap.as.integration.operando.esilab.org" >> /etc/hosts
 echo "$LOCAL_IP cas.as.integration.operando.lan.esilab.org" >> /etc/hosts
 echo "$LOCAL_IP cas.as.integration.operando.esilab.org" >> /etc/hosts
+echo "$LOCAL_IP mysql.integration.operando.dmz.lab.esilab.org" >> /etc/hosts
 echo "$LOCAL_IP mysql.integration.operando.lan.esilab.org" >> /etc/hosts
 echo "$LOCAL_IP mysql.integration.operando.esilab.org" >> /etc/hosts
+echo "$LOCAL_IP mongo.integration.operando.dmz.lab.esilab.org" >> /etc/hosts
+echo "$LOCAL_IP mongo.integration.operando.lan.esilab.org" >> /etc/hosts
+echo "$LOCAL_IP mongo.integration.operando.esilab.org" >> /etc/hosts
 echo "$LOCAL_IP phpldapadmin.integration.operando.lan.esilab.org" >> /etc/hosts
 echo "$LOCAL_IP phpldapadmin.integration.operando.esilab.org" >> /etc/hosts
 echo "$LOCAL_IP phpmyadmin.integration.operando.lan.esilab.org" >> /etc/hosts
