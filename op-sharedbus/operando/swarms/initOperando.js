@@ -80,6 +80,7 @@ var initOperando = {
     createDefaultZones:{
         node:"UsersManager",
         code:function(){
+            var self = this;
             function createDefaultZones(callback) {
                 var defaultZones = [
                          "ALL_USERS",
@@ -100,7 +101,7 @@ var initOperando = {
                     } else {
                         createdZones.push(result);
                     }
-                    if (createdZones.length+errors.length === createdZones.length) {
+                    if (createdZones.length+errors.length === defaultZones.length) {
                         if(errors.length>0){
                             callback(errors);
                         }
@@ -115,7 +116,6 @@ var initOperando = {
                     console.log("Could not create the default zone\nErrors:",err,"\nAborting init swarm...")
                 }else{
                     console.log("The default zones were created");
-
                     self.swarm("createDefaultUsers");
                 }
             })
@@ -130,49 +130,41 @@ var initOperando = {
                 var uuid = require('node-uuid');
                 var users = [
                     {
-                        userId: new Buffer(uuid.v1()).toString('base64'),
                         password: "swarm",
                         email: "admin@plusprivacy.com",
                         organisationId: "SystemAdministrators"
                     },
                     {
-                        userId: new Buffer(uuid.v1()).toString('base64'),
                         password: "operando",
                         email: thisAdapter.config.Core.adminEmail,
                         organisationId: "SystemAdministrators"
                     },
                     {
-                        userId: new Buffer(uuid.v1()).toString('base64'),
                         password: "guest",
                         email: "guest@operando.eu",
                         organisationId: "Public"
                     },
                     {
-                        userId: new Buffer(uuid.v1()).toString('base64'),
                         password: "analyst",
                         email: "analyst@rms.ro",
                         organisationId: "Analysts"
                     },
                     {
-                        userId: new Buffer(uuid.v1()).toString('base64'),
                         password: "psp4",
                         email: "psp@rms.ro",
                         organisationId: "PSP"
                     },
                     {
-                        userId: new Buffer(uuid.v1()).toString('base64'),
                         password: "wizard",
                         email: "privacy_wizard@rms.ro",
                         organisationId: "Public"
                     },
                     {
-                        userId:new Buffer(uuid.v1()).toString('base64'),
                         password: "haraka",
                         email: "iAmAnEmailServer@plusprivacy.com",
                         organisationId: "Public"
                     },
                     {
-                        userId:new Buffer(uuid.v1()).toString('base64'),
                         password: "test",
                         email: "test@plusprivacy.com",
                         organisationId: "Public"
@@ -188,6 +180,7 @@ var initOperando = {
                 });
 
                 function usersCallback(err, result) {
+
                     if (err && (err.message.match("already exists")===null)) {
                         errors.push(err)
                     } else {

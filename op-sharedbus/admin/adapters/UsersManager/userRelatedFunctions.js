@@ -39,7 +39,13 @@ exports.createUser = function (userData, callback) {
                     if(err){
                         callback(err)
                     }else{
-                        callback(undefined,user);
+                        exports.addUserToZone(user.userId,"ALL_USERS",function(err,result){
+                            if(err){
+                                callback(err);
+                            }else{
+                                callback(undefined,user);
+                            }
+                        });
                     }
                 })
             });

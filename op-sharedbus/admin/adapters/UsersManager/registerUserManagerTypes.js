@@ -18,7 +18,7 @@ container.declareDependency('userRelatedTypes',['mysqlPersistence'],function(out
                     type: "string",
                     pk: true,
                     index: true,
-                    length:254
+                    length:255
                 },
                 organisationId: {
                     type: "string",
@@ -32,7 +32,7 @@ container.declareDependency('userRelatedTypes',['mysqlPersistence'],function(out
                 email: {
                     type: "string",
                     index:true,
-                    length:254
+                    length:255
                 },
                 is_active: {
                     type: "boolean",
@@ -50,7 +50,7 @@ container.declareDependency('userRelatedTypes',['mysqlPersistence'],function(out
                 activationCode:{
                     type: "string",
                     index:true,
-                    length:254,
+                    length:255,
                     default:"0"
                 }
             }
