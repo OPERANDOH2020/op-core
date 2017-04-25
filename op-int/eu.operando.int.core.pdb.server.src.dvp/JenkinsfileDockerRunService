@@ -130,7 +130,7 @@ node {
                     if (currentVerbose) println ("devopsSourcesLastChangedCommit = " + devopsSourcesLastChangedCommit)
                     if (devopsSourcesLastChangedCommit=="")  {
 	    	    		devopsSourcesDiffPreviousCommit="force"
-	    	    	{
+	    	    	}
 	    	    	else {
 	    	    		try{
 	    	    			devopsSourcesDiffPreviousCommit=sh(returnStdout: true, script: "git -C ${devopsSourcesGitRepoPath} diff HEAD:${devopsSourcesRelativePath} ${devopsSourcesLastChangedCommit}:${devopsSourcesRelativePath}").trim()
