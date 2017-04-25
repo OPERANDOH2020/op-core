@@ -71,6 +71,51 @@ var initOperando = {
                     console.log("Could not create the default organisations\nErrors:",err,"\nAborting init swarm...")
                 }else{
                     console.log("The default organisations were created");
+
+                    self.swarm("createDefaultZones");
+                }
+            })
+        }
+    },
+    createDefaultZones:{
+        node:"UsersManager",
+        code:function(){
+            function createDefaultZones(callback) {
+                var defaultZones = [
+                         "ALL_USERS",
+                         "iOS",
+                         "Android",
+                         "Extension",
+                         "Analysts"
+                ];
+                var createdZones = [];
+                var errors = [];
+                defaultZones.forEach(function (zone) {
+                    createZone(zone, S(zoneCallback));
+                });
+
+                function zoneCallback(err, result) {
+                    if (err && !err.message.match("already exists")) {
+                        errors.push(err)
+                    } else {
+                        createdZones.push(result);
+                    }
+                    if (createdZones.length+errors.length === createdZones.length) {
+                        if(errors.length>0){
+                            callback(errors);
+                        }
+                        else {
+                            callback(undefined,createdZones);
+                        }
+                    }
+                }
+            }
+            createDefaultZones(function(err,result){
+                if(err){
+                    console.log("Could not create the default zone\nErrors:",err,"\nAborting init swarm...")
+                }else{
+                    console.log("The default zones were created");
+
                     self.swarm("createDefaultUsers");
                 }
             })
