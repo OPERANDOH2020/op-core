@@ -163,16 +163,72 @@
         
         {
             "subject": "WebsiteAdmins",
-            "permission": "true",
+            "permission": "True",
             "action": "Access",
             "resource": "personalInfo.patient.name",
             "attributes": [{}]
         },
         {
             "subject": "WebsiteAdmins",
-            "permission": "true",
+            "permission": "True",
+            "action": "Access",
+            "resource": "personalInfo.anthropometric.age",
+            "attributes": [{}]
+        },
+        {
+            "subject": "WebsiteAdmins",
+            "permission": "True",
+            "action": "Access",
+            "resource": "personalInfo.patient.surname",
+            "attributes": [{}]
+        },
+        {
+            "subject": "WebsiteAdmins",
+            "permission": "True",
             "action": "Access",
             "resource": "personalInfo.anthropometric.weight",
+            "attributes": [{}]
+        },
+        {
+            "subject": "WebsiteAdmins",
+            "permission": "True",
+            "action": "Access",
+            "resource": "personalInfo.patient.dateOfBirth",
+            "attributes": [{}]
+        },
+        {
+            "subject": "WebsiteAdmins",
+            "permission": "True",
+            "action": "Access",
+            "resource": "personalInfo.patient.placeOfBirth",
+            "attributes": [{}]
+        },
+        {
+            "subject": "WebsiteAdmins",
+            "permission": "True",
+            "action": "Access",
+            "resource": "contactInfo.patient.email",
+            "attributes": [{}]
+        },
+        {
+            "subject": "WebsiteAdmins",
+            "permission": "True",
+            "action": "Access",
+            "resource": "contactInfo.patient.cellPhoneNumber",
+            "attributes": [{}]
+        },
+        {
+            "subject": "WebsiteAdmins",
+            "permission": "True",
+            "action": "Access",
+            "resource": "contactInfo.patient.cityOfResidence",
+            "attributes": [{}]
+        },
+        {
+            "subject": "WebsiteAdmins",
+            "permission": "True",
+            "action": "Access",
+            "resource": "personalInfo.anthropometric.height",
             "attributes": [{}]
         }
     ]
