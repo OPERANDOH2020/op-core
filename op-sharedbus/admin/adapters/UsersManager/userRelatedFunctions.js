@@ -410,10 +410,32 @@ exports.removeUserFromZone = function(userId,zoneName,callback){
     })()
 };
 
-exports.zonesOfUser = function(userId,callback){
-    flow.create("getZonesOfUsers",{
+exports.zonesOfUser = function(user,callback){
+    filteredMappings({"userId":user},function(err,result){
+        if(err){
+            callback(err);
+        }else{
+            callback(undefined,result.map(function(mapping){
+                return mapping.zone
+            }))
+        }
+    })
+}
+exports.usersInZone = function(zoneName,callback){
+    filteredMappings({zoneName:zoneName},function(err,result){
+        if(err){
+            callback(err);
+        }else{
+            callback(undefined,result.map(function(mapping){
+                return mapping.user
+            }))
+        }
+    })
+}
+function filteredMappings(filter,callback){
+    flow.create("filterMappings",{
         begin:function(){
-            persistence.filter("UserZoneMapping",{"userId":userId},this.continue("loadMappings"))
+            persistence.filter("UserZoneMapping",filter,this.continue("loadMappings"))
         },
         loadMappings:function(err,zoneMappings){
             var self = this;
@@ -421,34 +443,37 @@ exports.zonesOfUser = function(userId,callback){
                 callback(err)
             }else {
                 this.errors = [];
-                this.zones = [];
+                this.mappings = [];
                 zoneMappings.forEach(function(zoneMapping){
-                    zoneMapping.__meta.loadLazyField('zone',self.continue('zoneLoaded'));
+                    zoneMapping.__meta.loadLazyFields(self.continue('fieldsLoaded'));
                 })
             }
         },
-        zoneLoaded:function(err,filledZoneMapping){
+        fieldsLoaded:function(err,filledMapping){
             if(err){
                 this.errors.push(err);
             }else{
-                this.zones.push(filledZoneMapping.zone)
+                this.mappings.push(filledMapping)
             }
         },
-
-
         zonesLoaded:{
-            join:"zoneLoaded",
+            join:"fieldsLoaded",
             code:function(){
+
                 if(this.errors.length>0){
-                    callback(this.errors,this.zones);
+                    callback(this.errors,this.mappings);
                 }else{
-                    callback(undefined,this.zones);
+                    callback(undefined,this.mappings);
                 }
             }
         }
     })()
-};
+}
 
+
+exports.getAllZones = function(callback){
+    persistence.filter('Zone',{},callback)
+}
 
 exports.createZone = function(zoneName,callback){
     flow.create("createZone",{
@@ -473,41 +498,4 @@ exports.createZone = function(zoneName,callback){
 exports.removeZone = function(zoneName,callback){
     persistence.deleteById("Zone",zoneName,callback);
 };
-
-exports.usersInZone = function(zoneName,callback){
-    flow.create("getZonesOfUsers",{
-        begin:function(){
-            persistence.filter("UserZoneMapping",{"zoneName":zoneName},this.continue("loadMappings"))
-        },
-        loadMappings:function(err,zoneMappings){
-            if(err){
-                callback(err)
-            }else {
-                this.errors = [];
-                this.users = [];
-                zoneMappings.forEach(function(zoneMapping){
-                    zoneMapping.__meta.loadLazyField('user',this.continue('userLoaded'));
-                })
-            }
-        },
-        userLoaded:function(err,filledZoneMapping){
-            if(err){
-                this.errors.push(err);
-            }else{
-                this.users.push(filledZoneMapping.user)
-            }
-        },
-        usersLoaded:{
-            join:"userLoaded",
-            code:function(){
-                if(this.errors.length>0){
-                    callback(this.errors,this.users);
-                }else{
-                    callback(undefined,this.users);
-                }
-            }
-        }
-    })()
-};
-
 
