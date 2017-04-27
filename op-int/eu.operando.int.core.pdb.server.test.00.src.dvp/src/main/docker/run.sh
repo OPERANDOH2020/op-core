@@ -4,10 +4,10 @@ echo PDB Endpoint: $PDB_ENDPOINT
 
 all_Successful=0
 
-curl -d @mongo/osp_hospital.json -H "Content-Type:application/json" $PDB_ENDPOINT/OSP
+curl -d @sources/yellowpages.json -H "Content-Type:application/json" $PDB_ENDPOINT/OSP
 if [ $? -eq 0 ]
 then
-  echo "OSP HOSPITAL SUCCESSFULLY LOADED"
+  echo "YELLOWPAGES SUCCESSFULLY LOADED"
 else
   echo "ERROR"
   all_Successful=1

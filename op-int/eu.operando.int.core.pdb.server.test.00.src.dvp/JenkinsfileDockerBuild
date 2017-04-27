@@ -7,8 +7,8 @@ node {
 	//Provided vars
 	def devopsSourcesRelativePath = 'op-int/eu.operando.int.core.pdb.server.test.00.src.dvp'
 	def devopsSourcesRepo = 'https://github.com/OPERANDOH2020/op-core.git'
-	def sourcesRelativePath=null
-	def sourcesRepo=null
+	def sourcesRelativePath='op-core-pc/pc-server/src/main/resources/config'
+	def sourcesRepo=devopsSourcesRepo
 	def dependingTasks=[
 	"",
 	""

@@ -78,6 +78,32 @@
 				</configuration>
 			</plugin>
 			<!-- end of addition -->
+			<!-- Plugin to copy the war into generated folder accessible to the docker 
+				file -->
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.7</version>
+				<executions>
+					<execution>
+						<id>copy-resource-one</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>src/main/docker/sources</outputDirectory>
+							<resources>
+								<resource>
+									<directory>sources</directory>
+									<includes>
+										<include>*.json</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>
