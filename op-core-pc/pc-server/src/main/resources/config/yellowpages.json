@@ -5,7 +5,7 @@
     "workflow": [
     {
         "requester_id": "Dani",
-        "subject": "doctor",
+        "subject": "Doctor",
         "requested_url": "personalInfo.patient.name",
         "action": "Access",
         "attributes": [{}]
@@ -20,70 +20,70 @@
     ],
     "policies": [
         {
-            "subject": "doctor",
+            "subject": "Doctor",
             "permission": "True",
             "action": "Access",
             "resource": "personalInfo.patient.name",
             "attributes": [{}]
         },
         {
-            "subject": "doctor",
+            "subject": "Doctor",
             "permission": "True",
             "action": "Access",
             "resource": "personalInfo.anthropometric.age",
             "attributes": [{}]
         },
         {
-            "subject": "doctor",
+            "subject": "Doctor",
             "permission": "True",
             "action": "Access",
             "resource": "personalInfo.patient.surname",
             "attributes": [{}]
         },
         {
-            "subject": "doctor",
+            "subject": "Doctor",
             "permission": "True",
             "action": "Access",
             "resource": "personalInfo.anthropometric.weight",
             "attributes": [{}]
         },
         {
-            "subject": "doctor",
+            "subject": "Doctor",
             "permission": "True",
             "action": "Access",
             "resource": "personalInfo.patient.dateOfBirth",
             "attributes": [{}]
         },
         {
-            "subject": "doctor",
+            "subject": "Doctor",
             "permission": "True",
             "action": "Access",
             "resource": "personalInfo.patient.placeOfBirth",
             "attributes": [{}]
         },
         {
-            "subject": "doctor",
+            "subject": "Doctor",
             "permission": "True",
             "action": "Access",
             "resource": "contactInfo.patient.email",
             "attributes": [{}]
         },
         {
-            "subject": "doctor",
+            "subject": "Doctor",
             "permission": "True",
             "action": "Access",
             "resource": "contactInfo.patient.cellPhoneNumber",
             "attributes": [{}]
         },
         {
-            "subject": "doctor",
+            "subject": "Doctor",
             "permission": "True",
             "action": "Access",
             "resource": "contactInfo.patient.cityOfResidence",
             "attributes": [{}]
         },
         {
-            "subject": "doctor",
+            "subject": "Doctor",
             "permission": "True",
             "action": "Access",
             "resource": "personalInfo.anthropometric.height",
@@ -91,70 +91,70 @@
         },
         
         {
-            "subject": "receptionist",
+            "subject": "Receptionist",
             "permission": "True",
             "action": "Access",
             "resource": "personalInfo.patient.name",
             "attributes": [{}]
         },
         {
-            "subject": "receptionist",
+            "subject": "Receptionist",
             "permission": "True",
             "action": "Access",
             "resource": "personalInfo.anthropometric.age",
             "attributes": [{}]
         },
         {
-            "subject": "receptionist",
+            "subject": "Receptionist",
             "permission": "True",
             "action": "Access",
             "resource": "personalInfo.patient.surname",
             "attributes": [{}]
         },
         {
-            "subject": "receptionist",
+            "subject": "Receptionist",
             "permission": "True",
             "action": "Access",
             "resource": "personalInfo.anthropometric.weight",
             "attributes": [{}]
         },
         {
-            "subject": "receptionist",
+            "subject": "Receptionist",
             "permission": "True",
             "action": "Access",
             "resource": "personalInfo.patient.dateOfBirth",
             "attributes": [{}]
         },
         {
-            "subject": "receptionist",
+            "subject": "Receptionist",
             "permission": "True",
             "action": "Access",
             "resource": "personalInfo.patient.placeOfBirth",
             "attributes": [{}]
         },
         {
-            "subject": "receptionist",
+            "subject": "Receptionist",
             "permission": "True",
             "action": "Access",
             "resource": "contactInfo.patient.email",
             "attributes": [{}]
         },
         {
-            "subject": "receptionist",
+            "subject": "Receptionist",
             "permission": "True",
             "action": "Access",
             "resource": "contactInfo.patient.cellPhoneNumber",
             "attributes": [{}]
         },
         {
-            "subject": "receptionist",
+            "subject": "Receptionist",
             "permission": "True",
             "action": "Access",
             "resource": "contactInfo.patient.cityOfResidence",
             "attributes": [{}]
         },
         {
-            "subject": "receptionist",
+            "subject": "Receptionist",
             "permission": "True",
             "action": "Access",
             "resource": "personalInfo.anthropometric.height",
