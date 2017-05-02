@@ -124,17 +124,24 @@ def ValidateReceivedTicket(tckt, sID):
     return False
 
 
-def logdata(requesterId, action, actiontype,affectedUserID=""):
+def logdata(requesterId, fields, affectedUserID="", status=""):
     logdata = {}
     logdata["requesterType"] = "MODULE"
     logdata["userId"] = "001"    
     logdata["affectedUserId"] = affectedUserID
     logdata["requesterId"] = requesterId
-    logdata["logPriority"] = "LOW"
+    logdata["logPriority"] = "NORMAL"
     logdata["logType"] = "DATA_ACCESS"
     logdata["logLevel"] = "INFO"
-    logdata["title"] = actiontype
-    logdata["description"] = action
+    print status
+    if status==True and fields != "":
+        logdata["title"] = "Access granted"
+        logdata["description"] = "%s requested access to your %s. The request was granted, because it complied with your privacy settings" % (requesterId, fields)
+    elif status==False and fields != "":
+        logdata["title"] = "Access denied"
+        logdata["description"] = "%s requested access to your %s. The request was denied, because it did not comply with your privacy settings" % (requesterId, fields)
+    else:
+        print "nothing to log"
     logdata["keywords"] = ["query"]
     logdata = json.dumps(logdata)
     try:
@@ -215,8 +222,10 @@ def handleSelect(request, addr):
 		                    restrictedFields.append(ev["datafield"])
                                     f["TextValue"] = "***PERMISSION DENIED***"
 			
-		    logdata(req_db, "fieds:%s||status:%s" % (joinSTR(restrictedFields), "Denied"), "Select", userid)
-		    logdata(req_db, "fieds:%s||status:%s" % (joinSTR(list(set(restrictedFields) - set(fields2query))), "Allowed"), "Select", userid)
+		    logdata(psp_user_identifier, joinSTR(restrictedFields), userid, False)
+                    logdata(psp_user_identifier, joinSTR(list(set(restrictedFields) - set(fields2query))), userid, True)
+                    #logdata(req_db, "fieds:%s||status:%s" % (joinSTR(restrictedFields), "Denied"), "Select", userid)
+		    #logdata(req_db, "fieds:%s||status:%s" % (joinSTR(list(set(restrictedFields) - set(fields2query))), "Allowed"), "Select", userid)
 		    
                     return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
                 else:
@@ -236,9 +245,11 @@ def handleSelect(request, addr):
                         if ev["result"] == "false":
                             restrictedFields.append(ev["datafield"])
                             jsonResponse[ev["datafield"]] = "***PERMISSION DENIED***"
-                        
-	    	    logdata(req_db, "fieds:%s||status:%s" % (joinSTR(restrictedFields), "Denied"), "Select", userid)
-                    logdata(req_db, "fieds:%s||status:%s" % (joinSTR(list(set(restrictedFields) - set(fields2query))), "Allowed"), "Select", userid)
+                     
+                    logdata(req_db, joinSTR(restrictedFields), userid, False)
+                    logdata(req_db, joinSTR(list(set(restrictedFields) - set(fields2query))), userid, True)
+	    	    #logdata(req_db, "fieds:%s||status:%s" % (joinSTR(restrictedFields), "Denied"), "Select", userid)
+                    #logdata(req_db, "fieds:%s||status:%s" % (joinSTR(list(set(restrictedFields) - set(fields2query))), "Allowed"), "Select", userid)
 	   	    return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
                 else:
                     return Response(json.dumps({"d": {"error": "unknown"}}), status=400, mimetype='application/json')
@@ -275,8 +286,11 @@ def handleSelect(request, addr):
                     else:
                         jsonResponse["d"]["results"][i]={"error":"uknown"}
                     
-	            logdata(req_db, "fieds:%s||status:%s" % (joinSTR(restrictedFields), "Denied"), "Select", userid)
-                    logdata(req_db, "fieds:%s||status:%s" % (joinSTR(list(set(restrictedFields) - set(fields2query))), "Allowed"), "Select", userid)                  
+	            logdata(psp_user_identifier, joinSTR(restrictedFields), userid, False)
+                    logdata(psp_user_identifier, joinSTR(list(set(restrictedFields) - set(fields2query))), userid, True)
+                    
+                    #logdata(req_db, "fieds:%s||status:%s" % (joinSTR(restrictedFields), "Denied"), "Select", userid)
+                    #logdata(req_db, "fieds:%s||status:%s" % (joinSTR(list(set(restrictedFields) - set(fields2query))), "Allowed"), "Select", userid)                  
                 
 		return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
 
@@ -299,8 +313,12 @@ def handleSelect(request, addr):
                     else:
                         jsonResponse["d"]["results"][i]={"error":"unknown"}				
                     
-	    	    logdata(req_db, "fieds:%s||status:%s" % (joinSTR(restrictedFields), "Denied"), "Select", jsonResponse["d"]["results"][i]["Iduser"])
-                    logdata(req_db, "fieds:%s||status:%s" % (joinSTR(list(set(restrictedFields) - set(fields2query))), "Allowed"), "Select", jsonResponse["d"]["results"][i]["Iduser"])
+	    	    
+                    logdata(psp_user_identifier, joinSTR(restrictedFields), userid, False)
+                    logdata(psp_user_identifier, joinSTR(list(set(restrictedFields) - set(fields2query))), userid, True)
+                    
+                    #logdata(req_db, "fieds:%s||status:%s" % (joinSTR(restrictedFields), "Denied"), "Select", jsonResponse["d"]["results"][i]["Iduser"])
+                    #logdata(req_db, "fieds:%s||status:%s" % (joinSTR(list(set(restrictedFields) - set(fields2query))), "Allowed"), "Select", jsonResponse["d"]["results"][i]["Iduser"])
 					
                 return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
     else:
@@ -339,7 +357,7 @@ def handleInsert(request, addr):
     # return Response(r.text, status=200, mimetype='application/json')
     if r.status_code == 200:
         ks = json.loads(request.data)
-        logdata("RM", "insert into table %s" % addr,"fieds:%s||status:%s" % (joinSTR(ks.keys()), "Granted"))
+        #logdata("RM", "insert into table %s" % addr,"fieds:%s||status:%s" % (joinSTR(ks.keys()), "Granted"))
         return Response(r.text, status=200, mimetype='application/json')
     else:
 		return Response(r.text,status=r.status_code, mimetype='application/json')
