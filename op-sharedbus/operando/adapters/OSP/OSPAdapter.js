@@ -308,3 +308,44 @@ getAllOffers = function(callback){
 
     })();
 };
+
+websiteHasOffers = function(website,callback){
+    flow.create("getAllOffers",{
+        begin:function(){
+            persistence.filter("OspDetails",{website:website},this.continue("checkAvailableDeals"));
+        },
+        checkAvailableDeals:function(err, ospDetails){
+            if(err){
+                callback(err, null);
+            }
+            else{
+                if(ospDetails.length === 0){
+                    callback(null, {hasOffers: false});
+                }
+                else{
+                    var osp = ospDetails[0];
+                    persistence.filter("OspOffer",{userId:osp.userId},this.continue("checkDate"));
+                }
+            }
+        },
+        checkDate:function(err, offers){
+            if(err){
+                callback(err);
+            }
+            else{
+              var currentDate = new Date();
+              var availableOffers = offers.filter(function(offer){
+                    return (currentDate >= offer['start_date'] && currentDate <= offer['end_date']);
+                });
+                if(availableOffers.length>0){
+                    callback(null, {hasOffers: true, offers: availableOffers});
+                }
+                else{
+                    callback(null, {hasOffers: false});
+                }
+
+            }
+        }
+
+    })();
+}

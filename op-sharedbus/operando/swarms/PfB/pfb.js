@@ -38,7 +38,7 @@ var privacyForBenefits = {
         this.swarm("unsubcribePfBDeal");
     },
 
-    getWebsiteDeal: function (_website, _tabId) {
+    getWebsiteOffer: function (_website, _tabId) {
 
         if (_website.indexOf("://") > -1) {
             this.website = _website.split('/')[2];
@@ -53,37 +53,28 @@ var privacyForBenefits = {
 
         //find & remove port number
         this.website = this.website.split(':')[0];
+        console.log(this.website);
         this.tabId = _tabId;
-        this.swarm("websiteHasDeal");
+        this.swarm("websiteHasOffer");
     },
-    websiteHasDeal: {
-        node: "PrivacyForBenefitsManager",
+    websiteHasOffer: {
+        node: "OSPAdapter",
         code: function () {
-            if (websiteHasPfBDeal(this.website)) {
-                this.swarm("getWebsitePfBDeal");
-            }
-            else {
-                this.home("no_pfb");
-            }
-        }
-    },
-    getWebsitePfBDeal: {
-        node: "PrivacyForBenefitsManager",
-        code: function () {
-            var self = this;
-
-            getPfBDeal(self.meta.userId, self.website, S(function(err, deal){
-
-                if (deal != null) {
-                    self.deal = deal;
-                    self.home("success");
-                } else {
+            websiteHasOffers(this.website, S(function (err, offersData) {
+                if (err) {
+                    console.log(err);
                     self.home("no_pfb");
+                }
+                else if (offersData['hasOffers'] === false) {
+                    self.home("no_pfb");
+                }
+                else {
+                    self.offers = offersData.offers;
+                    self.home("success");
                 }
             }));
         }
     },
-
     listAllPfbDeals: {
         node: "OSPAdapter",
         code:function(){

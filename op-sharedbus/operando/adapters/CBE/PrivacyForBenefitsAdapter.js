@@ -11,71 +11,6 @@
  */
 
 
-var dummyVendors = [
-    {
-        serviceId: 1,
-        website: "9gag.com",
-        benefit: "5 &euro;",
-        identifier: ".btn-connect-option.facebook.badge-facebook-connect",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-        logo:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/9GAG_new_logo.svg/2000px-9GAG_new_logo.svg.png"
-    },
-    {
-        serviceId: 2,
-        website: "nytimes.com",
-        benefit: "2 &euro;",
-        identifier: "#facebook-oauth-button-registration-modal, #facebook-oauth-button-login-modal",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus dolor diam, pharetra vel velit in, finibus mollis purus.",
-        logo:"https://upload.wikimedia.org/wikipedia/commons/4/40/New_York_Times_logo_variation.jpg"
-    },
-    {
-        serviceId: 3,
-        website: "dribbble.com",
-        benefit: "2 &euro;",
-        identifier: ".sign-connections .auth-twitter, .signup-twitter .auth-twitter",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus dolor diam, pharetra vel velit in, finibus mollis purus. Sed luctus mattis porta.",
-        logo:"http://www.userlogos.org/files/logos/jumpordie/dribbble_01.png"
-    },
-    {
-        serviceId: 4,
-        website: "ssl.bbc.com",
-        benefit: "free content",
-        identifier: ".bbcid-facebook-com",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-        logo:"https://upload.wikimedia.org/wikipedia/en/thumb/f/ff/BBC_News.svg/1280px-BBC_News.svg.png"
-    },
-    {
-        serviceId: 5,
-        website: "flightradar24.com",
-        benefit: "free content",
-        identifier: ".fr24-icon-facebook",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-        logo:"https://lh3.googleusercontent.com/P0aVrLO7Wxob0dIBx80m85wUyHFiK3-Xw7Xw_6CDFAogdeoRR0YWnSjkFNOR4M7nIA=w300"
-    },{
-        serviceId: 6,
-        website: "etsy.com",
-        benefit: "free content",
-        identifier: ".google-connect-button",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus dolor diam, pharetra vel velit in, finibus mollis purus. Sed luctus mattis porta. ",
-        logo:"http://www.brandsoftheworld.com/sites/default/files/styles/logo-thumbnail/public/122010/etsy-thumb.png"
-
-    },{
-        serviceId: 7,
-        website: "viagogo.fr",
-        benefit: "Get 20% off your first ticket price!",
-        identifier: "#ExternalLoginForm div button, #ExternalLoginFormNewCustomer div button",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus dolor diam, pharetra vel velit in, finibus mollis purus. ",
-        logo:"http://www.limerickpost.ie/site/wp-content/uploads/viagogo-logo.jpg"
-    },{
-        serviceId: 8,
-        website: "dating.telegraph.co.uk",
-        benefit: "Get first date free",
-        identifier: ".joinBtn.fbJoinButton",
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus dolor diam, pharetra vel velit in, finibus mollis purus. Sed luctus mattis porta. In a massa dignissim, imperdiet eros vitae, facilisis sem.",
-        logo:"http://is.i2.datinglab.net/pics/i2/4/chrome/logo_4.svg"
-    }
-];
-
 var core = require("swarmcore");
 core.createAdapter("PrivacyForBenefitsManager");
 var persistence = undefined;
@@ -159,7 +94,7 @@ container.declareDependency("PrivacyForBenefitsManager", ["mysqlPersistence"], f
 });
 
 
-
+/*
 websiteHasPfBDeal = function (website) {
     for (var i = 0; i < dummyVendors.length; i++) {
         if (dummyVendors[i].website == website) {
@@ -216,7 +151,7 @@ getPfBDeal = function (userId, website, callback) {
 
 };
 
-
+*/
 
 getUserDeals = function (userId, callback) {
     flow.create("get user accepted deals", {
