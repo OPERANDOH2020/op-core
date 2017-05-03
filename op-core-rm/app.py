@@ -221,9 +221,9 @@ def handleSelect(request, addr):
                                 if f["MetadatafieldregistryDetails"]["Element"] == ev["datafield"]:
 		                    restrictedFields.append(ev["datafield"])
                                     f["TextValue"] = "***PERMISSION DENIED***"
-			
+                    #print "4!!!!!!!!#####################################In code %s" %joinSTR(list(set(fields2query) - set(restrictedFields)))
 		    logdata(psp_user_identifier, joinSTR(restrictedFields), userid, False)
-                    logdata(psp_user_identifier, joinSTR(list(set(restrictedFields) - set(fields2query))), userid, True)
+                    logdata(psp_user_identifier, joinSTR(list(set(fields2query) - set(restrictedFields))), userid, True)
                     #logdata(req_db, "fieds:%s||status:%s" % (joinSTR(restrictedFields), "Denied"), "Select", userid)
 		    #logdata(req_db, "fieds:%s||status:%s" % (joinSTR(list(set(restrictedFields) - set(fields2query))), "Allowed"), "Select", userid)
 		    
@@ -245,9 +245,9 @@ def handleSelect(request, addr):
                         if ev["result"] == "false":
                             restrictedFields.append(ev["datafield"])
                             jsonResponse[ev["datafield"]] = "***PERMISSION DENIED***"
-                     
+                    #print "3!!!!!!!!#####################################In code" 
                     logdata(req_db, joinSTR(restrictedFields), userid, False)
-                    logdata(req_db, joinSTR(list(set(restrictedFields) - set(fields2query))), userid, True)
+                    logdata(req_db, joinSTR(list(set(fields2query) - set(restrictedFields))), userid, True)
 	    	    #logdata(req_db, "fieds:%s||status:%s" % (joinSTR(restrictedFields), "Denied"), "Select", userid)
                     #logdata(req_db, "fieds:%s||status:%s" % (joinSTR(list(set(restrictedFields) - set(fields2query))), "Allowed"), "Select", userid)
 	   	    return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
@@ -285,9 +285,10 @@ def handleSelect(request, addr):
 
                     else:
                         jsonResponse["d"]["results"][i]={"error":"uknown"}
-                    
-	            logdata(psp_user_identifier, joinSTR(restrictedFields), userid, False)
-                    logdata(psp_user_identifier, joinSTR(list(set(restrictedFields) - set(fields2query))), userid, True)
+                   
+	            #print "2!!!!!!!!#####################################In code"
+                    logdata(psp_user_identifier, joinSTR(restrictedFields), userid, False)
+                    logdata(psp_user_identifier, joinSTR(list(set(fields2query) - set(restrictedFields))), userid, True)
                     
                     #logdata(req_db, "fieds:%s||status:%s" % (joinSTR(restrictedFields), "Denied"), "Select", userid)
                     #logdata(req_db, "fieds:%s||status:%s" % (joinSTR(list(set(restrictedFields) - set(fields2query))), "Allowed"), "Select", userid)                  
@@ -313,9 +314,9 @@ def handleSelect(request, addr):
                     else:
                         jsonResponse["d"]["results"][i]={"error":"unknown"}				
                     
-	    	    
+	    	    #print "1!!!!!!!!#####################################In code"
                     logdata(psp_user_identifier, joinSTR(restrictedFields), userid, False)
-                    logdata(psp_user_identifier, joinSTR(list(set(restrictedFields) - set(fields2query))), userid, True)
+                    logdata(psp_user_identifier, joinSTR(list(set(fields2query) - set(restrictedFields))), userid, True)
                     
                     #logdata(req_db, "fieds:%s||status:%s" % (joinSTR(restrictedFields), "Denied"), "Select", jsonResponse["d"]["results"][i]["Iduser"])
                     #logdata(req_db, "fieds:%s||status:%s" % (joinSTR(list(set(restrictedFields) - set(fields2query))), "Allowed"), "Select", jsonResponse["d"]["results"][i]["Iduser"])
