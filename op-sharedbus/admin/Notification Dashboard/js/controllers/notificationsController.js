@@ -7,6 +7,7 @@ app.controller('notificationsController', ['$scope','ModalService','swarmService
 
 
         authenticationService.authenticateUser("test@plusprivacy.com", "test", function(){}, function(){},function(){});
+        swarmHub.startSwarm("zones.js","getAllZones");
 
         $scope.sendNotification = function(){
             if($scope.notification.actionType !==undefined){
@@ -42,6 +43,12 @@ app.controller('notificationsController', ['$scope','ModalService','swarmService
             $scope.errorOccured = true;
             console.log("Error "+swarm.err+" occured")
         });
+
+        swarmHub.on("zones.js","gotAllZones",function(swarm){
+            $scope.zones = swarm.zones;
+            $scope.$apply();
+        });
+
     }]);
 
 app.controller('previewNotificationController', ['$scope',"notification","$element",'close', function($scope,notification,$element, close) {

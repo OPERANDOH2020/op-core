@@ -17,11 +17,8 @@
                         <div class="list-group-item">
                             <label>Zone:</label>
                             <select ng-model="notification.zone" required>
-                                <option value="iOS">iOS users</option>
-                                <option value="Android">Android users</option>
-                                <option value="Extension">Extension users</option>
-                                <option value="Analysts">Analysts</option>
-                            </select >
+                                <option ng-repeat="zone in zones" value="{{zone}}">{{zone}}</option>
+                            </select>
                         </div>
                         <div class="list-group-item">
                             <input  placeholder="Description" class="form-control no-border" ng-model="notification.description">
