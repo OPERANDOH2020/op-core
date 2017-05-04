@@ -207,8 +207,8 @@ def handleSelect(request, addr):
                 fields2query = []
                 userid = "-1"
                 for element in usersValue.keys(): 
-                    #if element.lower() == "id": userid = usersValue[element]
-                    if element.lower() == "id": userid = "301"
+                    if element.lower() == "id": userid = usersValue[element]
+                    #if element.lower() == "id": userid = "301"
                     fields2query.append(element)
                     
                 print "#"*20
@@ -246,8 +246,8 @@ def handleSelect(request, addr):
                     fields2query = []
                     userid = "-1"
                     for element in item: 
-                        #if element.lower() == "id": userid = item[element]
-                        if element.lower() == "id": userid = "301"
+                        if element.lower() == "id": userid = item[element]
+                        #if element.lower() == "id": userid = "301"
                         fields2query.append(element)
                     policies = getPCresponse(action="Select", osp=req_db, userid=userid,
                                                      requester_id=req_db, role=requester_Role, urls=fields2query)
