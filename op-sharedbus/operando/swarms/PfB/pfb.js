@@ -10,6 +10,7 @@
  * Initially developed in the context of OPERANDO EU project www.operando.eu
  */
 
+var url=require('url');
 var privacyForBenefits = {
     meta: {
         name: "pfb.js"
@@ -20,7 +21,6 @@ var privacyForBenefits = {
         deals: null,
         dealId: null,
         website: null,
-        tabId: null,
         action: null
     },
 
@@ -38,28 +38,20 @@ var privacyForBenefits = {
         this.swarm("unsubcribePfBDeal");
     },
 
-    getWebsiteOffer: function (_website, _tabId) {
+    getWebsiteOffer: function (_website) {
 
-        if (_website.indexOf("://") > -1) {
-            this.website = _website.split('/')[2];
-        }
-        else {
-            this.website = _website.split('/')[0];
-        }
+        this.website = url.parse(_website).hostname;
 
         if (this.website.indexOf("www.") > -1) {
             this.website = this.website.split('www.')[1];
         }
 
-        //find & remove port number
-        this.website = this.website.split(':')[0];
-        console.log(this.website);
-        this.tabId = _tabId;
         this.swarm("websiteHasOffer");
     },
     websiteHasOffer: {
         node: "OSPAdapter",
         code: function () {
+            var self = this;
             websiteHasOffers(this.website, S(function (err, offersData) {
                 if (err) {
                     console.log(err);

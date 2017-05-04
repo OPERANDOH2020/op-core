@@ -3,6 +3,7 @@ core.createAdapter("OSPRequests");
 var persistence = undefined;
 var container = require("safebox").container;
 var flow = require("callflow");
+var url = require('url');
 
 
 function registerModels(callback){
@@ -97,6 +98,16 @@ registerNewOSPRequest = function (userId, ospDetailsData, callback) {
             }
             else {
                 ospRequestDetails['request_time'] = new Date();
+
+                var protocolPatt = /^http[s]?:\/\//g;
+                if(protocolPatt.test(ospDetailsData['website']) === false){
+                    ospDetailsData['website'] = "http://"+ospDetailsData['website'];
+                }
+                ospDetailsData['website'] = url.parse(ospDetailsData['website']).hostname;
+                if (ospDetailsData['website'].indexOf("www.") > -1) {
+                    ospDetailsData['website'] = ospDetailsData['website'].split('www.')[1];
+                }
+
                 persistence.externalUpdate(ospRequestDetails, ospDetailsData);
                 persistence.saveObject(ospRequestDetails, callback);
             }
