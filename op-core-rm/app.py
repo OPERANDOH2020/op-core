@@ -9,6 +9,8 @@ import requests
 import json
 import ConfigParser
 import re
+import sys
+import requests.auth
 
 # load credentials
 config = ConfigParser.RawConfigParser()
@@ -175,11 +177,12 @@ def handleSelect(request, addr):
     requester_Role = getUserRole(psp_user_identifier)
     params = "?" + request.query_string if request.query_string else ""
     pams = (('$format', 'json'),)
+    
     r = requests.get(__DAN_url % addr + params,
                      headers=headers, verify=False, params=pams)
     # check whether the response is OK
     print "*"*10
-    print "DAN Response:\n%s"%r.text
+    #print "DAN Response:\n%s" %r.text
     if not is_json(r.text):
         return Response(r.text, status=r.status_code, mimetype='application/json')
     else:
@@ -191,77 +194,93 @@ def handleSelect(request, addr):
         # check whether we have the IDs in the oData query
         # let's check whether the query has the user id
         uID_split = re.findall('\((.*?)\)', addr)
-        if len(uID_split) == 0:
-			return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
-        if len(uID_split) == 1:
-            userid = uID_split[0]
-            # now we check whether the query returns metadata or not
-            if "Metadata" in addr:
-                fields = jsonResponse["d"]["results"]
-                # get the returned field names to query PC
-                fields2query = []
-                for f in fields:
-                    fields2query.append(
-                        f["MetadatafieldregistryDetails"]["Element"])
-
-                policies = getPCresponse(action="Select", osp=req_db, userid=userid,
-                                         requester_id=req_db, role=requester_Role, urls=fields2query)
-                if policies["compliance"] == "NO_POLICY":
-                    # there is no policy defined so return the result
-                    # return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
-                    return Response(json.dumps({"d": {"error": "Policies restrictions"}}), status=200, mimetype='application/json')
-
-                elif policies["compliance"] == "PREFS_CONFLICT":
-                    # there is a conflict in the policies
-		    restrictedFields = []
-                    for ev in policies["evaluations"]:
-                        if ev["result"] == "false":
-                            # find the proper field to strip the data
-                            for f in jsonResponse["d"]["results"]:
-                                if f["MetadatafieldregistryDetails"]["Element"] == ev["datafield"]:
-		                    restrictedFields.append(ev["datafield"])
-                                    f["TextValue"] = "***PERMISSION DENIED***"
-                    #print "4!!!!!!!!#####################################In code %s" %joinSTR(list(set(fields2query) - set(restrictedFields)))
-		    logdata(psp_user_identifier, joinSTR(restrictedFields), userid, False)
-                    logdata(psp_user_identifier, joinSTR(list(set(fields2query) - set(restrictedFields))), userid, True)
-                    #logdata(req_db, "fieds:%s||status:%s" % (joinSTR(restrictedFields), "Denied"), "Select", userid)
-		    #logdata(req_db, "fieds:%s||status:%s" % (joinSTR(list(set(restrictedFields) - set(fields2query))), "Allowed"), "Select", userid)
-		    
-                    return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
-                else:
-                    return Response(json.dumps({"d": {"error": "unknown"}}), status=400, mimetype='application/json')
-
+        if  req_db != "YellowPages" and req_db !=  "built-in":
+            # here goes all the logic with the key value json odata response - AMI / FCRC
+            if(req_db=="AMI"):
+                odataType = jsonResponse['odata.metadata']
             else:
-                # no metadata
+                odataType = jsonResponse['@odata.context']
+            
+            if odataType.endswith("entity") or odataType.endswith("Element"):
+                usersValue = jsonResponse
+                counter = 0;
+                fields2query = []
+                userid = "-1"
+                for element in usersValue.keys(): 
+                    #if element.lower() == "id": userid = usersValue[element]
+                    if element.lower() == "id": userid = "301"
+                    fields2query.append(element)
+                    
+                print "#"*20
+                print fields2query
+                print "#"*20
                 policies = getPCresponse(action="Select", osp=req_db, userid=userid,
-                                         requester_id=req_db, role=requester_Role, urls=jsonResponse['d'].keys())
+                                                 requester_id=req_db, role=requester_Role, urls=fields2query)
+                print ("pc polices for userid %s are %s" %(userid, policies))
+                
                 if policies["compliance"] == "NO_POLICY":
-                    # there is no policy defined so return the result
-                    return Response(json.dumps({"error": "Policies restrictions"}), status=200, mimetype='application/json')
-                elif policies["compliance"] == "PREFS_CONFLICT":
-                    # there is a conflict in the policies
-		    restrictedFields = []
-                    for ev in policies["evaluations"]:
-                        if ev["result"] == "false":
-                            restrictedFields.append(ev["datafield"])
-                            jsonResponse[ev["datafield"]] = "***PERMISSION DENIED***"
-                    #print "3!!!!!!!!#####################################In code" 
-                    logdata(req_db, joinSTR(restrictedFields), userid, False)
-                    logdata(req_db, joinSTR(list(set(fields2query) - set(restrictedFields))), userid, True)
-	    	    #logdata(req_db, "fieds:%s||status:%s" % (joinSTR(restrictedFields), "Denied"), "Select", userid)
-                    #logdata(req_db, "fieds:%s||status:%s" % (joinSTR(list(set(restrictedFields) - set(fields2query))), "Allowed"), "Select", userid)
-	   	    return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
+                        # there is no policy defined so return the result
+                        # return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
+                        return Response(json.dumps({"d": {"error": "Policies restrictions"}}), status=200, mimetype='application/json')
+                
                 else:
-                    return Response(json.dumps({"d": {"error": "unknown"}}), status=400, mimetype='application/json')
-        # case we don't know the user id from the oData query, so we need to go
-        # through the results
-        else:
-            # now we check whether the query returns metadata or not
-            if "Metadata" in addr:
-                for i in range(len(jsonResponse["d"]["results"])):
-                    userid=jsonResponse["d"]["results"][i]["Iduser"]
+                    restrictedFields = []
+                    for ev in policies["evaluations"]:
+                        print ev
+                        if ev["result"] == "false":
+
+                            # find the proper field to strip the data
+                            for element in usersValue:
+                                if  element == ev["datafield"]:
+                                    restrictedFields.append(ev["datafield"])
+                                    usersValue[element] = "***PERMISSION DENIED***"
+
+                    logdata(psp_user_identifier, joinSTR(restrictedFields), userid, False)
+                    logdata(psp_user_identifier, joinSTR(list(set(fields2query) - set(restrictedFields))), userid, True)    
+                    return Response(json.dumps(usersValue), status=200, mimetype='application/json')
+            else:
+                usersValue = jsonResponse['value']
+                counter = 0;
+                for item in usersValue: 
+                    #print "I am in item %s\n"%item
+                    fields2query = []
+                    userid = "-1"
+                    for element in item: 
+                        #if element.lower() == "id": userid = item[element]
+                        if element.lower() == "id": userid = "301"
+                        fields2query.append(element)
+                    policies = getPCresponse(action="Select", osp=req_db, userid=userid,
+                                                     requester_id=req_db, role=requester_Role, urls=fields2query)
+                    
+                    if policies["compliance"] == "NO_POLICY":
+                        # there is no policy defined so return the result
+                        # return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
+                        return Response(json.dumps({"d": {"error": "Policies restrictions"}}), status=200, mimetype='application/json')
+                    
+                    else:
+                        restrictedFields = []
+                        for ev in policies["evaluations"]:
+                            print ev
+                            if ev["result"] == "false":
+
+                                # find the proper field to strip the data
+                                for element in item:
+                                    if  element == ev["datafield"]:
+                                        restrictedFields.append(ev["datafield"])
+                                        item[element] = "***PERMISSION DENIED***"
+                        usersValue[counter] = item
+                        counter = counter + 1
+                        logdata(psp_user_identifier, joinSTR(restrictedFields), userid, False)
+                        logdata(psp_user_identifier, joinSTR(list(set(fields2query) - set(restrictedFields))), userid, True)                 
+                    
+            return Response(json.dumps(usersValue), status=200, mimetype='application/json')
+        else: #built-in structure case (and YellowPages)
+            if len(uID_split) == 1:
+                userid = uID_split[0]
+                # now we check whether the query returns metadata or not
+                if "Metadata" in addr:
+                    fields = jsonResponse["d"]["results"]
                     # get the returned field names to query PC
-                    fields = jsonResponse["d"]["results"][i]["MetadatavalueDetails"]["results"]
                     fields2query = []
                     for f in fields:
                         fields2query.append(
@@ -271,57 +290,108 @@ def handleSelect(request, addr):
                                              requester_id=req_db, role=requester_Role, urls=fields2query)
                     if policies["compliance"] == "NO_POLICY":
                         # there is no policy defined so return the result
-                        jsonResponse["d"]["results"][i]={"error":"Policies restrictions"}
+                        # return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
+                        return Response(json.dumps({"d": {"error": "Policies restrictions"}}), status=200, mimetype='application/json')
+
                     elif policies["compliance"] == "PREFS_CONFLICT":
                         # there is a conflict in the policies
-			restrictedFields = []
+                        restrictedFields = []
                         for ev in policies["evaluations"]:
                             if ev["result"] == "false":
                                 # find the proper field to strip the data
-                                for j in range(len(jsonResponse["d"]["results"][i]["MetadatavalueDetails"]["results"])):
-                                    if jsonResponse["d"]["results"][i]["MetadatavalueDetails"]["results"][j]["MetadatafieldregistryDetails"]["Element"] == ev["datafield"]:
-			  	        restrictedFields.append(ev["datafield"])
-                                        jsonResponse["d"]["results"][i]["MetadatavalueDetails"]["results"][j]["TextValue"] = "***PERMISSION DENIED***"
+                                for f in jsonResponse["d"]["results"]:
+                                    if f["MetadatafieldregistryDetails"]["Element"] == ev["datafield"]:
+                                        restrictedFields.append(ev["datafield"])
+                                        f["TextValue"] = "***PERMISSION DENIED***"
+                        logdata(psp_user_identifier, joinSTR(restrictedFields), userid, False)
+                        logdata(psp_user_identifier, joinSTR(list(set(fields2query) - set(restrictedFields))), userid, True)
 
+                        return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
                     else:
-                        jsonResponse["d"]["results"][i]={"error":"uknown"}
-                   
-	            #print "2!!!!!!!!#####################################In code"
-                    logdata(psp_user_identifier, joinSTR(restrictedFields), userid, False)
-                    logdata(psp_user_identifier, joinSTR(list(set(fields2query) - set(restrictedFields))), userid, True)
-                    
-                    #logdata(req_db, "fieds:%s||status:%s" % (joinSTR(restrictedFields), "Denied"), "Select", userid)
-                    #logdata(req_db, "fieds:%s||status:%s" % (joinSTR(list(set(restrictedFields) - set(fields2query))), "Allowed"), "Select", userid)                  
-                
-		return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
+                        return Response(json.dumps({"d": {"error": "unknown"}}), status=400, mimetype='application/json')
 
-            else:
-                rows=jsonResponse["d"]["results"]
-                for i in range(len(rows)):
-
-                    policies = getPCresponse(action="Select", osp=req_db, userid=jsonResponse["d"]["results"][i]["Iduser"],
-                                             requester_id=req_db, role=requester_Role, urls=jsonResponse["d"]["results"][i].keys())
+                else:
+                    # no metadata
+                    policies = getPCresponse(action="Select", osp=req_db, userid=userid,
+                                             requester_id=req_db, role=requester_Role, urls=jsonResponse['d'].keys())
                     if policies["compliance"] == "NO_POLICY":
                         # there is no policy defined so return the result
-                        jsonResponse["d"]["results"][i]={"error":"Policies restrictions"}
+                        return Response(json.dumps({"error": "Policies restrictions"}), status=200, mimetype='application/json')
                     elif policies["compliance"] == "PREFS_CONFLICT":
                         # there is a conflict in the policies
-			restrictedFields = []
+                        restrictedFields = []
                         for ev in policies["evaluations"]:
                             if ev["result"] == "false":
-                                restrictedFields.append(jsonResponse["d"]["results"][i][datafield])							
-                                jsonResponse["d"]["results"][i]["datafield"]="***PERMISSION DENIED***"
+                                restrictedFields.append(ev["datafield"])
+                                jsonResponse[ev["datafield"]] = "***PERMISSION DENIED***"
+
+                        logdata(req_db, joinSTR(restrictedFields), userid, False)
+                        logdata(req_db, joinSTR(list(set(fields2query) - set(restrictedFields))), userid, True)
+
+                        return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
                     else:
-                        jsonResponse["d"]["results"][i]={"error":"unknown"}				
-                    
-	    	    #print "1!!!!!!!!#####################################In code"
-                    logdata(psp_user_identifier, joinSTR(restrictedFields), userid, False)
-                    logdata(psp_user_identifier, joinSTR(list(set(fields2query) - set(restrictedFields))), userid, True)
-                    
-                    #logdata(req_db, "fieds:%s||status:%s" % (joinSTR(restrictedFields), "Denied"), "Select", jsonResponse["d"]["results"][i]["Iduser"])
-                    #logdata(req_db, "fieds:%s||status:%s" % (joinSTR(list(set(restrictedFields) - set(fields2query))), "Allowed"), "Select", jsonResponse["d"]["results"][i]["Iduser"])
-					
-                return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
+                        return Response(json.dumps({"d": {"error": "unknown"}}), status=400, mimetype='application/json')
+            # case we don't know the user id from the oData query, so we need to go
+            # through the results
+            else:
+                # now we check whether the query returns metadata or not
+                if "Metadata" in addr:
+                    for i in range(len(jsonResponse["d"]["results"])):
+                        userid=jsonResponse["d"]["results"][i]["Iduser"]
+                        # get the returned field names to query PC
+                        fields = jsonResponse["d"]["results"][i]["MetadatavalueDetails"]["results"]
+                        fields2query = []
+                        for f in fields:
+                            fields2query.append(
+                                f["MetadatafieldregistryDetails"]["Element"])
+
+                        policies = getPCresponse(action="Select", osp=req_db, userid=userid,
+                                                 requester_id=req_db, role=requester_Role, urls=fields2query)
+                        if policies["compliance"] == "NO_POLICY":
+                            # there is no policy defined so return the result
+                            jsonResponse["d"]["results"][i]={"error":"Policies restrictions"}
+                        elif policies["compliance"] == "PREFS_CONFLICT":
+                            # there is a conflict in the policies
+                            restrictedFields = []
+                            for ev in policies["evaluations"]:
+                                if ev["result"] == "false":
+                                    # find the proper field to strip the data
+                                    for j in range(len(jsonResponse["d"]["results"][i]["MetadatavalueDetails"]["results"])):
+                                        if jsonResponse["d"]["results"][i]["MetadatavalueDetails"]["results"][j]["MetadatafieldregistryDetails"]["Element"] == ev["datafield"]:
+                                            restrictedFields.append(ev["datafield"])
+                                            jsonResponse["d"]["results"][i]["MetadatavalueDetails"]["results"][j]["TextValue"] = "***PERMISSION DENIED***"
+
+                        else:
+                            jsonResponse["d"]["results"][i]={"error":"uknown"}
+
+                        logdata(psp_user_identifier, joinSTR(restrictedFields), userid, False)
+                        logdata(psp_user_identifier, joinSTR(list(set(fields2query) - set(restrictedFields))), userid, True)
+
+                    return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
+
+                else:
+                    rows=jsonResponse["d"]["results"]
+                    for i in range(len(rows)):
+
+                        policies = getPCresponse(action="Select", osp=req_db, userid=jsonResponse["d"]["results"][i]["Iduser"],
+                                                 requester_id=req_db, role=requester_Role, urls=jsonResponse["d"]["results"][i].keys())
+                        if policies["compliance"] == "NO_POLICY":
+                            # there is no policy defined so return the result
+                            jsonResponse["d"]["results"][i]={"error":"Policies restrictions"}
+                        elif policies["compliance"] == "PREFS_CONFLICT":
+                            # there is a conflict in the policies
+                            restrictedFields = []
+                            for ev in policies["evaluations"]:
+                                if ev["result"] == "false":
+                                    restrictedFields.append(jsonResponse["d"]["results"][i][datafield])							
+                                    jsonResponse["d"]["results"][i]["datafield"]="***PERMISSION DENIED***"
+                        else:
+                            jsonResponse["d"]["results"][i]={"error":"unknown"}				
+
+                        logdata(psp_user_identifier, joinSTR(restrictedFields), userid, False)
+                        logdata(psp_user_identifier, joinSTR(list(set(fields2query) - set(restrictedFields))), userid, True)
+
+                    return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
     else:
         # return json/xml
         try:
