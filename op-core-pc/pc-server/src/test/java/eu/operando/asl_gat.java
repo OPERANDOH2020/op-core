@@ -26,17 +26,6 @@
 /////////////////////////////////////////////////////////////////////////
 package eu.operando;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonToken;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import io.swagger.model.OSPDataRequest;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * The PC to PDB integration test, for the user data access workflow. These
  * tests validate that when requests from an OSP to access data are evaluated
@@ -52,143 +41,68 @@ public class asl_gat {
      */
     private static final String PDB_URL = "http://integration.operando.esilab.org:8096/operando/core/pdb";
 
-//    private static final String PC_URL = "http://integration.operando.esilab.org:8095/operando/core/pc";
-private static final String PC_URL = "http://localhost:8081";
-    private static String OSP_ID = null;
+    private static final String PC_URL = "http://integration.operando.esilab.org:8095/operando/core/pc";
+
+    //private static final String PC_URL = "http://localhost:8081";
+
+    private static String OSPID = "aslbergamo";
+
+
+     /**
+     * Access Field Ids.
+     * No hierarchy so we have a flat record of 7 fields. oData done wrong - does
+     * not align with any schema. So just assume PC can cope with out any schema (!)
+     */
+    private static final String GAPATIENT_FIELDIDS[] = {"ID",
+            "datainserimento",
+            "username",
+            "nome",
+            "cognome",
+            "codiceFiscale",
+            "sesso",
+            "dataNascita",
+            "PaeseNascita",
+            "ProvinciaNascita",
+            "comuneNascita",
+            "ProvinciaResidenza",
+            "comuneResidenza",
+            "indirizzoResidenza",
+            "numeroCivico",
+            "cap",
+            "email",
+            "cellulare",
+            "debiti",
+            "debitiDuranteGioco",
+            "usoAlcohol",
+            "usoTabacco",
+            "usoDroghe",
+            "famigliaUsoAlcohol",
+            "famigliaUsoTabacco",
+            "famigliaUsoDroghe"};
+
+    private static final String PAOTHER_FIELDIDS[] = {"ID",
+            "datainserimento",
+            "place",
+            "fasciaGiorna",
+            "tipoPatologi",
+            "alcoholDurante",
+            "tabaccoDurante",
+            "drogaDurante",
+            "etaPrimiDisturbi"};
+
+    private static final String PAPATHOLOGY_FIELDIDS[] = {"ID",
+            "datainserimento",
+            "descrizione"};
+
+
+    private static final String ROLE1 = "Doctor";
+    private static final String ACTION = "SELECT";
 
     /**
      * Constructor for stateful method calls.
      */
     public asl_gat() {
 
-    }
-
-    /**
-     * Read PolicyEvaluation Report Field.
-     */
-    private static String readPolicyReport(String field, String report) {
-
-        try {
-            JsonFactory f = new JsonFactory();
-            JsonParser jp = f.createParser(report);
-            jp.nextToken();
-            while (jp.hasCurrentToken()){
-                if(jp.nextToken() == JsonToken.FIELD_NAME) {
-                    String fieldname = jp.getCurrentName();
-                    if(fieldname.equalsIgnoreCase(field)) {
-                        jp.nextToken();
-                        return jp.getValueAsString();
-                    }
-                }
-            }
-            jp.close();
-            return null;
-        } catch (IOException ex) {
-            return null;
-        }
-    }
-
-    /**
-     * Invoke the PC API to compute the UPP for a user for this new OSP policy.
-     * Called when a user subscribes to a new OSP
-     * @param userId The OperandoID of the user subscribing.
-     * @param ospId The OperandoID of the OSP to subscribe to.
-     * @return The result message string (info from the HTTP call).
-     */
-    private static String computePC(String userId, String ospId) {
-        /**
-         * Create a Jersey client for call the FIESTA APIs.
-         */
-        Client client = Client.create();
-
-        String urlInv = "/osp_policy_computer?user_id=" + userId +"&osp_id=" + ospId;
-        /**
-         * Make a call to the IoT-Service API without credentials and get
-         * and unauthorized response.
-         */
-        WebResource pcService = client.resource(PC_URL + urlInv);
-        ClientResponse pcServiceResponse = pcService.type("application/json").post(ClientResponse.class);
-        if (pcServiceResponse.getStatus() != 200) {
-           System.err.println("Error: the evaluation call produced an error");
-           return pcServiceResponse.getEntity(String.class);
-        }
-        return pcServiceResponse.getEntity(String.class);
-    }
-
-    /**
-     * Invoke the PC API to evaluate a given access request
-     * @param userId The user whose data is being requested.
-     * @param ospId The OSP requesting the data.
-     * @param accessRequest The access to data request (as a json object)
-     * @return The policyEvaluation report
-     */
-    private static String evaluatePC(String userId, String ospId, String accessRequest) {
-        /**
-         * Create a Jersey client for call the FIESTA APIs.
-         */
-        Client client = Client.create();
-
-        String urlInv = "/osp_policy_evaluator?user_id=" + userId +"&osp_id=" + ospId;
-        /**
-         * Make a call to the IoT-Service API without credentials and get
-         * and unauthorized response.
-         */
-        WebResource pcService = client.resource(PC_URL + urlInv);
-
-        ClientResponse pcServiceResponse = pcService.type("application/json").post(ClientResponse.class, accessRequest);
-        if (pcServiceResponse.getStatus() != 200) {
-           System.err.println("Error: the evaluation call produced an error");
-           System.err.println(pcServiceResponse.getStatus() + ":" + pcServiceResponse.getEntity(String.class));
-        }
-        return pcServiceResponse.getEntity(String.class);
-    }
-
-    private static String toJSONRequest(List<OSPDataRequest> request) {
-        String jsonRequest = "[";
-        for(OSPDataRequest dReq: request) {
-            jsonRequest += "{";
-            jsonRequest += "\"requester_id\": \""+ dReq.getRequesterId() + "\", ";
-            jsonRequest += "\"subject\": \""+ dReq.getSubject() + "\", ";
-            jsonRequest += "\"requested_url\": \""+ dReq.getRequestedUrl()+"\", ";
-            jsonRequest += "\"action\": \""+ dReq.getAction().toString() +"\", ";
-            jsonRequest += "\"attributes\": []";
-            jsonRequest += "},";
-        }
-        jsonRequest = jsonRequest.substring(0, jsonRequest.length()-1);
-        jsonRequest += "]";
-        return jsonRequest;
-    }
-
-     /**
-     * Build a request for a doctor at asl to access the debt information
-     *  in the GA_PAtient record.
-     */
-    private static String createRequest() {
-        List<OSPDataRequest> ospRequest = new ArrayList<OSPDataRequest>();
-        OSPDataRequest osD = new OSPDataRequest();
-        osD.setAction(OSPDataRequest.ActionEnum.ACCESS);
-        osD.setRequesterId(OSP_ID);
-        osD.setSubject("doctor");
-        osD.requestedUrl("/GA_Patients/debitiDuranteGioco");
-        ospRequest.add(osD);
-
-        return toJSONRequest(ospRequest);
-    }
-
-    /**
-     * Build a request for a doctor at asl to access
-     * contact info in the GA_Patient record.
-     */
-    private static String createRequestTwo() {
-        List<OSPDataRequest> ospRequest = new ArrayList<OSPDataRequest>();
-        OSPDataRequest osD = new OSPDataRequest();
-        osD.setAction(OSPDataRequest.ActionEnum.ACCESS);
-        osD.setRequesterId(OSP_ID);
-        osD.setSubject("doctor");
-        osD.requestedUrl("/GA_Patients/ProvinciaResidenza");
-        ospRequest.add(osD);
-
-        return toJSONRequest(ospRequest);
     }
 
 
@@ -205,7 +119,7 @@ private static final String PC_URL = "http://localhost:8081";
          * Upload the OSP policy to the PDB database. Simulate registering
          * of a new OSP policy.
          */
-        OSP_ID = tMethods.ospQuerybyFriendlyName("aslbergamo");
+        String OSP_ID = tMethods.ospQuerybyFriendlyName(OSPID);
         if(OSP_ID == null) {
             OSP_ID =tMethods.createOSP("aslbergamo_gat.json");
             if(OSP_ID == null) {
@@ -228,44 +142,24 @@ private static final String PC_URL = "http://localhost:8081";
         /**
          * Simulate a user signing up and subscribing to the asl_gat
          */
-        String jsonResponse = computePC("pete", OSP_ID);
+        String jsonResponse = tMethods.computePC("pete", OSP_ID);
         System.out.println(jsonResponse);
 
-        /**
-         * First call the PC API to evaluate a request to use Pat's data.
-         * Pat has no UPP in the database, therefore assert that the
-         * response is a no user response.
-         */
-        String accessRequest = createRequest();
-        System.out.println(accessRequest);
 
-        jsonResponse = evaluatePC("pete", OSP_ID, accessRequest);
-        System.out.println(jsonResponse);
+        String accessRequest = tMethods.createRequest(GAPATIENT_FIELDIDS, ROLE1, OSPID, ACTION);
+        System.out.println("Receptionist trying to access fields: ");
+        System.out.println("-------------------------------------------------");
+        System.out.println(tMethods.evaluatePC("pete2", OSPID, accessRequest));
+        System.out.println("-------------------------------------------------");
 
-        if(!readPolicyReport("status", jsonResponse).equalsIgnoreCase("false")){
-            System.err.println("Integration test faild: Status must be true");
-            System.exit(-1);
-        }
+        accessRequest = tMethods.createRequest(PAOTHER_FIELDIDS, ROLE1, OSPID, ACTION);
+        System.out.println("WebsiteAdmins trying to access fields: ");
+        System.out.println("-------------------------------------------------");
+        System.out.println(tMethods.evaluatePC("pete2", OSPID, accessRequest));
+        System.out.println("-------------------------------------------------");
 
-        if(!readPolicyReport("compliance", jsonResponse).equalsIgnoreCase("PREFS_CONFLICT")){
-            System.err.println("Integration test failed: Compliance must be VALID");
-            System.exit(-1);
-        }
-        accessRequest = createRequestTwo();
-        System.out.println(accessRequest);
-        jsonResponse = evaluatePC("pete", OSP_ID, accessRequest);
-        System.out.println(jsonResponse);
-
-        if(!readPolicyReport("status", jsonResponse).equalsIgnoreCase("true")){
-            System.err.println("Integration test faild: Status must be true");
-            System.exit(-1);
-        }
-
-        if(!readPolicyReport("compliance", jsonResponse).equalsIgnoreCase("VALID")){
-            System.err.println("Integration test failed: Compliance must be VALID");
-            System.exit(-1);
-        }
-
-        tMethods.deleteOSP(OSP_ID);
+        tMethods.deleteUPP("pete2");
+        tMethods.deleteOSP(OSPID);
     }
+
 }
