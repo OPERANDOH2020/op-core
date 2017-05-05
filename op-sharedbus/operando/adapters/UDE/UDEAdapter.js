@@ -40,7 +40,7 @@ function registerModels(callback){
                     length:255
                 },
                 applications:{
-                    tyoe:"array:DeviceApplicationMapping",
+                    type:"array:DeviceApplicationMapping",
                     relation:"deviceId:deviceId"
                 }
             }
@@ -146,12 +146,14 @@ registerDevice = function(deviceId,userId,callback){
 }
 
 registerNotificationIdentifier = function(deviceId, notificationIdentifier,callback){
-    persistence.lookup("UserDevice",deviceId,function (err,result) {
+    persistence.findById("UserDevice",deviceId,function (err,result) {
         if(err){
             callback(err)
-        }else{
-            result.notificationIdentifier = notificationIdentifier;
-            persistence.save(result,callback);
+        }else if(result === null) {
+            callback(new Error("No device with id "+deviceId))
+        } else{
+            result[0].notificationIdentifier = notificationIdentifier;
+            persistence.save(result[0],callback);
         }
     })
 }
@@ -182,4 +184,8 @@ registerApplicationInDevice = function(applicationId,deviceId,callback){
             persistence.save(newMapping,callback);
         }
     })
+}
+
+getFilteredDevices = function(filter,callback){
+    persistence.filter("UserDevice",filter,callback);
 }
