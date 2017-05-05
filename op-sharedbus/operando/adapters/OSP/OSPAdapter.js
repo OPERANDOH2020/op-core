@@ -310,7 +310,7 @@ getAllOffers = function(callback){
 };
 
 websiteHasOffers = function(website,callback){
-    flow.create("getAllOffers",{
+    flow.create("getWebsiteOffers",{
         begin:function(){
             persistence.filter("OspDetails",{website:website},this.continue("checkAvailableDeals"));
         },
@@ -333,6 +333,7 @@ websiteHasOffers = function(website,callback){
                 callback(err);
             }
             else{
+
               var currentDate = new Date();
               var availableOffers = offers.filter(function(offer){
                     return (currentDate >= offer['start_date'] && currentDate <= offer['end_date']);
