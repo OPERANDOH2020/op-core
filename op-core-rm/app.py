@@ -182,7 +182,7 @@ def handleSelect(request, addr):
                      headers=headers, verify=False, params=pams)
     # check whether the response is OK
     print "*"*10
-    #print "DAN Response:\n%s" %r.text
+    print "DAN Response:\n%s" %r.text
     if not is_json(r.text):
         return Response(r.text, status=r.status_code, mimetype='application/json')
     else:
@@ -241,6 +241,7 @@ def handleSelect(request, addr):
             else:
                 usersValue = jsonResponse['value']
                 counter = 0;
+                #item is eg the User object
                 for item in usersValue: 
                     #print "I am in item %s\n"%item
                     fields2query = []
@@ -277,11 +278,11 @@ def handleSelect(request, addr):
         else: #built-in structure case (and YellowPages)
             if len(uID_split) == 1:
                 userid = uID_split[0]
+                fields2query = []
                 # now we check whether the query returns metadata or not
                 if "Metadata" in addr:
                     fields = jsonResponse["d"]["results"]
                     # get the returned field names to query PC
-                    fields2query = []
                     for f in fields:
                         fields2query.append(
                             f["MetadatafieldregistryDetails"]["Element"])
@@ -311,6 +312,7 @@ def handleSelect(request, addr):
                         return Response(json.dumps({"d": {"error": "unknown"}}), status=400, mimetype='application/json')
 
                 else:
+                    restrictedFields = []
                     # no metadata
                     policies = getPCresponse(action="Select", osp=req_db, userid=userid,
                                              requester_id=req_db, role=requester_Role, urls=jsonResponse['d'].keys())
@@ -319,7 +321,7 @@ def handleSelect(request, addr):
                         return Response(json.dumps({"error": "Policies restrictions"}), status=200, mimetype='application/json')
                     elif policies["compliance"] == "PREFS_CONFLICT":
                         # there is a conflict in the policies
-                        restrictedFields = []
+                        
                         for ev in policies["evaluations"]:
                             if ev["result"] == "false":
                                 restrictedFields.append(ev["datafield"])
@@ -371,8 +373,9 @@ def handleSelect(request, addr):
 
                 else:
                     rows=jsonResponse["d"]["results"]
+                    fields2query = []
                     for i in range(len(rows)):
-
+                        userid=jsonResponse["d"]["results"][i]["Iduser"]
                         policies = getPCresponse(action="Select", osp=req_db, userid=jsonResponse["d"]["results"][i]["Iduser"],
                                                  requester_id=req_db, role=requester_Role, urls=jsonResponse["d"]["results"][i].keys())
                         if policies["compliance"] == "NO_POLICY":
@@ -383,7 +386,7 @@ def handleSelect(request, addr):
                             restrictedFields = []
                             for ev in policies["evaluations"]:
                                 if ev["result"] == "false":
-                                    restrictedFields.append(jsonResponse["d"]["results"][i][datafield])							
+                                    restrictedFields.append(ev["datafield"])					
                                     jsonResponse["d"]["results"][i]["datafield"]="***PERMISSION DENIED***"
                         else:
                             jsonResponse["d"]["results"][i]={"error":"unknown"}				
