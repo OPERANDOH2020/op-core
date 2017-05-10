@@ -39,7 +39,22 @@ var signupNotifications = {
         description: "You have not yet accepted any privacy deals. Privacy deals enable you to trade some of your privacy for valuable benefits.",
         action_name:"privacy-for-benefits",
         zone:"ALL_USERS"
+    },
+    private_browsing_ios: {
+        sender: "WatchDog",
+        title: "PrivateBrowsing",
+        description: "Check the new feature: private browsing for iOS",
+        action_name:"private_browsing",
+        zone:"iOS"
+    },
+    private_browsing_android: {
+        sender: "WatchDog",
+        title: "PrivateBrowsing",
+        description: "Check the new feature: private browsing for Android",
+        action_name:"private_browsing",
+        zone:"Android"
     }
+
 };
 
 
@@ -154,7 +169,7 @@ container.declareDependency("NotificationUAMAdapter", ["mysqlPersistence"], func
 
 createNotification = function (rawNotificationData, callback) {
     var notification = apersistence.createRawObject('Notification',uuid.v1());
-    rawNotificationData.expirationDate = new Date(rawNotificationData.expirationDate)
+    rawNotificationData.expirationDate = new Date(rawNotificationData.expirationDate);
     persistence.externalUpdate(notification,rawNotificationData);
     notification.creationDate = new Date();
     persistence.save(notification, callback);
