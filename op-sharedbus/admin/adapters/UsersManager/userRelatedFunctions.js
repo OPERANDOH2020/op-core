@@ -189,8 +189,6 @@ exports.getUserInfo = function (userId, callback) {
 };
 
 exports.validateUser = function (email, pass, organisationPretender, callback) {
-
-
     flow.create("Validate Password", {
         begin: function () {
             persistence.filter("DefaultUser", {email: email}, this.continue("validatePassword"));
@@ -441,25 +439,27 @@ function filteredMappings(filter,callback){
             var self = this;
             if(err){
                 callback(err)
-            }else {
+            }else if(zoneMappings.length === 0) {
+                callback(undefined,[])
+            }
+            else{
                 this.errors = [];
                 this.mappings = [];
-                zoneMappings.forEach(function(zoneMapping){
-                    zoneMapping.__meta.loadLazyFields(self.continue('fieldsLoaded'));
+                zoneMappings.forEach(function (zoneMapping) {
+                    zoneMapping.__meta.loadLazyFields(self.continue('fieldLoaded'));
                 })
             }
         },
-        fieldsLoaded:function(err,filledMapping){
+        fieldLoaded:function(err,filledMapping){
             if(err){
                 this.errors.push(err);
             }else{
                 this.mappings.push(filledMapping)
             }
         },
-        zonesLoaded:{
-            join:"fieldsLoaded",
+        fieldsLoaded:{
+            join:"fieldLoaded",
             code:function(){
-
                 if(this.errors.length>0){
                     callback(this.errors,this.mappings);
                 }else{

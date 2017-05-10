@@ -18,7 +18,6 @@ var  container = require("safebox").container;
 var flow = require("callflow");
 var uuid = require('uuid');
 var apersistence = require('apersistence');
-
 var signupNotifications = {
 
     privacy_questionnaire: {
@@ -59,6 +58,8 @@ var signupNotifications = {
 
 };
 
+
+
 function registerModels(callback){
 
     var models = [
@@ -78,7 +79,7 @@ function registerModels(callback){
             zone:{
                 type: "string",
                 index: true,
-                length:255 // hardcoded for operando
+                length:255
             },
             action_argument:{
                 type:"string",
@@ -271,12 +272,6 @@ filterNotifications = function(filter,callback){
     persistence.filter("Notification",filter,callback);
 }
 
-notifyLoggedUsers = function (notification,callback) {
-    console.log("[*] NOTIFY LOGGED USERS NOT IMPLEMENTED YET");
-    process.nextTick(callback)
-}
-
-
 generateSignupNotifications = function (callback) {
     flow.create("createSignupNotifications", {
         begin: function () {
@@ -353,7 +348,6 @@ clearSocialNetwork = function(userId){
     clearNotification(userId,signupNotifications.privacy_questionnaire.action_name);
 }
 
-
 clearNotification = function(userId, action_name){
     var self = this;
     flow.create("dismissIdentitiesNotifications", {
@@ -383,3 +377,16 @@ clearNotification = function(userId, action_name){
 
     })();
 };
+
+
+var admin = require("firebase-admin");
+var serviceAccount = require("./plusPrivacyFirebaseCredentials.json");
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://plusprivacy-ef5ac.firebaseio.com"
+});
+
+notifyUsers = function (receivers,notification,callback) {
+     admin.messaging().sendToDevice(receivers, notification)
+     .then(callback)
+}
