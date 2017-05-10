@@ -15,12 +15,11 @@ var notificationSwarming = {
     getNotifications: function () {
         this.swarm("getUserZones");
     },
-    getUserZones:{
-        node:"UsersManager",
-        code:function() {
+    getUserZones: {
+        node: "UsersManager",
+        code: function () {
             var self = this;
             zonesOfUser(this.meta.userId, S(function (err, zones) {
-
                 if (err) {
                     self.err = err.message;
                     self.home('failed');
@@ -33,17 +32,17 @@ var notificationSwarming = {
             }))
         }
     },
-    getUserNotifications:{
-        node:"NotificationUAM",
-        code:function(){
-            var self  = this;
-            getNotifications(this.meta.userId, this.zones, S(function(err, notifications){
-                if(err){
+    getUserNotifications: {
+        node: "NotificationUAM",
+        code: function () {
+            var self = this;
+            getNotifications(this.meta.userId, this.zones, S(function (err, notifications) {
+                if (err) {
                     self.err = err.message;
                     console.log(err);
                     self.home('failed');
                 }
-                else{
+                else {
                     self.notifications = notifications;
                     self.home("gotNotifications");
                 }
@@ -51,48 +50,89 @@ var notificationSwarming = {
         }
     },
 
-    dismissNotification:function(notificationId){
+    dismissNotification: function (notificationId) {
         this.userId = this.meta.userId;
         this.notificationId = notificationId;
         this.swarm("dismissUserNotification");
     },
-    dismissUserNotification:{
-        node:"NotificationUAM",
-        code:function(){
-            var self  = this;
-            dismissNotification(this.userId, this.notificationId,S(function(err){
-                if(err){
+    dismissUserNotification: {
+        node: "NotificationUAM",
+        code: function () {
+            var self = this;
+            dismissNotification(this.userId, this.notificationId, S(function (err) {
+                if (err) {
                     self.err = err.message;
                     console.log(err);
                     self.home('failed');
                 }
-                else{
+                else {
                     self.home("notificationDismissed");
                 }
             }));
         }
     },
 
-    sendNotification:function(notification){
+    sendNotification: function (notification) {
         this.notification = notification;
-        this.swarm("send")
+        this.swarm("getReceivers")
     },
-    send:{
-        node:"NotificationUAM",
-        code:function(){
+    getReceivers: {
+        node: "UsersManager",
+        code: function () {
+            var self = this;
+            usersInZone(this.notification.zone, S(function (err, users) {
+                if (err) {
+                    self.err = err.message;
+                    self.home('failed');
+                } else {
+                    self.users = users.map(function (user) {
+                        return user.userId;
+                    });
+
+                    self.swarm("getUserDevices");
+                }
+            }))
+        }
+    },
+    getUserDevices: {
+        node: "UDEAdapter",
+        code: function () {
+            var self = this;
+            getFilteredDevices({"userId": self.users}, function (err, devices) {
+                if (err) {
+                    self.err = err.message;
+                    self.home('failed')
+                } else {
+                    delete self.users; // so we don't have to move this object anymore
+                    self.devices = devices.map(function (device) {
+                        return device.notificationIdentifier
+                                        }).filter(function(notificationIdentifier){
+                        return notificationIdentifier!=-1
+                                        })
+                    self.swarm('send')
+                }
+            })
+
+        }
+    },
+    send: {
+        node: "NotificationUAM",
+        code: function () {
             var self = this;
             self.notification.sender = this.meta.userId;
 
-            createNotification(self.notification,function(err,notification){
-                if(err){
+            createNotification(self.notification, function (err, notification) {
+                console.log(arguments)
+
+                if (err) {
                     self.err = err.message;
                     self.home('failed');
-                }else{
-                    notifyLoggedUsers(self.notification,function(err){
-                        if(err){
+                } else {
+                    notifyUsers(self.devices, self.notification, function (err) {
+                        if (err) {
                             self.err = err.message;
                             self.home('failed')
-                        }else{
+                        } else {
                             self.home('notificationSent');
                         }
                     })
@@ -101,23 +141,23 @@ var notificationSwarming = {
         }
     },
 
-    getFilteredNotifications:function(filter){
-        if(!filter){
+    getFilteredNotifications: function (filter) {
+        if (!filter) {
             this.filter = {}
-        }else{
+        } else {
             this.filter = filter;
         }
         this.swarm('filter');
     },
-    filter:{
-        node:"NotificationUAM",
-        code:function(){
+    filter: {
+        node: "NotificationUAM",
+        code: function () {
             var self = this;
-            filterNotifications(this.filter,S(function(err,result){
-                if(err){
+            filterNotifications(this.filter, S(function (err, result) {
+                if (err) {
                     self.err = err.message;
                     self.home('failed')
-                }else{
+                } else {
                     self.notifications = result;
                     self.home('gotFilteredNotifications');
                 }
@@ -153,19 +193,19 @@ var notificationSwarming = {
             this.home("success");
         }
     },
-    
-    EULAChange:function(url){
+
+    EULAChange: function (url) {
         var notification = {};
         notification.title = "EULA change";
         notification.zone = "Analysts";
-        notification.action = "Access link "+url;
-        notification.description = "An EULA change was detected at the url "+url+"\nYou might want to check.";
+        notification.action = "Access link " + url;
+        notification.description = "An EULA change was detected at the url " + url + "\nYou might want to check.";
         notification.creationDate = new Date();
         notification.sender = "Web Crawler";
         this.notification = notification;
         this.swarm('send');
     },
-    SettingsChange:function(url) {
+    SettingsChange: function (url) {
         var notification = {};
         notification.title = "Settings change";
         notification.zone = "Analysts";
@@ -177,30 +217,30 @@ var notificationSwarming = {
         this.swarm('send');
     },
 
-    registerInZone:function(zoneName){
-        var possibleZones = ['iOS','Android','Extension'];
-        if(possibleZones.indexOf(zoneName)===-1){
-            this.err = new Error('The possible user zones are: ',possibleZones).message;
+    registerInZone: function (zoneName) {
+        var possibleZones = ['iOS', 'Android', 'Extension'];
+        if (possibleZones.indexOf(zoneName) === -1) {
+            this.err = new Error('The possible user zones are: ', possibleZones).message;
             this.home('failed')
-        }else{
+        } else {
             this.zone = zoneName;
             this.swarm('attachUserToZone');
         }
     },
-    attachUserToZone:{
-        node:"UsersManager",
-        code:function(){
+    attachUserToZone: {
+        node: "UsersManager",
+        code: function () {
             var self = this;
-            createZone(this.zone,S(function(err,result){
-                if(err){
+            createZone(this.zone, S(function (err, result) {
+                if (err) {
                     self.err = err.message;
                     self.home('failed');
-                }else {
+                } else {
                     addUserToZone(self.meta.userId, self.zone, S(function (err, result) {
                         if (err) {
                             self.err = err.message;
                             self.home('failed');
-                        }else{
+                        } else {
                             self.home('success');
                         }
                     }))
@@ -208,7 +248,6 @@ var notificationSwarming = {
             }))
         }
     }
-
-
 }
+
 notificationSwarming;

@@ -6,16 +6,21 @@
 
 
 var udeSwarming = {
-    registerNotificationIdentifier:function(deviceId,notificationId){
+    updateNotificationToken:function(deviceId,notificationId){
+        /*
+            Upon login a user must request a notification token from GCM to that he could receive push-notifications. That token must be registered in the UDE adapter.
+            Upon logout the user must update the GCM notification token to -1 thus signaling that it no longer can/wishes to receive notifications on that particular device.
+         */
+
         this.deviceId = deviceId;
         this.notificationId = notificationId;
-        this.swarm('registerNotificationI')
+        this.swarm('updateNotificationId')
     },
-    registerNotificationI:{
+    updateNotificationId:{
         node:"UDEAdapter",
         code:function(){
             var self = this;
-            registerNotificationIdentifier(this.deviceId,this.notificationId,S(function(err,result){
+            updateNotificationIdentifier(this.deviceId,this.notificationId,S(function(err,result){
                 if(err){
                     self.err = err.message;
                     self.home('failed');
@@ -25,15 +30,17 @@ var udeSwarming = {
             }))
         }
     },
-    registerDevice:function(deviceId){
+
+    registerDeviceId:function(deviceId,disassociate){
         this.deviceId = deviceId;
-        this.swarm('registerDeviceId')
+        this.userId = disassociate?-1:this.meta.userId; //if disassociate is true, it means that the user logged out so the link between the device and the user must be dropped
+        this.swarm("registerDevice");
     },
-    registerDeviceId:{
+    registerDevice:{
         node:"UDEAdapter",
         code:function(){
             var self = this;
-            registerDevice(this.deviceId,this.meta.userId,S(function(err,result){
+            registerDevice(this.deviceId,this.userId,S(function(err,result){
                 if(err){
                     self.err = err.message;
                     self.home('failed');
@@ -59,6 +66,5 @@ var udeSwarming = {
             }
         }))
     }
-
 };
 udeSwarming;

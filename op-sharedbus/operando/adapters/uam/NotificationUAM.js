@@ -19,7 +19,6 @@ var flow = require("callflow");
 var uuid = require('uuid');
 var apersistence = require('apersistence');
 var signupNotifications = {
-
     privacy_questionnaire: {
         sender: "WatchDog",
         title: "Privacy Questionnaire",
@@ -205,7 +204,6 @@ getNotifications = function (userId, userZones, callback) {
         },
 
         gotDismissedNotifications:function(err,dismissedNotifications){
-
             if(err){
                 this.errs.push(err);
             }else{
@@ -365,7 +363,7 @@ clearNotification = function(userId, action_name){
 
 
 var admin = require("firebase-admin");
-var serviceAccount = require("./plusPrivacyFirebaseCredentials.json");
+var serviceAccount = require("./firebaseAdmin.json");
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: "https://plusprivacy-ef5ac.firebaseio.com"

@@ -37,7 +37,8 @@ function registerModels(callback){
                 },
                 notificationIdentifier:{
                     type: "string",
-                    length:255
+                    length:255,
+                    default:-1
                 },
                 applications:{
                     type:"array:DeviceApplicationMapping",
@@ -145,7 +146,7 @@ registerDevice = function(deviceId,userId,callback){
     })
 }
 
-registerNotificationIdentifier = function(deviceId, notificationIdentifier,callback){
+updateNotificationIdentifier = function(deviceId, notificationIdentifier,callback){
     persistence.findById("UserDevice",deviceId,function (err,result) {
         if(err){
             callback(err)

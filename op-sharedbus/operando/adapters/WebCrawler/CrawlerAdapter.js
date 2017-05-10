@@ -64,11 +64,11 @@ function compareSscreenshots(){
 
     console.log("Comparing screenshots");
     newScreenshots.forEach(function(newScreenshot){
-        var root = newScreenshot.split('.png')[0];
+        var root = crawlerPath+"/"+newScreenshot.split('.png')[0];
         var oldScreenShot = root+".old.png";
         
         if(!fs.existsSync(oldScreenShot)){
-            fs.rename(newScreenshot,oldScreenShot,function(err,result){
+            fs.rename(crawlerPath+"/"+newScreenshot,oldScreenShot,function(err,result){
                 if(err){
                     console.error(err);
                 }
@@ -85,12 +85,10 @@ function compareSscreenshots(){
                             console.error(err);
                         }
                     });
-                    fs.unlink(root+'diff.png',function(err,result){
-                        if(err){
-                            console.error(err);
-                        }
-                    })
+
                 }else{
+                    root = root.split("/");
+                    root = root[root.length-1]
                     console.log("A change occured in " + root,urls[root]);
                     if (root.endsWith('Eula')) {
                         startSwarm("notification.js", 'EULAChange',urls[root]);
