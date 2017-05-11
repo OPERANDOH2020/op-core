@@ -4,8 +4,8 @@
     "schema": "http://www.foodcoach.eu/OData/$metadata#Patient",
     "workflow": [
         {
-            "requester_id": "Dietician1",
-            "subject": "Dietician",
+            "requester_id": "Nutritionist1",
+            "subject": "Nutritionist",
             "requested_url": "Weight",
             "action": "Access",
             "attributes": [{}]
@@ -13,7 +13,7 @@
         ],
     "policies": [
         {
-            "subject": "Dietician",
+            "subject": "Nutritionist",
             "permission": "true",
             "action": "Access",
             "resource": "Weight",
