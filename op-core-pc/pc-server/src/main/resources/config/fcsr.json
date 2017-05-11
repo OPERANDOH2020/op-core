@@ -1,0 +1,23 @@
+{
+    "policy_text": "Food Coach Service",
+    "policy_url": "FoodCoach",
+    "schema": "http://www.foodcoach.eu/OData/$metadata#Patient",
+    "workflow": [
+        {
+            "requester_id": "Dietician1",
+            "subject": "Dietician",
+            "requested_url": "Weight",
+            "action": "Access",
+            "attributes": [{}]
+        }
+        ],
+    "policies": [
+        {
+            "subject": "Dietician",
+            "permission": "true",
+            "action": "Access",
+            "resource": "Weight",
+            "attributes": [{}]
+        }
+    ]
+}
