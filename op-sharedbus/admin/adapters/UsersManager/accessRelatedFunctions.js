@@ -83,6 +83,8 @@ container.declareDependency("accessFunctionality",['aclConfigurator','userRelate
                 }
             });
         })
+        return null;
+
     }else{
         console.log("AccessAdapter is not available");
     }
@@ -124,5 +126,5 @@ function init(callback){
                 }
             }
         }
-    })
+    })()
 }

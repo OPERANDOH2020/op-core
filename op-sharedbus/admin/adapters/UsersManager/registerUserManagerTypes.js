@@ -140,4 +140,7 @@ container.declareDependency('userRelatedTypes',['mysqlPersistence'],function(out
             }
         }
     })();
+
+    return null;
+
 });
