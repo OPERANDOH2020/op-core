@@ -1,7 +1,7 @@
 {
   "name": "op-sharedbus",
   "description": "op-sharedbus package | OPERANDOH2020 project",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "homepage": "https://github.com/OPERANDOH2020/op-sharedbus",
   "author": {
     "name": "Alboaie Sinica",
@@ -60,7 +60,7 @@
 	"voucher-code-generator":">=1.0.0",
     "jsonwebtoken":">=7.3.0",
 	"uuid":">=2.0.0",
-    "firebase-admin":">=1.0.0"
+    "firebase-admin":">=1.0.0",
 	"url":">=0.11.0"
 
   },
