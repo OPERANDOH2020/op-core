@@ -161,8 +161,8 @@
 		<operando.pdr.gk.endpoint.path>operando/pdr/gk</operando.pdr.gk.endpoint.path>
 		<operando.pdr.gk.basepath>${operando.pdr.gk.protocol}${operando.pdr.gk.host}:${operando.pdr.gk.port}</operando.pdr.gk.basepath>
 		<operando.pdr.gk.endpoint>${operando.pdr.gk.basepath}/${operando.pdr.gk.endpoint.path}</operando.pdr.gk.endpoint>
-		<operando.pdr.gk.user>operando</operando.pdr.gk.user>
-		<operando.pdr.gk.password>1234</operando.pdr.gk.password>
+		<operando.pdr.gk.user>gatekeeper</operando.pdr.gk.user>
+		<operando.pdr.gk.password>gatekeeper</operando.pdr.gk.password>
 
 		<operando.pdr.rpm.host>rpm.integration.operando.lan.esilab.org</operando.pdr.rpm.host>
 		<operando.pdr.rpm.protocol>http://</operando.pdr.rpm.protocol>
