@@ -76,7 +76,8 @@
            "ssl":{
                "key":"etc/ssl/privatekey.pem",
                "cert":"etc/ssl/cert.pem"
-           }
+           },
+           "wwwroot":"admin/administration-console"
   },
 
   "RESTAdapter":{
