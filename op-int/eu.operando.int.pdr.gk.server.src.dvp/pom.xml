@@ -248,7 +248,7 @@
 		<bda.baseurl>${operando.core.bda.endpoint}</bda.baseurl>
 		<dan.baseurl>${operando.pdr.dan.endpoint}</dan.baseurl>
 		<ldb.baseurl>${operando.core.ldb.endpoint}</ldb.baseurl>
-		<rm.baseurl>${operando.core.ldb.endpoint}</rm.baseurl>
+		<rm.baseurl>${operando.core.rm.endpoint}</rm.baseurl>
 		<aapi.oapiusername>${operando.pdr.gk.user}</aapi.oapiusername>
 		<aapi.oapipassword>${operando.pdr.gk.password}</aapi.oapipassword>
 				
