@@ -137,7 +137,7 @@
 		<operando.core.rm.host>rm.integration.operando.lan.esilab.org</operando.core.rm.host>
 		<operando.core.rm.protocol>http://</operando.core.rm.protocol>
 		<operando.core.rm.port>8102</operando.core.rm.port>
-		<operando.core.rm.endpoint.path>operando/core/rm</operando.core.rm.endpoint.path>
+		<operando.core.rm.endpoint.path></operando.core.rm.endpoint.path>
 		<operando.core.rm.basepath>${operando.core.rm.protocol}${operando.core.rm.host}:${operando.core.rm.port}</operando.core.rm.basepath>
 		<operando.core.rm.endpoint>${operando.core.rm.basepath}/${operando.core.rm.endpoint.path}</operando.core.rm.endpoint>
 
