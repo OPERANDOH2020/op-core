@@ -178,8 +178,10 @@ def handleSelect(request, addr):
     params = "?" + request.query_string if request.query_string else ""
     pams = (('$format', 'json'),)
     
+    
     r = requests.get(__DAN_url % addr + params,
                      headers=headers, verify=False, params=pams)
+    
     # check whether the response is OK
     print "*"*10
     print "DAN Response:\n%s" %r.text
@@ -195,13 +197,9 @@ def handleSelect(request, addr):
         # let's check whether the query has the user id
         uID_split = re.findall('\((.*?)\)', addr)
         if  req_db != "YellowPages" and req_db !=  "built-in":
-            # here goes all the logic with the key value json odata response - AMI / FCRC
-            if(req_db=="AMI"):
-                odataType = jsonResponse['odata.metadata']
-            else:
-                odataType = jsonResponse['@odata.context']
             
-            if odataType.endswith("entity") or odataType.endswith("Element"):
+            #if value does not exist this means that the response is one entity and not a set of ones
+            if 'value' not in jsonResponse:
                 usersValue = jsonResponse
                 counter = 0;
                 fields2query = []
