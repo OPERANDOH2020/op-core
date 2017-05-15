@@ -48,6 +48,8 @@ var userInfoSwarming =
                     console.log(err);
                 }
                 else{
+                    delete user['is_active'];
+                    delete user['activationCode'];
                     self.result = user;
                     self.home("result");
                 }
