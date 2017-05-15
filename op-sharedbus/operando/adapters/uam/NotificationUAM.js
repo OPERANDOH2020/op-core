@@ -162,6 +162,7 @@ container.declareDependency("NotificationUAMAdapter", ["mysqlPersistence"], func
                 console.error(errs);
             }
         })
+
     } else {
         console.log("Disabling persistence...");
     }
@@ -385,6 +386,15 @@ admin.initializeApp({
 });
 
 notifyUsers = function (receivers,notification,callback) {
-     admin.messaging().sendToDevice(receivers, notification)
-     .then(callback)
-}
+    var toSend = {
+        "title":notification.title,
+        "description":notification.description?notification.description:"",
+        "action_argument":notification.action_argument?notification.action_argument:"",
+        "action_name":notification.action_name?notification.action_name:""
+    }
+
+    admin.messaging().sendToDevice(receivers, {"data":toSend}).then(function(result){
+        callback();
+    }).
+    catch(callback);
+};

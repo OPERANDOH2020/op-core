@@ -144,7 +144,7 @@ registerDevice = function(deviceId,userId,callback){
             persistence.save(result,callback);
         }
     })
-}
+};
 
 updateNotificationIdentifier = function(deviceId, notificationIdentifier,callback){
     persistence.findById("UserDevice",deviceId,function (err,result) {
@@ -153,12 +153,11 @@ updateNotificationIdentifier = function(deviceId, notificationIdentifier,callbac
         }else if(result === null) {
             callback(new Error("No device with id "+deviceId))
         } else{
-            result[0].notificationIdentifier = notificationIdentifier;
-            persistence.save(result[0],callback);
+            result.notificationIdentifier = notificationIdentifier;
+            persistence.save(result,callback);
         }
     })
 }
-
 
 registerApplication = function(applicationId,description, callback){
     persistence.lookup("Application",applicationId,function (err,result) {

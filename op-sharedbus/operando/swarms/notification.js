@@ -85,9 +85,7 @@ var notificationSwarming = {
                     self.err = err.message;
                     self.home('failed');
                 } else {
-                    self.users = users.map(function (user) {
-                        return user.userId;
-                    });
+                    self.users = users.map(function (user) {return user.userId;});
 
                     self.swarm("getUserDevices");
                 }
@@ -98,46 +96,43 @@ var notificationSwarming = {
         node: "UDEAdapter",
         code: function () {
             var self = this;
-            getFilteredDevices({"userId": self.users}, function (err, devices) {
+            getFilteredDevices({"userId": self.users}, S(function (err, devices) {
                 if (err) {
                     self.err = err.message;
                     self.home('failed')
                 } else {
-                    delete self.users; // so we don't have to move this object anymore
-                    self.devices = devices.map(function (device) {
-                        return device.notificationIdentifier
-                                        }).filter(function(notificationIdentifier){
-                        return notificationIdentifier!=-1
-                                        })
-                    self.swarm('send')
+                    delete self.users; // so we don't have to carry it anymore
+                    
+                    self.devicesPushNotificationTokens = devices.map(function (device) {return device.notificationIdentifier});
+                    self.devicesPushNotificationTokens = self.devicesPushNotificationTokens.filter(function(token){
+                        return token!==-1;
+                    });
+                    self.swarm('relayNotification')
                 }
-            })
-
+            }))
         }
     },
-    send: {
+    relayNotification: {
         node: "NotificationUAM",
         code: function () {
             var self = this;
             self.notification.sender = this.meta.userId;
-
-            createNotification(self.notification, function (err, notification) {
-                console.log(arguments)
-
+            createNotification(self.notification, S(function (err, notification) {
                 if (err) {
                     self.err = err.message;
                     self.home('failed');
                 } else {
-                    notifyUsers(self.devices, self.notification, function (err) {
+                    notifyUsers(self.devicesPushNotificationTokens, self.notification, S(function (err) {
+                        console.log(arguments);
                         if (err) {
                             self.err = err.message;
                             self.home('failed')
                         } else {
                             self.home('notificationSent');
                         }
-                    })
+                    }))
                 }
-            })
+            }))
         }
     },
 
@@ -202,8 +197,8 @@ var notificationSwarming = {
         notification.description = "An EULA change was detected at the url " + url + "\nYou might want to check.";
         notification.creationDate = new Date();
         notification.sender = "Web Crawler";
-        this.notification = notification;
-        this.swarm('send');
+        this.startSwarm("sendNotification",notification);
+
     },
     SettingsChange: function (url) {
         var notification = {};
@@ -213,8 +208,7 @@ var notificationSwarming = {
         notification.description = "A setting change was detected at the url " + url + "\nYou might want to check.";
         notification.creationDate = new Date();
         notification.sender = "Web Crawler";
-        this.notification = notification;
-        this.swarm('send');
+        this.startSwarm("sendNotification",notification);
     },
 
     registerInZone: function (zoneName) {

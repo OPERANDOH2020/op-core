@@ -36,6 +36,7 @@ var udeSwarming = {
         this.userId = disassociate?-1:this.meta.userId; //if disassociate is true, it means that the user logged out so the link between the device and the user must be dropped
         this.swarm("registerDevice");
     },
+    
     registerDevice:{
         node:"UDEAdapter",
         code:function(){
