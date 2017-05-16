@@ -8,53 +8,56 @@ var menuCtrl = {
 		node: "UsersManager",
 		code: function () {
 			var self = this;
-			getUserInfo(self.userId, S(function (err, result) {
+			zonesOfUser(self.userId, S(function (err, zones) {
 				if (err) {
 					self.err = err.message;
 					self.home('failed');
 				} else {
-					 console.log(result);
-					if (result) {
-						var menu = [];
-						switch (result.organisationId) {
-							case 'SystemAdministrators': // admin
-								menu.push({
-										icon: "glyphicon glyphicon-user",
-										name: "Users Management",
-										url: "apps/examples/UserManagement/index.html"
-									}
-								);
-								menu.push({
-											icon: "glyphicon icon-equalizer",
-											name: "ACL Management",
-											url: "apps/examples/ACL-Management/index.html"
-										}
-								);
-								break;
-							case 'PSP': // super user
-								menu.push({
-									icon: "glyphicon glyphicon-list-alt",
-									name: "News Management",
-									url: "apps/examples/NewsManager/index.html"
-								}); break;
-							case 'analyst': // user
-								menu.push({
-									icon:"glyphicon glyphicon-bullhorn",
-									name: "News",
-									url: "apps/examples/News/index.html",
-									default: true
-								});
-								break;
-							default:
-								break;
-						}
-						self.result = menu;
-						self.home('gettingListDone');
+					var zoneNames = zones.map(function (zone) {
+						return zone.zoneName;
+					});
+					self.result = [];
 
-					} else {
-						self.err = "Null data from swarms";
-						self.home('failed');
+					if (zoneNames.indexOf("ALL_USERS") !== -1) {
+						console.log("sdgdsafgdasf");
+						self.result.push({
+							icon: "glyphicon glyphicon-user",
+							name: "Users Management",
+							url: "apps/examples/UserManagement/index.html"
+						});
+						self.result.push({
+							icon: "glyphicon icon-equalizer",
+							name: "ACL Management",
+							url: "apps/examples/ACL-Management/index.html"
+						});
+						self.result.push({
+							icon: "glyphicon glyphicon-bullhorn",
+							name: "Create forms",
+							url: "apps/examples/FormsCreator/index.html",
+							default: true
+						});
+						self.result.push({
+							icon: "glyphicon glyphicon-bullhorn",
+							name: "See form answers",
+							url: "apps/examples/FormsAnswers/index.html",
+							default: true
+						});
+						self.result.push({
+							icon: "glyphicon glyphicon-bullhorn",
+							name: "Answer forms",
+							url: "apps/examples/FormsRenderer/index.html",
+							default: true
+						});
+						self.result.push({
+							icon: "glyphicon glyphicon-bullhorn",
+							name: "Send notifications",
+							url: "apps/examples/NotificationDashboard/index.html",
+							default: true
+						});
+
 					}
+
+					self.home('gettingListDone');
 				}
 			}))
 		}
