@@ -19,41 +19,42 @@ var menuCtrl = {
 					self.result = [];
 
 					if (zoneNames.indexOf("ALL_USERS") !== -1) {
-						console.log("sdgdsafgdasf");
 						self.result.push({
 							icon: "glyphicon glyphicon-user",
 							name: "Users Management",
 							url: "apps/examples/UserManagement/index.html"
 						});
+
 						self.result.push({
-							icon: "glyphicon icon-equalizer",
-							name: "ACL Management",
-							url: "apps/examples/ACL-Management/index.html"
-						});
-						self.result.push({
-							icon: "glyphicon glyphicon-bullhorn",
+							icon: "glyphicon glyphicon-tasks",
 							name: "Create forms",
 							url: "apps/examples/FormsCreator/index.html",
 							default: true
 						});
 						self.result.push({
-							icon: "glyphicon glyphicon-bullhorn",
-							name: "See form answers",
-							url: "apps/examples/FormsAnswers/index.html",
-							default: true
-						});
-						self.result.push({
-							icon: "glyphicon glyphicon-bullhorn",
+							icon: "glyphicon glyphicon-pencil",
 							name: "Answer forms",
 							url: "apps/examples/FormsRenderer/index.html",
 							default: true
 						});
 						self.result.push({
-							icon: "glyphicon glyphicon-bullhorn",
+							icon: "glyphicon glyphicon-file",
+							name: "See form answers",
+							url: "apps/examples/FormsAnswers/index.html",
+							default: true
+						});
+						self.result.push({
+							icon: "glyphicon glyphicon-envelope",
 							name: "Send notifications",
 							url: "apps/examples/NotificationDashboard/index.html",
 							default: true
 						});
+						self.result.push({
+							icon: "glyphicon glyphicon-lock",
+							name: "Access Control List Management",
+							url: "apps/examples/ACL-Management/index.html"
+						});
+
 
 					}
 
