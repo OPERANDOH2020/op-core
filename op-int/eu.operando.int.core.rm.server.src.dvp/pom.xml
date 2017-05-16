@@ -167,7 +167,7 @@
 		<!-- </resources> -->
 	</build>
 	<properties>
-		<server.endpoint.path>${operando.core.rm.endpoint.path}</server.endpoint.path>
+		<server.endpoint.path>none</server.endpoint.path>
 		<docker.name>eu.operando.core.rm.server</docker.name>
 		<docker.image.name>${docker.registry.name}${docker.submitter}/${docker.name}</docker.image.name>
 		<docker.image.version>${project.version}</docker.image.version>
