@@ -15,7 +15,10 @@
                         </div>
 
                         <div class="list-group-item" ng-show="predefinedInputs.zone===undefined">
-                            <input  placeholder={{labels.zone}} class="form-control no-border" ng-model="rule.zone" required>
+                            Select zone
+                            <select ng-model="rule.zone" class="btn btn-primary" required>
+                                <option ng-repeat="zone in zones" value="{{zone}}">{{zone}}</option>
+                            </select>
                         </div>
 
                         <div class="list-group-item" ng-show="predefinedInputs.contextType===undefined">

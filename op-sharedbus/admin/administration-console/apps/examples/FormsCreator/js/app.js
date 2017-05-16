@@ -16,5 +16,7 @@ angular.module('app', [
     'pascalprecht.translate',
     'angularModalService',
     'swarm',
-    'ui.footable'
+    'ui.footable',
+    'fg'
+
 ]);

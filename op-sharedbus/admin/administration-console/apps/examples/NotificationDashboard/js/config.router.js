@@ -15,7 +15,7 @@ angular.module('app')
             function ($stateProvider, $urlRouterProvider) {
 
                 $urlRouterProvider
-                    .otherwise('/app/accessManager');
+                    .otherwise('/app/notificationsManager');
 
                 $stateProvider
                     .state('app', {
@@ -24,14 +24,14 @@ angular.module('app')
                         templateUrl: 'tpl/app.html'
                     })
 
-                    .state('app.accessManager',{
-                       url:'/accessManager',
-                        templateUrl:'tpl/accessManager.html',
+                    .state('app.notificationsManager',{
+                       url:'/notificationsManager',
+                        templateUrl:'tpl/notificationsManager.html',
                         resolve:{
                             deps:['$ocLazyLoad',
                                 function ($ocLazyLoad) {
                                     return $ocLazyLoad.load([
-                                        'js/controllers/accessManagerController.js'
+                                        'js/controllers/notificationsController.js'
                                     ]);
                                 }]
                         }

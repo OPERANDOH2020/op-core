@@ -15,7 +15,7 @@ angular.module('app')
             function ($stateProvider, $urlRouterProvider) {
 
                 $urlRouterProvider
-                    .otherwise('/app/accessManager');
+                    .otherwise('/app/formsCreator');
 
                 $stateProvider
                     .state('app', {
@@ -24,14 +24,14 @@ angular.module('app')
                         templateUrl: 'tpl/app.html'
                     })
 
-                    .state('app.accessManager',{
-                       url:'/accessManager',
-                        templateUrl:'tpl/accessManager.html',
+                    .state('app.formsCreator',{
+                       url:'/formsCreator',
+                        templateUrl:'tpl/formsCreator.html',
                         resolve:{
                             deps:['$ocLazyLoad',
                                 function ($ocLazyLoad) {
                                     return $ocLazyLoad.load([
-                                        'js/controllers/accessManagerController.js'
+                                        'js/controllers/formsCreatorController.js'
                                     ]);
                                 }]
                         }
