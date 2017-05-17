@@ -5,7 +5,7 @@
         "name": "presence",
         "path": "/",
         "secure": true,
-        "value": "EDvF3EtimeF1494424322EuserFA21B16019020703A2EstateFDutF1494424322789CEchFDp_5f1B16019020703F0CC"
+        "value": "EDvF3EtimeF1495016586EuserFA21B16019020703A2EstateFDutF1495016586078CEchFDp_5f1B16019020703F0CC"
     },
     {
         "domain": ".facebook.com",
@@ -67,8 +67,8 @@
     },
     {
         "domain": ".facebook.com",
-        "expires": "Tue, 08 Aug 2017 13:38:36 GMT",
-        "expiry": 1502188716,
+        "expires": "Tue, 15 Aug 2017 10:18:42 GMT",
+        "expiry": 1502781522,
         "httponly": false,
         "name": "c_user",
         "path": "/",
@@ -77,8 +77,8 @@
     },
     {
         "domain": ".facebook.com",
-        "expires": "Tue, 08 Aug 2017 13:38:36 GMT",
-        "expiry": 1502188716,
+        "expires": "Tue, 15 Aug 2017 10:18:42 GMT",
+        "expiry": 1502781522,
         "httponly": true,
         "name": "xs",
         "path": "/",
@@ -87,12 +87,12 @@
     },
     {
         "domain": ".facebook.com",
-        "expires": "Tue, 08 Aug 2017 13:38:36 GMT",
-        "expiry": 1502188716,
+        "expires": "Tue, 15 Aug 2017 10:18:42 GMT",
+        "expiry": 1502781522,
         "httponly": true,
         "name": "fr",
         "path": "/",
         "secure": true,
-        "value": "0C96UB1xr8dW5k2qZ.AWV6NlBAvTrt_SBVxYlXUMvlW58.BY4jXp.5t.AAA.0.0.BZExfc.AWWuCDkz"
+        "value": "0C96UB1xr8dW5k2qZ.AWWS8B3_Y83XK9OIuPcltTy2g-o.BY4jXp.5t.AAA.0.0.BZHCOC.AWUgubJf"
     }
 ]

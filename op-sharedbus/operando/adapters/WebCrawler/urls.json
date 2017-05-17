@@ -37,7 +37,7 @@
         {
             "name":"google",
             "url": "https://accounts.google.com/ServiceLogin?hl=ro&passive=true#identifier",
-            "takeScreenshot": false
+            "takeScreenshot": true
         },
         {
             "exec": "insertGoogleEmail"

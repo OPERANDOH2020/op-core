@@ -35,6 +35,7 @@ function startCrawling(callback) {
     });
 
 
+
     crawler.on("error", function (err) {
         console.log("[X]Crawling.error:\n", err);
         callback(err);
@@ -59,14 +60,15 @@ function compareSscreenshots(){
     }
 
     var newScreenshots = fs.readdirSync(crawlerPath).filter(function(path){
-        return path.endsWith(".png") && !path.endsWith(".old.png") && !path.match('.diff.');
+        return path.endsWith(".png") && !path.endsWith(".old.png") && !path.match('diff');
     });
 
     console.log("Comparing screenshots");
     newScreenshots.forEach(function(newScreenshot){
+
         var root = crawlerPath+"/"+newScreenshot.split('.png')[0];
         var oldScreenShot = root+".old.png";
-        
+
         if(!fs.existsSync(oldScreenShot)){
             fs.rename(crawlerPath+"/"+newScreenshot,oldScreenShot,function(err,result){
                 if(err){
@@ -75,26 +77,29 @@ function compareSscreenshots(){
             });
         }else{
             imageDiff({
-                actualImage:newScreenshot,
+                actualImage:crawlerPath+"/"+newScreenshot,
                 expectedImage:oldScreenShot,
                 diffImage:root+'diff.png'},
             function(err,areTheSame){
-                if(areTheSame){
-                    fs.rename(newScreenshot,oldScreenShot,function(err,result){
+                if(err){
+                    console.log(err);
+                }
+                else if(areTheSame){
+                    fs.rename(crawlerPath+"/"+newScreenshot,oldScreenShot,function(err,result){
                         if(err){
                             console.error(err);
                         }
                     });
+                    fs.unlink(root+"diff.png");
 
                 }else{
-                    root = root.split("/");
-                    root = root[root.length-1]
+                    root = root.split("/").pop();
                     console.log("A change occured in " + root,urls[root]);
                     if (root.endsWith('Eula')) {
                         startSwarm("notification.js", 'EULAChange',urls[root]);
                     } else {
                         startSwarm("notification.js", 'SettingsChange',urls[root]);
-                    }    
+                    }
                 }
             })
         }
