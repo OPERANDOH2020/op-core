@@ -204,11 +204,16 @@ def handleSelect(request, addr):
                 counter = 0;
                 fields2query = []
                 userid = "-1"
+                placeduserid = "-1"
                 for element in usersValue.keys(): 
                     if element.lower() == "id": userid = usersValue[element]
+                    if element.lower() == "userid": 
+                            placeduserid = item[element]
                     #if element.lower() == "id": userid = "301"
                     fields2query.append(element)
-                    
+                if placeduserid != "-1": userid = placeduserid
+                print "--"*10
+                print userid
                 print "#"*20
                 print fields2query
                 print "#"*20
@@ -244,10 +249,19 @@ def handleSelect(request, addr):
                     #print "I am in item %s\n"%item
                     fields2query = []
                     userid = "-1"
+                    placeduserid = "-1"
                     for element in item: 
+                        placeduseridExists = False;
                         if element.lower() == "id": userid = item[element]
+                        if element.lower() == "userid": 
+                            placeduserid = item[element]
                         #if element.lower() == "id": userid = "301"
                         fields2query.append(element)
+                    if placeduserid != "-1": userid = placeduserid
+                    
+                    print "--"*10
+                    print userid
+                
                     policies = getPCresponse(action="Select", osp=req_db, userid=userid,
                                                      requester_id=req_db, role=requester_Role, urls=fields2query)
                     
@@ -397,9 +411,9 @@ def handleSelect(request, addr):
         # return json/xml
         try:
             testResponse = json.loads(r.text)
-            return Response(r.text, status=r.status_code, mimetype='application/json')
+            return Response("not an expected odata response:"+r.text, status=r.status_code, mimetype='application/text')
         except:
-            return Response(r.text, status=r.status_code, mimetype='application/text')
+            return Response("not an expected odata response:"+r.text, status=r.status_code, mimetype='application/text')
 
 
 # handle an insert query
