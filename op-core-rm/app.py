@@ -178,8 +178,10 @@ def handleSelect(request, addr):
     params = "?" + request.query_string if request.query_string else ""
     pams = (('$format', 'json'),)
     
+    
     r = requests.get(__DAN_url % addr + params,
                      headers=headers, verify=False, params=pams)
+    
     # check whether the response is OK
     print "*"*10
     print "DAN Response:\n%s" %r.text
@@ -195,22 +197,23 @@ def handleSelect(request, addr):
         # let's check whether the query has the user id
         uID_split = re.findall('\((.*?)\)', addr)
         if  req_db != "YellowPages" and req_db !=  "built-in":
-            # here goes all the logic with the key value json odata response - AMI / FCRC
-            if(req_db=="AMI"):
-                odataType = jsonResponse['odata.metadata']
-            else:
-                odataType = jsonResponse['@odata.context']
             
-            if odataType.endswith("entity") or odataType.endswith("Element"):
+            #if value does not exist this means that the response is one entity and not a set of ones
+            if 'value' not in jsonResponse:
                 usersValue = jsonResponse
                 counter = 0;
                 fields2query = []
                 userid = "-1"
+                placeduserid = "-1"
                 for element in usersValue.keys(): 
                     if element.lower() == "id": userid = usersValue[element]
+                    if element.lower() == "userid": 
+                            placeduserid = item[element]
                     #if element.lower() == "id": userid = "301"
                     fields2query.append(element)
-                    
+                if placeduserid != "-1": userid = placeduserid
+                print "--"*10
+                print userid
                 print "#"*20
                 print fields2query
                 print "#"*20
@@ -246,10 +249,19 @@ def handleSelect(request, addr):
                     #print "I am in item %s\n"%item
                     fields2query = []
                     userid = "-1"
+                    placeduserid = "-1"
                     for element in item: 
+                        placeduseridExists = False;
                         if element.lower() == "id": userid = item[element]
+                        if element.lower() == "userid": 
+                            placeduserid = item[element]
                         #if element.lower() == "id": userid = "301"
                         fields2query.append(element)
+                    if placeduserid != "-1": userid = placeduserid
+                    
+                    print "--"*10
+                    print userid
+                
                     policies = getPCresponse(action="Select", osp=req_db, userid=userid,
                                                      requester_id=req_db, role=requester_Role, urls=fields2query)
                     
@@ -399,9 +411,9 @@ def handleSelect(request, addr):
         # return json/xml
         try:
             testResponse = json.loads(r.text)
-            return Response(r.text, status=r.status_code, mimetype='application/json')
+            return Response("not an expected odata response:"+r.text, status=r.status_code, mimetype='application/text')
         except:
-            return Response(r.text, status=r.status_code, mimetype='application/text')
+            return Response("not an expected odata response:"+r.text, status=r.status_code, mimetype='application/text')
 
 
 # handle an insert query

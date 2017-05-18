@@ -43,7 +43,7 @@
 						<configuration>
 							<resources>
 								<resource>
-									<directory>${sources.path}/src/main/resources/config</directory>
+									<directory>${sources.path}/src/main/resources</directory>
 									<filtering>true</filtering>
 								</resource>
 							</resources>
@@ -244,12 +244,16 @@
 		<docker.image.version>${project.version}</docker.image.version>
 		<docker.port1.external>${operando.pdr.gk.port}</docker.port1.external>
 		<docker.port1.mapping>${docker.port1.external}:8080</docker.port1.mapping>		
-		<as.baseurl>${operando.interfaces.aapi.endpoint}</as.baseurl>
+		<as.baseurl>${operando.interfaces.aapi.endpoint}</as.baseurl>	
 		<bda.baseurl>${operando.core.bda.endpoint}</bda.baseurl>
 		<dan.baseurl>${operando.pdr.dan.endpoint}</dan.baseurl>
 		<ldb.baseurl>${operando.core.ldb.endpoint}</ldb.baseurl>
-		<rm.baseurl>${operando.core.ldb.endpoint}</rm.baseurl>
+		<rm.baseurl>${operando.core.rm.endpoint}</rm.baseurl>
 		<aapi.oapiusername>${operando.pdr.gk.user}</aapi.oapiusername>
 		<aapi.oapipassword>${operando.pdr.gk.password}</aapi.oapipassword>
+				
+		<aapi.baseurl>${operando.interfaces.aapi.endpoint}</aapi.baseurl>
+		<aapi.gkusername>${operando.pdr.gk.user}</aapi.gkusername>
+		<aapi.gkpassword>${operando.pdr.gk.password}</aapi.gkpassword>
 	</properties>
 </project>
