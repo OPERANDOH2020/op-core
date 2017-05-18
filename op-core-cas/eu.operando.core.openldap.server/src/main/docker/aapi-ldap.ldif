@@ -2593,6 +2593,20 @@ employeeNumber: string::string;;
 employeeType: role::OSP;;
 sn: aslbergamo
 uid: aslbergamo
+userPassword:: RGFuaQ==
+
+dn: uid=aslbergamo,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: aslbergamo
+departmentNumber: string::string;;
+displayName: aslbergamo
+employeeNumber: string::string;;
+employeeType: role::OSP;;
+sn: aslbergamo
+uid: aslbergamo
 userPassword:: hGYte=fg
 
 dn: uid=ami,ou=People,dc=nodomain
