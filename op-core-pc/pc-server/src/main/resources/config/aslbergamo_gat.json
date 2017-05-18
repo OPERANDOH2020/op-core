@@ -13,182 +13,182 @@
         ],
     "policies": [
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "ID",
             "attributes": [{}]
         },
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "datainserimento",
             "attributes": [{}]
         },
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "username",
             "attributes": [{}]
         },
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "nome",
             "attributes": [{}]
         },
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "cognome",
             "attributes": [{}]
         },
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "codiceFiscale",
             "attributes": [{}]
         },
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "sesso",
             "attributes": [{}]
         },
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "dataNascita",
             "attributes": [{}]
         },
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "PaeseNascita",
             "attributes": [{}]
         },
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "ProvinciaNascita",
             "attributes": [{}]
         },
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "comuneNascita",
             "attributes": [{}]
         },
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "ProvinciaResidenza",
             "attributes": [{}]
         },
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "comuneResidenza",
             "attributes": [{}]
         },
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "indirizzoResidenza",
             "attributes": [{}]
         },
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "numeroCivico",
             "attributes": [{}]
         },
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "cap",
             "attributes": [{}]
         },
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "email",
             "attributes": [{}]
         },
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "cellulare",
             "attributes": [{}]
         },
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "false",
             "action": "Access",
             "resource": "debiti",
             "attributes": [{}]
         },
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "false",
             "action": "Access",
             "resource": "debitiDuranteGioco",
             "attributes": [{}]
         },
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "usoAlcohol",
             "attributes": [{}]
         },
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "usoTabacco",
             "attributes": [{}]
         },
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "usoDroghe",
             "attributes": [{}]
         },
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "false",
             "action": "Access",
             "resource": "famigliaUsoAlcohol",
             "attributes": [{}]
         },
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "false",
             "action": "Access",
             "resource": "famigliaUsoTabacco",
             "attributes": [{}]
         },
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "false",
             "action": "Access",
             "resource": "famigliaUsoDroghe",
@@ -196,56 +196,56 @@
         },
         
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "datainserimento",
             "attributes": [{}]
         },
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "place",
             "attributes": [{}]
         },
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "fasciaGiorna",
             "attributes": [{}]
         },
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "tipoPatologi",
             "attributes": [{}]
         },
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "false",
             "action": "Access",
             "resource": "alcoholDurante",
             "attributes": [{}]
         },
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "false",
             "action": "Access",
             "resource": "tabaccoDurante",
             "attributes": [{}]
         },
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "false",
             "action": "Access",
             "resource": "drogaDurante",
             "attributes": [{}]
         },
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "false",
             "action": "Access",
             "resource": "etaPrimiDisturbi",
@@ -253,7 +253,7 @@
         }
         ,
         {
-            "subject": "ASL Bergamo - GAT -  Doctor",
+            "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "descrizione",

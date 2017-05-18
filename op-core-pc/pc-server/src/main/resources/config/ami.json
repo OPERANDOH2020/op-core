@@ -16,6 +16,63 @@
             "subject": "VolunteerOrganisationAdmin",
             "permission": "true",
             "action": "Access",
+            "resource": "Id",
+            "attributes": [{"attribute_name": "fixed", "attribute_value": "true"}]
+        },
+        {
+            "subject": "VolunteerOrganisationAdmin",
+            "permission": "true",
+            "action": "Access",
+            "resource": "Availability_Id",
+            "attributes": [{"attribute_name": "fixed", "attribute_value": "true"}]
+        },
+        {
+            "subject": "VolunteerOrganisationAdmin",
+            "permission": "true",
+            "action": "Access",
+            "resource": "ConfidentialNote_Id",
+            "attributes": [{"attribute_name": "fixed", "attribute_value": "true"}]
+        },
+        {
+            "subject": "VolunteerOrganisationAdmin",
+            "permission": "true",
+            "action": "Access",
+            "resource": "VolunteerOrganisation_Id",
+            "attributes": [{"attribute_name": "fixed", "attribute_value": "true"}]
+        },
+        {
+            "subject": "VolunteerOrganisationAdmin",
+            "permission": "true",
+            "action": "Access",
+            "resource": "Preferences_Id",
+            "attributes": [{"attribute_name": "fixed", "attribute_value": "true"}]
+        },
+        {
+            "subject": "VolunteerOrganisationAdmin",
+            "permission": "true",
+            "action": "Access",
+            "resource": "Unsuccessful",
+            "attributes": [{"attribute_name": "fixed", "attribute_value": "true"}]
+        },
+        {
+            "subject": "VolunteerOrganisationAdmin",
+            "permission": "true",
+            "action": "Access",
+            "resource": "UnsuccessfulReason_Id",
+            "attributes": [{"attribute_name": "fixed", "attribute_value": "true"}]
+        },
+
+        {
+            "subject": "VolunteerOrganisationAdmin",
+            "permission": "true",
+            "action": "Access",
+            "resource": "Address",
+            "attributes": [{"attribute_name": "fixed", "attribute_value": "true"}]
+        },
+        {
+            "subject": "VolunteerOrganisationAdmin",
+            "permission": "true",
+            "action": "Access",
             "resource": "AmiUserId",
             "attributes": [{"attribute_name": "fixed", "attribute_value": "true"}]
         },
@@ -65,13 +122,6 @@
             "subject": "VolunteerOrganisationAdmin",
             "permission": "true",
             "action": "Access",
-            "resource": "dataNascita",
-            "attributes": [{}]
-        },
-        {
-            "subject": "VolunteerOrganisationAdmin",
-            "permission": "true",
-            "action": "Access",
             "resource": "odata.metadata",
             "attributes": [{"attribute_name": "fixed", "attribute_value": "true"}]
         },
@@ -114,13 +164,6 @@
             "subject": "VolunteerOrganisationAdmin",
             "permission": "true",
             "action": "Access",
-            "resource": "Id",
-            "attributes": [{"attribute_name": "fixed", "attribute_value": "true"}]
-        },
-        {
-            "subject": "VolunteerOrganisationAdmin",
-            "permission": "true",
-            "action": "Access",
             "resource": "RegistrationDate",
             "attributes": [{"attribute_name": "fixed", "attribute_value": "true"}]
         },
@@ -142,13 +185,6 @@
             "subject": "VolunteerOrganisationAdmin",
             "permission": "true",
             "action": "Access",
-            "resource": "odata.metadata",
-            "attributes": [{"attribute_name": "fixed", "attribute_value": "true"}]
-        },
-        {
-            "subject": "VolunteerOrganisationAdmin",
-            "permission": "true",
-            "action": "Access",
             "resource": "Availability_Id",
             "attributes": [{}]
         },
@@ -159,26 +195,33 @@
             "resource": "Preferences_Id",
             "attributes": [{}]
         },
-       {
+        {
             "subject": "VolunteerOrganisationAdmin",
             "permission": "true",
             "action": "Access",
-            "resource": "Unsuccessful",
+            "resource": "Preference",
+            "attributes": [{}]
+        },
+        {
+            "subject": "VolunteerOrganisationAdmin",
+            "permission": "true",
+            "action": "Access",
+            "resource": "VolunteerOrganisation",
             "attributes": [{"attribute_name": "fixed", "attribute_value": "true"}]
         },
         {
             "subject": "VolunteerOrganisationAdmin",
             "permission": "true",
             "action": "Access",
-            "resource": "UnsuccessfulReason_Id",
+            "resource": "VolunteerChecklistItems",
             "attributes": [{"attribute_name": "fixed", "attribute_value": "true"}]
         },
         {
             "subject": "VolunteerOrganisationAdmin",
-            "permission": "false",
+            "permission": "true",
             "action": "Access",
-            "resource": "Id",
-            "attributes": [{"attribute_name": "fixed", "attribute_value": "true"}]
+            "resource": "Availability",
+            "attributes": [{}]
         }
     ]
 }
