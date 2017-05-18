@@ -2586,13 +2586,13 @@ objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
 objectClass: top
-cn: aslbergamo
+cn: ASLBG_GA
 departmentNumber: string::string;;
-displayName: aslbergamo
+displayName: ASLBG_GA
 employeeNumber: string::string;;
 employeeType: role::OSP;;
-sn: aslbergamo
-uid: aslbergamo
+sn: ASLBG_GA
+uid: ASLBG_GA
 userPassword:: hGYte=fg
 
 dn: uid=ami,ou=People,dc=nodomain
