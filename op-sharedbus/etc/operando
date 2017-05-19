@@ -3,6 +3,9 @@
  "logsPath":"logs",
  "verbose":false,
  "systemId": "operandoDemo",
+ "PlusPrivacy":{
+    "OSPHost":"http://osp.plusprivacy.com"
+ },
  "Core":{
      "coreId":"operando",
      "redisHost":"localhost",

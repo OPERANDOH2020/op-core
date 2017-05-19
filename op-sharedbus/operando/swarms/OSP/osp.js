@@ -187,7 +187,7 @@ var osp = {
                         "Your OSP request was accepted",
                         "Congratulations,\n" +
                         "Your OSP request was accepted\n" +
-                        "Login at http://plusprivacy.com/osp-login/ and start using the service");
+                        "Login at "+thisAdapter.config.PlusPrivacy.OSPHost+"/#/login"+" and start using the service");
 
                     self.swarm("changeUserOrganisation");
                 }
