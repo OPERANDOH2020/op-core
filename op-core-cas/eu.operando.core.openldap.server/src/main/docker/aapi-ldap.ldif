@@ -2581,19 +2581,19 @@ sn: YellowPages
 uid: YellowPages
 userPassword:: RGFuaQ==
 
-dn: uid=aslbergamo,ou=People,dc=nodomain
+dn: uid=ASLBG_GA,ou=People,dc=nodomain
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
 objectClass: person
 objectClass: top
-cn: aslbergamo
+cn: ASLBG_GA
 departmentNumber: string::string;;
-displayName: aslbergamo
+displayName: ASLBG_GA
 employeeNumber: string::string;;
 employeeType: role::OSP;;
-sn: aslbergamo
-uid: aslbergamo
-userPassword:: hGYte=fg
+sn: ASLBG_GA
+uid: ASLBG_GA
+userPassword:: RGFuaQ==
 
 dn: uid=ami,ou=People,dc=nodomain
 objectClass: inetOrgPerson
