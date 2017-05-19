@@ -286,7 +286,7 @@ def handleSelect(request, addr):
                         logdata(psp_user_identifier, joinSTR(restrictedFields), userid, False)
                         logdata(psp_user_identifier, joinSTR(list(set(fields2query) - set(restrictedFields))), userid, True)                 
                     
-            return Response(json.dumps(usersValue), status=200, mimetype='application/json')
+            return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
         else: #built-in structure case (and YellowPages)
             if len(uID_split) == 1:
                 userid = uID_split[0]
