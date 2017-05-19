@@ -232,6 +232,30 @@ public class PolicyEvaluationService {
         return uppMongodb.getUPPById(userId);
     }
 
+    PolicyEvaluationReport ownDataReport(List<OSPDataRequest> ospRequests){
+        PolicyEvaluationReport rp = new PolicyEvaluationReport();
+
+        for(OSPDataRequest ospReq: ospRequests) {
+            RequestEvaluation rEv = new RequestEvaluation();
+            rEv.setDatauser(ospReq.getSubject());
+            rEv.setDatafield(ospReq.getRequestedUrl());
+            rEv.setAction(ospReq.getAction().name());
+            rEv.setResult(Boolean.TRUE);
+            rp.addEvaluationsItem(rEv);
+        }
+        rp.setStatus("true");
+        rp.setCompliance("VALID");
+        return rp;
+    }
+
+    public boolean isOwnData(String userId, List<OSPDataRequest> ospRequests ){
+        for(OSPDataRequest ospReq: ospRequests){
+            if(!ospReq.getRequesterId().equalsIgnoreCase(userId))
+                return false;
+        }
+        return true;
+    }
+
     /**
      * Core implementation of the policy evaluation service. Evaluates if a set
      * of requests matches a user's privacy preferences.
@@ -246,6 +270,9 @@ public class PolicyEvaluationService {
     public PolicyEvaluationReport evaluate(String ospId, String userId, List<OSPDataRequest> ospRequest, String pdbURL) throws NotFoundException {
 
         try {
+            if(isOwnData(userId, ospRequest))
+                return ownDataReport(ospRequest);
+
             /**
              * The response to be sent - yes/no along with a report of why something
              * has been denied.
@@ -264,8 +291,8 @@ public class PolicyEvaluationService {
                 }
             }
             else{
-//                uppProfile = getUPPviaPDB(userId, pdbURL);
-                uppProfile = getUPPviaMongo(userId);
+                uppProfile = getUPPviaPDB(userId, pdbURL);
+//                uppProfile = getUPPviaMongo(userId);
                 if(uppProfile==null) {
                     rp.setStatus("false");
                     rp.setCompliance("NO_POLICY");
