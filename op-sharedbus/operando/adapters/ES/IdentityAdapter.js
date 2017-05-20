@@ -295,6 +295,7 @@ changeRealIdentity = function(user, callback){
                isReal:true,
                deleted:false
            };
+
            persistence.filter("Identity", filter, this.continue("changeRealIdentity"));
        },
         changeRealIdentity:function(err, identities){
@@ -307,6 +308,27 @@ changeRealIdentity = function(user, callback){
                     identity.email = user.email;
                     persistence.saveObject(identity, callback);
                 });
+            }
+            else {
+                persistence.lookup("Identity", user.email, this.continue("createNewIdentity"))
+            }
+        },
+        createNewIdentity:function(err, identity){
+            if(err){
+                console.log(err);
+                callback(err, null);
+            }
+            else if (persistence.isFresh(identity)) {
+                identity['userId'] = user.userId;
+                identity['email'] = user.email;
+                identity['isDefault'] = false;
+                identity['isReal'] = false;
+                identity['deleted'] = false;
+                persistence.saveObject(identity, callback);
+            }
+            else{
+                console.error("An error occured");
+                callback(new Error("An identitiy already exists"), identity);
             }
         }
     })();

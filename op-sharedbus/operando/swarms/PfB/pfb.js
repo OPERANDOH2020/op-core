@@ -95,7 +95,6 @@ var privacyForBenefits = {
 
             var self = this;
             getUserDeals(self.meta.userId, S(function (err, userDeals) {
-                console.log(userDeals);
                 if (err) {
                     console.log(err);
                 }

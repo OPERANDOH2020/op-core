@@ -147,7 +147,7 @@ var loginSwarming = {
                     startSwarm("emails.js", "sendEmail", "no-reply@" + thisAdapter.config.Core.operandoHost,
                         user['email'],
                         "Activate account",
-                        "Your account has been registered \nTo activate it, please access the following link:\n https://" + thisAdapter.config.Core.operandoHost + "/osp-activation/?confirmation_code=" + user.activationCode);
+                        "Your account has been registered \nTo activate it, please access the following link:\n " + thisAdapter.config.PlusPrivacy.OSPHost + "/#/verify/" + user.activationCode);
 
                     //send notification to OSP
                     startSwarm("emails.js", "sendEmail", "no-reply@" + thisAdapter.config.Core.operandoHost,
