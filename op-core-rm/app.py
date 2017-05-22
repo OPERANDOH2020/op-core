@@ -231,12 +231,16 @@ def handleSelect(request, addr):
                     for ev in policies["evaluations"]:
                         print ev
                         if ev["result"] == "false":
-
+                            
                             # find the proper field to strip the data
                             for element in usersValue:
                                 if  element == ev["datafield"]:
                                     restrictedFields.append(ev["datafield"])
                                     usersValue[element] = "***PERMISSION DENIED***"
+                            
+                            for k,v in usersValue.items():
+                                if v == '***PERMISSION DENIED***':
+                                    del usersValue[k]
 
                     logdata(psp_user_identifier, joinSTR(restrictedFields), userid, False)
                     logdata(psp_user_identifier, joinSTR(list(set(fields2query) - set(restrictedFields))), userid, True)    
@@ -281,6 +285,11 @@ def handleSelect(request, addr):
                                     if  element == ev["datafield"]:
                                         restrictedFields.append(ev["datafield"])
                                         item[element] = "***PERMISSION DENIED***"
+                                
+                                for k,v in item.items():
+                                    if v == '***PERMISSION DENIED***':
+                                        del item[k]
+                                    
                         usersValue[counter] = item
                         counter = counter + 1
                         logdata(psp_user_identifier, joinSTR(restrictedFields), userid, False)
@@ -316,6 +325,10 @@ def handleSelect(request, addr):
                                     if f["MetadatafieldregistryDetails"]["Element"] == ev["datafield"]:
                                         restrictedFields.append(ev["datafield"])
                                         f["TextValue"] = "***PERMISSION DENIED***"
+                                        del f["TextValue"]
+                                
+                                
+                                        
                         logdata(psp_user_identifier, joinSTR(restrictedFields), userid, False)
                         logdata(psp_user_identifier, joinSTR(list(set(fields2query) - set(restrictedFields))), userid, True)
 
@@ -338,6 +351,8 @@ def handleSelect(request, addr):
                             if ev["result"] == "false":
                                 restrictedFields.append(ev["datafield"])
                                 jsonResponse[ev["datafield"]] = "***PERMISSION DENIED***"
+                                del jsonResponse[ev["datafield"]]
+                        
 
                         logdata(req_db, joinSTR(restrictedFields), userid, False)
                         logdata(req_db, joinSTR(list(set(fields2query) - set(restrictedFields))), userid, True)
@@ -400,6 +415,7 @@ def handleSelect(request, addr):
                                 if ev["result"] == "false":
                                     restrictedFields.append(ev["datafield"])					
                                     jsonResponse["d"]["results"][i]["datafield"]="***PERMISSION DENIED***"
+                                    del jsonResponse["d"]["results"][i]["datafield"]
                         else:
                             jsonResponse["d"]["results"][i]={"error":"unknown"}				
 
