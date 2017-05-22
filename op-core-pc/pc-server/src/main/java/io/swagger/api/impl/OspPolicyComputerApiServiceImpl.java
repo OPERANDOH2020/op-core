@@ -266,15 +266,26 @@ public class OspPolicyComputerApiServiceImpl extends OspPolicyComputerApiService
                  */
                 Client client = new Client();
                 WebResource webResourcePDB = client.resource(PDB_BASEURL + "/user_privacy_policy/" + userId);
-
-                ClientResponse policyResponse = webResourcePDB.type("application/json").put(ClientResponse.class,
+                ClientResponse policyResponse = webResourcePDB.type("application/json").get(ClientResponse.class);
+                if (policyResponse.getStatus() != 200) {
+                    WebResource webResourcePDB2 = client.resource(PDB_BASEURL + "/user_privacy_policy/");
+                    policyResponse = webResourcePDB2.type("application/json").post(ClientResponse.class,
                         uppProfile.toString());
 
-                /**
-                 * If there is no UPP, then complete fail.
-                 */
-                if(policyResponse.getStatus()==404) {
-                    return Response.status(400).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "User doesn't exist")).build();
+                    if (policyResponse.getStatus() != 201) {
+                        throw new RuntimeException("Failed : HTTP error code : " + policyResponse.toString());
+                    }
+                }
+                else {
+                    policyResponse = webResourcePDB.type("application/json").put(ClientResponse.class,
+                           uppProfile.toString());
+
+                   /**
+                    * If there is no UPP, then complete fail.
+                    */
+                   if(policyResponse.getStatus()==404) {
+                       return Response.status(400).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "User doesn't exist")).build();
+                   }
                 }
                 return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "UPP updated for OSP: ")).build();
             } catch (UniformInterfaceException | ClientHandlerException ex) {

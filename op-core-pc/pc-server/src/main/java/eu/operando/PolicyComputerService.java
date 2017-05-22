@@ -165,12 +165,13 @@ public class PolicyComputerService {
             else {
                 Client client = new Client();
                 WebResource webResourcePDB = client.resource(PDB_URL+"/user_privacy_policy/"+userId);
-
+                System.out.println(PDB_URL+"/user_privacy_policy/"+userId);
                 ClientResponse policyResponse = webResourcePDB.type("application/json").get(ClientResponse.class);
                 if (policyResponse.getStatus() != 200) {
+                    System.out.println(policyResponse.getStatus());
                     policyResponse = webResourcePDB.type("application/json").post(ClientResponse.class,
                         obj.toString());
-                    
+
                     if (policyResponse.getStatus() != 200) {
                         throw new RuntimeException("Failed : HTTP error code : " + policyResponse.toString());
                     }
