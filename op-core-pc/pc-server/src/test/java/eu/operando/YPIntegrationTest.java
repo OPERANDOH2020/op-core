@@ -42,7 +42,7 @@ public class YPIntegrationTest {
     /**
      * UserIds
      */
-    private static final String USER = "302";
+    private static final String USER = "user234";
 
     /**
      * UPP JSON
@@ -114,8 +114,8 @@ public class YPIntegrationTest {
 
         accessRequest = tMethods.createBuildRequest(FIELDIDS2, ROLE1, OSPID, ACTION);
         jsonResponse = tMethods.evaluateBuildPC(USER, OSPID, accessRequest);
-        Assert.assertEquals("false", tMethods.readPolicyReport("status", jsonResponse));
-        Assert.assertEquals("PREFS_CONFLICT", tMethods.readPolicyReport("compliance", jsonResponse));
+        Assert.assertEquals("true", tMethods.readPolicyReport("status", jsonResponse));
+        Assert.assertEquals("VALID", tMethods.readPolicyReport("compliance", jsonResponse));
 
         accessRequest = tMethods.createBuildRequest(FIELDIDS2, ROLE2, OSPID, ACTION);
         jsonResponse = tMethods.evaluateBuildPC(USER, OSPID, accessRequest);

@@ -1,0 +1,107 @@
+{
+    "user_id": "40",
+    "user_preferences": [{
+        "informationtype": "/personal_information/full_name/given_name",
+        "category": "Medical",
+        "preference": "7",
+        "role": "health_care_professional",
+        "action": "ACCESS",
+        "purpose": "Primary Care",
+        "recipient": "none"
+    }, 
+    {
+        "informationtype": "/personal_information/full_name/given_name",
+        "category": "Medical",
+        "preference": "6",
+        "role": "other",
+        "action": "Access",
+        "purpose": "Admin",
+        "recipient": "none"
+    },
+    {
+        "informationtype": "ANY",
+        "category": "Medical",
+        "preference": "2",
+        "role": "other",
+        "action": "Access",
+        "purpose": "Other",
+        "recipient": "none"
+    },{
+        "informationtype": "/personal_information/anthropometric_data",
+        "category": "Medical",
+        "preference": "7",
+        "role": "health_care_professional",
+        "action": "Access",
+        "purpose": "Primary Care",
+        "recipient": "none"
+    }, {
+        "informationtype": "/personal_information/anthropometric_data",
+        "category": "Medical",
+        "preference": "2",
+        "role": "other",
+        "action": "Access",
+        "purpose": "Admin",
+        "recipient": "none"
+    }],
+    "subscribed_osp_policies": [{
+        "osp_id": "YellowPages",
+        "access_policies": [{
+            "subject": "doctor",
+            "permission": "false",
+            "action": "Access",
+            "resource": "personalInfo.patient.name",
+            "attributes": [{}]
+        }, 
+        {
+            "subject": "receptionist",
+            "permission": "true",
+            "action": "Create",
+            "resource": "personalInfo.patient.name",
+            "attributes": [{}]
+        }, 
+        {
+            "subject": "receptionist",
+            "permission": "true",
+            "action": "Delete",
+            "resource": "personalInfo.patient.name",
+            "attributes": [{}]
+        }, 
+        {
+            "subject": "receptionist",
+            "permission": "true",
+            "action": "Update",
+            "resource": "personalInfo.patient.name",
+            "attributes": [{}]
+        }, 
+        {
+            "subject": "receptionist",
+            "permission": "false",
+            "action": "Access",
+            "resource": "personalInfo.anthropometric.weight",
+            "attributes": [{}]
+        }, 
+        {
+            "subject": "doctor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "personalInfo.anthropometric.weight",
+            "attributes": [{}]
+        }, 
+        {
+            "subject": "doctor",
+            "permission": "true",
+            "action": "Update",
+            "resource": "personalInfo.anthropometric.weight",
+            "attributes": [{}]
+        },
+        {
+            "subject": "doctor",
+            "permission": "false",
+            "action": "Delete",
+            "resource": "personalInfo.patient.name",
+            "attributes": [{}]
+        }]
+    }],
+        "subscribed_osp_settings": [{}
+    ]
+}

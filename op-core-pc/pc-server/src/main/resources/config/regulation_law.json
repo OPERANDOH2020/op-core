@@ -1,7 +1,7 @@
 {
     "legislation_sector": "ALL",
-    "reason": "ANY",
+    "reason": "Law Enforcement",
     "private_information_type": "PERSONAL",
     "action": "ANY",
-    "required_consent": "yes"
+    "required_consent": "no"
 }

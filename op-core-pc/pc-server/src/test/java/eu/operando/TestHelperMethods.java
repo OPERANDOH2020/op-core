@@ -201,15 +201,15 @@ public class TestHelperMethods {
      */
     public boolean deleteOSP(String ospId) {
 
-            String urlUser = PDB_OSP_URL + "/" + ospId;
-            WebResource webResourcePDB = client.resource(urlUser);
+        String urlUser = PDB_OSP_URL + "/" + ospId;
+        WebResource webResourcePDB = client.resource(urlUser);
 
-            ClientResponse policyResponse = webResourcePDB.type("application/json").delete(ClientResponse.class);
-            System.out.println("DELETE " + ospId + "status code:" + policyResponse.getStatus());
-            if (policyResponse.getStatus() != 204) {
-                System.err.println("DELETE " + ospId + "error msg:" + policyResponse.getEntity(String.class));
-                return false;
-            }
+        ClientResponse policyResponse = webResourcePDB.type("application/json").delete(ClientResponse.class);
+        System.out.println("DELETE " + ospId + "status code:" + policyResponse.getStatus());
+        if (policyResponse.getStatus() != 204) {
+            System.err.println("DELETE " + ospId + "error msg:" + policyResponse.getEntity(String.class));
+            return false;
+        }
 
         return true;
     }
@@ -419,5 +419,32 @@ public class TestHelperMethods {
             System.err.println("Integration test faild: Compliance must be - " + compliance);
             System.exit(-1);
         }
+    }
+
+    /**
+     * Invoke the PC API to compute the UPP for a user for this new OSP policy.
+     * Called when a user subscribes to a new OSP
+     * @param userId The OperandoID of the user subscribing.
+     * @param ospId The OperandoID of the OSP to subscribe to.
+     * @return The result message string (info from the HTTP call).
+     */
+    public String computePC(String userId, String ospId) {
+        /**
+         * Create a Jersey client for call the FIESTA APIs.
+         */
+        Client client = Client.create();
+
+        String urlInv = "/osp_policy_computer?user_id=" + userId +"&osp_id=" + ospId;
+        /**
+         * Make a call to the IoT-Service API without credentials and get
+         * and unauthorized response.
+         */
+        WebResource pcService = client.resource(PC_URL + urlInv);
+        ClientResponse pcServiceResponse = pcService.type("application/json").post(ClientResponse.class);
+        if (pcServiceResponse.getStatus() != 200) {
+           System.err.println("Error: the evaluation call produced an error");
+           return pcServiceResponse.getEntity(String.class);
+        }
+        return pcServiceResponse.getEntity(String.class);
     }
 }

@@ -37,7 +37,7 @@ public class YP301Test {
      /**
      * UserIds
      */
-    private static final String USER = "301";
+    private static final String USER = "302";
 
 
     /**
@@ -73,14 +73,21 @@ public class YP301Test {
     public static void main(String[] args) {
 
         TestHelperMethods tMethods = new TestHelperMethods();
-
-        String accessRequest = tMethods.createRequest(FIELDIDS, ROLE1, OSPID, ACTION);
-        System.out.println("Doctor trying to access fields: ");
-        System.out.println("-------------------------------------------------");
-        System.out.println(tMethods.evaluatePC(USER, OSPID, accessRequest));
-        System.out.println("-------------------------------------------------");
-
-        accessRequest = tMethods.createRequest(FIELDIDS, ROLE2, OSPID, ACTION);
+        long time1 = System.currentTimeMillis();
+        for(int k=0; k<100; k++){
+            for(int i=0; i<25; i++){
+                int role = 301 + i;
+                String roleid = String.valueOf(role);
+                String accessRequest = tMethods.createRequest(FIELDIDS, ROLE1, OSPID, ACTION);
+                System.out.println(k + " Doctor trying to access fields: " + roleid);
+                System.out.println("-------------------------------------------------");
+                System.out.println(tMethods.evaluatePC(roleid, OSPID, accessRequest));
+                System.out.println("-------------------------------------------------");
+            }
+            long time2 = System.currentTimeMillis();
+            System.out.println("The time taken = " + (time2-time1));
+        }
+        String accessRequest = tMethods.createRequest(FIELDIDS, ROLE2, OSPID, ACTION);
         System.out.println("Receptionist trying to access fields: ");
         System.out.println("-------------------------------------------------");
         System.out.println(tMethods.evaluatePC(USER, OSPID, accessRequest));

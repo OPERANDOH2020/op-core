@@ -36,12 +36,15 @@ import eu.operando.core.pdb.common.model.OSPDataRequest;
 import eu.operando.core.pdb.common.model.OSPDataRequest.ActionEnum;
 import io.swagger.model.PolicyEvaluationReport;
 import io.swagger.model.RequestEvaluation;
+import io.swagger.model.UserPolicyEvaluationReport;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import net.minidev.json.JSONArray;
 import org.apache.http.HttpEntity;
 import org.apache.http.ParseException;
@@ -394,5 +397,106 @@ public class PolicyEvaluationService {
             rp.setCompliance("NO_POLICY");
             return rp;
         }
+    }
+
+    /**
+     * Core implementation of the policy evaluation service. Evaluates if a set
+     * of requests matches a user's privacy preferences.
+     *
+     * @param ospId The ID of the OSP. This is used to identify existing user policies already computed.
+     * @param ospRequest The array of individual ODATA field requests.
+     * @return
+     * @throws NotFoundException
+     */
+    public String batchEvaluate(String ospId, List<OSPDataRequest> ospRequest, String upps) throws NotFoundException {
+        // for each user create an evaluation report
+        String report = "[";
+        JSONArray uppElements = JsonPath.read(upps, "$.*.user_id");
+        for(Object Upp: uppElements){
+            String uppCal = Upp.toString();
+
+            UserPolicyEvaluationReport idividualEval = idividualEval(upps, uppCal, ospId, ospRequest);
+            report += idividualEval.toString() +",";
+        }
+        if(report.length()>1) {
+            report = report.substring(0, report.length()-1);
+        }
+        else{
+            report+="]";
+        }
+        return report;
+    }
+
+    private UserPolicyEvaluationReport idividualEval(String uppIn, String userId, String ospId, List<OSPDataRequest> ospRequest) {
+        UserPolicyEvaluationReport rp = new UserPolicyEvaluationReport();
+        rp.setId(userId);
+
+        boolean permit = true;
+        ODATAPolicies odata = new ODATAPolicies();
+        /**
+         * Evaluate the oData field request against the UPP user access policies
+         */
+        for (OSPDataRequest rIn: ospRequest) {
+            ActionEnum actionInput = rIn.getAction();
+            OSPDataRequest r = actionCheck(rIn);
+            String oDataURL = r.getRequestedUrl();
+            String Category="ALL";
+            try {
+                Category = odata.getElementDataPath(oDataURL);
+            } catch (InvalidPreferenceException ex) {
+                Logger.getLogger(PolicyEvaluationService.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            JSONArray access_policies = JsonPath.read(uppIn, "$..[?(@.user_id=='"+userId+"')].subscribed_osp_policies[?(@.osp_id=='"+ospId+"')].access_policies[?(@.resource=='"+ Category +"')]");
+            while((access_policies.isEmpty()) && (Category.length() > 0)) {
+                try{
+                    Category = Category.substring(0, Category.lastIndexOf("/"));
+                    System.out.println("Category 22 = " + Category);
+                    access_policies = JsonPath.read(uppIn, "$..[?(@.user_id=='"+userId+"')].subscribed_osp_policies[?(@.osp_id=='"+ospId+"')].access_policies[?(@.resource=='"+ Category +"')]");
+                    System.out.println("Acces policies 22 = " + access_policies.size());
+                }
+                catch(Exception e){
+                    break;
+                }
+
+            }
+
+            // For each of the access requests in the list
+            for(Object aP: access_policies) {
+                String subject = JsonPath.read(aP, "$.subject");
+                if(subject.equalsIgnoreCase(r.getSubject())) { // Check the subject
+                    if (JsonPath.read(aP, "$.action").toString().equalsIgnoreCase(r.getAction().name())){ // Check the action
+                        boolean perm = Boolean.parseBoolean(JsonPath.read(aP, "$.permission").toString());
+                        RequestEvaluation rEv = new RequestEvaluation();
+                            rEv.setDatauser(r.getSubject());
+                            rEv.setDatafield(oDataURL);
+                            rEv.setAction(actionInput.name());
+                        if(!perm) {
+                            permit = false;
+                            rEv.setResult(false);
+                            rp.addEvaluationsItem(rEv);
+                        }
+                        else{
+                            rEv.setResult(true);
+                            rp.addEvaluationsItem(rEv);
+                        }
+
+
+                    }
+                }
+            }
+        }
+        if(permit) {
+            rp.setStatus("true");
+            rp.setCompliance("VALID");
+        }
+        else {
+            rp.setStatus("false");
+            rp.setCompliance("PREFS_CONFLICT");
+        }
+
+        String policyReport = rp.toString();
+        System.out.println(policyReport);
+        System.gc();
+        return rp;
     }
 }

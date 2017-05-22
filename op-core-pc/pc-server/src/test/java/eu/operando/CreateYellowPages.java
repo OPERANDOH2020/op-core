@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////
 //
-// © University of Southampton IT Innovation Centre, 2016
+// ? University of Southampton IT Innovation Centre, 2016
 //
 // Copyright in this library belongs to the University of Southampton
 // University Road, Highfield, Southampton, UK, SO17 1BJ
@@ -24,23 +24,23 @@
 //  License : GNU Lesser General Public License, version 3
 //
 /////////////////////////////////////////////////////////////////////////
-package io.swagger.api;
+package eu.operando;
 
+/**
+ * A set of unit tests to check the post/put and delete operations of the
+ * PDB User Privacy Policy API.
+ *
+ * Uses example JSON policies from the yellow pages application.
+ *
+ */
+public class CreateYellowPages {
+    public static void main(String[] args) {
+        TestHelperMethods tMethods = new TestHelperMethods();
+//        System.out.println(tMethods.createOSP("yellowpages.json"));
+//        System.out.println(tMethods.createOSP("ami.json"));
+        System.out.println(tMethods.createOSP("aslbergamo_gat.json"));
+//        System.out.println(tMethods.deleteOSP("59141974ee35880033b27479"));
 
-import eu.operando.core.pdb.common.model.OSPDataRequest;
+    }
 
-import java.util.List;
-import io.swagger.api.NotFoundException;
-
-
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
-
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-06-27T09:46:42.374Z")
-public abstract class OspPolicyEvaluatorApiService {
-      public abstract Response ospPolicyEvaluatorPost(String userId,String ospId,List<OSPDataRequest> ospRequest,SecurityContext securityContext)
-      throws NotFoundException;
-
-      public abstract Response ospPolicyBatchEvaluatorPost(String ospId,List<OSPDataRequest> ospRequest,SecurityContext securityContext)
-      throws NotFoundException;
 }

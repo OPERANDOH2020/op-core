@@ -218,7 +218,9 @@ public class RegulationTest {
 
     /**
      * This is the workflow that describes and validates the integration
-     * of the PC and PDB components.
+     * of the PC and PDB components in order to provide the functionalities
+     * relevant to the management and computation of privacy regulations from
+     * individual OSPs.
      *
      * @param args the command line arguments
      */

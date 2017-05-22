@@ -27,6 +27,7 @@
 package io.swagger.api.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.jsonpath.JsonPath;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
@@ -52,6 +53,7 @@ import java.util.logging.Logger;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import net.minidev.json.JSONArray;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -106,6 +108,32 @@ public class OspPolicyComputerApiServiceImpl extends OspPolicyComputerApiService
     }
 
     /**
+     * Query for an OSP policy using a friendly keyword e.g. foodcoach versus
+     * the ID 4534534.
+     *
+     * @param friendlyName The keywords to search for.
+     * @return The Operando ospID for the OSP with this friendly data.
+     */
+    public String ospQuerybyFriendlyName(String friendlyName) {
+        Client client = new Client();
+        String ospAPI = PDB_BASEURL + "/OSP"+"/?filter=%7B%27policy_url%27:%27" + friendlyName + "%27%7D" ;
+        System.out.println(ospAPI);
+        WebResource webResourcePDB = client.resource(ospAPI);
+        ClientResponse policyResponse = webResourcePDB.type("application/json").get(ClientResponse.class);
+        if(policyResponse.getStatus() != 200) {
+            return null;
+        }
+        String filterResults = policyResponse.getEntity(String.class);
+        JSONArray access_policies = JsonPath.read(filterResults, "$..[?(@.policy_url=='" + friendlyName + "')]");
+        for(Object aP: access_policies) {
+            String id = JsonPath.read(aP, "$.osp_policy_id");
+            if(id != null)
+                return id;
+        }
+        return null;
+    }
+
+    /**
      * Load the configuration properties from the resource file in JAR/WAR and
      * turn then into JAVA properties class.
      * @return The list of JAVA properties reflecting the configuration.
@@ -148,6 +176,7 @@ public class OspPolicyComputerApiServiceImpl extends OspPolicyComputerApiService
         try {
 
             String currentUpp = null;
+            String ospNumericId = ospQuerybyFriendlyName(ospId);
             System.out.println("userid: " + userId + " ospId: "+ ospId + "PDB: " + PDB_BASEURL);
             if(userId.startsWith("_demo")) {
                 currentUpp = policyService.getUPP(userId);
@@ -162,23 +191,30 @@ public class OspPolicyComputerApiServiceImpl extends OspPolicyComputerApiService
                     CloseableHttpResponse response1 = httpclient.execute(httpget);
 
                     /**
-                     * If there is no UPP, then it returns an non-compliance report
-                     * with a NO_POLICY statement.
+                     * If there is no UPP, then create a new UPP
                      */
                     HttpEntity entity = response1.getEntity();
                     System.out.println(response1.getStatusLine().getStatusCode());
                     if(response1.getStatusLine().getStatusCode()==404) {
-                        return Response.status(400).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "UserId doesn't exist")).build();
+                        currentUpp = null;
+                    } else {
+                        currentUpp = EntityUtils.toString(entity);
                     }
-                    currentUpp = EntityUtils.toString(entity);
-                    System.out.println(currentUpp);
+
                 } catch (IOException ex) {
                     return Response.status(400).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "UserId doesn't exist")).build();
                 }
             }
             // Create a subscribed policy statement and store it in the UPP
             ObjectMapper mapper = new ObjectMapper();
-            UserPrivacyPolicy uppProfile = mapper.readValue(currentUpp, UserPrivacyPolicy.class);
+            UserPrivacyPolicy uppProfile = null;
+            if(currentUpp != null) {
+                 uppProfile = mapper.readValue(currentUpp, UserPrivacyPolicy.class);
+            }
+            else {
+                uppProfile = new UserPrivacyPolicy();
+                uppProfile.setUserId(userId);
+            }
             List<OSPConsents> subscribedOspPolicies = uppProfile.getSubscribedOspPolicies();
             System.out.println("Number of polices for this OSP: " + subscribedOspPolicies.size());
 
@@ -189,10 +225,11 @@ public class OspPolicyComputerApiServiceImpl extends OspPolicyComputerApiService
             String currentOSP = null;
             try {
                 /**
-                 * Get the UPP from the PDB.
+                 * Get the OSP from the PDB.
                  */
                 CloseableHttpClient httpclient = HttpClients.createDefault();
-                HttpGet httpget = new HttpGet(PDB_BASEURL + "/OSP/" + ospId);
+                String ospURL = PDB_BASEURL + "/OSP/" + ospNumericId;
+                HttpGet httpget = new HttpGet(ospURL);
                 CloseableHttpResponse response1 = httpclient.execute(httpget);
 
                 /**

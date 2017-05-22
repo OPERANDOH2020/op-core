@@ -155,7 +155,7 @@ public class PDBTest {
 
         ClientResponse policyResponse = webResourcePDB.type("application/json").delete(ClientResponse.class);
 
-        if (policyResponse.getStatus() != 200) {
+        if (policyResponse.getStatus() != 204) {
             System.err.println(policyResponse.getEntity(String.class));
             return false;
         }
@@ -190,7 +190,7 @@ public class PDBTest {
             ClientResponse policyResponse = webResourcePDB.type("application/json").put(ClientResponse.class,
                     content);
 
-            if (policyResponse.getStatus() != 200) {
+            if (policyResponse.getStatus() != 204) {
                 System.err.println(policyResponse.getEntity(String.class));
                 return false;
             }
@@ -238,39 +238,39 @@ public class PDBTest {
         /**
          * Initial setup - check that the database is clean of the test UPPs
          */
-        if(testObj.checkUPP("pat2"))
-            testObj.deleteUPP("pat2");
-        if(testObj.checkUPP("pete2"))
-            testObj.deleteUPP("pete2");
+        if(testObj.checkUPP("pat"))
+            testObj.deleteUPP("pat");
+        if(testObj.checkUPP("pete"))
+            testObj.deleteUPP("pete");
 
         /**
          * POST with 2 users. Assert that two users are added correctly
          */
-        if(testObj.postUPP("pat2", "pat.json") != 201) {
+        if(testObj.postUPP("pat", "pat.json") != 201) {
             System.err.println("Test failed - adding pat");
         }
 
-        if(testObj.postUPP("pete2", "pete.json") != 201) {
+        if(testObj.postUPP("pete", "pete.json") != 201) {
             System.err.println("Test failed - adding pete");
         }
 
         /**
          * Get the UPP
          */
-        String pat = testObj.getUPP("pat2");
-        String pete = testObj.getUPP("pete2");
+        String pat = testObj.getUPP("pat");
+        String pete = testObj.getUPP("pete");
 
         Object document = Configuration.defaultConfiguration().jsonProvider().parse(pat);
         Object document2 = Configuration.defaultConfiguration().jsonProvider().parse(pete);
 
         // Assert that the JSON id is correct
         String userId1 = JsonPath.read(document, "$.user_id");
-        if(!userId1.equalsIgnoreCase("pat2")) {
+        if(!userId1.equalsIgnoreCase("pat")) {
             System.err.println("Test failed - upp is not correct for pat");
         }
 
         String userId2 = JsonPath.read(document2, "$.user_id");
-        if(!userId2.equalsIgnoreCase("pete2")) {
+        if(!userId2.equalsIgnoreCase("pete")) {
             System.err.println("Test failed - upp is not correct for pete");
         }
 
@@ -281,11 +281,11 @@ public class PDBTest {
         /**
          * Update Pat
          */
-        if(!testObj.updateUPP("pat2", "pat_update.json")) {
+        if(!testObj.updateUPP("pat", "pat_update.json")) {
             System.err.println("Test failed - pat2 failed to update");
         }
 
-        if (!testObj.assertPermission(testObj.getUPP("pat2"), "doctor", "/personal_information/full_name/given_name", false)){
+        if (!testObj.assertPermission(testObj.getUPP("pat"), "doctor", "/personal_information/full_name/given_name", false)){
             System.err.println("Test failed - pat access policy not updated");
         }
 
@@ -293,16 +293,16 @@ public class PDBTest {
          * Delete the UPPs
          *
          */
-        if(!testObj.deleteUPP("pat2")){
+        if(!testObj.deleteUPP("pat")){
             System.err.println("Test failed - failed to delete pat upp");
         }
-        if(testObj.checkUPP("pat2"))
+        if(testObj.checkUPP("pat"))
             System.err.println("Test failed - failed to delete pat upp");
 
-        if(!testObj.deleteUPP("pete2")){
+        if(!testObj.deleteUPP("pete")){
             System.err.println("Test failed - failed to delete pete upp");
         }
-        if(testObj.checkUPP("pete2"))
+        if(testObj.checkUPP("pete"))
             System.err.println("Test failed - failed to delete pete upp");
     }
 

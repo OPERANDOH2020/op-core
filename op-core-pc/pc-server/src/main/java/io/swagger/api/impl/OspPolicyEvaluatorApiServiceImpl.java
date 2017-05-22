@@ -47,6 +47,12 @@ import javax.ws.rs.core.MediaType;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 
 /**
  * Implementation of the Policy Evaluation API of the Policy Computation
@@ -183,5 +189,75 @@ public class OspPolicyEvaluatorApiServiceImpl extends OspPolicyEvaluatorApiServi
          * Send the evaluation report
          */
          return Response.ok(rp.toString(), MediaType.APPLICATION_JSON).build();
+    }
+
+    @Override
+    /**
+     * Implementation of the Evaluation method.
+     * POST REST Method - pass information about the user, the service, and
+     * the requests that the services wishes to carry out on the user's data.
+     * Returns a report as a JSON object that lists all of the requests with
+     * grant/deny reasons.
+     * @param userId The OPERANDO unique user identifier.
+     * @param ospId The OPERANDO unique service (OSP) identifier.
+     * @param ospRequest The list of data requests by the OSP on this user data.
+     * @return The policy evaluation report.
+     */
+    public Response ospPolicyBatchEvaluatorPost(String ospId, List<OSPDataRequest> ospRequest, SecurityContext securityContext)
+            throws NotFoundException {
+
+        if(ospId==null){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        /**
+         * Check the ST in the request. Only valid tickets can call the evaluation API.
+         */
+
+        /**
+         * Log the request in the LogDB
+         */
+
+        String uppsURL = "http://integration.operando.esilab.org:8096/operando/core/pdb/user_privacy_policy/?filter=%7B%27subscribed_osp_policies.osp_id%27:%27"+ospId+"%27%7D";
+        String uppProfile = null;
+        try {
+
+            /**
+             * Get the UPP from the PDB.
+             */
+            CloseableHttpClient httpclient = HttpClients.createDefault();
+            HttpGet httpget = new HttpGet(uppsURL);
+            CloseableHttpResponse response1 = httpclient.execute(httpget);
+
+            /**
+             * If there is no UPP, then it returns an non-compliance report
+             * with a NO_POLICY statement.
+             */
+            HttpEntity entity = response1.getEntity();
+            if(response1.getStatusLine().getStatusCode()==404) {
+                return null;
+            }
+            uppProfile = EntityUtils.toString(entity);
+            httpclient.close();
+            response1.close();
+            httpget.releaseConnection();
+
+        } catch (IOException ex) {
+            return null;
+        }
+
+        /**
+         * Carry out the evaluation
+         */
+        String rp = policyService.batchEvaluate(ospId, ospRequest, uppProfile);
+
+        /**
+         * Add to the notification API to inform the user of the evaluation.
+         */
+
+        /**
+         * Send the evaluation report
+         */
+         return Response.ok(rp, MediaType.APPLICATION_JSON).build();
     }
 }

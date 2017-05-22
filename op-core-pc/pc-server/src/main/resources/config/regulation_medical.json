@@ -1,0 +1,7 @@
+{
+    "legislation_sector": "MEDICAL",
+    "reason": "Emergency Healthcare",
+    "private_information_type": "Medical",
+    "action": "ANY",
+    "required_consent": "no"
+}

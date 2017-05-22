@@ -32,10 +32,9 @@ package eu.operando;
  * by the PC, they match the preferences of a scenario user: userid - Pete2.
  *
  */
-public class asl_gat {
+public class asl_gat_compute {
 
     private static String OSPID = "ASLBG_GA";
-
 
      /**
      * Access Field Ids.
@@ -87,13 +86,13 @@ public class asl_gat {
     private static final String ROLE1 = "ASL Bergamo - GAT - Doctor";
     private static final String ROLE2 = "ASL Bergamo - GAT - Patient";
     private static final String ACTION = "SELECT";
-    private static final String USER = "panos";
+    private static final String USER = "48";
 
 
     /**
      * Constructor for stateful method calls.
      */
-    public asl_gat() {
+    public asl_gat_compute() {
 
     }
 
@@ -104,15 +103,13 @@ public class asl_gat {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        asl_gat_compute odpdb = new asl_gat_compute();
         TestHelperMethods tMethods = new TestHelperMethods();
 
-        /**
-         * Simulate a user signing up and subscribing to the asl_gat
-         */
-        String jsonResponse = tMethods.computePC("76", OSPID);
+        String jsonResponse = tMethods.computePC(USER, OSPID);
         System.out.println(jsonResponse);
 
-        String accessRequest = tMethods.createRequest(GAPATIENT_FIELDIDS, ROLE2, USER, ACTION);
+        String accessRequest = tMethods.createRequest(GAPATIENT_FIELDIDS, ROLE1, USER, ACTION);
 
         System.out.println("Patient trying to access own GAT fields: ");
         System.out.println("-------------------------------------------------");
@@ -136,6 +133,7 @@ public class asl_gat {
         System.out.println("-------------------------------------------------");
         System.out.println(tMethods.evaluatePC(USER, OSPID, accessRequest));
         System.out.println("-------------------------------------------------");
+
 
     }
 
