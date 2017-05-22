@@ -218,7 +218,7 @@ def handleSelect(request, addr):
                 print fields2query
                 print "#"*20
                 policies = getPCresponse(action="Select", osp=req_db, userid=userid,
-                                                 requester_id=req_db, role=requester_Role, urls=fields2query)
+                                                 requester_id=psp_user_identifier, role=requester_Role, urls=fields2query)
                 print ("pc polices for userid %s are %s" %(userid, policies))
                 
                 if policies["compliance"] == "NO_POLICY":
@@ -263,7 +263,7 @@ def handleSelect(request, addr):
                     print userid
                 
                     policies = getPCresponse(action="Select", osp=req_db, userid=userid,
-                                                     requester_id=req_db, role=requester_Role, urls=fields2query)
+                                                     requester_id=psp_user_identifier, role=requester_Role, urls=fields2query)
                     
                     if policies["compliance"] == "NO_POLICY":
                         # there is no policy defined so return the result
@@ -300,7 +300,7 @@ def handleSelect(request, addr):
                             f["MetadatafieldregistryDetails"]["Element"])
 
                     policies = getPCresponse(action="Select", osp=req_db, userid=userid,
-                                             requester_id=req_db, role=requester_Role, urls=fields2query)
+                                             requester_id=psp_user_identifier, role=requester_Role, urls=fields2query)
                     if policies["compliance"] == "NO_POLICY":
                         # there is no policy defined so return the result
                         # return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
@@ -327,7 +327,7 @@ def handleSelect(request, addr):
                     restrictedFields = []
                     # no metadata
                     policies = getPCresponse(action="Select", osp=req_db, userid=userid,
-                                             requester_id=req_db, role=requester_Role, urls=jsonResponse['d'].keys())
+                                             requester_id=psp_user_identifier, role=requester_Role, urls=jsonResponse['d'].keys())
                     if policies["compliance"] == "NO_POLICY":
                         # there is no policy defined so return the result
                         return Response(json.dumps({"error": "Policies restrictions"}), status=200, mimetype='application/json')
@@ -360,7 +360,7 @@ def handleSelect(request, addr):
                                 f["MetadatafieldregistryDetails"]["Element"])
 
                         policies = getPCresponse(action="Select", osp=req_db, userid=userid,
-                                                 requester_id=req_db, role=requester_Role, urls=fields2query)
+                                                 requester_id=psp_user_identifier, role=requester_Role, urls=fields2query)
                         if policies["compliance"] == "NO_POLICY":
                             # there is no policy defined so return the result
                             jsonResponse["d"]["results"][i]={"error":"Policies restrictions"}
@@ -389,7 +389,7 @@ def handleSelect(request, addr):
                     for i in range(len(rows)):
                         userid=jsonResponse["d"]["results"][i]["Iduser"]
                         policies = getPCresponse(action="Select", osp=req_db, userid=jsonResponse["d"]["results"][i]["Iduser"],
-                                                 requester_id=req_db, role=requester_Role, urls=jsonResponse["d"]["results"][i].keys())
+                                                 requester_id=psp_user_identifier, role=requester_Role, urls=jsonResponse["d"]["results"][i].keys())
                         if policies["compliance"] == "NO_POLICY":
                             # there is no policy defined so return the result
                             jsonResponse["d"]["results"][i]={"error":"Policies restrictions"}
@@ -436,7 +436,7 @@ def handleInsert(request, addr):
                'Accept': '*/*', 'osp-identifier': req_db, 'psp-user-identifier': psp_user_identifier}
     # have to check with PC whether this guy can insert.
     res = getPCresponse(action="Insert", osp=req_db, userid="",
-                        requester_id=req_db, subject="", urls=[])
+                        requester_id=psp_user_identifier, subject="", urls=[])
     # suppose that the response is true
     r = requests.post(__DAN_url % addr, headers=headers,
                       data=json.dumps(request.json), verify=False)
@@ -466,7 +466,7 @@ def handleUpdate(request, addr):
                'Accept': '*/*', 'osp-identifier': req_db, 'psp-user-identifier': 'unknown', }
     # have to check with PC whether this guy can insert.
     res = getPCresponse(action="Update", osp=req_db, userid="",
-                        requester_id=req_db, subject="", urls=[])
+                        requester_id=psp_user_identifier, subject="", urls=[])
     r = requests.put(__DAN_url % addr, headers=headers,
                      data=request.json, verify=False)
     if r.status_code == 200:
