@@ -837,7 +837,7 @@
                         "name": "Disabled."
                     }
                 },
-                "recommended": "disabled"
+                "recommended": "enabled"
             },
             "id": 11,
             "tags": [
