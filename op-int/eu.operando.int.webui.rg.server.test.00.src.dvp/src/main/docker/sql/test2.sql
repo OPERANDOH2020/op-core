@@ -20,12 +20,15 @@ SET time_zone = "+00:00";
 -- Database: `operando_report`
 --
 
+CREATE DATABASE IF NOT EXISTS `operando_report` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `operando_report`;
 -- --------------------------------------------------------
 
 --
 -- Struttura della tabella `t_report_mng_list`
 --
 
+DROP TABLE IF EXISTS `t_report_mng_list`;
 CREATE TABLE IF NOT EXISTS `t_report_mng_list` (
   `Report` varchar(200) NOT NULL,
   `Description` varchar(200) DEFAULT NULL,
@@ -57,6 +60,7 @@ INSERT INTO `t_report_mng_list` (`Report`, `Description`, `Version`, `Location`,
 -- Struttura della tabella `t_report_mng_request`
 --
 
+DROP TABLE IF EXISTS `t_report_mng_request`;
 CREATE TABLE IF NOT EXISTS `t_report_mng_request` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `InsertDate` datetime NOT NULL,
@@ -87,6 +91,7 @@ INSERT INTO `t_report_mng_request` (`ID`, `InsertDate`, `Name`, `Email`, `Descri
 -- Struttura della tabella `t_report_mng_results`
 --
 
+DROP TABLE IF EXISTS `t_report_mng_results`;
 CREATE TABLE IF NOT EXISTS `t_report_mng_results` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `ExecutionDate` datetime NOT NULL,
@@ -126,6 +131,7 @@ INSERT INTO `t_report_mng_results` (`ID`, `ExecutionDate`, `Report`, `ReportDesc
 -- Struttura della tabella `t_report_mng_schedules`
 --
 
+DROP TABLE IF EXISTS `t_report_mng_schedules`;
 CREATE TABLE IF NOT EXISTS `t_report_mng_schedules` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
   `OSPs` varchar(200) NOT NULL,
