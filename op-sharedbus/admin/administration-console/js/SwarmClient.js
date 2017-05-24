@@ -19,7 +19,7 @@ function SwarmClient(host, port, userId, authToken, tenantId, loginCtor, securit
     var currentAttemptToReconnect = 0;
     var connectionString;
     if(useSocketIo){
-        connectionString ="http://"+host + ":" + port;
+        connectionString ="https://"+host + ":" + port;
     }else{
         connectionString ="ws://"+host + ":" + port;
     }

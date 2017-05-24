@@ -18,7 +18,7 @@ var menuCtrl = {
 					});
 					self.result = [];
 
-					if (zoneNames.indexOf("ALL_USERS") !== -1) {
+					if (zoneNames.indexOf("Admin") !== -1) {
 						self.result.push({
 							icon: "glyphicon glyphicon-user",
 							name: "Users Management",

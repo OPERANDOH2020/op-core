@@ -87,7 +87,8 @@ var initOperando = {
                          "iOS",
                          "Android",
                          "Extension",
-                         "Analysts"
+                         "Analysts",
+                         "Admin"
                 ];
                 var createdZones = [];
                 var errors = [];
@@ -169,7 +170,6 @@ var initOperando = {
                         email: "test@plusprivacy.com",
                         organisationId: "Public"
                     }
-
                 ];
 
                 var createdUsers = [];
