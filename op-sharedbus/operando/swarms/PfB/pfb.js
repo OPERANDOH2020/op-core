@@ -10,7 +10,7 @@
  * Initially developed in the context of OPERANDO EU project www.operando.eu
  */
 
-var url=require('url');
+var parseDomain = require('parse-domain');
 var privacyForBenefits = {
     meta: {
         name: "pfb.js"
@@ -39,13 +39,9 @@ var privacyForBenefits = {
     },
 
     getWebsiteOffer: function (_website) {
-
-        this.website = url.parse(_website).hostname;
-
-        if (this.website.indexOf("www.") > -1) {
-            this.website = this.website.split('www.')[1];
-        }
-
+        var domainParsed = (parseDomain(_website));
+        this.website = domainParsed.domain+"."+domainParsed.tld ;
+        console.log(this.website);
         this.swarm("websiteHasOffer");
     },
     websiteHasOffer: {

@@ -63,6 +63,7 @@
 	"uuid":">=2.0.0",
     "firebase-admin":">=1.0.0",
 	"url":">=0.11.0",
+	"parse-domain":">=1.1.0",
     "image-diff":">=1.6.3",
     "firebase-admin":">=1.0.0"
 
