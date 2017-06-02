@@ -31,9 +31,8 @@ exports.createUser = function (userData, callback) {
             callback(new Error("User with email "+userData.email+" already exists"));
         }else{
             var user = apersistence.createRawObject("DefaultUser",uuid.v1());
-
             var activationCode = new Buffer(user.userId).toString('base64');
-            if(thisAdapter.config.development && thisAdapter.config.development === true ){
+            if(thisAdapter.config.development === true){
                 activationCode = "0";
             }
 
