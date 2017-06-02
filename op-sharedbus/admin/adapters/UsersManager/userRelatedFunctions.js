@@ -31,6 +31,12 @@ exports.createUser = function (userData, callback) {
             callback(new Error("User with email "+userData.email+" already exists"));
         }else{
             var user = apersistence.createRawObject("DefaultUser",uuid.v1());
+
+            var activationCode = new Buffer(user.userId).toString('base64');
+            if(thisAdapter.config.development && thisAdapter.config.development === true ){
+                activationCode = "0";
+            }
+
             userData.salt = crypto.randomBytes(saltLength).toString('base64');
             hashThisPassword(userData.password,userData.salt,function(err,hashedPassword){
                 userData.password = hashedPassword;
@@ -106,14 +112,15 @@ exports.updateUser = function (userJsonObj, callback) {
 };
 
 exports.activateUser = function(activationCode,callback){
-    filterUsers({"activationCode":activationCode},function(err,users){
+    var userId = new Buffer(activationCode,'base64').toString();
+    getUserInfo(userId,function(err,user){
         if(err){
             callback(err);
-        }else if(users.length===0){
+        }else if(!user){
             callback(new Error("No user with activation code "+activationCode));
         }else{
-            users[0].activationCode = "0";
-            persistence.saveObject(users[0],callback)
+            user.activationCode = "0";
+            persistence.saveObject(user,callback)
         }
     })
 };
@@ -145,16 +152,10 @@ exports.newUserIsValid = function (newUser, callback) {
                     callback(new Error("passwordsNotMatch"));
                 }
                 else {
-
-                    var activationCode = new Buffer(uuid.v1()).toString('base64');
-                    if(thisAdapter.config.development && thisAdapter.config.development === true ){
-                        activationCode = "0";
-                    }
                     createUser({
                         password: newUser.password,
                         email: newUser.email,
-                        organisationId: "Public",
-                        activationCode:activationCode
+                        organisationId: "Public"
                     }, function (err, user) {
                         delete user['password'];
                         delete user['salt'];
@@ -288,7 +289,7 @@ function hashThisPassword(plainPassword,salt,callback){
             callback(undefined,res.toString('base64'));
         }
     });
-};
+}
 
 exports.createOrganisation = function (organisationDump, callback) {
     flow.create("create organisation", {
