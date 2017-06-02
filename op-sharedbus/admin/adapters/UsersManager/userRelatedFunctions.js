@@ -112,7 +112,7 @@ exports.updateUser = function (userJsonObj, callback) {
 
 exports.activateUser = function(activationCode,callback){
     var userId = new Buffer(activationCode,'base64').toString();
-    getUserInfo(userId,function(err,user){
+    persistence.findById("DefaultUser", userId, function(err,user){
         if(err){
             callback(err);
         }else if(!user){
