@@ -35,7 +35,7 @@ exports.createUser = function (userData, callback) {
             if(thisAdapter.config.development === true){
                 activationCode = "0";
             }
-
+            user.activationCode = activationCode;
             userData.salt = crypto.randomBytes(saltLength).toString('base64');
             hashThisPassword(userData.password,userData.salt,function(err,hashedPassword){
                 userData.password = hashedPassword;
