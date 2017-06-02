@@ -41,7 +41,7 @@ var osp = {
     addOspOffer:function(offerDetails){
         this.userId = this.meta.userId;
         this.offerDetails = offerDetails;
-        this.swarm("createOspOffer");
+        this.swarm("checkOfferId");
     },
     deleteOspOffer:function(offerId){
       this.offerId = offerId;
@@ -291,9 +291,37 @@ var osp = {
                        delete offer["__meta"];
                     });
                     self.offers = offers;
-                    self.home("success");
+                    self.swarm("checkIfModifiable");
                 }
             }));
+        }
+    },
+
+    checkIfModifiable:{
+        node:"PrivacyForBenefitsManager",
+        code:function(){
+            var offersNumber = this.offers.length-1;
+            var self = this;
+
+            var checkOffer = function(offersNumber){
+                if(offersNumber == -1){
+                    return;
+                }
+                else {
+                    getOSPAcceptedOffers(self.offers[offersNumber].offerId, S(function (err, acceptedOffers) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        self.offers[offersNumber].isModifiable = (acceptedOffers.length === 0);
+
+                        offersNumber--;
+                        checkOffer(offersNumber);
+                    }));
+                }
+            };
+
+            checkOffer(offersNumber);
+            self.home("success");
         }
     },
 
@@ -328,6 +356,26 @@ var osp = {
         }
     },
 
+    checkOfferId:{
+        node:"PrivacyForBenefitsManager",
+        code: function () {
+            var self = this;
+            if (this.offerDetails.offerId) {
+                getOSPAcceptedOffers(this.offerDetails.offerId, S(function (err, acceptedOffers) {
+                    if (acceptedOffers.length > 0) {
+                        self.error = "offerAlreadyHasDeals";
+                        self.home("failed");
+                    }
+                    else {
+                        self.swarm("createOspOffer");
+                    }
+                }));
+            }
+            else {
+                self.swarm("createOspOffer");
+            }
+        }
+    },
     createOspOffer: {
         node: "OSPAdapter",
         code: function () {
@@ -382,15 +430,31 @@ var osp = {
     getAcceptedDeals:{
         node:"PrivacyForBenefitsManager",
         code:function(){
-            this.offersStats.forEach(function(offer){
-                getOSPAcceptedOffers(offer.offerId, S(function(err, acceptedOffers){
-                    if(err){
-                        console.log(err);
-                    }
-                    offer.deals_number = acceptedOffers.length;
-                }));
-            });
+            var offersNumber = this.offersStats.length-1;
+            var self = this;
 
+            var checkOffer = function(offersNumber){
+                if(offersNumber == -1){
+                    return;
+                }
+                else {
+                    getOSPAcceptedOffers(self.offersStats[offersNumber].offerId, S(function (err, acceptedOffers) {
+                        if (err) {
+                            console.log(err);
+                        }
+                        if (acceptedOffers.length > 0) {
+                            self.offersStats[offersNumber].deals_number = acceptedOffers.length;
+                        }
+                        else {
+                            self.offersStats.splice(offersNumber, 1);
+                        }
+                        offersNumber--;
+                        checkOffer(offersNumber);
+                    }));
+                }
+            };
+
+            checkOffer(offersNumber);
             this.home("success");
         }
     },

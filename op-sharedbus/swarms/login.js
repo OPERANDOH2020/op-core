@@ -28,21 +28,18 @@ var loginSwarming = {
     userLogin: function (email, authorisationToken) {
         this.email = email;
         this.authorisationToken = authorisationToken;
-        this.organisationPretender = "Public";
-        this.swarm('inputValidationCheck');
-    },
 
-    ospLogin:function(email,authorisationToken){
-        this.email = email;
-        this.authorisationToken = authorisationToken;
-        this.organisationPretender = "OSP";
-        this.swarm('inputValidationCheck');
-    },
-
-    pspLogin:function(email,authorisationToken){
-        this.email = email;
-        this.authorisationToken = authorisationToken;
-        this.organisationPretender = "PSP";
+        switch (this.meta['tenantId']){
+            case "OSP-APP":
+                this.organisationPretender = "OSP";
+                break;
+            case "PSP-APP":
+                this.organisationPretender = "PSP";
+                break;
+            default:
+                this.organisationPretender = "Public";
+                break;
+        }
         this.swarm('inputValidationCheck');
     },
 

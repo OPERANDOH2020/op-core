@@ -167,7 +167,6 @@ getUserDeals = function (userId, callback) {
 };
 
 saveUserDeal = function (offerId, userId, callback) {
-    console.log("aasad");
     flow.create("store pfb deal", {
         begin: function () {
             if (!userId) {

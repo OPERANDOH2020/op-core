@@ -116,7 +116,6 @@ createOrUpdateSession = function(sessionData, callback){
             var currentDateTime = currentDate.getTime();
             sessionData.expirationDate = new Date(currentDateTime + parseInt(sessionMaxIdleTime));
             persistence.externalUpdate(session, sessionData);
-            console.log("Before save",session);
             persistence.saveObject(session, this.continue("createAuthenticationToken"));
         },
         createAuthenticationToken :function(err, session){

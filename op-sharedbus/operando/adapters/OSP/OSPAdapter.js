@@ -315,6 +315,7 @@ websiteHasOffers = function(website,callback){
             persistence.filter("OspDetails",{website:website},this.continue("checkAvailableDeals"));
         },
         checkAvailableDeals:function(err, ospDetails){
+
             if(err){
                 callback(err, null);
             }
@@ -323,7 +324,7 @@ websiteHasOffers = function(website,callback){
                     callback(null, {hasOffers: false});
                 }
                 else{
-                    var osp = ospDetails[0];
+                    var osp = ospDetails[ospDetails.length-1];
                     persistence.filter("OspOffer",{userId:osp.userId},this.continue("checkDate"));
                 }
             }
