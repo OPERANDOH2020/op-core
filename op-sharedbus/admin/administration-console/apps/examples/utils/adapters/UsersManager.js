@@ -359,7 +359,7 @@ newUserIsValid = function (newUser, callback) {
 			else {
 				self.persistence.filter("DefaultUser", {email: newUser.email}, this.continue("verifyPasswords"))
 			}
-
+z
 		},
 		verifyPasswords: function (err, users) {
 			if (err) {
