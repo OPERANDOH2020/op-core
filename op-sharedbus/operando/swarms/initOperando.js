@@ -213,7 +213,6 @@ var initOperando = {
         node:"UsersManager",
         code:function(){
             var self = this;
-
             getUserId(thisAdapter.config.Core.adminEmail,S(function(err,adminId){
                 if(err){
                     console.log("Could not retrieve the ID of the admin")
@@ -229,7 +228,7 @@ var initOperando = {
         code:function(){
             var self = this;
             function createDefaultIdentities(callback) {
-                var identities = ["help", "info", "root", "webmaster", "web", "contact"].map(function (halfAlias, index) {
+                var identities = ["help", "info", "root", "webmaster", "web", "contact",'support'].map(function (halfAlias, index) {
                     var identity = {
                         "email": halfAlias + "@" + thisAdapter.config.Core.operandoHost,
                         "userId": self.adminId,
