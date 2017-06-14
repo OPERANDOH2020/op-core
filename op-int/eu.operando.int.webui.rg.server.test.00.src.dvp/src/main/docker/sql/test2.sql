@@ -52,7 +52,8 @@ INSERT INTO `t_report_mng_list` (`Report`, `Description`, `Version`, `Location`,
 ('Sex', 'Sex', '1', 'http://www.birt.sassuolo.info/birt-viewer_3_7/frameset', '__report=pdi/report_operando/sex.rptdesign&sex=M', 'GASLINI', 5),
 ('Related diseases', 'Related diseases', '1', 'http://www.birt.sassuolo.info/birt-viewer_3_7/frameset', '__report=pdi/report_operando/Relateddiseases.rptdesign&Related diseases=cirrhosis', 'ASLBG,GASLINI', 6),
 ('Age of onset disease', 'Age of onset disease', '1', 'http://www.birt.sassuolo.info/birt-viewer_3_7/frameset', '__report=pdi/report_operando/Ageofonsetdisease.rptdesign&Age of onset disease=14', 'ASLBG,GASLINI', 7),
-('Trial ASLBG', 'Trial ASLBG', '1', 'http://www.birt.sassuolo.info/birt-viewer_3_7/frameset', '__report=pdi/report_operando/trialASLBG.rptdesign', 'ASLBG', 8);
+('Trial ASLBG', 'Trial ASLBG', '1', 'http://www.birt.sassuolo.info/birt-viewer_3_7/frameset', '__report=pdi/report_operando/trialASLBG.rptdesign', 'ASLBG', 8),
+('Volunteer Breakdown Report', 'Breakdown of employment information and volunteering preferences ', '1', 'http://integration.operando.esilab.org:8120/operando/webui/birt/frameset', '__report=pdi/report_operando/VolunteerEmploymentDetailsAndAssistancePreferences.rptdesign', 'Ami', '9');
 
 -- --------------------------------------------------------
 
