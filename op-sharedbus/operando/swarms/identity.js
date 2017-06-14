@@ -211,6 +211,7 @@ var identitySwarming = {
                  */
                 this.realEmail = thisAdapter.config.Core.supportTeam
                 this.home('gotRealEmail')
+                return;
             }
 
             var self = this;
