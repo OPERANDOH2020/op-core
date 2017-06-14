@@ -55,7 +55,11 @@ var menuCtrl = {
 							url: "apps/examples/ACL-Management/index.html"
 						});
 
-
+						self.result.push({
+							icon: "glyphicon glyphicon-transfer",
+							name: "Credit Management",
+							url: "apps/examples/CreditManagement/index.html"
+						});
 					}
 
 					self.home('gettingListDone');
