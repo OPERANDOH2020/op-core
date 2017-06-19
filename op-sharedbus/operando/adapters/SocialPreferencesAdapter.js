@@ -1,5 +1,5 @@
 var core = require("swarmcore");
-thisAdapter = core.createAdapter("CreditAdapter");
+thisAdapter = core.createAdapter("SocialPreferencesAdapter");
 var container = require('safebox').container;
 var uuid = require('node-uuid');
 var persistence = undefined;
@@ -93,11 +93,11 @@ addOrUpdateSocialPreferences = function(userId, social_network, preferences, cal
                 }
             }
         },
-        savePreferences:function(err, preferences){
-            preferences['userId'] = userId;
-            preferences['social_network'] = social_network;
-            preferences['preferences'] = preferences;
-            persistence.saveObject(preferences,callback);
+        savePreferences:function(err, prefs){
+            prefs['userId'] = userId;
+            prefs['social_network'] = social_network;
+            prefs['preferences'] = preferences;
+            persistence.saveObject(prefs, callback);
         }
     })();
 
@@ -111,6 +111,37 @@ getPreferences = function(userId,social_network,callback){
 
     })();
 };
+
+deletePreferences = function(userId, preferenceKey, callback){
+
+    flow.create("deletePreferences",{
+        begin:function(){
+            this.results = [];
+            persistence.filter("SocialPreferences",{userId:userId, social_network:preferenceKey}, this.continue("removePreferences"));
+        },
+        removePreferences:function(err, preferences){
+            var self = this;
+            if(err){
+                callback(err);
+            }
+            else{
+                preferences.forEach(function(preference){
+                    persistence.delete(preference, self.continue("finish"));
+                })
+            }
+        },
+        finish:function(err, result){
+            this.results.push(result);
+        },
+        end:{
+            join:"finish",
+            code:function(){
+                callback(undefined,this.results);
+            }
+        }
+
+    })();
+}
 
 
 
