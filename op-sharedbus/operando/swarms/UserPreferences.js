@@ -2,16 +2,16 @@
  * Created by Rafa on 6/15/2017.
  */
 
-var socialPreferences = {
+var userPreferences = {
     meta:{
-        name:"SocialPreferences.js"
+        name:"UserPreferences.js"
     },
-    getPreferences:function(socialNetwork){
-        this.socialNetwork = socialNetwork;
+    getPreferences:function(preferenceKey){
+        this.preferenceKey = preferenceKey;
         this.swarm("getUserPreferences");
     },
-    saveOrUpdatePreferences:function(socialNetwork, preferences){
-        this.socialNetwork = socialNetwork;
+    saveOrUpdatePreferences:function(preferenceKey, preferences){
+        this.preferenceKey = preferenceKey;
         this.preferences = JSON.stringify(preferences);
         this.swarm("saveUserPreferences");
     },
@@ -22,10 +22,10 @@ var socialPreferences = {
     },
 
     getUserPreferences:{
-        node:"SocialPreferencesAdapter",
+        node:"UserPreferencesAdapter",
         code:function(){
             var self = this;
-            getPreferences(this.meta.userId,this.socialNetwork,S(function(err, preferences){
+            getPreferences(this.meta.userId,this.preferenceKey,S(function(err, preferences){
                 if(err){
                     self.error = err.message;
                     self.home("failed");
@@ -42,10 +42,10 @@ var socialPreferences = {
         }
     },
     saveUserPreferences:{
-        node:"SocialPreferencesAdapter",
+        node:"UserPreferencesAdapter",
         code:function(){
             var self = this;
-            addOrUpdateSocialPreferences(this.meta.userId, this.socialNetwork, this.preferences,S(function(err, preferences){
+            addOrUpdateUserPreferences(this.meta.userId, this.preferenceKey, this.preferences,S(function(err, preferences){
                 if (err) {
                     self.error = err.message;
                     self.home("failed");
@@ -57,7 +57,7 @@ var socialPreferences = {
             }
         },
     removeUserPreferences:{
-        node:"SocialPreferencesAdapter",
+        node:"UserPreferencesAdapter",
         code:function(){
             var self = this;
             deletePreferences(this.meta.userId, this.preferenceKey, S(function(err, result){
@@ -72,4 +72,4 @@ var socialPreferences = {
     }
 
 }
-socialPreferences;
+userPreferences;

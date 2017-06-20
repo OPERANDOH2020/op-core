@@ -1,5 +1,5 @@
 var core = require("swarmcore");
-thisAdapter = core.createAdapter("SocialPreferencesAdapter");
+thisAdapter = core.createAdapter("UserPreferencesAdapter");
 var container = require('safebox').container;
 var uuid = require('node-uuid');
 var persistence = undefined;
@@ -7,7 +7,7 @@ var flow = require('callflow');
 
 function registerModels(callback){
     var models = [{
-        modelName:"SocialPreferences",
+        modelName:"UserPreferences",
         dataModel:{
             id:{
                 type:"string",
@@ -19,7 +19,7 @@ function registerModels(callback){
                 index: true,
                 length:254
             },
-            social_network:{
+            preference_key:{
                 type:"string",
                 index:true,
                 length:64
@@ -59,7 +59,7 @@ function registerModels(callback){
 
 }
 
-container.declareDependency("SocialPreferences", ["mysqlPersistence"], function (outOfService, mysqlPersistence) {
+container.declareDependency("UserPreferences", ["mysqlPersistence"], function (outOfService, mysqlPersistence) {
     if (!outOfService) {
         persistence = mysqlPersistence;
         registerModels(function(errs){
@@ -74,11 +74,11 @@ container.declareDependency("SocialPreferences", ["mysqlPersistence"], function 
 });
 
 
-addOrUpdateSocialPreferences = function(userId, social_network, preferences, callback){
+addOrUpdateUserPreferences = function(userId, preference_key, preferences, callback){
 
-    flow.create("addOrUpdateSocialPreferences",{
+    flow.create("addOrUpdateUserPreferences",{
         begin:function(){
-            persistence.filter("SocialPreferences",{userId:userId, social_network:social_network}, this.continue("checkPreferences"));
+            persistence.filter("UserPreferences",{userId:userId, preference_key:preference_key}, this.continue("checkPreferences"));
         },
         checkPreferences:function(err, sn_preferences){
             if(err){
@@ -89,13 +89,13 @@ addOrUpdateSocialPreferences = function(userId, social_network, preferences, cal
                     prefs['preferences'] = preferences;
                     persistence.saveObject(prefs, callback);
                 }else{
-                    persistence.lookup("SocialPreferences",uuid.v1(), this.continue("savePreferences"));
+                    persistence.lookup("UserPreferences",uuid.v1(), this.continue("savePreferences"));
                 }
             }
         },
         savePreferences:function(err, prefs){
             prefs['userId'] = userId;
-            prefs['social_network'] = social_network;
+            prefs['preference_key'] = preference_key;
             prefs['preferences'] = preferences;
             persistence.saveObject(prefs, callback);
         }
@@ -103,10 +103,10 @@ addOrUpdateSocialPreferences = function(userId, social_network, preferences, cal
 
 };
 
-getPreferences = function(userId,social_network,callback){
-    flow.create("addOrUpdateSocialPreferences",{
+getPreferences = function(userId,preference_key,callback){
+    flow.create("addOrUpdateUserPreferences",{
         begin:function(){
-            persistence.filter("SocialPreferences",{userId:userId, social_network:social_network}, callback);
+            persistence.filter("UserPreferences",{userId:userId, preference_key:preference_key}, callback);
         }
 
     })();
@@ -117,7 +117,7 @@ deletePreferences = function(userId, preferenceKey, callback){
     flow.create("deletePreferences",{
         begin:function(){
             this.results = [];
-            persistence.filter("SocialPreferences",{userId:userId, social_network:preferenceKey}, this.continue("removePreferences"));
+            persistence.filter("UserPreferences",{userId:userId, preference_key:preferenceKey}, this.continue("removePreferences"));
         },
         removePreferences:function(err, preferences){
             var self = this;
