@@ -79,7 +79,7 @@ var extensionSwarming = {
     processRequest: {
         node: "PAAdapter",
         code: function () {
-            console.log("Ready to process ...")
+            console.log("Ready to process ...");
             this.processedResponse = processAction(this.user, this.resources, this.action);
             if (this.processedResponse.status == "success") {
                 this.swarm("sendResponse");

@@ -61,6 +61,7 @@
                         {"node":"operando/adapters/UDE/UDEAdapter.js"                 ,"enabled":true  , "step":10},
                         {"node":"operando/adapters/FormsAdapter.js"                   ,"enabled":true  , "step":10},
                         {"node":"operando/adapters/CreditAdapter.js"                  ,"enabled":true  , "step":10},
+                        {"node":"operando/adapters/UserPreferencesAdapter.js"       ,"enabled":true  , "step":10},
                         {"node":"admin/adapters/TestsManager.js",                      "enabled":false, "step":5}
 
             ]
