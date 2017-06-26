@@ -187,7 +187,11 @@
       <version>${junit-version}</version>
       <scope>test</scope>
     </dependency>
-
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>eu.operando.core.ldb.client</artifactId>
+      <version>${project.version}</version>
+    </dependency>
   </dependencies>
   <repositories>
     <repository>
