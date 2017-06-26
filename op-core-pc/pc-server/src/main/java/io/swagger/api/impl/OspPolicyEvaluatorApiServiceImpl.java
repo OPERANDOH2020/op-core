@@ -40,13 +40,8 @@ import java.util.List;
 import java.util.Properties;
 
 import io.swagger.api.NotFoundException;
-import io.swagger.client.ApiClient;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.ws.rs.core.MediaType;
 
 import javax.ws.rs.core.Response;
@@ -59,9 +54,10 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 import io.swagger.client.api.LogApi;
-import io.swagger.client.model.LogRequest;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 
 /**
  * Implementation of the Policy Evaluation API of the Policy Computation
@@ -117,27 +113,6 @@ public class OspPolicyEvaluatorApiServiceImpl extends OspPolicyEvaluatorApiServi
             LDB_URL = props.getProperty("ldb.baseurl");
         }
 
-        String logdbBasePath = "http://integration.operando.esilab.org:8090/operando/core/ldb";
-        long ticketLifeTime = 1000L * 60 * 60;
-        Timer timer;
-
-        // setup logdb client
-        final ApiClient apiClient = new ApiClient();
-        apiClient.setBasePath(logdbBasePath);
-
-        TimerTask timerTask = new TimerTask() {
-            //@Override
-            public void run() {
-                Logger.getLogger(OspPolicyEvaluatorApiServiceImpl.class.getName()).log(Level.INFO, "upp TIMER RUN now");
-            }
-        };
-
-        timer = new Timer();
-        timer.scheduleAtFixedRate(timerTask, 0, ticketLifeTime);
-
-        // get service ticket for logdb service
-
-        this.logApi = new LogApi(apiClient);
 
         // setup aapi client
 //        eu.operando.core.cas.client.ApiClient aapiDefaultClient = new eu.operando.core.cas.client.ApiClient();
@@ -206,10 +181,7 @@ public class OspPolicyEvaluatorApiServiceImpl extends OspPolicyEvaluatorApiServi
         /**
          * Log the request in the LogDB
          */
-        logRequest("User Policy Evaluation request", "OSP = " + ospId + ", requester = " + ospRequest.get(0).getRequesterId(),
-                "Your privacy settings were updated because of changes you made through the dashboard.",
-                LogRequest.LogLevelEnum.INFO, LogRequest.LogPriorityEnum.NORMAL, LogRequest.LogTypeEnum.SYSTEM, userId,
-                new ArrayList<String>(Arrays.asList("POST")));
+        logRequest(userId, ospId,ospRequest.get(0).getRequesterId());
 
         /**
          * Carry out the evaluation
@@ -296,36 +268,30 @@ public class OspPolicyEvaluatorApiServiceImpl extends OspPolicyEvaluatorApiServi
          return Response.ok(rp, MediaType.APPLICATION_JSON).build();
     }
 
-    private void logRequest(String requesterId, String title, String description,
-            LogRequest.LogLevelEnum logLevel, LogRequest.LogPriorityEnum logPriority, LogRequest.LogTypeEnum logType,
-            String affectedId, ArrayList<String> keywords) {
-
-        ArrayList<String> words = new ArrayList<String>(Arrays.asList("PDB", "UPP"));
-        for (String word : keywords) {
-            words.add(word);
-        }
-
-        LogRequest logRequest = new LogRequest();
-        logRequest.setUserId("PDB-UPP");
-        logRequest.setRequesterType(LogRequest.RequesterTypeEnum.PROCESS);
-
-        logRequest.setDescription(description);
-        logRequest.setLogLevel(logLevel);
-        logRequest.setTitle(title);
-        logRequest.setLogPriority(logPriority);
-        logRequest.setRequesterId(requesterId);
-        logRequest.setLogType(logType);
-        logRequest.setAffectedUserId(affectedId);
-
-        logRequest.setKeywords(words);
-
+    private void logRequest(String userid, String ospId, String requestID) {
         try {
-            String response = this.logApi.lodDB(logRequest);
-            Logger.getLogger(OspPolicyEvaluatorApiServiceImpl.class.getName()).log(Level.INFO, response + logRequest.toString());
-        } catch (io.swagger.client.ApiException ex) {
-            Logger.getLogger(OspPolicyEvaluatorApiServiceImpl.class.getName()).log(Level.SEVERE, "failed to log", ex);
+            StringEntity msgBody = new StringEntity("{\n" +
+                    "  \"userId\": \" "+ userid + "\",\n" +
+                    "  \"requesterType\": \"PROCESS\",\n" +
+                    "  \"requesterId\": \"string\",\n" +
+                    "  \"logPriority\": \"LOW\",\n" +
+                    "  \"logLevel\": \"INFO\",\n" +
+                    "  \"title\": \" PC Eval \",\n" +
+                    "  \"description\": \" "+ ospId + " is requesting with requesting user id: "+ requestID+ "\",\n" +
+                    "  \"keywords\": [\n" +
+                    "    \"string\"\n" +
+                    "  ],\n" +
+                    "  \"logType\": \"DATA_ACCESS\",\n" +
+                    "  \"affectedUserId\": \"string\"\n" +
+                    "}");
+
+            CloseableHttpClient httpclient = HttpClients.createDefault();
+            HttpPost post = new HttpPost(LDB_URL);
+            post.addHeader("Content-Type", "application/json");
+            post.setEntity(msgBody);
+            CloseableHttpResponse response1 = httpclient.execute(post);
+        } catch (IOException ex) {
+            Logger.getLogger(OspPolicyEvaluatorApiServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-
 }
