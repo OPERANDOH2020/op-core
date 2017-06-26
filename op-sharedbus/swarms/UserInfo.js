@@ -165,6 +165,8 @@ var userInfoSwarming =
         node: "UsersManager",
         code: function () {
             var self = this;
+
+            console.log("generateResetLink");
             filterUsers({"email": self.email}, S(function (err, users) {
                 if (err) {
                     self.error = err.message;
@@ -174,7 +176,14 @@ var userInfoSwarming =
                     self.home('resetPasswordFailed');
                 }
                 else {
+                    
+                    console.log("GENERATE TOKEN");
+                    
                     genereateResetPasswordToken(users[0].userId,S(function(err,passwordResetRequest){
+
+                        console.log("GENERATE TOKEN",arguments);
+
+
                         if(err){
                             self.error = err.message;
                             self.home('resetPasswordFailed')
@@ -187,9 +196,9 @@ var userInfoSwarming =
                                 "A password reset request was issued for your account.\nPlease access the following link to reset the password.\n\n" +
                                 "https://www."+thisAdapter.config.Core.operandoHost + "/resetPassword/"+passwordResetRequest.id+"\n\nThe link expires in 24 hours."
                             );
-                            /*
-                            In the client wait for the confirmation that the email containing the activation link was sent.
-                             */
+
+                            self.home('newPasswordWasSet');  //not really, but it needs to be compatible with the extension
+
                         }
                     }))
                 }
