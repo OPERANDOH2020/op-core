@@ -270,6 +270,7 @@ public class OspPolicyEvaluatorApiServiceImpl extends OspPolicyEvaluatorApiServi
 
     private void logRequest(String userid, String ospId, String requestID) {
         try {
+            System.out.println("Logging - " + userid);
             StringEntity msgBody = new StringEntity("{\n" +
                     "  \"userId\": \" "+ userid + "\",\n" +
                     "  \"requesterType\": \"PROCESS\",\n" +
@@ -277,7 +278,7 @@ public class OspPolicyEvaluatorApiServiceImpl extends OspPolicyEvaluatorApiServi
                     "  \"logPriority\": \"LOW\",\n" +
                     "  \"logLevel\": \"INFO\",\n" +
                     "  \"title\": \" PC Eval \",\n" +
-                    "  \"description\": \" "+ ospId + " is requesting with requesting user id: "+ requestID+ "\",\n" +
+                    "  \"description\": \" Logging:" +userid +" OSP: "+ ospId + " is requesting with requesting user id: "+ requestID+ "\",\n" +
                     "  \"keywords\": [\n" +
                     "    \"string\"\n" +
                     "  ],\n" +
@@ -290,6 +291,7 @@ public class OspPolicyEvaluatorApiServiceImpl extends OspPolicyEvaluatorApiServi
             post.addHeader("Content-Type", "application/json");
             post.setEntity(msgBody);
             CloseableHttpResponse response1 = httpclient.execute(post);
+            System.out.println("Logging response - " + response1.getEntity().toString());
         } catch (IOException ex) {
             Logger.getLogger(OspPolicyEvaluatorApiServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
