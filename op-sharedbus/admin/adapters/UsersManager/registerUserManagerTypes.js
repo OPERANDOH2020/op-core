@@ -10,6 +10,7 @@ var persistence = undefined;
 
 container.declareDependency('userRelatedTypes',['mysqlPersistence'],function(outOfService,mysqlPersistence){
     persistence = mysqlPersistence;
+
     var models = [
         {
             modelName:"DefaultUser",
@@ -122,7 +123,7 @@ container.declareDependency('userRelatedTypes',['mysqlPersistence'],function(out
                     length:255
                 },
                 issueDate:{
-                    type:"datetimne"
+                    type:"datetime"
                 },
                 user:{
                     type: "string",
