@@ -111,6 +111,28 @@ container.declareDependency('userRelatedTypes',['mysqlPersistence'],function(out
                     relation:"zoneName:zoneName"
                 }
             }
+        },
+        {
+            modelName:"PasswordResetRequest",
+            structure:{
+                id:{
+                    type:"string",
+                    pk:true,
+                    index:true,
+                    length:255
+                },
+                issueDate:{
+                    type:"datetimne"
+                },
+                user:{
+                    type: "string",
+                    length:255
+                },
+                alreadyUsed:{
+                    type:"boolean",
+                    default:false
+                }
+            }
         }
     ];
     
@@ -140,7 +162,5 @@ container.declareDependency('userRelatedTypes',['mysqlPersistence'],function(out
             }
         }
     })();
-
     return null;
-
 });
