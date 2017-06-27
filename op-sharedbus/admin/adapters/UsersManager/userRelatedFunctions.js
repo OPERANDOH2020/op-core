@@ -31,11 +31,17 @@ exports.createUser = function (userData, callback) {
             callback(new Error("User with email "+userData.email+" already exists"));
         }else{
             var user = apersistence.createRawObject("DefaultUser",uuid.v1());
-            var activationCode = new Buffer(user.userId).toString('base64');
-            if(thisAdapter.config.development === true){
-                activationCode = "0";
+
+            if(userData.activationCode){
+                user.activationCode = userData.activationCode
+            }else{
+                user.activationCode = new Buffer(user.userId).toString('base64');
             }
-            user.activationCode = activationCode;
+            if(thisAdapter.config.development === true){
+                user.activationCode = "0";
+            }
+            
+
             userData.salt = crypto.randomBytes(saltLength).toString('base64');
             hashThisPassword(userData.password,userData.salt,function(err,hashedPassword){
                 userData.password = hashedPassword;
