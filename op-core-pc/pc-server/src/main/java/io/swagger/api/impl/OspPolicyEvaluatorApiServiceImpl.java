@@ -73,6 +73,7 @@ public class OspPolicyEvaluatorApiServiceImpl extends OspPolicyEvaluatorApiServi
      * This stores the reference, so HTTP REST calls can be made to them.
      */
     private String PDB_UPP_URL = null;
+    private String PDB_OSP_URL = null;
     private String LDB_URL = null;
     private String AAPI_URL = null;
 
@@ -105,6 +106,9 @@ public class OspPolicyEvaluatorApiServiceImpl extends OspPolicyEvaluatorApiServi
 
         if (props.getProperty("pdb.upp") != null) {
             PDB_UPP_URL = props.getProperty("pdb.upp");
+        }
+        if (props.getProperty("pdb.osp") != null) {
+            PDB_OSP_URL = props.getProperty("pdb.osp");
         }
         if (props.getProperty("aapi.basepath") != null) {
             AAPI_URL = props.getProperty("aapi.basepath");
@@ -186,7 +190,7 @@ public class OspPolicyEvaluatorApiServiceImpl extends OspPolicyEvaluatorApiServi
         /**
          * Carry out the evaluation
          */
-        PolicyEvaluationReport rp = policyService.evaluate(ospId, userId, ospRequest, PDB_UPP_URL);
+        PolicyEvaluationReport rp = policyService.evaluate(ospId, userId, ospRequest, PDB_UPP_URL, PDB_OSP_URL);
 
         /**
          * Add to the notification API to inform the user of the evaluation.

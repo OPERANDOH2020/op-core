@@ -246,55 +246,55 @@ public class oDataPDB {
              */
             String userId = "demo_user1";
             String ospId = "osp1";
-            PolicyEvaluationReport reply = pS.evaluate(ospId, userId, createRequestOne(), PDB_URL);
+            PolicyEvaluationReport reply = pS.evaluate(ospId, userId, createRequestOne(), PDB_URL, PDB_URL+"/OSP");
             System.out.println(reply.toString());
 
-            reply = pS.evaluate(ospId, userId, createRequestTwo(), PDB_URL);
+            reply = pS.evaluate(ospId, userId, createRequestTwo(), PDB_URL, PDB_URL+"/OSP");
             System.out.println(reply.toString());
 
-            reply = pS.evaluate(ospId, userId, createRequestThree(), PDB_URL);
+            reply = pS.evaluate(ospId, userId, createRequestThree(), PDB_URL, PDB_URL+"/OSP");
             System.out.println(reply.toString());
 
             ospId = "osp2";
-            reply = pS.evaluate(ospId, userId, createRequestFour(), PDB_URL);
+            reply = pS.evaluate(ospId, userId, createRequestFour(), PDB_URL, PDB_URL+"/OSP");
             System.out.println(reply.toString());
 
             /**
              * The second data subject is unconcerned.
              */
             userId = "demo_user2";
-            reply = pS.evaluate(ospId, userId, createRequestOne(), PDB_URL);
+            reply = pS.evaluate(ospId, userId, createRequestOne(), PDB_URL, PDB_URL+"/OSP");
             System.out.println(reply.toString());
 
-            reply = pS.evaluate(ospId, userId, createRequestTwo(), PDB_URL);
+            reply = pS.evaluate(ospId, userId, createRequestTwo(), PDB_URL, PDB_URL+"/OSP");
             System.out.println(reply.toString());
 
-            reply = pS.evaluate(ospId, userId, createRequestThree(), PDB_URL);
+            reply = pS.evaluate(ospId, userId, createRequestThree(), PDB_URL, PDB_URL+"/OSP");
             System.out.println(reply.toString());
 
             ospId = "osp2";
-            reply = pS.evaluate(ospId, userId, createRequestFour(), PDB_URL);
+            reply = pS.evaluate(ospId, userId, createRequestFour(), PDB_URL, PDB_URL+"/OSP");
             System.out.println(reply.toString());
 
             /**
              * The third data subject is a fundamentalist.
              */
             userId = "demo_user3";
-            reply = pS.evaluate(ospId, userId, createRequestOne(), PDB_URL);
+            reply = pS.evaluate(ospId, userId, createRequestOne(), PDB_URL, PDB_URL+"/OSP");
             System.out.println(reply.toString());
 
-            reply = pS.evaluate(ospId, userId, createRequestTwo(), PDB_URL);
+            reply = pS.evaluate(ospId, userId, createRequestTwo(), PDB_URL, PDB_URL+"/OSP");
             System.out.println(reply.toString());
 
-            reply = pS.evaluate(ospId, userId, createRequestThree(), PDB_URL);
+            reply = pS.evaluate(ospId, userId, createRequestThree(), PDB_URL, PDB_URL+"/OSP");
             System.out.println(reply.toString());
 
             ospId = "osp2";
-            reply = pS.evaluate(ospId, userId, createRequestFour(), PDB_URL);
+            reply = pS.evaluate(ospId, userId, createRequestFour(), PDB_URL, PDB_URL+"/OSP");
             System.out.println(reply.toString());
 
             ospId = "osp3";
-            reply = pS.evaluate(ospId, userId, createRequestOne(), PDB_URL);
+            reply = pS.evaluate(ospId, userId, createRequestOne(), PDB_URL, PDB_URL+"/OSP");
             System.out.println(reply.toString());
         } catch (NotFoundException ex) {
             Logger.getLogger(oDataPDB.class.getName()).log(Level.SEVERE, null, ex);

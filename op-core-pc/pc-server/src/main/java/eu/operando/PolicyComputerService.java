@@ -28,20 +28,19 @@ package eu.operando;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
 import io.swagger.api.NotFoundException;
 import eu.operando.core.pdb.common.model.AccessPolicy;
 
 import eu.operando.core.pdb.common.model.OSPConsents;
-import eu.operando.core.pdb.common.model.OSPDataRequest;
-import eu.operando.core.pdb.common.model.OSPDataRequest.ActionEnum;
 import eu.operando.core.pdb.common.model.OSPPrivacyPolicy;
-import io.swagger.model.PolicyEvaluationReport;
 import eu.operando.core.pdb.common.model.UserPreference;
 import eu.operando.core.pdb.common.model.UserPrivacyPolicy;
+import io.swagger.api.impl.OspPolicyComputerApiServiceImpl;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -76,16 +75,14 @@ public class PolicyComputerService {
      * @return
      * @throws NotFoundException
      */
-    public String ospPolicyComputerPost(String userId, String ospId, List<UserPreference> ospPrefs, String PDB_URL, PolicyEvaluationService policyService)
+    public String ospPolicyComputerPost(String userId, String ospId, List<UserPreference> ospPrefs, String UPP_URL, String PDB_URL, PolicyEvaluationService policyService)
         throws NotFoundException {
-
-        try {
-            System.out.println("PDB: " + PDB_URL);
+         try {
             String currentUpp = null;
-            String ospPolicy = null;
+            String ospNumericId = OspPolicyComputerApiServiceImpl.ospQuerybyFriendlyName(ospId, PDB_URL);
+            System.out.println("userid: " + userId + " ospId: "+ ospNumericId + "PDB: " + PDB_URL);
             if(userId.startsWith("_demo")) {
                 currentUpp = policyService.getUPP(userId);
-                ospPolicy = policyService.getUPP(ospId);
             }
             else {
                 try {
@@ -93,103 +90,115 @@ public class PolicyComputerService {
                      * Get the UPP from the PDB.
                      */
                     CloseableHttpClient httpclient = HttpClients.createDefault();
-                    HttpGet httpget = new HttpGet(PDB_URL + "/" + userId);
+                    HttpGet httpget = new HttpGet(UPP_URL + userId);
                     CloseableHttpResponse response1 = httpclient.execute(httpget);
 
                     /**
-                     * If there is no UPP, then it returns an non-compliance report
-                     * with a NO_POLICY statement.
+                     * If there is no UPP, then create a new UPP
                      */
                     HttpEntity entity = response1.getEntity();
                     System.out.println(response1.getStatusLine().getStatusCode());
                     if(response1.getStatusLine().getStatusCode()==404) {
-                        throw new NotFoundException(400, "UserId doesn't exist: " + userId);
+                        currentUpp = null;
+                    } else {
+                        currentUpp = EntityUtils.toString(entity);
                     }
-                    currentUpp = EntityUtils.toString(entity);
-                    System.out.println(currentUpp);
 
-                    httpget = new HttpGet(PDB_URL + "/osp/?filter=" + ospId);
-                    response1 = httpclient.execute(httpget);
-
-                    /**
-                     * If there is no UPP, then it returns an non-compliance report
-                     * with a NO_POLICY statement.
-                     */
-                    entity = response1.getEntity();
-                    System.out.println(response1.getStatusLine().getStatusCode());
-                    if(response1.getStatusLine().getStatusCode()==404) {
-                        throw new NotFoundException(400, "OSP Policy doesn't exist");
-                    }
-                    currentUpp = EntityUtils.toString(entity);
-                    System.out.println(currentUpp);
                 } catch (IOException ex) {
-                    throw new NotFoundException(400, "Server error: " + ex.getLocalizedMessage());
+                    return "UserId doesn't exist";
                 }
             }
             // Create a subscribed policy statement and store it in the UPP
             ObjectMapper mapper = new ObjectMapper();
-            UserPrivacyPolicy obj = mapper.readValue(currentUpp, UserPrivacyPolicy.class);
-            OSPPrivacyPolicy    obj2 = mapper.readValue(ospPolicy, OSPPrivacyPolicy.class);
-
-            List<OSPConsents> subscribedOspPolicies = obj.getSubscribedOspPolicies();
-            for (OSPConsents ospPol: subscribedOspPolicies) {
-                if(ospPol.getOspId().equalsIgnoreCase(ospId)) {
-                    // remove the policies and recompute
-                    subscribedOspPolicies.remove(ospPol);
-                    break;
-                }
-            }
-
-            // For each of the access policies compute the
-            List<AccessPolicy> policies = obj2.getPolicies();
-            for(AccessPolicy aPol: policies) {
-                List<OSPDataRequest> newDR = new ArrayList<OSPDataRequest>();
-                OSPDataRequest osd = new OSPDataRequest();
-                osd.setAction(ActionEnum.valueOf(aPol.getAction().name()));
-                osd.setRequestedUrl(aPol.getResource());
-                osd.setSubject(aPol.getSubject());
-                PolicyEvaluationReport evaluate = policyService.evaluate(ospId, userId, newDR, PDB_URL);
-                aPol.setPermission(Boolean.valueOf(evaluate.getStatus()));
-            }
-            OSPConsents oC = new OSPConsents();
-            oC.setAccessPolicies(policies);
-            oC.setOspId(ospId);
-            subscribedOspPolicies.add(oC);
-
-            /**
-             * Update the UPP with the new information
-             */
-            if(userId.startsWith("_demo")) {
-                policyService.putUPP(userId, obj.toString());
+            UserPrivacyPolicy uppProfile = null;
+            if(currentUpp != null) {
+                 uppProfile = mapper.readValue(currentUpp, UserPrivacyPolicy.class);
             }
             else {
+                uppProfile = new UserPrivacyPolicy();
+                uppProfile.setUserId(userId);
+            }
+            List<OSPConsents> subscribedOspPolicies = uppProfile.getSubscribedOspPolicies();
+            System.out.println("Number of polices for this OSP: " + subscribedOspPolicies.size());
+
+            // Get the access policies for each of the OSP statments
+            /**
+             * Get the OSP from the PDB.
+             */
+            String currentOSP = null;
+            try {
+                /**
+                 * Get the OSP from the PDB.
+                 */
+                CloseableHttpClient httpclient = HttpClients.createDefault();
+                String ospURL = PDB_URL + "/" + ospNumericId;
+                HttpGet httpget = new HttpGet(ospURL);
+                CloseableHttpResponse response1 = httpclient.execute(httpget);
+
+                /**
+                 * If there is no OSP, then complete fail.
+                 */
+                HttpEntity entity = response1.getEntity();
+                System.out.println(response1.getStatusLine().getStatusCode());
+                if(response1.getStatusLine().getStatusCode()==404) {
+                    return "OSP doesn't exist";
+                }
+                currentOSP = EntityUtils.toString(entity);
+                System.out.println(currentOSP);
+            } catch (IOException ex) {
+                return "OSP doesn't exist";
+            }
+
+            OSPPrivacyPolicy ospPolicy = mapper.readValue(currentOSP, OSPPrivacyPolicy.class);
+            List<AccessPolicy> policies = ospPolicy.getPolicies();
+            System.out.println("Number of policies: " + policies.size());
+            OSPConsents sConsents = new OSPConsents();
+            sConsents.setOspId(ospId);
+            sConsents.setAccessPolicies(policies);
+            subscribedOspPolicies.add(sConsents);
+            uppProfile.setSubscribedOspPolicies(subscribedOspPolicies);
+
+            System.out.println("\nNew UPP : " + uppProfile.toString() + "\n");
+
+            /**
+             * Update the UPP
+             */
+            try {
+                /**
+                 * Get the UPP from the PDB.
+                 */
                 Client client = new Client();
-                WebResource webResourcePDB = client.resource(PDB_URL+"/user_privacy_policy/"+userId);
-                System.out.println(PDB_URL+"/user_privacy_policy/"+userId);
+                WebResource webResourcePDB = client.resource(UPP_URL + userId);
                 ClientResponse policyResponse = webResourcePDB.type("application/json").get(ClientResponse.class);
                 if (policyResponse.getStatus() != 200) {
-                    System.out.println(policyResponse.getStatus());
-                    policyResponse = webResourcePDB.type("application/json").post(ClientResponse.class,
-                        obj.toString());
+                    WebResource webResourcePDB2 = client.resource(UPP_URL);
+                    policyResponse = webResourcePDB2.type("application/json").post(ClientResponse.class,
+                        uppProfile.toString());
 
-                    if (policyResponse.getStatus() != 200) {
+                    if (policyResponse.getStatus() != 201) {
                         throw new RuntimeException("Failed : HTTP error code : " + policyResponse.toString());
                     }
                 }
                 else {
-                     policyResponse = webResourcePDB.type("application/json").put(ClientResponse.class,
-                        obj.toString());
+                    policyResponse = webResourcePDB.type("application/json").put(ClientResponse.class,
+                           uppProfile.toString());
 
-                    if (policyResponse.getStatus() != 200) {
-                        throw new RuntimeException("Failed : HTTP error code : " + policyResponse.toString());
-                    }
+                   /**
+                    * If there is no UPP, then complete fail.
+                    */
+                   if(policyResponse.getStatus()==404) {
+                       return "User doesn't exist";
+                   }
                 }
+                return "Success";
+            } catch (UniformInterfaceException | ClientHandlerException ex) {
+                System.err.println("error - " + ex.getMessage());
+                return "Compute failed";
             }
-
-            return  subscribedOspPolicies.toString();
         } catch (IOException ex) {
-            Logger.getLogger(PolicyComputerService.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
+            System.err.println("error - " + ex.getMessage());
+            Logger.getLogger(OspPolicyComputerApiServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return "Compute failed";
         }
     }
 

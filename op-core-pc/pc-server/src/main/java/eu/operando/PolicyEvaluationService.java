@@ -34,12 +34,14 @@ import com.jayway.jsonpath.JsonPath;
 import io.swagger.api.NotFoundException;
 import eu.operando.core.pdb.common.model.OSPDataRequest;
 import eu.operando.core.pdb.common.model.OSPDataRequest.ActionEnum;
+import eu.operando.core.pdb.common.model.UserPreference;
 import io.swagger.model.PolicyEvaluationReport;
 import io.swagger.model.RequestEvaluation;
 import io.swagger.model.UserPolicyEvaluationReport;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
@@ -270,7 +272,7 @@ public class PolicyEvaluationService {
      * @return
      * @throws NotFoundException
      */
-    public PolicyEvaluationReport evaluate(String ospId, String userId, List<OSPDataRequest> ospRequest, String pdbURL) throws NotFoundException {
+    public PolicyEvaluationReport evaluate(String ospId, String userId, List<OSPDataRequest> ospRequest, String pdbURL, String ospURL) throws NotFoundException {
 
         try {
             if(isOwnData(userId, ospRequest))
@@ -299,7 +301,11 @@ public class PolicyEvaluationService {
                 if(uppProfile==null) {
                     rp.setStatus("false");
                     rp.setCompliance("NO_POLICY");
-                    return rp;
+                    String res = (new PolicyComputerService()).ospPolicyComputerPost(userId, ospId, new ArrayList<UserPreference>(), pdbURL, ospURL, instance);
+                    if(!res.equalsIgnoreCase("success")){
+                        return rp;
+                    }
+                    return evaluate(ospId, userId, ospRequest, pdbURL, ospURL);
                 }
             }
 

@@ -166,55 +166,55 @@ public class oDataTests {
              */
             String userId = "_demo_user1";
             String ospId = "osp1";
-            PolicyEvaluationReport reply = pS.evaluate(ospId, userId, createRequestOne(), null);
+            PolicyEvaluationReport reply = pS.evaluate(ospId, userId, createRequestOne(), null, null);
             System.out.println(reply.toString());
 
-            reply = pS.evaluate(ospId, userId, createRequestTwo(), null);
+            reply = pS.evaluate(ospId, userId, createRequestTwo(), null, null);
             System.out.println(reply.toString());
 
-            reply = pS.evaluate(ospId, userId, createRequestThree(), null);
+            reply = pS.evaluate(ospId, userId, createRequestThree(), null, null);
             System.out.println(reply.toString());
 
             ospId = "osp2";
-            reply = pS.evaluate(ospId, userId, createRequestFour(), null);
+            reply = pS.evaluate(ospId, userId, createRequestFour(), null, null);
             System.out.println(reply.toString());
 
             /**
              * The second data subject is unconcerned.
              */
             userId = "_demo_user2";
-            reply = pS.evaluate(ospId, userId, createRequestOne(), null);
+            reply = pS.evaluate(ospId, userId, createRequestOne(), null, null);
             System.out.println(reply.toString());
 
-            reply = pS.evaluate(ospId, userId, createRequestTwo(), null);
+            reply = pS.evaluate(ospId, userId, createRequestTwo(), null, null);
             System.out.println(reply.toString());
 
-            reply = pS.evaluate(ospId, userId, createRequestThree(), null);
+            reply = pS.evaluate(ospId, userId, createRequestThree(), null, null);
             System.out.println(reply.toString());
 
             ospId = "osp2";
-            reply = pS.evaluate(ospId, userId, createRequestFour(), null);
+            reply = pS.evaluate(ospId, userId, createRequestFour(), null, null);
             System.out.println(reply.toString());
 
             /**
              * The third data subject is a fundamentalist.
              */
             userId = "_demo_user3";
-            reply = pS.evaluate(ospId, userId, createRequestOne(), null);
+            reply = pS.evaluate(ospId, userId, createRequestOne(), null, null);
             System.out.println(reply.toString());
 
-            reply = pS.evaluate(ospId, userId, createRequestTwo(), null);
+            reply = pS.evaluate(ospId, userId, createRequestTwo(), null, null);
             System.out.println(reply.toString());
 
-            reply = pS.evaluate(ospId, userId, createRequestThree(), null);
+            reply = pS.evaluate(ospId, userId, createRequestThree(), null, null);
             System.out.println(reply.toString());
 
             ospId = "osp2";
-            reply = pS.evaluate(ospId, userId, createRequestFour(), null);
+            reply = pS.evaluate(ospId, userId, createRequestFour(), null, null);
             System.out.println(reply.toString());
 
             ospId = "osp3";
-            reply = pS.evaluate(ospId, userId, createRequestOne(), null);
+            reply = pS.evaluate(ospId, userId, createRequestOne(), null, null);
             System.out.println(reply.toString());
         } catch (NotFoundException ex) {
             Logger.getLogger(oDataTests.class.getName()).log(Level.SEVERE, null, ex);

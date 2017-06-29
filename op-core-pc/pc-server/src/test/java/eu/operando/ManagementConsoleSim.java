@@ -103,7 +103,7 @@ public class ManagementConsoleSim {
             ospRequest.add(osD5);
 
         try {
-            PolicyEvaluationReport reply = pS.evaluate(ospId, userId, ospRequest, null);
+            PolicyEvaluationReport reply = pS.evaluate(ospId, userId, ospRequest, null, null);
             System.out.println(reply.toString());
         } catch (NotFoundException ex) {
             Logger.getLogger(ManagementConsoleSim.class.getName()).log(Level.SEVERE, null, ex);

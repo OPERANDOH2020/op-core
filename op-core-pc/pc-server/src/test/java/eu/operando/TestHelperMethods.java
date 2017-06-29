@@ -347,7 +347,7 @@ public class TestHelperMethods {
     public String evaluateBuildPC(String userId, String ospId, List<OSPDataRequest> accessRequest) {
         try {
             PolicyEvaluationService localObject = new PolicyEvaluationService();
-            return localObject.evaluate(ospId, userId, accessRequest, PDB_UPP_URL).toString();
+            return localObject.evaluate(ospId, userId, accessRequest, PDB_UPP_URL, PDB_OSP_URL).toString();
         } catch (NotFoundException ex) {
             return null;
         }

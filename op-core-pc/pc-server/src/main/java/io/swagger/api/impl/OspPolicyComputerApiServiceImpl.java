@@ -70,7 +70,7 @@ public class OspPolicyComputerApiServiceImpl extends OspPolicyComputerApiService
      * The API component only uses one other OPERANDO component the policy database.
      * This stores the reference, so HTTP REST calls can be made.
      */
-    private String PDB_BASEURL = null;
+    public static String PDB_BASEURL = null;
 
 //    // LogDB endpoint
 //    LogApi logApi;
@@ -90,7 +90,6 @@ public class OspPolicyComputerApiServiceImpl extends OspPolicyComputerApiService
         super();
 	Properties props = loadDbProperties();
         policyService = PolicyEvaluationService.getInstance();
-
 
         // setup aapi client
 //        eu.operando.core.cas.client.ApiClient aapiDefaultClient = new eu.operando.core.cas.client.ApiClient();
@@ -114,9 +113,9 @@ public class OspPolicyComputerApiServiceImpl extends OspPolicyComputerApiService
      * @param friendlyName The keywords to search for.
      * @return The Operando ospID for the OSP with this friendly data.
      */
-    public String ospQuerybyFriendlyName(String friendlyName) {
+    public static String ospQuerybyFriendlyName(String friendlyName, String URL) {
         Client client = new Client();
-        String ospAPI = PDB_BASEURL + "/OSP"+"/?filter=%7B%27policy_url%27:%27" + friendlyName + "%27%7D" ;
+        String ospAPI = URL + "/?filter=%7B%27policy_url%27:%27"+friendlyName+"%27%7D";
         System.out.println(ospAPI);
         WebResource webResourcePDB = client.resource(ospAPI);
         ClientResponse policyResponse = webResourcePDB.type("application/json").get(ClientResponse.class);
@@ -176,7 +175,7 @@ public class OspPolicyComputerApiServiceImpl extends OspPolicyComputerApiService
         try {
 
             String currentUpp = null;
-            String ospNumericId = ospQuerybyFriendlyName(ospId);
+            String ospNumericId = ospQuerybyFriendlyName(ospId, PDB_BASEURL);
             System.out.println("userid: " + userId + " ospId: "+ ospId + "PDB: " + PDB_BASEURL);
             if(userId.startsWith("_demo")) {
                 currentUpp = policyService.getUPP(userId);
