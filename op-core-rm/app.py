@@ -108,6 +108,7 @@ def joinSTR(lst):
 def GetST():
     response = requests.post(__aapi_st_url %
                              TGT, data='op-pdr/dan', verify=False)
+    print response.text
     return response.text
 
 
@@ -120,6 +121,7 @@ def ValidateReceivedTicket(tckt, sID):
         namespaces = {'cas': 'http://www.yale.edu/tp/cas'}
         elmt = root.find('*/*')
         # check whether the request has a valid ticket
+        print elmt.text
         return elmt.text == "gatekeeper"
     except:
         return False
@@ -184,15 +186,15 @@ def handleSelect(request, addr):
     
     # check whether the response is OK
     print "*"*10
-    print "DAN Response:\n%s" %r.text
-    if not is_json(r.text):
-        return Response(r.text, status=r.status_code, mimetype='application/json')
+    print "DAN Response:\n%s" %r.text.encode('utf-8')
+    if not is_json(r.text.encode('utf-8')):
+        return Response(r.text.encode('utf-8'), status=r.status_code, mimetype='application/json')
     else:
-        jsonResponse = json.loads(r.text)
+        jsonResponse = json.loads(r.text.encode('utf-8'))
     if r.status_code == 200:
         # check if we have an error
         if "error" in jsonResponse.keys():
-            return Response(r.text, status=500, mimetype='application/json')
+            return Response(r.text.encode('utf-8'), status=500, mimetype='application/json')
         # check whether we have the IDs in the oData query
         # let's check whether the query has the user id
         uID_split = re.findall('\((.*?)\)', addr)
