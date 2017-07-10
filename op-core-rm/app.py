@@ -210,7 +210,7 @@ def handleSelect(request, addr):
                 for element in usersValue.keys(): 
                     if element.lower() == "id": userid = usersValue[element]
                     if element.lower() == "userid": 
-                            placeduserid = item[element]
+                            placeduserid = usersValue[element]
                     #if element.lower() == "id": userid = "301"
                     fields2query.append(element)
                 if placeduserid != "-1": userid = placeduserid
