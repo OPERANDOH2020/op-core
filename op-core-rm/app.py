@@ -202,6 +202,7 @@ def handleSelect(request, addr):
             
             #if value does not exist this means that the response is one entity and not a set of ones
             if 'value' not in jsonResponse:
+               
                 usersValue = jsonResponse
                 counter = 0;
                 fields2query = []
@@ -227,8 +228,13 @@ def handleSelect(request, addr):
                         # there is no policy defined so return the result
                         # return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
                         return Response(json.dumps({"d": {"error": "Policies restrictions"}}), status=200, mimetype='application/json')
-                
+                elif policies["compliance"] == "VALID":
+                    # there is a VALID reponce, no policies exist, all data are shown
+                    restrictedFields = []
+                    logdata(req_db, joinSTR(restrictedFields), userid, False)
+                    return Response(json.dumps(usersValue), status=200, mimetype='application/json')
                 else:
+                    
                     restrictedFields = []
                     for ev in policies["evaluations"]:
                         print ev
@@ -275,7 +281,12 @@ def handleSelect(request, addr):
                         # there is no policy defined so return the result
                         # return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
                         return Response(json.dumps({"d": {"error": "Policies restrictions"}}), status=200, mimetype='application/json')
-                    
+                    elif policies["compliance"] == "VALID":
+                        # there is a VALID reponce, no policies exist, all data are shown
+                        #do nothing in the user object, everything should be visible
+                        #just print a log
+                        restrictedFields = []
+                        logdata(psp_user_identifier, joinSTR(restrictedFields), userid, False)
                     else:
                         restrictedFields = []
                         for ev in policies["evaluations"]:
@@ -316,7 +327,12 @@ def handleSelect(request, addr):
                         # there is no policy defined so return the result
                         # return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
                         return Response(json.dumps({"d": {"error": "Policies restrictions"}}), status=200, mimetype='application/json')
-
+                    elif policies["compliance"] == "VALID":
+                        #just do nothing, only show a log and print the user as it is
+                        restrictedFields = []
+                        logdata(req_db, joinSTR(restrictedFields), userid, False)
+                        return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
+                    
                     elif policies["compliance"] == "PREFS_CONFLICT":
                         # there is a conflict in the policies
                         restrictedFields = []
@@ -346,6 +362,11 @@ def handleSelect(request, addr):
                     if policies["compliance"] == "NO_POLICY":
                         # there is no policy defined so return the result
                         return Response(json.dumps({"error": "Policies restrictions"}), status=200, mimetype='application/json')
+                    elif policies["compliance"] == "VALID":
+                        #do nothing, just return the json object as it is. 
+                        restrictedFields = []
+                        logdata(req_db, joinSTR(restrictedFields), userid, False)
+                        return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
                     elif policies["compliance"] == "PREFS_CONFLICT":
                         # there is a conflict in the policies
                         
@@ -381,6 +402,10 @@ def handleSelect(request, addr):
                         if policies["compliance"] == "NO_POLICY":
                             # there is no policy defined so return the result
                             jsonResponse["d"]["results"][i]={"error":"Policies restrictions"}
+                        elif policies["compliance"] == "VALID":
+                            #do nothing, show all data
+                            restrictedFields = []
+                            logdata(psp_user_identifier, joinSTR(restrictedFields), userid, False)                            
                         elif policies["compliance"] == "PREFS_CONFLICT":
                             # there is a conflict in the policies
                             restrictedFields = []
@@ -410,6 +435,10 @@ def handleSelect(request, addr):
                         if policies["compliance"] == "NO_POLICY":
                             # there is no policy defined so return the result
                             jsonResponse["d"]["results"][i]={"error":"Policies restrictions"}
+                        elif policies["compliance"] == "VALID":
+                            #do nothing, show all data
+                            restrictedFields = []
+                            logdata(psp_user_identifier, joinSTR(restrictedFields), userid, False)
                         elif policies["compliance"] == "PREFS_CONFLICT":
                             # there is a conflict in the policies
                             restrictedFields = []
