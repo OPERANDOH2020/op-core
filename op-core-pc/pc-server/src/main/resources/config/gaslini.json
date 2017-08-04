@@ -1,7 +1,7 @@
 {
     "policy_text": "Gaslini Policy",
-    "policy_url": "n/a",
-    "schema": "Operando_Gaslini.xsd",
+    "policy_url": "GASLINI",
+    "schema": "http://www.operando.eu/OData/$metadata",
     "workflow": [
         {
             "requester_id": "tutorID",
@@ -11,140 +11,412 @@
             "attributes": [{}]
         }
         ],
+        
     "policies": [
         {
-            "subject": "Tutor",
-            "permission": "True",
-            "action": "Access",
-            "resource": "/CDS_Patients",
-            "attributes": [{}]
-        },
-        {
-            "subject": "Tutor",
+            "subject": "Gaslini - Tutor",
             "permission": "true",
             "action": "Access",
-            "resource": "/CDS_Legals",
+            "resource": "ID",
             "attributes": [{}]
         },
         {
-            "subject": "Tutor",
+            "subject": "Gaslini - Tutor",
             "permission": "true",
             "action": "Access",
-            "resource": "/CDS_Doctors",
+            "resource": "datainserimento",
             "attributes": [{}]
         },
         {
-            "subject": "Doctor",
+            "subject": "Gaslini - Tutor",
             "permission": "true",
             "action": "Access",
-            "resource": "/CDS_Patients",
+            "resource": "nome",
             "attributes": [{}]
         },
         {
-            "subject": "Doctor",
-            "permission": "false",
-            "action": "Access",
-            "resource": "/CDS_Patients/documento1",
-            "attributes": [{}]
-        },
-        {
-            "subject": "Doctor",
-            "permission": "false",
-            "action": "Access",
-            "resource": "/CDS_Patients/documento2",
-            "attributes": [{}]
-        },
-        {
-            "subject": "Doctor",
-            "permission": "false",
-            "action": "Access",
-            "resource": "/CDS_Patients/op_cds_doctor",
-            "attributes": [{}]
-        },
-        {
-            "subject": "Doctor",
-            "permission": "false",
-            "action": "Access",
-            "resource": "/CDS_Patients/consensoInformativo1",
-            "attributes": [{}]
-        },
-        {
-            "subject": "Doctor",
-            "permission": "false",
-            "action": "Access",
-            "resource": "/CDS_Patients/consensoInformativo2",
-            "attributes": [{}]
-        },
-        {
-            "subject": "Doctor",
-            "permission": "false",
-            "action": "Access",
-            "resource": "/CDS_Patients/consensoInformativo3",
-            "attributes": [{}]
-        },
-        {
-            "subject": "Doctor",
-            "permission": "false",
-            "action": "Access",
-            "resource": "/CDS_Patients/consensoInformativo4",
-            "attributes": [{}]
-        },
-        {
-            "subject": "Doctor",
-            "permission": "false",
-            "action": "Access",
-            "resource": "/CDS_Patients/consensoInformativo5",
-            "attributes": [{}]
-        },
-        {
-            "subject": "Doctor",
+            "subject": "Gaslini - Tutor",
             "permission": "true",
             "action": "Access",
-            "resource": "/CDS_Legals",
+            "resource": "cognome",
             "attributes": [{}]
         },
         {
-            "subject": "Doctor",
-            "permission": "false",
-            "action": "Access",
-            "resource": "/CDS_Legals/indirizzoResidenza",
-            "attributes": [{}]
-        },
-        {
-            "subject": "Doctor",
-            "permission": "false",
-            "action": "Access",
-            "resource": "/CDS_Legals/numeroCivico",
-            "attributes": [{}]
-        },
-        {
-            "subject": "Doctor",
-            "permission": "false",
-            "action": "Access",
-            "resource": "/CDS_Legals/CAP",
-            "attributes": [{}]
-        },
-        {
-            "subject": "Doctor",
-            "permission": "false",
-            "action": "Access",
-            "resource": "/CDS_Legals/email",
-            "attributes": [{}]
-        },
-        {
-            "subject": "Doctor",
-            "permission": "false",
-            "action": "Access",
-            "resource": "/CDS_Legals/cellulare",
-            "attributes": [{}]
-        },
-        {
-            "subject": "Doctor",
+            "subject": "Gaslini - Tutor",
             "permission": "true",
             "action": "Access",
-            "resource": "/CDS_Doctors",
+            "resource": "codiceFiscale",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Tutor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "sesso",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Tutor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "dataNascita",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Tutor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "PaeseNascita",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Tutor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "provNascita",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Tutor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "comuneNascita",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Tutor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "provResidenza",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Tutor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "comResidenza",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Tutor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "indirizzoResidenza",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Tutor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "numeroCivico",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Tutor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "cap",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Tutor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "Email",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Tutor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "documento1",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Tutor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "documento2",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Tutor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "consInform1",
+            "attributes": [{"attribute_name": "fixed", "attribute_value": "true"}]
+        },
+        {
+            "subject": "Gaslini - Tutor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "consInform2",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Tutor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "consInform3",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Tutor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "consInform4",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Tutor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "consInform5",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Tutor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "cellulare",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Tutor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "username",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Tutor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "datainserimento",
+            "attributes": [{}]
+        },{
+            "subject": "Gaslini - Tutor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "tipologiaLegale",
+            "attributes": [{}]
+        },{
+            "subject": "Gaslini - Tutor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "cellulare",
             "attributes": [{}]
         }
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        {
+            "subject": "Gaslini - Doctor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "ID",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Doctor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "datainserimento",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Doctor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "nome",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Doctor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "cognome",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Doctor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "codiceFiscale",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Doctor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "sesso",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Doctor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "dataNascita",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Doctor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "PaeseNascita",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Doctor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "provNascita",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Doctor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "comuneNascita",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Doctor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "provResidenza",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Doctor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "comResidenza",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Doctor",
+            "permission": "false",
+            "action": "Access",
+            "resource": "indirizzoResidenza",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Doctor",
+            "permission": "false",
+            "action": "Access",
+            "resource": "numeroCivico",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Doctor",
+            "permission": "false",
+            "action": "Access",
+            "resource": "cap",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Doctor",
+            "permission": "false",
+            "action": "Access",
+            "resource": "Email",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Doctor",
+            "permission": "false",
+            "action": "Access",
+            "resource": "documento1",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Doctor",
+            "permission": "false",
+            "action": "Access",
+            "resource": "documento2",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Doctor",
+            "permission": "false",
+            "action": "Access",
+            "resource": "consInform1",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Doctor",
+            "permission": "false",
+            "action": "Access",
+            "resource": "consInform2",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Doctor",
+            "permission": "false",
+            "action": "Access",
+            "resource": "consInform3",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Doctor",
+            "permission": "false",
+            "action": "Access",
+            "resource": "consInform4",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Doctor",
+            "permission": "false",
+            "action": "Access",
+            "resource": "consInform5",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Doctor",
+            "permission": "false",
+            "action": "Access",
+            "resource": "cellulare",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Doctor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "username",
+            "attributes": [{}]
+        },
+        {
+            "subject": "Gaslini - Doctor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "datainserimento",
+            "attributes": [{}]
+        },{
+            "subject": "Gaslini - Doctor",
+            "permission": "true",
+            "action": "Access",
+            "resource": "tipologiaLegale",
+            "attributes": [{}]
+        },{
+            "subject": "Gaslini - Doctor",
+            "permission": "false",
+            "action": "Access",
+            "resource": "cellulare",
+            "attributes": [{}]
+        }
+        ,{
+            "subject": "Gaslini - Doctor",
+            "permission": "false",
+            "action": "Access",
+            "resource": "op_cds_doctor",
+            "attributes": [{}]
+        }
     ]
 }

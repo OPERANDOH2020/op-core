@@ -2595,6 +2595,34 @@ sn: ASLBG_GA
 uid: ASLBG_GA
 userPassword:: RGFuaQ==
 
+dn: uid=ASLBG_IL,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: ASLBG_IL
+departmentNumber: string::string;;
+displayName: ASLBG_IL
+employeeNumber: string::string;;
+employeeType: role::OSP;;
+sn: ASLBG_IL
+uid: ASLBG_IL
+userPassword:: RGFuaQ==
+
+dn: uid=GASLINI,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: GASLINI
+departmentNumber: string::string;;
+displayName: GASLINI
+employeeNumber: string::string;;
+employeeType: role::OSP;;
+sn: GASLINI
+uid: GASLINI
+userPassword:: RGFuaQ==
+
 dn: uid=ami,ou=People,dc=nodomain
 objectClass: inetOrgPerson
 objectClass: organizationalPerson

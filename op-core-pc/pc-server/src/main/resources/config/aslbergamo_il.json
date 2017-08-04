@@ -1,7 +1,7 @@
 {
-    "policy_text": "ASL Bergamo - GAT Policy",
-    "policy_url": "n/a",
-    "schema": "Operando_BergamiIL.xsd",
+    "policy_text": "ASL Bergamo - IL Policy",
+    "policy_url": "ASLBG_IL",
+    "schema": "http://www.operando.eu/OData/$metadata",
     "workflow": [
         {
             "requester_id": "inspectorID",
@@ -11,152 +11,397 @@
             "attributes": [{}]
         }
         ],
+
     "policies": [
         {
-            "subject": "inspector",
-            "permission": "True",
-            "action": "Access",
-            "resource": "/PSW_Inspections",
-            "attributes": [{}]
-        },
-        {
-            "subject": "doctor",
+            "subject": "ASL Bergamo - IL - Inspector",
             "permission": "true",
             "action": "Access",
-            "resource": "/PSW_Penalities",
-            "attributes": [{}]
+            "resource": "ID",
+            "attributes": [{"attribute_name": "fixed", "attribute_value": "true"}]
         },
         {
-            "subject": "doctor",
+            "subject": "ASL Bergamo - IL - Inspector",
             "permission": "true",
             "action": "Access",
-            "resource": "/PSW_Payments",
+            "resource": "datainserimento",
             "attributes": [{}]
         },
         {
-            "subject": "Accountant",
+            "subject": "ASL Bergamo - IL - Inspector",
             "permission": "true",
             "action": "Access",
-            "resource": "/PSW_Inspections",
+            "resource": "nomeAzienda",
             "attributes": [{}]
         },
         {
-            "subject": "Accountant",
-            "permission": "false",
+            "subject": "ASL Bergamo - IL - Inspector",
+            "permission": "true",
             "action": "Access",
-            "resource": "/PSW_Inspections/provincia",
+            "resource": "op_psw_inspection_provincia",
             "attributes": [{}]
         },
         {
-            "subject": "Accountant",
-            "permission": "false",
+            "subject": "ASL Bergamo - IL - Inspector",
+            "permission": "true",
             "action": "Access",
-            "resource": "/PSW_Inspections/comune",
+            "resource": "op_psw_inspection_comune",
             "attributes": [{}]
         },
         {
-            "subject": "Accountant",
-            "permission": "false",
+            "subject": "ASL Bergamo - IL - Inspector",
+            "permission": "true",
             "action": "Access",
-            "resource": "/PSW_Inspections/indirizzo",
+            "resource": "indirizzo",
             "attributes": [{}]
         },
         {
-            "subject": "Accountant",
-            "permission": "false",
+            "subject": "ASL Bergamo - IL - Inspector",
+            "permission": "true",
             "action": "Access",
-            "resource": "/PSW_Inspections",
+            "resource": "numeroCivico",
             "attributes": [{}]
         },
         {
-            "subject": "Accountant",
-            "permission": "false",
+            "subject": "ASL Bergamo - IL - Inspector",
+            "permission": "true",
             "action": "Access",
-            "resource": "/PSW_Inspections/numeroCivico",
+            "resource": "cap",
             "attributes": [{}]
         },
         {
-            "subject": "Accountant",
-            "permission": "false",
+            "subject": "ASL Bergamo - IL - Inspector",
+            "permission": "true",
             "action": "Access",
-            "resource": "/PSW_Inspections/CAP",
+            "resource": "dataIspezione",
             "attributes": [{}]
         },
         {
-            "subject": "Accountant",
-            "permission": "false",
+            "subject": "ASL Bergamo - IL - Inspector",
+            "permission": "true",
             "action": "Access",
-            "resource": "/PSW_Inspections/oraInizio",
+            "resource": "oraInizio",
             "attributes": [{}]
         },
         {
-            "subject": "Accountant",
-            "permission": "false",
+            "subject": "ASL Bergamo - IL - Inspector",
+            "permission": "true",
             "action": "Access",
-            "resource": "/PSW_Inspections/oraFine",
+            "resource": "oraFine",
             "attributes": [{}]
         },
         {
-            "subject": "Accountant",
-            "permission": "false",
+            "subject": "ASL Bergamo - IL - Inspector",
+            "permission": "true",
             "action": "Access",
-            "resource": "/PSW_Inspections/idIspettore",
+            "resource": "sanzioneApplicata",
             "attributes": [{}]
         },
         {
-            "subject": "Accountant",
-            "permission": "false",
+            "subject": "ASL Bergamo - IL - Inspector",
+            "permission": "true",
             "action": "Access",
-            "resource": "/PSW_Inspections/report",
+            "resource": "IDIspettore",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Inspector",
+            "permission": "true",
+            "action": "Access",
+            "resource": "nomeIspettore",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Inspector",
+            "permission": "true",
+            "action": "Access",
+            "resource": "report",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Inspector",
+            "permission": "true",
+            "action": "Access",
+            "resource": "daRicontrollare",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Inspector",
+            "permission": "true",
+            "action": "Access",
+            "resource": "dataOraProssimaIspezione",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Inspector",
+            "permission": "true",
+            "action": "Access",
+            "resource": "idIspettoreProssimaIspezione",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Inspector",
+            "permission": "true",
+            "action": "Access",
+            "resource": "nomeIspettoreProssimaIspezione",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Inspector",
+            "permission": "true",
+            "action": "Access",
+            "resource": "username",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Inspector",
+            "permission": "true",
+            "action": "Access",
+            "resource": "datainserimento",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Inspector",
+            "permission": "true",
+            "action": "Access",
+            "resource": "amount",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Inspector",
+            "permission": "true",
+            "action": "Access",
+            "resource": "motivo",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Inspector",
+            "permission": "true",
+            "action": "Access",
+            "resource": "livello",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Inspector",
+            "permission": "true",
+            "action": "Access",
+            "resource": "primaPenalita",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Inspector",
+            "permission": "true",
+            "action": "Access",
+            "resource": "pagato",
             "attributes": [{}]
         },{
-            "subject": "Accountant",
+            "subject": "ASL Bergamo - IL - Inspector",
+            "permission": "true",
+            "action": "Access",
+            "resource": "totale",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Inspector",
+            "permission": "true",
+            "action": "Access",
+            "resource": "dataPagamento",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Accountant",
+            "permission": "true",
+            "action": "Access",
+            "resource": "ID",
+            "attributes": [{"attribute_name": "fixed", "attribute_value": "true"}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Accountant",
+            "permission": "true",
+            "action": "Access",
+            "resource": "datainserimento",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Accountant",
+            "permission": "true",
+            "action": "Access",
+            "resource": "nomeAzienda",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Accountant",
             "permission": "false",
             "action": "Access",
-            "resource": "/PSW_Inspections/daRicontrollare",
+            "resource": "op_psw_inspection_provincia",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Accountant",
+            "permission": "fakse",
+            "action": "Access",
+            "resource": "op_psw_inspection_comune",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Accountant",
+            "permission": "false",
+            "action": "Access",
+            "resource": "indirizzo",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Accountant",
+            "permission": "false",
+            "action": "Access",
+            "resource": "numeroCivico",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Accountant",
+            "permission": "false",
+            "action": "Access",
+            "resource": "cap",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Accountant",
+            "permission": "true",
+            "action": "Access",
+            "resource": "dataIspezione",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Accountant",
+            "permission": "false",
+            "action": "Access",
+            "resource": "oraInizio",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Accountant",
+            "permission": "false",
+            "action": "Access",
+            "resource": "oraFine",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Accountant",
+            "permission": "true",
+            "action": "Access",
+            "resource": "sanzioneApplicata",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Accountant",
+            "permission": "false",
+            "action": "Access",
+            "resource": "IDIspettore",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Accountant",
+            "permission": "true",
+            "action": "Access",
+            "resource": "nomeIspettore",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Accountant",
+            "permission": "false",
+            "action": "Access",
+            "resource": "report",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Accountant",
+            "permission": "false",
+            "action": "Access",
+            "resource": "daRicontrollare",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Accountant",
+            "permission": "false",
+            "action": "Access",
+            "resource": "dataOraProssimaIspezione",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Accountant",
+            "permission": "false",
+            "action": "Access",
+            "resource": "idIspettoreProssimaIspezione",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Accountant",
+            "permission": "true",
+            "action": "Access",
+            "resource": "nomeIspettoreProssimaIspezione",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Accountant",
+            "permission": "true",
+            "action": "Access",
+            "resource": "username",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Accountant",
+            "permission": "true",
+            "action": "Access",
+            "resource": "datainserimento",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Accountant",
+            "permission": "true",
+            "action": "Access",
+            "resource": "amount",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Accountant",
+            "permission": "false",
+            "action": "Access",
+            "resource": "motivo",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Accountant",
+            "permission": "true",
+            "action": "Access",
+            "resource": "livello",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Accountant",
+            "permission": "false",
+            "action": "Access",
+            "resource": "primaPenalita",
+            "attributes": [{}]
+        },
+        {
+            "subject": "ASL Bergamo - IL - Accountant",
+            "permission": "true",
+            "action": "Access",
+            "resource": "pagato",
             "attributes": [{}]
         },{
-            "subject": "Accountant",
-            "permission": "false",
+            "subject": "ASL Bergamo - IL - Accountant",
+            "permission": "true",
             "action": "Access",
-            "resource": "/PSW_Inspections/dataOraProssimaIspezione",
-            "attributes": [{}]
-        },{
-            "subject": "Accountant",
-            "permission": "false",
-            "action": "Access",
-            "resource": "/PSW_Inspections/idIspettoreProssimaIspezione",
-            "attributes": [{}]
-        },
-        
-        {
-            "subject": "Accountant",
-            "permission": "True",
-            "action": "Access",
-            "resource": "/PSW_Penalities",
+            "resource": "totale",
             "attributes": [{}]
         },
         {
-            "subject": "Accountant",
-            "permission": "false",
+            "subject": "ASL Bergamo - IL - Accountant",
+            "permission": "true",
             "action": "Access",
-            "resource": "/PSW_Penalities/motivo",
-            "attributes": [{}]
-        },
-        {
-            "subject": "Accountant",
-            "permission": "false",
-            "action": "Access",
-            "resource": "/PSW_Penalities/primaPenalita",
-            "attributes": [{}]
-        },
-        {
-            "subject": "Accountant",
-            "permission": "True",
-            "action": "Access",
-            "resource": "/PSW_Payments",
+            "resource": "dataPagamento",
             "attributes": [{}]
         }
-        
     ]
 }
