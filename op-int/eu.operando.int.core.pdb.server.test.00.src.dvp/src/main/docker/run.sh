@@ -4,6 +4,24 @@ echo PDB Endpoint: $PDB_ENDPOINT
 
 all_Successful=0
 
+curl -d @sources/aslbergamo_il.json -H "Content-Type:application/json" $PDB_ENDPOINT/OSP
+if [ $? -eq 0 ]
+then
+  echo "ASL BERGAMO IL SUCCESSFULLY LOADED"
+else
+  echo "ERROR"
+  all_Successful=1
+fi
+
+curl -d @sources/gaslini.json -H "Content-Type:application/json" $PDB_ENDPOINT/OSP
+if [ $? -eq 0 ]
+then
+  echo "GASLINI SUCCESSFULLY LOADED"
+else
+  echo "ERROR"
+  all_Successful=1
+fi
+
 curl -d @sources/aslbergamo_gat.json -H "Content-Type:application/json" $PDB_ENDPOINT/OSP
 if [ $? -eq 0 ]
 then

@@ -2593,7 +2593,7 @@ employeeNumber: string::string;;
 employeeType: role::OSP;;
 sn: ASLBG_GA
 uid: ASLBG_GA
-userPassword:: RGFuaQ==
+userPassword:: RG3FuaQ==
 
 dn: uid=ASLBG_IL,ou=People,dc=nodomain
 objectClass: inetOrgPerson
@@ -2607,7 +2607,7 @@ employeeNumber: string::string;;
 employeeType: role::OSP;;
 sn: ASLBG_IL
 uid: ASLBG_IL
-userPassword:: RGFuaQ==
+userPassword:: RG2FuaQ==
 
 dn: uid=GASLINI,ou=People,dc=nodomain
 objectClass: inetOrgPerson
@@ -2621,7 +2621,7 @@ employeeNumber: string::string;;
 employeeType: role::OSP;;
 sn: GASLINI
 uid: GASLINI
-userPassword:: RGFuaQ==
+userPassword:: RG1FuaQ==
 
 dn: uid=ami,ou=People,dc=nodomain
 objectClass: inetOrgPerson

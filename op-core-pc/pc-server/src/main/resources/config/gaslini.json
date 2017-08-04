@@ -206,18 +206,7 @@
             "action": "Access",
             "resource": "cellulare",
             "attributes": [{}]
-        }
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        {
+        },{
             "subject": "Gaslini - Doctor",
             "permission": "true",
             "action": "Access",
