@@ -4,7 +4,7 @@
     "schema": "http://www.operando.eu/OData/$metadata",
     "workflow": [
         {
-            "requester_id": "inspectorID",
+            "requester_id": "8inspectorID",
             "subject": "doctor",
             "requested_url": "/GA_Patients/PA_Pathologies/",
             "action": "Access",
