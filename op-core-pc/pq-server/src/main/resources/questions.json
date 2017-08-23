@@ -1,0 +1,23 @@
+[
+  {
+    "question": "Users have lost all control over how personal information is collected and used by online services",
+    "category": "GENERAL",
+    "meta": "strongly agree, agree, disagree, strongly disagree",
+    "weight": "G1",
+    "score": "string"
+  },
+  {
+    "question": "Most online services handle the personal information they collect about users in a proper and confidential way",
+    "category": "GENERAL",
+    "meta": "strongly agree, agree, disagree, strongly disagree",
+    "weight": "G2",
+    "score": "string"
+  },
+  {
+    "question": "Existing laws and organizational practices provide a reasonable level of protection for consumer privacy today",
+    "category": "GENERAL",
+    "meta": "strongly agree, agree, disagree, strongly disagree",
+    "weight": "G3",
+    "score": "string"
+  }
+]

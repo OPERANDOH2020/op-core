@@ -1,8 +1,0 @@
-eu.operando.core.cpcu.api
-eu.operando.core.cpcu.exceptions
-eu.operando.core.cpcu.main
-eu.operando.core.cpcu.processing
-eu.operando.core.cpcu.questionnaires
-eu.operando.core.cpcu.servlet
-eu.operando.core.cpcu.servlet.configurations
-eu.operando.core.cpcu.servlet.springwrappers

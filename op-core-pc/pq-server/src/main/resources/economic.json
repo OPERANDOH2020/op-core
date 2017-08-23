@@ -1,0 +1,23 @@
+[
+  {
+    "question": "I avoid making online purchases and payment of bills",
+    "category": "ECONOMIC",
+    "meta": "strongly agree, agree, disagree, strongly disagree",
+    "weight": "E1",
+    "score": "string"
+  },
+  {
+    "question": "I avoid using online banking, either through the internet or mobile applications.",
+    "category": "ECONOMIC",
+    "meta": "strongly agree, agree, disagree, strongly disagree",
+    "weight": "E2",
+    "score": "string"
+  },
+  {
+    "question": "I try to use intermediary purchase software, such as PayPal, when paying online",
+    "category": "ECONOMIC",
+    "meta": "strongly agree, agree, disagree, strongly disagree",
+    "weight": "E3",
+    "score": "string"
+  }
+]

@@ -1,0 +1,23 @@
+[
+  {
+    "question": "Online services I have not given my email address to should not be able to contact me by email.",
+    "category": "PERSONAL",
+    "meta": "strongly agree, agree, disagree, strongly disagree",
+    "weight": "P1",
+    "score": "string"
+  },
+  {
+    "question": "I am protective over who I give my contact information (telephone number or address) to",
+    "category": "PERSONAL",
+    "meta": "strongly agree, agree, disagree, strongly disagree",
+    "weight": "P2",
+    "score": "string"
+  },
+  {
+    "question": "I am concerned that I will be identified as a user of a sensitive online service",
+    "category": "PERSONAL",
+    "meta": "strongly agree, agree, disagree, strongly disagree",
+    "weight": "P3",
+    "score": "string"
+  }
+]

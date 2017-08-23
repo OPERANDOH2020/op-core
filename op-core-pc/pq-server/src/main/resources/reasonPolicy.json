@@ -1,0 +1,69 @@
+{
+  "policies": [
+      {
+        "reasonid": "1",
+        "datauser": "doctor",
+        "datasubjecttype": "patient",
+        "datatype": "personal information",
+        "reason": "Medical Treatment"
+      },
+      {
+        "reasonid": "2",
+        "datauser": "doctor",
+        "datasubjecttype": "patient",
+        "datatype": "contact information",
+        "reason": "Medical Treatment"
+      },
+      {
+        "reasonid": "3",
+        "datauser": "doctor",
+        "datasubjecttype": "patient",
+        "datatype": "medical treatment",
+        "reason": "Medical Treatment"
+      },
+      {
+        "reasonid": "4",
+        "datauser": "doctor",
+        "datasubjecttype": "patient",
+        "datatype": "medical history",
+        "reason": "Medical Treatment"
+      },
+      {
+        "reasonid": "5",
+        "datauser": "doctor",
+        "datasubjecttype": "patient",
+        "datatype": "financial",
+        "reason": "Medical Treatment"
+      },
+      {
+        "reasonid": "6",
+        "datauser": "doctor",
+        "datasubjecttype": "patient",
+        "datatype": "social history",
+        "reason": "Medical Treatment"
+      },
+      {
+        "reasonid": "7",
+        "datauser": "adminstrator",
+        "datasubjecttype": "patient",
+        "datatype": "contact information",
+        "reason": "Medical Treatment"
+      },
+      {
+        "reasonid": "8",
+        "datauser": "adminstrator",
+        "datasubjecttype": "patient",
+        "datatype": "medical history",
+        "reason": "Medical Treatment"
+      }
+      ,
+      {
+        "reasonid": "9",
+        "datauser": "adminstrator",
+        "datasubjecttype": "patient",
+        "datatype": "financial",
+        "reason": "Treatment payment"
+      }
+    ]
+}
+
