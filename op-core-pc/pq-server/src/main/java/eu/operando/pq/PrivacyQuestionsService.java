@@ -124,9 +124,10 @@ public class PrivacyQuestionsService {
         switch (language) {
             case "EN":
                 respQuestions.addAll(getQuestionsFromFile(PERSRESOURCES));
-
+                break;
             default:
                 respQuestions.addAll(getQuestionsFromFile(PERSRESOURCES));
+                break;
         }
         return respQuestions;
     }
