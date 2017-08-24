@@ -29,7 +29,6 @@ import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
 import com.google.common.io.Closeables;
 import eu.operando.core.pdb.client1.model.AccessReason;
-//import eu.operando.core.pdb.common.model.AccessReason;
 import io.swagger.model.Questionobject;
 import java.io.IOException;
 import java.io.InputStream;

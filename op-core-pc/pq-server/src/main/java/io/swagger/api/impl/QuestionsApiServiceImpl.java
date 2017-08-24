@@ -17,7 +17,9 @@ import java.util.ArrayList;
 import eu.operando.core.pdb.client1.api.OSPApi;
 import eu.operando.core.pdb.client1.api.UPPApi;
 import eu.operando.core.pdb.client1.model.AccessReason;
+import eu.operando.core.pdb.client1.model.OSPConsents;
 import eu.operando.core.pdb.client1.model.OSPReasonPolicy;
+import eu.operando.core.pdb.client1.model.OSPSettings;
 import eu.operando.core.pdb.client1.model.UserPreference;
 import eu.operando.core.pdb.client1.model.UserPrivacyPolicy;
 
@@ -212,15 +214,32 @@ public class QuestionsApiServiceImpl extends QuestionsApiService {
             }
             
             // Store the answers in the user preferences of the UPP
+            UserPrivacyPolicy upp = null;
+            boolean putOrPost = false;
             try {
                 /**
                  * Get the UPP of the user. If there is a preference with
                  * GENERAL don't ask the GENERAL question again.
                  */
-                UserPrivacyPolicy response = upp_api.userPrivacyPolicyUserIdGet(userId);
-                response.setUserPreferences(prefs);
-                upp_api.userPrivacyPolicyUserIdPut(userId, response);
+                upp = upp_api.userPrivacyPolicyUserIdGet(userId);
             } catch (eu.operando.core.pdb.client1.ApiException ex) {
+                System.out.println("user is not found " + ex.getMessage());
+                System.out.println("create new UPP for " + userId);
+                upp = new UserPrivacyPolicy();
+                upp.setUserId(userId);
+                upp.setSubscribedOspPolicies(new ArrayList<OSPConsents>());
+                upp.setSubscribedOspSettings(new ArrayList<OSPSettings>());
+                putOrPost = true;
+            }
+            try {
+                upp.setUserPreferences(prefs);
+                if(putOrPost) 
+                    upp_api.userPrivacyPolicyPost(upp);
+                else
+                    upp_api.userPrivacyPolicyUserIdPut(userId, upp);
+                System.out.println("upp for " + userId + " is updated");
+            } catch (eu.operando.core.pdb.client1.ApiException ex) {
+                System.out.println("exception " + ex.getMessage());
                 return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "Could not find user id")).build();
             }
             
