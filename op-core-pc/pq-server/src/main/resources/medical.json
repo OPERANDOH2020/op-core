@@ -1,0 +1,32 @@
+[
+  {
+    "question": "I have\/had a medical condition\/problem that I am embarrassed about",
+    "category": "MEDICAL",
+    "meta": "strongly agree, agree, disagree, strongly disagree",
+    "weight": "M1",
+    "score": "string"
+  },
+  {
+    "question": "My medical records should only be used in medical research if the records are made anonymous",
+    "category": "MEDICAL",
+    "meta": "strongly agree, agree, disagree, strongly disagree",
+    "weight": "M2",
+    "score": "string"
+  },
+  {
+    "question": "It concerns me that my medical information is being seen today by many organizations beyond those that I go to for health care services",
+    "category": "MEDICAL",
+    "meta": "strongly agree, agree, disagree, strongly disagree",
+    "weight": "M3",
+    "score": "string"
+  },
+  {
+    "question": "I would be happy to share my medical information with online diet and fitness services",
+    "category": "MEDICAL",
+    "meta": "strongly agree, agree, disagree, strongly disagree",
+    "weight": "M4",
+    "score": "string"
+  }
+]
+
+ 

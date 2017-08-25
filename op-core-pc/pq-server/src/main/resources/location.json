@@ -1,0 +1,23 @@
+[
+  {
+    "question": "I would be happy use online location services (e.g. Google Maps) to help with navigation",
+    "category": "LOCATION",
+    "meta": "strongly agree, agree, disagree, strongly disagree",
+    "weight": "L1",
+    "score": "string"
+  },
+  {
+    "question": "I do not post my location when using social media applications",
+    "category": "LOCATION",
+    "meta": "strongly agree, agree, disagree, strongly disagree",
+    "weight": "L2",
+    "score": "string"
+  },
+  {
+    "question": "I am concerned that online services track my location without my knowledge",
+    "category": "LOCATION",
+    "meta": "strongly agree, agree, disagree, strongly disagree",
+    "weight": "L3",
+    "score": "string"
+  }
+]

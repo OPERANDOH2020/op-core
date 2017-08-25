@@ -1,0 +1,23 @@
+[
+  {
+    "question": "I use VPN\u2019s and other routing software to make sure my communications cannot be traced back to me",
+    "category": "INTERNET",
+    "meta": "strongly agree, agree, disagree, strongly disagree",
+    "weight": "I1",
+    "score": "string"
+  },
+  {
+    "question": "I often use Incognito\/Private browsing or other steps to help ensure my privacy when online",
+    "category": "INTERNET",
+    "meta": "strongly agree, agree, disagree, strongly disagree",
+    "weight": "I2",
+    "score": "string"
+  },
+  {
+    "question": "I want to keep all of my online conversations on the internet (via e-mail, whatsapp or facebook messenger) private",
+    "category": "INTERNET",
+    "meta": "strongly agree, agree, disagree, strongly disagree",
+    "weight": "I3",
+    "score": "string"
+  }
+]
