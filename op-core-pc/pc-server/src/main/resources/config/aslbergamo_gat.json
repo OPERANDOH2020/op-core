@@ -17,182 +17,450 @@
             "permission": "true",
             "action": "Access",
             "resource": "ID",
-            "attributes": [{}]
-        },
-        {
-            "subject": "ASL Bergamo - GAT - Doctor",
-            "permission": "true",
-            "action": "Access",
-            "resource": "datainserimento",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"ID"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"ID"
+            }]
         },
         {
             "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "username",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"username"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"username"
+            }]
         },
         {
             "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "nome",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"nome"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"nome"
+            }]
         },
         {
             "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "cognome",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"cognome"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"cognome"
+            }]
         },
         {
             "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "codiceFiscale",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"codiceFiscale"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"codiceFiscale"
+            }]
         },
         {
             "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "sesso",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"sesso"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"sesso"
+            }]
         },
         {
             "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "dataNascita",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"dataNascita"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"dataNascita"
+            }]
         },
         {
             "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "PaeseNascita",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"PaeseNascita"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"PaeseNascita"
+            }]
         },
         {
             "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "ProvinciaNascita",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"ProvinciaNascita"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"ProvinciaNascita"
+            }]
         },
         {
             "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "comuneNascita",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"comuneNascita"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"comuneNascita"
+            }]
         },
         {
             "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "ProvinciaResidenza",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"ProvinciaResidenza"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"ProvinciaResidenza"
+            }]
         },
         {
             "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "comuneResidenza",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"comuneResidenza"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"comuneResidenza"
+            }]
         },
         {
             "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "indirizzoResidenza",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"indirizzoResidenza"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"indirizzoResidenza"
+            }]
         },
         {
             "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "numeroCivico",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"numeroCivico"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"numeroCivico"
+            }]
         },
         {
             "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "cap",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"cap"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"cap"
+            }]
         },
         {
             "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "email",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"contact"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"email"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"email"
+            }]
         },
         {
             "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "cellulare",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"contact"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"cellulare"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"cellulare"
+            }]
         },
         {
             "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "false",
             "action": "Access",
             "resource": "debiti",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"debiti"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"debiti"
+            }]
         },
         {
             "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "false",
             "action": "Access",
             "resource": "debitiDuranteGioco",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"debitiDuranteGioco"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"debitiDuranteGioco"
+            }]
         },
         {
             "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "usoAlcohol",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"usoAlcohol"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"usoAlcohol"
+            }]
         },
         {
             "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "usoTabacco",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"usoTabacco"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"usoTabacco"
+            }]
         },
         {
             "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "usoDroghe",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"usoDroghe"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"usoDroghe"
+            }]
         },
         {
             "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "false",
             "action": "Access",
             "resource": "famigliaUsoAlcohol",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"famigliaUsoAlcohol"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"famigliaUsoAlcohol"
+            }]
         },
         {
             "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "false",
             "action": "Access",
             "resource": "famigliaUsoTabacco",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"famigliaUsoTabacco"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"famigliaUsoTabacco"
+            }]
         },
         {
             "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "false",
             "action": "Access",
             "resource": "famigliaUsoDroghe",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"famigliaUsoDroghe"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"famigliaUsoDroghe"
+            }]
         },
         
         {
@@ -200,56 +468,144 @@
             "permission": "true",
             "action": "Access",
             "resource": "datainserimento",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"datainserimento"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"datainserimento"
+            }]
         },
         {
             "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "place",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"place"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"place"
+            }]
         },
         {
             "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "fasciaGiorna",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"fasciaGiorna"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"fasciaGiorna"
+            }]
         },
         {
             "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "tipoPatologi",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"tipoPatologi"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"tipoPatologi"
+            }]
         },
         {
             "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "false",
             "action": "Access",
             "resource": "alcoholDurante",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"alcoholDurante"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"alcoholDurante"
+            }]
         },
         {
             "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "false",
             "action": "Access",
             "resource": "tabaccoDurante",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"tabaccoDurante"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"tabaccoDurante"
+            }]
         },
         {
             "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "false",
             "action": "Access",
             "resource": "drogaDurante",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"drogaDurante"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"drogaDurante"
+            }]
         },
         {
             "subject": "ASL Bergamo - GAT - Doctor",
             "permission": "false",
             "action": "Access",
             "resource": "etaPrimiDisturbi",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"etaPrimiDisturbi"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"etaPrimiDisturbi"
+            }]
         }
         ,
         {
@@ -257,7 +613,18 @@
             "permission": "true",
             "action": "Access",
             "resource": "descrizione",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"descrizione"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"descrizione"
+            }]
         }
     ]
 }
