@@ -18,394 +18,967 @@
             "permission": "true",
             "action": "Access",
             "resource": "ID",
-            "attributes": [{}]
-        },
-        {
-            "subject": "Gaslini - Tutor",
-            "permission": "true",
-            "action": "Access",
-            "resource": "datainserimento",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"ID"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"ID"
+            }]
         },
         {
             "subject": "Gaslini - Tutor",
             "permission": "true",
             "action": "Access",
             "resource": "nome",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"nome"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"nome"
+            }]
         },
         {
             "subject": "Gaslini - Tutor",
             "permission": "true",
             "action": "Access",
             "resource": "cognome",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"cognome"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"cognome"
+            }]
         },
         {
             "subject": "Gaslini - Tutor",
             "permission": "true",
             "action": "Access",
             "resource": "codiceFiscale",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"codiceFiscale"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"codiceFiscale"
+            }]
         },
         {
             "subject": "Gaslini - Tutor",
             "permission": "true",
             "action": "Access",
             "resource": "sesso",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"sesso"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"sesso"
+            }]
         },
         {
             "subject": "Gaslini - Tutor",
             "permission": "true",
             "action": "Access",
             "resource": "dataNascita",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"dataNascita"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"dataNascita"
+            }]
         },
         {
             "subject": "Gaslini - Tutor",
             "permission": "true",
             "action": "Access",
             "resource": "PaeseNascita",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"PaeseNascita"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"PaeseNascita"
+            }]
         },
         {
             "subject": "Gaslini - Tutor",
             "permission": "true",
             "action": "Access",
             "resource": "provNascita",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"provNascita"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"provNascita"
+            }]
         },
         {
             "subject": "Gaslini - Tutor",
             "permission": "true",
             "action": "Access",
             "resource": "comuneNascita",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"comuneNascita"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"comuneNascita"
+            }]
         },
         {
             "subject": "Gaslini - Tutor",
             "permission": "true",
             "action": "Access",
             "resource": "provResidenza",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"provResidenza"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"provResidenza"
+            }]
         },
         {
             "subject": "Gaslini - Tutor",
             "permission": "true",
             "action": "Access",
             "resource": "comResidenza",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"comResidenza"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"comResidenza"
+            }]
         },
         {
             "subject": "Gaslini - Tutor",
             "permission": "true",
             "action": "Access",
             "resource": "indirizzoResidenza",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"indirizzoResidenza"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"indirizzoResidenza"
+            }]
         },
         {
             "subject": "Gaslini - Tutor",
             "permission": "true",
             "action": "Access",
             "resource": "numeroCivico",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"numeroCivico"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"numeroCivico"
+            }]
         },
         {
             "subject": "Gaslini - Tutor",
             "permission": "true",
             "action": "Access",
             "resource": "cap",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"cap"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"cap"
+            }]
         },
         {
             "subject": "Gaslini - Tutor",
             "permission": "true",
             "action": "Access",
             "resource": "Email",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"contact"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"Email"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"Email"
+            }]
         },
         {
             "subject": "Gaslini - Tutor",
             "permission": "true",
             "action": "Access",
             "resource": "documento1",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"documento1"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"documento1"
+            }]
         },
         {
             "subject": "Gaslini - Tutor",
             "permission": "true",
             "action": "Access",
             "resource": "documento2",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"documento2"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"documento2"
+            }]
         },
         {
             "subject": "Gaslini - Tutor",
             "permission": "true",
             "action": "Access",
             "resource": "consInform1",
-            "attributes": [{"attribute_name": "fixed", "attribute_value": "true"}]
+            "attributes": [{"attribute_name": "fixed", "attribute_value": "true"},{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"consInform1"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"consInform1"
+            }]
         },
         {
             "subject": "Gaslini - Tutor",
             "permission": "true",
             "action": "Access",
             "resource": "consInform2",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"consInform2"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"consInform2"
+            }]
         },
         {
             "subject": "Gaslini - Tutor",
             "permission": "true",
             "action": "Access",
             "resource": "consInform3",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"consInform3"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"consInform3"
+            }]
         },
         {
             "subject": "Gaslini - Tutor",
             "permission": "true",
             "action": "Access",
             "resource": "consInform4",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"consInform4"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"consInform4"
+            }]
         },
         {
             "subject": "Gaslini - Tutor",
             "permission": "true",
             "action": "Access",
             "resource": "consInform5",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"consInform5"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"consInform5"
+            }]
         },
         {
             "subject": "Gaslini - Tutor",
             "permission": "true",
             "action": "Access",
             "resource": "cellulare",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"contact"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"cellulare"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"cellulare"
+            }]
         },
         {
             "subject": "Gaslini - Tutor",
             "permission": "true",
             "action": "Access",
             "resource": "username",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"username"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"username"
+            }]
         },
         {
             "subject": "Gaslini - Tutor",
             "permission": "true",
             "action": "Access",
             "resource": "datainserimento",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"datainserimento"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"datainserimento"
+            }]
         },{
             "subject": "Gaslini - Tutor",
             "permission": "true",
             "action": "Access",
             "resource": "tipologiaLegale",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"tipologiaLegale"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"tipologiaLegale"
+            }]
         },{
             "subject": "Gaslini - Tutor",
-            "permission": "true",
+            "permission": "false",
             "action": "Access",
-            "resource": "cellulare",
-            "attributes": [{}]
+            "resource": "op_cds_doctor",
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"op_cds_doctor"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"op_cds_doctor"
+            }]
         },{
             "subject": "Gaslini - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "ID",
-            "attributes": [{}]
-        },
-        {
-            "subject": "Gaslini - Doctor",
-            "permission": "true",
-            "action": "Access",
-            "resource": "datainserimento",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"ID"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"ID"
+            }]
         },
         {
             "subject": "Gaslini - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "nome",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"nome"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"nome"
+            }]
         },
         {
             "subject": "Gaslini - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "cognome",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"cognome"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"cognome"
+            }]
         },
         {
             "subject": "Gaslini - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "codiceFiscale",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"codiceFiscale"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"codiceFiscale"
+            }]
         },
         {
             "subject": "Gaslini - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "sesso",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"sesso"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"sesso"
+            }]
         },
         {
             "subject": "Gaslini - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "dataNascita",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"dataNascita"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"dataNascita"
+            }]
         },
         {
             "subject": "Gaslini - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "PaeseNascita",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"PaeseNascita"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"PaeseNascita"
+            }]
         },
         {
             "subject": "Gaslini - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "provNascita",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"provNascita"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"provNascita"
+            }]
         },
         {
             "subject": "Gaslini - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "comuneNascita",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"comuneNascita"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"comuneNascita"
+            }]
         },
         {
             "subject": "Gaslini - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "provResidenza",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"provResidenza"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"provResidenza"
+            }]
         },
         {
             "subject": "Gaslini - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "comResidenza",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"comResidenza"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"comResidenza"
+            }]
         },
         {
             "subject": "Gaslini - Doctor",
             "permission": "false",
             "action": "Access",
             "resource": "indirizzoResidenza",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"indirizzoResidenza"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"indirizzoResidenza"
+            }]
         },
         {
             "subject": "Gaslini - Doctor",
             "permission": "false",
             "action": "Access",
             "resource": "numeroCivico",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"numeroCivico"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"numeroCivico"
+            }]
         },
         {
             "subject": "Gaslini - Doctor",
             "permission": "false",
             "action": "Access",
             "resource": "cap",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"cap"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"cap"
+            }]
         },
         {
             "subject": "Gaslini - Doctor",
             "permission": "false",
             "action": "Access",
             "resource": "Email",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"contact"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"Email"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"Email"
+            }]
         },
         {
             "subject": "Gaslini - Doctor",
             "permission": "false",
             "action": "Access",
             "resource": "documento1",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"documento1"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"documento1"
+            }]
         },
         {
             "subject": "Gaslini - Doctor",
             "permission": "false",
             "action": "Access",
             "resource": "documento2",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"documento2"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"documento2"
+            }]
         },
         {
             "subject": "Gaslini - Doctor",
             "permission": "false",
             "action": "Access",
             "resource": "consInform1",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"consInform1"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"consInform1"
+            }]
         },
         {
             "subject": "Gaslini - Doctor",
             "permission": "false",
             "action": "Access",
             "resource": "consInform2",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"consInform2"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"consInform2"
+            }]
         },
         {
             "subject": "Gaslini - Doctor",
             "permission": "false",
             "action": "Access",
             "resource": "consInform3",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"consInform3"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"consInform3"
+            }]
         },
         {
             "subject": "Gaslini - Doctor",
             "permission": "false",
             "action": "Access",
             "resource": "consInform4",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"consInform4"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"consInform4"
+            }]
         },
         {
             "subject": "Gaslini - Doctor",
             "permission": "false",
             "action": "Access",
             "resource": "consInform5",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"consInform5"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"consInform5"
+            }]
         },
         {
             "subject": "Gaslini - Doctor",
             "permission": "false",
             "action": "Access",
             "resource": "cellulare",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"contact"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"cellulare"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"cellulare"
+            }]
         },
         {
             "subject": "Gaslini - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "username",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"username"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"username"
+            }]
         },
         {
             "subject": "Gaslini - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "datainserimento",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"datainserimento"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"datainserimento"
+            }]
         },{
             "subject": "Gaslini - Doctor",
             "permission": "true",
             "action": "Access",
             "resource": "tipologiaLegale",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"tipologiaLegale"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"tipologiaLegale"
+            }]
         },{
             "subject": "Gaslini - Doctor",
             "permission": "false",
             "action": "Access",
-            "resource": "cellulare",
-            "attributes": [{}]
-        }
-        ,{
-            "subject": "Gaslini - Doctor",
-            "permission": "false",
-            "action": "Access",
             "resource": "op_cds_doctor",
-            "attributes": [{}]
+            "attributes": [{
+               "attribute_name":"category",
+               "attribute_value":"personal"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"op_cds_doctor"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"op_cds_doctor"
+            }]
         }
     ]
 }
