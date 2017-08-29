@@ -87,6 +87,14 @@
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 					<webXml>${sources.path}/src/main/webapp/WEB-INF/web.xml</webXml>
 					<warName>${server.warName}</warName>
+					<webResources>
+						<resource>
+							<directory>${sources.path}/src/resources</directory>
+							<includes>
+								<include>**/*.*</include>
+							</includes>
+						</resource>
+					</webResources>					
 				</configuration>
 			</plugin>
 			<!-- this is to fix the warning "Build path specifies execution environment 
