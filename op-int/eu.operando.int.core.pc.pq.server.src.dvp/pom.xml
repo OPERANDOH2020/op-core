@@ -43,7 +43,7 @@
 						<configuration>
 							<resources>
 								<resource>
-									<directory>${sources.path}/src/resources</directory>
+									<directory>${sources.path}/src/main/resources</directory>
 									<filtering>true</filtering>
 								</resource>
 							</resources>
@@ -89,7 +89,7 @@
 					<warName>${server.warName}</warName>
 					<webResources>
 						<resource>
-							<directory>${sources.path}/src/resources</directory>
+							<directory>${sources.path}/src/main/resources</directory>
 							<includes>
 								<include>**/*.*</include>
 							</includes>
