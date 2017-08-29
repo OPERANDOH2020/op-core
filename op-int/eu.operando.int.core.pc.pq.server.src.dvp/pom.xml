@@ -85,7 +85,7 @@
 				<version>2.1.1</version>
 				<configuration>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
-					<!--<webXml>${sources.path}/src/main/webapp/WEB-INF/web.xml</webXml> -->
+					<webXml>${sources.path}/src/main/webapp/WEB-INF/web.xml</webXml>
 					<warName>${server.warName}</warName>
 				</configuration>
 			</plugin>
