@@ -58,7 +58,7 @@ No authorization required
 
 <a name="userPrivacyPolicyPost"></a>
 # **userPrivacyPolicyPost**
-> userPrivacyPolicyPost(upp)
+> String userPrivacyPolicyPost(upp)
 
 Create a new UPP entry in the database for the user.
 
@@ -74,7 +74,8 @@ Called when a new user is registered with operando. Their new privacy preference
 UPPApi apiInstance = new UPPApi();
 UserPrivacyPolicy upp = new UserPrivacyPolicy(); // UserPrivacyPolicy | The first instance of this user's UPP
 try {
-    apiInstance.userPrivacyPolicyPost(upp);
+    String result = apiInstance.userPrivacyPolicyPost(upp);
+    System.out.println(result);
 } catch (ApiException e) {
     System.err.println("Exception when calling UPPApi#userPrivacyPolicyPost");
     e.printStackTrace();
@@ -89,7 +90,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-null (empty response body)
+**String**
 
 ### Authorization
 
