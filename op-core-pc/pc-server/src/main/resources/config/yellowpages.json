@@ -18,7 +18,7 @@
          "requester_id":"Ron",
          "subject":"Receptionist",
          "requested_url":"personalInfo.patient.name",
-         "action":"Access",
+         "action":"Create",
          "attributes":[
             {
                "attribute_name":null,
@@ -51,7 +51,47 @@
       {
          "subject":"Doctor",
          "permission":true,
+         "action":"Create",
+         "resource":"personalInfo.anthropometric.weight",
+         "attributes":[
+            {
+               "attribute_name":"category",
+               "attribute_value":"anthropometric"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"Weight"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"weight"
+            }
+         ]
+      },
+      {
+         "subject":"Doctor",
+         "permission":true,
          "action":"Access",
+         "resource":"personalInfo.anthropometric.age",
+         "attributes":[
+            {
+               "attribute_name":"category",
+               "attribute_value":"anthropometric"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"Age"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"age"
+            }
+         ]
+      },
+      {
+         "subject":"Doctor",
+         "permission":true,
+         "action":"Create",
          "resource":"personalInfo.anthropometric.age",
          "attributes":[
             {
