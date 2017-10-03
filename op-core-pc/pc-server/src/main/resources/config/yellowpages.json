@@ -71,6 +71,26 @@
       {
          "subject":"Doctor",
          "permission":true,
+         "action":"Update",
+         "resource":"personalInfo.anthropometric.weight",
+         "attributes":[
+            {
+               "attribute_name":"category",
+               "attribute_value":"anthropometric"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"Weight"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"weight"
+            }
+         ]
+      },
+      {
+         "subject":"Doctor",
+         "permission":true,
          "action":"Access",
          "resource":"personalInfo.anthropometric.age",
          "attributes":[
@@ -291,6 +311,66 @@
       {
          "subject":"Receptionist",
          "permission":true,
+         "action":"Update",
+         "resource":"personalInfo.anthropometric.weight",
+         "attributes":[
+            {
+               "attribute_name":"category",
+               "attribute_value":"anthropometric"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"Weight"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"weight"
+            }
+         ]
+      },
+      {
+         "subject":"Receptionist",
+         "permission":true,
+         "action":"Create",
+         "resource":"personalInfo.anthropometric.weight",
+         "attributes":[
+            {
+               "attribute_name":"category",
+               "attribute_value":"anthropometric"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"weight"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"weight"
+            }
+         ]
+      },
+      {
+         "subject":"Receptionist",
+         "permission":true,
+         "action":"Create",
+         "resource":"personalInfo.anthropometric.age",
+         "attributes":[
+            {
+               "attribute_name":"category",
+               "attribute_value":"anthropometric"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"Age"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"age"
+            }
+         ]
+      },
+      {
+         "subject":"Receptionist",
+         "permission":true,
          "action":"Access",
          "resource":"personalInfo.anthropometric.age",
          "attributes":[
@@ -490,6 +570,66 @@
       },
       {
          "subject":"WebsiteAdmins",
+         "permission":false,
+         "action":"Update",
+         "resource":"personalInfo.anthropometric.weight",
+         "attributes":[
+            {
+               "attribute_name":"category",
+               "attribute_value":"anthropometric"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"Weight"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"weight"
+            }
+         ]
+      },
+      {
+         "subject":"WebsiteAdmins",
+         "permission":false,
+         "action":"Create",
+         "resource":"personalInfo.anthropometric.weight",
+         "attributes":[
+            {
+               "attribute_name":"category",
+               "attribute_value":"anthropometric"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"weight"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"weight"
+            }
+         ]
+      },
+      {
+         "subject":"WebsiteAdmins",
+         "permission":false,
+         "action":"Create",
+         "resource":"personalInfo.anthropometric.age",
+         "attributes":[
+            {
+               "attribute_name":"category",
+               "attribute_value":"anthropometric"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"Age"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"age"
+            }
+         ]
+      },
+      {
+         "subject":"WebsiteAdmins",
          "permission":true,
          "action":"Access",
          "resource":"personalInfo.anthropometric.age",
@@ -667,6 +807,67 @@
                "attribute_value":"email"
             }
          ]
+      },
+      {
+         "subject":"WebsiteAdmins",
+         "permission":false,
+         "action":"Create",
+         "resource":"user.record",
+         "attributes":[
+            {
+               "attribute_name":"category",
+               "attribute_value":"General"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"Complete data record"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"Create the data record and store"
+            }
+         ]
+      },
+      {
+         "subject":"Doctor",
+         "permission":false,
+         "action":"Create",
+         "resource":"user.record",
+         "attributes":[
+            {
+               "attribute_name":"category",
+               "attribute_value":"General"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"Complete data record"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"Create the data record and store"
+            }
+         ]
+      },
+      {
+         "subject":"Receptionist",
+         "permission":false,
+         "action":"Create",
+         "resource":"user.record",
+         "attributes":[
+            {
+               "attribute_name":"category",
+               "attribute_value":"General"
+            },
+            {
+               "attribute_name":"friendly_name",
+               "attribute_value":"Complete data record"
+            },
+            {
+               "attribute_name":"tooltip",
+               "attribute_value":"Create the data record and store"
+            }
+         ]
       }
+      
    ]
 }
