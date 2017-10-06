@@ -62,7 +62,7 @@ public class ConsentApiServiceImpl extends ConsentApiService {
 
         //  get service config params
         prop = loadServiceProperties();
-        loadParams();
+//        loadParams();
     }
 
     /**
