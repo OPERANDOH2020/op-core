@@ -34,15 +34,10 @@ import com.mongodb.MongoException;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.util.JSON;
-import eu.operando.core.pdb.client.ApiClient;
-import eu.operando.core.pdb.client.ApiException;
+//import eu.operando.core.pdb.client.ApiClient;
+//import eu.operando.core.pdb.client.ApiException;
 import eu.operando.core.pdb.common.model.OSPPrivacyPolicy;
 import eu.operando.core.pdb.common.model.OSPDataRequest;
-import eu.operando.core.pdb.common.model.OSPSettings;
-import eu.operando.core.pdb.common.model.PrivacySetting;
-import eu.operando.core.pdb.common.model.UserPrivacyPolicy;
-import eu.operando.core.pdb.client.api.GETApi;
-import eu.operando.core.pdb.client.api.PUTApi;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,8 +47,6 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jettison.json.JSONArray;
-import org.codehaus.jettison.json.JSONException;
 
 /**
  * The set of operations used by the OSE component to access information stored
@@ -121,9 +114,9 @@ public class OspsMongo {
         // get collection
         ospsPSCollection = oseDatabase.getCollection("osp_ps");
         ospsPPCollection = oseDatabase.getCollection("pp");
-        
+
         uppCollection = pdbDatabase.getCollection("upp");
-        
+
         //this.mongo.close();
     }
 
@@ -237,155 +230,155 @@ public class OspsMongo {
         return result;
     }
 
-    public String ospsOspIdPrivacySettingsGet(String ospId, String userId) {
-        List<PrivacySetting> listPS = new ArrayList<PrivacySetting>();
-        String jsonInString = null;
+//    public String ospsOspIdPrivacySettingsGet(String ospId, String userId) {
+//        List<PrivacySetting> listPS = new ArrayList<PrivacySetting>();
+//        String jsonInString = null;
+//
+//        System.out.println("GOT: " + ospId + " " + userId);
+//
+//        // find
+//        BasicDBObject searchQuery = new BasicDBObject();
+//        searchQuery.put("osp_id", ospId);
+//        DBObject result = this.ospPSTable.findOne(searchQuery);
+//        if (result != null) {
+//            try {
+//                System.out.println("FB_LIST: " + result.get("osp_settings").toString());
+//
+//                JSONArray array = new JSONArray(result.get("osp_settings").toString());
+//
+//                ObjectMapper mapper = new ObjectMapper();
+//                mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+//
+//                for (int i = 0; i < array.length(); i++) {
+//                    PrivacySetting psObj = mapper.readValue(array.getJSONObject(i).toString(), PrivacySetting.class);
+//                    listPS.add(psObj);
+//                    System.out.println(psObj);
+//                }
+//
+//                List<PrivacySetting> userPSList = getUserOSPSettings(ospId, userId);
+//                System.out.println("userPSList: " + userPSList);
+//
+//                //Arrays.deepEquals(listPS, userPSList);
+//                //jsonInString = mapper.writeValueAsString(uppObj);
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            } catch (JsonGenerationException e) {
+//                e.printStackTrace();
+//            } catch (JsonMappingException e) {
+//                e.printStackTrace();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//        return jsonInString;
+//    }
 
-        System.out.println("GOT: " + ospId + " " + userId);
+//    List<PrivacySetting> getUserOSPSettings(String ospId, String userId) {
+//        List<PrivacySetting> listPS = new ArrayList<PrivacySetting>();
+//
+//        UserPrivacyPolicy upp = null;
+//
+//        //ApiClient defaultClient = Configuration.getDefaultApiClient();
+//        ApiClient apiClient = new ApiClient();
+//        apiClient.setBasePath(uppBasePath);
+//
+//        GETApi apiInstance = new GETApi(apiClient);
+//
+//        try {
+//            upp = apiInstance.userPrivacyPolicyUserIdGet(userId);
+//            System.out.println("UPP: " + upp.toString());
+//
+//        } catch (ApiException e) {
+//            System.err.println("Exception when calling GETApi");
+//            e.printStackTrace();
+//        }
+//
+//        for (OSPSettings ospSetting : upp.getSubscribedOspSettings()) {
+//            if (ospSetting.getOspId().equals(ospId)) {
+//                System.out.println("osp_id match found for " + ospId);
+//                listPS = (List<PrivacySetting>) (Object) ospSetting.getOspSettings();
+//                return listPS;
+//            }
+//        }
+//
+//        return null;
+//    }
 
-        // find
-        BasicDBObject searchQuery = new BasicDBObject();
-        searchQuery.put("osp_id", ospId);
-        DBObject result = this.ospPSTable.findOne(searchQuery);
-        if (result != null) {
-            try {
-                System.out.println("FB_LIST: " + result.get("osp_settings").toString());
+//    UserPrivacyPolicy getUserPrivacyPolicy(String userId) {
+//
+//        UserPrivacyPolicy upp = null;
+//
+//        ApiClient apiClient = new ApiClient();
+//        apiClient.setBasePath(uppBasePath);
+//
+//        GETApi apiInstance = new GETApi(apiClient);
+//
+//        try {
+//            upp = apiInstance.userPrivacyPolicyUserIdGet(userId);
+//            System.out.println("UPP: " + upp.toString());
+//
+//        } catch (ApiException e) {
+//            System.err.println("Exception when calling GETApi");
+//            e.printStackTrace();
+//        }
+//
+//        return upp;
+//    }
 
-                JSONArray array = new JSONArray(result.get("osp_settings").toString());
+//    boolean updateUserPrivacyPolicy(String userId, UserPrivacyPolicy upp) {
+//        ApiClient apiClient = new ApiClient();
+//        apiClient.setBasePath(uppBasePath);
+//        PUTApi apiInstance = new PUTApi(apiClient);
+//        try {
+//            apiInstance.userPrivacyPolicyUserIdPut(userId, upp);
+//            return true;
+//        } catch (ApiException e) {
+//            System.err.println("Exception when calling PUTApi");
+//            e.printStackTrace();
+//        }
+//
+//        return false;
+//    }
 
-                ObjectMapper mapper = new ObjectMapper();
-                mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-                for (int i = 0; i < array.length(); i++) {
-                    PrivacySetting psObj = mapper.readValue(array.getJSONObject(i).toString(), PrivacySetting.class);
-                    listPS.add(psObj);
-                    System.out.println(psObj);
-                }
-
-                List<PrivacySetting> userPSList = getUserOSPSettings(ospId, userId);
-                System.out.println("userPSList: " + userPSList);
-
-                //Arrays.deepEquals(listPS, userPSList);
-                //jsonInString = mapper.writeValueAsString(uppObj);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (JsonGenerationException e) {
-                e.printStackTrace();
-            } catch (JsonMappingException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return jsonInString;
-    }
-
-    List<PrivacySetting> getUserOSPSettings(String ospId, String userId) {
-        List<PrivacySetting> listPS = new ArrayList<PrivacySetting>();
-
-        UserPrivacyPolicy upp = null;
-
-        //ApiClient defaultClient = Configuration.getDefaultApiClient();
-        ApiClient apiClient = new ApiClient();
-        apiClient.setBasePath(uppBasePath);
-
-        GETApi apiInstance = new GETApi(apiClient);
-
-        try {
-            upp = apiInstance.userPrivacyPolicyUserIdGet(userId);
-            System.out.println("UPP: " + upp.toString());
-
-        } catch (ApiException e) {
-            System.err.println("Exception when calling GETApi");
-            e.printStackTrace();
-        }
-
-        for (OSPSettings ospSetting : upp.getSubscribedOspSettings()) {
-            if (ospSetting.getOspId().equals(ospId)) {
-                System.out.println("osp_id match found for " + ospId);
-                listPS = (List<PrivacySetting>) (Object) ospSetting.getOspSettings();
-                return listPS;
-            }
-        }
-
-        return null;
-    }
-
-    UserPrivacyPolicy getUserPrivacyPolicy(String userId) {
-
-        UserPrivacyPolicy upp = null;
-
-        ApiClient apiClient = new ApiClient();
-        apiClient.setBasePath(uppBasePath);
-
-        GETApi apiInstance = new GETApi(apiClient);
-
-        try {
-            upp = apiInstance.userPrivacyPolicyUserIdGet(userId);
-            System.out.println("UPP: " + upp.toString());
-
-        } catch (ApiException e) {
-            System.err.println("Exception when calling GETApi");
-            e.printStackTrace();
-        }
-
-        return upp;
-    }
-
-    boolean updateUserPrivacyPolicy(String userId, UserPrivacyPolicy upp) {
-        ApiClient apiClient = new ApiClient();
-        apiClient.setBasePath(uppBasePath);
-        PUTApi apiInstance = new PUTApi(apiClient);
-        try {
-            apiInstance.userPrivacyPolicyUserIdPut(userId, upp);
-            return true;
-        } catch (ApiException e) {
-            System.err.println("Exception when calling PUTApi");
-            e.printStackTrace();
-        }
-
-        return false;
-    }
-
-    public boolean ospsOspIdPrivacySettingsPut(String ospId, String userId, List<PrivacySetting> ospSettings) {
-        boolean result = false;
-        BasicDBObject searchQuery;
-
-        try {
-            searchQuery = new BasicDBObject().append("ospId", ospId);
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            return result;
-        }
-
-        UserPrivacyPolicy upp = getUserPrivacyPolicy(userId);
-        List<PrivacySetting> userPrivacySettings = null;
-
-        List<OSPSettings> uppOspSettings = upp.getSubscribedOspSettings();
-
-        int idx = 0;
-        for (OSPSettings ospSetting : uppOspSettings) {
-            idx++;
-            if (ospSetting.getOspId().equals(ospId)) {
-                System.out.println("osp_id match found for " + ospId);
-                userPrivacySettings = (List<PrivacySetting>) (Object) ospSetting.getOspSettings();
-                break;
-            }
-        }
-
-        //TODO check userPrivacySettings with ospSettings
-        //update upp with new OSPSettings
-        OSPSettings updatedOspSetting = new OSPSettings();
-        updatedOspSetting.setOspId(ospId);
-        updatedOspSetting.setOspSettings(ospSettings);
-        uppOspSettings.set(idx, updatedOspSetting);
-        upp.setSubscribedOspSettings(uppOspSettings);
-        updateUserPrivacyPolicy(userId, upp);
-
-        return result;
-
-    }
+//    public boolean ospsOspIdPrivacySettingsPut(String ospId, String userId, List<PrivacySetting> ospSettings) {
+//        boolean result = false;
+//        BasicDBObject searchQuery;
+//
+//        try {
+//            searchQuery = new BasicDBObject().append("ospId", ospId);
+//        } catch (IllegalArgumentException e) {
+//            e.printStackTrace();
+//            return result;
+//        }
+//
+//        UserPrivacyPolicy upp = getUserPrivacyPolicy(userId);
+//        List<PrivacySetting> userPrivacySettings = null;
+//
+//        List<OSPSettings> uppOspSettings = upp.getSubscribedOspSettings();
+//
+//        int idx = 0;
+//        for (OSPSettings ospSetting : uppOspSettings) {
+//            idx++;
+//            if (ospSetting.getOspId().equals(ospId)) {
+//                System.out.println("osp_id match found for " + ospId);
+//                userPrivacySettings = (List<PrivacySetting>) (Object) ospSetting.getOspSettings();
+//                break;
+//            }
+//        }
+//
+//        //TODO check userPrivacySettings with ospSettings
+//        //update upp with new OSPSettings
+//        OSPSettings updatedOspSetting = new OSPSettings();
+//        updatedOspSetting.setOspId(ospId);
+//        updatedOspSetting.setOspSettings(ospSettings);
+//        uppOspSettings.set(idx, updatedOspSetting);
+//        upp.setSubscribedOspSettings(uppOspSettings);
+//        updateUserPrivacyPolicy(userId, upp);
+//
+//        return result;
+//
+//    }
 
     public boolean updatePrivacytext(Long ospId, String ospPrivacyText) {
         return false;

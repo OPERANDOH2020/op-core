@@ -29,8 +29,6 @@ import eu.operando.core.cas.client.api.DefaultApi;
 import eu.operando.core.cas.client.model.UserCredential;
 import io.swagger.client.ApiClient;
 import io.swagger.client.ApiException;
-import eu.operando.core.pdb.common.model.PrivacySetting;
-import eu.operando.core.pdb.common.model.OSPDataRequest;
 import eu.operando.core.pdb.common.model.OSPPrivacyPolicy;
 
 import java.util.List;
@@ -55,7 +53,6 @@ import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -341,37 +338,37 @@ public class OspsApiServiceImpl extends OspsApiService {
         }
     }
 
-    @Override
-    public Response ospsOspIdPrivacySettingsGet(String ospId, String userId, SecurityContext securityContext)
-            throws NotFoundException {
+//    @Override
+//    public Response ospsOspIdPrivacySettingsGet(String ospId, String userId, SecurityContext securityContext)
+//            throws NotFoundException {
+//
+//        Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.INFO, "upp GET policy filter {0}", ospId);
+//
+//        logRequest("ospsPrivacyPolicyGet", ospId,
+//                "PDB osp privacy settings GET received",
+//                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+//                new ArrayList<String>(Arrays.asList("ospId", "userId")));
+//
+//        OspsMongo ospsMongo = new OspsMongo();
+//        String ospString = ospsMongo.ospsOspIdPrivacySettingsGet(ospId, userId);
+//
+//        logRequest("ospsPrivacyPolicyGet", ospId,
+//                "PDB osp privacy settings GET complete",
+//                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
+//                new ArrayList<String>(Arrays.asList("ospId", "userId")));
+//
+//        return Response.ok(ospString, MediaType.APPLICATION_JSON).build();
+//    }
 
-        Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.INFO, "upp GET policy filter {0}", ospId);
-
-        logRequest("ospsPrivacyPolicyGet", ospId,
-                "PDB osp privacy settings GET received",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
-                new ArrayList<String>(Arrays.asList("ospId", "userId")));
-
-        OspsMongo ospsMongo = new OspsMongo();
-        String ospString = ospsMongo.ospsOspIdPrivacySettingsGet(ospId, userId);
-
-        logRequest("ospsPrivacyPolicyGet", ospId,
-                "PDB osp privacy settings GET complete",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
-                new ArrayList<String>(Arrays.asList("ospId", "userId")));
-
-        return Response.ok(ospString, MediaType.APPLICATION_JSON).build();
-    }
-
-    @Override
-    public Response ospsOspIdPrivacySettingsPut(String ospId, String userId, List<PrivacySetting> ospSettings, SecurityContext securityContext)
-            throws NotFoundException {
-        // do some magic!
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK,
-                "Successful response. The privacy settings have been agreed and applied via the OSE "
-                + "and the browser extension software. Note, the response here only needs to "
-                + "indicate that the method worked not whether the settings have been applied in practice.")).build();
-    }
+//    @Override
+//    public Response ospsOspIdPrivacySettingsPut(String ospId, String userId, List<PrivacySetting> ospSettings, SecurityContext securityContext)
+//            throws NotFoundException {
+//        // do some magic!
+//        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK,
+//                "Successful response. The privacy settings have been agreed and applied via the OSE "
+//                + "and the browser extension software. Note, the response here only needs to "
+//                + "indicate that the method worked not whether the settings have been applied in practice.")).build();
+//    }
 
     @Override
     public Response ospsOspIdPrivacytextPut(String ospId, String ospPrivacyText, SecurityContext securityContext)
@@ -586,12 +583,12 @@ public class OspsApiServiceImpl extends OspsApiService {
         }
     }
 
-    @Override
-    public Response ospsOspIdWorkflowsPut(String ospId, OSPDataRequest ospWorkflow, SecurityContext securityContext)
-            throws NotFoundException {
-        // do some magic!
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
-    }
+//    @Override
+//    public Response ospsOspIdWorkflowsPut(String ospId, OSPDataRequest ospWorkflow, SecurityContext securityContext)
+//            throws NotFoundException {
+//        // do some magic!
+//        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+//    }
 
     @Override
     public Response ospsOspIdAuditGet(String ospId, String start, String end, SecurityContext securityContext) throws NotFoundException {
