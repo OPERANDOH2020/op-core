@@ -25,8 +25,8 @@
 package eu.operando.core.ose.api.impl;
 
 import com.jayway.jsonpath.JsonPath;
-import eu.operando.core.cas.client.api.DefaultApi;
-import eu.operando.core.cas.client.model.UserCredential;
+//import eu.operando.core.cas.client.api.DefaultApi;
+//import eu.operando.core.cas.client.model.UserCredential;
 import io.swagger.client.ApiClient;
 import io.swagger.client.ApiException;
 import eu.operando.core.pdb.common.model.OSPPrivacyPolicy;
@@ -49,10 +49,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Properties;
 import java.util.Timer;
-import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ws.rs.core.HttpHeaders;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -71,7 +69,7 @@ public class OspsApiServiceImpl extends OspsApiService {
     // LogDB
     LogApi logApi;
     // AAPI
-    DefaultApi aapiClient;
+//    DefaultApi aapiClient;
 
     private String oseOSPSSId = "ose/osps/.*";
     private String logdbSId = "ose/osps/.*";
@@ -99,29 +97,29 @@ public class OspsApiServiceImpl extends OspsApiService {
         loadParams();
 
         // setup aapi client
-        eu.operando.core.cas.client.ApiClient aapiDefaultClient = new eu.operando.core.cas.client.ApiClient();
-        aapiDefaultClient.setBasePath(aapiBasePath);
-        this.aapiClient = new DefaultApi(aapiDefaultClient);
+//        eu.operando.core.cas.client.ApiClient aapiDefaultClient = new eu.operando.core.cas.client.ApiClient();
+//        aapiDefaultClient.setBasePath(aapiBasePath);
+//        this.aapiClient = new DefaultApi(aapiDefaultClient);
 
         // setup logdb client
         final ApiClient apiClient = new ApiClient();
         apiClient.setBasePath(logdbBasePath);
 
-        TimerTask timerTask = new TimerTask() {
-            //@Override
-            public void run() {
-                Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.INFO, "osps TIMER RUN now");
-                logdbST = getServiceTicket(ospsLoginName, ospsLoginPassword, logdbSId);
-                apiClient.addDefaultHeader(stHeaderName, logdbST);
-            }
-        };
-
-        timer = new Timer();
-        timer.scheduleAtFixedRate(timerTask, 0, ticketLifeTime);
+//        TimerTask timerTask = new TimerTask() {
+//            //@Override
+//            public void run() {
+//                Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.INFO, "osps TIMER RUN now");
+//                logdbST = getServiceTicket(ospsLoginName, ospsLoginPassword, logdbSId);
+//                apiClient.addDefaultHeader(stHeaderName, logdbST);
+//            }
+//        };
+//
+//        timer = new Timer();
+//        timer.scheduleAtFixedRate(timerTask, 0, ticketLifeTime);
 
         // get service ticket for logdb service
-        logdbST = getServiceTicket(ospsLoginName, ospsLoginPassword, logdbSId);
-        apiClient.addDefaultHeader(stHeaderName, logdbST);
+//        logdbST = getServiceTicket(ospsLoginName, ospsLoginPassword, logdbSId);
+//        apiClient.addDefaultHeader(stHeaderName, logdbST);
         this.logApi = new LogApi(apiClient);
 
         // setup mongo part
@@ -189,57 +187,57 @@ public class OspsApiServiceImpl extends OspsApiService {
         return props;
     }
 
-    private String getServiceTicket(String username, String password, String serviceId) {
-        String st = null;
-
-        UserCredential userCredential = new UserCredential();
-        userCredential.setUsername(username);
-        userCredential.setPassword(password);
-
-        try {
-            String tgt = aapiClient.aapiTicketsPost(userCredential);
-            System.out.println("ose osps service TGT: " + tgt);
-            st = aapiClient.aapiTicketsTgtPost(tgt, serviceId);
-            System.out.println("logdb osps service ticket: " + st);
-
-        } catch (eu.operando.core.cas.client.ApiException ex) {
-            ex.printStackTrace();
-        }
-        return st;
-    }
-
-    private boolean aapiTicketsStValidateGet(String st) {
-        try {
-            aapiClient.aapiTicketsStValidateGet(st, oseOSPSSId);
-        } catch (eu.operando.core.cas.client.ApiException ex) {
-            ex.printStackTrace();
-        }
-        return false;
-    }
-
-    private boolean validateHeaderSt(HttpHeaders headers) {
-        return true;
-    }
-
-    private boolean validateHeaderSt1(HttpHeaders headers) {
-        if (headers != null) {
-            List<String> stHeader = headers.getRequestHeader(stHeaderName);
-            if (stHeader != null) {
-                String st = stHeader.get(0);
-                try {
-                    aapiClient.aapiTicketsStValidateGet(st, oseOSPSSId);
-                    Logger.getLogger(RegulationsApiServiceImpl.class.getName()).log(Level.INFO,
-                            "Service Ticket validation succeeded");
-                    return true;
-                } catch (eu.operando.core.cas.client.ApiException ex) {
-                    Logger.getLogger(RegulationsApiServiceImpl.class.getName()).log(Level.WARNING,
-                            "Service Ticket validation failed: {0}", ex.getMessage());
-                    return false;
-                }
-            }
-        }
-        return false;
-    }
+//    private String getServiceTicket(String username, String password, String serviceId) {
+//        String st = null;
+//
+//        UserCredential userCredential = new UserCredential();
+//        userCredential.setUsername(username);
+//        userCredential.setPassword(password);
+//
+//        try {
+//            String tgt = aapiClient.aapiTicketsPost(userCredential);
+//            System.out.println("ose osps service TGT: " + tgt);
+//            st = aapiClient.aapiTicketsTgtPost(tgt, serviceId);
+//            System.out.println("logdb osps service ticket: " + st);
+//
+//        } catch (eu.operando.core.cas.client.ApiException ex) {
+//            ex.printStackTrace();
+//        }
+//        return st;
+//    }
+//
+//    private boolean aapiTicketsStValidateGet(String st) {
+//        try {
+//            aapiClient.aapiTicketsStValidateGet(st, oseOSPSSId);
+//        } catch (eu.operando.core.cas.client.ApiException ex) {
+//            ex.printStackTrace();
+//        }
+//        return false;
+//    }
+//
+//    private boolean validateHeaderSt(HttpHeaders headers) {
+//        return true;
+//    }
+//
+//    private boolean validateHeaderSt1(HttpHeaders headers) {
+//        if (headers != null) {
+//            List<String> stHeader = headers.getRequestHeader(stHeaderName);
+//            if (stHeader != null) {
+//                String st = stHeader.get(0);
+//                try {
+//                    aapiClient.aapiTicketsStValidateGet(st, oseOSPSSId);
+//                    Logger.getLogger(RegulationsApiServiceImpl.class.getName()).log(Level.INFO,
+//                            "Service Ticket validation succeeded");
+//                    return true;
+//                } catch (eu.operando.core.cas.client.ApiException ex) {
+//                    Logger.getLogger(RegulationsApiServiceImpl.class.getName()).log(Level.WARNING,
+//                            "Service Ticket validation failed: {0}", ex.getMessage());
+//                    return false;
+//                }
+//            }
+//        }
+//        return false;
+//    }
 
     private void logRequest(String requesterId, String title, String description,
             LogLevelEnum logDataType, LogPriorityEnum logPriority,
