@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>eu.operando</groupId>
     <artifactId>eu.operando.core.ose-server</artifactId>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <name>eu.operando.core.ose-server</name>
     <version>1.0.0</version>
     <build>
