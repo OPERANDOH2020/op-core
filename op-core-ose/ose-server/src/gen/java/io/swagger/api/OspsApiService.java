@@ -52,4 +52,7 @@ public abstract class OspsApiService {
       public abstract Response ospsOspIdWorkflowsPut(String ospId,OSPDataRequest ospWorkflow,SecurityContext securityContext)
       throws NotFoundException;
 
+      public abstract Response ospsOspIdAuditGet(String ospId, String start, String end, SecurityContext securityContext)
+      throws NotFoundException;
+
 }

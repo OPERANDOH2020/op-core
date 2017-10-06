@@ -24,6 +24,7 @@
 /////////////////////////////////////////////////////////////////////////
 package eu.operando.core.ose.api.impl;
 
+import com.jayway.jsonpath.JsonPath;
 import eu.operando.core.cas.client.api.DefaultApi;
 import eu.operando.core.cas.client.model.UserCredential;
 import io.swagger.client.ApiClient;
@@ -36,6 +37,8 @@ import java.util.List;
 import io.swagger.api.NotFoundException;
 
 import eu.operando.core.ose.mongo.OspsMongo;
+import eu.operando.core.pdb.common.model.AccessPolicy;
+import eu.operando.core.pdb.common.model.PolicyAttribute;
 import io.swagger.api.ApiResponseMessage;
 import io.swagger.api.OspsApiService;
 import io.swagger.client.api.LogApi;
@@ -56,6 +59,14 @@ import javax.ws.rs.core.MediaType;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+import net.minidev.json.JSONArray;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+import org.codehaus.jackson.map.ObjectMapper;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-04-25T15:37:02.222Z")
 public class OspsApiServiceImpl extends OspsApiService {
@@ -65,14 +76,15 @@ public class OspsApiServiceImpl extends OspsApiService {
     // AAPI
     DefaultApi aapiClient;
 
-    String oseOSPSSId = "ose/osps/.*";
-    String logdbSId = "ose/osps/.*";
-    String aapiBasePath = "http://integration.operando.esilab.org:8135/operando/interfaces/aapi";
-    String logdbBasePath = "http://integration.operando.esilab.org:8090/operando/core/ldb";
-    String ospsLoginName = "xxxxx";
-    String ospsLoginPassword = "xxxxx";
-    String stHeaderName = "Service-Ticket";
-    String logdbST = "";
+    private String oseOSPSSId = "ose/osps/.*";
+    private String logdbSId = "ose/osps/.*";
+    private String aapiBasePath = "http://integration.operando.esilab.org:8135/operando/interfaces/aapi";
+    private String logdbBasePath = "http://integration.operando.esilab.org:8090/operando/core/ldb";
+    private String pdbBasePath = "http://integration.operando.esilab.org:8096/operando/core";
+    private String ospsLoginName = "xxxxx";
+    private String ospsLoginPassword = "xxxxx";
+    private String stHeaderName = "Service-Ticket";
+    private String logdbST = "";
     long ticketLifeTime = 1000L * 60 * 60;
 
     String mongoServerHost = "localhost";
@@ -84,17 +96,17 @@ public class OspsApiServiceImpl extends OspsApiService {
 
     public OspsApiServiceImpl() {
         super();
-        
+
         //  get service config params
         prop = loadServiceProperties();
         loadParams();
 
-        // setup aapi client     
+        // setup aapi client
         eu.operando.core.cas.client.ApiClient aapiDefaultClient = new eu.operando.core.cas.client.ApiClient();
         aapiDefaultClient.setBasePath(aapiBasePath);
         this.aapiClient = new DefaultApi(aapiDefaultClient);
 
-        // setup logdb client        
+        // setup logdb client
         final ApiClient apiClient = new ApiClient();
         apiClient.setBasePath(logdbBasePath);
 
@@ -141,6 +153,10 @@ public class OspsApiServiceImpl extends OspsApiService {
             logdbSId = prop.getProperty("logdb.service.id");
         }
 
+        if (prop.getProperty("pdb.upp.basepath") != null) {
+            pdbBasePath = prop.getProperty("pdb.upp.basepath");
+        }
+
         // setup mongo part
         if (prop.getProperty("mongo.server.host") != null) {
             mongoServerHost = prop.getProperty("mongo.server.host");
@@ -165,7 +181,7 @@ public class OspsApiServiceImpl extends OspsApiService {
         } catch (IOException e) {
             // Display to console for debugging purposes.
             System.err.println("Error reading Configuration service properties file");
-            // Add logging code to log an error configuring the API on startup        
+            // Add logging code to log an error configuring the API on startup
         } finally {
             try {
                 is.close();
@@ -256,6 +272,75 @@ public class OspsApiServiceImpl extends OspsApiService {
         }
     }
 
+    /**
+     * Get a specific user policy from the policy DB.
+     * @userId The id of the user.
+     * @return A JSON string representing their UPPs.
+     */
+    private String getSpecificUser(String userId) {
+        try {
+            /**
+             * Invoke the PDB to query for the user consents.
+             */
+            CloseableHttpClient httpclient = HttpClients.createDefault();
+            HttpGet httpget = new HttpGet(pdbBasePath + "/pdb/user_privacy_policy/" + userId);
+            CloseableHttpResponse response1 = httpclient.execute(httpget);
+
+            /**
+             * If there is no response return null.
+             */
+            HttpEntity entity = response1.getEntity();
+            if(response1.getStatusLine().getStatusCode()==404) {
+                return null;
+            }
+            String userPolicy = EntityUtils.toString(entity);
+            httpclient.close();
+            response1.close();
+            httpget.releaseConnection();
+
+            return userPolicy;
+        } catch (IOException ex) {
+            System.err.println("OSE-Compliance-Report: Unable to retrieve data from Policy Database");
+            return null;
+        }
+    }
+
+    /**
+     * Get a specific user policy from the policy DB.
+     * @userId The id of the user.
+     * @return A JSON string representing their UPPs.
+     */
+    private OSPPrivacyPolicy getSpecificOSP(String ospId) {
+        try {
+            /**
+             * Invoke the PDB to query for the user consents.
+             */
+            CloseableHttpClient httpclient = HttpClients.createDefault();
+            HttpGet httpget = new HttpGet(pdbBasePath + "/OSP/" + ospId);
+            CloseableHttpResponse response1 = httpclient.execute(httpget);
+
+            /**
+             * If there is no response return null.
+             */
+            HttpEntity entity = response1.getEntity();
+            if(response1.getStatusLine().getStatusCode()==404) {
+                return null;
+            }
+            String jsonOspPolicy = EntityUtils.toString(entity);
+            httpclient.close();
+            response1.close();
+            httpget.releaseConnection();
+
+            ObjectMapper mapper = new ObjectMapper();
+            OSPPrivacyPolicy ospPolicy = mapper.readValue(jsonOspPolicy, OSPPrivacyPolicy.class);
+
+            return ospPolicy;
+        } catch (IOException ex) {
+            System.err.println("OSE-Compliance-Report: Unable to retrieve data from Policy Database");
+            return null;
+        }
+    }
+
     @Override
     public Response ospsOspIdPrivacySettingsGet(String ospId, String userId, SecurityContext securityContext)
             throws NotFoundException {
@@ -275,8 +360,6 @@ public class OspsApiServiceImpl extends OspsApiService {
                 LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("ospId", "userId")));
 
-        //return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK,
-        //        "Successful response. The privacy settings information for this user at the given OSP is returned.")).build();
         return Response.ok(ospString, MediaType.APPLICATION_JSON).build();
     }
 
@@ -293,16 +376,172 @@ public class OspsApiServiceImpl extends OspsApiService {
     @Override
     public Response ospsOspIdPrivacytextPut(String ospId, String ospPrivacyText, SecurityContext securityContext)
             throws NotFoundException {
-        // do some magic!
+
+        /**
+         * Create a set of logs about each change. The user needs to review. First
+         * get all of the user policies.
+         */
+        String all_user_policies =  getAllUsers();
+        if(all_user_policies == null) {
+            return Response.status(Response.Status.NOT_FOUND).entity("Could not notify users of changed policy").build();
+        }
+
+        List<String> jsonUsers = getSubscribedUsersList(ospId, all_user_policies);
+        for(String userId: jsonUsers) {
+            logUserRequest(ospId, "OSP Privacy Policy Change",
+                "The OSP (" + ospId + ") has changed their policy with the following text: " + ospPrivacyText,
+                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogRequest.LogTypeEnum.NOTIFICATION, userId,
+                new ArrayList<String>(Arrays.asList("POST")));
+            System.out.println(userId);
+        }
+
         return Response.status(Response.Status.NO_CONTENT).entity(new ApiResponseMessage(ApiResponseMessage.OK,
                 "Successful response, The privacy text update analysis has begun.")).build();
+    }
 
+    private void logUserRequest(String requesterId, String title, String description,
+            LogLevelEnum logLevel, LogPriorityEnum logPriority, LogRequest.LogTypeEnum logType,
+            String affectedId, ArrayList<String> keywords) {
+
+        ArrayList<String> words = new ArrayList<String>(Arrays.asList("PDB", "UPP"));
+        for (String word : keywords) {
+            words.add(word);
+        }
+
+        LogRequest logRequest = new LogRequest();
+        logRequest.setUserId("OSE-Policy");
+        logRequest.setRequesterType(LogRequest.RequesterTypeEnum.PROCESS);
+
+        logRequest.setDescription(description);
+        logRequest.setLogLevel(logLevel);
+        logRequest.setTitle(title);
+        logRequest.setLogPriority(logPriority);
+        logRequest.setRequesterId(requesterId);
+        logRequest.setLogType(logType);
+        logRequest.setAffectedUserId(affectedId);
+
+        logRequest.setKeywords(words);
+
+        try {
+            String response = this.logApi.lodDB(logRequest);
+            Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.INFO, response + logRequest.toString());
+        } catch (ApiException ex) {
+            Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.SEVERE, "failed to log", ex);
+        }
+    }
+
+    /**
+     * Get the array of user's UPPs for a given OSP.
+     *
+     */
+    private String getSubscribedUserPolicies(String ospId, String pdb_policies) {
+        JSONArray uppSet = new JSONArray();
+        JSONArray user_policies = JsonPath.read(pdb_policies, "$");
+        for(Object aP: user_policies) {
+            JSONArray access_policies = JsonPath.read(aP, "$..subscribed_osp_policies[?(@.osp_id=='"+ospId+"')]");
+            if(!access_policies.isEmpty()){
+                uppSet.add(aP);
+            }
+        }
+
+        return uppSet.toJSONString();
+    }
+
+    private List<String> getSubscribedUsersList(String ospId, String pdb_policies){
+        ArrayList<String> users = new ArrayList<String>();
+        JSONArray user_policies = JsonPath.read(pdb_policies, "$");
+        for(Object aP: user_policies) {
+            JSONArray access_policies = JsonPath.read(aP, "$..subscribed_osp_policies[?(@.osp_id=='"+ospId+"')]");
+            if(!access_policies.isEmpty()){
+                users.add(JsonPath.read(aP, "$.user_id").toString());
+            }
+        }
+        return users;
     }
 
     @Override
     public Response ospsOspIdPut(String ospId, OSPPrivacyPolicy ospPolicy, SecurityContext securityContext)
             throws NotFoundException {
 
+        /**
+         * Create a set of logs about each change. The user needs to review. First
+         * get all of the user policies.
+         */
+        String all_user_policies =  getAllUsers();
+        if(all_user_policies == null) {
+            return Response.status(Response.Status.NOT_FOUND).entity("Could not notify users of changed policy").build();
+        }
+
+        String jsonUsers = getSubscribedUserPolicies(ospId, all_user_policies);
+        System.out.println(jsonUsers);
+        /**
+         * Get the current policy from the PDB. Analyse and find the set of access policies that have changed.
+         * New role, new field, new data resource.
+         */
+        OSPPrivacyPolicy ospNewPolicy = getSpecificOSP(ospId);
+        List<AccessPolicy> oldPolicies = ospNewPolicy.getPolicies();
+        List<AccessPolicy> newPolicies = ospNewPolicy.getPolicies();
+        List<AccessPolicy> changedPolicies = new ArrayList<AccessPolicy>();
+
+        for(AccessPolicy newPolicy: newPolicies) {
+            boolean change = false;
+            boolean match = true;
+            for(AccessPolicy oldPolicy: oldPolicies) {
+                // check for complete match - an access policy is unique by resource, subject, action
+                if( (oldPolicy.getResource().equals(newPolicy.getResource())) &&
+                     (oldPolicy.getSubject().equals(newPolicy.getSubject())) &&
+                       (oldPolicy.getAction().equals(newPolicy.getAction())) ) {
+
+                    match = true;
+
+                    /**
+                     * If the permission has changed.
+                     */
+                    if(!oldPolicy.getPermission().equals(newPolicy.getPermission())) {
+                        change = true;
+                        break;
+                    }
+                    /**
+                     * If the category/reason has changed.
+                     */
+                    List<PolicyAttribute> attributes = oldPolicy.getAttributes();
+                    String categoryVal = "";
+                    for(PolicyAttribute polA: attributes) {
+                        if(polA.getAttributeName().equalsIgnoreCase("category")) {
+                            categoryVal = polA.getAttributeValue();
+                            break;
+                        }
+                    }
+                    List<PolicyAttribute> nAttributes = newPolicy.getAttributes();
+                    for(PolicyAttribute polA: nAttributes) {
+                        if(polA.getAttributeName().equalsIgnoreCase("category")) {
+                            if(!categoryVal.equalsIgnoreCase(polA.getAttributeValue())) {
+                                change = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+                if(match){
+                    oldPolicies.remove(oldPolicy);
+                }
+            }
+            if(match && !change){
+                    newPolicies.remove(newPolicy);
+            }
+            else if (match && change) {
+                changedPolicies.add(newPolicy);
+                newPolicies.remove(newPolicy);
+            }
+        }
+
+        /**
+         * For each deleted policy
+         */
+        for(AccessPolicy oldPolicy: oldPolicies) {
+            // Get the affected users and delete this policy statment from their UPP
+
+        }
         // do some magic!
         return Response.status(Response.Status.OK).entity(new ApiResponseMessage(ApiResponseMessage.OK,
                 "Successful response. The privacy policy has been received and being processed. Information will be sent via other operation sequences."))
@@ -310,11 +549,57 @@ public class OspsApiServiceImpl extends OspsApiService {
 
     }
 
+//    private String getUserIds (String jsonPolicies, String ) {
+//
+//    }
+
+    /**
+     * Get the set of Operando users in the PDB. Uses Apache HTTP to make the
+     * call rather than a Swagger Client.
+     * @return A JSON string representing their UPPs.
+     */
+    private String getAllUsers() {
+        try {
+            /**
+             * Invoke the PDB to query for the user consents.
+             */
+            CloseableHttpClient httpclient = HttpClients.createDefault();
+            HttpGet httpget = new HttpGet(pdbBasePath + "/pdb/user_privacy_policy/?filter=");
+            CloseableHttpResponse response1 = httpclient.execute(httpget);
+
+            /**
+             * If there is no response return null.
+             */
+            HttpEntity entity = response1.getEntity();
+            if(response1.getStatusLine().getStatusCode()==404) {
+                return null;
+            }
+            String policyList = EntityUtils.toString(entity);
+            httpclient.close();
+            response1.close();
+            httpget.releaseConnection();
+
+            return policyList;
+        } catch (IOException ex) {
+            System.err.println("OSE-Compliance-Report: Unable to retrieve data from Policy Database");
+            return null;
+        }
+    }
+
     @Override
     public Response ospsOspIdWorkflowsPut(String ospId, OSPDataRequest ospWorkflow, SecurityContext securityContext)
             throws NotFoundException {
         // do some magic!
         return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+    }
+
+    @Override
+    public Response ospsOspIdAuditGet(String ospId, String start, String end, SecurityContext securityContext) throws NotFoundException {
+        String response = "{\"osp_id\": \"" + ospId + "\"," +
+                "\"start\": \"" + start + "\"," +
+                "\"end\": \"" + end + "\"}";
+
+        return Response.ok().entity(response).build();
     }
 
 }
