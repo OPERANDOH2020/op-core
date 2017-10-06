@@ -239,7 +239,7 @@ public class ConsentApiServiceImpl extends ConsentApiService {
                 }
             }
         }
-
+        System.out.println("Test");
         return accessList.toJSONString();
     }
 
