@@ -85,7 +85,7 @@ public class ConsentApiServiceImpl extends ConsentApiService {
 
         InputStream is = null;
         try {
-            is = this.getClass().getClassLoader().getResourceAsStream("service.properties");
+            is = this.getClass().getClassLoader().getResourceAsStream("/service.properties");
             props.load(is);
         } catch (IOException e) {
             System.err.println("Error reading Configuration service properties file" + e.getLocalizedMessage());
