@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>eu.operando</groupId>
     <artifactId>eu.operando.core.ose-server</artifactId>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>eu.operando.core.ose-server</name>
     <version>1.0.0</version>
     <build>
@@ -151,7 +151,26 @@
       <version>${junit-version}</version>
       <scope>test</scope>
     </dependency>
-
+    <dependency>
+      <groupId>${project.groupId}</groupId>
+      <artifactId>eu.operando.core.ldb.client</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+        <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>eu.operando.core.pdb.common-model</artifactId>
+        <version>${project.version}</version>
+    </dependency>
+    <dependency>
+            <groupId>eu.operando</groupId>
+            <artifactId>eu.operando.core.cas.client</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+    <dependency>
+            <groupId>eu.operando</groupId>
+            <artifactId>eu.operando.core.pdb.client</artifactId>
+            <version>1.0.0</version>
+        </dependency>
   </dependencies>
     <repositories>
         <repository>
