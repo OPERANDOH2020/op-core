@@ -35,7 +35,20 @@ package eu.operando;
  */
 public class CreateYellowPages {
     public static void main(String[] args) {
-        TestHelperMethods tMethods = new TestHelperMethods();
+        String accessReason = "{\n" +
+"        \"reasonid\": \"8\",\n" +
+"        \"datauser\": \"doctor\",\n" +
+"        \"datasubjecttype\": \"patient\",\n" +
+"        \"datatype\": \"Financial\",\n" +
+"        \"reason\": \"Medical Treatment\"\n" +
+"      }";
+
+//        System.out.println(tMethods.createOSPReason("59dadf47ee358800334d74f7", "reasonPolicy.json"));
+//        System.out.println(tMethods.updateOSEReason("YellowPages", accessReason));
+    TestHelperMethods tMethods = new TestHelperMethods();
+        System.out.println(tMethods.changeOSPReason("59dadf47ee358800334d74f7", accessReason, "8"));
+
+
 //        System.out.println(tMethods.createOSP("yellowpages.json"));
 //        System.out.println(tMethods.createOSP("ami.json"));
         System.out.println(tMethods.createOSP("aslbergamo_gat.json"));

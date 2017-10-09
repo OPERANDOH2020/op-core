@@ -587,7 +587,13 @@ public class OSPApiServiceImpl extends OSPApiService {
 //            Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
 //        }
 //
-//        callOSEComponent(ospIdentity, ospPolicy.toString());
+        callOSEComponent("YellowPages", "{\n" +
+"        \"reasonid\": \"8\",\n" +
+"        \"datauser\": \"doctor\",\n" +
+"        \"datasubjecttype\": \"patient\",\n" +
+"        \"datatype\": \"Financial\",\n" +
+"        \"reason\": \"Medical Treatment\"\n" +
+"      }");
 //        logRequest("OSP PUT access reason", "PUT",
 //                "OSP PUT access reason received",
 //                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.SYSTEM, ospId,
