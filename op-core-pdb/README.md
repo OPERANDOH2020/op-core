@@ -113,9 +113,9 @@ Parameters
 - *upp* * (body) the changed instance of this user’s UPP:
 ```
 {
-user_id: ""
-user_references: []
-subscribed_osp_policies: []
+user_id: "",
+user_references: [],
+subscribed_osp_policies: [],
 subscribed_osp_settings:[]
 }
 ```
@@ -217,9 +217,9 @@ Operando user-id is returned as a string parameter
 Error. The document (OSPBehaviour) at this id has previously been created in
 the database.
 
-curl example:
-'''
-curl -v -d @osp_hospital.json -H "Content-Type: application/json"
+curl example
+```
+curl -v -d @osp.json -H "Content-Type: application/json"
 http://integration.operando.esilab.org:8096/operando/core/pdb/policy_database/OSP/
 ```
 
