@@ -26,6 +26,7 @@
 package io.swagger.api;
 
 
+import eu.operando.core.pdb.common.model.AccessReason;
 import eu.operando.core.pdb.common.model.OSPPrivacyPolicy;
 
 import javax.ws.rs.core.Response;
@@ -40,7 +41,7 @@ public abstract class OspsApiService {
 //      public abstract Response ospsOspIdPrivacySettingsPut(String ospId,String userId,List<PrivacySetting> ospSettings,SecurityContext securityContext)
 //      throws NotFoundException;
 
-      public abstract Response ospsOspIdPrivacytextPut(String ospId,String ospPrivacyText,SecurityContext securityContext)
+      public abstract Response ospsOspIdPrivacytextPut(String ospId,AccessReason ospPrivacyText,SecurityContext securityContext)
       throws NotFoundException;
 
       public abstract Response ospsOspIdPut(String ospId,OSPPrivacyPolicy ospPolicy,SecurityContext securityContext)

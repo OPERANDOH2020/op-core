@@ -63,6 +63,7 @@ import java.util.TimerTask;
 import javax.ws.rs.core.HttpHeaders;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.codehaus.jackson.map.DeserializationConfig;
@@ -470,8 +471,9 @@ public class OSPApiServiceImpl extends OSPApiService {
              * Invoke the PDB to query for the user consents.
              */
             CloseableHttpClient httpclient = HttpClients.createDefault();
-            HttpPut httpget = new HttpPut(oseBasePath + "/osps/"+ ospId + "/reason/?osp_privacy_text=" + policyText);
-            CloseableHttpResponse response1 = httpclient.execute(httpget);
+            HttpPut httpput = new HttpPut(oseBasePath + "/osps/"+ ospId + "/reason");
+            httpput.setEntity(new StringEntity(policyText));
+            CloseableHttpResponse response1 = httpclient.execute(httpput);
 
             /**
              * If there is no response return null.
@@ -481,7 +483,7 @@ public class OSPApiServiceImpl extends OSPApiService {
             }
             httpclient.close();
             response1.close();
-            httpget.releaseConnection();
+            httpput.releaseConnection();
 
             return true;
         } catch (IOException ex) {

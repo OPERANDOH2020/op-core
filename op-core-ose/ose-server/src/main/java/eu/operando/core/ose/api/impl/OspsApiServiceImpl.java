@@ -260,19 +260,16 @@ public class OspsApiServiceImpl extends OspsApiService {
 //    }
 
     @Override
-    public Response ospsOspIdPrivacytextPut(String ospId, String ospPrivacyText, SecurityContext securityContext)
+    public Response ospsOspIdPrivacytextPut(String ospId, AccessReason ospPrivacyText, SecurityContext securityContext)
             throws NotFoundException {
 
-        ObjectMapper mapper = new ObjectMapper();
+
         String changeMessage = "The OSP (" + ospId + ") has updated their privacy policy. The following is their"
                 + " new reason for accessing your data: \n";
-        try {
-            AccessReason ospPolicy = mapper.readValue(ospPrivacyText, AccessReason.class);
-            changeMessage += "A " + ospPolicy.getDatauser() + "can use a " + ospPolicy.getDatasubjecttype() + "'s " +
-                    ospPolicy.getDatatype() + "data for the purpose of " + ospPolicy.getReason() + ".\n";
-        } catch (IOException ex) {
-            Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
+            changeMessage += "A " + ospPrivacyText.getDatauser() + "can use a " + ospPrivacyText.getDatasubjecttype() + "'s " +
+                    ospPrivacyText.getDatatype() + "data for the purpose of " + ospPrivacyText.getReason() + ".\n";
+
 
         changeMessage += "Your access preferences have been updated to prevent access to this data until you"
                 + "consent to this change. Please visit the access preferences page and review your settings.";

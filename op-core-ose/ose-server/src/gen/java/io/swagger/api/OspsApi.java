@@ -26,6 +26,7 @@
 package io.swagger.api;
 
 import eu.operando.core.ose.api.factories.OspsApiServiceFactory;
+import eu.operando.core.pdb.common.model.AccessReason;
 import eu.operando.core.pdb.common.model.OSPPrivacyPolicy;
 
 import io.swagger.annotations.ApiParam;
@@ -53,10 +54,10 @@ public class OspsApi  {
         @io.swagger.annotations.ApiResponse(code = 409, message = "Error occured. The resource already exists, so a new resource cannot be created.", response = void.class) })
     public Response ospsOspIdPrivacytextPut(
         @ApiParam(value = "The identifier number of an OSP",required=true) @PathParam("osp-id") String ospId,
-        @ApiParam(value = "The complete privacy policy text of the OSP.",required=true) @QueryParam("osp_privacy_text") String ospPrivacyText,
+        @ApiParam(value = "The set of individual policies that have now compose the OSP's new privacy policy. This is the complete OSP list of the policies to be compared with the existing stored policy for this OSP." ,required=true) AccessReason ospPolicy,
         @Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.ospsOspIdPrivacytextPut(ospId,ospPrivacyText,securityContext);
+        return delegate.ospsOspIdPrivacytextPut(ospId,ospPolicy,securityContext);
     }
     @PUT
     @Path("/{osp-id}/")
