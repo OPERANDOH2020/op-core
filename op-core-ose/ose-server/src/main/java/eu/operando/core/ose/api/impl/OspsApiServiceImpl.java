@@ -456,4 +456,107 @@ public class OspsApiServiceImpl extends OspsApiService {
         return Response.ok().entity(response).build();
     }
 
+    //    @Override
+//    public Response ospsOspIdAuditGet(String ospId, String start, String end, SecurityContext securityContext) throws NotFoundException {
+//        class  Report{
+//            ArrayList<DataAccessLog> validLogs= ArrayList<DataAccessLog>();
+//            ArrayList<DataAccessLog> invalidLogs= ArrayList<DataAccessLog>();
+//            Boolean checkValid()
+//            {
+//                if(invalidLogs.Count == 0)
+//                {
+//                   return true;
+//                }
+//                 return false;
+//            }
+//        }
+//
+///*        string baseurl = ConfigurationManager.AppSettings["ldbBasePath"];
+//        //instance to get from the log database
+//
+//        //gets the list of OSPs
+//        List<OSPPrivacyPolicy> ospList = GetOspList();*/
+//
+//        //creates datetime objects for the start date and end date selected by the user on the html page
+//        LdbClient instance = new eu.operando.core.ldb.LdbClient(baseurl);
+//        DateFormat startDate = new DateFormat(start);
+//        DateFormat endDate = new DateFormat(end);
+//
+//
+//        OSPPrivacyPolicy matchingOsp = ospList.Where(o => o.OspPolicyId.Equals(ospId)).First();
+//        HashSet<String> roles = new HashSet<String>();
+//
+//        foreach (AccessPolicy policy in matchingOsp.Policies)
+//        {
+//            roles.Add(policy.Subject);
+//        }
+//
+//        //get the data access logs
+//        ArrayList<DataAccessLog> logs = instance.GetDataAccessLogs(OspPolicyId);
+//        ArrayList<DataAccessLog> logsToCheck = new ArrayList<DataAccessLog>();
+//        //sorts by logs that fall within the region for the dates
+//        foreach (DataAccessLog log in logs)
+//        {
+//            if (log.logDate >= startDate && log.logDate <= endDate && log.requesterId.Equals(matchingOsp.OspPolicyId))
+//            {
+//                logsToCheck.Add(log);
+//            }
+//        }
+//        //creates a report object
+//        Report report = new Report();
+//        //goes through each log that matches the dates
+//        foreach (DataAccessLog log in logsToCheck)
+//        {
+//            bool found = false;
+//            string matchedrole = "nothing";
+//            //checks if there is a role matching the role accessed according to the logs
+//            foreach (String role in roles)
+//            {
+//                if (log.description.contains(role))
+//                {
+//                    found = true;
+//                    matchedrole = role;
+//                    break;
+//                }
+//            }
+//            //runs if there is a matching role
+//            if (found)
+//            {
+//            	bool policymatch = false;
+//                //checks if there is a resource and role which matches (the policy for this log)
+//            	foreach(AccessPolicy p in matchingOsp.Policies){
+//            		if(p.Subject..Equals(matchedrole) && p.Resource.Equals(log.title))
+//            		{
+//            			policymatch  = true;
+//            			break;
+//            		}
+//            	}
+//                if (policymatch)
+//                {
+//                    report.validLogs.Add(log);
+//                }
+//                    else
+//                {
+//                    report.invalidLogs.Add(log);
+//                }
+//            }
+//            else
+//            {
+//                report.invalidLogs.Add(log);
+//            }
+//        }
+//        String response = "Status: ";
+//        if(report.checkValid()) {
+//        	 response = "All logs for OSP " + ospId + " are valid for the selected date period";
+//        } else {
+//        	 foreach (DataAccessLog log in report.invalidLogs)
+//             {
+//                 response += OSPId + " has made an invalid request with the resource " + log.title + ". ";
+//             }
+//        }
+//
+//        return Response.ok().entity(response).build();
+//    }
+//
+//}
 }
