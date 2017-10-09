@@ -1,0 +1,6 @@
+{
+  "apiPackage": "eu.operando.core.logdb.server.api",
+  "modelPackage": " eu.operando.core.logdb.server.model",
+  "groupId": "eu.operando",
+  "artifactId": "eu.operando.core.logdb.server"
+}

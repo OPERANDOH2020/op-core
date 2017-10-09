@@ -10,21 +10,18 @@
     *    Gorka Mikel Echevarría {TECNALIA}
     * Initially developed in the context of OPERANDO EU project www.operando.eu
  */
-package io.swagger.api;
+package eu.operando.core.ldb.server.api.factories;
 
-import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.SecurityContext;
-
-import io.swagger.model.LogRequest;
-import io.swagger.model.LogRequestTicket;
+import eu.operando.core.ldb.server.api.LogApiService;
+import eu.operando.core.ldb.server.api.impl.LogApiServiceImpl;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-05-16T12:28:19.935Z")
-public abstract class LogApiService {
+public class LogApiServiceFactory {
 
-	public abstract Response log(LogRequest request, SecurityContext securityContext) throws NotFoundException;
-		
-	public abstract Response logTicket(LogRequestTicket request, SecurityContext securityContext, HttpHeaders headers)
-			throws NotFoundException;	
+   private final static LogApiService service = new LogApiServiceImpl();
 
+   public static LogApiService getLogApi()
+   {
+      return service;
+   }
 }

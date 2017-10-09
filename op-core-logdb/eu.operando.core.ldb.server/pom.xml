@@ -188,7 +188,7 @@
 					<apiSources>
 						<apiSource>
 							<springmvc>false</springmvc>
-							<locations>io.swagger</locations>
+							<locations>eu.operando.core.ldb.server</locations>
 							<schemes>http</schemes>
 							<host>${server.externalhost}:${server.externalport}</host>
 							<!--<host>publisher.dmz.lab.esilab.org</host> -->
@@ -492,7 +492,7 @@
 		<server.internalhost>localhost</server.internalhost>
 		<server.externalhost>localhost</server.externalhost>
 		<server.internalport>8080</server.internalport>
-		<server.externalport>8080</server.externalport>
+		<server.externalport>8090</server.externalport>
 		<server.warName>operando#core#ldb</server.warName>
 		<server.basepath>operando/core/ldb</server.basepath>
 		<!-- added to support docker image creation -->

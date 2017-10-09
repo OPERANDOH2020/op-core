@@ -10,18 +10,13 @@
     *    Gorka Mikel Echevarría {TECNALIA}
     * Initially developed in the context of OPERANDO EU project www.operando.eu
  */
-package io.swagger.api.factories;
-
-import io.swagger.api.LogApiService;
-import io.swagger.api.impl.LogApiServiceImpl;
+package eu.operando.core.ldb.server.api;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-05-16T12:28:19.935Z")
-public class LogApiServiceFactory {
-
-   private final static LogApiService service = new LogApiServiceImpl();
-
-   public static LogApiService getLogApi()
-   {
-      return service;
-   }
+public class NotFoundException extends ApiException {
+	private int code;
+	public NotFoundException (int code, String msg) {
+		super(code, msg);
+		this.code = code;
+	}
 }

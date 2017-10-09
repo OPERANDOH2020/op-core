@@ -10,7 +10,7 @@
     *    Gorka Mikel Echevarría {TECNALIA}
     * Initially developed in the context of OPERANDO EU project www.operando.eu
  */
-package io.swagger.api.impl;
+package eu.operando.core.ldb.server.api.impl;
 
 import java.util.List;
 
@@ -21,15 +21,15 @@ import javax.ws.rs.core.SecurityContext;
 import org.apache.log4j.Logger;
 import org.apache.log4j.MDC;
 
-import io.swagger.api.ApiResponseMessage;
-import io.swagger.api.LogApiService;
-import io.swagger.api.NotFoundException;
+import eu.operando.core.ldb.server.api.ApiResponseMessage;
+import eu.operando.core.ldb.server.api.LogApiService;
+import eu.operando.core.ldb.server.api.NotFoundException;
+import eu.operando.core.ldb.server.model.LogRequest;
+import eu.operando.core.ldb.server.model.LogRequestTicket;
 import io.swagger.client.ApiClient;
 import io.swagger.client.ApiException;
 import io.swagger.client.api.DefaultApi;
 import io.swagger.client.model.UserCredential;
-import io.swagger.model.LogRequest;
-import io.swagger.model.LogRequestTicket;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-05-16T12:28:19.935Z")
 public class LogApiServiceImpl extends LogApiService {
@@ -60,7 +60,7 @@ public class LogApiServiceImpl extends LogApiService {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see io.swagger.api.LogApiService#lodDB(io.swagger.model.LogRequest,
+	 * @see eu.operando.core.ldb.server.api.LogApiService#lodDB(eu.operando.core.ldb.server.model.LogRequest,
 	 * javax.ws.rs.core.SecurityContext) This method inserts a new log record in
 	 * the log database by using log4j
 	 */
@@ -144,7 +144,7 @@ public class LogApiServiceImpl extends LogApiService {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see io.swagger.api.LogApiService#lodDB(io.swagger.model.LogRequest,
+	 * @see eu.operando.core.ldb.server.api.LogApiService#lodDB(eu.operando.core.ldb.server.model.LogRequest,
 	 * javax.ws.rs.core.SecurityContext) This method inserts a new log record in
 	 * the log database by using log4j
 	 */

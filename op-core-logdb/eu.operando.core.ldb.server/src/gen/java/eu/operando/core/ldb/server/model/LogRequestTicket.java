@@ -11,7 +11,7 @@
  */
 
 
-package io.swagger.model;
+package eu.operando.core.ldb.server.model;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -15,7 +15,7 @@
       "url" : "http://www.opensource.org/licenses/mit-license.php"
     }
   },
-  "host" : "localhost:8080",
+  "host" : "localhost:8090",
   "basePath" : "/operando/core/ldb",
   "tags" : [ {
     "name" : "Log"

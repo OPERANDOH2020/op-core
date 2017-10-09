@@ -1,12 +1,9 @@
-package io.swagger.api.impl;
-
-import io.swagger.api.*;
-import io.swagger.api.NotFoundException;
-
-
+package eu.operando.core.ldb.server.api.impl;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+
+import eu.operando.core.ldb.server.api.*;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2017-02-03T15:31:38.137Z")
 public class MonitorApiServiceImpl extends MonitorApiService {

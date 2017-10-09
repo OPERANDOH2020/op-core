@@ -10,7 +10,7 @@
     *    Gorka Mikel Echevarría {TECNALIA}
     * Initially developed in the context of OPERANDO EU project www.operando.eu
  */
-package io.swagger.api;
+package eu.operando.core.ldb.server.api;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-05-16T12:28:19.935Z")
 public class ApiException extends Exception{

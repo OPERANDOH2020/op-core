@@ -10,7 +10,7 @@
     *    Gorka Mikel Echevarría {TECNALIA}
     * Initially developed in the context of OPERANDO EU project www.operando.eu
  */
-package io.swagger.api;
+package eu.operando.core.ldb.server.api;
 
 import java.io.IOException;
 

@@ -1,14 +1,13 @@
-package io.swagger.api;
-
-import io.swagger.api.MonitorApiService;
-import io.swagger.api.factories.MonitorApiServiceFactory;
-
-import io.swagger.api.NotFoundException;
-
+package eu.operando.core.ldb.server.api;
 
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
+
+import eu.operando.core.ldb.server.api.MonitorApiService;
+import eu.operando.core.ldb.server.api.NotFoundException;
+import eu.operando.core.ldb.server.api.factories.MonitorApiServiceFactory;
+
 import javax.ws.rs.*;
 
 @Path("/monitor")

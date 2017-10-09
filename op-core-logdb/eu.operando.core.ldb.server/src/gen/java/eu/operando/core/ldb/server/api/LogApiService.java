@@ -10,13 +10,21 @@
     *    Gorka Mikel Echevarría {TECNALIA}
     * Initially developed in the context of OPERANDO EU project www.operando.eu
  */
-package io.swagger.api;
+package eu.operando.core.ldb.server.api;
+
+import javax.ws.rs.core.HttpHeaders;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
+
+import eu.operando.core.ldb.server.model.LogRequest;
+import eu.operando.core.ldb.server.model.LogRequestTicket;
 
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-05-16T12:28:19.935Z")
-public class NotFoundException extends ApiException {
-	private int code;
-	public NotFoundException (int code, String msg) {
-		super(code, msg);
-		this.code = code;
-	}
+public abstract class LogApiService {
+
+	public abstract Response log(LogRequest request, SecurityContext securityContext) throws NotFoundException;
+		
+	public abstract Response logTicket(LogRequestTicket request, SecurityContext securityContext, HttpHeaders headers)
+			throws NotFoundException;	
+
 }

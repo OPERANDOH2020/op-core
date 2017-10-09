@@ -1,7 +1,7 @@
-package io.swagger.api.factories;
+package eu.operando.core.ldb.server.api.factories;
 
-import io.swagger.api.MonitorApiService;
-import io.swagger.api.impl.MonitorApiServiceImpl;
+import eu.operando.core.ldb.server.api.MonitorApiService;
+import eu.operando.core.ldb.server.api.impl.MonitorApiServiceImpl;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2017-02-03T15:31:38.137Z")
 public class MonitorApiServiceFactory {

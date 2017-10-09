@@ -10,7 +10,7 @@
     *    Gorka Mikel Echevarría {TECNALIA}
     * Initially developed in the context of OPERANDO EU project www.operando.eu
  */
-package io.swagger.model;
+package eu.operando.core.ldb.server.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;

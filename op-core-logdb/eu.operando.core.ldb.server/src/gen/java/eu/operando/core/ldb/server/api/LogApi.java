@@ -10,7 +10,7 @@
     *    Gorka Mikel Echevarría {TECNALIA}
     * Initially developed in the context of OPERANDO EU project www.operando.eu
  */
-package io.swagger.api;
+package eu.operando.core.ldb.server.api;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -21,10 +21,10 @@ import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
+import eu.operando.core.ldb.server.api.factories.LogApiServiceFactory;
+import eu.operando.core.ldb.server.model.LogRequest;
+import eu.operando.core.ldb.server.model.LogRequestTicket;
 import io.swagger.annotations.ApiParam;
-import io.swagger.api.factories.LogApiServiceFactory;
-import io.swagger.model.LogRequest;
-import io.swagger.model.LogRequestTicket;
 @Path("/log")
 
 @Produces({ "application/json" })

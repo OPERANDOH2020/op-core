@@ -8,7 +8,7 @@
 		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer</servlet-class>
 		<init-param>
 			<param-name>com.sun.jersey.config.property.packages</param-name>
-			<param-value>io.swagger.jaxrs.json;io.swagger.jaxrs.listing;io.swagger.api</param-value>
+			<param-value>io.swagger.jaxrs.json;io.swagger.jaxrs.listing;eu.operando.core.ldb.server.api</param-value>
 		</init-param>
 		<init-param>
 			<param-name>com.sun.jersey.spi.container.ContainerRequestFilters</param-name>
@@ -40,7 +40,7 @@
 	</servlet>
     <servlet>
         <servlet-name>Bootstrap</servlet-name>
-        <servlet-class>io.swagger.api.Bootstrap</servlet-class>
+        <servlet-class>eu.operando.core.ldb.server.api.Bootstrap</servlet-class>
         <load-on-startup>2</load-on-startup>
     </servlet>
 	<servlet-mapping>
@@ -49,7 +49,7 @@
 	</servlet-mapping>
 	<filter>
 		<filter-name>ApiOriginFilter</filter-name>
-		<filter-class>io.swagger.api.ApiOriginFilter</filter-class>
+		<filter-class>eu.operando.core.ldb.server.api.ApiOriginFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>ApiOriginFilter</filter-name>
