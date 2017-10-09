@@ -475,6 +475,7 @@ public class OSPApiServiceImpl extends OSPApiService {
             httpput.setEntity(new StringEntity(policyText));
             CloseableHttpResponse response1 = httpclient.execute(httpput);
 
+            System.out.println(response1.getStatusLine().getStatusCode());
             /**
              * If there is no response return null.
              */
@@ -593,7 +594,7 @@ public class OSPApiServiceImpl extends OSPApiService {
         logRequest("OSP PUT access reason", "PUT",
                 "OSP PUT access reason received",
                 LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.SYSTEM, ospId,
-                new ArrayList<String>(Arrays.asList("one", "two")));
+                new ArrayList<String>(Arrays.asList(ospIdentity, ospPolicy.toString())));
 
         boolean response = ospMongodb.accessReasonIdUpdate(ospId, reasonId, ospPolicy);
 
