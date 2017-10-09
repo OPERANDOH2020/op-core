@@ -122,6 +122,11 @@
     </dependency>
     <dependency>
       <groupId>com.sun.jersey</groupId>
+      <artifactId>jersey-client</artifactId>
+      <version>${jersey-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.jersey</groupId>
       <artifactId>jersey-json</artifactId>
       <version>${jersey-version}</version>
     </dependency>
@@ -171,6 +176,7 @@
             <artifactId>eu.operando.core.pdb.client</artifactId>
             <version>1.0.0</version>
         </dependency>
+
   </dependencies>
     <repositories>
         <repository>
