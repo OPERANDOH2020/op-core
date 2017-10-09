@@ -60,6 +60,10 @@ import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
 import javax.ws.rs.core.HttpHeaders;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPut;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2017-02-20T12:05:17.950Z")
 public class OSPApiServiceImpl extends OSPApiService {
@@ -73,6 +77,7 @@ public class OSPApiServiceImpl extends OSPApiService {
     String logdbSId = "ose/osps/.*";
     String aapiBasePath = "http://integration.operando.esilab.org:8135/operando/interfaces/aapi";
     String logdbBasePath = "http://integration.operando.esilab.org:8090/operando/core/ldb";
+    String oseBasePath = "http://integration.operando.esilab.org:8090/operando/core/ose";
     String ospLoginName = "xxxxx";
     String ospLoginPassword = "xxxxx";
     String stHeaderName = "Service-Ticket";
@@ -92,12 +97,12 @@ public class OSPApiServiceImpl extends OSPApiService {
         prop = loadServiceProperties();
         loadParams();
 
-        // setup aapi client     
+        // setup aapi client
         eu.operando.core.cas.client.ApiClient aapiDefaultClient = new eu.operando.core.cas.client.ApiClient();
         aapiDefaultClient.setBasePath(aapiBasePath);
         this.aapiClient = new DefaultApi(aapiDefaultClient);
 
-        // setup logdb client        
+        // setup logdb client
         final ApiClient apiClient = new ApiClient();
         apiClient.setBasePath(logdbBasePath);
 
@@ -168,7 +173,7 @@ public class OSPApiServiceImpl extends OSPApiService {
         } catch (IOException e) {
             // Display to console for debugging purposes.
             System.err.println("Error reading Configuration service properties file");
-            // Add logging code to log an error configuring the API on startup        
+            // Add logging code to log an error configuring the API on startup
         } finally {
             try {
                 is.close();
@@ -451,6 +456,37 @@ public class OSPApiServiceImpl extends OSPApiService {
         return Response.ok(ospString, MediaType.APPLICATION_JSON).build();
     }
 
+    /**
+     * Get a specific user policy from the policy DB.
+     * @userId The id of the user.
+     * @return A JSON string representing their UPPs.
+     */
+    private boolean callOSEComponent(String ospId, String policyText) {
+        try {
+            /**
+             * Invoke the PDB to query for the user consents.
+             */
+            CloseableHttpClient httpclient = HttpClients.createDefault();
+            HttpPut httpget = new HttpPut(oseBasePath + "/osps/ "+ ospId + "/reason/?osp_policy_text" + policyText);
+            CloseableHttpResponse response1 = httpclient.execute(httpget);
+
+            /**
+             * If there is no response return null.
+             */
+            if(response1.getStatusLine().getStatusCode()==404) {
+                return false;
+            }
+            httpclient.close();
+            response1.close();
+            httpget.releaseConnection();
+
+            return true;
+        } catch (IOException ex) {
+            System.err.println("OSE-Compliance-Report: Unable to retrieve data from Policy Database");
+            return false;
+        }
+    }
+
     @Override
     public Response oSPOspIdPrivacyPolicyAccessReasonsPost(String ospId, AccessReason ospPolicy, SecurityContext securityContext, HttpHeaders headers) throws NotFoundException {
 
@@ -534,7 +570,7 @@ public class OSPApiServiceImpl extends OSPApiService {
             return Response.status(Response.Status.UNAUTHORIZED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error. The service ticket failed to validate.")).build();
         }
-
+        callOSEComponent(ospId, ospPolicy.toString());
         logRequest("OSP PUT access reason", "PUT",
                 "OSP PUT access reason received",
                 LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.SYSTEM, ospId,
@@ -590,7 +626,7 @@ public class OSPApiServiceImpl extends OSPApiService {
             return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error - the reason policy does not exist")).build();
         }
-        
+
         logRequest("OSP PUT request: ", ospId + " Privacy Policy change",
                 ospId + " changed their Privacy Policy. Take a look at their Privacy Policy for details.",
                 LogLevelEnum.INFO, LogPriorityEnum.HIGH, LogTypeEnum.NOTIFICATION, ospId,
