@@ -570,6 +570,12 @@ required_consent: ""
 - 404
 Error - the regulation does not exist.
 
+curl example:
+```
+curl -v http://integration.operando.esilab.org:8096/operando/core/pdb/policy_database/regulations/{reg_id}/
+```
+
+
 ### PUT /regulations/{reg-id}/
 Update PrivacyRegulation entry in the database.
 
