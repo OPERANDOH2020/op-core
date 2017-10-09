@@ -55,9 +55,9 @@ Parameters
 - *upp* * (body) The first instance of this user’s UPP:
 ```
 {
-user_id: ""
-user_references: []
-subscribed_osp_policies: []
+user_id: "",
+user_references: [],
+subscribed_osp_policies: [],
 subscribed_osp_settings:[]
 }
 ```
