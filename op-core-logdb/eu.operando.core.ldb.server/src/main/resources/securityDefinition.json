@@ -1,0 +1,17 @@
+{
+    "service-ticket": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "service-ticket"
+    },
+    "osp-identifier": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "osp-identifier"
+    },
+    "psp-user-identifier": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "psp-user-identifier"
+    }
+  }

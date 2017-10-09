@@ -52,7 +52,11 @@ public class LogApi  {
     @Path("/logTicket")
     @Consumes({ "application/json" })
     @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "Inserts received data to the database.", notes = "Inserts received data to the database by using Log4j.", response = void.class, tags={ "Log", })
+    @io.swagger.annotations.ApiOperation(value = "Inserts received data to the database.", notes = "Inserts received data to the database by using Log4j.", response = void.class, authorizations = {
+            //@io.swagger.annotations.Authorization(value = "osp-identifier"),
+            //@io.swagger.annotations.Authorization(value = "psp-user-identifier"),
+            @io.swagger.annotations.Authorization(value = "service-ticket")
+        }, tags={ "Log", })
     @io.swagger.annotations.ApiResponses(value = { 
         @io.swagger.annotations.ApiResponse(code = 200, message = "Succesful operation. ", response = void.class),
         

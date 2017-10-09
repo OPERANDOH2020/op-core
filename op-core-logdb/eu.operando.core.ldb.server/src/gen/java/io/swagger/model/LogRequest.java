@@ -346,7 +346,7 @@ public class LogRequest   {
    * Type of the data logged.
    * @return logType
   **/
-  @ApiModelProperty(example = "null", value = "Type of the data logged.")
+  @ApiModelProperty(example = "OTHER", value = "Type of the data logged.")
   public LogTypeEnum getLogType() {
     return logType;
   }
@@ -364,7 +364,7 @@ public class LogRequest   {
    * Id of the affected user.
    * @return affectedUserId
   **/
-  @ApiModelProperty(example = "null", value = "Id of the affected user.")
+  @ApiModelProperty(example = "OTHER", value = "Id of the affected user.")
   public String getAffectedUserId() {
     return affectedUserId;
   }

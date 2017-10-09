@@ -171,7 +171,7 @@ public class LogRequestTicket {
    * Id of the user.
    * @return userId
   **/
-  @ApiModelProperty(example = "null", value = "Id of the user.")
+  @ApiModelProperty(value = "Id of the user.")
   public String getUserId() {
     return userId;
   }
@@ -189,7 +189,7 @@ public class LogRequestTicket {
    * Source type from which comes the request.
    * @return requesterType
   **/
-  @ApiModelProperty(example = "null", value = "Source type from which comes the request.")
+  @ApiModelProperty(value = "Source type from which comes the request.")
   public RequesterTypeEnum getRequesterType() {
     return requesterType;
   }
@@ -207,7 +207,7 @@ public class LogRequestTicket {
    * Id of the requester (e.g the id of an OSP).
    * @return requesterId
   **/
-  @ApiModelProperty(example = "null", value = "Id of the requester (e.g the id of an OSP).")
+  @ApiModelProperty(value = "Id of the requester (e.g the id of an OSP).")
   public String getRequesterId() {
     return requesterId;
   }
@@ -225,7 +225,7 @@ public class LogRequestTicket {
    * Priority level of the data to be logged.
    * @return logPriority
   **/
-  @ApiModelProperty(example = "null", value = "Priority level of the data to be logged.")
+  @ApiModelProperty(value = "Priority level of the data to be logged.")
   public LogPriorityEnum getLogPriority() {
     return logPriority;
   }
@@ -243,7 +243,7 @@ public class LogRequestTicket {
    * Logging level.
    * @return logLevel
   **/
-  @ApiModelProperty(example = "null", value = "Logging level.")
+  @ApiModelProperty(value = "Logging level.")
   public LogLevelEnum getLogLevel() {
     return logLevel;
   }
@@ -261,7 +261,7 @@ public class LogRequestTicket {
    * Subject of the event to be logged.
    * @return title
   **/
-  @ApiModelProperty(example = "null", value = "Subject of the event to be logged.")
+  @ApiModelProperty(value = "Subject of the event to be logged.")
   public String getTitle() {
     return title;
   }
@@ -279,7 +279,7 @@ public class LogRequestTicket {
    * Description of the event to be logged.
    * @return description
   **/
-  @ApiModelProperty(example = "null", value = "Description of the event to be logged.")
+  @ApiModelProperty(value = "Description of the event to be logged.")
   public String getDescription() {
     return description;
   }
@@ -302,7 +302,7 @@ public class LogRequestTicket {
    * Array of keywords to facilitate search
    * @return keywords
   **/
-  @ApiModelProperty(example = "null", value = "Array of keywords to facilitate search")
+  @ApiModelProperty(value = "Array of keywords to facilitate search")
   public List<String> getKeywords() {
     return keywords;
   }
@@ -320,7 +320,7 @@ public class LogRequestTicket {
    * Type of the data logged.
    * @return logType
   **/
-  @ApiModelProperty(example = "null", value = "Type of the data logged.")
+  @ApiModelProperty(example = "OTHER", value = "Type of the data logged.")
   public LogTypeEnum getLogType() {
     return logType;
   }
@@ -338,7 +338,7 @@ public class LogRequestTicket {
    * Id of the affected user.
    * @return affectedUserId
   **/
-  @ApiModelProperty(example = "null", value = "Id of the affected user.")
+  @ApiModelProperty(example = "OTHER", value = "Id of the affected user.")
   public String getAffectedUserId() {
     return affectedUserId;
   }
