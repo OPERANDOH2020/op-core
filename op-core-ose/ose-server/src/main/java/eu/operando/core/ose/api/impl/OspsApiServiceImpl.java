@@ -35,9 +35,11 @@ import io.swagger.api.NotFoundException;
 import eu.operando.core.ose.mongo.OspsMongo;
 import eu.operando.core.ose.services.HelperMethods;
 import eu.operando.core.pdb.common.model.AccessPolicy;
+import eu.operando.core.pdb.common.model.AccessReason;
 import eu.operando.core.pdb.common.model.PolicyAttribute;
 import io.swagger.api.ApiResponseMessage;
 import io.swagger.api.OspsApiService;
+import io.swagger.client.ApiException;
 import io.swagger.client.api.LogApi;
 import io.swagger.client.model.LogRequest;
 import io.swagger.client.model.LogRequest.LogLevelEnum;
@@ -261,19 +263,35 @@ public class OspsApiServiceImpl extends OspsApiService {
     public Response ospsOspIdPrivacytextPut(String ospId, String ospPrivacyText, SecurityContext securityContext)
             throws NotFoundException {
 
+        ObjectMapper mapper = new ObjectMapper();
+        String changeMessage = "The OSP (" + ospId + ") has updated their privacy policy. The following is their"
+                + " new reason for accessing your data: \n";
+        try {
+            AccessReason ospPolicy = mapper.readValue(ospPrivacyText, AccessReason.class);
+            changeMessage += "A " + ospPolicy.getDatauser() + "can use a " + ospPolicy.getDatasubjecttype() + "'s " +
+                    ospPolicy.getDatatype() + "data for the purpose of " + ospPolicy.getReason() + ".\n";
+        } catch (IOException ex) {
+            Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        changeMessage += "Your access preferences have been updated to prevent access to this data until you"
+                + "consent to this change. Please visit the access preferences page and review your settings.";
+
         /**
          * Create a set of logs about each change. The user needs to review. First
          * get all of the user policies.
          */
         String all_user_policies =  getAllUsers();
+
         if(all_user_policies == null) {
             return Response.status(Response.Status.NOT_FOUND).entity("Could not notify users of changed policy").build();
         }
 
         List<String> jsonUsers = getSubscribedUsersList(ospId, all_user_policies);
+
         for(String userId: jsonUsers) {
-            helpServices.logUserRequest(this.logApi, ospId, "OSP Privacy Policy Change",
-                "The OSP (" + ospId + ") has changed their policy with the following text: " + ospPrivacyText,
+            logUserRequest(ospId, "OSP Privacy Policy Change",
+                 changeMessage,
                 LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogRequest.LogTypeEnum.NOTIFICATION, userId,
                 new ArrayList<String>(Arrays.asList("POST")));
             System.out.println(userId);
@@ -559,4 +577,34 @@ public class OspsApiServiceImpl extends OspsApiService {
 //    }
 //
 //}
+
+    public void logUserRequest(String requesterId, String title, String description,
+            LogRequest.LogLevelEnum logLevel, LogRequest.LogPriorityEnum logPriority, LogRequest.LogTypeEnum logType,
+            String affectedId, ArrayList<String> keywords) {
+
+        ArrayList<String> words = new ArrayList<String>(Arrays.asList("OSE", "OSP"));
+        for (String word : keywords) {
+            words.add(word);
+        }
+
+        LogRequest logRequest = new LogRequest();
+        logRequest.setUserId("OSE-Policy");
+        logRequest.setRequesterType(LogRequest.RequesterTypeEnum.PROCESS);
+
+        logRequest.setDescription(description);
+        logRequest.setLogLevel(logLevel);
+        logRequest.setTitle(title);
+        logRequest.setLogPriority(logPriority);
+        logRequest.setRequesterId(requesterId);
+        logRequest.setLogType(logType);
+        logRequest.setAffectedUserId(affectedId);
+        logRequest.setKeywords(words);
+
+        try {
+            String response = logApi.lodDB(logRequest);
+            Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.INFO, response + logRequest.toString());
+        } catch (ApiException ex) {
+            Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.SEVERE, "failed to log", ex);
+        }
+    }
 }
