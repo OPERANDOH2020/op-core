@@ -373,31 +373,30 @@ public class ConsentApiServiceImpl extends ConsentApiService {
      */
     @Override
     public Response consentOspIdGet(String ospId, String field, String role, SecurityContext securityContext) throws NotFoundException {
-//        try{
-            return Response.ok().entity("test message").build();
+        try{
             /**
              * From the OSP get a list of all subscribed user policies.
              */
-//            if ((field == null) && (role == null)) {
-//                String responseMessage = getSubscribedUsersViaPDB(ospId);
-//                return Response.ok().entity(responseMessage).build();
-//            }
-//            else if ((field != null) && (role == null)) {
-//                String responseMessage = getSubscribedFieldConsents(ospId, field);
-//                return Response.ok().entity(responseMessage).build();
-//            }
-//            else if ((field == null) && (role != null)) {
-//                String responseMessage = getSubscribedRoleConsents(ospId, role);
-//                return Response.ok().entity(responseMessage).build();
-//            }
-//            else {
-//                String responseMessage = getSubscribedRoleandFieldConsents(ospId, role, field);
-//                return Response.ok().entity(responseMessage).build();
-//            }
-//        }
-//        catch(Exception ex) {
-//            return Response.ok().entity(ex.getMessage()).build();
-//        }
+            if ((field == null) && (role == null)) {
+                String responseMessage = getSubscribedUsersViaPDB(ospId);
+                return Response.ok().entity(responseMessage).build();
+            }
+            else if ((field != null) && (role == null)) {
+                String responseMessage = getSubscribedFieldConsents(ospId, field);
+                return Response.ok().entity(responseMessage).build();
+            }
+            else if ((field == null) && (role != null)) {
+                String responseMessage = getSubscribedRoleConsents(ospId, role);
+                return Response.ok().entity(responseMessage).build();
+            }
+            else {
+                String responseMessage = getSubscribedRoleandFieldConsents(ospId, role, field);
+                return Response.ok().entity(responseMessage).build();
+            }
+        }
+        catch(Exception ex) {
+            return Response.ok().entity(ex.getMessage()).build();
+        }
     }
 
      /**
