@@ -25,16 +25,15 @@
 package eu.operando.core.ose.api.impl;
 
 import com.jayway.jsonpath.JsonPath;
-//import eu.operando.core.cas.client.api.DefaultApi;
-//import eu.operando.core.cas.client.model.UserCredential;
+import eu.operando.core.cas.client.api.DefaultApi;
 import io.swagger.client.ApiClient;
-import io.swagger.client.ApiException;
 import eu.operando.core.pdb.common.model.OSPPrivacyPolicy;
 
 import java.util.List;
 import io.swagger.api.NotFoundException;
 
 import eu.operando.core.ose.mongo.OspsMongo;
+import eu.operando.core.ose.services.HelperMethods;
 import eu.operando.core.pdb.common.model.AccessPolicy;
 import eu.operando.core.pdb.common.model.PolicyAttribute;
 import io.swagger.api.ApiResponseMessage;
@@ -49,6 +48,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Properties;
 import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -63,21 +63,20 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-04-25T15:37:02.222Z")
 public class OspsApiServiceImpl extends OspsApiService {
 
     // LogDB
     LogApi logApi;
     // AAPI
-//    DefaultApi aapiClient;
+    DefaultApi aapiClient;
 
     private String oseOSPSSId = "ose/osps/.*";
     private String logdbSId = "ose/osps/.*";
     private String aapiBasePath = "http://integration.operando.esilab.org:8135/operando/interfaces/aapi";
     private String logdbBasePath = "http://integration.operando.esilab.org:8090/operando/core/ldb";
     private String pdbBasePath = "http://integration.operando.esilab.org:8096/operando/core";
-    private String ospsLoginName = "xxxxx";
-    private String ospsLoginPassword = "xxxxx";
+    private String ospsLoginName = "panos";
+    private String ospsLoginPassword = "operando";
     private String stHeaderName = "Service-Ticket";
     private String logdbST = "";
     long ticketLifeTime = 1000L * 60 * 60;
@@ -88,38 +87,41 @@ public class OspsApiServiceImpl extends OspsApiService {
     Timer timer;
 
     Properties prop = null;
+    private HelperMethods helpServices;
 
     public OspsApiServiceImpl() {
         super();
 
+        helpServices = new HelperMethods();
+
         //  get service config params
-        prop = loadServiceProperties();
-        loadParams();
+//        prop = loadServiceProperties();
+//        loadParams();
 
         // setup aapi client
-//        eu.operando.core.cas.client.ApiClient aapiDefaultClient = new eu.operando.core.cas.client.ApiClient();
-//        aapiDefaultClient.setBasePath(aapiBasePath);
-//        this.aapiClient = new DefaultApi(aapiDefaultClient);
+        eu.operando.core.cas.client.ApiClient aapiDefaultClient = new eu.operando.core.cas.client.ApiClient();
+        aapiDefaultClient.setBasePath(aapiBasePath);
+        this.aapiClient = new DefaultApi(aapiDefaultClient);
 
         // setup logdb client
         final ApiClient apiClient = new ApiClient();
         apiClient.setBasePath(logdbBasePath);
 
-//        TimerTask timerTask = new TimerTask() {
-//            //@Override
-//            public void run() {
-//                Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.INFO, "osps TIMER RUN now");
-//                logdbST = getServiceTicket(ospsLoginName, ospsLoginPassword, logdbSId);
-//                apiClient.addDefaultHeader(stHeaderName, logdbST);
-//            }
-//        };
-//
-//        timer = new Timer();
-//        timer.scheduleAtFixedRate(timerTask, 0, ticketLifeTime);
+        TimerTask timerTask = new TimerTask() {
+            //@Override
+            public void run() {
+                Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.INFO, "osps TIMER RUN now");
+                logdbST = helpServices.getServiceTicket(aapiClient, ospsLoginName, ospsLoginPassword, logdbSId);
+                apiClient.addDefaultHeader(stHeaderName, logdbST);
+            }
+        };
+
+        timer = new Timer();
+        timer.scheduleAtFixedRate(timerTask, 0, ticketLifeTime);
 
         // get service ticket for logdb service
-//        logdbST = getServiceTicket(ospsLoginName, ospsLoginPassword, logdbSId);
-//        apiClient.addDefaultHeader(stHeaderName, logdbST);
+        logdbST = helpServices.getServiceTicket(aapiClient, ospsLoginName, ospsLoginPassword, logdbSId);
+        apiClient.addDefaultHeader(stHeaderName, logdbST);
         this.logApi = new LogApi(apiClient);
 
         // setup mongo part
@@ -185,119 +187,6 @@ public class OspsApiServiceImpl extends OspsApiService {
             }
         }
         return props;
-    }
-
-//    private String getServiceTicket(String username, String password, String serviceId) {
-//        String st = null;
-//
-//        UserCredential userCredential = new UserCredential();
-//        userCredential.setUsername(username);
-//        userCredential.setPassword(password);
-//
-//        try {
-//            String tgt = aapiClient.aapiTicketsPost(userCredential);
-//            System.out.println("ose osps service TGT: " + tgt);
-//            st = aapiClient.aapiTicketsTgtPost(tgt, serviceId);
-//            System.out.println("logdb osps service ticket: " + st);
-//
-//        } catch (eu.operando.core.cas.client.ApiException ex) {
-//            ex.printStackTrace();
-//        }
-//        return st;
-//    }
-//
-//    private boolean aapiTicketsStValidateGet(String st) {
-//        try {
-//            aapiClient.aapiTicketsStValidateGet(st, oseOSPSSId);
-//        } catch (eu.operando.core.cas.client.ApiException ex) {
-//            ex.printStackTrace();
-//        }
-//        return false;
-//    }
-//
-//    private boolean validateHeaderSt(HttpHeaders headers) {
-//        return true;
-//    }
-//
-//    private boolean validateHeaderSt1(HttpHeaders headers) {
-//        if (headers != null) {
-//            List<String> stHeader = headers.getRequestHeader(stHeaderName);
-//            if (stHeader != null) {
-//                String st = stHeader.get(0);
-//                try {
-//                    aapiClient.aapiTicketsStValidateGet(st, oseOSPSSId);
-//                    Logger.getLogger(RegulationsApiServiceImpl.class.getName()).log(Level.INFO,
-//                            "Service Ticket validation succeeded");
-//                    return true;
-//                } catch (eu.operando.core.cas.client.ApiException ex) {
-//                    Logger.getLogger(RegulationsApiServiceImpl.class.getName()).log(Level.WARNING,
-//                            "Service Ticket validation failed: {0}", ex.getMessage());
-//                    return false;
-//                }
-//            }
-//        }
-//        return false;
-//    }
-
-    private void logRequest(String requesterId, String title, String description,
-            LogLevelEnum logDataType, LogPriorityEnum logPriority,
-            ArrayList<String> keywords) {
-
-        ArrayList<String> words = new ArrayList<String>(Arrays.asList("OSE", "OSP"));
-        for (String word : keywords) {
-            words.add(word);
-        }
-
-        LogRequest logRequest = new LogRequest();
-        logRequest.setUserId("OSE-OSP");
-        logRequest.setDescription(description);
-        logRequest.setLogLevel(logDataType);
-        logRequest.setTitle(title);
-        logRequest.setLogPriority(logPriority);
-        logRequest.setRequesterId(requesterId);
-        logRequest.setRequesterType(LogRequest.RequesterTypeEnum.PROCESS);
-        logRequest.setKeywords(words);
-
-        try {
-            String response = this.logApi.lodDB(logRequest);
-            Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.INFO, response);
-
-        } catch (ApiException ex) {
-            Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.SEVERE, "failed to log", ex);
-        }
-    }
-
-    /**
-     * Get a specific user policy from the policy DB.
-     * @userId The id of the user.
-     * @return A JSON string representing their UPPs.
-     */
-    private String getSpecificUser(String userId) {
-        try {
-            /**
-             * Invoke the PDB to query for the user consents.
-             */
-            CloseableHttpClient httpclient = HttpClients.createDefault();
-            HttpGet httpget = new HttpGet(pdbBasePath + "/pdb/user_privacy_policy/" + userId);
-            CloseableHttpResponse response1 = httpclient.execute(httpget);
-
-            /**
-             * If there is no response return null.
-             */
-            HttpEntity entity = response1.getEntity();
-            if(response1.getStatusLine().getStatusCode()==404) {
-                return null;
-            }
-            String userPolicy = EntityUtils.toString(entity);
-            httpclient.close();
-            response1.close();
-            httpget.releaseConnection();
-
-            return userPolicy;
-        } catch (IOException ex) {
-            System.err.println("OSE-Compliance-Report: Unable to retrieve data from Policy Database");
-            return null;
-        }
     }
 
     /**
@@ -383,7 +272,7 @@ public class OspsApiServiceImpl extends OspsApiService {
 
         List<String> jsonUsers = getSubscribedUsersList(ospId, all_user_policies);
         for(String userId: jsonUsers) {
-            logUserRequest(ospId, "OSP Privacy Policy Change",
+            helpServices.logUserRequest(this.logApi, ospId, "OSP Privacy Policy Change",
                 "The OSP (" + ospId + ") has changed their policy with the following text: " + ospPrivacyText,
                 LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogRequest.LogTypeEnum.NOTIFICATION, userId,
                 new ArrayList<String>(Arrays.asList("POST")));
@@ -394,36 +283,6 @@ public class OspsApiServiceImpl extends OspsApiService {
                 "Successful response, The privacy text update analysis has begun.")).build();
     }
 
-    private void logUserRequest(String requesterId, String title, String description,
-            LogLevelEnum logLevel, LogPriorityEnum logPriority, LogRequest.LogTypeEnum logType,
-            String affectedId, ArrayList<String> keywords) {
-
-        ArrayList<String> words = new ArrayList<String>(Arrays.asList("PDB", "UPP"));
-        for (String word : keywords) {
-            words.add(word);
-        }
-
-        LogRequest logRequest = new LogRequest();
-        logRequest.setUserId("OSE-Policy");
-        logRequest.setRequesterType(LogRequest.RequesterTypeEnum.PROCESS);
-
-        logRequest.setDescription(description);
-        logRequest.setLogLevel(logLevel);
-        logRequest.setTitle(title);
-        logRequest.setLogPriority(logPriority);
-        logRequest.setRequesterId(requesterId);
-        logRequest.setLogType(logType);
-        logRequest.setAffectedUserId(affectedId);
-
-        logRequest.setKeywords(words);
-
-        try {
-            String response = this.logApi.lodDB(logRequest);
-            Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.INFO, response + logRequest.toString());
-        } catch (ApiException ex) {
-            Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.SEVERE, "failed to log", ex);
-        }
-    }
 
     /**
      * Get the array of user's UPPs for a given OSP.

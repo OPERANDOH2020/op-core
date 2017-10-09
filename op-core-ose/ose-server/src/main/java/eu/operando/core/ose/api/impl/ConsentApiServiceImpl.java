@@ -23,7 +23,7 @@
 //
 /////////////////////////////////////////////////////////////////////////
 
-package io.swagger.api.impl;
+package eu.operando.core.ose.api.impl;
 
 import io.swagger.api.*;
 import io.swagger.api.NotFoundException;
@@ -38,7 +38,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import net.minidev.json.JSONArray;
 import com.jayway.jsonpath.JsonPath;
-import java.io.InputStream;
+import eu.operando.core.ose.services.HelperMethods;
 import java.util.Properties;
 
 /**
@@ -52,52 +52,27 @@ public class ConsentApiServiceImpl extends ConsentApiService {
     private String pdbBasePath = "http://integration.operando.esilab.org:8096/operando/core";
 
     Properties prop = null;
-
+    HelperMethods helpServices = new HelperMethods();
     /**
      * JAX-RS constructor that is created when the servlet is loaded. This is
      * done on the first call, not on the deployment of the server.
      */
     public ConsentApiServiceImpl() {
         super();
-
         //  get service config params
-        prop = loadServiceProperties();
+//        prop = helpServices.loadServiceProperties();
 //        loadParams();
     }
 
     /**
      * Get the configuration parameters needed for accessing the policy DB
      */
-    private void loadParams() {
-        // setup aapi client
-        if (prop.getProperty("pdb.upp.basepath") != null) {
-            pdbBasePath = prop.getProperty("pdb.upp.basepath");
-        }
-    }
-
-    /**
-     * Load the properties from the server configuration file.
-     * @return The parameters as Java properties.
-     */
-    private Properties loadServiceProperties() {
-        Properties props;
-        props = new Properties();
-
-        InputStream is = null;
-        try {
-            is = this.getClass().getClassLoader().getResourceAsStream("/service.properties");
-            props.load(is);
-        } catch (IOException e) {
-            System.err.println("Error reading Configuration service properties file" + e.getLocalizedMessage());
-        } finally {
-            try {
-                is.close();
-            } catch (IOException ex) {
-                System.err.println("Error reading Configuration service properties file" + ex.getLocalizedMessage());
-            }
-        }
-        return props;
-    }
+//    private void loadParams() {
+//        // setup aapi client
+//        if (prop.getProperty("pdb.upp.basepath") != null) {
+//            pdbBasePath = prop.getProperty("pdb.upp.basepath");
+//        }
+//    }
 
     /**
      * Get the set of Operando users in the PDB. Uses Apache HTTP to make the
