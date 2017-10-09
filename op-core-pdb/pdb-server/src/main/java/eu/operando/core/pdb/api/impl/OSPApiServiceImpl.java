@@ -81,7 +81,7 @@ public class OSPApiServiceImpl extends OSPApiService {
     String logdbSId = "ose/osps/.*";
     String aapiBasePath = "http://integration.operando.esilab.org:8135/operando/interfaces/aapi";
     String logdbBasePath = "http://integration.operando.esilab.org:8090/operando/core/ldb";
-    String oseBasePath = "http://integration.operando.esilab.org:8090/operando/core/ose";
+    String oseBasePath = "http://integration.operando.esilab.org:8094/operando/core/ose";
     String ospLoginName = "xxxxx";
     String ospLoginPassword = "xxxxx";
     String stHeaderName = "Service-Ticket";
@@ -581,7 +581,7 @@ public class OSPApiServiceImpl extends OSPApiService {
         String aPolicy = ospMongodb.getOSPById(ospId);
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        String ospIdentity = "YellowPages";
+        String ospIdentity = "";
         try {
             OSPPrivacyPolicy prObj = mapper.readValue(aPolicy, OSPPrivacyPolicy.class);
             ospIdentity = prObj.getPolicyUrl();
