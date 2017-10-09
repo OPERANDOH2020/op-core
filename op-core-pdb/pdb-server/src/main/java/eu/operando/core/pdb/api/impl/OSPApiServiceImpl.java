@@ -49,7 +49,6 @@ import javax.ws.rs.core.MediaType;
 import eu.operando.core.cas.client.api.DefaultApi;
 //import eu.operando.core.cas.client.ApiException;
 import eu.operando.core.cas.client.model.UserCredential;
-import eu.operando.core.pdb.common.model.OSPPrivacyPolicy;
 import io.swagger.client.ApiException;
 import io.swagger.client.model.LogRequest.LogTypeEnum;
 import java.io.IOException;
@@ -66,8 +65,6 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.ObjectMapper;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2017-02-20T12:05:17.950Z")
 public class OSPApiServiceImpl extends OSPApiService {
@@ -570,53 +567,53 @@ public class OSPApiServiceImpl extends OSPApiService {
     @Override
     public Response oSPOspIdPrivacyPolicyAccessReasonsReasonIdPut(String ospId, String reasonId, AccessReason ospPolicy, SecurityContext securityContext, HttpHeaders headers) throws NotFoundException {
 
-        Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP PUT Access Reason(id) {0}", ospId);
-
-        if (!validateHeaderSt(headers)) {
-            return Response.status(Response.Status.UNAUTHORIZED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
-                    "Error. The service ticket failed to validate.")).build();
-        }
-        /**
-         * Get the OSP friendly name
-         */
-        String aPolicy = ospMongodb.getOSPById(ospId);
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        String ospIdentity = "";
-        try {
-            OSPPrivacyPolicy prObj = mapper.readValue(aPolicy, OSPPrivacyPolicy.class);
-            ospIdentity = prObj.getPolicyUrl();
-        } catch (IOException ex) {
-            Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        callOSEComponent(ospIdentity, ospPolicy.toString());
-        logRequest("OSP PUT access reason", "PUT",
-                "OSP PUT access reason received",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.SYSTEM, ospId,
-                new ArrayList<String>(Arrays.asList(ospIdentity, ospPolicy.toString())));
-
-        boolean response = ospMongodb.accessReasonIdUpdate(ospId, reasonId, ospPolicy);
-
-        if (!response) {
-
-            logRequest("OSP PUT access reason", "PUT",
-                    "OSP PUT access reason failed",
-                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.SYSTEM, ospId,
-                    new ArrayList<String>(Arrays.asList("one", "two")));
-
-            return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
-                    "Error - the OSP access policies does not exist")).build();
-        }
-
-        logRequest("OSP PUT access reason", "PUT",
-                "OSP PUT access reason complete",
-                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.SYSTEM, ospId,
-                new ArrayList<String>(Arrays.asList("one", "two")));
-
-        // TODO return 204
-        //return Response.ok("OK", MediaType.APPLICATION_JSON).build();
-        return Response.status(Response.Status.NO_CONTENT).build();
+//        Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.INFO, "OSP PUT Access Reason(id) {0}", ospId);
+//
+//        if (!validateHeaderSt(headers)) {
+//            return Response.status(Response.Status.UNAUTHORIZED).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+//                    "Error. The service ticket failed to validate.")).build();
+//        }
+//        /**
+//         * Get the OSP friendly name
+//         */
+//        String aPolicy = ospMongodb.getOSPById(ospId);
+//        ObjectMapper mapper = new ObjectMapper();
+//        mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+//        String ospIdentity = "";
+//        try {
+//            OSPPrivacyPolicy prObj = mapper.readValue(aPolicy, OSPPrivacyPolicy.class);
+//            ospIdentity = prObj.getPolicyUrl();
+//        } catch (IOException ex) {
+//            Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//
+//        callOSEComponent(ospIdentity, ospPolicy.toString());
+//        logRequest("OSP PUT access reason", "PUT",
+//                "OSP PUT access reason received",
+//                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.SYSTEM, ospId,
+//                new ArrayList<String>(Arrays.asList(ospIdentity, ospPolicy.toString())));
+//
+//        boolean response = ospMongodb.accessReasonIdUpdate(ospId, reasonId, ospPolicy);
+//
+//        if (!response) {
+//
+//            logRequest("OSP PUT access reason", "PUT",
+//                    "OSP PUT access reason failed",
+//                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.SYSTEM, ospId,
+//                    new ArrayList<String>(Arrays.asList("one", "two")));
+//
+//            return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
+//                    "Error - the OSP access policies does not exist")).build();
+//        }
+//
+//        logRequest("OSP PUT access reason", "PUT",
+//                "OSP PUT access reason complete",
+//                LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.SYSTEM, ospId,
+//                new ArrayList<String>(Arrays.asList("one", "two")));
+//
+//        // TODO return 204
+//        //return Response.ok("OK", MediaType.APPLICATION_JSON).build();
+        return Response.status(Response.Status.OK).build();
     }
 
     @Override
