@@ -199,10 +199,8 @@ def handleSelect(request, addr):
         # let's check whether the query has the user id
         uID_split = re.findall('\((.*?)\)', addr)
         if  req_db != "YellowPages" and req_db !=  "built-in":
-            
             #if value does not exist this means that the response is one entity and not a set of ones
             if 'value' not in jsonResponse:
-               
                 usersValue = jsonResponse
                 counter = 0;
                 fields2query = []
@@ -481,19 +479,33 @@ def handleInsert(request, addr):
     ST = GetST()
     headers = {'service-ticket': ST, 'Content-Type': 'application/json',
                'Accept': '*/*', 'osp-identifier': req_db, 'psp-user-identifier': psp_user_identifier}
+
+    #get the userId from URL
+    uID_split = re.findall('\((.*?)\)', addr)
+    if len(uID_split) == 1:
+        userid = uID_split[0]
+
+    #get the model record
+    addrParts = addr.split("/")
+    model = addrParts[len(addrParts)-1]
+
     # have to check with PC whether this guy can insert.
-    res = getPCresponse(action="Insert", osp=req_db, userid="",
-                        requester_id=psp_user_identifier, subject="", urls=[])
-    # suppose that the response is true
-    r = requests.post(__DAN_url % addr, headers=headers,
+    policies = getPCresponse(action="Insert", osp=req_db, userid=userid,
+                        requester_id=psp_user_identifier, urls=[model+".record"], role=getUserRole(psp_user_identifier))
+
+    if policies["status"] == "true":
+        # suppose that the response is true
+        r = requests.post(__DAN_url % addr, headers=headers,
                       data=json.dumps(request.json), verify=False)
-    # return Response(r.text, status=200, mimetype='application/json')
-    if r.status_code == 200:
-        ks = json.loads(request.data)
-        #logdata("RM", "insert into table %s" % addr,"fieds:%s||status:%s" % (joinSTR(ks.keys()), "Granted"))
-        return Response(r.text, status=200, mimetype='application/json')
-    else:
-		return Response(r.text,status=r.status_code, mimetype='application/json')
+        # return Response(r.text, status=200, mimetype='application/json')
+        if r.status_code == 200:
+            ks = json.loads(request.data)
+            #logdata("RM", "insert into table %s" % addr,"fieds:%s||status:%s" % (joinSTR(ks.keys()), "Granted"))
+            return Response(r.text, status=200, mimetype='application/json')
+        else:
+            return Response(r.text,status=r.status_code, mimetype='application/json')
+
+    return Response("Permission Denied", status=401, mimetype='application/json')
 
 
 # this is an update

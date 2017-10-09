@@ -190,13 +190,12 @@ public class AccessReason   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class AccessReason {\n");
-
-    sb.append("    reasonid: ").append(toIndentedString(reasonid)).append("\n");
-    sb.append("    datauser: ").append(toIndentedString(datauser)).append("\n");
-    sb.append("    datasubjecttype: ").append(toIndentedString(datasubjecttype)).append("\n");
-    sb.append("    datatype: ").append(toIndentedString(datatype)).append("\n");
-    sb.append("    reason: ").append(toIndentedString(reason)).append("\n");
+    sb.append("{\n");
+    sb.append("\"reasonid\": \"").append(toIndentedString(reasonid)).append("\"\n");
+    sb.append("\"datauser\": \"").append(toIndentedString(datauser)).append("\"\n");
+    sb.append("\"datasubjecttype\": \"").append(toIndentedString(datasubjecttype)).append("\"\n");
+    sb.append("\"datatype\": \"").append(toIndentedString(datatype)).append("\"\n");
+    sb.append("\"reason\": \"").append(toIndentedString(reason)).append("\"\n");
     sb.append("}");
     return sb.toString();
   }

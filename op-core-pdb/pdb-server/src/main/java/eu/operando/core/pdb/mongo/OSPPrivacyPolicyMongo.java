@@ -438,9 +438,9 @@ public class OSPPrivacyPolicyMongo {
             ex.printStackTrace();
             return null;
         }
-        
+
         System.out.println("getPolicyOSPById(" + ospId + ");");
-        
+
         List<Document> result = (List<Document>) ospPPCollection.find(filter).into(new ArrayList<Document>());
 
         if (!result.isEmpty()) {
@@ -538,7 +538,7 @@ public class OSPPrivacyPolicyMongo {
      * @return
      */
     public boolean privacyPolicyAccessReasonsPost(String ospPolicyId, AccessReason accessReason) {
-        Boolean ret = null;
+        Boolean ret = false;
         System.out.println("accessReasonIdPost(" + ospPolicyId + ");");
 
         // find
@@ -560,6 +560,7 @@ public class OSPPrivacyPolicyMongo {
                 ObjectMapper mapper = new ObjectMapper();
                 mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
                 ospReasonObj = mapper.readValue(doc.toJson(), OSPReasonPolicy.class);
+                System.out.println(ospReasonObj);
                 //add policy id
                 //ospReasonObj.setOspPolicyId(doc.get("_id").toString());
             } catch (JsonGenerationException e) {

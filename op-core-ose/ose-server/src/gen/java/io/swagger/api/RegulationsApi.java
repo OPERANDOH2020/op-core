@@ -40,7 +40,6 @@ import javax.ws.rs.*;
 
 @Path("/regulations")
 
-
 @io.swagger.annotations.Api(description = "the regulations API")
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-04-25T15:37:02.222Z")
 public class RegulationsApi  {

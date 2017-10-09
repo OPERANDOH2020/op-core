@@ -26,9 +26,10 @@ package eu.operando.core.ose.api.impl;
 
 
 
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
 import io.swagger.api.NotFoundException;
-import eu.operando.core.cas.client.api.DefaultApi;
-import eu.operando.core.cas.client.model.UserCredential;
 import eu.operando.core.ose.mongo.RegulationsMongo;
 import eu.operando.core.ose.services.RegulationWorkflow;
 import eu.operando.core.pdb.common.model.PrivacyRegulation;
@@ -46,13 +47,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.Timer;
-import java.util.TimerTask;
-import javax.ws.rs.core.HttpHeaders;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -63,7 +61,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
     // LogDB
     LogApi logApi;
     // AAPI
-    DefaultApi aapiClient;
+//    DefaultApi aapiClient;
 
     String oseRegSId = "ose/osps/.*";
     String logdbSId = "ose/osps/.*";
@@ -81,46 +79,93 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
     Timer timer;
 
     Properties prop = null;
-    
+
+    Client client = new Client();
+    String aapiUser = "http://integration.operando.esilab.org:8135/operando/interfaces/aapi/user/register";
+
+    private String jsonUser(String username, String password, String userType) {
+        String content = "{\n" +
+        "  \"optionalAttrs\": [\n" +
+        "    {\n" +
+        "      \"attrName\": \"user_type\",\n" +
+        "      \"attrValue\": \""+ userType + "\"\n" +
+        "    }\n" +
+        "  ],\n" +
+        "  \"password\": \""+ password + "\",\n" +
+        "  \"privacySettings\": [\n" +
+        "    {\n" +
+        "      \"settingName\": \"string\",\n" +
+        "      \"settingValue\": \"string\"\n" +
+        "    }\n" +
+        "  ],\n" +
+        "  \"requiredAttrs\": [\n" +
+        "    {\n" +
+        "      \"attrName\": \"string\",\n" +
+        "      \"attrValue\": \"string\"\n" +
+        "    }\n" +
+        "  ],\n" +
+        "  \"username\": \""+ username + "\"\n" +
+        "}";
+        return content;
+    }
+
+    private ClientResponse callAPI(String content){
+        WebResource webResourcePDB = client.resource(aapiBasePath);
+        ClientResponse policyResponse = webResourcePDB.type("application/json").post(ClientResponse.class,
+                    content);
+        return policyResponse;
+    }
+
     public RegulationsApiServiceImpl() {
-//        this.apiClient = new ApiClient();
-//        this.apiClient.setBasePath("http://integration.operando.esilab.org:8090/operando/core/ldb");
-//        this.logApi = new LogApi(this.apiClient);
-    
         super();
-        
+        System.out.println("Constructor called");
+
         //  get service config params
         prop = loadServiceProperties();
         loadParams();
 
-        // setup aapi client     
-        eu.operando.core.cas.client.ApiClient aapiDefaultClient = new eu.operando.core.cas.client.ApiClient();
-        aapiDefaultClient.setBasePath(aapiBasePath);
-        this.aapiClient = new DefaultApi(aapiDefaultClient);
+        // setup aapi client
+//        eu.operando.core.cas.client.ApiClient aapiDefaultClient = new eu.operando.core.cas.client.ApiClient();
+//        aapiDefaultClient.setBasePath(aapiUser);
+//        this.aapiClient = new DefaultApi(aapiDefaultClient);
 
-        // setup logdb client        
+        // setup logdb client
         final ApiClient apiClient = new ApiClient();
         apiClient.setBasePath(logdbBasePath);
 
-        TimerTask timerTask = new TimerTask() {
-            //@Override
-            public void run() {
-                Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.INFO, "reg TIMER RUN now");
-                logdbST = getServiceTicket(regLoginName, regLoginPassword, logdbSId);
-                apiClient.addDefaultHeader(stHeaderName, logdbST);
-            }
-        };
+//        TimerTask timerTask = new TimerTask() {
+//            //@Override
+//            public void run() {
+//                Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.INFO, "reg TIMER RUN now");
+//                logdbST = getServiceTicket(regLoginName, regLoginPassword, logdbSId);
+//                apiClient.addDefaultHeader(stHeaderName, logdbST);
+//            }
+//        };
 
-        timer = new Timer();
-        timer.scheduleAtFixedRate(timerTask, 0, ticketLifeTime);
-
-        // get service ticket for logdb service
-        logdbST = getServiceTicket(regLoginName, regLoginPassword, logdbSId);
-        apiClient.addDefaultHeader(stHeaderName, logdbST);
+//        timer = new Timer();
+//        timer.scheduleAtFixedRate(timerTask, 0, ticketLifeTime);
+//
+//        // get service ticket for logdb service
+//        logdbST = getServiceTicket(regLoginName, regLoginPassword, logdbSId);
+//        apiClient.addDefaultHeader(stHeaderName, logdbST);
         this.logApi = new LogApi(apiClient);
 
         // setup mongo part
         //ospsMongodb = new RegulationsMongo(mongoServerHost, mongoServerPort);
+        ClientResponse callAPI = callAPI(jsonUser("normal", "user", "normal_user"));
+        System.out.println("Normal User, POST status code:" + callAPI.getStatus());
+
+        callAPI = callAPI(jsonUser("osp", "admin", "osp_admin"));
+        System.out.println("OSP admin User, POST status code:" + callAPI.getStatus());
+
+        callAPI = callAPI(jsonUser("privacy", "analyst", "privacy_analyst"));
+        System.out.println("PA User, POST status code:" + callAPI.getStatus());
+
+        callAPI = callAPI(jsonUser("psp", "admin", "psp_admin"));
+        System.out.println("PSP admin User, POST status code:" + callAPI.getStatus());
+
+        callAPI = callAPI(jsonUser("ospregulator", "regulator", "regulator"));
+        System.out.println("Regulator, POST status code:" + callAPI.getStatus());
     }
 
     private void loadParams() {
@@ -169,7 +214,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
         } catch (IOException e) {
             // Display to console for debugging purposes.
             System.err.println("Error reading Configuration service properties file");
-            // Add logging code to log an error configuring the API on startup        
+            // Add logging code to log an error configuring the API on startup
         } finally {
             try {
                 is.close();
@@ -180,57 +225,57 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
         return props;
     }
 
-    private String getServiceTicket(String username, String password, String serviceId) {
-        String st = null;
-
-        UserCredential userCredential = new UserCredential();
-        userCredential.setUsername(username);
-        userCredential.setPassword(password);
-
-        try {
-            String tgt = aapiClient.aapiTicketsPost(userCredential);
-            System.out.println("ose osps service TGT: " + tgt);
-            st = aapiClient.aapiTicketsTgtPost(tgt, serviceId);
-            System.out.println("logdb osps service ticket: " + st);
-
-        } catch (eu.operando.core.cas.client.ApiException ex) {
-            ex.printStackTrace();
-        }
-        return st;
-    }
-
-    private boolean aapiTicketsStValidateGet(String st) {
-        try {
-            aapiClient.aapiTicketsStValidateGet(st, oseRegSId);
-        } catch (eu.operando.core.cas.client.ApiException ex) {
-            ex.printStackTrace();
-        }
-        return false;
-    }
-
-    private boolean validateHeaderSt(HttpHeaders headers) {
-        return true;
-    }
-
-    private boolean validateHeaderSt1(HttpHeaders headers) {
-        if (headers != null) {
-            List<String> stHeader = headers.getRequestHeader(stHeaderName);
-            if (stHeader != null) {
-                String st = stHeader.get(0);
-                try {
-                    aapiClient.aapiTicketsStValidateGet(st, oseRegSId);
-                    Logger.getLogger(RegulationsApiServiceImpl.class.getName()).log(Level.INFO,
-                            "Service Ticket validation succeeded");
-                    return true;
-                } catch (eu.operando.core.cas.client.ApiException ex) {
-                    Logger.getLogger(RegulationsApiServiceImpl.class.getName()).log(Level.WARNING,
-                            "Service Ticket validation failed: {0}", ex.getMessage());
-                    return false;
-                }
-            }
-        }
-        return false;
-    }
+//    private String getServiceTicket(String username, String password, String serviceId) {
+//        String st = null;
+//
+//        UserCredential userCredential = new UserCredential();
+//        userCredential.setUsername(username);
+//        userCredential.setPassword(password);
+//
+//        try {
+//            String tgt = aapiClient.aapiTicketsPost(userCredential);
+//            System.out.println("ose osps service TGT: " + tgt);
+//            st = aapiClient.aapiTicketsTgtPost(tgt, serviceId);
+//            System.out.println("logdb osps service ticket: " + st);
+//
+//        } catch (eu.operando.core.cas.client.ApiException ex) {
+//            ex.printStackTrace();
+//        }
+//        return st;
+//    }
+//
+//    private boolean aapiTicketsStValidateGet(String st) {
+//        try {
+//            aapiClient.aapiTicketsStValidateGet(st, oseRegSId);
+//        } catch (eu.operando.core.cas.client.ApiException ex) {
+//            ex.printStackTrace();
+//        }
+//        return false;
+//    }
+//
+//    private boolean validateHeaderSt(HttpHeaders headers) {
+//        return true;
+//    }
+//
+//    private boolean validateHeaderSt1(HttpHeaders headers) {
+//        if (headers != null) {
+//            List<String> stHeader = headers.getRequestHeader(stHeaderName);
+//            if (stHeader != null) {
+//                String st = stHeader.get(0);
+//                try {
+//                    aapiClient.aapiTicketsStValidateGet(st, oseRegSId);
+//                    Logger.getLogger(RegulationsApiServiceImpl.class.getName()).log(Level.INFO,
+//                            "Service Ticket validation succeeded");
+//                    return true;
+//                } catch (eu.operando.core.cas.client.ApiException ex) {
+//                    Logger.getLogger(RegulationsApiServiceImpl.class.getName()).log(Level.WARNING,
+//                            "Service Ticket validation failed: {0}", ex.getMessage());
+//                    return false;
+//                }
+//            }
+//        }
+//        return false;
+//    }
 
     private void logRequest(String requesterId, String title, String description,
             LogLevelEnum logDataType, LogPriorityEnum logPriority,
@@ -250,6 +295,7 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
         logRequest.setRequesterId(requesterId);
         logRequest.setRequesterType(LogRequest.RequesterTypeEnum.PROCESS);
         logRequest.setKeywords(words);
+        logRequest.setLogType(LogRequest.LogTypeEnum.OTHER);
 
         try {
             String response = this.logApi.lodDB(logRequest);
