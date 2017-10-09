@@ -58,7 +58,6 @@ public class TestHelperMethods {
     private String PDB_OSP_URL;
     private String PDB_REGS_URL;
     private String PC_URL;
-    private String OSE_URL = "http://integration.operando.esilab.org:8094/operando/core/ose/osps/YellowPages/reason";
 
     private final Client client;
 
@@ -269,84 +268,6 @@ public class TestHelperMethods {
     }
 
     /**
-     * Add the OSP policy to PDB module via the OSP API.
-     * @param fileLoc The json file with the content
-     * @return The ID of the created OSP policy
-     */
-    public String createOSPReason(String ospId, String fileLoc) {
-
-        InputStream fis = null;
-        try {
-            fis = this.getClass().getClassLoader().getResourceAsStream(fileLoc);
-            String content = CharStreams.toString(new InputStreamReader(fis, Charsets.UTF_8));
-            Closeables.closeQuietly(fis);
-
-            WebResource webResourcePDB = client.resource(PDB_OSP_URL + "/" + ospId + "/privacy-policy/");
-            ClientResponse policyResponse = webResourcePDB.type("application/json").put(ClientResponse.class,
-                    content);
-
-            System.out.println("POST " + fileLoc + "status code:" + policyResponse.getStatus());
-
-            if (policyResponse.getStatus() != 201) {
-                System.err.println("POST " + fileLoc + "error message:" + policyResponse.getEntity(String.class));
-                return null;
-            }
-
-            return ospQuerybyFriendlyName(JsonPath.parse(content).read("$.policy_url", String.class));
-        } catch (IOException e) {
-            // Display to console for debugging purposes.
-            System.err.println("POST " + fileLoc + "Error creating UPP in pdb - " + e.getLocalizedMessage());
-            return null;
-        }
-    }
-
-    /**
-     * Add the OSP policy to PDB module via the OSP API.
-     * @param fileLoc The json file with the content
-     * @return The ID of the created OSP policy
-     */
-    public String changeOSPReason(String ospId, String reason, String reasonId) {
-
-
-            WebResource webResourcePDB = client.resource(PDB_OSP_URL + "/" + ospId + "/privacy-policy/access-reasons/" + reasonId);
-            ClientResponse policyResponse = webResourcePDB.type("application/json").put(ClientResponse.class,
-                    reason);
-
-            System.out.println("POST " + reason + "status code:" + policyResponse.getStatus());
-
-            if (policyResponse.getStatus() != 201) {
-                System.err.println("POST " + reason + "error message:" + policyResponse.getEntity(String.class));
-                return null;
-            }
-
-            return ospQuerybyFriendlyName(JsonPath.parse(reason).read("$.policy_url", String.class));
-
-    }
-
-    /**
-     * Add the OSP policy to PDB module via the OSP API.
-     * @param fileLoc The json file with the content
-     * @return The ID of the created OSP policy
-     */
-    public String updateOSEReason(String ospId, String reason) {
-
-
-            WebResource webResourcePDB = client.resource(OSE_URL);
-            ClientResponse policyResponse = webResourcePDB.type("application/json").put(ClientResponse.class,
-                    reason);
-
-            System.out.println("POST " + reason + "status code:" + policyResponse.getStatus());
-
-            if (policyResponse.getStatus() != 201) {
-                System.err.println("POST " + reason + "error message:" + policyResponse.getEntity(String.class));
-                return null;
-            }
-
-            return ospQuerybyFriendlyName(JsonPath.parse(reason).read("$.policy_url", String.class));
-
-    }
-
-    /**
      * Post regulation to Policy DB
      */
     public String postPCRegulation(String regID) {
@@ -525,37 +446,5 @@ public class TestHelperMethods {
            return pcServiceResponse.getEntity(String.class);
         }
         return pcServiceResponse.getEntity(String.class);
-    }
-
-    /**
-     * Invoke the PC API to compute the UPP for a user for this new OSP policy.
-     * Called when a user subscribes to a new OSP
-     * @param ospId The OperandoID of the OSP to subscribe to.
-     * @param fileLoc The location of the reason policy as JSON
-     * @return The result message string (info from the HTTP call).
-     */
-    public String putReasonPolicy(String ospId, String fileLoc) {
-        InputStream fis = null;
-        try {
-            fis = this.getClass().getClassLoader().getResourceAsStream(fileLoc);
-            String content = CharStreams.toString(new InputStreamReader(fis, Charsets.UTF_8));
-            Closeables.closeQuietly(fis);
-
-            String reasonURL = PDB_OSP_URL+ "/" + ospId + "/privacy-policy";
-
-            WebResource webResourcePDB = client.resource(reasonURL);
-            ClientResponse policyResponse = webResourcePDB.type("application/json").put(ClientResponse.class,
-                    content);
-            System.out.println("POST " + fileLoc + "status code:" + policyResponse.getStatus());
-            if (policyResponse.getStatus() != 201) {
-                System.err.println("POST " + fileLoc + "error message:" + policyResponse.getEntity(String.class));
-                return null;
-            }
-            return ospQuerybyFriendlyName(JsonPath.parse(content).read("$.policy_url", String.class));
-        } catch (IOException e) {
-            // Display to console for debugging purposes.
-            System.err.println("POST " + fileLoc + "Error creating UPP in pdb - " + e.getLocalizedMessage());
-            return null;
-        }
     }
 }

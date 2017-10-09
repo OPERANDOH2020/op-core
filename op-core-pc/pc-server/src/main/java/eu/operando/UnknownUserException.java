@@ -29,7 +29,8 @@ package eu.operando;
 
 /**
  * Exception that occurs when a method concerns a user id that does not currently
- * exist in the OPERANDO PSP platform database.
+ * exist in the OPERANDO PSP platform database. Generally, this will be
+ * because the client .
  *
  * @author pjg
  */

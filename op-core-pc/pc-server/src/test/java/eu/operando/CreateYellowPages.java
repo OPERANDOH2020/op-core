@@ -10,7 +10,7 @@
 // on any media by any person other than in accordance with the terms
 // of the Licence Agreement supplied with the software, or otherwise
 // without the prior written consent of the copyright owners.
-
+//
 // This software is distributed WITHOUT ANY WARRANTY, without even the
 // implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 // PURPOSE, except where stated in the Licence Agreement supplied with
@@ -36,27 +36,10 @@ package eu.operando;
 public class CreateYellowPages {
     public static void main(String[] args) {
         TestHelperMethods tMethods = new TestHelperMethods();
-        String accessReason = "{\n" +
-"        \"reasonid\": \"8\",\n" +
-"        \"datauser\": \"doctor\",\n" +
-"        \"datasubjecttype\": \"patient\",\n" +
-"        \"datatype\": \"Financial\",\n" +
-"        \"reason\": \"Medical Treatment\"\n" +
-"      }";
-
-//        System.out.println(tMethods.createOSPReason("59dadf47ee358800334d74f7", "reasonPolicy.json"));
-//        System.out.println(tMethods.updateOSEReason("YellowPages", accessReason));
-
-        System.out.println(tMethods.changeOSPReason("59dadf47ee358800334d74f7", accessReason, "8"));
-
 //        System.out.println(tMethods.createOSP("yellowpages.json"));
 //        System.out.println(tMethods.createOSP("ami.json"));
-//        System.out.println(tMethods.createOSP("aslbergamo_il.json"));
-//        System.out.println(tMethods.createOSP("aslbergamo_gat.json"));
-//        System.out.println(tMethods.createOSP("gaslini.json"));
-//        System.out.println(tMethods.deleteOSP("59d2f560ee358800339c929f"));
-//        System.out.println(tMethods.deleteOSP("599ff384ee35880033141631"));
-//        System.out.println(tMethods.deleteOSP("599fe63fee3588003314162f"));
+        System.out.println(tMethods.createOSP("aslbergamo_gat.json"));
+//        System.out.println(tMethods.deleteOSP("59141974ee35880033b27479"));
 
     }
 

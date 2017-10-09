@@ -32,12 +32,6 @@ import java.util.Properties;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2017-06-30T09:37:51.622Z")
 public class QuestionsApiServiceImpl extends QuestionsApiService {
 
@@ -46,7 +40,6 @@ public class QuestionsApiServiceImpl extends QuestionsApiService {
 
     private final String GENERALCATEGORY = "GENERAL";
     private String PDBURL;
-    private String PC_URL;
 
     public QuestionsApiServiceImpl() {
         super();
@@ -54,9 +47,6 @@ public class QuestionsApiServiceImpl extends QuestionsApiService {
 
         if (props.getProperty("pdb.url") != null) {
             PDBURL = props.getProperty("pdb.url");
-        }
-        if (props.getProperty("pc.api") != null) {
-            PC_URL = props.getProperty("pc.api");
         }
         ApiClient apCl = new ApiClient();
         apCl.setBasePath(PDBURL);
@@ -89,36 +79,31 @@ public class QuestionsApiServiceImpl extends QuestionsApiService {
 
     @Override
     public Response questionsUserIdOspIdGet(String userId, String ospId, String language, SecurityContext securityContext) throws NotFoundException {
-        System.out.println("user: "+ userId);
-        System.out.println("osp: "+ ospId);
-        System.out.println("language: "+ language);
+        
         try {
             boolean answeredGeneral = false;
-//            try {
-//                /**
-//                 * Get the UPP of the user. If there is a preference with
-//                 * GENERAL don't ask the GENERAL question again.
-//                 */
-//                UserPrivacyPolicy response = upp_api.userPrivacyPolicyUserIdGet(userId);
-//                System.out.println("upp = " + response);
-//                if (response != null) {
-//                    List<UserPreference> userPreferences = response.getUserPreferences();
-//                    for (UserPreference pref : userPreferences) {
-//                        System.out.println("pref = " + pref.getCategory());
-//                        if (pref.getCategory().equalsIgnoreCase(GENERALCATEGORY)) {
-//                            answeredGeneral = true;
-//                            System.out.println("Found general");
-//                            break;
-//                        }
-//                    }
-//                }
-//            } catch (eu.operando.core.pdb.client1.ApiException ex) {
-//                /**
-//                 * Default option where the UPP hasn't been created yet.
-//                 */
-//                ex.printStackTrace();
-//                answeredGeneral = false;
-//            }
+            try {
+                /**
+                 * Get the UPP of the user. If there is a preference with
+                 * GENERAL don't ask the GENERAL question again.
+                 */                
+                UserPrivacyPolicy response = upp_api.userPrivacyPolicyUserIdGet(userId);
+
+                if (response != null) {
+                    List<UserPreference> userPreferences = response.getUserPreferences();
+                    for (UserPreference pref : userPreferences) {
+                        if (pref.getInformationtype().equalsIgnoreCase(GENERALCATEGORY)) {
+                            answeredGeneral = true;
+                            break;
+                        }
+                    }
+                }
+            } catch (eu.operando.core.pdb.client1.ApiException ex) {
+                /**
+                 * Default option where the UPP hasn't been created yet.
+                 */
+                answeredGeneral = false;
+            }
 
             PrivacyQuestionsService serv = new PrivacyQuestionsService();
             List<Questionobject> questions = new ArrayList<>();
@@ -136,9 +121,7 @@ public class QuestionsApiServiceImpl extends QuestionsApiService {
                  * reason policy. Then extract the data categories and the roles
                  * from it.
                  */
-                System.out.println("osp: " + osp_api);
                 OSPReasonPolicy response = osp_api.oSPOspIdPrivacyPolicyGet(ospId);
-                System.out.println("Response: " + response);
                 List<AccessReason> policies = response.getPolicies();
 
                 List<Questionobject> catQuestions = serv.getCategoryQuestions(policies, language);
@@ -151,7 +134,6 @@ public class QuestionsApiServiceImpl extends QuestionsApiService {
                  * Default option - is to return questions about Personal and
                  * Contact
                  */
-                ex.printStackTrace();
                 questions.addAll(serv.getDefaultQuestions(language));
             }
 
@@ -169,7 +151,7 @@ public class QuestionsApiServiceImpl extends QuestionsApiService {
     }
 
     @Override
-    public Response questionsUserIdOspIdPost(String userId, String osp, List<Questionobject> questionInput, SecurityContext securityContext) throws NotFoundException {
+    public Response questionsUserIdOspIdPost(String userId, List<Questionobject> questionInput, SecurityContext securityContext) throws NotFoundException {
         System.out.println("User id: " + userId);
         try {
             List<Answerobject> answers = new ArrayList<Answerobject>();
@@ -183,7 +165,7 @@ public class QuestionsApiServiceImpl extends QuestionsApiService {
                 }
                 cats.add(inputQuestion);
             }
-
+            
             List<UserPreference> prefs = new ArrayList<>();
 
             for (Map.Entry<String, List<Questionobject>> entry : inputs.entrySet()) {
@@ -199,7 +181,6 @@ public class QuestionsApiServiceImpl extends QuestionsApiService {
                     newPref.setAction("ALL");
                     newPref.setRole("ALL");
                     newPref.setInformationtype("ALL");
-                    newPref.setPreference(answer.getScore());
                     prefs.add(newPref);
                 } else if (key.equalsIgnoreCase("TRUST")) {
                     List<Questionobject> value = entry.getValue();
@@ -215,7 +196,6 @@ public class QuestionsApiServiceImpl extends QuestionsApiService {
                         newPref.setRole(questionTrust.getWeight());
                         newPref.setInformationtype("ALL");
                         prefs.add(newPref);
-                        newPref.setPreference(answer.getScore());
                     }
                 } else {
                     Sensitivity score = SensitivityCalculation.CategorySensitivityIndex(entry.getValue());
@@ -229,11 +209,10 @@ public class QuestionsApiServiceImpl extends QuestionsApiService {
                     newPref.setRole("ALL");
                     newPref.setInformationtype("ALL");
                     prefs.add(newPref);
-                    newPref.setPreference(answer.getScore());
                 }
 
             }
-
+            
             // Store the answers in the user preferences of the UPP
             UserPrivacyPolicy upp = null;
             boolean putOrPost = false;
@@ -254,7 +233,7 @@ public class QuestionsApiServiceImpl extends QuestionsApiService {
             }
             try {
                 upp.setUserPreferences(prefs);
-                if(putOrPost)
+                if(putOrPost) 
                     upp_api.userPrivacyPolicyPost(upp);
                 else
                     upp_api.userPrivacyPolicyUserIdPut(userId, upp);
@@ -263,45 +242,15 @@ public class QuestionsApiServiceImpl extends QuestionsApiService {
                 System.out.println("exception " + ex.getMessage());
                 return Response.status(Response.Status.NOT_FOUND).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "Could not find user id")).build();
             }
-
+            
             // Process the General Questions; Query for answers with category general
             ObjectMapper objectMapper = new ObjectMapper();
             String arrayToString = objectMapper.writeValueAsString(answers);
-
-            computePC(userId, osp);
-
             return Response.status(Response.Status.OK).entity(arrayToString).build();
         } catch (InvalidAnswerException ex) {
             return Response.status(Response.Status.BAD_REQUEST).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "Invalid answer input")).build();
         } catch (JsonProcessingException ex) {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "Servier Error" + ex.getMessage())).build();
-        }
-    }
-
-    /**
-     * Invoke the PC API to compute the UPP for a user for this new OSP policy.
-     * Called when a user subscribes to a new OSP
-     * @param userId The OperandoID of the user subscribing.
-     * @param ospId The OperandoID of the OSP to subscribe to.
-     * @return The result message string (info from the HTTP call).
-     */
-    public boolean computePC(String userId, String ospId) {
-
-        try {
-            String urlInv = PC_URL + "/osp_policy_computer?user_id=" + userId +"&osp_id=" + ospId;
-            CloseableHttpClient httpclient = HttpClients.createDefault();
-            HttpPost httpget = new HttpPost(urlInv);
-            httpget.setHeader("Content-Type", "application/json");
-            CloseableHttpResponse response1 = httpclient.execute(httpget);
-
-            HttpEntity entity = response1.getEntity();
-            System.out.println(response1.getStatusLine().getStatusCode());
-            if(response1.getStatusLine().getStatusCode()!= 200) {
-                return false;
-            }
-            return true;
-        } catch (IOException ex) {
-            return false;
         }
     }
 }

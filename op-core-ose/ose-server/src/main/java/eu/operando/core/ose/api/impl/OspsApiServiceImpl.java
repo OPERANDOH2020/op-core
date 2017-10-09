@@ -264,13 +264,15 @@ public class OspsApiServiceImpl extends OspsApiService {
             throws NotFoundException {
 
 
-        String changeMessage = "New reason for accessing your data: ";
+        String changeMessage = "The OSP (" + ospId + ") has updated their privacy policy. The following is their"
+                + " new reason for accessing your data: \n";
 
-            changeMessage += "A " + ospPrivacyText.getDatauser() + " can use a " + ospPrivacyText.getDatasubjecttype() + "s " +
-                    ospPrivacyText.getDatatype() + " data for the purpose of " + ospPrivacyText.getReason() + ".";
+            changeMessage += "A " + ospPrivacyText.getDatauser() + "can use a " + ospPrivacyText.getDatasubjecttype() + "'s " +
+                    ospPrivacyText.getDatatype() + "data for the purpose of " + ospPrivacyText.getReason() + ".\n";
 
-        changeMessage += "Your access preferences have been updated to prevent access to this data until you "
-                + "consent to this change. Please visit the access preferences to review your settings. ";
+
+        changeMessage += "Your access preferences have been updated to prevent access to this data until you"
+                + "consent to this change. Please visit the access preferences page and review your settings.";
 
         /**
          * Create a set of logs about each change. The user needs to review. First
@@ -285,7 +287,7 @@ public class OspsApiServiceImpl extends OspsApiService {
         List<String> jsonUsers = getSubscribedUsersList(ospId, all_user_policies);
 
         for(String userId: jsonUsers) {
-            logUserRequest(ospId, ospId + " privacy policy change",
+            logUserRequest(ospId, "OSP Privacy Policy Change",
                  changeMessage,
                 LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogRequest.LogTypeEnum.NOTIFICATION, userId,
                 new ArrayList<String>(Arrays.asList("POST")));

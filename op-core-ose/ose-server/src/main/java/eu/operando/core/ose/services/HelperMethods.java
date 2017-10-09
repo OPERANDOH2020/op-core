@@ -139,7 +139,7 @@ public class HelperMethods {
             LogRequest.LogLevelEnum logLevel, LogRequest.LogPriorityEnum logPriority, LogRequest.LogTypeEnum logType,
             String affectedId, ArrayList<String> keywords) {
 
-        ArrayList<String> words = new ArrayList<String>(Arrays.asList("OSE", "OSP"));
+        ArrayList<String> words = new ArrayList<String>(Arrays.asList("PDB", "UPP"));
         for (String word : keywords) {
             words.add(word);
         }
@@ -155,6 +155,7 @@ public class HelperMethods {
         logRequest.setRequesterId(requesterId);
         logRequest.setLogType(logType);
         logRequest.setAffectedUserId(affectedId);
+
         logRequest.setKeywords(words);
 
         try {

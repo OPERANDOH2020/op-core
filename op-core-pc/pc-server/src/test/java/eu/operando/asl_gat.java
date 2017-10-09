@@ -87,7 +87,7 @@ public class asl_gat {
     private static final String ROLE1 = "ASL Bergamo - GAT - Doctor";
     private static final String ROLE2 = "ASL Bergamo - GAT - Patient";
     private static final String ACTION = "SELECT";
-    private static final String USER = "78";
+    private static final String USER = "76";
 
 
     /**

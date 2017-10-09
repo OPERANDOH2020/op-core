@@ -62,7 +62,7 @@ public class YP301Test {
     private static final String ROLE2 = "Receptionist";
     private static final String ROLE3 = "WebsiteAdmins";
 
-    private static final String ACTION = "TREE";
+    private static final String ACTION = "SELECT";
 
     /**
      * A set of tests to check how the PC component evaluates requests
@@ -74,16 +74,20 @@ public class YP301Test {
 
         TestHelperMethods tMethods = new TestHelperMethods();
         long time1 = System.currentTimeMillis();
-
+        for(int k=0; k<100; k++){
+            for(int i=0; i<25; i++){
+                int role = 301 + i;
+                String roleid = String.valueOf(role);
                 String accessRequest = tMethods.createRequest(FIELDIDS, ROLE1, OSPID, ACTION);
+                System.out.println(k + " Doctor trying to access fields: " + roleid);
                 System.out.println("-------------------------------------------------");
-                System.out.println(tMethods.evaluatePC("301", OSPID, accessRequest));
+                System.out.println(tMethods.evaluatePC(roleid, OSPID, accessRequest));
                 System.out.println("-------------------------------------------------");
-
+            }
             long time2 = System.currentTimeMillis();
             System.out.println("The time taken = " + (time2-time1));
-
-        accessRequest = tMethods.createRequest(FIELDIDS, ROLE2, OSPID, ACTION);
+        }
+        String accessRequest = tMethods.createRequest(FIELDIDS, ROLE2, OSPID, ACTION);
         System.out.println("Receptionist trying to access fields: ");
         System.out.println("-------------------------------------------------");
         System.out.println(tMethods.evaluatePC(USER, OSPID, accessRequest));

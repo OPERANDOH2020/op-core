@@ -44,10 +44,9 @@ public class QuestionsApi  {
 
         @io.swagger.annotations.ApiResponse(code = 404, message = "The error failed.", response = Answerobject.class, responseContainer = "List") })
     public Response questionsUserIdOspIdPost(@ApiParam(value = "The user identifier number",required=true) @PathParam("user-id") String userId
-            ,@ApiParam(value = "The identifier number of an OSP",required=true) @PathParam("osp-id") String ospId
             ,@ApiParam(value = "The answers to the questions" ,required=true) List<Questionobject> questionInput
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.questionsUserIdOspIdPost(userId, ospId, questionInput, securityContext);
+        return delegate.questionsUserIdOspIdPost(userId, questionInput,securityContext);
     }
 }
