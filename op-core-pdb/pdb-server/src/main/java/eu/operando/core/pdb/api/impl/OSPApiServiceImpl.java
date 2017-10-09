@@ -581,7 +581,7 @@ public class OSPApiServiceImpl extends OSPApiService {
         String aPolicy = ospMongodb.getOSPById(ospId);
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        String ospIdentity = ospId;
+        String ospIdentity = "YellowPages";
         try {
             OSPPrivacyPolicy prObj = mapper.readValue(aPolicy, OSPPrivacyPolicy.class);
             ospIdentity = prObj.getPolicyText();
