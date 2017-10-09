@@ -33,7 +33,11 @@ import com.sun.jersey.api.client.ClientHandlerException;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
+import eu.operando.HelperMethods;
+import eu.operando.PolicyComputerService;
 import eu.operando.PolicyEvaluationService;
+import eu.operando.UnknownOSPException;
+import eu.operando.UnknownUserException;
 //import eu.operando.core.cas.client.api.DefaultApi;
 import eu.operando.core.pdb.common.model.AccessPolicy;
 import io.swagger.api.*;
@@ -54,12 +58,6 @@ import java.util.logging.Logger;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import net.minidev.json.JSONArray;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 
 //import io.swagger.client.api.LogApi;
 
@@ -71,6 +69,10 @@ public class OspPolicyComputerApiServiceImpl extends OspPolicyComputerApiService
      * This stores the reference, so HTTP REST calls can be made.
      */
     public static String PDB_BASEURL = null;
+    public static String UPP_BASEURL = null;
+    public static String OSP_BASEURL = null;
+
+    public HelperMethods helpMethods;
 
 //    // LogDB endpoint
 //    LogApi logApi;
@@ -81,6 +83,7 @@ public class OspPolicyComputerApiServiceImpl extends OspPolicyComputerApiService
      * Reference to the core implementation of this API
      */
     private final PolicyEvaluationService policyService;
+    private final PolicyComputerService policyCompute;
 
     /**
      * The configuration of local state for the API object. Simply creates
@@ -88,8 +91,11 @@ public class OspPolicyComputerApiServiceImpl extends OspPolicyComputerApiService
      */
     public OspPolicyComputerApiServiceImpl() {
         super();
-	Properties props = loadDbProperties();
+
+        helpMethods = new HelperMethods();
+	loadDbProperties();
         policyService = PolicyEvaluationService.getInstance();
+        policyCompute = new PolicyComputerService();
 
         // setup aapi client
 //        eu.operando.core.cas.client.ApiClient aapiDefaultClient = new eu.operando.core.cas.client.ApiClient();
@@ -155,6 +161,13 @@ public class OspPolicyComputerApiServiceImpl extends OspPolicyComputerApiService
         if (props.getProperty("pdb.baseurl") != null) {
             PDB_BASEURL = props.getProperty("pdb.baseurl");
         }
+        if (props.getProperty("pdb.upp") != null) {
+            UPP_BASEURL = props.getProperty("pdb.upp");
+        }
+        if (props.getProperty("pdb.osp") != null) {
+            OSP_BASEURL = props.getProperty("pdb.osp");
+        }
+
         // load aapi client params
 //        if (props.getProperty("aapi.basepath") != null) {
 //            aapiBasePath = prop.getProperty("aapi.basepath");
@@ -168,89 +181,89 @@ public class OspPolicyComputerApiServiceImpl extends OspPolicyComputerApiService
         return props;
     }
 
+    /**
+     * Computes the UPP policy for a specific G2C OSP.
+     * This is a computational resource accessed via a REST POST call
+     * to carry out a computation on the provided inputs. This results in a
+     * resource that is created and stored in the Policy DB and can be
+     * accessed by the URL returned as a result of this operation. In OPERANDO,
+     * this method is called by the management console when a user subscribes
+     * to a new OSP service. The user simply enters answers the specific OSP
+     * questionnaire. This will create a simple UPP for that OSP and store
+     * this policy within the larger UPP record.
+
+     * @param userId The user who the policy is being created for.
+     * @param ospId The OSP Id of the policy being created for. This is the
+     * Operando friendly Id, not the unique numerical generated value.
+     * @param ospPrefs The set of preferences specific to the policy.
+     * @param securityContext
+     * @return The HTTP response to the post.
+     * @throws NotFoundException
+     */
     @Override
     public Response ospPolicyComputerPost(String userId, String ospId, List<UserPreference> ospPrefs, SecurityContext securityContext)
     throws NotFoundException {
-
+        UserPrivacyPolicy uppProfile = null;
         try {
-
-            String currentUpp = null;
-            String ospNumericId = ospQuerybyFriendlyName(ospId, PDB_BASEURL);
+//            String ospNumericId = ospQuerybyFriendlyName(ospId, PDB_BASEURL + "/OSP" );
+            String ospNumericId = ospId;
             System.out.println("userid: " + userId + " ospId: "+ ospId + "PDB: " + PDB_BASEURL);
+
+            /**
+             * Case for Unit Testing
+             */
             if(userId.startsWith("_demo")) {
-                currentUpp = policyService.getUPP(userId);
+                String currentUpp = policyService.getUPP(userId);
+                ObjectMapper mapper = new ObjectMapper();
+                uppProfile = mapper.readValue(currentUpp, UserPrivacyPolicy.class);
             }
             else {
                 try {
-                    /**
-                     * Get the UPP from the PDB.
-                     */
-                    CloseableHttpClient httpclient = HttpClients.createDefault();
-                    HttpGet httpget = new HttpGet(PDB_BASEURL + "/user_privacy_policy/" + userId);
-                    CloseableHttpResponse response1 = httpclient.execute(httpget);
-
-                    /**
-                     * If there is no UPP, then create a new UPP
-                     */
-                    HttpEntity entity = response1.getEntity();
-                    System.out.println(response1.getStatusLine().getStatusCode());
-                    if(response1.getStatusLine().getStatusCode()==404) {
-                        currentUpp = null;
-                    } else {
-                        currentUpp = EntityUtils.toString(entity);
-                    }
-
-                } catch (IOException ex) {
-                    return Response.status(400).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "UserId doesn't exist")).build();
+                    uppProfile = helpMethods.getUserPrivacyPolicy(UPP_BASEURL + "/" + userId);
+                } catch (UnknownUserException ex) {
+                    return Response.status(404).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, ex.getLocalizedMessage())).build();
                 }
             }
-            // Create a subscribed policy statement and store it in the UPP
-            ObjectMapper mapper = new ObjectMapper();
-            UserPrivacyPolicy uppProfile = null;
-            if(currentUpp != null) {
-                 uppProfile = mapper.readValue(currentUpp, UserPrivacyPolicy.class);
-            }
-            else {
+
+            // If there is no UPP - we create an instance of the UPP for the user id.
+            if(uppProfile == null) {
                 uppProfile = new UserPrivacyPolicy();
                 uppProfile.setUserId(userId);
             }
+
             List<OSPConsents> subscribedOspPolicies = uppProfile.getSubscribedOspPolicies();
             System.out.println("Number of polices for this OSP: " + subscribedOspPolicies.size());
 
-            // Get the access policies for each of the OSP statments
-            /**
-             * Get the OSP from the PDB.
-             */
-            String currentOSP = null;
+            OSPPrivacyPolicy ospPolicy;
             try {
-                /**
-                 * Get the OSP from the PDB.
-                 */
-                CloseableHttpClient httpclient = HttpClients.createDefault();
-                String ospURL = PDB_BASEURL + "/OSP/" + ospNumericId;
-                HttpGet httpget = new HttpGet(ospURL);
-                CloseableHttpResponse response1 = httpclient.execute(httpget);
-
-                /**
-                 * If there is no OSP, then complete fail.
-                 */
-                HttpEntity entity = response1.getEntity();
-                System.out.println(response1.getStatusLine().getStatusCode());
-                if(response1.getStatusLine().getStatusCode()==404) {
-                    return Response.status(400).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "OSP doesn't exist")).build();
-                }
-                currentOSP = EntityUtils.toString(entity);
-                System.out.println(currentOSP);
-            } catch (IOException ex) {
-                return Response.status(400).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "OSP doesn't exist")).build();
+                // Get the access policies for each of the OSP statments
+                String urlOSPID = OSP_BASEURL + "/" + ospNumericId;
+                System.out.println(urlOSPID);
+                ospPolicy = helpMethods.getOSPPolicy(urlOSPID);
+            } catch (UnknownOSPException ex) {
+                 return Response.status(404).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, ex.getLocalizedMessage())).build();
             }
 
-            OSPPrivacyPolicy ospPolicy = mapper.readValue(currentOSP, OSPPrivacyPolicy.class);
+            /**
+             * Create a default policy.
+             */
             List<AccessPolicy> policies = ospPolicy.getPolicies();
+            for(AccessPolicy aPol : policies) {
+                String check = policyCompute.checkPreference(aPol, uppProfile);
+                if(check.equalsIgnoreCase("check")){
+                    aPol.setPermission(Boolean.TRUE);
+                }
+                else if(check.equalsIgnoreCase("uncheck")){
+                    aPol.setPermission(Boolean.FALSE);
+                }
+            }
+
             System.out.println("Number of policies: " + policies.size());
+
             OSPConsents sConsents = new OSPConsents();
             sConsents.setOspId(ospId);
             sConsents.setAccessPolicies(policies);
+
             subscribedOspPolicies.add(sConsents);
             uppProfile.setSubscribedOspPolicies(subscribedOspPolicies);
 
@@ -276,15 +289,10 @@ public class OspPolicyComputerApiServiceImpl extends OspPolicyComputerApiService
                     }
                 }
                 else {
+
                     policyResponse = webResourcePDB.type("application/json").put(ClientResponse.class,
                            uppProfile.toString());
 
-                   /**
-                    * If there is no UPP, then complete fail.
-                    */
-                   if(policyResponse.getStatus()==404) {
-                       return Response.status(400).entity(new ApiResponseMessage(ApiResponseMessage.ERROR, "User doesn't exist")).build();
-                   }
                 }
                 return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "UPP updated for OSP: ")).build();
             } catch (UniformInterfaceException | ClientHandlerException ex) {

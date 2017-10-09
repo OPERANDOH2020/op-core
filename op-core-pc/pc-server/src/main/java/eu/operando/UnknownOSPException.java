@@ -28,19 +28,19 @@
 package eu.operando;
 
 /**
- * Exception that occurs when a method concerns a user id that does not currently
+ * Exception that occurs when a method concerns a OSP id that does not currently
  * exist in the OPERANDO PSP platform database.
  *
  * @author pjg
  */
-public class UnknownUserException extends Exception {
+public class UnknownOSPException extends Exception {
 
     /**
      * Exception that adds a configuration error message for clarity.
      * @param errorMsg The specific error explanation.
      * @param excep The caught exception.
      */
-    public UnknownUserException(final String errorMsg, final Exception excep) {
+    public UnknownOSPException(final String errorMsg, final Exception excep) {
         super(errorMsg, excep);
     }
     /**
@@ -48,7 +48,7 @@ public class UnknownUserException extends Exception {
      * caught exception data.
      * @param errorMsg The error message to attach to the exception.
      */
-    public UnknownUserException(final String errorMsg) {
+    public UnknownOSPException(final String errorMsg) {
         super(errorMsg);
     }
 }

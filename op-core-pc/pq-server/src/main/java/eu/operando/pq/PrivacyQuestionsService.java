@@ -137,7 +137,7 @@ public class PrivacyQuestionsService {
      * @return
      */
     private String convertToCategory(String inputString){
-        if(inputString.toLowerCase().contains("medical")) {
+        if((inputString.toLowerCase().contains("medical") || (inputString.toLowerCase().contains("anthropometric")))) {
             return "MEDICAL";
         }
         else if(inputString.toLowerCase().contains("contact")) {
@@ -237,7 +237,12 @@ public class PrivacyQuestionsService {
 
         List<String> dataCategories = new ArrayList<>();
         for (AccessReason reason: policies) {
+            System.out.println(reason.getDatatype());
             dataCategories.add(convertToCategory(reason.getDatatype()));
+        }
+
+        for(String s: dataCategories) {
+            System.out.println(s);
         }
 
         /**
@@ -255,6 +260,7 @@ public class PrivacyQuestionsService {
             Map.Entry<String, Long> get = result.get(i);
             String pop = get.getKey();
             String catfromDataType = getCatfromDataType(pop, language);
+            System.out.println(catfromDataType);
             respQuestions.addAll(getQuestionsFromFile(catfromDataType));
         }
 

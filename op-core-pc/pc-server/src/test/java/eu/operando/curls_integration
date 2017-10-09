@@ -6,12 +6,18 @@
  * Single Field R (name or weight), Select Action, Roles: doctor, receptionist
  */
 curl -H "Content-Type: application/json" -X POST -d "[{\"requester_id\": \"YellowPages\",\"subject\": \"doctor\",\"requested_url\": \"personalInfo.patient.name\",\"action\": \"Select\",\"attributes\": []}]" "http://integration.operando.esilab.org:8095/operando/core/pc/osp_policy_evaluator?user_id=pat_sql&osp_id=YellowPages"
+curl -H "Content-Type: application/json" -X POST -d "[{\"requester_id\": \"YellowPages\",\"subject\": \"doctor\",\"requested_url\": \"personalInfo.patient.name\",\"action\": \"Select\",\"attributes\": []}]" "http://integration.operando.esilab.org:8095/operando/core/pc/osp_policy_batch_evaluator?osp_id=YellowPages"
+
+curl -H "Content-Type: application/json" -X POST -d "[{\"requester_id\": \"YellowPages\",\"subject\": \"doctor\",\"requested_url\": \"personalInfo.patient.name\",\"action\": \"Select\",\"attributes\": []}]" "http://integration.operando.esilab.org:8095/operando/core/pc/osp_policy_evaluator?user_id=301&osp_id=YellowPages"
+curl -H "Content-Type: application/json" -X POST -d "[{\"requester_id\": \"YellowPages\",\"subject\": \"doctor\",\"requested_url\": \"personalInfo.patient.name\",\"action\": \"Select\",\"attributes\": []}]" "http://integration.operando.esilab.org:8095/operando/core/pc/osp_policy_batch_evaluator?osp_id=YellowPages"
 
 curl -H "Content-Type: application/json" -X POST -d "[{\"requester_id\": \"YellowPages\",\"subject\": \"doctor\",\"requested_url\": \"personalInfo.anthropometric.weight\",\"action\": \"Select\",\"attributes\": []}]" "http://integration.operando.esilab.org:8095/operando/core/pc/osp_policy_evaluator?user_id=pat_sql&osp_id=YellowPages"
 
 curl -H "Content-Type: application/json" -X POST -d "[{\"requester_id\": \"YellowPages\",\"subject\": \"receptionist\",\"requested_url\": \"personalInfo.patient.name\",\"action\": \"Select\",\"attributes\": []}]" "http://integration.operando.esilab.org:8095/operando/core/pc/osp_policy_evaluator?user_id=pat_sql&osp_id=YellowPages"
 
 curl -H "Content-Type: application/json" -X POST -d "[{\"requester_id\": \"YellowPages\",\"subject\": \"receptionist\",\"requested_url\": \"personalInfo.anthropometric.weight\",\"action\": \"Select\",\"attributes\": []}]" "http://integration.operando.esilab.org:8095/operando/core/pc/osp_policy_evaluator?user_id=pat_sql&osp_id=YellowPages"
+
+curl -H "Content-Type: application/json" -X POST -d "{}" "http://localhost:8090/regulations"
 
 /**
  * Multiple Field R,S,T (name or weight), Action A - Select, Update, Create, Delete, Roles: doctor, receptionist
@@ -28,6 +34,8 @@ curl -H "Content-Type: application/json" -X POST -d "[{\"requester_id\": \"Yello
 curl -H "Content-Type: application/json" -X POST -d "[{\"requester_id\": \"YellowPages\",\"subject\": \"doctor\",\"requested_url\": \"personalInfo.patient.name\",\"action\": \"Update\",\"attributes\": []},{\"requester_id\": \"YellowPages\",\"subject\": \"doctor\",\"requested_url\": \"personalInfo.anthropometric.weight\",\"action\": \"Update\",\"attributes\": []},{\"requester_id\": \"YellowPages\",\"subject\": \"doctor\",\"requested_url\": \"personalInfo.anthropometric.age\",\"action\": \"Update\",\"attributes\": []}]" "http://integration.operando.esilab.org:8095/operando/core/pc/osp_policy_evaluator?user_id=pat_sql&osp_id=YellowPages"
 
 curl -H "Content-Type: application/json" -X POST -d "[{\"requester_id\": \"YellowPages\",\"subject\": \"doctor\",\"requested_url\": \"personalInfo.patient.name\",\"action\": \"Delete\",\"attributes\": []},{\"requester_id\": \"YellowPages\",\"subject\": \"doctor\",\"requested_url\": \"personalInfo.anthropometric.weight\",\"action\": \"Delete\",\"attributes\": []},{\"requester_id\": \"YellowPages\",\"subject\": \"doctor\",\"requested_url\": \"personalInfo.anthropometric.age\",\"action\": \"Delete\",\"attributes\": []}]" "http://integration.operando.esilab.org:8095/operando/core/pc/osp_policy_evaluator?user_id=pat_sql&osp_id=YellowPages"
+
+curl -H "Content-Type: application/json" -X POST -d "[{\"requester_id\": \"YellowPages\",\"subject\": \"doctor\",\"requested_url\": \"user.record\",\"action\": \"Insert\",\"attributes\": []}]" "http://integration.operando.esilab.org:8095/operando/core/pc/osp_policy_evaluator?user_id=pat_sql&osp_id=YellowPages"
 
 /**
  * Receptionist
@@ -46,3 +54,30 @@ curl -H "Content-Type: application/json" -X POST -d "[{\"requester_id\": \"Yello
 curl -H "Content-Type: application/json" -X POST -d "[{\"requester_id\": \"Dottore33\",\"subject\": \"ASL Bergamo - GAT - Doctor\",\"requested_url\": \"datainserimento\",\"action\": \"Select\",\"attributes\": []}]" "http://integration.operando.esilab.org:8095/operando/core/pc/osp_policy_evaluator?user_id=45&osp_id=ASLBG_GA"
 
 curl -H "Content-Type: application/json" -X POST -d "[{\"requester_id\": \"45\",\"subject\": \"ASL Bergamo - GAT - Patient\",\"requested_url\": \"datainserimento\",\"action\": \"Select\",\"attributes\": []}]" "http://integration.operando.esilab.org:8095/operando/core/pc/osp_policy_evaluator?user_id=45&osp_id=ASLBG_GA"
+
+curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{\"password\": \"agBRpbqvlx\", \"username\": \"54\"}" "http://integration.operando.esilab.org:8135/operando/interfaces/aapi/aapi/tickets"
+
+curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "/gatekeeper" "http://integration.operando.esilab.org:8135/operando/interfaces/aapi/aapi/tickets/TGT-88-iCNWjc13X0ozVy7gza6oRg9OA2ZXQnb3Col7SEgeDTAsEfOHYT-casdotoperandodoteu"
+
+curl -X GET -H "Accept: */*" -H "Accept-Encoding: gzip, deflate" -H "Osp-Identifier: ASLBG_GA" -H "User-Agent: runscope/0.1" -H "Service-Ticket: ST-43-jMKxA36QFuvGhIHDN4HW-casdotoperandodoteu" http://integration.operando.esilab.org:8110/operando/pdr/gk/resources/GA_Patients(301)
+
+curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{\"password\": \"301\", \"username\": \"301\"}" "http://integration.operando.esilab.org:8135/operando/interfaces/aapi/aapi/tickets"
+curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "/gatekeeper" "http://integration.operando.esilab.org:8135/operando/interfaces/aapi/aapi/tickets/TGT-201-puFii0EmjSJjNm4WnrIjfC5rvZaEgWgEBiaeeAFzU6Ay9qpjPy-casdotoperandodoteu"
+curl -X GET -H "Accept: */*" -H "Accept-Encoding: gzip, deflate" -H "Osp-Identifier: ASLBG_GA" -H "User-Agent: runscope/0.1" -H "Service-Ticket: ST-235-0lM2hTAxet1jLXHqb1ZU-casdotoperandodoteu" http://integration.operando.esilab.org:8110/operando/pdr/gk/resources/GA_Patients('utente100')
+
+
+curl -X POST http://jenkins.devops.operando.esilab.org:8080/job/eu.operando.int.core.pdb.server.jnk.tsk/buildWithParameters --user auto:fcba90420617f76bd55044e9087a9509 --data token=iJ8s4SrKlJzzpLl9dEYB
+
+curl -X POST http://jenkins.devops.operando.esilab.org:8080/job/eu.operando.int.core.pdb.server.jnk.tsk.run/buildWithParameters --user auto:fcba90420617f76bd55044e9087a9509 --data token=iJ8s4SrKlJzzpLl9dEYB
+
+curl -X POST http://jenkins.devops.operando.esilab.org:8080/job/eu.operando.int.core.ose.server.jnk.tsk/buildWithParameters --user auto:fcba90420617f76bd55044e9087a9509 --data token=iJ8s4SrKlJzzpLl9dEYB
+
+curl -X POST http://jenkins.devops.operando.esilab.org:8080/job/eu.operando.int.core.ose.server.jnk.tsk.run/buildWithParameters --user auto:fcba90420617f76bd55044e9087a9509 --data token=iJ8s4SrKlJzzpLl9dEYB
+
+
+
+
+
+
+
+curl -X POST --header "Content-Type: application/json" --header "Accept: */*" -d "{\"password\": \"ajWrzaFMtH\", \"username\": \"Dottore200\"}" "http://integration.operando.esilab.org:8135/operando/interfaces/aapi/aapi/tickets"

@@ -32,12 +32,12 @@ package eu.operando;
  * One User - flat field id scheme
  * Three roles (doctor, receptionist and website admin)
  */
-public class YP301Test {
+public class GasliniTest {
 
      /**
      * UserIds
      */
-    private static final String USER = "302";
+    private static final String USER = "Dottore200";
 
 
     /**
@@ -45,24 +45,16 @@ public class YP301Test {
      * No hierarchy so we have a flat record of 7 fields. oData done wrong - does
      * not align with any schema. So just assume PC can cope with out any schema (!)
      */
-    private static final String FIELDIDS[] = {"personalInfo.patient.name",
-            "personalInfo.anthropometric.weight",
-            "personalInfo.anthropometric.age",
-            "personalInfo.patient.surname",
-            "personalInfo.anthropometric.height",
-            "contactInfo.patient.cityOfResidence",
-            "contactInfo.patient.cellPhoneNumber",
-            "personalInfo.patient.dateOfBirth",
-            "personalInfo.patient.placeOfBirth",
-            "contactInfo.patient.email"};
+    private static final String FIELDIDS[] = {"nome",
+            "cognome",
+            "indirizzoResidenza"};
 
 
-    private static final String OSPID = "YellowPages";
-    private static final String ROLE1 = "Doctor";
-    private static final String ROLE2 = "Receptionist";
-    private static final String ROLE3 = "WebsiteAdmins";
+    private static final String OSPID = "GASLINI";
+    private static final String ROLE1 = "Gaslini - Tutor";
+    private static final String ROLE2 = "Gaslini - Doctor";
 
-    private static final String ACTION = "TREE";
+    private static final String ACTION = "SELECT";
 
     /**
      * A set of tests to check how the PC component evaluates requests
@@ -76,24 +68,20 @@ public class YP301Test {
         long time1 = System.currentTimeMillis();
 
                 String accessRequest = tMethods.createRequest(FIELDIDS, ROLE1, OSPID, ACTION);
+                System.out.println("Tutor trying to access fields: ");
                 System.out.println("-------------------------------------------------");
-                System.out.println(tMethods.evaluatePC("301", OSPID, accessRequest));
+                System.out.println(tMethods.evaluatePC(USER, OSPID, accessRequest));
                 System.out.println("-------------------------------------------------");
 
             long time2 = System.currentTimeMillis();
             System.out.println("The time taken = " + (time2-time1));
 
         accessRequest = tMethods.createRequest(FIELDIDS, ROLE2, OSPID, ACTION);
-        System.out.println("Receptionist trying to access fields: ");
+        System.out.println("Doctor trying to access fields: ");
         System.out.println("-------------------------------------------------");
         System.out.println(tMethods.evaluatePC(USER, OSPID, accessRequest));
         System.out.println("-------------------------------------------------");
 
-        accessRequest = tMethods.createRequest(FIELDIDS, ROLE3, OSPID, ACTION);
-        System.out.println("WebsiteAdmins trying to access fields: ");
-        System.out.println("-------------------------------------------------");
-        System.out.println(tMethods.evaluatePC(USER, OSPID, accessRequest));
-        System.out.println("-------------------------------------------------");
 
     }
 }

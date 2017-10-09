@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////
 //
-// © University of Southampton IT Innovation Centre, 2016
+// ? University of Southampton IT Innovation Centre, 2016
 //
 // Copyright in this library belongs to the University of Southampton
 // University Road, Highfield, Southampton, UK, SO17 1BJ
@@ -10,7 +10,7 @@
 // on any media by any person other than in accordance with the terms
 // of the Licence Agreement supplied with the software, or otherwise
 // without the prior written consent of the copyright owners.
-//
+
 // This software is distributed WITHOUT ANY WARRANTY, without even the
 // implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
 // PURPOSE, except where stated in the Licence Agreement supplied with
@@ -24,31 +24,20 @@
 //  License : GNU Lesser General Public License, version 3
 //
 /////////////////////////////////////////////////////////////////////////
-
 package eu.operando;
 
 /**
- * Exception that occurs when a method concerns a user id that does not currently
- * exist in the OPERANDO PSP platform database.
+ * A set of unit tests to check the post/put and delete operations of the
+ * PDB User Privacy Policy API.
  *
- * @author pjg
+ * Uses example JSON policies from the yellow pages application.
+ *
  */
-public class UnknownUserException extends Exception {
+public class CreateReasonPolicy {
+    public static void main(String[] args) {
+        TestHelperMethods tMethods = new TestHelperMethods();
+        System.out.println(tMethods.putReasonPolicy("59b5f442ee35880033ded8cc", "YellowPagesReason.json"));
+//        System.out.println(tMethods.computePC("pjgrace","YellowPages"));
+    }
 
-    /**
-     * Exception that adds a configuration error message for clarity.
-     * @param errorMsg The specific error explanation.
-     * @param excep The caught exception.
-     */
-    public UnknownUserException(final String errorMsg, final Exception excep) {
-        super(errorMsg, excep);
-    }
-    /**
-     * Contains the UnknownUserException error message without keeping the prior
-     * caught exception data.
-     * @param errorMsg The error message to attach to the exception.
-     */
-    public UnknownUserException(final String errorMsg) {
-        super(errorMsg);
-    }
 }

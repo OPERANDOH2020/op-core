@@ -17,7 +17,7 @@
 // PURPOSE, except where stated in the Licence Agreement supplied with
 // the software.
 //
-//      Created By :            Panos Melas
+//      Created By :            Paul Grace
 //      Created Date :          2016-04-28
 //      Created for Project :   OPERANDO
 //
@@ -40,8 +40,11 @@ import org.codehaus.jackson.map.PropertyNamingStrategy;
 import org.codehaus.jackson.map.SerializationConfig;
 
 /**
+ * Set of methods to directly interact with the MongoDB install rather
+ * than through the Web API. This will provide better performance
+ * throughput.
  *
- * @author sysman
+ * @author pjg
  */
 public class UPPMongo {
 

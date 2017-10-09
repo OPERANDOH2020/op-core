@@ -37,6 +37,7 @@ import eu.operando.core.pdb.common.model.AccessPolicy;
 
 import eu.operando.core.pdb.common.model.OSPConsents;
 import eu.operando.core.pdb.common.model.OSPPrivacyPolicy;
+import eu.operando.core.pdb.common.model.PolicyAttribute;
 import eu.operando.core.pdb.common.model.UserPreference;
 import eu.operando.core.pdb.common.model.UserPrivacyPolicy;
 import io.swagger.api.impl.OspPolicyComputerApiServiceImpl;
@@ -65,6 +66,73 @@ public class PolicyComputerService {
     public PolicyComputerService() {
 
     }
+
+    public String checkPreference(AccessPolicy policy, UserPrivacyPolicy upp) {
+
+        if (upp.getUserPreferences().size() == 0)
+            return "default";
+
+        /**
+         * Get the category of this access policy request
+         */
+        List<PolicyAttribute> attributes = policy.getAttributes();
+        String dataCategory = "GENERAL";
+        for(PolicyAttribute pA: attributes) {
+            if( pA.getAttributeName().equalsIgnoreCase("category") ) {
+                dataCategory = pA.getAttributeValue();
+                break;
+            }
+        }
+
+        /**
+         * Get the role preference for this category
+         */
+        List<UserPreference> userPreferences = upp.getUserPreferences();
+        int rolePref = -1;
+        for(UserPreference uP: userPreferences) {
+            if( uP.getRole().equalsIgnoreCase(policy.getSubject())) {
+                rolePref = new Integer(uP.getPreference()).intValue();
+                break;
+            }
+        }
+
+        if(rolePref == -1){
+            return "default";
+        }
+
+        /**
+         * Get the user preference for this category
+         */
+        int pref = -1;
+        for(UserPreference uP: userPreferences) {
+            if( uP.getCategory().equalsIgnoreCase(dataCategory)) {
+                pref = new Integer(uP.getPreference()).intValue();
+                break;
+            }
+        }
+        if(pref == -1){
+            return "default";
+        }
+
+        if(rolePref > 2) {
+            return "check";
+        }
+
+        if( (rolePref <= 2) && (pref == 0)) {
+            return "check";
+        }
+
+        if( (rolePref <= 2) && (pref == 1)) {
+            return "uncheck";
+        }
+
+        if( (rolePref <= 2) && (pref == 2)) {
+            return "uncheck";
+        }
+
+        return "default";
+    }
+
     /**
      *
      * @param userId

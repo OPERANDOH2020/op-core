@@ -206,29 +206,29 @@ public class GeneralQuestionTests {
             GeneralQuestionTests odpdb = new GeneralQuestionTests();
 //            odpdb.loadPolicy("596588bcee35880033ddc4d0", "reasonPolicy.json");
 
-            String jsonResponse = odpdb.getQuestion("596588bcee35880033ddc4d0", "301");
+            String jsonResponse = odpdb.getQuestion("59b5f442ee35880033ded8cc", "301");
             System.out.println(jsonResponse + "\n");
 
             ObjectMapper objMap = new ObjectMapper();
             List<Questionobject> questions = objMap.readValue(jsonResponse, new TypeReference<List<Questionobject>>() { });
 
-            String quesResponse = odpdb.answerQuestions(questions, new int[]{3,1,1,3,3,3,4,2,1,1,1,4});
+            String quesResponse = odpdb.answerQuestions(questions, new int[]{3,1,1,3,3,3,4,2,1,1,1,4,1});
             System.out.println(quesResponse + "\n");
 
-            String postAnswers = odpdb.postQuestion("596588bcee35880033ddc4d0", "pjgrace", quesResponse);
+            String postAnswers = odpdb.postQuestion("59b5f442ee35880033ded8cc", "pjgrace", quesResponse);
             System.out.println(postAnswers + "\n");
 
-            quesResponse = odpdb.answerQuestions(questions, new int[]{2,2,1,3,3,3,4,2,1,1,1,4});
-            System.out.println(quesResponse + "\n");
-
-            postAnswers = odpdb.postQuestion("596588bcee35880033ddc4d0", "pjgrace", quesResponse);
-            System.out.println(postAnswers + "\n");
-
-            quesResponse = odpdb.answerQuestions(questions, new int[]{2,4,4,3,3,3,4,2,1,1,1,4});
-            System.out.println(quesResponse + "\n");
-
-            postAnswers = odpdb.postQuestion("596588bcee35880033ddc4d0", "pjgrace", quesResponse);
-            System.out.println(postAnswers + "\n");
+//            quesResponse = odpdb.answerQuestions(questions, new int[]{2,2,1,3,3,3,4,2,1,1,1,4});
+//            System.out.println(quesResponse + "\n");
+//
+//            postAnswers = odpdb.postQuestion("59b1ffdeee35880033ffa600", "pjgrace", quesResponse);
+//            System.out.println(postAnswers + "\n");
+//
+//            quesResponse = odpdb.answerQuestions(questions, new int[]{2,4,4,3,3,3,4,2,1,1,1,4});
+//            System.out.println(quesResponse + "\n");
+//
+//            postAnswers = odpdb.postQuestion("59b1ffdeee35880033ffa600", "pjgrace", quesResponse);
+//            System.out.println(postAnswers + "\n");
         } catch (IOException ex) {
             Logger.getLogger(GeneralQuestionTests.class.getName()).log(Level.SEVERE, null, ex);
         }
