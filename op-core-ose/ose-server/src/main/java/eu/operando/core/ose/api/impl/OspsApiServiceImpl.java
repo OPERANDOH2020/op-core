@@ -288,7 +288,7 @@ public class OspsApiServiceImpl extends OspsApiService {
 
         for(String userId: jsonUsers) {
             logUserRequest(ospId, "OSP Privacy Policy Change",
-                 changeMessage,
+                 "test",
                 LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogRequest.LogTypeEnum.NOTIFICATION, userId,
                 new ArrayList<String>(Arrays.asList("POST")));
             System.out.println(userId);
