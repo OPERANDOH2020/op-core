@@ -584,7 +584,7 @@ public class OSPApiServiceImpl extends OSPApiService {
         String ospIdentity = "YellowPages";
         try {
             OSPPrivacyPolicy prObj = mapper.readValue(aPolicy, OSPPrivacyPolicy.class);
-            ospIdentity = prObj.getPolicyText();
+            ospIdentity = prObj.getPolicyUrl();
         } catch (IOException ex) {
             Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
