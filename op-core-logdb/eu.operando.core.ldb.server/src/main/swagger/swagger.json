@@ -1,0 +1,289 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "The Operando LogDB server centralises the logging\n\t\t\t\t\t\t\t\t\tactivities of the Operando platform.",
+    "version": "1.0.0",
+    "title": "Operando LogDB server component",
+    "termsOfService": "{$operando.terms}",
+    "contact": {
+      "name": "esilab",
+      "url": "http://esilab.org",
+      "email": "esilab@tecnalia.org"
+    },
+    "license": {
+      "name": "MIT License",
+      "url": "http://www.opensource.org/licenses/mit-license.php"
+    }
+  },
+  "host": "localhost:8090",
+  "basePath": "/operando/core/ldb",
+  "tags": [
+    {
+      "name": "Log"
+    }
+  ],
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/log": {
+      "post": {
+        "tags": [
+          "Log"
+        ],
+        "summary": "Inserts received data to the database.",
+        "description": "Inserts received data to the database by using Log4j.",
+        "operationId": "log",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "request",
+            "description": "The request data in JSON format to be inserted in the database by using Log4j",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LogRequestExt"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Unexpected error",
+            "schema": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/log/logTicket": {
+      "post": {
+        "tags": [
+          "Log"
+        ],
+        "summary": "Inserts received data to the database.",
+        "description": "Inserts received data to the database by using Log4j.",
+        "operationId": "logTicket",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "request",
+            "description": "The request data in JSON format to be inserted in the database by using Log4j",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LogRequestExt"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Succesful operation. "
+          },
+          "400": {
+            "description": "The client inputs to the operation are incorrect or invalid. The caller should check the inputs are valid based upon the returned error message. "
+          },
+          "403": {
+            "description": "Error. The service ticket failed to validate. "
+          },
+          "415": {
+            "description": "The operation consumes json messages. Please, check that the sent message is in json format. "
+          }
+        },
+        "security": [
+          {
+            "service-ticket": []
+          }
+        ]
+      }
+    },
+    "/monitor": {
+      "get": {
+        "summary": "Ping the server",
+        "description": "Monitor the OSE server. ",
+        "operationId": "monitorGet",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response. The service is up."
+          },
+          "404": {
+            "description": "Error occured. The service isn't there. "
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "osp-identifier": {
+      "type": "apiKey",
+      "name": "osp-identifier",
+      "in": "header"
+    },
+    "psp-user-identifier": {
+      "type": "apiKey",
+      "name": "psp-user-identifier",
+      "in": "header"
+    },
+    "service-ticket": {
+      "type": "apiKey",
+      "name": "service-ticket",
+      "in": "header"
+    }
+  },
+  "definitions": {
+    "LogRequest": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "type": "string",
+          "description": "Id of the user."
+        },
+        "requesterType": {
+          "type": "string",
+          "description": "Source type from which comes the request.",
+          "enum": [
+            "PROCESS",
+            "MODULE"
+          ]
+        },
+        "requesterId": {
+          "type": "string",
+          "description": "Id of the requester (e.g the id of an OSP)."
+        },
+        "logPriority": {
+          "type": "string",
+          "description": "Priority level of the data to be logged.",
+          "enum": [
+            "LOW",
+            "NORMAL",
+            "HIGH",
+            "CRITICAL"
+          ]
+        },
+        "logLevel": {
+          "type": "string",
+          "description": "Type of the data to be logged.",
+          "enum": [
+            "INFO",
+            "WARN",
+            "ERROR",
+            "FATAL"
+          ]
+        },
+        "title": {
+          "type": "string",
+          "description": "Subject of the event to be logged."
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the event to be logged."
+        },
+        "keywords": {
+          "type": "array",
+          "description": "Array of keywords to facilitate search",
+          "items": {
+            "type": "string"
+          }
+        },
+        "logType": {
+          "type": "string",
+          "example": "OTHER",
+          "description": "Type of the data logged.",
+          "enum": [
+            "DATA_ACCESS",
+            "SYSTEM",
+            "NOTIFICATION",
+            "OTHER"
+          ]
+        },
+        "affectedUserId": {
+          "type": "string",
+          "example": "OTHER",
+          "description": "Id of the affected user."
+        }
+      },
+      "required": [
+        "userId",
+        "requesterType",
+        "requesterId",
+        "logPriority",
+        "logLevel",
+        "keywords",
+        "title",
+        "description"
+      ]
+    },
+    "LogRequestExt": {
+      "title": "LogRequestExt",
+      "allOf": [
+        {
+          "$ref": "#/definitions/LogRequest"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "osp": {
+              "type": "string",
+              "example": "yellowpages",
+              "description": "the requester osp."
+            },
+            "requestedFields": {
+              "type": "array",
+              "description": "Array of requestedFields to facilitate search",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "name of the requested field."
+                  },
+                  "dob": {
+                    "type": "string",
+                    "description": "dob of the requested field."
+                  },
+                  "address": {
+                    "type": "string",
+                    "description": "address of the requested field."
+                  }
+                }
+              }
+            },
+            "grantedFields": {
+              "type": "array",
+              "description": "Array of grantedFields to facilitate search",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "name of the requested field."
+                  },
+                  "dob": {
+                    "type": "string",
+                    "description": "dob of the requested field."
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
