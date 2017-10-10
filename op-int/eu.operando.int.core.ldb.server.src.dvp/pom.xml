@@ -55,6 +55,63 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!-- added by GBE to support the generation of swagger API out from the 
+				swagger generated code -->
+			<plugin>
+				<groupId>com.github.kongchen</groupId>
+				<artifactId>swagger-maven-plugin</artifactId>
+				<version>3.1.4</version>
+				<configuration>
+					<apiSources>
+						<apiSource>
+							<springmvc>false</springmvc>
+							<locations>eu.operando.core.ldb.server</locations>
+							<schemes>http</schemes>
+							<host>${server.externalhost}:${server.externalport}</host>
+							<!--<host>publisher.dmz.lab.esilab.org</host> -->
+							<basePath>/${server.basepath}</basePath>
+							<info>
+								<title>Operando LogDB server component</title>
+								<version>1.0.0</version>
+								<description>
+									The Operando LogDB server centralises the logging
+									activities of the Operando platform.
+								</description>
+								<termsOfService>
+									{$operando.terms}
+								</termsOfService>
+								<contact>
+									<email>esilab@tecnalia.org</email>
+									<name>esilab</name>
+									<url>http://esilab.org</url>
+								</contact>
+								<license>
+									<name>MIT License</name>
+									<url>http://www.opensource.org/licenses/mit-license.php</url>
+								</license>
+							</info>
+							<securityDefinitions>
+								<securityDefinition>
+									<json>/securityDefinition.json</json>
+								</securityDefinition>
+							</securityDefinitions>
+							<!-- Support classpath or file absolute path here. 1) classpath e.g: 
+								"classpath:/markdown.hbs", "classpath:/templates/hello.html" 2) file e.g: 
+								"${basedir}/src/main/resources/markdown.hbs", "${basedir}/src/main/resources/template/hello.html" -->
+							<outputPath>${basedir}/generated/document.html</outputPath>
+							<swaggerDirectory>generated/swagger-ui</swaggerDirectory>
+						</apiSource>
+					</apiSources>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>compile</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>	
 			<!-- Step 1. - Download the swagger ui -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -126,63 +183,6 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin> -->
-			<!-- added by GBE to support the generation of swagger API out from the 
-				swagger generated code -->
-			<plugin>
-				<groupId>com.github.kongchen</groupId>
-				<artifactId>swagger-maven-plugin</artifactId>
-				<version>3.1.4</version>
-				<configuration>
-					<apiSources>
-						<apiSource>
-							<springmvc>false</springmvc>
-							<locations>eu.operando.core.ldb.server</locations>
-							<schemes>http</schemes>
-							<host>${server.externalhost}:${server.externalport}</host>
-							<!--<host>publisher.dmz.lab.esilab.org</host> -->
-							<basePath>/${server.basepath}</basePath>
-							<info>
-								<title>Operando LogDB server component</title>
-								<version>1.0.0</version>
-								<description>
-									The Operando LogDB server centralises the logging
-									activities of the Operando platform.
-								</description>
-								<termsOfService>
-									{$operando.terms}
-								</termsOfService>
-								<contact>
-									<email>esilab@tecnalia.org</email>
-									<name>esilab</name>
-									<url>http://esilab.org</url>
-								</contact>
-								<license>
-									<name>MIT License</name>
-									<url>http://www.opensource.org/licenses/mit-license.php</url>
-								</license>
-							</info>
-							<securityDefinitions>
-								<securityDefinition>
-									<json>/securityDefinition.json</json>
-								</securityDefinition>
-							</securityDefinitions>
-							<!-- Support classpath or file absolute path here. 1) classpath e.g: 
-								"classpath:/markdown.hbs", "classpath:/templates/hello.html" 2) file e.g: 
-								"${basedir}/src/main/resources/markdown.hbs", "${basedir}/src/main/resources/template/hello.html" -->
-							<outputPath>${basedir}/generated/document.html</outputPath>
-							<swaggerDirectory>generated/swagger-ui</swaggerDirectory>
-						</apiSource>
-					</apiSources>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>compile</phase>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>	
 			<!-- Plugin to copy the war into generated folder accessible to the docker 
 				file -->
 			<plugin>
