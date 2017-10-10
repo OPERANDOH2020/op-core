@@ -424,7 +424,7 @@
 		<server.externalport>8090</server.externalport>
 		<server.basepath>operando/core/ldb</server.basepath>
 		<server.endpoint.path>${operando.core.ldb.endpoint.path}</server.endpoint.path>
-		<server.warName>${server.warName.generated}</server.warName>
+		<server.warName>ROOT</server.warName>
 		<docker.name>eu.operando.core.ldb.server</docker.name>
 		<docker.image.name>${docker.registry.name}${docker.submitter}/${docker.name}</docker.image.name>
 		<docker.image.version>${project.version}</docker.image.version>
