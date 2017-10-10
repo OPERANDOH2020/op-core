@@ -1,81 +1,69 @@
-/*
-   	* Copyright (c) 2017 {TECNALIA}.
-    * All rights reserved. This program and the accompanying materials
-    * are made available under the terms of the The MIT License (MIT).
-    * which accompanies this distribution, and is available at
-    * http://opensource.org/licenses/MIT
-    *
-    * Contributors:
-    *    Gorka Benguria Elguezabal {TECNALIA}
-    *    Gorka Mikel Echevarría {TECNALIA}
-    * Initially developed in the context of OPERANDO EU project www.operando.eu
- */
 package eu.operando.core.ldb.server.api;
 
 import javax.xml.bind.annotation.XmlTransient;
 
 @javax.xml.bind.annotation.XmlRootElement
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-05-16T12:28:19.935Z")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2017-10-09T16:21:27.816+02:00")
 public class ApiResponseMessage {
-	public static final int ERROR = 1;
-	public static final int WARNING = 2;
-	public static final int INFO = 3;
-	public static final int OK = 4;
-	public static final int TOO_BUSY = 5;
+    public static final int ERROR = 1;
+    public static final int WARNING = 2;
+    public static final int INFO = 3;
+    public static final int OK = 4;
+    public static final int TOO_BUSY = 5;
 
-	int code;
-	String type;
-	String message;
-	
-	public ApiResponseMessage(){}
-	
-	public ApiResponseMessage(int code, String message){
-		this.code = code;
-		switch(code){
-		case ERROR:
-			setType("error");
-			break;
-		case WARNING:
-			setType("warning");
-			break;
-		case INFO:
-			setType("info");
-			break;
-		case OK:
-			setType("ok");
-			break;
-		case TOO_BUSY:
-			setType("too busy");
-			break;
-		default:
-			setType("unknown");
-			break;
-		}
-		this.message = message;
-	}
+    int code;
+    String type;
+    String message;
 
-	@XmlTransient
-	public int getCode() {
-		return code;
-	}
+    public ApiResponseMessage(){}
 
-	public void setCode(int code) {
-		this.code = code;
-	}
+    public ApiResponseMessage(int code, String message){
+        this.code = code;
+        switch(code){
+        case ERROR:
+            setType("error");
+            break;
+        case WARNING:
+            setType("warning");
+            break;
+        case INFO:
+            setType("info");
+            break;
+        case OK:
+            setType("ok");
+            break;
+        case TOO_BUSY:
+            setType("too busy");
+            break;
+        default:
+            setType("unknown");
+            break;
+        }
+        this.message = message;
+    }
 
-	public String getType() {
-		return type;
-	}
+    @XmlTransient
+    public int getCode() {
+        return code;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public void setCode(int code) {
+        this.code = code;
+    }
 
-	public String getMessage() {
-		return message;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 }

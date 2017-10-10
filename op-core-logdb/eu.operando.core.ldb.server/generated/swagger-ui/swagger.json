@@ -36,7 +36,7 @@
           "description" : "The request data in JSON format to be inserted in the database by using Log4j",
           "required" : true,
           "schema" : {
-            "$ref" : "#/definitions/LogRequest"
+            "$ref" : "#/definitions/LogRequestExt"
           }
         } ],
         "responses" : {
@@ -63,7 +63,7 @@
           "description" : "The request data in JSON format to be inserted in the database by using Log4j",
           "required" : true,
           "schema" : {
-            "$ref" : "#/definitions/LogRequestTicket"
+            "$ref" : "#/definitions/LogRequestExt"
           }
         } ],
         "responses" : {
@@ -121,8 +121,9 @@
     }
   },
   "definitions" : {
-    "LogRequest" : {
+    "LogRequestExt" : {
       "type" : "object",
+      "required" : [ "description", "keywords", "logLevel", "logPriority", "requesterId", "requesterType", "title", "userId" ],
       "properties" : {
         "userId" : {
           "type" : "string",
@@ -172,60 +173,55 @@
           "type" : "string",
           "example" : "OTHER",
           "description" : "Id of the affected user."
+        },
+        "osp" : {
+          "type" : "string",
+          "example" : "yellowpages",
+          "description" : "the requester osp."
+        },
+        "requestedFields" : {
+          "type" : "array",
+          "description" : "Array of requestedFields to facilitate search",
+          "items" : {
+            "$ref" : "#/definitions/LogRequestExtRequestedFields"
+          }
+        },
+        "grantedFields" : {
+          "type" : "array",
+          "description" : "Array of grantedFields to facilitate search",
+          "items" : {
+            "$ref" : "#/definitions/LogRequestExtGrantedFields"
+          }
         }
       }
     },
-    "LogRequestTicket" : {
+    "LogRequestExtGrantedFields" : {
       "type" : "object",
       "properties" : {
-        "userId" : {
+        "name" : {
           "type" : "string",
-          "description" : "Id of the user."
+          "description" : "name of the requested field."
         },
-        "requesterType" : {
+        "dob" : {
           "type" : "string",
-          "description" : "Source type from which comes the request.",
-          "enum" : [ "PROCESS", "MODULE" ]
-        },
-        "requesterId" : {
+          "description" : "dob of the requested field."
+        }
+      }
+    },
+    "LogRequestExtRequestedFields" : {
+      "type" : "object",
+      "properties" : {
+        "name" : {
           "type" : "string",
-          "description" : "Id of the requester (e.g the id of an OSP)."
+          "description" : "name of the requested field."
         },
-        "logPriority" : {
+        "dob" : {
           "type" : "string",
-          "description" : "Priority level of the data to be logged.",
-          "enum" : [ "LOW", "NORMAL", "HIGH", "CRITICAL" ]
+          "description" : "dob of the requested field."
         },
-        "logLevel" : {
+        "address" : {
           "type" : "string",
-          "description" : "Logging level.",
-          "enum" : [ "INFO", "WARN", "ERROR", "FATAL" ]
-        },
-        "title" : {
-          "type" : "string",
-          "description" : "Subject of the event to be logged."
-        },
-        "description" : {
-          "type" : "string",
-          "description" : "Description of the event to be logged."
-        },
-        "keywords" : {
-          "type" : "array",
-          "description" : "Array of keywords to facilitate search",
-          "items" : {
-            "type" : "string"
-          }
-        },
-        "logType" : {
-          "type" : "string",
-          "example" : "OTHER",
-          "description" : "Type of the data logged.",
-          "enum" : [ "DATA_ACCESS", "SYSTEM", "NOTIFICATION", "OTHER" ]
-        },
-        "affectedUserId" : {
-          "type" : "string",
-          "example" : "OTHER",
-          "description" : "Id of the affected user."
+          "description" : "address of the requested field."
         }
       }
     }

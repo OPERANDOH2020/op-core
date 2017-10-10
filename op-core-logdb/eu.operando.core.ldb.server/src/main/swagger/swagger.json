@@ -43,11 +43,11 @@
         "parameters": [
           {
             "in": "body",
-            "name": "body",
+            "name": "request",
             "description": "The request data in JSON format to be inserted in the database by using Log4j",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/LogRequest"
+              "$ref": "#/definitions/LogRequestExt"
             }
           }
         ],
@@ -78,11 +78,11 @@
         "parameters": [
           {
             "in": "body",
-            "name": "body",
+            "name": "request",
             "description": "The request data in JSON format to be inserted in the database by using Log4j",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/LogRequest"
+              "$ref": "#/definitions/LogRequestExt"
             }
           }
         ],
@@ -216,43 +216,74 @@
           "type": "string",
           "example": "OTHER",
           "description": "Id of the affected user."
+        }
+      },
+      "required": [
+        "userId",
+        "requesterType",
+        "requesterId",
+        "logPriority",
+        "logLevel",
+        "keywords",
+        "title",
+        "description"
+      ]
+    },
+    "LogRequestExt": {
+      "title": "LogRequestExt",
+      "allOf": [
+        {
+          "$ref": "#/definitions/LogRequest"
         },
-        "osp": {
-          "type": "string",
-          "example": "yellowpages",
-          "description": "the requester osp."
-        },
-        "requestedFields": {
+        {
           "type": "object",
           "properties": {
-            "name": {
+            "osp": {
               "type": "string",
-              "description": "name of the requested field."
+              "example": "yellowpages",
+              "description": "the requester osp."
             },
-            "dob": {
-              "type": "string",
-              "description": "dob of the requested field."
+            "requestedFields": {
+              "type": "array",
+              "description": "Array of requestedFields to facilitate search",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "name of the requested field."
+                  },
+                  "dob": {
+                    "type": "string",
+                    "description": "dob of the requested field."
+                  },
+                  "address": {
+                    "type": "string",
+                    "description": "address of the requested field."
+                  }
+                }
+              }
             },
-            "address": {
-              "type": "string",
-              "description": "address of the requested field."
-            }
-          }
-        },
-        "grantedFields": {
-          "type": "object",
-          "properties": {
-            "name": {
-              "type": "string",
-              "description": "name of the requested field."
-            },
-            "dob": {
-              "type": "string",
-              "description": "dob of the requested field."
+            "grantedFields": {
+              "type": "array",
+              "description": "Array of grantedFields to facilitate search",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "name of the requested field."
+                  },
+                  "dob": {
+                    "type": "string",
+                    "description": "dob of the requested field."
+                  }
+                }
+              }
             }
           }
         }
-      }
+      ]
     }
   }
 }

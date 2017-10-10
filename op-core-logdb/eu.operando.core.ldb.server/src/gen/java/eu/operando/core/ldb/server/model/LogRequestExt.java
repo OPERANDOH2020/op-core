@@ -17,6 +17,9 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import eu.operando.core.ldb.server.model.LogRequest;
+import eu.operando.core.ldb.server.model.LogRequestExtGrantedFields;
+import eu.operando.core.ldb.server.model.LogRequestExtRequestedFields;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
@@ -24,10 +27,10 @@ import java.util.List;
 import javax.validation.constraints.*;
 
 /**
- * LogRequest
+ * LogRequestExt
  */
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2017-10-09T16:21:27.816+02:00")
-public class LogRequest   {
+public class LogRequestExt   {
   @JsonProperty("userId")
   private String userId = null;
 
@@ -194,7 +197,16 @@ public class LogRequest   {
   @JsonProperty("affectedUserId")
   private String affectedUserId = null;
 
-  public LogRequest userId(String userId) {
+  @JsonProperty("osp")
+  private String osp = null;
+
+  @JsonProperty("requestedFields")
+  private List<LogRequestExtRequestedFields> requestedFields = null;
+
+  @JsonProperty("grantedFields")
+  private List<LogRequestExtGrantedFields> grantedFields = null;
+
+  public LogRequestExt userId(String userId) {
     this.userId = userId;
     return this;
   }
@@ -214,7 +226,7 @@ public class LogRequest   {
     this.userId = userId;
   }
 
-  public LogRequest requesterType(RequesterTypeEnum requesterType) {
+  public LogRequestExt requesterType(RequesterTypeEnum requesterType) {
     this.requesterType = requesterType;
     return this;
   }
@@ -234,7 +246,7 @@ public class LogRequest   {
     this.requesterType = requesterType;
   }
 
-  public LogRequest requesterId(String requesterId) {
+  public LogRequestExt requesterId(String requesterId) {
     this.requesterId = requesterId;
     return this;
   }
@@ -254,7 +266,7 @@ public class LogRequest   {
     this.requesterId = requesterId;
   }
 
-  public LogRequest logPriority(LogPriorityEnum logPriority) {
+  public LogRequestExt logPriority(LogPriorityEnum logPriority) {
     this.logPriority = logPriority;
     return this;
   }
@@ -274,7 +286,7 @@ public class LogRequest   {
     this.logPriority = logPriority;
   }
 
-  public LogRequest logLevel(LogLevelEnum logLevel) {
+  public LogRequestExt logLevel(LogLevelEnum logLevel) {
     this.logLevel = logLevel;
     return this;
   }
@@ -294,7 +306,7 @@ public class LogRequest   {
     this.logLevel = logLevel;
   }
 
-  public LogRequest title(String title) {
+  public LogRequestExt title(String title) {
     this.title = title;
     return this;
   }
@@ -314,7 +326,7 @@ public class LogRequest   {
     this.title = title;
   }
 
-  public LogRequest description(String description) {
+  public LogRequestExt description(String description) {
     this.description = description;
     return this;
   }
@@ -334,12 +346,12 @@ public class LogRequest   {
     this.description = description;
   }
 
-  public LogRequest keywords(List<String> keywords) {
+  public LogRequestExt keywords(List<String> keywords) {
     this.keywords = keywords;
     return this;
   }
 
-  public LogRequest addKeywordsItem(String keywordsItem) {
+  public LogRequestExt addKeywordsItem(String keywordsItem) {
     this.keywords.add(keywordsItem);
     return this;
   }
@@ -359,7 +371,7 @@ public class LogRequest   {
     this.keywords = keywords;
   }
 
-  public LogRequest logType(LogTypeEnum logType) {
+  public LogRequestExt logType(LogTypeEnum logType) {
     this.logType = logType;
     return this;
   }
@@ -378,7 +390,7 @@ public class LogRequest   {
     this.logType = logType;
   }
 
-  public LogRequest affectedUserId(String affectedUserId) {
+  public LogRequestExt affectedUserId(String affectedUserId) {
     this.affectedUserId = affectedUserId;
     return this;
   }
@@ -397,6 +409,79 @@ public class LogRequest   {
     this.affectedUserId = affectedUserId;
   }
 
+  public LogRequestExt osp(String osp) {
+    this.osp = osp;
+    return this;
+  }
+
+   /**
+   * the requester osp.
+   * @return osp
+  **/
+  @JsonProperty("osp")
+  @ApiModelProperty(example = "yellowpages", value = "the requester osp.")
+  public String getOsp() {
+    return osp;
+  }
+
+  public void setOsp(String osp) {
+    this.osp = osp;
+  }
+
+  public LogRequestExt requestedFields(List<LogRequestExtRequestedFields> requestedFields) {
+    this.requestedFields = requestedFields;
+    return this;
+  }
+
+  public LogRequestExt addRequestedFieldsItem(LogRequestExtRequestedFields requestedFieldsItem) {
+    if (this.requestedFields == null) {
+      this.requestedFields = new ArrayList<LogRequestExtRequestedFields>();
+    }
+    this.requestedFields.add(requestedFieldsItem);
+    return this;
+  }
+
+   /**
+   * Array of requestedFields to facilitate search
+   * @return requestedFields
+  **/
+  @JsonProperty("requestedFields")
+  @ApiModelProperty(value = "Array of requestedFields to facilitate search")
+  public List<LogRequestExtRequestedFields> getRequestedFields() {
+    return requestedFields;
+  }
+
+  public void setRequestedFields(List<LogRequestExtRequestedFields> requestedFields) {
+    this.requestedFields = requestedFields;
+  }
+
+  public LogRequestExt grantedFields(List<LogRequestExtGrantedFields> grantedFields) {
+    this.grantedFields = grantedFields;
+    return this;
+  }
+
+  public LogRequestExt addGrantedFieldsItem(LogRequestExtGrantedFields grantedFieldsItem) {
+    if (this.grantedFields == null) {
+      this.grantedFields = new ArrayList<LogRequestExtGrantedFields>();
+    }
+    this.grantedFields.add(grantedFieldsItem);
+    return this;
+  }
+
+   /**
+   * Array of grantedFields to facilitate search
+   * @return grantedFields
+  **/
+  @JsonProperty("grantedFields")
+  @ApiModelProperty(value = "Array of grantedFields to facilitate search")
+  public List<LogRequestExtGrantedFields> getGrantedFields() {
+    return grantedFields;
+  }
+
+  public void setGrantedFields(List<LogRequestExtGrantedFields> grantedFields) {
+    this.grantedFields = grantedFields;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -406,29 +491,32 @@ public class LogRequest   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    LogRequest logRequest = (LogRequest) o;
-    return Objects.equals(this.userId, logRequest.userId) &&
-        Objects.equals(this.requesterType, logRequest.requesterType) &&
-        Objects.equals(this.requesterId, logRequest.requesterId) &&
-        Objects.equals(this.logPriority, logRequest.logPriority) &&
-        Objects.equals(this.logLevel, logRequest.logLevel) &&
-        Objects.equals(this.title, logRequest.title) &&
-        Objects.equals(this.description, logRequest.description) &&
-        Objects.equals(this.keywords, logRequest.keywords) &&
-        Objects.equals(this.logType, logRequest.logType) &&
-        Objects.equals(this.affectedUserId, logRequest.affectedUserId);
+    LogRequestExt logRequestExt = (LogRequestExt) o;
+    return Objects.equals(this.userId, logRequestExt.userId) &&
+        Objects.equals(this.requesterType, logRequestExt.requesterType) &&
+        Objects.equals(this.requesterId, logRequestExt.requesterId) &&
+        Objects.equals(this.logPriority, logRequestExt.logPriority) &&
+        Objects.equals(this.logLevel, logRequestExt.logLevel) &&
+        Objects.equals(this.title, logRequestExt.title) &&
+        Objects.equals(this.description, logRequestExt.description) &&
+        Objects.equals(this.keywords, logRequestExt.keywords) &&
+        Objects.equals(this.logType, logRequestExt.logType) &&
+        Objects.equals(this.affectedUserId, logRequestExt.affectedUserId) &&
+        Objects.equals(this.osp, logRequestExt.osp) &&
+        Objects.equals(this.requestedFields, logRequestExt.requestedFields) &&
+        Objects.equals(this.grantedFields, logRequestExt.grantedFields);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(userId, requesterType, requesterId, logPriority, logLevel, title, description, keywords, logType, affectedUserId);
+    return Objects.hash(userId, requesterType, requesterId, logPriority, logLevel, title, description, keywords, logType, affectedUserId, osp, requestedFields, grantedFields);
   }
 
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class LogRequest {\n");
+    sb.append("class LogRequestExt {\n");
     
     sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
     sb.append("    requesterType: ").append(toIndentedString(requesterType)).append("\n");
@@ -440,6 +528,9 @@ public class LogRequest   {
     sb.append("    keywords: ").append(toIndentedString(keywords)).append("\n");
     sb.append("    logType: ").append(toIndentedString(logType)).append("\n");
     sb.append("    affectedUserId: ").append(toIndentedString(affectedUserId)).append("\n");
+    sb.append("    osp: ").append(toIndentedString(osp)).append("\n");
+    sb.append("    requestedFields: ").append(toIndentedString(requestedFields)).append("\n");
+    sb.append("    grantedFields: ").append(toIndentedString(grantedFields)).append("\n");
     sb.append("}");
     return sb.toString();
   }

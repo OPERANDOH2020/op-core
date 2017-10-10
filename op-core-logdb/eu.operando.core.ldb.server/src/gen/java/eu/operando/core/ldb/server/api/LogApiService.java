@@ -1,30 +1,20 @@
-/*
-   	* Copyright (c) 2017 {TECNALIA}.
-    * All rights reserved. This program and the accompanying materials
-    * are made available under the terms of the The MIT License (MIT).
-    * which accompanies this distribution, and is available at
-    * http://opensource.org/licenses/MIT
-    *
-    * Contributors:
-    *    Gorka Benguria Elguezabal {TECNALIA}
-    *    Gorka Mikel Echevarría {TECNALIA}
-    * Initially developed in the context of OPERANDO EU project www.operando.eu
- */
 package eu.operando.core.ldb.server.api;
 
-import javax.ws.rs.core.HttpHeaders;
+import eu.operando.core.ldb.server.api.*;
+import eu.operando.core.ldb.server.model.*;
+
+import eu.operando.core.ldb.server.model.LogRequestExt;
+
+import java.util.List;
+import eu.operando.core.ldb.server.api.NotFoundException;
+
+import java.io.InputStream;
+
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-
-import eu.operando.core.ldb.server.model.LogRequest;
-import eu.operando.core.ldb.server.model.LogRequestTicket;
-
-@javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-05-16T12:28:19.935Z")
+import javax.validation.constraints.*;
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2017-10-09T16:21:27.816+02:00")
 public abstract class LogApiService {
-
-	public abstract Response log(LogRequest request, SecurityContext securityContext) throws NotFoundException;
-		
-	public abstract Response logTicket(LogRequestTicket request, SecurityContext securityContext, HttpHeaders headers)
-			throws NotFoundException;	
-
+    public abstract Response log(LogRequestExt request,SecurityContext securityContext) throws NotFoundException;
+    public abstract Response logTicket(LogRequestExt request,SecurityContext securityContext) throws NotFoundException;
 }
