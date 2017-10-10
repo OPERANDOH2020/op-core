@@ -199,7 +199,6 @@ def handleSelect(request, addr):
         # let's check whether the query has the user id
         uID_split = re.findall('\((.*?)\)', addr)
         if  req_db != "YellowPages" and req_db !=  "built-in":
-            
             #if value does not exist this means that the response is one entity and not a set of ones
             if 'value' not in jsonResponse:
                 usersValue = jsonResponse
@@ -227,8 +226,13 @@ def handleSelect(request, addr):
                         # there is no policy defined so return the result
                         # return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
                         return Response(json.dumps({"d": {"error": "Policies restrictions"}}), status=200, mimetype='application/json')
-                
+                elif policies["compliance"] == "VALID":
+                    # there is a VALID reponce, no policies exist, all data are shown
+                    restrictedFields = []
+                    logdata(req_db, joinSTR(restrictedFields), userid, False)
+                    return Response(json.dumps(usersValue), status=200, mimetype='application/json')
                 else:
+                    
                     restrictedFields = []
                     for ev in policies["evaluations"]:
                         print ev
@@ -275,7 +279,12 @@ def handleSelect(request, addr):
                         # there is no policy defined so return the result
                         # return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
                         return Response(json.dumps({"d": {"error": "Policies restrictions"}}), status=200, mimetype='application/json')
-                    
+                    elif policies["compliance"] == "VALID":
+                        # there is a VALID reponce, no policies exist, all data are shown
+                        #do nothing in the user object, everything should be visible
+                        #just print a log
+                        restrictedFields = []
+                        logdata(psp_user_identifier, joinSTR(restrictedFields), userid, False)
                     else:
                         restrictedFields = []
                         for ev in policies["evaluations"]:
@@ -316,7 +325,12 @@ def handleSelect(request, addr):
                         # there is no policy defined so return the result
                         # return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
                         return Response(json.dumps({"d": {"error": "Policies restrictions"}}), status=200, mimetype='application/json')
-
+                    elif policies["compliance"] == "VALID":
+                        #just do nothing, only show a log and print the user as it is
+                        restrictedFields = []
+                        logdata(req_db, joinSTR(restrictedFields), userid, False)
+                        return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
+                    
                     elif policies["compliance"] == "PREFS_CONFLICT":
                         # there is a conflict in the policies
                         restrictedFields = []
@@ -346,6 +360,11 @@ def handleSelect(request, addr):
                     if policies["compliance"] == "NO_POLICY":
                         # there is no policy defined so return the result
                         return Response(json.dumps({"error": "Policies restrictions"}), status=200, mimetype='application/json')
+                    elif policies["compliance"] == "VALID":
+                        #do nothing, just return the json object as it is. 
+                        restrictedFields = []
+                        logdata(req_db, joinSTR(restrictedFields), userid, False)
+                        return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
                     elif policies["compliance"] == "PREFS_CONFLICT":
                         # there is a conflict in the policies
                         
@@ -381,6 +400,10 @@ def handleSelect(request, addr):
                         if policies["compliance"] == "NO_POLICY":
                             # there is no policy defined so return the result
                             jsonResponse["d"]["results"][i]={"error":"Policies restrictions"}
+                        elif policies["compliance"] == "VALID":
+                            #do nothing, show all data
+                            restrictedFields = []
+                            logdata(psp_user_identifier, joinSTR(restrictedFields), userid, False)                            
                         elif policies["compliance"] == "PREFS_CONFLICT":
                             # there is a conflict in the policies
                             restrictedFields = []
@@ -410,6 +433,10 @@ def handleSelect(request, addr):
                         if policies["compliance"] == "NO_POLICY":
                             # there is no policy defined so return the result
                             jsonResponse["d"]["results"][i]={"error":"Policies restrictions"}
+                        elif policies["compliance"] == "VALID":
+                            #do nothing, show all data
+                            restrictedFields = []
+                            logdata(psp_user_identifier, joinSTR(restrictedFields), userid, False)
                         elif policies["compliance"] == "PREFS_CONFLICT":
                             # there is a conflict in the policies
                             restrictedFields = []
@@ -452,19 +479,33 @@ def handleInsert(request, addr):
     ST = GetST()
     headers = {'service-ticket': ST, 'Content-Type': 'application/json',
                'Accept': '*/*', 'osp-identifier': req_db, 'psp-user-identifier': psp_user_identifier}
+
+    #get the userId from URL
+    uID_split = re.findall('\((.*?)\)', addr)
+    if len(uID_split) == 1:
+        userid = uID_split[0]
+
+    #get the model record
+    addrParts = addr.split("/")
+    model = addrParts[len(addrParts)-1]
+
     # have to check with PC whether this guy can insert.
-    res = getPCresponse(action="Insert", osp=req_db, userid="",
-                        requester_id=psp_user_identifier, subject="", urls=[])
-    # suppose that the response is true
-    r = requests.post(__DAN_url % addr, headers=headers,
+    policies = getPCresponse(action="Insert", osp=req_db, userid=userid,
+                        requester_id=psp_user_identifier, urls=[model+".record"], role=getUserRole(psp_user_identifier))
+
+    if policies["status"] == "true":
+        # suppose that the response is true
+        r = requests.post(__DAN_url % addr, headers=headers,
                       data=json.dumps(request.json), verify=False)
-    # return Response(r.text, status=200, mimetype='application/json')
-    if r.status_code == 200:
-        ks = json.loads(request.data)
-        #logdata("RM", "insert into table %s" % addr,"fieds:%s||status:%s" % (joinSTR(ks.keys()), "Granted"))
-        return Response(r.text, status=200, mimetype='application/json')
-    else:
-		return Response(r.text,status=r.status_code, mimetype='application/json')
+        # return Response(r.text, status=200, mimetype='application/json')
+        if r.status_code == 200:
+            ks = json.loads(request.data)
+            #logdata("RM", "insert into table %s" % addr,"fieds:%s||status:%s" % (joinSTR(ks.keys()), "Granted"))
+            return Response(r.text, status=200, mimetype='application/json')
+        else:
+            return Response(r.text,status=r.status_code, mimetype='application/json')
+
+    return Response("Permission Denied", status=401, mimetype='application/json')
 
 
 # this is an update

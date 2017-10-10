@@ -2593,7 +2593,35 @@ employeeNumber: string::string;;
 employeeType: role::OSP;;
 sn: ASLBG_GA
 uid: ASLBG_GA
-userPassword:: RGFuaQ==
+userPassword:: RG3FuaQ==
+
+dn: uid=ASLBG_IL,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: ASLBG_IL
+departmentNumber: string::string;;
+displayName: ASLBG_IL
+employeeNumber: string::string;;
+employeeType: role::OSP;;
+sn: ASLBG_IL
+uid: ASLBG_IL
+userPassword:: RG2FuaQ==
+
+dn: uid=GASLINI,ou=People,dc=nodomain
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: GASLINI
+departmentNumber: string::string;;
+displayName: GASLINI
+employeeNumber: string::string;;
+employeeType: role::OSP;;
+sn: GASLINI
+uid: GASLINI
+userPassword:: RG1FuaQ==
 
 dn: uid=ami,ou=People,dc=nodomain
 objectClass: inetOrgPerson

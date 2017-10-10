@@ -1,0 +1,6 @@
+{
+  "apiPackage": "eu.operando.core.ldb.server.api",
+  "modelPackage": " eu.operando.core.ldb.server.model",
+  "groupId": "eu.operando",
+  "artifactId": "eu.operando.core.ldb.server"
+}

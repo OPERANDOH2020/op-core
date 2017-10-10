@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////
 //
-// Â© University of Southampton IT Innovation Centre, 2016
+// © University of Southampton IT Innovation Centre, 2016
 //
 // Copyright in this software belongs to University of Southampton
 // IT Innovation Centre of Gamma House, Enterprise Road,
@@ -27,17 +27,30 @@ package eu.operando.core.ose.api.impl;
 
 import io.swagger.api.*;
 import io.swagger.api.NotFoundException;
-
-
-
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2017-02-03T15:31:38.137Z")
+/**
+ * Implementation of the monitor API method - that is used by
+ * an Operando PSP platform admin to determine if the server is running
+ * or not.
+ */
+
 public class MonitorApiServiceImpl extends MonitorApiService {
+
+    /**
+     * HTTP GET method to retrieve a HTTP status code that
+     * @param securityContext The JAX-RS context information passed to the method implementation.
+     * @return A HTTP response with a status code and status body message.
+     * @throws NotFoundException
+     */
+
     @Override
     public Response monitorGet(SecurityContext securityContext) throws NotFoundException {
-        // do some magic!
-        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "Server up")).build();
+        /**
+         * Simple method to respond with the stated response message and a HTTP
+         * 200 OK code.
+         */
+        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "The service is currently running")).build();
     }
 }

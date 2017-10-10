@@ -1,0 +1,23 @@
+[
+  {
+    "question": "I am concerned about other social media users posting content (e.g. photos) about me",
+    "category": "SOCIAL",
+    "meta": "strongly agree, agree, disagree, strongly disagree",
+    "weight": "S1",
+    "score": "string"
+  },
+  {
+    "question": "I am concerned about my social media data being used by 3rd party online companies",
+    "category": "SOCIAL",
+    "meta": "strongly agree, agree, disagree, strongly disagree",
+    "weight": "S2",
+    "score": "string"
+  },
+  {
+    "question": "I regularly check my privacy settings for all of the online social media services I use",
+    "category": "SOCIAL",
+    "meta": "strongly agree, agree, disagree, strongly disagree",
+    "weight": "S3",
+    "score": "string"
+  }
+]
