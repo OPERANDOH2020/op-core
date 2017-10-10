@@ -55,6 +55,26 @@
 					</execution>
 				</executions>
 			</plugin>
+			<!-- Step 1. - Download the swagger ui -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>wagon-maven-plugin</artifactId>
+				<version>1.0</version>
+				<executions>
+					<execution>
+						<id>download.swagger.ui</id>
+						<phase>process-resources</phase>
+						<configuration>
+							<url>${swagger.url}</url>
+							<fromFile>v${swagger-ui.version}.tar.gz</fromFile>
+							<toFile>${project.build.directory}/swagger-ui-${swagger-ui.version}.tar.gz</toFile>
+						</configuration>
+						<goals>
+							<goal>download-single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<!-- We check the value of some properties values -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -162,8 +182,7 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
-			<!-- Step 1. - Download the swagger ui -->
+			</plugin>	
 			<!-- Plugin to copy the war into generated folder accessible to the docker 
 				file -->
 			<plugin>
@@ -191,26 +210,6 @@
 				</executions>
 			</plugin>
 			<!-- added to support docker image creation -->
-			<!-- Step 1. - Download the swagger ui -->
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>wagon-maven-plugin</artifactId>
-				<version>1.0</version>
-				<executions>
-					<execution>
-						<id>download.swagger.ui</id>
-						<phase>process-resources</phase>
-						<configuration>
-							<url>${swagger.url}</url>
-							<fromFile>v${swagger-ui.version}.tar.gz</fromFile>
-							<toFile>${project.build.directory}/swagger-ui-${swagger-ui.version}.tar.gz</toFile>
-						</configuration>
-						<goals>
-							<goal>download-single</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 			<!-- Step 2. - Decompress content and move it to target/swagger-ui folderv -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
