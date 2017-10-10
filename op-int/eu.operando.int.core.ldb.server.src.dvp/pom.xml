@@ -419,7 +419,7 @@
 	<properties>
 		<servlet-api-version>2.5</servlet-api-version>
 		<server.internalhost>localhost</server.internalhost>
-		<server.externalhost>${operando.core.ldb.host}</server.externalhost>
+		<server.externalhost>ldb.integration.operando.esilab.org</server.externalhost>
 		<server.internalport>8080</server.internalport>
 		<server.externalport>8090</server.externalport>
 		<server.basepath>operando/core/ldb</server.basepath>
