@@ -1,5 +1,5 @@
 {
-    "policy_text": "ASL Bergamo - IL Policy",
+    "policy_text": "ASL Bergamo: Ispettorato del lavoro",
     "policy_url": "ASLBG_IL",
     "schema": "http://www.operando.eu/OData/$metadata",
     "workflow": [
@@ -21,7 +21,7 @@
             "attributes": [{"attribute_name": "fixed", "attribute_value": "true"},
             {
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -39,7 +39,7 @@
             "resource": "nomeAzienda",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -57,7 +57,7 @@
             "resource": "op_psw_inspection_provincia",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -75,7 +75,7 @@
             "resource": "op_psw_inspection_comune",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -93,7 +93,7 @@
             "resource": "indirizzo",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -111,7 +111,7 @@
             "resource": "numeroCivico",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -129,7 +129,7 @@
             "resource": "cap",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -147,7 +147,7 @@
             "resource": "dataIspezione",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -165,7 +165,7 @@
             "resource": "oraInizio",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -183,7 +183,7 @@
             "resource": "oraFine",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -201,7 +201,7 @@
             "resource": "sanzioneApplicata",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -219,7 +219,7 @@
             "resource": "IDIspettore",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -237,7 +237,7 @@
             "resource": "nomeIspettore",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -255,7 +255,7 @@
             "resource": "report",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -273,7 +273,7 @@
             "resource": "daRicontrollare",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -291,7 +291,7 @@
             "resource": "dataOraProssimaIspezione",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -309,7 +309,7 @@
             "resource": "idIspettoreProssimaIspezione",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -327,7 +327,7 @@
             "resource": "nomeIspettoreProssimaIspezione",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -345,7 +345,7 @@
             "resource": "username",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -363,7 +363,7 @@
             "resource": "datainserimento",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -381,7 +381,7 @@
             "resource": "amount",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -399,7 +399,7 @@
             "resource": "motivo",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -417,7 +417,7 @@
             "resource": "livello",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -435,7 +435,7 @@
             "resource": "primaPenalita",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -453,7 +453,7 @@
             "resource": "pagato",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -470,7 +470,7 @@
             "resource": "totale",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -488,7 +488,7 @@
             "resource": "dataPagamento",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -507,7 +507,7 @@
             "attributes": [{"attribute_name": "fixed", "attribute_value": "true"},
                 {
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -525,7 +525,7 @@
             "resource": "nomeAzienda",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -543,7 +543,7 @@
             "resource": "op_psw_inspection_provincia",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -561,7 +561,7 @@
             "resource": "op_psw_inspection_comune",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -579,7 +579,7 @@
             "resource": "indirizzo",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -597,7 +597,7 @@
             "resource": "numeroCivico",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -615,7 +615,7 @@
             "resource": "cap",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -633,7 +633,7 @@
             "resource": "dataIspezione",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -651,7 +651,7 @@
             "resource": "oraInizio",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -669,7 +669,7 @@
             "resource": "oraFine",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -687,7 +687,7 @@
             "resource": "sanzioneApplicata",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -705,7 +705,7 @@
             "resource": "IDIspettore",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -723,7 +723,7 @@
             "resource": "nomeIspettore",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -741,7 +741,7 @@
             "resource": "report",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -759,7 +759,7 @@
             "resource": "daRicontrollare",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -777,7 +777,7 @@
             "resource": "dataOraProssimaIspezione",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -795,7 +795,7 @@
             "resource": "idIspettoreProssimaIspezione",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -813,7 +813,7 @@
             "resource": "nomeIspettoreProssimaIspezione",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -831,7 +831,7 @@
             "resource": "username",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -849,7 +849,7 @@
             "resource": "datainserimento",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -867,7 +867,7 @@
             "resource": "amount",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -885,7 +885,7 @@
             "resource": "motivo",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -903,7 +903,7 @@
             "resource": "livello",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -921,7 +921,7 @@
             "resource": "primaPenalita",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -939,7 +939,7 @@
             "resource": "pagato",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -956,7 +956,7 @@
             "resource": "totale",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -974,7 +974,7 @@
             "resource": "dataPagamento",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",

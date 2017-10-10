@@ -20,7 +20,7 @@
             "resource": "ID",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -38,7 +38,7 @@
             "resource": "nome",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -56,7 +56,7 @@
             "resource": "cognome",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -74,7 +74,7 @@
             "resource": "codiceFiscale",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -92,7 +92,7 @@
             "resource": "sesso",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -110,7 +110,7 @@
             "resource": "dataNascita",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -128,7 +128,7 @@
             "resource": "PaeseNascita",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -146,7 +146,7 @@
             "resource": "provNascita",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -164,7 +164,7 @@
             "resource": "comuneNascita",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -182,7 +182,7 @@
             "resource": "provResidenza",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -200,7 +200,7 @@
             "resource": "comResidenza",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -218,7 +218,7 @@
             "resource": "indirizzoResidenza",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -236,7 +236,7 @@
             "resource": "numeroCivico",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -254,7 +254,7 @@
             "resource": "cap",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -290,7 +290,7 @@
             "resource": "documento1",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -308,7 +308,7 @@
             "resource": "documento2",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -326,7 +326,7 @@
             "resource": "consInform1",
             "attributes": [{"attribute_name": "fixed", "attribute_value": "true"},{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -344,7 +344,7 @@
             "resource": "consInform2",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -362,7 +362,7 @@
             "resource": "consInform3",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -380,7 +380,7 @@
             "resource": "consInform4",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -398,7 +398,7 @@
             "resource": "consInform5",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -434,7 +434,7 @@
             "resource": "username",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -452,7 +452,7 @@
             "resource": "datainserimento",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -469,7 +469,7 @@
             "resource": "tipologiaLegale",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -486,7 +486,7 @@
             "resource": "op_cds_doctor",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -503,7 +503,7 @@
             "resource": "ID",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -521,7 +521,7 @@
             "resource": "nome",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -539,7 +539,7 @@
             "resource": "cognome",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -557,7 +557,7 @@
             "resource": "codiceFiscale",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -575,7 +575,7 @@
             "resource": "sesso",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -593,7 +593,7 @@
             "resource": "dataNascita",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -611,7 +611,7 @@
             "resource": "PaeseNascita",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -629,7 +629,7 @@
             "resource": "provNascita",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -647,7 +647,7 @@
             "resource": "comuneNascita",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -665,7 +665,7 @@
             "resource": "provResidenza",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -683,7 +683,7 @@
             "resource": "comResidenza",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -701,7 +701,7 @@
             "resource": "indirizzoResidenza",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -719,7 +719,7 @@
             "resource": "numeroCivico",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -737,7 +737,7 @@
             "resource": "cap",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -773,7 +773,7 @@
             "resource": "documento1",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -791,7 +791,7 @@
             "resource": "documento2",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -809,7 +809,7 @@
             "resource": "consInform1",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -827,7 +827,7 @@
             "resource": "consInform2",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -845,7 +845,7 @@
             "resource": "consInform3",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -863,7 +863,7 @@
             "resource": "consInform4",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -881,7 +881,7 @@
             "resource": "consInform5",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -917,7 +917,7 @@
             "resource": "username",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -935,7 +935,7 @@
             "resource": "datainserimento",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -952,7 +952,7 @@
             "resource": "tipologiaLegale",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -969,7 +969,7 @@
             "resource": "op_cds_doctor",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
