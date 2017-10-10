@@ -56,6 +56,8 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         } catch (Exception e) {
             abortWithUnauthorized(requestContext);
         }
+        
+    	System.out.println("Successful Validation ");        
     }
 
     private boolean isTokenBasedAuthentication(String authorizationHeader) {
