@@ -246,7 +246,7 @@
 						</goals>
 						<configuration>
 							<target>
-								<copy todir="${destDir}">
+								<copy todir="${destDir}" overwrite="true">
 									<fileset dir="${basedir}/generated/swagger-ui">
 										<include name="swagger.json" />
 									</fileset>
