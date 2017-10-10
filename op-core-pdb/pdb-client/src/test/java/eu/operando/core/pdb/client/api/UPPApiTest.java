@@ -38,16 +38,13 @@
 
 package eu.operando.core.pdb.client.api;
 
-import eu.operando.core.pdb.client.api.UPPApi;
 import eu.operando.core.pdb.client.ApiException;
 import eu.operando.core.pdb.common.model.UserPrivacyPolicy;
 import org.junit.Test;
 import org.junit.Ignore;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import static org.junit.Assert.assertEquals;
 
 /**
  * API tests for UPPApi
@@ -117,9 +114,10 @@ public class UPPApiTest {
     @Test
     public void userPrivacyPolicyUserIdGetTest() throws ApiException {
         String userId = null;
+        userId = "panos";
         UserPrivacyPolicy response = api.userPrivacyPolicyUserIdGet(userId);
-
         // TODO: test validations
+        assertEquals(response.getUserId(), userId);
     }
     
     /**
