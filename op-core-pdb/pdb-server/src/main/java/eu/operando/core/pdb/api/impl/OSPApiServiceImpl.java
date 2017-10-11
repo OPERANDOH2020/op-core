@@ -81,7 +81,7 @@ public class OSPApiServiceImpl extends OSPApiService {
     String logdbSId = "ose/osps/.*";
     String aapiBasePath = "http://integration.operando.esilab.org:8135/operando/interfaces/aapi";
     String logdbBasePath = "http://integration.operando.esilab.org:8090/operando/core/ldb";
-    String oseBasePath = "http://integration.operando.esilab.org:8090/operando/core/ose";
+    String oseBasePath = "http://integration.operando.esilab.org:8094/operando/core/ose";
     String ospLoginName = "xxxxx";
     String ospLoginPassword = "xxxxx";
     String stHeaderName = "Service-Ticket";
@@ -471,10 +471,13 @@ public class OSPApiServiceImpl extends OSPApiService {
              * Invoke the PDB to query for the user consents.
              */
             CloseableHttpClient httpclient = HttpClients.createDefault();
-            HttpPut httpput = new HttpPut(oseBasePath + "/osps/"+ ospId + "/reason");
+            String utl = oseBasePath + "/osps/"+ ospId + "/reason";
+            HttpPut httpput = new HttpPut(utl);
+            httpput.setHeader("Content-type", "application/json");
             httpput.setEntity(new StringEntity(policyText));
             CloseableHttpResponse response1 = httpclient.execute(httpput);
 
+            System.out.println(response1.getEntity());
             /**
              * If there is no response return null.
              */
@@ -581,10 +584,10 @@ public class OSPApiServiceImpl extends OSPApiService {
         String aPolicy = ospMongodb.getOSPById(ospId);
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        String ospIdentity = "YellowPages";
+        String ospIdentity = "";
         try {
             OSPPrivacyPolicy prObj = mapper.readValue(aPolicy, OSPPrivacyPolicy.class);
-            ospIdentity = prObj.getPolicyText();
+            ospIdentity = prObj.getPolicyUrl();
         } catch (IOException ex) {
             Logger.getLogger(OSPApiServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -593,7 +596,7 @@ public class OSPApiServiceImpl extends OSPApiService {
         logRequest("OSP PUT access reason", "PUT",
                 "OSP PUT access reason received",
                 LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.SYSTEM, ospId,
-                new ArrayList<String>(Arrays.asList("one", "two")));
+                new ArrayList<String>(Arrays.asList(ospId, ospPolicy.toString())));
 
         boolean response = ospMongodb.accessReasonIdUpdate(ospId, reasonId, ospPolicy);
 
@@ -614,8 +617,8 @@ public class OSPApiServiceImpl extends OSPApiService {
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         // TODO return 204
-        //return Response.ok("OK", MediaType.APPLICATION_JSON).build();
-        return Response.status(Response.Status.NO_CONTENT).build();
+        return Response.ok("OK", MediaType.APPLICATION_JSON).build();
+
     }
 
     @Override

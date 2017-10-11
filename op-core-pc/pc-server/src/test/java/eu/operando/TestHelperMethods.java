@@ -310,6 +310,29 @@ public class TestHelperMethods {
         }
     }
 
+      /**
+     * Add the OSP policy to PDB module via the OSP API.
+     * @param fileLoc The json file with the content
+     * @return The ID of the created OSP policy
+     */
+    public String changeOSPReason(String ospId, String reason, String reasonId) {
+
+
+            WebResource webResourcePDB = client.resource(PDB_OSP_URL + "/" + ospId + "/privacy-policy/access-reasons/" + reasonId);
+            ClientResponse policyResponse = webResourcePDB.type("application/json").put(ClientResponse.class,
+                    reason);
+
+            System.out.println("POST " + reason + "status code:" + policyResponse.getStatus());
+
+            if (policyResponse.getStatus() != 201) {
+                System.err.println("POST " + reason + "error message:" + policyResponse.getEntity(String.class));
+                return null;
+            }
+
+            return ospQuerybyFriendlyName(JsonPath.parse(reason).read("$.policy_url", String.class));
+
+    }
+
      /**
      * Invoke the PC API to evaluate a given access request
      * @param userId The user whose data is being requested.
