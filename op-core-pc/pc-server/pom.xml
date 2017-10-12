@@ -192,6 +192,11 @@
       <artifactId>eu.operando.core.ldb.client</artifactId>
       <version>${project.version}</version>
     </dependency>
+            <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>eu.operando.core.pdb.common-model</artifactId>
+            <version>${project.version}</version>
+        </dependency>
   </dependencies>
   <repositories>
     <repository>
