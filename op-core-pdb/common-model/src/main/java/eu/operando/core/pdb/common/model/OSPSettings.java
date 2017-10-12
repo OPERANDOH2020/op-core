@@ -104,8 +104,8 @@ public class OSPSettings   {
     StringBuilder sb = new StringBuilder();
     sb.append("{\n");
 
-    sb.append("    \"ospId\": \"").append(toIndentedString(ospId)).append("\",\n");
-    sb.append("    \"ospSettings\": ").append(toIndentedString(ospSettings)).append("\n");
+    sb.append("    \"osp_id\": \"").append(toIndentedString(ospId)).append("\",\n");
+    sb.append("    \"osp_settings\": ").append(toIndentedString(ospSettings)).append("\n");
     sb.append("}");
     return sb.toString();
   }
