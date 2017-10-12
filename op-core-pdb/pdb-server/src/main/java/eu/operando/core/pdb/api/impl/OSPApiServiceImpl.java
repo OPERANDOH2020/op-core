@@ -65,6 +65,7 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2017-02-20T12:05:17.950Z")
 public class OSPApiServiceImpl extends OSPApiService {
@@ -485,7 +486,7 @@ public class OSPApiServiceImpl extends OSPApiService {
             response1.close();
             httpput.releaseConnection();
 
-            return "" + response1.getStatusLine() + " " + response1.getEntity().toString();
+            return "" + response1.getStatusLine() + " " + EntityUtils.toString(response1.getEntity());
         } catch (IOException ex) {
             System.err.println("OSE-Compliance-Report: Unable to retrieve data from Policy Database");
             return "error";
