@@ -129,8 +129,8 @@ public class ComplianceReport   {
     StringBuilder sb = new StringBuilder();
     sb.append("class ComplianceReport {\n");
 
-    sb.append("    status: ").append(toIndentedString(status)).append("\n");
-    sb.append("    regulation: ").append(toIndentedString(regulation)).append("\n");
+    sb.append("    status: ").append(toIndentedString(status)).append(",\n");
+    sb.append("    regulation: ").append(toIndentedString(regulation)).append(",\n");
     sb.append("    evaluations: ").append(toIndentedString(evaluations)).append("\n");
     sb.append("}");
     return sb.toString();
