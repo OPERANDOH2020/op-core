@@ -485,7 +485,7 @@ public class OSPApiServiceImpl extends OSPApiService {
             response1.close();
             httpput.releaseConnection();
 
-            return "" + response1.getStatusLine();
+            return "" + response1.getStatusLine() + " " + response1.getEntity().toString();
         } catch (IOException ex) {
             System.err.println("OSE-Compliance-Report: Unable to retrieve data from Policy Database");
             return "error";
