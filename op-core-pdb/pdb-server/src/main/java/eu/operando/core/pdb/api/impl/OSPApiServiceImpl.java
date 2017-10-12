@@ -601,7 +601,6 @@ public class OSPApiServiceImpl extends OSPApiService {
         boolean response = ospMongodb.accessReasonIdUpdate(ospId, reasonId, ospPolicy);
 
         if (!response) {
-
             logRequest("OSP PUT access reason", "PUT",
                     "OSP PUT access reason failed",
                     LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.SYSTEM, ospId,
@@ -617,7 +616,7 @@ public class OSPApiServiceImpl extends OSPApiService {
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
         // TODO return 204
-        return Response.ok("OK", MediaType.APPLICATION_JSON).build();
+        return Response.ok("OK", MediaType.APPLICATION_JSON).entity("The OSP ID is " + ospIdentity).build();
 
     }
 
