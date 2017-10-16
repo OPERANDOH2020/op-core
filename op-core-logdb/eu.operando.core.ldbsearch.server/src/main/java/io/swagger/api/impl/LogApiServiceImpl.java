@@ -100,7 +100,7 @@ public class LogApiServiceImpl extends LogApiService {
 			logResponse.setDescription(resultSet.getString("MESSAGE"));
 			if (resultSet.getString("LOGTYPE") != null)
 				logResponse.setLogType(resultSet.getString("LOGTYPE").toUpperCase());
-			logResponse.setAffectedUserId(resultSet.getString("AFFECTED_USER_ID"));
+			logResponse.setAffectedUserId(resultSet.getString("AFFECTEDUSERID"));
 
 			logResponsesArray.add(logResponse);
 		}
@@ -245,7 +245,7 @@ public class LogApiServiceImpl extends LogApiService {
 				if (!affectedUserId.equals("")) {
 					if (boolAnd)
 						strBufferSelect.append(" AND ");
-					strBufferSelect.append("AFFECTED_USER_ID='" + affectedUserId + "'");
+					strBufferSelect.append("AFFECTEDUSERID='" + affectedUserId + "'");
 					boolAnd = true;
 				}
 			}
