@@ -78,7 +78,7 @@ public class OspsApiServiceImpl extends OspsApiService {
     DefaultApi aapiClient;
 
     private String oseOSPSSId = "ose/osps/.*";
-    private String logdbSId = "ose/osps/.*";
+//    private String logdbSId = "pdb/OSP/.*";
     private String aapiBasePath = "http://integration.operando.esilab.org:8135/operando/interfaces/aapi";
     private String logdbBasePath = "http://integration.operando.esilab.org:8090/operando/core/ldb";
     private String pdbBasePath = "http://integration.operando.esilab.org:8096/operando/core";
@@ -118,7 +118,7 @@ public class OspsApiServiceImpl extends OspsApiService {
             //@Override
             public void run() {
                 Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.INFO, "osps TIMER RUN now");
-                logdbST = helpServices.getServiceTicket(aapiClient, ospsLoginName, ospsLoginPassword, logdbSId);
+                logdbST = helpServices.getServiceTicket(aapiClient, ospsLoginName, ospsLoginPassword, oseOSPSSId);
                 apiClient.addDefaultHeader(stHeaderName, logdbST);
             }
         };
@@ -127,7 +127,7 @@ public class OspsApiServiceImpl extends OspsApiService {
         timer.scheduleAtFixedRate(timerTask, 0, ticketLifeTime);
 
         // get service ticket for logdb service
-        logdbST = helpServices.getServiceTicket(aapiClient, ospsLoginName, ospsLoginPassword, logdbSId);
+        logdbST = helpServices.getServiceTicket(aapiClient, ospsLoginName, ospsLoginPassword, oseOSPSSId);
         apiClient.addDefaultHeader(stHeaderName, logdbST);
         this.logApi = new LogApi(apiClient);
 
@@ -153,9 +153,9 @@ public class OspsApiServiceImpl extends OspsApiService {
         if (prop.getProperty("ose.osps.service.password") != null) {
             ospsLoginPassword = prop.getProperty("ose.osps.service.password");
         }
-        if (prop.getProperty("logdb.service.id") != null) {
-            logdbSId = prop.getProperty("logdb.service.id");
-        }
+//        if (prop.getProperty("logdb.service.id") != null) {
+//            logdbSId = prop.getProperty("logdb.service.id");
+//        }
 
         if (prop.getProperty("pdb.upp.basepath") != null) {
             pdbBasePath = prop.getProperty("pdb.upp.basepath");
@@ -355,14 +355,16 @@ public class OspsApiServiceImpl extends OspsApiService {
     public Response ospsOspIdPrivacytextPut(String ospId, AccessReason ospPrivacyText, SecurityContext securityContext)
             throws NotFoundException {
 
-        String changeMessage = "The OSP (" + ospId + ") has updated their privacy policy. The following is their"
+        OSPPrivacyPolicy osp_access_policies = getSpecificOSP(ospId);
+
+        String changeMessage = "The OSP (" + osp_access_policies.getPolicyText() + ") has updated their privacy policy. The following is their"
                 + " new reason for accessing your data: ";
 
-            changeMessage += "A " + ospPrivacyText.getDatauser() + "can use a " + ospPrivacyText.getDatasubjecttype() + "'s " +
-                    ospPrivacyText.getDatatype() + "data for the purpose of " + ospPrivacyText.getReason() + ".\n";
+            changeMessage += "A " + ospPrivacyText.getDatauser() + " can use a " + ospPrivacyText.getDatasubjecttype() + "s " +
+                    ospPrivacyText.getDatatype() + " data for the purpose of " + ospPrivacyText.getReason() + ". ";
 
 
-        changeMessage += "Your access preferences have been updated to prevent access to this data until you"
+        changeMessage += "Your access preferences have been updated to prevent access to this data until you "
                 + "consent to this change. Please visit the access preferences page and review your settings.";
 
         /**
@@ -375,7 +377,7 @@ public class OspsApiServiceImpl extends OspsApiService {
             return Response.status(Response.Status.NOT_FOUND).entity("Could not notify users of changed policy").build();
         }
 
-        OSPPrivacyPolicy osp_access_policies = getSpecificOSP(ospId);
+
         String friendlyId = osp_access_policies.getPolicyUrl();
 
         List<String> jsonUsers = getSubscribedUsersList(friendlyId, all_user_policies);
@@ -387,13 +389,11 @@ public class OspsApiServiceImpl extends OspsApiService {
                 new ArrayList<String>(Arrays.asList("POST")));
             UserPrivacyPolicy upp = getUserPrivacyPolicy(userId);
             String uppJson = resetCategoryPolicies(ospPrivacyText.getDatatype(), ospPrivacyText.getDatauser(), upp, userId, ospId, friendlyId);
-            System.out.println("New UPP = " + uppJson);
             ObjectMapper mapper = new ObjectMapper();
 
             try {
                 //JSON from file to Object
                 upp = mapper.readValue(uppJson, UserPrivacyPolicy.class);
-                System.out.println(upp.getUserId());
             } catch (IOException ex) {
                 Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -693,7 +693,7 @@ public class OspsApiServiceImpl extends OspsApiService {
         }
 
         LogRequest logRequest = new LogRequest();
-        logRequest.setUserId("OSE-Policy");
+        logRequest.setUserId("ose_osps");
         logRequest.setRequesterType(LogRequest.RequesterTypeEnum.PROCESS);
 
         logRequest.setDescription(description);
@@ -707,6 +707,7 @@ public class OspsApiServiceImpl extends OspsApiService {
 
         try {
             String response = logApi.lodDB(logRequest);
+            System.out.println(response);
             Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.INFO, response + logRequest.toString());
         } catch (ApiException ex) {
             Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.SEVERE, "failed to log", ex);
