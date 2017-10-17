@@ -13,6 +13,9 @@ import eu.operando.core.ldb.server.api.NotFoundException;
 
 import java.io.InputStream;
 
+import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
+import org.glassfish.jersey.media.multipart.FormDataParam;
+
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
@@ -23,7 +26,7 @@ import javax.validation.constraints.*;
 
 
 @io.swagger.annotations.Api(description = "the monitor API")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2017-10-09T16:21:27.816+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2017-10-17T16:12:53.169+02:00")
 public class MonitorApi  {
    private final MonitorApiService delegate = MonitorApiServiceFactory.getMonitorApi();
 

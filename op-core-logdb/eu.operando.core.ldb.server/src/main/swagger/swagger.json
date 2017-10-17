@@ -247,38 +247,14 @@
               "type": "array",
               "description": "Array of requestedFields to facilitate search",
               "items": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string",
-                    "description": "name of the requested field."
-                  },
-                  "dob": {
-                    "type": "string",
-                    "description": "dob of the requested field."
-                  },
-                  "address": {
-                    "type": "string",
-                    "description": "address of the requested field."
-                  }
-                }
+                "type": "string"
               }
             },
             "grantedFields": {
               "type": "array",
               "description": "Array of grantedFields to facilitate search",
               "items": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string",
-                    "description": "name of the requested field."
-                  },
-                  "dob": {
-                    "type": "string",
-                    "description": "dob of the requested field."
-                  }
-                }
+                "type": "string"
               }
             }
           }

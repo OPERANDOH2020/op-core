@@ -18,8 +18,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import eu.operando.core.ldb.server.model.LogRequest;
-import eu.operando.core.ldb.server.model.LogRequestExtGrantedFields;
-import eu.operando.core.ldb.server.model.LogRequestExtRequestedFields;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
@@ -29,7 +27,7 @@ import javax.validation.constraints.*;
 /**
  * LogRequestExt
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2017-10-09T16:21:27.816+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2017-10-17T16:12:53.169+02:00")
 public class LogRequestExt   {
   @JsonProperty("userId")
   private String userId = null;
@@ -201,10 +199,10 @@ public class LogRequestExt   {
   private String osp = null;
 
   @JsonProperty("requestedFields")
-  private List<LogRequestExtRequestedFields> requestedFields = null;
+  private List<String> requestedFields = null;
 
   @JsonProperty("grantedFields")
-  private List<LogRequestExtGrantedFields> grantedFields = null;
+  private List<String> grantedFields = null;
 
   public LogRequestExt userId(String userId) {
     this.userId = userId;
@@ -428,14 +426,14 @@ public class LogRequestExt   {
     this.osp = osp;
   }
 
-  public LogRequestExt requestedFields(List<LogRequestExtRequestedFields> requestedFields) {
+  public LogRequestExt requestedFields(List<String> requestedFields) {
     this.requestedFields = requestedFields;
     return this;
   }
 
-  public LogRequestExt addRequestedFieldsItem(LogRequestExtRequestedFields requestedFieldsItem) {
+  public LogRequestExt addRequestedFieldsItem(String requestedFieldsItem) {
     if (this.requestedFields == null) {
-      this.requestedFields = new ArrayList<LogRequestExtRequestedFields>();
+      this.requestedFields = new ArrayList<String>();
     }
     this.requestedFields.add(requestedFieldsItem);
     return this;
@@ -447,22 +445,22 @@ public class LogRequestExt   {
   **/
   @JsonProperty("requestedFields")
   @ApiModelProperty(value = "Array of requestedFields to facilitate search")
-  public List<LogRequestExtRequestedFields> getRequestedFields() {
+  public List<String> getRequestedFields() {
     return requestedFields;
   }
 
-  public void setRequestedFields(List<LogRequestExtRequestedFields> requestedFields) {
+  public void setRequestedFields(List<String> requestedFields) {
     this.requestedFields = requestedFields;
   }
 
-  public LogRequestExt grantedFields(List<LogRequestExtGrantedFields> grantedFields) {
+  public LogRequestExt grantedFields(List<String> grantedFields) {
     this.grantedFields = grantedFields;
     return this;
   }
 
-  public LogRequestExt addGrantedFieldsItem(LogRequestExtGrantedFields grantedFieldsItem) {
+  public LogRequestExt addGrantedFieldsItem(String grantedFieldsItem) {
     if (this.grantedFields == null) {
-      this.grantedFields = new ArrayList<LogRequestExtGrantedFields>();
+      this.grantedFields = new ArrayList<String>();
     }
     this.grantedFields.add(grantedFieldsItem);
     return this;
@@ -474,11 +472,11 @@ public class LogRequestExt   {
   **/
   @JsonProperty("grantedFields")
   @ApiModelProperty(value = "Array of grantedFields to facilitate search")
-  public List<LogRequestExtGrantedFields> getGrantedFields() {
+  public List<String> getGrantedFields() {
     return grantedFields;
   }
 
-  public void setGrantedFields(List<LogRequestExtGrantedFields> grantedFields) {
+  public void setGrantedFields(List<String> grantedFields) {
     this.grantedFields = grantedFields;
   }
 
