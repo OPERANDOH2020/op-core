@@ -49,7 +49,7 @@ public class LogApiServiceImpl extends LogApiService {
 
 		String strSelect;
 		strSelect = composeSqlQuery(dateFrom, dateTo, logLevel, requesterType, requesterId, logPriority, title,
-				keyWords, logType, affectedUserId);
+				keyWords, logType, affectedUserId,"");
 
 		Properties props;
 		props = loadDbProperties();
@@ -185,187 +185,14 @@ public class LogApiServiceImpl extends LogApiService {
 		}
 
 		return connection;
-	}
-
-	/**
-	 * @param dateFrom
-	 * @param dateTo
-	 * @param logLevel
-	 * @param requesterType
-	 * @param requesterId
-	 * @param logPriority
-	 * @param title
-	 * @param keyWords
-	 * @param affectedUserId
-	 * @param logType
-	 */
-	private String composeSqlQuery(String dateFrom, String dateTo, String logLevel, String requesterType,
-			String requesterId, String logPriority, String title, String keyWords, String logType,
-			String affectedUserId) {
-		String strSelect = "select * from operando_logdb.LOGS";
-		StringBuffer strBufferSelect = new StringBuffer(strSelect);
-		String keyValue = "";
-		boolean boolAnd = false;
-		boolean boolOr = false;
-		ArrayList<String> arrayListKeyWords = null;
-
-		if (!(((dateFrom == "") || (dateFrom == null)) && ((dateTo == "") || (dateTo == null))
-				&& ((logLevel == "") || (logLevel == null)) && ((requesterType == "") || (requesterType == null))
-				&& ((requesterId == "") || (requesterId == null)) && ((logPriority == "") || (logPriority == null))
-				&& ((title == "") || (title == null)) && (keyWords == null) && ((logType == "") || (logType == null))
-				&& ((affectedUserId == "") || (affectedUserId == null)))) {
-			strBufferSelect.append(" WHERE ");
-			if (dateFrom != null){
-				if (!dateFrom.equals("")) {			
-					strBufferSelect.append("DATED >= '" + dateFrom + "'");
-					boolAnd = true;
-				}
-			}
-			if (dateTo != null) {
-				if (!dateTo.equals("")) {
-					if (boolAnd)
-						strBufferSelect.append(" AND ");
-				strBufferSelect.append("DATED <= '" + dateTo + "'");
-				boolAnd = true;
-				}
-			}
-			if (logLevel != null) {
-				if (!logLevel.equals("")) {
-					if (boolAnd)
-						strBufferSelect.append(" AND ");
-				strBufferSelect.append("LEVEL='" + logLevel + "'");
-				boolAnd = true;
-				}
-			}
-			if (requesterType != null) {
-				if (!requesterType.equals("")) {
-					if (boolAnd)
-						strBufferSelect.append(" AND ");
-				strBufferSelect.append("REQUESTERTYPE='" + requesterType + "'");
-				boolAnd = true;
-				}
-			}
-			if (requesterId != null) {
-				if (!requesterId.equals("")) {
-					if (boolAnd)
-						strBufferSelect.append(" AND ");
-				strBufferSelect.append("REQUESTERID='" + requesterId + "'");
-				boolAnd = true;
-				}
-			}
-			if (logPriority != null) {				
-				if (!logPriority.equals("")) {
-					if (boolAnd)
-						strBufferSelect.append(" AND ");
-				strBufferSelect.append("LOGPRIORITY='" + logPriority + "'");
-				boolAnd = true;
-				}
-			}
-			if (title != null) { 
-				if (!title.equals("")) {
-					if (boolAnd)
-						strBufferSelect.append(" AND ");
-				strBufferSelect.append("TITLE LIKE '%" + title + "%'");
-				boolAnd = true;
-				}
-			}
-			if (keyWords != null) {				
-				if (keyWords.length() > 0) {
-					Gson gson = new Gson();
-					TypeToken<ArrayList<String>> token = new TypeToken<ArrayList<String>>() {
-					};
-					arrayListKeyWords = gson.fromJson(keyWords, token.getType());
-					ListIterator<String> listIterator = arrayListKeyWords.listIterator();
-					if (boolAnd)
-						strBufferSelect.append(" AND ");
-					while (listIterator.hasNext()) {
-						keyValue = listIterator.next();
-						if (boolOr)
-							strBufferSelect.append(" || ");
-						strBufferSelect.append("KEYWORDS LIKE '%" + keyValue + "%'");
-						boolOr = true;
-					}
-				}
-			}
-			if (logType != null) {
-				if (!logType.equals("")) {
-					if (boolAnd)
-						strBufferSelect.append(" AND ");
-					strBufferSelect.append("LOGTYPE='" + logType + "'");
-					boolAnd = true;
-				}
-			}
-			if (affectedUserId != null) {
-				if (!affectedUserId.equals("")) {
-					if (boolAnd)
-						strBufferSelect.append(" AND ");
-					strBufferSelect.append("AFFECTEDUSERID='" + affectedUserId + "'");
-					boolAnd = true;
-				}
-			}
-			strSelect = strBufferSelect.toString();
-		}
-
-		return strSelect;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see io.swagger.api.LogApiService#getLogs(java.lang.String,
-	 * java.lang.String, java.lang.String, java.lang.String, java.lang.String,
-	 * java.lang.String, java.lang.String, java.lang.String,
-	 * javax.ws.rs.core.SecurityContext) This method returns 0 to n log records
-	 * that are stored in the log database depending on a filter (log4j is used
-	 * internally)
-	 */
-	@Override
-	public Response getLogs(String dateFrom, String dateTo, String logLevel, String requesterType, String requesterId,
-			String logPriority, String title, String keyWords, String logType, String affectedUserId,
-			SecurityContext securityContext) throws NotFoundException {
-		String strSelect;
-		strSelect = composeSqlQuery(dateFrom, dateTo, logLevel, requesterType, requesterId, logPriority, title,
-				keyWords, logType, affectedUserId);
-
-		// GBE added code to get db information form a properties file
-		Properties props;
-		props = loadDbProperties();
-
-		connection = getDbConnection(props);
-		try {
-			statement = connection.createStatement();
-			resultSet = statement.executeQuery(strSelect);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		ArrayList<LogResponse> logResponsesArray = null;
-		try {
-			// resultSet.next();
-			// value=resultSet.getString("DATED");
-			logResponsesArray = composeResultsFromResultSet();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			try {
-				resultSet.close();
-				statement.close();
-				connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		return Response.ok().entity(logResponsesArray).build();
-	}
+	}	
 	
 	@Override
-	public Response getLogsExt(String dateFrom, String dateTo, String logLevel, String requesterType, String requesterId,
+	public Response getLogs(String dateFrom, String dateTo, String logLevel, String requesterType, String requesterId,
 			String logPriority, String title, String keyWords, String logType, String affectedUserId, String ospId,
 			SecurityContext securityContext) throws NotFoundException {
 		String strSelect;
-		strSelect = composeSqlQueryExt(dateFrom, dateTo, logLevel, requesterType, requesterId, logPriority, title,
+		strSelect = composeSqlQuery(dateFrom, dateTo, logLevel, requesterType, requesterId, logPriority, title,
 				keyWords, logType, affectedUserId,ospId);
 
 		// GBE added code to get db information form a properties file
@@ -417,7 +244,7 @@ public class LogApiServiceImpl extends LogApiService {
 	 * @param ospId
 	 * @return
 	 */
-	private String composeSqlQueryExt(String dateFrom, String dateTo, String logLevel, String requesterType,
+	private String composeSqlQuery(String dateFrom, String dateTo, String logLevel, String requesterType,
 			String requesterId, String logPriority, String title, String keyWords, String logType,
 			String affectedUserId, String ospId) {
 		String strSelect = "select * from operando_logdb.LOGS";

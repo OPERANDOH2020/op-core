@@ -44,8 +44,8 @@ public class Test {
 	    byte[] postBinaryBody = null; 
 	     
 	    // create path and map variables 
-	    //String path = "/operando/core/ldbsearch/log/search"; 
-	    String path = "/operando/core/ldbsearch/log/searchExt";
+	    String path = "/operando/core/ldbsearch/log/search"; 
+	    //String path = "/operando/core/ldbsearch/log/searchExt";
 	 
 	    // query params
 	    ArrayList<String> keyWords = new ArrayList<String>();
@@ -63,7 +63,7 @@ public class Test {
 	    queryParams.add(new Pair ("logType",""));
 	    queryParams.add(new Pair ("keyWords",""));
 	    queryParams.add(new Pair ("affectedUserId",""));
-	    queryParams.add(new Pair ("ospId","3"));
+	    //queryParams.add(new Pair ("ospId","3"));
 	    
 	    Map<String, String> headerParams = new HashMap<String, String>(); 
 	    Map<String, Object> formParams = new HashMap<String, Object>(); 

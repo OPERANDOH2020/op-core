@@ -19,12 +19,5 @@ import javax.ws.rs.core.SecurityContext;
 public abstract class LogApiService {
 	public abstract Response getLogs(String dateFrom, String dateTo, String logLevel, String requesterType,
 			String requesterId, String logPriority, String title, String keyWords, String logType,
-			String affectedUserId, SecurityContext securityContext) throws NotFoundException;
-
-	public Response getLogsExt(String dateFrom, String dateTo, String logLevel, String requesterType,
-			String requesterId, String logPriority, String title, String keyWords, String logType,
-			String affectedUserId, String ospId, SecurityContext securityContext) throws NotFoundException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+			String affectedUserId, String ospId, SecurityContext securityContext) throws NotFoundException;
 }

@@ -30,8 +30,8 @@ import io.swagger.model.InlineResponse200;
 @io.swagger.annotations.Api(description = "the log API")
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-06-09T07:21:21.621Z")
 public class LogApi  {
-   private final LogApiService delegate = LogApiServiceFactory.getLogApi();
-
+   private final LogApiService delegate = LogApiServiceFactory.getLogApi();  
+    
     @GET
     @Path("/search")
     
@@ -50,32 +50,9 @@ public class LogApi  {
 ,@ApiParam(value = "Keywords to perform the search.") @QueryParam("keyWords") String keyWords
 ,@ApiParam(value = "Type of the data logged.") @QueryParam("logType") String logType
 ,@ApiParam(value = "Id of the affected user.") @QueryParam("affectedUserId") String affectedUserId
-,@Context SecurityContext securityContext)
-    throws NotFoundException {
-        return delegate.getLogs(dateFrom,dateTo,logLevel,requesterType,requesterId,logPriority,title,keyWords,logType,affectedUserId,securityContext);
-    }
-    
-    @GET
-    @Path("/searchExt")
-    
-    @Produces({ "application/json" })
-    @io.swagger.annotations.ApiOperation(value = "Search logs in database", notes = "Search logs in database by specifying a filter.", response = InlineResponse200.class, tags={ "LogSearch" })
-    @io.swagger.annotations.ApiResponses(value = { 
-        @io.swagger.annotations.ApiResponse(code = 200, message = "Successful operation", response = InlineResponse200.class),
-        @io.swagger.annotations.ApiResponse(code = 200, message = "Unexpected error", response = InlineResponse200.class) })
-    public Response getLogsExt(@ApiParam(value = "Date from which wanted to be recovered the logs.") @QueryParam("dateFrom") String dateFrom
-,@ApiParam(value = "Date to which wanted to be recovered the logs.") @QueryParam("dateTo") String dateTo
-,@ApiParam(value = "Log level wanted to be recovered.") @QueryParam("logLevel") String logLevel
-,@ApiParam(value = "Type of the requester that originated the log entry.") @QueryParam("requesterType") String requesterType
-,@ApiParam(value = "Id of the requester that originated the log entry.") @QueryParam("requesterId") String requesterId
-,@ApiParam(value = "Priority of the log messages to be recovered.") @QueryParam("logPriority") String logPriority
-,@ApiParam(value = "Title of the log messages to be recovered.") @QueryParam("title") String title
-,@ApiParam(value = "Keywords to perform the search.") @QueryParam("keyWords") String keyWords
-,@ApiParam(value = "Type of the data logged.") @QueryParam("logType") String logType
-,@ApiParam(value = "Id of the affected user.") @QueryParam("affectedUserId") String affectedUserId
 ,@ApiParam(value = "Id of the OSP.") @QueryParam("ospId") String ospId
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.getLogsExt(dateFrom, dateTo, logLevel, requesterType, requesterId, logPriority, title, keyWords, logType, affectedUserId, ospId, securityContext);
+        return delegate.getLogs(dateFrom, dateTo, logLevel, requesterType, requesterId, logPriority, title, keyWords, logType, affectedUserId, ospId, securityContext);
     }
 }
