@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="op-core-logdb">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/eu.operando.core.ldb.client/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/eu.operando.core.ldb.server/src/gen/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/eu.operando.core.ldb.server/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/eu.operando.core.ldb.test/src"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/eu.operando.core.ldbsearch.client/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/eu.operando.core.ldbsearch.client/src/test/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/eu.operando.core.ldbsearch.server/src/gen/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/eu.operando.core.ldbsearch.server/src/main/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/eu.operando.core.ldbsearch.test/src"/>
+        <property name="context-root" value="op-core-logdb"/>
+        <property name="java-output-path" value="/op-core-logdb/bin"/>
+    </wb-module>
+</project-modules>

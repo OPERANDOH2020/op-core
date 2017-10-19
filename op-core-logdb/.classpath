@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="eu.operando.core.ldb.client/src/main/java"/>
+	<classpathentry kind="src" path="eu.operando.core.ldb.server/src/gen/java"/>
+	<classpathentry kind="src" path="eu.operando.core.ldb.server/src/main/java"/>
+	<classpathentry kind="src" path="eu.operando.core.ldb.test/src"/>
+	<classpathentry kind="src" path="eu.operando.core.ldbsearch.client/src/main/java"/>
+	<classpathentry kind="src" path="eu.operando.core.ldbsearch.client/src/test/java"/>
+	<classpathentry kind="src" path="eu.operando.core.ldbsearch.server/src/gen/java"/>
+	<classpathentry kind="src" path="eu.operando.core.ldbsearch.server/src/main/java"/>
+	<classpathentry kind="src" path="eu.operando.core.ldbsearch.test/src"/>
+	<classpathentry kind="lib" path="eu.operando.core.ldb.server/release/test/eu.operando.core.ldb.test.jar"/>
+	<classpathentry kind="lib" path="eu.operando.core.ldbsearch.client/gradle/wrapper/gradle-wrapper.jar"/>
+	<classpathentry kind="lib" path="eu.operando.core.ldbsearch.server/release/test/eu.operando.core.ldbsearch.test.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
+	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
