@@ -202,7 +202,7 @@ public class LogApiServiceImpl extends LogApiService {
 		MDC.put("affectedUserId", affectedUserIdString);
 		MDC.put("osp", ospString);
 		MDC.put("requestedFields", requestedFieldsString);
-		MDC.put("grantedFields", requestedFieldsString);
+		MDC.put("grantedFields", grantedFieldsString);
 		
 		try{
 			switch ((LogLevelEnum)logLevel){
