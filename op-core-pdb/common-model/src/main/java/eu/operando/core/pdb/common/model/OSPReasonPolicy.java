@@ -25,10 +25,8 @@
 
 package eu.operando.core.pdb.common.model;
 
-import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
+import java.util.Objects;
 import io.swagger.annotations.ApiModelProperty;
 import eu.operando.core.pdb.common.model.AccessReason;
 import java.util.ArrayList;
@@ -56,6 +54,7 @@ public class OSPReasonPolicy   {
    * @return ospPolicyId
   **/
   @ApiModelProperty(value = "")
+  @JsonProperty("osp_policy_id")
   public String getOspPolicyId() {
     return ospPolicyId;
   }
@@ -64,6 +63,7 @@ public class OSPReasonPolicy   {
     this.ospPolicyId = ospPolicyId;
   }
 
+  @JsonProperty("policies")
   public OSPReasonPolicy policies(List<AccessReason> policies) {
     this.policies = policies;
     return this;
@@ -75,7 +75,7 @@ public class OSPReasonPolicy   {
   }
 
    /**
-   * The list of access reasons to use a particular data subject types data 
+   * The list of access reasons to use a particular data subject types data
    * @return policies
   **/
   @ApiModelProperty(value = "The list of access reasons to use a particular data subject types data ")
@@ -109,10 +109,10 @@ public class OSPReasonPolicy   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class OSPReasonPolicy {\n");
-    
-    sb.append("    ospPolicyId: ").append(toIndentedString(ospPolicyId)).append("\n");
-    sb.append("    policies: ").append(toIndentedString(policies)).append("\n");
+    sb.append("{\n");
+
+    sb.append("    \"osp_policy_id\": \"").append(toIndentedString(ospPolicyId)).append("\",\n");
+    sb.append("    \"policies\": ").append(toIndentedString(policies)).append("\n");
     sb.append("}");
     return sb.toString();
   }

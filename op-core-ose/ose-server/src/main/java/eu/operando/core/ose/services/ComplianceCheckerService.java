@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////////////////////
 //
-// ï¿½ University of Southampton IT Innovation Centre, 2016
+// © University of Southampton IT Innovation Centre, 2016
 //
 // Copyright in this library belongs to the University of Southampton
 // University Road, Highfield, Southampton, UK, SO17 1BJ
@@ -30,6 +30,7 @@ import eu.operando.core.ose.mongo.RegulationsMongo;
 import eu.operando.core.pdb.common.model.AccessReason;
 import io.swagger.api.NotFoundException;
 import eu.operando.core.pdb.common.model.OSPReasonPolicy;
+import eu.operando.core.pdb.common.model.OSPPrivacyPolicy;
 import eu.operando.core.pdb.common.model.PrivacyRegulation;
 import eu.operando.core.pdb.common.model.ComplianceEvaluation;
 import java.util.ArrayList;
@@ -49,12 +50,11 @@ public class ComplianceCheckerService {
     }
     /**
      *
-     * @param reg_id
-     * @param PDB_URL
+
      * @return
      * @throws NotFoundException
      */
-    public List<ComplianceEvaluation> ospComplianceCheck(OSPReasonPolicy ospRequest, String PDB_URL, String pdbURL)
+    public List<ComplianceEvaluation> ospComplianceCheck(OSPReasonPolicy ospRequest, OSPPrivacyPolicy ospAccess)
         throws NotFoundException {
 
         String sector = "healthcare";
