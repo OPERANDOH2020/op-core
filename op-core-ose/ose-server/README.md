@@ -398,7 +398,7 @@ is notified and they can alter their policy or their behaviour accordingly.
   
   ```json
   {
-    conflicts: [
+    "conflicts": [
         { "role": "userRole",
           "data_requested": "contact",
           "breach_reason": "text explaining why breach e.g. no reason policy, no access policy defined, etc."
