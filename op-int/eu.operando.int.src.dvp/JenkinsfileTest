@@ -169,8 +169,8 @@ node {
                 mvnHome = tool 'Maven 3.3.9 colocated'
             }
             stage ('Source Move'){
-                  sh "mv ${jenkinsWorkspace}/src ${devopsSourcesPath}"	   
-                  sh "mv ${jenkinsWorkspace}/pom.xml ${devopsSourcesPath}"	   
+                  sh "cp ${jenkinsWorkspace}/src ${devopsSourcesPath}"	   
+                  sh "cp ${jenkinsWorkspace}/pom.xml ${devopsSourcesPath}"	   
             }
             if(currentVerbose){
                 stage ('Variables echo'){
