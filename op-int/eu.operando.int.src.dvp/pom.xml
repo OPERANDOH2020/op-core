@@ -91,7 +91,7 @@
 						<configuration>
 							<urls>
 								<url>
-									jar:file:${settings.localRepository}/eu/operando/int/eu.operando.int.src.dvp.resources/ALPHA/eu.operando.int.src.dvp.resources-ALPHA.jar!/devops.properties
+									jar:file:${settings.localRepository}/eu/operando/int/eu.operando.int.resources.src.dvp/ALPHA/eu.operando.int.resources.src.dvp-ALPHA.jar!/devops.properties
 								</url>
 							</urls>
 						</configuration>
