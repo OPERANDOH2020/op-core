@@ -21,6 +21,7 @@
 				<executions>
 					<execution>
 						<id>default-cli</id>
+						<phase>generate-sources</phase>
 						<goals>
 							<goal>download-single</goal>
 						</goals>
@@ -42,6 +43,7 @@
 				<executions>
 					<execution>
 						<id>default-cli</id>
+						<phase>package</phase>
 						<goals>
 							<goal>install-file</goal>
 						</goals>
