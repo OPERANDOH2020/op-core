@@ -11,23 +11,24 @@ In the header of the request, there is a service ticket which is used for authen
 
 #### Installation 
 RM depends on the following Python modules:
-•	urllib2
-•	json
-•	flask
-•	xml
-•	ssl
-•	requests
-•	json
-•	ConfigParser
-•	re
+*	urllib2
+*	json
+*	flask
+*	xml
+*	ssl
+*	requests
+*	json
+*	ConfigParser
+*	re
 Depending on the Python installation, most of the aforemetioned modules are preinstalled, apart from flask, however all of them can be installed via the standard pip install.
 
 #### User guide 
 To interact with the module one needs to go invoke an HTTP method(GET, PUT, POST) to port 8102 of the root directory where RM is listening, providing a valid oDATA query e.g. 
 http://127.0.0.1:8102/Users(301)/MetadatavalueDetails?$format=json&$expand=MetadatafieldregistryDetails
+
 Moreover, since the user is expected to be the Gatekeeper, he needs to provide some additional headers. These are the following:
-•	service-ticket: a valid service ticket from CAS to use RM
-•	osp-identifier: as the name implies, the name of the OSP to be queried
-•	psp-user-identifier: the name of the user from OSP who issued the query
+*	service-ticket: a valid service ticket from CAS to use RM
+*	osp-identifier: as the name implies, the name of the OSP to be queried
+*	psp-user-identifier: the name of the user from OSP who issued the query
 
 
