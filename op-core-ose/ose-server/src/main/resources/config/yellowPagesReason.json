@@ -3,42 +3,42 @@
     "policies": [
       {
         "reasonid": "1",
-        "datauser": "doctor",
+        "datauser": "Doctor",
         "datasubjecttype": "patient",
         "datatype": "anthropometric",
         "reason": "Medical Treatment"
       },
       {
         "reasonid": "2",
-        "datauser": "doctor",
+        "datauser": "Doctor",
         "datasubjecttype": "patient",
         "datatype": "personal",
         "reason": "Medical Treatment"
       },
       {
         "reasonid": "3",
-        "datauser": "doctor",
+        "datauser": "Doctor",
         "datasubjecttype": "patient",
         "datatype": "contact",
         "reason": "Medical Treatment"
       },
       {
         "reasonid": "4",
-        "datauser": "doctor",
+        "datauser": "Doctor",
         "datasubjecttype": "patient",
         "datatype": "general",
         "reason": "Medical Treatment"
       },
       {
         "reasonid": "5",
-        "datauser": "receptionist",
+        "datauser": "Receptionist",
         "datasubjecttype": "patient",
         "datatype": "anthropometric",
         "reason": "Manage patient appointments"
       },
       {
         "reasonid": "6",
-        "datauser": "receptionist",
+        "datauser": "Receptionist",
         "datasubjecttype": "patient",
         "datatype": "personal",
         "reason": "Manage patient appointments"
@@ -52,7 +52,7 @@
       },
       {
         "reasonid": "8",
-        "datauser": "receptionist",
+        "datauser": "Receptionist",
         "datasubjecttype": "patient",
         "datatype": "general",
         "reason": "Manage patient appointments"
