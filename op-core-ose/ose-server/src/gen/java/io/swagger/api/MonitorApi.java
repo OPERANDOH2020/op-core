@@ -58,4 +58,17 @@ public class MonitorApi  {
     throws NotFoundException {
         return delegate.monitorGet(securityContext);
     }
+
+    @GET
+    @Path("/start")
+    @Consumes({ "application/json" })
+    @Produces({ "application/json" })
+    @io.swagger.annotations.ApiOperation(value = "Start the OSE server", notes = "Start the execution status of the OSE server.", response = void.class, tags={  })
+    @io.swagger.annotations.ApiResponses(value = {
+        @io.swagger.annotations.ApiResponse(code = 200, message = "The service is started.", response = void.class),
+        @io.swagger.annotations.ApiResponse(code = 404, message = "The service isn't currently running. ", response = void.class) })
+    public Response startGet(@Context SecurityContext securityContext)
+    throws NotFoundException {
+        return delegate.startGet(securityContext);
+    }
 }

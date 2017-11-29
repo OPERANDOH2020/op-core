@@ -5,4 +5,5 @@ import javax.ws.rs.core.SecurityContext;
 
 public abstract class MonitorApiService {
     public abstract Response monitorGet(SecurityContext securityContext) throws NotFoundException;
+    public abstract Response startGet(SecurityContext securityContext) throws NotFoundException;
 }
