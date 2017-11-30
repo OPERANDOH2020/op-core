@@ -45,7 +45,7 @@ public class MonitorApiServiceImpl extends MonitorApiService {
      * reason policies
      */
     private static final String YELLOWPAGES = "YellowPages";
-    private static final String YELLOWPAGESFILE = "yellowPagesReason.json";
+    private static final String YELLOWPAGESFILE = "/yellowPagesReason.json";
 
     private static final String AMI = "ami";
     private static final String AMIFILE = "amiReason.json";
