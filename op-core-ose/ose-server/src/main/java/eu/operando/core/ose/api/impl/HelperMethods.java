@@ -34,6 +34,7 @@ import com.jayway.jsonpath.JsonPath;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -92,9 +93,9 @@ public class HelperMethods {
 
         InputStream fis = null;
         try {
-            fis = this.getClass().getClassLoader().getResourceAsStream(fileLoc);
+            fis = HelperMethods.class.getResourceAsStream(fileLoc);
             if(fis == null) {
-                throw new IOException("File not in classpath: " + fileLoc);
+                throw new FileNotFoundException("File not in classpath: " + fileLoc);
             }
             String content = CharStreams.toString(new InputStreamReader(fis, Charsets.UTF_8));
             Closeables.closeQuietly(fis);
