@@ -93,6 +93,9 @@ public class HelperMethods {
         InputStream fis = null;
         try {
             fis = this.getClass().getClassLoader().getResourceAsStream(fileLoc);
+            if(fis == null) {
+                throw new IOException("File not in classpath: " + fileLoc);
+            }
             String content = CharStreams.toString(new InputStreamReader(fis, Charsets.UTF_8));
             Closeables.closeQuietly(fis);
 
