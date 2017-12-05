@@ -25,11 +25,6 @@
 
 package eu.operando.core.ose.services;
 
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
-import com.sun.jersey.core.util.MultivaluedMapImpl;
 import eu.operando.core.cas.client.api.DefaultApi;
 import eu.operando.core.cas.client.model.UserCredential;
 import eu.operando.core.ose.api.impl.OspsApiServiceImpl;
@@ -46,7 +41,6 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ws.rs.core.HttpHeaders;
-import javax.ws.rs.core.MediaType;
 
 /**
  * Set of reusable OSE methods across the four API implementations e.g. logging,
@@ -207,20 +201,6 @@ public class HelperMethods {
      * @return Indication if the email was sent successfully.
      */
     private boolean sendEmail(String Subject, String email, String Body) {
-        Client client = Client.create();
-        client.addFilter(new HTTPBasicAuthFilter("api", "key-f28ca9730862959738de8b244678e4f9"));
-
-        WebResource webResource = client.resource("https://api.mailgun.net/v3/mg.operando.eu/messages");
-
-        MultivaluedMapImpl formData = new MultivaluedMapImpl();
-        formData.add("from", "privacy@operando.eu");
-        formData.add("to", email);
-        formData.add("subject", Subject);
-        formData.add("html", Body);
-
-        ClientResponse clientResponse = webResource.type(MediaType.APPLICATION_FORM_URLENCODED).post(ClientResponse.class, formData);
-        String output = clientResponse.getEntity(String.class);
-
         return true;
     }
 
