@@ -1,5 +1,5 @@
 {
-   "policy_text":"Yellow Pages",
+   "policy_text":" Yellow Pages OSPPolicy. This is a YellowPages OSPPolicy description text.  ??????? ???? ??? ??????? ???? ????????? ??? ????????? ????????????? ?? ?? ??? ??? ??? ??? ??????  ?????????? ????????? ???? ?????? ?????????? ??? ??? ?????? ???????. ???? ???  ??? ??? ??? ? ??? ????????? ????? ?????? ?????, ?? ?????? ????? ???????? ??????? ?? ?? ?????? ???????.",
    "policy_url":"YellowPages",
    "workflow":[
       {
@@ -18,7 +18,7 @@
          "requester_id":"Ron",
          "subject":"Receptionist",
          "requested_url":"personalInfo.patient.name",
-         "action":"Create",
+         "action":"Access",
          "attributes":[
             {
                "attribute_name":null,
@@ -35,47 +35,7 @@
          "resource":"personalInfo.anthropometric.weight",
          "attributes":[
             {
-               "attribute_name":"category",
-               "attribute_value":"anthropometric"
-            },
-            {
-               "attribute_name":"friendly_name",
-               "attribute_value":"Weight"
-            },
-            {
-               "attribute_name":"tooltip",
-               "attribute_value":"weight"
-            }
-         ]
-      },
-      {
-         "subject":"Doctor",
-         "permission":true,
-         "action":"Create",
-         "resource":"personalInfo.anthropometric.weight",
-         "attributes":[
-            {
-               "attribute_name":"category",
-               "attribute_value":"anthropometric"
-            },
-            {
-               "attribute_name":"friendly_name",
-               "attribute_value":"Weight"
-            },
-            {
-               "attribute_name":"tooltip",
-               "attribute_value":"weight"
-            }
-         ]
-      },
-      {
-         "subject":"Doctor",
-         "permission":true,
-         "action":"Update",
-         "resource":"personalInfo.anthropometric.weight",
-         "attributes":[
-            {
-               "attribute_name":"category",
+               "attribute_name":"Category",
                "attribute_value":"anthropometric"
             },
             {
@@ -95,27 +55,7 @@
          "resource":"personalInfo.anthropometric.age",
          "attributes":[
             {
-               "attribute_name":"category",
-               "attribute_value":"anthropometric"
-            },
-            {
-               "attribute_name":"friendly_name",
-               "attribute_value":"Age"
-            },
-            {
-               "attribute_name":"tooltip",
-               "attribute_value":"age"
-            }
-         ]
-      },
-      {
-         "subject":"Doctor",
-         "permission":true,
-         "action":"Create",
-         "resource":"personalInfo.anthropometric.age",
-         "attributes":[
-            {
-               "attribute_name":"category",
+               "attribute_name":"Category",
                "attribute_value":"anthropometric"
             },
             {
@@ -135,7 +75,7 @@
          "resource":"personalInfo.patient.surname",
          "attributes":[
             {
-               "attribute_name":"category",
+               "attribute_name":"Category",
                "attribute_value":"personal"
             },
             {
@@ -155,7 +95,7 @@
          "resource":"contactInfo.patient.cityOfResidence",
          "attributes":[
             {
-               "attribute_name":"category",
+               "attribute_name":"Category",
                "attribute_value":"contact"
             },
             {
@@ -175,7 +115,7 @@
          "resource":"contactInfo.patient.cellPhoneNumber",
          "attributes":[
             {
-               "attribute_name":"category",
+               "attribute_name":"Category",
                "attribute_value":"contact"
             },
             {
@@ -195,7 +135,7 @@
          "resource":"personalInfo.patient.dateOfBirth",
          "attributes":[
             {
-               "attribute_name":"category",
+               "attribute_name":"Category",
                "attribute_value":"personal"
             },
             {
@@ -215,7 +155,7 @@
          "resource":"personalInfo.patient.placeOfBirth",
          "attributes":[
             {
-               "attribute_name":"category",
+               "attribute_name":"Category",
                "attribute_value":"personal"
             },
             {
@@ -235,7 +175,7 @@
          "resource":"personalInfo.patient.name",
          "attributes":[
             {
-               "attribute_name":"category",
+               "attribute_name":"Category",
                "attribute_value":"personal"
             },
             {
@@ -255,7 +195,7 @@
          "resource":"personalInfo.anthropometric.height",
          "attributes":[
             {
-               "attribute_name":"category",
+               "attribute_name":"Category",
                "attribute_value":"anthropometric"
             },
             {
@@ -275,7 +215,7 @@
          "resource":"contactInfo.patient.email",
          "attributes":[
             {
-               "attribute_name":"category",
+               "attribute_name":"Category",
                "attribute_value":"contact"
             },
             {
@@ -295,7 +235,7 @@
          "resource":"personalInfo.anthropometric.weight",
          "attributes":[
             {
-               "attribute_name":"category",
+               "attribute_name":"Category",
                "attribute_value":"anthropometric"
             },
             {
@@ -305,66 +245,6 @@
             {
                "attribute_name":"tooltip",
                "attribute_value":"weight"
-            }
-         ]
-      },
-      {
-         "subject":"Receptionist",
-         "permission":true,
-         "action":"Update",
-         "resource":"personalInfo.anthropometric.weight",
-         "attributes":[
-            {
-               "attribute_name":"category",
-               "attribute_value":"anthropometric"
-            },
-            {
-               "attribute_name":"friendly_name",
-               "attribute_value":"Weight"
-            },
-            {
-               "attribute_name":"tooltip",
-               "attribute_value":"weight"
-            }
-         ]
-      },
-      {
-         "subject":"Receptionist",
-         "permission":true,
-         "action":"Create",
-         "resource":"personalInfo.anthropometric.weight",
-         "attributes":[
-            {
-               "attribute_name":"category",
-               "attribute_value":"anthropometric"
-            },
-            {
-               "attribute_name":"friendly_name",
-               "attribute_value":"weight"
-            },
-            {
-               "attribute_name":"tooltip",
-               "attribute_value":"weight"
-            }
-         ]
-      },
-      {
-         "subject":"Receptionist",
-         "permission":true,
-         "action":"Create",
-         "resource":"personalInfo.anthropometric.age",
-         "attributes":[
-            {
-               "attribute_name":"category",
-               "attribute_value":"anthropometric"
-            },
-            {
-               "attribute_name":"friendly_name",
-               "attribute_value":"Age"
-            },
-            {
-               "attribute_name":"tooltip",
-               "attribute_value":"age"
             }
          ]
       },
@@ -375,7 +255,7 @@
          "resource":"personalInfo.anthropometric.age",
          "attributes":[
             {
-               "attribute_name":"category",
+               "attribute_name":"Category",
                "attribute_value":"anthropometric"
             },
             {
@@ -395,7 +275,7 @@
          "resource":"personalInfo.patient.surname",
          "attributes":[
             {
-               "attribute_name":"category",
+               "attribute_name":"Category",
                "attribute_value":"personal"
             },
             {
@@ -415,7 +295,7 @@
          "resource":"contactInfo.patient.cityOfResidence",
          "attributes":[
             {
-               "attribute_name":"category",
+               "attribute_name":"Category",
                "attribute_value":"contact"
             },
             {
@@ -435,7 +315,7 @@
          "resource":"contactInfo.patient.cellPhoneNumber",
          "attributes":[
             {
-               "attribute_name":"category",
+               "attribute_name":"Category",
                "attribute_value":"contact"
             },
             {
@@ -455,7 +335,7 @@
          "resource":"personalInfo.patient.dateOfBirth",
          "attributes":[
             {
-               "attribute_name":"category",
+               "attribute_name":"Category",
                "attribute_value":"personal"
             },
             {
@@ -475,7 +355,7 @@
          "resource":"personalInfo.patient.placeOfBirth",
          "attributes":[
             {
-               "attribute_name":"category",
+               "attribute_name":"Category",
                "attribute_value":"personal"
             },
             {
@@ -495,7 +375,7 @@
          "resource":"personalInfo.patient.name",
          "attributes":[
             {
-               "attribute_name":"category",
+               "attribute_name":"Category",
                "attribute_value":"personal"
             },
             {
@@ -515,7 +395,7 @@
          "resource":"personalInfo.anthropometric.height",
          "attributes":[
             {
-               "attribute_name":"category",
+               "attribute_name":"Category",
                "attribute_value":"anthropometric"
             },
             {
@@ -535,7 +415,7 @@
          "resource":"contactInfo.patient.email",
          "attributes":[
             {
-               "attribute_name":"category",
+               "attribute_name":"Category",
                "attribute_value":"contact"
             },
             {
@@ -555,7 +435,7 @@
          "resource":"personalInfo.anthropometric.weight",
          "attributes":[
             {
-               "attribute_name":"category",
+               "attribute_name":"Category",
                "attribute_value":"anthropometric"
             },
             {
@@ -565,66 +445,6 @@
             {
                "attribute_name":"tooltip",
                "attribute_value":"weight"
-            }
-         ]
-      },
-      {
-         "subject":"WebsiteAdmins",
-         "permission":false,
-         "action":"Update",
-         "resource":"personalInfo.anthropometric.weight",
-         "attributes":[
-            {
-               "attribute_name":"category",
-               "attribute_value":"anthropometric"
-            },
-            {
-               "attribute_name":"friendly_name",
-               "attribute_value":"Weight"
-            },
-            {
-               "attribute_name":"tooltip",
-               "attribute_value":"weight"
-            }
-         ]
-      },
-      {
-         "subject":"WebsiteAdmins",
-         "permission":false,
-         "action":"Create",
-         "resource":"personalInfo.anthropometric.weight",
-         "attributes":[
-            {
-               "attribute_name":"category",
-               "attribute_value":"anthropometric"
-            },
-            {
-               "attribute_name":"friendly_name",
-               "attribute_value":"weight"
-            },
-            {
-               "attribute_name":"tooltip",
-               "attribute_value":"weight"
-            }
-         ]
-      },
-      {
-         "subject":"WebsiteAdmins",
-         "permission":false,
-         "action":"Create",
-         "resource":"personalInfo.anthropometric.age",
-         "attributes":[
-            {
-               "attribute_name":"category",
-               "attribute_value":"anthropometric"
-            },
-            {
-               "attribute_name":"friendly_name",
-               "attribute_value":"Age"
-            },
-            {
-               "attribute_name":"tooltip",
-               "attribute_value":"age"
             }
          ]
       },
@@ -635,7 +455,7 @@
          "resource":"personalInfo.anthropometric.age",
          "attributes":[
             {
-               "attribute_name":"category",
+               "attribute_name":"Category",
                "attribute_value":"anthropometric"
             },
             {
@@ -655,7 +475,7 @@
          "resource":"personalInfo.patient.surname",
          "attributes":[
             {
-               "attribute_name":"category",
+               "attribute_name":"Category",
                "attribute_value":"personal"
             },
             {
@@ -675,7 +495,7 @@
          "resource":"contactInfo.patient.cityOfResidence",
          "attributes":[
             {
-               "attribute_name":"category",
+               "attribute_name":"Category",
                "attribute_value":"contact"
             },
             {
@@ -695,7 +515,7 @@
          "resource":"contactInfo.patient.cellPhoneNumber",
          "attributes":[
             {
-               "attribute_name":"category",
+               "attribute_name":"Category",
                "attribute_value":"contact"
             },
             {
@@ -715,7 +535,7 @@
          "resource":"personalInfo.patient.dateOfBirth",
          "attributes":[
             {
-               "attribute_name":"category",
+               "attribute_name":"Category",
                "attribute_value":"personal"
             },
             {
@@ -735,7 +555,7 @@
          "resource":"personalInfo.patient.placeOfBirth",
          "attributes":[
             {
-               "attribute_name":"category",
+               "attribute_name":"Category",
                "attribute_value":"personal"
             },
             {
@@ -755,7 +575,7 @@
          "resource":"personalInfo.patient.name",
          "attributes":[
             {
-               "attribute_name":"category",
+               "attribute_name":"Category",
                "attribute_value":"personal"
             },
             {
@@ -775,7 +595,7 @@
          "resource":"personalInfo.anthropometric.height",
          "attributes":[
             {
-               "attribute_name":"category",
+               "attribute_name":"Category",
                "attribute_value":"anthropometric"
             },
             {
@@ -795,7 +615,7 @@
          "resource":"contactInfo.patient.email",
          "attributes":[
             {
-               "attribute_name":"category",
+               "attribute_name":"Category",
                "attribute_value":"contact"
             },
             {
@@ -805,69 +625,8 @@
             {
                "attribute_name":"tooltip",
                "attribute_value":"email"
-            }
-         ]
-      },
-      {
-         "subject":"WebsiteAdmins",
-         "permission":false,
-         "action":"Create",
-         "resource":"user.record",
-         "attributes":[
-            {
-               "attribute_name":"category",
-               "attribute_value":"General"
-            },
-            {
-               "attribute_name":"friendly_name",
-               "attribute_value":"Complete data record"
-            },
-            {
-               "attribute_name":"tooltip",
-               "attribute_value":"Create the data record and store"
-            }
-         ]
-      },
-      {
-         "subject":"Doctor",
-         "permission":false,
-         "action":"Create",
-         "resource":"user.record",
-         "attributes":[
-            {
-               "attribute_name":"category",
-               "attribute_value":"General"
-            },
-            {
-               "attribute_name":"friendly_name",
-               "attribute_value":"Complete data record"
-            },
-            {
-               "attribute_name":"tooltip",
-               "attribute_value":"Create the data record and store"
-            }
-         ]
-      },
-      {
-         "subject":"Receptionist",
-         "permission":false,
-         "action":"Create",
-         "resource":"user.record",
-         "attributes":[
-            {
-               "attribute_name":"category",
-               "attribute_value":"General"
-            },
-            {
-               "attribute_name":"friendly_name",
-               "attribute_value":"Complete data record"
-            },
-            {
-               "attribute_name":"tooltip",
-               "attribute_value":"Create the data record and store"
             }
          ]
       }
-      
    ]
 }
