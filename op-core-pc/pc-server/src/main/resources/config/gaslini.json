@@ -42,11 +42,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"nome"
+               "attribute_value":"Nome"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"nome"
+               "attribute_value":"Nome"
             }]
         },
         {
@@ -60,11 +60,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"cognome"
+               "attribute_value":"Cognome"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"cognome"
+               "attribute_value":"Cognome"
             }]
         },
         {
@@ -78,11 +78,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"codiceFiscale"
+               "attribute_value":"Codice Fiscale"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"codiceFiscale"
+               "attribute_value":"Codice Fiscale"
             }]
         },
         {
@@ -96,11 +96,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"sesso"
+               "attribute_value":"Sesso"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"sesso"
+               "attribute_value":"Sesso"
             }]
         },
         {
@@ -114,11 +114,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"dataNascita"
+               "attribute_value":"Data Di Nascita"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"dataNascita"
+               "attribute_value":"Data Di Nascita"
             }]
         },
         {
@@ -132,11 +132,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"PaeseNascita"
+               "attribute_value":"Paese Di Nascita"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"PaeseNascita"
+               "attribute_value":"Paese Di Nascita"
             }]
         },
         {
@@ -150,11 +150,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"provNascita"
+               "attribute_value":"Provincia Di Nascita"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"provNascita"
+               "attribute_value":"Provincia Di Nascita"
             }]
         },
         {
@@ -168,11 +168,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"comuneNascita"
+               "attribute_value":"Comune Di Nascita"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"comuneNascita"
+               "attribute_value":"Comune Di Nascita"
             }]
         },
         {
@@ -186,11 +186,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"provResidenza"
+               "attribute_value":"Provincia Di Residenza"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"provResidenza"
+               "attribute_value":"Provincia Di Residenza"
             }]
         },
         {
@@ -204,11 +204,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"comResidenza"
+               "attribute_value":"Comune Di Residenza"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"comResidenza"
+               "attribute_value":"Comune Di Residenza"
             }]
         },
         {
@@ -222,11 +222,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"indirizzoResidenza"
+               "attribute_value":"Indirizzo Di Residenza"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"indirizzoResidenza"
+               "attribute_value":"Indirizzo Di Residenza"
             }]
         },
         {
@@ -240,11 +240,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"numeroCivico"
+               "attribute_value":"Numero Civico"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"numeroCivico"
+               "attribute_value":"Numero Civico"
             }]
         },
         {
@@ -258,11 +258,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"cap"
+               "attribute_value":"CAP"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"cap"
+               "attribute_value":"CAP"
             }]
         },
         {
@@ -294,11 +294,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"documento1"
+               "attribute_value":"Documento 1"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"documento1"
+               "attribute_value":"Documento 1"
             }]
         },
         {
@@ -312,11 +312,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"documento2"
+               "attribute_value":"Documento 2"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"documento2"
+               "attribute_value":"Documento 2"
             }]
         },
         {
@@ -330,11 +330,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"consInform1"
+               "attribute_value":"Consenso informato 1"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"consInform1"
+               "attribute_value":"Consenso informato 1"
             }]
         },
         {
@@ -348,11 +348,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"consInform2"
+               "attribute_value":"Consenso informato 2"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"consInform2"
+               "attribute_value":"Consenso informato 2"
             }]
         },
         {
@@ -366,11 +366,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"consInform3"
+               "attribute_value":"Consenso informato 3"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"consInform3"
+               "attribute_value":"Consenso informato 3"
             }]
         },
         {
@@ -384,11 +384,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"consInform4"
+               "attribute_value":"Consenso informato 4"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"consInform4"
+               "attribute_value":"Consenso informato 4"
             }]
         },
         {
@@ -402,11 +402,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"consInform5"
+               "attribute_value":"Consenso informato 5"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"consInform5"
+               "attribute_value":"Consenso informato 5"
             }]
         },
         {
@@ -420,11 +420,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"cellulare"
+               "attribute_value":"Cellulare"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"cellulare"
+               "attribute_value":"Cellulare"
             }]
         },
         {
@@ -438,11 +438,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"username"
+               "attribute_value":"Username"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"username"
+               "attribute_value":"Username"
             }]
         },
         {
@@ -456,11 +456,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"datainserimento"
+               "attribute_value":"Data Di Inserimento"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"datainserimento"
+               "attribute_value":"Data Di Inserimento"
             }]
         },{
             "subject": "Gaslini - Tutor",
@@ -473,11 +473,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"tipologiaLegale"
+               "attribute_value":"Tipologia Legale"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"tipologiaLegale"
+               "attribute_value":"Tipologia Legale"
             }]
         },{
             "subject": "Gaslini - Tutor",
@@ -490,11 +490,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"op_cds_doctor"
+               "attribute_value":"Dottore"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"op_cds_doctor"
+               "attribute_value":"Dottore"
             }]
         },{
             "subject": "Gaslini - Doctor",
@@ -525,11 +525,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"nome"
+               "attribute_value":"Nome"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"nome"
+               "attribute_value":"Nome"
             }]
         },
         {
@@ -543,11 +543,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"cognome"
+               "attribute_value":"Cognome"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"cognome"
+               "attribute_value":"Cognome"
             }]
         },
         {
@@ -561,11 +561,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"codiceFiscale"
+               "attribute_value":"Codice Fiscale"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"codiceFiscale"
+               "attribute_value":"Codice Fiscale"
             }]
         },
         {
@@ -579,11 +579,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"sesso"
+               "attribute_value":"Sesso"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"sesso"
+               "attribute_value":"Sesso"
             }]
         },
         {
@@ -597,11 +597,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"dataNascita"
+               "attribute_value":"Data Di Nascita"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"dataNascita"
+               "attribute_value":"Data Di Nascita"
             }]
         },
         {
@@ -615,11 +615,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"PaeseNascita"
+               "attribute_value":"Paese Di Nascita"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"PaeseNascita"
+               "attribute_value":"Paese Di Nascita"
             }]
         },
         {
@@ -633,11 +633,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"provNascita"
+               "attribute_value":"Provincia Di Nascita"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"provNascita"
+               "attribute_value":"Provincia Di Nascita"
             }]
         },
         {
@@ -651,11 +651,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"comuneNascita"
+               "attribute_value":"Comune Di Nascita"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"comuneNascita"
+               "attribute_value":"Comune Di Nascita"
             }]
         },
         {
@@ -669,11 +669,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"provResidenza"
+               "attribute_value":"Provincia Di Residenza"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"provResidenza"
+               "attribute_value":"Provincia Di Residenza"
             }]
         },
         {
@@ -687,11 +687,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"comResidenza"
+               "attribute_value":"Comune Di Residenza"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"comResidenza"
+               "attribute_value":"Comune Di Residenza"
             }]
         },
         {
@@ -705,11 +705,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"indirizzoResidenza"
+               "attribute_value":"Indirizzo Di Residenza"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"indirizzoResidenza"
+               "attribute_value":"Indirizzo Di Residenza"
             }]
         },
         {
@@ -723,11 +723,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"numeroCivico"
+               "attribute_value":"Numero Civico"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"numeroCivico"
+               "attribute_value":"Numero Civico"
             }]
         },
         {
@@ -741,11 +741,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"cap"
+               "attribute_value":"CAP"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"cap"
+               "attribute_value":"CAP"
             }]
         },
         {
@@ -777,11 +777,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"documento1"
+               "attribute_value":"Documento 1"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"documento1"
+               "attribute_value":"Documento 1"
             }]
         },
         {
@@ -795,11 +795,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"documento2"
+               "attribute_value":"Documento 2"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"documento2"
+               "attribute_value":"Documento 2"
             }]
         },
         {
@@ -813,11 +813,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"consInform1"
+               "attribute_value":"Consenso Informato 1"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"consInform1"
+               "attribute_value":"Consenso Informato 1"
             }]
         },
         {
@@ -831,11 +831,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"consInform2"
+               "attribute_value":"Consenso Informato 2"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"consInform2"
+               "attribute_value":"Consenso Informato 2"
             }]
         },
         {
@@ -849,11 +849,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"consInform3"
+               "attribute_value":"Consenso Informato 3"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"consInform3"
+               "attribute_value":"Consenso Informato 3"
             }]
         },
         {
@@ -867,11 +867,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"consInform4"
+               "attribute_value":"Consenso Informato 4"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"consInform4"
+               "attribute_value":"Consenso Informato 4"
             }]
         },
         {
@@ -885,11 +885,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"consInform5"
+               "attribute_value":"Consenso Informato 5"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"consInform5"
+               "attribute_value":"Consenso Informato 5"
             }]
         },
         {
@@ -903,11 +903,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"cellulare"
+               "attribute_value":"Cellulare"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"cellulare"
+               "attribute_value":"Cellulare"
             }]
         },
         {
@@ -921,11 +921,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"username"
+               "attribute_value":"Username"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"username"
+               "attribute_value":"Username"
             }]
         },
         {
@@ -939,11 +939,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"datainserimento"
+               "attribute_value":"Data Di Inserimento"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"datainserimento"
+               "attribute_value":"Data Di Inserimento"
             }]
         },{
             "subject": "Gaslini - Doctor",
@@ -956,11 +956,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"tipologiaLegale"
+               "attribute_value":"Tipologia Legale"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"tipologiaLegale"
+               "attribute_value":"Tipologia Legale"
             }]
         },{
             "subject": "Gaslini - Doctor",
@@ -973,11 +973,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"op_cds_doctor"
+               "attribute_value":"Dottore"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"op_cds_doctor"
+               "attribute_value":"Dottore"
             }]
         }
     ]
