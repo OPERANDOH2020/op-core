@@ -32,8 +32,6 @@ import eu.operando.core.ldb.server.api.NotFoundException;
 import eu.operando.core.ldb.server.model.LogRequest;
 import eu.operando.core.ldb.server.model.LogRequestExt.LogLevelEnum;
 import eu.operando.core.ldb.server.model.LogRequestExt;
-import eu.operando.core.ldb.server.model.LogRequestExtGrantedFields;
-import eu.operando.core.ldb.server.model.LogRequestExtRequestedFields;
 import io.swagger.client.ApiException;
 import io.swagger.client.api.DefaultApi;
 import io.swagger.client.model.UserCredential;
@@ -204,7 +202,7 @@ public class LogApiServiceImpl extends LogApiService {
 		MDC.put("affectedUserId", affectedUserIdString);
 		MDC.put("osp", ospString);
 		MDC.put("requestedFields", requestedFieldsString);
-		MDC.put("grantedFields", requestedFieldsString);
+		MDC.put("grantedFields", grantedFieldsString);
 		
 		try{
 			switch ((LogLevelEnum)logLevel){

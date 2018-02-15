@@ -1,0 +1,89 @@
+{
+    "osp_policy_id": "YellowPages",
+    "policies": [
+      {
+        "reasonid": "1",
+        "datauser": "Doctor",
+        "datasubjecttype": "patient",
+        "datatype": "anthropometric",
+        "reason": "Medical Treatment"
+      },
+      {
+        "reasonid": "2",
+        "datauser": "Doctor",
+        "datasubjecttype": "patient",
+        "datatype": "personal",
+        "reason": "Medical Treatment"
+      },
+      {
+        "reasonid": "3",
+        "datauser": "Doctor",
+        "datasubjecttype": "patient",
+        "datatype": "contact",
+        "reason": "Medical Treatment"
+      },
+      {
+        "reasonid": "4",
+        "datauser": "Doctor",
+        "datasubjecttype": "patient",
+        "datatype": "general",
+        "reason": "Medical Treatment"
+      },
+      {
+        "reasonid": "5",
+        "datauser": "Receptionist",
+        "datasubjecttype": "patient",
+        "datatype": "anthropometric",
+        "reason": "Manage patient appointments"
+      },
+      {
+        "reasonid": "6",
+        "datauser": "Receptionist",
+        "datasubjecttype": "patient",
+        "datatype": "personal",
+        "reason": "Manage patient appointments"
+      },
+      {
+        "reasonid": "7",
+        "datauser": "receptionist",
+        "datasubjecttype": "patient",
+        "datatype": "contact",
+        "reason": "Manage patient appointments"
+      },
+      {
+        "reasonid": "8",
+        "datauser": "Receptionist",
+        "datasubjecttype": "patient",
+        "datatype": "general",
+        "reason": "Manage patient appointments"
+      },
+      {
+        "reasonid": "9",
+        "datauser": "WebsiteAdmins",
+        "datasubjecttype": "patient",
+        "datatype": "anthropometric",
+        "reason": "System administration"
+      },
+      {
+        "reasonid": "10",
+        "datauser": "WebsiteAdmins",
+        "datasubjecttype": "patient",
+        "datatype": "personal",
+        "reason": "System administration"
+      },
+      {
+        "reasonid": "11",
+        "datauser": "WebsiteAdmins",
+        "datasubjecttype": "patient",
+        "datatype": "contact",
+        "reason": "System administration"
+      },
+      {
+        "reasonid": "12",
+        "datauser": "WebsiteAdmins",
+        "datasubjecttype": "patient",
+        "datatype": "general",
+        "reason": "System administration"
+      }
+    ]
+}

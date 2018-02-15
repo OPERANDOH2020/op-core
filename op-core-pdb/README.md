@@ -1,5 +1,61 @@
 # Policy DataBase (PDB)
 
+## Overview
+The Policy Database (PDB) java implementation is composed of:
+- pdb server
+- pdb client
+- pdb common-model (a common models shared between server and client)
+- pdb server tests (unittest python scripts for the server api)
+- aapi-client (aapi client)
+- ldb-client (log db client)
+
+
+## Build PDB Server
+The PDB server is using the [JAX-RS](https://jax-rs-spec.java.net/) framework.
+
+To run the server please execute the following:
+
+```
+mvn clean package jetty:run
+```
+
+The PDB server is packaged as a war file which can be deployed in any java
+servlet container.
+
+### PDB Service Dependencies
+PDB server operation, requires valid connections to the following services:
+- mongoDB server
+- aapi server
+- logdb server
+
+### Configuration
+resources/config/service.properties contains the main configuration properties
+for the PDB service, i.e. mongoDB connection parameters, logdb and aapi
+endpoints, as well as service registration id and credentials.
+
+```
+mongo.server.host=mongo.integration.operando.dmz.lab.esilab.org
+mongo.server.port=27017
+aapi.basepath=http://integration.operando.esilab.org:8135/operando/interfaces/aapi
+#
+logdb.basepath=http://integration.operando.esilab.org:8090/operando/core/ldb
+logdb.service.id=/operando/core/ldb
+#
+pdb.osp.service.id=pdb/OSP/.*
+pdb.osp.service.login=xxxx
+pdb.osp.service.password=xxxx
+# reg
+pdb.reg.service.id=pdb/regulations/.*
+pdb.reg.service.login=xxxx
+pdb.reg.service.password=xxxx
+# upp
+pdb.upp.service.id=pdb/user_privacy_policy/.*
+pdb.upp.service.login=xxxx
+pdb.upp.service.password=xxxx
+```
+
+## PDB API
+
 The Policy Database that stores three types of documents in dedicated
 collections.
 

@@ -27,18 +27,13 @@ package io.swagger.api;
 
 //import io.swagger.model.*;
 
-import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 
 import eu.operando.core.pdb.common.model.AccessReason;
-import eu.operando.core.pdb.common.model.OSPPrivacyPolicy;
 import eu.operando.core.pdb.common.model.OSPPrivacyPolicyInput;
-import eu.operando.core.pdb.common.model.OSPReasonPolicy;
 import eu.operando.core.pdb.common.model.OSPReasonPolicyInput;
 
-import java.util.List;
 import io.swagger.api.NotFoundException;
 
-import java.io.InputStream;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;

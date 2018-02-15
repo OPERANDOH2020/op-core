@@ -128,32 +128,26 @@ def ValidateReceivedTicket(tckt, sID):
     return False
 
 
-def logdata(requesterId, fields, affectedUserID="", status=""):
-    logdata = {}
-    logdata["requesterType"] = "MODULE"
-    logdata["userId"] = "001"    
-    logdata["affectedUserId"] = affectedUserID
-    logdata["requesterId"] = requesterId
-    logdata["logPriority"] = "NORMAL"
-    logdata["logType"] = "DATA_ACCESS"
-    logdata["logLevel"] = "INFO"
-    print status
-    if status==True and fields != "":
-        logdata["title"] = "Access granted"
-        logdata["description"] = "%s requested access to your %s. The request was granted, because it complied with your privacy settings" % (requesterId, fields)
-    elif status==False and fields != "":
-        logdata["title"] = "Access denied"
-        logdata["description"] = "%s requested access to your %s. The request was denied, because it did not comply with your privacy settings" % (requesterId, fields)
-    else:
-        print "nothing to log"
-    logdata["keywords"] = ["query"]
-    logdata = json.dumps(logdata)
+def logdata(requesterId, requestedFields, grantedFields, affectedUserID=""):
+    dataPayload = {}
+    dataPayload["requesterId"] = requesterId
+    dataPayload["requesterType"] = "MODULE"
+    dataPayload["affectedUserId"] = affectedUserID
+    dataPayload["requestedFields"] = requestedFields
+    dataPayload["grantedFields"] = grantedFields
+
+    dataPayload["logPriority"] = "NORMAL"
+    dataPayload["logType"] = "DATA_ACCESS"
+    dataPayload["logLevel"] = "INFO"
+
+    dataPayload["keywords"] = ["query"]
+
+    dataPayload = json.dumps(dataPayload)
     try:
-        log_resp = requests.post(__URL_LOGDB, headers=__hdr, data=logdata)
-        logmsg = log_resp.text
-        msg = json.loads(logmsg)
-        if msg["type"].lower() != "ok":
-            print "error logging", msg
+        response = requests.post(__URL_LOGDB, headers=__hdr, data=dataPayload)
+        responseBody = json.loads(response.text)
+        if responseBody["type"].lower() != "ok":
+            print "error logging", responseBody
     except Exception, e:
         print "error logging", e
 
@@ -229,7 +223,7 @@ def handleSelect(request, addr):
                 elif policies["compliance"] == "VALID":
                     # there is a VALID reponce, no policies exist, all data are shown
                     restrictedFields = []
-                    logdata(req_db, joinSTR(restrictedFields), userid, False)
+                    logdata(req_db, joinSTR(fields2query), joinSTR(fields2query), userid)
                     return Response(json.dumps(usersValue), status=200, mimetype='application/json')
                 else:
                     
@@ -248,15 +242,14 @@ def handleSelect(request, addr):
                                 if v == '***PERMISSION DENIED***':
                                     del usersValue[k]
 
-                    logdata(psp_user_identifier, joinSTR(restrictedFields), userid, False)
-                    logdata(psp_user_identifier, joinSTR(list(set(fields2query) - set(restrictedFields))), userid, True)    
+                    logdata(psp_user_identifier, joinSTR(fields2query), joinSTR(list(set(fields2query) - set(restrictedFields))), userid)
                     return Response(json.dumps(usersValue), status=200, mimetype='application/json')
             else:
                 usersValue = jsonResponse['value']
                 counter = 0;
-                #item is eg the User object
+                # item is eg the User object
                 for item in usersValue: 
-                    #print "I am in item %s\n"%item
+                    # print "I am in item %s\n"%item
                     fields2query = []
                     userid = "-1"
                     placeduserid = "-1"
@@ -265,7 +258,7 @@ def handleSelect(request, addr):
                         if element.lower() == "id": userid = item[element]
                         if element.lower() == "userid": 
                             placeduserid = item[element]
-                        #if element.lower() == "id": userid = "301"
+                        # if element.lower() == "id": userid = "301"
                         fields2query.append(element)
                     if placeduserid != "-1": userid = placeduserid
                     
@@ -278,13 +271,13 @@ def handleSelect(request, addr):
                     if policies["compliance"] == "NO_POLICY":
                         # there is no policy defined so return the result
                         # return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
+                        logdata(psp_user_identifier, joinSTR(fields2query), joinSTR([]), userid)
                         return Response(json.dumps({"d": {"error": "Policies restrictions"}}), status=200, mimetype='application/json')
                     elif policies["compliance"] == "VALID":
                         # there is a VALID reponce, no policies exist, all data are shown
-                        #do nothing in the user object, everything should be visible
-                        #just print a log
-                        restrictedFields = []
-                        logdata(psp_user_identifier, joinSTR(restrictedFields), userid, False)
+                        # do nothing in the user object, everything should be visible
+                        # just print a log
+                        logdata(psp_user_identifier, joinSTR(fields2query), joinSTR(fields2query), userid)
                     else:
                         restrictedFields = []
                         for ev in policies["evaluations"]:
@@ -303,11 +296,10 @@ def handleSelect(request, addr):
                                     
                         usersValue[counter] = item
                         counter = counter + 1
-                        logdata(psp_user_identifier, joinSTR(restrictedFields), userid, False)
-                        logdata(psp_user_identifier, joinSTR(list(set(fields2query) - set(restrictedFields))), userid, True)                 
-                    
+                        logdata(psp_user_identifier, joinSTR(fields2query), joinSTR(list(set(fields2query) - set(restrictedFields))), userid)
+
             return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
-        else: #built-in structure case (and YellowPages)
+        else:  # built-in structure case (and YellowPages)
             if len(uID_split) == 1:
                 userid = uID_split[0]
                 fields2query = []
@@ -324,11 +316,11 @@ def handleSelect(request, addr):
                     if policies["compliance"] == "NO_POLICY":
                         # there is no policy defined so return the result
                         # return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
+                        logdata(psp_user_identifier, joinSTR(fields2query), joinSTR([]), userid)
                         return Response(json.dumps({"d": {"error": "Policies restrictions"}}), status=200, mimetype='application/json')
                     elif policies["compliance"] == "VALID":
                         #just do nothing, only show a log and print the user as it is
-                        restrictedFields = []
-                        logdata(req_db, joinSTR(restrictedFields), userid, False)
+                        logdata(psp_user_identifier, joinSTR(fields2query), joinSTR(fields2query), userid)
                         return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
                     
                     elif policies["compliance"] == "PREFS_CONFLICT":
@@ -342,28 +334,27 @@ def handleSelect(request, addr):
                                         restrictedFields.append(ev["datafield"])
                                         f["TextValue"] = "***PERMISSION DENIED***"
                                         del f["TextValue"]
-                                
-                                
-                                        
-                        logdata(psp_user_identifier, joinSTR(restrictedFields), userid, False)
-                        logdata(psp_user_identifier, joinSTR(list(set(fields2query) - set(restrictedFields))), userid, True)
 
+                        logdata(psp_user_identifier, joinSTR(fields2query), joinSTR(list(set(fields2query) - set(restrictedFields))), userid)
                         return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
                     else:
+                        logdata(psp_user_identifier, joinSTR(fields2query), joinSTR([]), userid)
                         return Response(json.dumps({"d": {"error": "unknown"}}), status=400, mimetype='application/json')
 
                 else:
+                    fields2query = jsonResponse['d'].keys()
                     restrictedFields = []
                     # no metadata
                     policies = getPCresponse(action="Select", osp=req_db, userid=userid,
                                              requester_id=psp_user_identifier, role=requester_Role, urls=jsonResponse['d'].keys())
                     if policies["compliance"] == "NO_POLICY":
                         # there is no policy defined so return the result
+                        logdata(psp_user_identifier, joinSTR(fields2query), joinSTR([]), userid)
                         return Response(json.dumps({"error": "Policies restrictions"}), status=200, mimetype='application/json')
                     elif policies["compliance"] == "VALID":
                         #do nothing, just return the json object as it is. 
                         restrictedFields = []
-                        logdata(req_db, joinSTR(restrictedFields), userid, False)
+                        logdata(psp_user_identifier, joinSTR(fields2query), joinSTR(fields2query), userid)
                         return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
                     elif policies["compliance"] == "PREFS_CONFLICT":
                         # there is a conflict in the policies
@@ -373,13 +364,11 @@ def handleSelect(request, addr):
                                 restrictedFields.append(ev["datafield"])
                                 jsonResponse[ev["datafield"]] = "***PERMISSION DENIED***"
                                 del jsonResponse[ev["datafield"]]
-                        
 
-                        logdata(req_db, joinSTR(restrictedFields), userid, False)
-                        logdata(req_db, joinSTR(list(set(fields2query) - set(restrictedFields))), userid, True)
-
+                        logdata(psp_user_identifier, joinSTR(fields2query), joinSTR(list(set(fields2query) - set(restrictedFields))), userid)
                         return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
                     else:
+                        logdata(psp_user_identifier, joinSTR(fields2query), joinSTR([]), userid)
                         return Response(json.dumps({"d": {"error": "unknown"}}), status=400, mimetype='application/json')
             # case we don't know the user id from the oData query, so we need to go
             # through the results
@@ -399,11 +388,11 @@ def handleSelect(request, addr):
                                                  requester_id=psp_user_identifier, role=requester_Role, urls=fields2query)
                         if policies["compliance"] == "NO_POLICY":
                             # there is no policy defined so return the result
+                            logdata(psp_user_identifier, joinSTR(fields2query), joinSTR([]), userid)
                             jsonResponse["d"]["results"][i]={"error":"Policies restrictions"}
                         elif policies["compliance"] == "VALID":
                             #do nothing, show all data
-                            restrictedFields = []
-                            logdata(psp_user_identifier, joinSTR(restrictedFields), userid, False)                            
+                            logdata(psp_user_identifier, joinSTR(fields2query), joinSTR(fields2query), userid)
                         elif policies["compliance"] == "PREFS_CONFLICT":
                             # there is a conflict in the policies
                             restrictedFields = []
@@ -415,28 +404,29 @@ def handleSelect(request, addr):
                                             restrictedFields.append(ev["datafield"])
                                             jsonResponse["d"]["results"][i]["MetadatavalueDetails"]["results"][j]["TextValue"] = "***PERMISSION DENIED***"
 
+                            logdata(psp_user_identifier, joinSTR(fields2query), joinSTR(list(set(fields2query) - set(restrictedFields))), userid)
                         else:
-                            jsonResponse["d"]["results"][i]={"error":"uknown"}
-
-                        logdata(psp_user_identifier, joinSTR(restrictedFields), userid, False)
-                        logdata(psp_user_identifier, joinSTR(list(set(fields2query) - set(restrictedFields))), userid, True)
+                            logdata(psp_user_identifier, joinSTR(fields2query), joinSTR([]), userid)
+                            jsonResponse["d"]["results"][i] = {"error": "uknown"}
 
                     return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
 
                 else:
                     rows=jsonResponse["d"]["results"]
-                    fields2query = []
                     for i in range(len(rows)):
+                        fields2query = jsonResponse["d"]["results"][i].keys()
+
                         userid=jsonResponse["d"]["results"][i]["Iduser"]
                         policies = getPCresponse(action="Select", osp=req_db, userid=jsonResponse["d"]["results"][i]["Iduser"],
                                                  requester_id=psp_user_identifier, role=requester_Role, urls=jsonResponse["d"]["results"][i].keys())
                         if policies["compliance"] == "NO_POLICY":
                             # there is no policy defined so return the result
+                            logdata(psp_user_identifier, joinSTR(fields2query), joinSTR([]), userid)
                             jsonResponse["d"]["results"][i]={"error":"Policies restrictions"}
                         elif policies["compliance"] == "VALID":
                             #do nothing, show all data
                             restrictedFields = []
-                            logdata(psp_user_identifier, joinSTR(restrictedFields), userid, False)
+                            logdata(psp_user_identifier, joinSTR(fields2query), joinSTR(fields2query), userid)
                         elif policies["compliance"] == "PREFS_CONFLICT":
                             # there is a conflict in the policies
                             restrictedFields = []
@@ -445,11 +435,10 @@ def handleSelect(request, addr):
                                     restrictedFields.append(ev["datafield"])					
                                     jsonResponse["d"]["results"][i]["datafield"]="***PERMISSION DENIED***"
                                     del jsonResponse["d"]["results"][i]["datafield"]
+                            logdata(psp_user_identifier, joinSTR(fields2query), joinSTR(list(set(fields2query) - set(restrictedFields))), userid)
                         else:
+                            logdata(psp_user_identifier, joinSTR(fields2query), joinSTR([]), userid)
                             jsonResponse["d"]["results"][i]={"error":"unknown"}				
-
-                        logdata(psp_user_identifier, joinSTR(restrictedFields), userid, False)
-                        logdata(psp_user_identifier, joinSTR(list(set(fields2query) - set(restrictedFields))), userid, True)
 
                     return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
     else:

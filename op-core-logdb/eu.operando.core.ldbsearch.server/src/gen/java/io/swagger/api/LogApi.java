@@ -30,8 +30,8 @@ import io.swagger.model.InlineResponse200;
 @io.swagger.annotations.Api(description = "the log API")
 @javax.annotation.Generated(value = "class io.swagger.codegen.languages.JavaJerseyServerCodegen", date = "2016-06-09T07:21:21.621Z")
 public class LogApi  {
-   private final LogApiService delegate = LogApiServiceFactory.getLogApi();
-
+   private final LogApiService delegate = LogApiServiceFactory.getLogApi();  
+    
     @GET
     @Path("/search")
     
@@ -50,8 +50,9 @@ public class LogApi  {
 ,@ApiParam(value = "Keywords to perform the search.") @QueryParam("keyWords") String keyWords
 ,@ApiParam(value = "Type of the data logged.") @QueryParam("logType") String logType
 ,@ApiParam(value = "Id of the affected user.") @QueryParam("affectedUserId") String affectedUserId
+,@ApiParam(value = "Id of the OSP.") @QueryParam("ospId") String ospId
 ,@Context SecurityContext securityContext)
     throws NotFoundException {
-        return delegate.getLogs(dateFrom,dateTo,logLevel,requesterType,requesterId,logPriority,title,keyWords,logType,affectedUserId,securityContext);
+        return delegate.getLogs(dateFrom, dateTo, logLevel, requesterType, requesterId, logPriority, title, keyWords, logType, affectedUserId, ospId, securityContext);
     }
 }

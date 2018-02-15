@@ -183,45 +183,15 @@
           "type" : "array",
           "description" : "Array of requestedFields to facilitate search",
           "items" : {
-            "$ref" : "#/definitions/LogRequestExtRequestedFields"
+            "type" : "string"
           }
         },
         "grantedFields" : {
           "type" : "array",
           "description" : "Array of grantedFields to facilitate search",
           "items" : {
-            "$ref" : "#/definitions/LogRequestExtGrantedFields"
+            "type" : "string"
           }
-        }
-      }
-    },
-    "LogRequestExtGrantedFields" : {
-      "type" : "object",
-      "properties" : {
-        "name" : {
-          "type" : "string",
-          "description" : "name of the requested field."
-        },
-        "dob" : {
-          "type" : "string",
-          "description" : "dob of the requested field."
-        }
-      }
-    },
-    "LogRequestExtRequestedFields" : {
-      "type" : "object",
-      "properties" : {
-        "name" : {
-          "type" : "string",
-          "description" : "name of the requested field."
-        },
-        "dob" : {
-          "type" : "string",
-          "description" : "dob of the requested field."
-        },
-        "address" : {
-          "type" : "string",
-          "description" : "address of the requested field."
         }
       }
     }

@@ -1,5 +1,5 @@
 {
-    "policy_text": "ASL Bergamo - IL Policy",
+    "policy_text": "ASL Bergamo: Ispettorato del lavoro",
     "policy_url": "ASLBG_IL",
     "schema": "http://www.operando.eu/OData/$metadata",
     "workflow": [
@@ -21,7 +21,7 @@
             "attributes": [{"attribute_name": "fixed", "attribute_value": "true"},
             {
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -39,15 +39,15 @@
             "resource": "nomeAzienda",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"nomeAzienda"
+               "attribute_value":"Nome Azienda"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"nomeAzienda"
+               "attribute_value":"Nome Azienda"
             }]
         },
         {
@@ -57,15 +57,15 @@
             "resource": "op_psw_inspection_provincia",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"op_psw_inspection_provincia"
+               "attribute_value":"Provincia"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"op_psw_inspection_provincia"
+               "attribute_value":"Provincia"
             }]
         },
         {
@@ -75,15 +75,15 @@
             "resource": "op_psw_inspection_comune",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"op_psw_inspection_comune"
+               "attribute_value":"Comune"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"op_psw_inspection_comune"
+               "attribute_value":"Comune"
             }]
         },
         {
@@ -93,15 +93,15 @@
             "resource": "indirizzo",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"indirizzo"
+               "attribute_value":"Indirizzo"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"indirizzo"
+               "attribute_value":"Indirizzo"
             }]
         },
         {
@@ -111,15 +111,15 @@
             "resource": "numeroCivico",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"numeroCivico"
+               "attribute_value":"Numero Civico"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"numeroCivico"
+               "attribute_value":"Numero Civico"
             }]
         },
         {
@@ -129,15 +129,15 @@
             "resource": "cap",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"cap"
+               "attribute_value":"CAP"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"cap"
+               "attribute_value":"CAP"
             }]
         },
         {
@@ -147,15 +147,15 @@
             "resource": "dataIspezione",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"dataIspezione"
+               "attribute_value":"Data Ispezione"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"dataIspezione"
+               "attribute_value":"Data Ispezione"
             }]
         },
         {
@@ -165,15 +165,15 @@
             "resource": "oraInizio",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"oraInizio"
+               "attribute_value":"Ora Inizio"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"oraInizio"
+               "attribute_value":"Ora Inizio"
             }]
         },
         {
@@ -183,15 +183,15 @@
             "resource": "oraFine",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"oraFine"
+               "attribute_value":"Ora Fine"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"oraFine"
+               "attribute_value":"Ora Fine"
             }]
         },
         {
@@ -201,15 +201,15 @@
             "resource": "sanzioneApplicata",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"sanzioneApplicata"
+               "attribute_value":"Sanzione Applicata"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"sanzioneApplicata"
+               "attribute_value":"Sanzione Applicata"
             }]
         },
         {
@@ -219,15 +219,15 @@
             "resource": "IDIspettore",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"IDIspettore"
+               "attribute_value":"ID Ispettore"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"IDIspettore"
+               "attribute_value":"ID Ispettore"
             }]
         },
         {
@@ -237,15 +237,15 @@
             "resource": "nomeIspettore",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"nomeIspettore"
+               "attribute_value":"Nome Ispettore"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"nomeIspettore"
+               "attribute_value":"Nome Ispettore"
             }]
         },
         {
@@ -255,15 +255,15 @@
             "resource": "report",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"report"
+               "attribute_value":"Report"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"report"
+               "attribute_value":"Report"
             }]
         },
         {
@@ -273,15 +273,15 @@
             "resource": "daRicontrollare",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"daRicontrollare"
+               "attribute_value":"Da Ricontrollare"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"daRicontrollare"
+               "attribute_value":"Da Ricontrollare"
             }]
         },
         {
@@ -291,15 +291,15 @@
             "resource": "dataOraProssimaIspezione",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"dataOraProssimaIspezione"
+               "attribute_value":"Data e Ora Prossima Ispezione"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"dataOraProssimaIspezione"
+               "attribute_value":"Data e Ora Prossima Ispezione"
             }]
         },
         {
@@ -309,15 +309,15 @@
             "resource": "idIspettoreProssimaIspezione",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"idIspettoreProssimaIspezione"
+               "attribute_value":"ID Ispettore Prossima Ispezione"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"idIspettoreProssimaIspezione"
+               "attribute_value":"ID Ispettore Prossima Ispezione"
             }]
         },
         {
@@ -327,15 +327,15 @@
             "resource": "nomeIspettoreProssimaIspezione",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"nomeIspettoreProssimaIspezione"
+               "attribute_value":"Nome Ispettore Prossima Ispezione"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"nomeIspettoreProssimaIspezione"
+               "attribute_value":"Nome Ispettore Prossima Ispezione"
             }]
         },
         {
@@ -345,15 +345,15 @@
             "resource": "username",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"username"
+               "attribute_value":"Username"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"username"
+               "attribute_value":"Username"
             }]
         },
         {
@@ -363,15 +363,15 @@
             "resource": "datainserimento",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"datainserimento"
+               "attribute_value":"Data Di Inserimento"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"datainserimento"
+               "attribute_value":"Data Di Inserimento"
             }]
         },
         {
@@ -381,15 +381,15 @@
             "resource": "amount",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"amount"
+               "attribute_value":"Totale"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"amount"
+               "attribute_value":"Totale"
             }]
         },
         {
@@ -399,15 +399,15 @@
             "resource": "motivo",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"motivo"
+               "attribute_value":"Motivo"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"motivo"
+               "attribute_value":"Motivo"
             }]
         },
         {
@@ -417,15 +417,15 @@
             "resource": "livello",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"livello"
+               "attribute_value":"Livello"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"livello"
+               "attribute_value":"Livello"
             }]
         },
         {
@@ -435,15 +435,15 @@
             "resource": "primaPenalita",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"primaPenalita"
+               "attribute_value":"Prima Penalita"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"primaPenalita"
+               "attribute_value":"Prima Penalita"
             }]
         },
         {
@@ -453,15 +453,15 @@
             "resource": "pagato",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"pagato"
+               "attribute_value":"Pagato"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"pagato"
+               "attribute_value":"Pagato"
             }]
         },{
             "subject": "ASL Bergamo - IL - Inspector",
@@ -470,15 +470,15 @@
             "resource": "totale",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"totale"
+               "attribute_value":"Totale"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"totale"
+               "attribute_value":"Totale"
             }]
         },
         {
@@ -488,15 +488,15 @@
             "resource": "dataPagamento",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"dataPagamento"
+               "attribute_value":"Data Di Pagamento"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"dataPagamento"
+               "attribute_value":"Data Di Pagamento"
             }]
         },
         {
@@ -507,7 +507,7 @@
             "attributes": [{"attribute_name": "fixed", "attribute_value": "true"},
                 {
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -525,15 +525,15 @@
             "resource": "nomeAzienda",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"nomeAzienda"
+               "attribute_value":"Nome Azienda"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"nomeAzienda"
+               "attribute_value":"Nome Azienda"
             }]
         },
         {
@@ -543,15 +543,15 @@
             "resource": "op_psw_inspection_provincia",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"op_psw_inspection_provincia"
+               "attribute_value":"Provincia"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"op_psw_inspection_provincia"
+               "attribute_value":"Provincia"
             }]
         },
         {
@@ -561,15 +561,15 @@
             "resource": "op_psw_inspection_comune",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"op_psw_inspection_comune"
+               "attribute_value":"Comune"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"op_psw_inspection_comune"
+               "attribute_value":"Comune"
             }]
         },
         {
@@ -579,15 +579,15 @@
             "resource": "indirizzo",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"indirizzo"
+               "attribute_value":"Indirizzo"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"indirizzo"
+               "attribute_value":"Indirizzo"
             }]
         },
         {
@@ -597,15 +597,15 @@
             "resource": "numeroCivico",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"numeroCivico"
+               "attribute_value":"Numero Civico"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"numeroCivico"
+               "attribute_value":"Numero Civico"
             }]
         },
         {
@@ -615,15 +615,15 @@
             "resource": "cap",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"cap"
+               "attribute_value":"CAP"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"cap"
+               "attribute_value":"CAP"
             }]
         },
         {
@@ -633,15 +633,15 @@
             "resource": "dataIspezione",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"dataIspezione"
+               "attribute_value":"Data Ispezione"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"dataIspezione"
+               "attribute_value":"Data Ispezione"
             }]
         },
         {
@@ -651,15 +651,15 @@
             "resource": "oraInizio",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"oraInizio"
+               "attribute_value":"Ora Inizio"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"oraInizio"
+               "attribute_value":"Ora Inizio"
             }]
         },
         {
@@ -669,15 +669,15 @@
             "resource": "oraFine",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"oraFine"
+               "attribute_value":"Ora Fine"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"oraFine"
+               "attribute_value":"Ora Fine"
             }]
         },
         {
@@ -687,15 +687,15 @@
             "resource": "sanzioneApplicata",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"sanzioneApplicata"
+               "attribute_value":"Sanzione Applicata"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"sanzioneApplicata"
+               "attribute_value":"Sanzione Applicata"
             }]
         },
         {
@@ -705,15 +705,15 @@
             "resource": "IDIspettore",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"IDIspettore"
+               "attribute_value":"ID Ispettore"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"IDIspettore"
+               "attribute_value":"ID Ispettore"
             }]
         },
         {
@@ -723,15 +723,15 @@
             "resource": "nomeIspettore",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"nomeIspettore"
+               "attribute_value":"Nome Ispettore"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"nomeIspettore"
+               "attribute_value":"Nome Ispettore"
             }]
         },
         {
@@ -741,15 +741,15 @@
             "resource": "report",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"report"
+               "attribute_value":"Report"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"report"
+               "attribute_value":"Report"
             }]
         },
         {
@@ -759,15 +759,15 @@
             "resource": "daRicontrollare",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"daRicontrollare"
+               "attribute_value":"Da Ricontrollare"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"daRicontrollare"
+               "attribute_value":"Da Ricontrollare"
             }]
         },
         {
@@ -777,15 +777,15 @@
             "resource": "dataOraProssimaIspezione",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"dataOraProssimaIspezione"
+               "attribute_value":"Data Ora Prossima Ispezione"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"dataOraProssimaIspezione"
+               "attribute_value":"Data Ora Prossima Ispezione"
             }]
         },
         {
@@ -795,15 +795,15 @@
             "resource": "idIspettoreProssimaIspezione",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"idIspettoreProssimaIspezione"
+               "attribute_value":"ID Ispettore Prossima Ispezione"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"idIspettoreProssimaIspezione"
+               "attribute_value":"ID Ispettore Prossima Ispezione"
             }]
         },
         {
@@ -813,15 +813,15 @@
             "resource": "nomeIspettoreProssimaIspezione",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"nomeIspettoreProssimaIspezione"
+               "attribute_value":"Nome Ispettore Prossima Ispezione"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"nomeIspettoreProssimaIspezione"
+               "attribute_value":"Nome Ispettore Prossima Ispezione"
             }]
         },
         {
@@ -831,15 +831,15 @@
             "resource": "username",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"username"
+               "attribute_value":"Username"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"username"
+               "attribute_value":"Username"
             }]
         },
         {
@@ -849,15 +849,15 @@
             "resource": "datainserimento",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"datainserimento"
+               "attribute_value":"Data Inserimento"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"datainserimento"
+               "attribute_value":"Data Inserimento"
             }]
         },
         {
@@ -867,15 +867,15 @@
             "resource": "amount",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"amount"
+               "attribute_value":"Totale"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"amount"
+               "attribute_value":"Totale"
             }]
         },
         {
@@ -885,15 +885,15 @@
             "resource": "motivo",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"motivo"
+               "attribute_value":"Motivo"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"motivo"
+               "attribute_value":"Motivo"
             }]
         },
         {
@@ -903,15 +903,15 @@
             "resource": "livello",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"livello"
+               "attribute_value":"Livello"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"livello"
+               "attribute_value":"Livello"
             }]
         },
         {
@@ -921,15 +921,15 @@
             "resource": "primaPenalita",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"primaPenalita"
+               "attribute_value":"Prima Penalita"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"primaPenalita"
+               "attribute_value":"Prima Penalita"
             }]
         },
         {
@@ -939,15 +939,15 @@
             "resource": "pagato",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"pagato"
+               "attribute_value":"Pagato"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"pagato"
+               "attribute_value":"Pagato"
             }]
         },{
             "subject": "ASL Bergamo - IL - Accountant",
@@ -956,15 +956,15 @@
             "resource": "totale",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"totale"
+               "attribute_value":"Totale"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"totale"
+               "attribute_value":"Totale"
             }]
         },
         {
@@ -974,15 +974,15 @@
             "resource": "dataPagamento",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"dataPagamento"
+               "attribute_value":"Data Pagamento"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"dataPagamento"
+               "attribute_value":"Data Pagamento"
             }]
         }
     ]

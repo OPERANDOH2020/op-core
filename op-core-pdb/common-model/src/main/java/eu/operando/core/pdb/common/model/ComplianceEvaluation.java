@@ -164,11 +164,11 @@ public class ComplianceEvaluation   {
     StringBuilder sb = new StringBuilder();
     sb.append("class ComplianceEvaluation {\n");
 
-    sb.append("    datauser: ").append(toIndentedString(datauser)).append("\n");
-    sb.append("    datafield: ").append(toIndentedString(datafield)).append("\n");
-    sb.append("    action: ").append(toIndentedString(action)).append("\n");
-    sb.append("    reason: ").append(toIndentedString(reason)).append("\n");
-    sb.append("    result: ").append(toIndentedString(result)).append("\n");
+    sb.append("    \"datauser\": \"").append(toIndentedString(datauser)).append("\",\n");
+    sb.append("    \"datafield\": \"").append(toIndentedString(datafield)).append("\",\n");
+    sb.append("    \"action\": \"").append(toIndentedString(action)).append("\",\n");
+    sb.append("    \"reason\": \"").append(toIndentedString(reason)).append("\",\n");
+    sb.append("    \"result\": \"").append(toIndentedString(result)).append("\"\n");
     sb.append("}");
     return sb.toString();
   }

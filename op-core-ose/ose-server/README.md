@@ -10,7 +10,7 @@ privacy experts to evaluate the extent to which they comply with current
 privacy regulations. 
 
 More specifically, the OSE module has the following key functional purposes: 
-* The OSE component manages when a G2C OSP changes its behaviour—ensuring that user policies 
+* The OSE component manages when a G2C OSP changes its behaviourâ€”ensuring that user policies 
 are updated to comply with GDPR regulations. That is, users are notified of all changes to the
 privacy policy; and their consents are set to false for the changes. They must then
 choose to opt-in or not.
@@ -210,3 +210,205 @@ provided to the call.
 
 4. The list of all access consents by all users subscribed to the OSP (YellowPages) by a specific role (Doctor) for a specific field (personalInfo.patient.name).
     `curl -H "Content-type: application/json" -X GET  "http://hostname:port/consent/YellowPages/user1?field=personalInfo.patient.name&role=Doctor"`
+    
+    
+### OSP API ###
+
+#### Change Privacy Reason Policy ####
+----
+Notify Operando that a change has been made to an OSP's privacy reason policy. This
+will trigger internal checks on this policy change. In particular, all access policies
+that relate to the change in reason are analysed, and where an OSP requests access to
+data with a reason change then all users subscribed to the OSP are notified of the
+changes, and their UPP is changed to remove consents given for the previous reason; and
+they are asked to review their consents.
+
+For example, an OSP may state that a person may access your e-mail data for service notifications. 
+However, they may change this to access e-mail to share with 3rd party companies for marketing.
+The user is notified and the OSP cannot access the email until consent is given back for the new
+reason.
+
+* **URL**
+
+  /osps/{osp-id}/reason/
+
+* **Method:**
+
+  `PUT` 
+  
+*  **URL Params**
+
+   **Required:**
+ 
+   `osp-id=[alphanumeric]`
+
+    This is a path parameter entered in the URL. It is the unique Operando identifier
+    given to an OSP.
+
+*  **Message content**
+
+  The message contains the new access reason for accessing data. This is in the following JSON format:
+  
+  ```json
+    {
+      "reasonid": "string",
+      "datauser": "string",
+      "datasubjecttype": "string",
+      "datatype": "string",
+      "reason": "string"
+    }
+  ```
+  **reasonid** : The reason id is the id of the reason that has changed. If it is a new reason, then the new id must be provided.
+  **datauser** : Who is using the data?
+  **datasubjecttype** : Whose is this data?
+  **datatype** : The category of the data this reason is about e.g. contact information.
+  **reason** : The free text reason explaining why the OSP is using this data.
+  
+* **Success Response:**
+
+  * **Code:** 200 <br />
+  * However, the subscribed users should all receive notification messages about the change. Further, all subscribed
+  UPP policies will be updates in the database.
+ 
+* **Sample Calls:**
+
+1.  Notify the OSE of the reason policy change.
+
+    `curl -H "Content-type: application/json" -X PUT -D {{
+      "reasonid": "string",
+      "datauser": "string",
+      "datasubjecttype": "string",
+      "datatype": "string",
+      "reason": "string"
+    }} "http://hostname:port/osps/1111111111/reason"`
+
+#### Change Privacy Access Policy ####
+----
+Notify Operando that a change has been made to an OSP's privacy access policy. This
+will trigger internal checks on this policy change. Users subscribed to the OSP are notified of the
+changes, and their UPP is changed to remove consents given for the previous access policies; and
+they are asked to review their consents for the new and changed consents. Deleted access policies
+are removed from the UPP too.
+
+* **URL**
+
+  /osps/{osp-id}/
+
+* **Method:**
+
+  `PUT` 
+  
+*  **URL Params**
+
+   **Required:**
+ 
+   `osp-id=[alphanumeric]`
+
+    This is a path parameter entered in the URL. It is the unique Operando identifier
+    given to an OSP.
+
+*  **Message content**
+
+  The message contains the new access full OSP policy. This is in the following JSON format:
+  
+  ```json
+    {
+      "osp_policy_id": "string",
+      "policy_text": "string",
+      "policy_url": "string",
+      "workflow": [
+        {
+          "requester_id": "string",
+          "subject": "string",
+          "requested_url": "string",
+          "action": "Collect",
+          "attributes": [
+            {
+              "attribute_name": "string",
+              "attribute_value": "string"
+            }
+          ]
+        }
+      ],
+      "policies": [
+        {
+          "subject": "string",
+          "permission": true,
+          "action": "Collect",
+          "resource": "string",
+          "attributes": [
+            {
+              "attribute_name": "string",
+              "attribute_value": "string"
+            }
+          ]
+        }
+      ]
+    }
+  ```
+  
+* **Success Response:**
+
+  * **Code:** 200 <br />
+  * However, the subscribed users should all receive notification messages about the change. Further, all subscribed
+  UPP policies will be updates in the database.
+ 
+* **Sample Calls:**
+
+1.  Notify the OSE of the reason policy change.
+
+    `curl -H "Content-type: application/json" -X PUT "http://hostname:port/osps/1111111111/"`
+
+#### Run an OSP Audit ####
+----
+Observe and analyse the behaviour of an OSP to check that they are performing data retrieval
+and usage in line with their own privacy policy. A report is produced of breaches, the OSP
+is notified and they can alter their policy or their behaviour accordingly.
+
+* **URL**
+
+  /osps/{osp-id}/audit
+
+* **Method:**
+
+  `GET` 
+  
+*  **URL Params**
+
+   **Required:**
+ 
+   `osp-id=[alphanumeric]`
+
+    This is a path parameter entered in the URL. It is the unique Operando identifier
+    given to an OSP.
+    
+    `start=[alphanumeric]`
+
+    This is a query parameter entered in the URL. It is the start date to run the audit from YYYY-MM-DD.
+    
+    `end=[alphanumeric]`
+
+    This is a path parameter entered in the URL. It is the end date to run the audit to YYYY-MM-DD.
+    given to an OSP.
+  
+* **Success Response:**
+
+  * **Code:** 200 <br />
+  * The audit report is produced:
+  
+  ```json
+  {
+    "conflicts": [
+        { "role": "userRole",
+          "data_requested": "contact",
+          "breach_reason": "text explaining why breach e.g. no reason policy, no access policy defined, etc."
+        }
+    ]
+  }
+  ```
+* **Sample Calls:**
+
+1.  Notify the OSE of the reason policy change.
+
+    `curl -H "Content-type: application/json" -X GET "http://hostname:port/osps/1111111111/audit?start=YYYY-MM-DD&end=YYYY-MM-DD"`
+

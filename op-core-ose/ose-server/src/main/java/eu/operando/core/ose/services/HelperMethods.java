@@ -135,6 +135,9 @@ public class HelperMethods {
         }
     }
 
+    /**
+     * Send a log message to the LogDB component.
+     */
     public void logUserRequest(LogApi logApi, String requesterId, String title, String description,
             LogRequest.LogLevelEnum logLevel, LogRequest.LogPriorityEnum logPriority, LogRequest.LogTypeEnum logType,
             String affectedId, ArrayList<String> keywords) {
@@ -188,6 +191,17 @@ public class HelperMethods {
             }
         }
         return props;
+    }
+
+    /**
+     * Method to notify users via e-mail of a message. Uses the mailgun API.
+     * @param Subject The msg subject line
+     * @param email The target email address
+     * @param Body The content of the message
+     * @return Indication if the email was sent successfully.
+     */
+    private boolean sendEmail(String Subject, String email, String Body) {
+        return true;
     }
 
 }

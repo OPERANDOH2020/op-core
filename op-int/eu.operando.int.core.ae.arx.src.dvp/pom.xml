@@ -8,7 +8,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>eu.operando.int.core.ae.arx.server</artifactId>
-	<packaging>pom</packaging>
+	<packaging>jar</packaging>
 	<name>eu.operando.core.ae.server</name>
 	<build>
 		<sourceDirectory>src/main/java</sourceDirectory>
@@ -21,6 +21,7 @@
 				<executions>
 					<execution>
 						<id>default-cli</id>
+						<phase>generate-sources</phase>
 						<goals>
 							<goal>download-single</goal>
 						</goals>
@@ -42,6 +43,7 @@
 				<executions>
 					<execution>
 						<id>default-cli</id>
+						<phase>package</phase>
 						<goals>
 							<goal>install-file</goal>
 						</goals>

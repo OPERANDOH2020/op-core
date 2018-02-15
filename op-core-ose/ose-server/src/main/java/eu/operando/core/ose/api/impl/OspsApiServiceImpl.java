@@ -24,7 +24,7 @@
 /////////////////////////////////////////////////////////////////////////
 package eu.operando.core.ose.api.impl;
 
-import com.jayway.jsonpath.JsonPath;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.operando.core.cas.client.api.DefaultApi;
 import io.swagger.client.ApiClient;
 import eu.operando.core.pdb.common.model.OSPPrivacyPolicy;
@@ -34,20 +34,29 @@ import io.swagger.api.NotFoundException;
 
 import eu.operando.core.ose.mongo.OspsMongo;
 import eu.operando.core.ose.services.HelperMethods;
+import eu.operando.core.ose.services.PDBHelperMethods;
 import eu.operando.core.pdb.common.model.AccessPolicy;
 import eu.operando.core.pdb.common.model.AccessReason;
+import eu.operando.core.pdb.common.model.OSPConsents;
+import eu.operando.core.pdb.common.model.OSPReasonPolicy;
 import eu.operando.core.pdb.common.model.PolicyAttribute;
+import eu.operando.core.pdb.common.model.UserPrivacyPolicy;
 import io.swagger.api.ApiResponseMessage;
 import io.swagger.api.OspsApiService;
-import io.swagger.client.ApiException;
 import io.swagger.client.api.LogApi;
 import io.swagger.client.model.LogRequest;
 import io.swagger.client.model.LogRequest.LogLevelEnum;
 import io.swagger.client.model.LogRequest.LogPriorityEnum;
+import io.swagger.client.ApiException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -56,14 +65,7 @@ import java.util.logging.Logger;
 
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-import net.minidev.json.JSONArray;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
-import org.codehaus.jackson.map.ObjectMapper;
+
 
 public class OspsApiServiceImpl extends OspsApiService {
 
@@ -73,10 +75,10 @@ public class OspsApiServiceImpl extends OspsApiService {
     DefaultApi aapiClient;
 
     private String oseOSPSSId = "ose/osps/.*";
-    private String logdbSId = "ose/osps/.*";
+//    private String logdbSId = "pdb/OSP/.*";
     private String aapiBasePath = "http://integration.operando.esilab.org:8135/operando/interfaces/aapi";
     private String logdbBasePath = "http://integration.operando.esilab.org:8090/operando/core/ldb";
-    private String pdbBasePath = "http://integration.operando.esilab.org:8096/operando/core";
+
     private String ospsLoginName = "panos";
     private String ospsLoginPassword = "operando";
     private String stHeaderName = "Service-Ticket";
@@ -90,12 +92,13 @@ public class OspsApiServiceImpl extends OspsApiService {
 
     Properties prop = null;
     private HelperMethods helpServices;
+    private PDBHelperMethods pdbServices;
 
     public OspsApiServiceImpl() {
         super();
 
         helpServices = new HelperMethods();
-
+        pdbServices = new PDBHelperMethods();
         //  get service config params
 //        prop = loadServiceProperties();
 //        loadParams();
@@ -113,7 +116,7 @@ public class OspsApiServiceImpl extends OspsApiService {
             //@Override
             public void run() {
                 Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.INFO, "osps TIMER RUN now");
-                logdbST = helpServices.getServiceTicket(aapiClient, ospsLoginName, ospsLoginPassword, logdbSId);
+                logdbST = helpServices.getServiceTicket(aapiClient, ospsLoginName, ospsLoginPassword, oseOSPSSId);
                 apiClient.addDefaultHeader(stHeaderName, logdbST);
             }
         };
@@ -122,7 +125,7 @@ public class OspsApiServiceImpl extends OspsApiService {
         timer.scheduleAtFixedRate(timerTask, 0, ticketLifeTime);
 
         // get service ticket for logdb service
-        logdbST = helpServices.getServiceTicket(aapiClient, ospsLoginName, ospsLoginPassword, logdbSId);
+        logdbST = helpServices.getServiceTicket(aapiClient, ospsLoginName, ospsLoginPassword, oseOSPSSId);
         apiClient.addDefaultHeader(stHeaderName, logdbST);
         this.logApi = new LogApi(apiClient);
 
@@ -148,13 +151,9 @@ public class OspsApiServiceImpl extends OspsApiService {
         if (prop.getProperty("ose.osps.service.password") != null) {
             ospsLoginPassword = prop.getProperty("ose.osps.service.password");
         }
-        if (prop.getProperty("logdb.service.id") != null) {
-            logdbSId = prop.getProperty("logdb.service.id");
-        }
-
-        if (prop.getProperty("pdb.upp.basepath") != null) {
-            pdbBasePath = prop.getProperty("pdb.upp.basepath");
-        }
+//        if (prop.getProperty("logdb.service.id") != null) {
+//            logdbSId = prop.getProperty("logdb.service.id");
+//        }
 
         // setup mongo part
         if (prop.getProperty("mongo.server.host") != null) {
@@ -191,184 +190,228 @@ public class OspsApiServiceImpl extends OspsApiService {
         return props;
     }
 
+
     /**
-     * Get a specific user policy from the policy DB.
-     * @userId The id of the user.
-     * @return A JSON string representing their UPPs.
+     * Where a category reason has changed for a role, this goes through a UPP
+     * and updates their policies to false. So they
      */
-    private OSPPrivacyPolicy getSpecificOSP(String ospId) {
-        try {
-            /**
-             * Invoke the PDB to query for the user consents.
-             */
-            CloseableHttpClient httpclient = HttpClients.createDefault();
-            HttpGet httpget = new HttpGet(pdbBasePath + "/OSP/" + ospId);
-            CloseableHttpResponse response1 = httpclient.execute(httpget);
-
-            /**
-             * If there is no response return null.
-             */
-            HttpEntity entity = response1.getEntity();
-            if(response1.getStatusLine().getStatusCode()==404) {
-                return null;
+    private String resetCategoryPolicies(String Category, String role, UserPrivacyPolicy upp, String userId, String ospId, String friendlyId) {
+        /**
+         * Find the fields specific to this category and role
+         */
+        List<String> resources = new ArrayList<String>();
+        OSPPrivacyPolicy osp_access_policies = pdbServices.getSpecificOSP(ospId);
+        List<AccessPolicy> policies = osp_access_policies.getPolicies();
+        for(AccessPolicy accPol: policies) {
+            List<PolicyAttribute> attributes = accPol.getAttributes();
+            for (PolicyAttribute attVel: attributes) {
+                if( attVel.getAttributeName().equalsIgnoreCase("category")) {
+                    if( attVel.getAttributeValue().equalsIgnoreCase(Category)) {
+                        if(accPol.getSubject().equalsIgnoreCase(role)) {
+                            resources.add(accPol.getResource());
+                        }
+                    }
+                    break;
+                }
             }
-            String jsonOspPolicy = EntityUtils.toString(entity);
-            httpclient.close();
-            response1.close();
-            httpget.releaseConnection();
-
-            ObjectMapper mapper = new ObjectMapper();
-            OSPPrivacyPolicy ospPolicy = mapper.readValue(jsonOspPolicy, OSPPrivacyPolicy.class);
-
-            return ospPolicy;
-        } catch (IOException ex) {
-            System.err.println("OSE-Compliance-Report: Unable to retrieve data from Policy Database");
-            return null;
         }
+
+        /**
+         * Search through the UPP
+         */
+        for(String resourceData: resources){
+            System.out.println("Resource = " + resourceData);
+            List<OSPConsents> subscribedOspPolicies = upp.getSubscribedOspPolicies();
+            for(OSPConsents consents: subscribedOspPolicies) {
+                System.out.println(consents.getOspId() + " = " + friendlyId);
+                if (consents.getOspId().equalsIgnoreCase(friendlyId)) {
+                    List<AccessPolicy> accessPolicies = consents.getAccessPolicies();
+                    for (AccessPolicy acPolicy: accessPolicies) {
+                        System.out.println(resourceData + " = " + acPolicy.getResource());
+                        if(resourceData.equalsIgnoreCase(acPolicy.getResource())) {
+                             System.out.println(acPolicy.getSubject() + " = " + role);
+                            if(acPolicy.getSubject().equalsIgnoreCase(role)) {
+                                acPolicy.setPermission(false);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        String uppJsonString = upp.toString();
+        return uppJsonString;
+
     }
 
-//    @Override
-//    public Response ospsOspIdPrivacySettingsGet(String ospId, String userId, SecurityContext securityContext)
-//            throws NotFoundException {
-//
-//        Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.INFO, "upp GET policy filter {0}", ospId);
-//
-//        logRequest("ospsPrivacyPolicyGet", ospId,
-//                "PDB osp privacy settings GET received",
-//                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
-//                new ArrayList<String>(Arrays.asList("ospId", "userId")));
-//
-//        OspsMongo ospsMongo = new OspsMongo();
-//        String ospString = ospsMongo.ospsOspIdPrivacySettingsGet(ospId, userId);
-//
-//        logRequest("ospsPrivacyPolicyGet", ospId,
-//                "PDB osp privacy settings GET complete",
-//                LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
-//                new ArrayList<String>(Arrays.asList("ospId", "userId")));
-//
-//        return Response.ok(ospString, MediaType.APPLICATION_JSON).build();
-//    }
-
-//    @Override
-//    public Response ospsOspIdPrivacySettingsPut(String ospId, String userId, List<PrivacySetting> ospSettings, SecurityContext securityContext)
-//            throws NotFoundException {
-//        // do some magic!
-//        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK,
-//                "Successful response. The privacy settings have been agreed and applied via the OSE "
-//                + "and the browser extension software. Note, the response here only needs to "
-//                + "indicate that the method worked not whether the settings have been applied in practice.")).build();
-//    }
-
+    /**
+     * The Web REST API operation to handle a change of the reason policy by
+     * the OSP. This is typically called by the PDB to perform a check before
+     * a direct change of the database.
+     * @param ospId The unique generated OSP ID (not the friendly id).
+     * @param ospPrivacyText The new privacy reason described in the access reason json object.
+     * @param securityContext The Jax-rs context information.
+     * @return The HTTP response.
+     * @throws NotFoundException
+     */
     @Override
     public Response ospsOspIdPrivacytextPut(String ospId, AccessReason ospPrivacyText, SecurityContext securityContext)
             throws NotFoundException {
 
+        /**
+         * Find the Access Policy for the OSP
+         */
+        OSPPrivacyPolicy osp_access_policies = pdbServices.getSpecificOSP(ospId);
 
-        String changeMessage = "The OSP (" + ospId + ") has updated their privacy policy. The following is their"
-                + " new reason for accessing your data: \n";
+        /**
+         * Build a change message to use in notifications.
+         */
+        String changeMessage = "The OSP (" + osp_access_policies.getPolicyText() + ") has updated their privacy policy. The following is their"
+                + " new reason for accessing your data: ";
 
-            changeMessage += "A " + ospPrivacyText.getDatauser() + "can use a " + ospPrivacyText.getDatasubjecttype() + "'s " +
-                    ospPrivacyText.getDatatype() + "data for the purpose of " + ospPrivacyText.getReason() + ".\n";
+         changeMessage += "A " + ospPrivacyText.getDatauser() + " can use a " + ospPrivacyText.getDatasubjecttype() + "s " +
+                    ospPrivacyText.getDatatype() + " data for the purpose of " + ospPrivacyText.getReason() + ". ";
 
-
-        changeMessage += "Your access preferences have been updated to prevent access to this data until you"
+        changeMessage += "Your access preferences have been updated to prevent access to this data until you "
                 + "consent to this change. Please visit the access preferences page and review your settings.";
 
         /**
          * Create a set of logs about each change. The user needs to review. First
          * get all of the user policies.
          */
-        String all_user_policies =  getAllUsers();
+        String all_user_policies =  pdbServices.getAllUsers();
 
         if(all_user_policies == null) {
             return Response.status(Response.Status.NOT_FOUND).entity("Could not notify users of changed policy").build();
         }
+        String friendlyId = osp_access_policies.getPolicyUrl();
+        /**
+         * Calculate the users subscribed to this OSP.
+         */
+        List<String> jsonUsers = pdbServices.getSubscribedUsersList(friendlyId, all_user_policies);
 
-        List<String> jsonUsers = getSubscribedUsersList(ospId, all_user_policies);
-
+        /**
+         * For every user notify them of the change.
+         */
         for(String userId: jsonUsers) {
             logUserRequest(ospId, "OSP Privacy Policy Change",
-                 "test",
+                 changeMessage,
                 LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogRequest.LogTypeEnum.NOTIFICATION, userId,
                 new ArrayList<String>(Arrays.asList("POST")));
-            System.out.println(userId);
+            UserPrivacyPolicy upp = pdbServices.getUserPrivacyPolicy(userId);
+            String uppJson = resetCategoryPolicies(ospPrivacyText.getDatatype(), ospPrivacyText.getDatauser(), upp, userId, ospId, friendlyId);
+            ObjectMapper mapper = new ObjectMapper();
+
+            try {
+                //JSON from file to Object
+                upp = mapper.readValue(uppJson, UserPrivacyPolicy.class);
+            } catch (IOException ex) {
+                Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            /**
+             * Make a change to opt them out - i.e. make sure they reconsent to this change.
+             */
+            pdbServices.putUserPrivacyPolicy(userId, uppJson);
         }
 
         return Response.status(Response.Status.NO_CONTENT).entity(new ApiResponseMessage(ApiResponseMessage.OK,
                 "Successful response, The privacy text update analysis has begun.")).build();
     }
 
-
     /**
-     * Get the array of user's UPPs for a given OSP.
-     *
+     * The Web REST API operation to handle a change of the access policy by
+     * the OSP. This is typically called by the PDB to perform a check before
+     * a direct change of the database.
+     * @param ospId The unique generated OSP ID (not the friendly id).
+     * @param ospPolicy The new privacy policy described in the policy json object.
+     * @param securityContext The Jax-rs context information.
+     * @return The HTTP response.
+     * @throws NotFoundException
      */
-    private String getSubscribedUserPolicies(String ospId, String pdb_policies) {
-        JSONArray uppSet = new JSONArray();
-        JSONArray user_policies = JsonPath.read(pdb_policies, "$");
-        for(Object aP: user_policies) {
-            JSONArray access_policies = JsonPath.read(aP, "$..subscribed_osp_policies[?(@.osp_id=='"+ospId+"')]");
-            if(!access_policies.isEmpty()){
-                uppSet.add(aP);
-            }
-        }
-
-        return uppSet.toJSONString();
-    }
-
-    private List<String> getSubscribedUsersList(String ospId, String pdb_policies){
-        ArrayList<String> users = new ArrayList<String>();
-        JSONArray user_policies = JsonPath.read(pdb_policies, "$");
-        for(Object aP: user_policies) {
-            JSONArray access_policies = JsonPath.read(aP, "$..subscribed_osp_policies[?(@.osp_id=='"+ospId+"')]");
-            if(!access_policies.isEmpty()){
-                users.add(JsonPath.read(aP, "$.user_id").toString());
-            }
-        }
-        return users;
-    }
-
     @Override
     public Response ospsOspIdPut(String ospId, OSPPrivacyPolicy ospPolicy, SecurityContext securityContext)
             throws NotFoundException {
 
+        OSPReasonPolicy reasonPol = pdbServices.getOSPReasonPolicy(ospId);
+        List<AccessReason> reasonPolicies = reasonPol.getPolicies();
         /**
-         * Create a set of logs about each change. The user needs to review. First
-         * get all of the user policies.
+         * Check there is a reason for each policy
          */
-        String all_user_policies =  getAllUsers();
+        List<AccessPolicy> policies = ospPolicy.getPolicies();
+        for(AccessPolicy policy: policies){
+            List<PolicyAttribute> attributes = policy.getAttributes();
+            boolean hasCategory = false;
+            boolean hasReason = false;
+            for (PolicyAttribute attVel: attributes) {
+                if( attVel.getAttributeName().equalsIgnoreCase("category")) {
+                    hasCategory = true;
+                    String category = attVel.getAttributeValue();
+                    // Search for reason policy to match
+                    for(AccessReason reason: reasonPolicies) {
+                        if(reason.getDatauser().equalsIgnoreCase(policy.getSubject()) &&
+                                reason.getDatatype().equalsIgnoreCase(category) ){
+                            hasReason = true;
+                        }
+                    }
+                }
+            }
+            if(!hasCategory) {
+                String PAchangeMessage = ospId + " has changed their policy. " + policy.getSubject() + " " + policy.getAction().toString() + " " + policy.getResource() + " is not assigned a reason category.";
+                logUserRequest(ospId, "OSP Privacy Policy Change", PAchangeMessage, LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogRequest.LogTypeEnum.NOTIFICATION, "PrivacyAnalyst", new ArrayList<String>(Arrays.asList("POST")));
+
+                String OSPchangeMessage = ospId + "Review your policy change " + policy.getSubject() + " " + policy.getAction().toString() + " " + policy.getResource() + " is not assigned a reason category.";
+                logUserRequest(ospId, "OSP Privacy Policy Change", OSPchangeMessage, LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogRequest.LogTypeEnum.NOTIFICATION, "PrivacyAnalyst", new ArrayList<String>(Arrays.asList("POST")));
+            }
+            if(!hasReason) {
+                String PAchangeMessage = ospId + " has changed their policy. " + policy.getSubject() + " " + policy.getAction().toString() + " " + policy.getResource() + " does not have a reason in their reason policy.";
+                logUserRequest(ospId, "OSP Privacy Policy Change", PAchangeMessage, LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogRequest.LogTypeEnum.NOTIFICATION, "PrivacyAnalyst", new ArrayList<String>(Arrays.asList("POST")));
+
+                String OSPchangeMessage = ospId + "Review your policy change " + policy.getSubject() + " " + policy.getAction().toString() + " " + policy.getResource() + " does not have a reason for access in the reason policy.";
+                logUserRequest(ospId, "OSP Privacy Policy Change", OSPchangeMessage, LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogRequest.LogTypeEnum.NOTIFICATION, "PrivacyAnalyst", new ArrayList<String>(Arrays.asList("POST")));
+            }
+        }
+        /**
+         * Find users subscribed to this OSP so we can notify them of changes.
+         */
+        String all_user_policies =  pdbServices.getAllUsers();
         if(all_user_policies == null) {
             return Response.status(Response.Status.NOT_FOUND).entity("Could not notify users of changed policy").build();
         }
+        String friendlyId = ospPolicy.getPolicyUrl();
 
-        String jsonUsers = getSubscribedUserPolicies(ospId, all_user_policies);
-        System.out.println(jsonUsers);
+        List<String> jsonUsers = pdbServices.getSubscribedUsersList(friendlyId, all_user_policies);
+
         /**
          * Get the current policy from the PDB. Analyse and find the set of access policies that have changed.
          * New role, new field, new data resource.
          */
-        OSPPrivacyPolicy ospNewPolicy = getSpecificOSP(ospId);
-        List<AccessPolicy> oldPolicies = ospNewPolicy.getPolicies();
-        List<AccessPolicy> newPolicies = ospNewPolicy.getPolicies();
+        OSPPrivacyPolicy ospOldPolicy = pdbServices.getSpecificOSP(ospId);
+        List<AccessPolicy> oldPolicies = (List<AccessPolicy>) ((ArrayList<AccessPolicy>) ospOldPolicy.getPolicies()).clone();
+        List<AccessPolicy> oldPoliciesContent = (List<AccessPolicy>) ((ArrayList<AccessPolicy>) ospOldPolicy.getPolicies()).clone();
+        List<AccessPolicy> newPolicies = (List<AccessPolicy>) ((ArrayList<AccessPolicy>) ospPolicy.getPolicies()).clone();
+        List<AccessPolicy> newPoliciesContent = (List<AccessPolicy>) ((ArrayList<AccessPolicy>) ospPolicy.getPolicies()).clone();
         List<AccessPolicy> changedPolicies = new ArrayList<AccessPolicy>();
+        List<AccessPolicy> deletedPolicies = new ArrayList<AccessPolicy>();
 
+        System.out.println("Old Content array@ elements: " + oldPoliciesContent.size());
+        System.out.println("New Content array@ elements: " + newPoliciesContent.size());
         for(AccessPolicy newPolicy: newPolicies) {
             boolean change = false;
-            boolean match = true;
+            boolean match = false;
+//            oldPoliciesContent = (List<AccessPolicy>) ((ArrayList<AccessPolicy>) ospOldPolicy.getPolicies()).clone();
             for(AccessPolicy oldPolicy: oldPolicies) {
                 // check for complete match - an access policy is unique by resource, subject, action
                 if( (oldPolicy.getResource().equals(newPolicy.getResource())) &&
                      (oldPolicy.getSubject().equals(newPolicy.getSubject())) &&
                        (oldPolicy.getAction().equals(newPolicy.getAction())) ) {
-
+                    System.out.println("Match: " + oldPolicy.getSubject() + " : " + oldPolicy.getAction().toString() + ": " + oldPolicy.getResource());
                     match = true;
 
                     /**
                      * If the permission has changed.
                      */
                     if(!oldPolicy.getPermission().equals(newPolicy.getPermission())) {
+                        System.out.println("Match: " + oldPolicy.getSubject() + " : " + oldPolicy.getAction().toString() + ": " + oldPolicy.getResource() + " Permisson changed");
                         change = true;
-                        break;
                     }
                     /**
                      * If the category/reason has changed.
@@ -378,7 +421,6 @@ public class OspsApiServiceImpl extends OspsApiService {
                     for(PolicyAttribute polA: attributes) {
                         if(polA.getAttributeName().equalsIgnoreCase("category")) {
                             categoryVal = polA.getAttributeValue();
-                            break;
                         }
                     }
                     List<PolicyAttribute> nAttributes = newPolicy.getAttributes();
@@ -386,194 +428,228 @@ public class OspsApiServiceImpl extends OspsApiService {
                         if(polA.getAttributeName().equalsIgnoreCase("category")) {
                             if(!categoryVal.equalsIgnoreCase(polA.getAttributeValue())) {
                                 change = true;
-                                break;
                             }
                         }
                     }
+                    oldPoliciesContent.remove(oldPolicy);
+                    System.out.println("Old policy: " + oldPoliciesContent.size());
                 }
-                if(match){
-                    oldPolicies.remove(oldPolicy);
-                }
+
             }
             if(match && !change){
-                    newPolicies.remove(newPolicy);
+                newPoliciesContent.remove(newPolicy);
             }
             else if (match && change) {
                 changedPolicies.add(newPolicy);
-                newPolicies.remove(newPolicy);
+                newPoliciesContent.remove(newPolicy);
             }
+
         }
 
         /**
          * For each deleted policy
          */
-        for(AccessPolicy oldPolicy: oldPolicies) {
-            // Get the affected users and delete this policy statment from their UPP
+        System.out.println("Delete Content array@ elements: " + oldPoliciesContent.size());
+        for(AccessPolicy oldPolicy: oldPoliciesContent) {
+            System.out.println("Policy to delete: " + oldPolicy.getSubject() + " : " + oldPolicy.getAction().toString() + ": " + oldPolicy.getResource() + " Permisson changed");
 
+            String changeMessage = "The OSP (" + ospPolicy.getPolicyText() + ") has updated their privacy policy. They have deleted the access policy statement: ";
+            changeMessage += "A " + oldPolicy.getSubject() + " can " + oldPolicy.getAction().toString() + " your " + oldPolicy.getResource() + " data field.";
+            changeMessage += "Your access preferences have been updated to delete all consents given to this policy statement.";
+
+            // Get the affected users and delete this policy statment from their UPP
+            for(String userId: jsonUsers) {
+                logUserRequest(ospId, "OSP Privacy Policy Change",
+                     changeMessage,
+                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogRequest.LogTypeEnum.NOTIFICATION, userId,
+                    new ArrayList<String>(Arrays.asList("POST")));
+                UserPrivacyPolicy upp = pdbServices.getUserPrivacyPolicy(userId);
+                String uppJson = pdbServices.deleteAccessPolicy(oldPolicy, upp, userId, friendlyId);
+                ObjectMapper mapper = new ObjectMapper();
+
+                try {
+                    //JSON from file to Object
+                    upp = mapper.readValue(uppJson, UserPrivacyPolicy.class);
+                } catch (IOException ex) {
+                    Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+//                pdbServices.putUserPrivacyPolicy(userId, uppJson);
+            }
         }
-        // do some magic!
+
+        /**
+         * For each new policy
+         */
+        for(AccessPolicy newPolicy: newPoliciesContent) {
+            System.out.println("Policy to add: " + newPolicy.getSubject() + " : " + newPolicy.getAction().toString() + ": " + newPolicy.getResource() + " Permisson changed");
+
+            String changeMessage = "The OSP (" + ospPolicy.getPolicyText() + ") has updated their privacy policy. They have added the access policy statement: ";
+            changeMessage += "A " + newPolicy.getSubject() + " can " + newPolicy.getAction().toString() + " your " + newPolicy.getResource() + " data field.";
+            changeMessage += "Please visit your access preferences to review these changes.";
+
+            // Get the affected users and notify the user
+            for(String userId: jsonUsers) {
+                logUserRequest(ospId, "OSP Privacy Policy Change",
+                     changeMessage,
+                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogRequest.LogTypeEnum.NOTIFICATION, userId,
+                    new ArrayList<String>(Arrays.asList("POST")));
+            }
+        }
+
+        /**
+         * For each changed policy
+         */
+        for(AccessPolicy oldPolicy: changedPolicies) {
+            System.out.println("Policy to change: " + oldPolicy.getSubject() + " : " + oldPolicy.getAction().toString() + ": " + oldPolicy.getResource() + " Permisson changed");
+
+            String changeMessage = "The OSP (" + ospPolicy.getPolicyText() + ") has updated their privacy policy. They have changed the access policy statement: ";
+            changeMessage += "A " + oldPolicy.getSubject() + " can " + oldPolicy.getAction().toString() + " your " + oldPolicy.getResource() + " data field.";
+            changeMessage += "Your access preferences have been updated to remove consents given to this policy statement. Please visit your access preferences to update your consent";
+
+            // Get the affected users and delete this policy statment from their UPP
+            for(String userId: jsonUsers) {
+                logUserRequest(ospId, "OSP Privacy Policy Change",
+                     changeMessage,
+                    LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogRequest.LogTypeEnum.NOTIFICATION, userId,
+                    new ArrayList<String>(Arrays.asList("POST")));
+                UserPrivacyPolicy upp = pdbServices.getUserPrivacyPolicy(userId);
+                String uppJson = pdbServices.changeAccessPolicy(oldPolicy, upp, userId, friendlyId);
+                ObjectMapper mapper = new ObjectMapper();
+
+                try {
+                    //JSON from file to Object
+                    upp = mapper.readValue(uppJson, UserPrivacyPolicy.class);
+                } catch (IOException ex) {
+                    Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                pdbServices.putUserPrivacyPolicy(userId, uppJson);
+            }
+        }
+
         return Response.status(Response.Status.OK).entity(new ApiResponseMessage(ApiResponseMessage.OK,
                 "Successful response. The privacy policy has been received and being processed. Information will be sent via other operation sequences."))
                 .build();
 
     }
 
-//    private String getUserIds (String jsonPolicies, String ) {
-//
-//    }
-
-    /**
-     * Get the set of Operando users in the PDB. Uses Apache HTTP to make the
-     * call rather than a Swagger Client.
-     * @return A JSON string representing their UPPs.
-     */
-    private String getAllUsers() {
-        try {
-            /**
-             * Invoke the PDB to query for the user consents.
-             */
-            CloseableHttpClient httpclient = HttpClients.createDefault();
-            HttpGet httpget = new HttpGet(pdbBasePath + "/pdb/user_privacy_policy/?filter=");
-            CloseableHttpResponse response1 = httpclient.execute(httpget);
-
-            /**
-             * If there is no response return null.
-             */
-            HttpEntity entity = response1.getEntity();
-            if(response1.getStatusLine().getStatusCode()==404) {
-                return null;
-            }
-            String policyList = EntityUtils.toString(entity);
-            httpclient.close();
-            response1.close();
-            httpget.releaseConnection();
-
-            return policyList;
-        } catch (IOException ex) {
-            System.err.println("OSE-Compliance-Report: Unable to retrieve data from Policy Database");
-            return null;
-        }
-    }
 
 //    @Override
-//    public Response ospsOspIdWorkflowsPut(String ospId, OSPDataRequest ospWorkflow, SecurityContext securityContext)
-//            throws NotFoundException {
-//        // do some magic!
-//        return Response.ok().entity(new ApiResponseMessage(ApiResponseMessage.OK, "magic!")).build();
+//    public Response ospsOspIdAuditGet(String ospId, String start, String end, SecurityContext securityContext) throws NotFoundException {
+//        String response = "{\"osp_id\": \"" + ospId + "\"," +
+//                "\"start\": \"" + start + "\"," +
+//                "\"end\": \"" + end + "\"}";
+//
+//        return Response.ok().entity(response).build();
 //    }
 
     @Override
     public Response ospsOspIdAuditGet(String ospId, String start, String end, SecurityContext securityContext) throws NotFoundException {
-        String response = "{\"osp_id\": \"" + ospId + "\"," +
-                "\"start\": \"" + start + "\"," +
-                "\"end\": \"" + end + "\"}";
 
-        return Response.ok().entity(response).build();
+        try {
+            class  Report{
+                ArrayList<LogResponse> validLogs =  new ArrayList<LogResponse>();
+                ArrayList<LogResponse> invalidLogs= new ArrayList<LogResponse>();
+                Boolean checkValid()
+                {
+                    if(invalidLogs.size() == 0)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+
+            //creates datetime objects for the start date and end date selected by the user on the html page
+            Object instance = null;
+            DateFormat df = new SimpleDateFormat("dd/mm/yyyy");
+            Date startDate = df.parse(start);
+            Date endDate = df.parse(end);
+
+            OSPPrivacyPolicy matchingOsp = pdbServices.getSpecificOSP(ospId);
+
+            HashSet<String> roles = new HashSet<String>();
+
+            for (AccessPolicy policy: matchingOsp.getPolicies())
+            {
+                roles.add(policy.getSubject());
+            }
+
+            //get the data access logs
+            ArrayList<LogResponse> logs = new ArrayList<LogResponse>(); //instance.GetDataAccessLogs(OspPolicyId);
+            ArrayList<LogResponse> logsToCheck = new ArrayList<LogResponse>();
+
+            //sorts by logs that fall within the region for the dates
+            for (LogResponse log: logs)
+            {
+                Date currentLogDate = df.parse(log.getLogDate());
+                if ( (currentLogDate.compareTo(startDate)>0) &&
+                        (currentLogDate.compareTo(endDate) <0) &&
+                        log.getAffectedUserId().equalsIgnoreCase(matchingOsp.getOspPolicyId()))
+                {
+                    logsToCheck.add(log);
+                }
+            }
+            //creates a report object
+            Report report = new Report();
+            //goes through each log that matches the dates
+            for (LogResponse log: logsToCheck)
+            {
+                boolean found = false;
+                String matchedrole = "nothing";
+                //checks if there is a role matching the role accessed according to the logs
+                for (String role: roles)
+                {
+                    if (log.getDescription().contains(role))
+                    {
+                        found = true;
+                        matchedrole = role;
+                        break;
+                    }
+                }
+                //runs if there is a matching role
+                if (found)
+                {
+                    boolean policymatch = false;
+                    //checks if there is a resource and role which matches (the policy for this log)
+                    for(AccessPolicy p: matchingOsp.getPolicies()){
+                        if(p.getSubject().equals(matchedrole) && p.getResource().equals(log.getTitle()))
+                        {
+                            policymatch  = true;
+                            break;
+                        }
+                    }
+                    if (policymatch)
+                    {
+                        report.validLogs.add(log);
+                    }
+                    else
+                    {
+                        report.invalidLogs.add(log);
+                    }
+                }
+                else
+                {
+                    report.invalidLogs.add(log);
+                }
+            }
+            String response = "Status: ";
+            if(report.checkValid()) {
+                response = "All logs for OSP " + ospId + " are valid for the selected date period";
+            } else {
+                for (LogResponse log: report.invalidLogs)
+                {
+                    response += matchingOsp.getPolicyUrl() + " has made an invalid request with the resource " + log.getTitle() + ". ";
+                }
+            }
+
+            return Response.ok().entity(response).build();
+        } catch (ParseException ex) {
+            Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            return Response.status(Response.Status.BAD_REQUEST).entity(new ApiResponseMessage(ApiResponseMessage.OK,
+                "Error response, audit failed.")).build();
+        }
     }
 
-    //    @Override
-//    public Response ospsOspIdAuditGet(String ospId, String start, String end, SecurityContext securityContext) throws NotFoundException {
-//        class  Report{
-//            ArrayList<DataAccessLog> validLogs= ArrayList<DataAccessLog>();
-//            ArrayList<DataAccessLog> invalidLogs= ArrayList<DataAccessLog>();
-//            Boolean checkValid()
-//            {
-//                if(invalidLogs.Count == 0)
-//                {
-//                   return true;
-//                }
-//                 return false;
-//            }
-//        }
-//
-///*        string baseurl = ConfigurationManager.AppSettings["ldbBasePath"];
-//        //instance to get from the log database
-//
-//        //gets the list of OSPs
-//        List<OSPPrivacyPolicy> ospList = GetOspList();*/
-//
-//        //creates datetime objects for the start date and end date selected by the user on the html page
-//        LdbClient instance = new eu.operando.core.ldb.LdbClient(baseurl);
-//        DateFormat startDate = new DateFormat(start);
-//        DateFormat endDate = new DateFormat(end);
-//
-//
-//        OSPPrivacyPolicy matchingOsp = ospList.Where(o => o.OspPolicyId.Equals(ospId)).First();
-//        HashSet<String> roles = new HashSet<String>();
-//
-//        foreach (AccessPolicy policy in matchingOsp.Policies)
-//        {
-//            roles.Add(policy.Subject);
-//        }
-//
-//        //get the data access logs
-//        ArrayList<DataAccessLog> logs = instance.GetDataAccessLogs(OspPolicyId);
-//        ArrayList<DataAccessLog> logsToCheck = new ArrayList<DataAccessLog>();
-//        //sorts by logs that fall within the region for the dates
-//        foreach (DataAccessLog log in logs)
-//        {
-//            if (log.logDate >= startDate && log.logDate <= endDate && log.requesterId.Equals(matchingOsp.OspPolicyId))
-//            {
-//                logsToCheck.Add(log);
-//            }
-//        }
-//        //creates a report object
-//        Report report = new Report();
-//        //goes through each log that matches the dates
-//        foreach (DataAccessLog log in logsToCheck)
-//        {
-//            bool found = false;
-//            string matchedrole = "nothing";
-//            //checks if there is a role matching the role accessed according to the logs
-//            foreach (String role in roles)
-//            {
-//                if (log.description.contains(role))
-//                {
-//                    found = true;
-//                    matchedrole = role;
-//                    break;
-//                }
-//            }
-//            //runs if there is a matching role
-//            if (found)
-//            {
-//            	bool policymatch = false;
-//                //checks if there is a resource and role which matches (the policy for this log)
-//            	foreach(AccessPolicy p in matchingOsp.Policies){
-//            		if(p.Subject..Equals(matchedrole) && p.Resource.Equals(log.title))
-//            		{
-//            			policymatch  = true;
-//            			break;
-//            		}
-//            	}
-//                if (policymatch)
-//                {
-//                    report.validLogs.Add(log);
-//                }
-//                    else
-//                {
-//                    report.invalidLogs.Add(log);
-//                }
-//            }
-//            else
-//            {
-//                report.invalidLogs.Add(log);
-//            }
-//        }
-//        String response = "Status: ";
-//        if(report.checkValid()) {
-//        	 response = "All logs for OSP " + ospId + " are valid for the selected date period";
-//        } else {
-//        	 foreach (DataAccessLog log in report.invalidLogs)
-//             {
-//                 response += OSPId + " has made an invalid request with the resource " + log.title + ". ";
-//             }
-//        }
-//
-//        return Response.ok().entity(response).build();
-//    }
-//
-//}
 
     public void logUserRequest(String requesterId, String title, String description,
             LogRequest.LogLevelEnum logLevel, LogRequest.LogPriorityEnum logPriority, LogRequest.LogTypeEnum logType,
@@ -585,7 +661,7 @@ public class OspsApiServiceImpl extends OspsApiService {
         }
 
         LogRequest logRequest = new LogRequest();
-        logRequest.setUserId("OSE-Policy");
+        logRequest.setUserId("ose_osps");
         logRequest.setRequesterType(LogRequest.RequesterTypeEnum.PROCESS);
 
         logRequest.setDescription(description);
@@ -599,6 +675,7 @@ public class OspsApiServiceImpl extends OspsApiService {
 
         try {
             String response = logApi.lodDB(logRequest);
+            System.out.println(response);
             Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.INFO, response + logRequest.toString());
         } catch (ApiException ex) {
             Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.SEVERE, "failed to log", ex);

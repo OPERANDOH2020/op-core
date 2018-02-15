@@ -1,5 +1,5 @@
 {
-    "policy_text": "aslbergamo_gat",
+    "policy_text": "Asl Bergamo: Gioco d'azzardo",
     "policy_url": "ASLBG_GA",
     "schema": "http://www.operando.eu/OData/$metadata#GA_Patients",
     "workflow": [
@@ -19,7 +19,7 @@
             "resource": "ID",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
@@ -37,15 +37,15 @@
             "resource": "username",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"username"
+               "attribute_value":"Username"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"username"
+               "attribute_value":"Username"
             }]
         },
         {
@@ -55,15 +55,15 @@
             "resource": "nome",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"nome"
+               "attribute_value":"Nome"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"nome"
+               "attribute_value":"Nome"
             }]
         },
         {
@@ -73,15 +73,15 @@
             "resource": "cognome",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"cognome"
+               "attribute_value":"Cognome"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"cognome"
+               "attribute_value":"Cognome"
             }]
         },
         {
@@ -91,15 +91,15 @@
             "resource": "codiceFiscale",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"codiceFiscale"
+               "attribute_value":"Codice Fiscale"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"codiceFiscale"
+               "attribute_value":"Codice Fiscale"
             }]
         },
         {
@@ -109,15 +109,15 @@
             "resource": "sesso",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"sesso"
+               "attribute_value":"Sesso"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"sesso"
+               "attribute_value":"Sesso"
             }]
         },
         {
@@ -127,15 +127,15 @@
             "resource": "dataNascita",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"dataNascita"
+               "attribute_value":"Data Di Nascita"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"dataNascita"
+               "attribute_value":"Data Di Nascita"
             }]
         },
         {
@@ -145,15 +145,15 @@
             "resource": "PaeseNascita",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"PaeseNascita"
+               "attribute_value":"Paese Di Nascita"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"PaeseNascita"
+               "attribute_value":"Paese Di Nascita"
             }]
         },
         {
@@ -163,15 +163,15 @@
             "resource": "ProvinciaNascita",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"ProvinciaNascita"
+               "attribute_value":"Provincia Di Nascita"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"ProvinciaNascita"
+               "attribute_value":"Provincia Di Nascita"
             }]
         },
         {
@@ -181,15 +181,15 @@
             "resource": "comuneNascita",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"comuneNascita"
+               "attribute_value":"Comune Di Nascita"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"comuneNascita"
+               "attribute_value":"Comune Di Nascita"
             }]
         },
         {
@@ -199,15 +199,15 @@
             "resource": "ProvinciaResidenza",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"ProvinciaResidenza"
+               "attribute_value":"Provincia Di Residenza"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"ProvinciaResidenza"
+               "attribute_value":"Provincia Di Residenza"
             }]
         },
         {
@@ -217,15 +217,15 @@
             "resource": "comuneResidenza",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"comuneResidenza"
+               "attribute_value":"Comune Di Residenza"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"comuneResidenza"
+               "attribute_value":"Comune Di Residenza"
             }]
         },
         {
@@ -235,15 +235,15 @@
             "resource": "indirizzoResidenza",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"indirizzoResidenza"
+               "attribute_value":"Indirizzo Di Residenza"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"indirizzoResidenza"
+               "attribute_value":"Indirizzo Di Residenza"
             }]
         },
         {
@@ -253,15 +253,15 @@
             "resource": "numeroCivico",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"numeroCivico"
+               "attribute_value":"Numero Civico"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"numeroCivico"
+               "attribute_value":"Numero Civico"
             }]
         },
         {
@@ -271,15 +271,15 @@
             "resource": "cap",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"cap"
+               "attribute_value":"CAP"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"cap"
+               "attribute_value":"CAP"
             }]
         },
         {
@@ -293,11 +293,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"email"
+               "attribute_value":"Email"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"email"
+               "attribute_value":"Email"
             }]
         },
         {
@@ -311,11 +311,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"cellulare"
+               "attribute_value":"Cellulare"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"cellulare"
+               "attribute_value":"Cellulare"
             }]
         },
         {
@@ -325,15 +325,15 @@
             "resource": "debiti",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"debiti"
+               "attribute_value":"Debiti"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"debiti"
+               "attribute_value":"Debiti"
             }]
         },
         {
@@ -343,15 +343,15 @@
             "resource": "debitiDuranteGioco",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"debitiDuranteGioco"
+               "attribute_value":"Debiti Durante Gioco"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"debitiDuranteGioco"
+               "attribute_value":"Debiti Durante Gioco"
             }]
         },
         {
@@ -361,15 +361,15 @@
             "resource": "usoAlcohol",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"usoAlcohol"
+               "attribute_value":"Uso Di Alcohol"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"usoAlcohol"
+               "attribute_value":"Uso Di Alcohol"
             }]
         },
         {
@@ -379,15 +379,15 @@
             "resource": "usoTabacco",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"usoTabacco"
+               "attribute_value":"Uso Di Tabacco"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"usoTabacco"
+               "attribute_value":"Uso Di Tabacco"
             }]
         },
         {
@@ -397,15 +397,15 @@
             "resource": "usoDroghe",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"usoDroghe"
+               "attribute_value":"Uso Di Droghe"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"usoDroghe"
+               "attribute_value":"Uso Di Droghe"
             }]
         },
         {
@@ -415,15 +415,15 @@
             "resource": "famigliaUsoAlcohol",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"famigliaUsoAlcohol"
+               "attribute_value":"Uso Di Alcool In Famiglia"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"famigliaUsoAlcohol"
+               "attribute_value":"Uso Di Alcool In Famiglia"
             }]
         },
         {
@@ -433,15 +433,15 @@
             "resource": "famigliaUsoTabacco",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"famigliaUsoTabacco"
+               "attribute_value":"Uso Di Tabacco In Famiglia"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"famigliaUsoTabacco"
+               "attribute_value":"Uso Di Tabacco In Famiglia"
             }]
         },
         {
@@ -451,15 +451,15 @@
             "resource": "famigliaUsoDroghe",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"famigliaUsoDroghe"
+               "attribute_value":"Uso Di Droghe In Famiglia"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"famigliaUsoDroghe"
+               "attribute_value":"Uso Di Droghe In Famiglia"
             }]
         },
         
@@ -470,15 +470,15 @@
             "resource": "datainserimento",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"datainserimento"
+               "attribute_value":"Data Di Inserimento"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"datainserimento"
+               "attribute_value":"Data Di Inserimento"
             }]
         },
         {
@@ -488,15 +488,15 @@
             "resource": "place",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"place"
+               "attribute_value":"Luogo"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"place"
+               "attribute_value":"Luogo"
             }]
         },
         {
@@ -506,15 +506,15 @@
             "resource": "fasciaGiorna",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"fasciaGiorna"
+               "attribute_value":"Fascia Giornaliera"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"fasciaGiorna"
+               "attribute_value":"Fascia Giornaliera"
             }]
         },
         {
@@ -524,15 +524,15 @@
             "resource": "tipoPatologi",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"tipoPatologi"
+               "attribute_value":"Tipo Patologia"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"tipoPatologi"
+               "attribute_value":"Tipo Patologia"
             }]
         },
         {
@@ -542,15 +542,15 @@
             "resource": "alcoholDurante",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"alcoholDurante"
+               "attribute_value":"Uso Alcohol Durante Il Gioco"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"alcoholDurante"
+               "attribute_value":"Uso Alcohol Durante Il Gioco"
             }]
         },
         {
@@ -560,15 +560,15 @@
             "resource": "tabaccoDurante",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"tabaccoDurante"
+               "attribute_value":"Uso Tabacco Durante Il Gioco"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"tabaccoDurante"
+               "attribute_value":"Uso Tabacco Durante Il Gioco"
             }]
         },
         {
@@ -578,15 +578,15 @@
             "resource": "drogaDurante",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"drogaDurante"
+               "attribute_value":"Uso Droga Durante Il Gioco"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"drogaDurante"
+               "attribute_value":"Uso Droga Durante Il Gioco"
             }]
         },
         {
@@ -596,15 +596,15 @@
             "resource": "etaPrimiDisturbi",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"etaPrimiDisturbi"
+               "attribute_value":"Eta Primi Disturbi"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"etaPrimiDisturbi"
+               "attribute_value":"Eta Primi Disturbi"
             }]
         }
         ,
@@ -615,15 +615,15 @@
             "resource": "descrizione",
             "attributes": [{
                "attribute_name":"category",
-               "attribute_value":"personal"
+               "attribute_value":"Personale"
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"descrizione"
+               "attribute_value":"Descrizione"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"descrizione"
+               "attribute_value":"Descrizione"
             }]
         }
     ]
