@@ -46,12 +46,17 @@ import java.util.logging.Logger;
 import javax.ws.rs.core.MediaType;
 import eu.operando.core.cas.client.api.DefaultApi;
 import eu.operando.core.cas.client.model.UserCredential;
+import eu.operando.core.pdb.common.model.AccessPolicy;
+import eu.operando.core.pdb.common.model.OSPConsents;
+import eu.operando.core.pdb.common.model.PolicyAttribute;
 import io.swagger.client.model.LogRequest.LogTypeEnum;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -426,7 +431,14 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
                 "Your privacy settings were updated because of changes you made through the dashboard.",
                 LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.SYSTEM, userId,
                 new ArrayList<String>(Arrays.asList("PUT")));
-                
+        
+        UserPrivacyPolicy oldUpp = uppMongodb.getUPPByIdInt(userId);
+        String diff = "Your privacy settings were updated because of changes you made through the dashboard.";
+        if (oldUpp != null){
+            // there is an old UPP to compare with new
+            diff = diffUpps(oldUpp, upp);
+        }
+        
         boolean updateAction = uppMongodb.updateUPP(userId, upp);
 
         if (!updateAction) {
@@ -439,7 +451,8 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
                     "Error. No document exists to be updated.")).build();
         }
         logRequest("UPP PUT REQUEST", "Privacy Settings updated",
-                "Your privacy settings were updated because of changes you made through the dashboard.",
+                //"Your privacy settings were updated because of changes you made through the dashboard.",
+                diff,
                 LogLevelEnum.INFO, LogPriorityEnum.NORMAL, LogTypeEnum.NOTIFICATION, userId,
                 new ArrayList<String>(Arrays.asList("POST")));
 
@@ -447,6 +460,62 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
                 "The document (UPP) was successfully updated in the database.")).build();
     }
 
+    private String diffUpps(UserPrivacyPolicy oldUpp, UserPrivacyPolicy newUpp) {
+        //System.out.println("NEW "+newUpp.getUserId());
+        StringBuilder sb = new StringBuilder();
+        for (OSPConsents oldCons : oldUpp.getSubscribedOspPolicies()){
+            OSPConsents newCons = getOSPConsents(oldCons.getOspId(), newUpp);
+            if(newCons != null) {
+                Map<Integer, Boolean> newHM = hashOSPConsents(newCons);
+                for (AccessPolicy ap : oldCons.getAccessPolicies()) {
+                    String apId = ap.getSubject() + ap.getResource() + ap.getAction().name();
+                    //System.out.println("checking " + apId);
+                    if (newHM.containsKey(apId.hashCode())) {
+                        if (newHM.get(apId.hashCode()) != ap.getPermission()) {
+                            sb.append(oldCons.getOspId() + " privacy settings changed:" +
+                                    " " + ap.getSubject() + " " + ap.getAction() + " " + getFriendlyName(ap) + 
+                                    " to " + newHM.get(apId.hashCode()).toString() + "\n");
+                            System.out.println("AccessPolicy change detected: " + oldCons.getOspId() +
+                                    " " + ap.getSubject() + " " + ap.getResource() + " " + ap.getAction() +
+                                    " has changed to " + newHM.get(apId.hashCode()).toString());
+                        } 
+                    } 
+                }
+            }            
+        }
+        return sb.toString();
+    }
+    
+    private String getFriendlyName(AccessPolicy ap){
+        for (PolicyAttribute pa : ap.getAttributes()) {
+            if(pa.getAttributeName().equals("friendly_name")){
+                return pa.getAttributeValue();
+            }
+        }
+        return ap.getResource();
+    }
+    
+    private Map<Integer, Boolean> hashOSPConsents(OSPConsents ospc){
+        Map<Integer, Boolean> ospcHashMap = new HashMap<Integer, Boolean>();
+        for(AccessPolicy ap : ospc.getAccessPolicies()) {
+            String apId = ap.getSubject() + ap.getResource() + ap.getAction().name();
+            ospcHashMap.put(apId.hashCode(), ap.getPermission());
+        }
+        return ospcHashMap;
+    }
+    
+    private OSPConsents getOSPConsents(String ospId, UserPrivacyPolicy newUpp) {
+        OSPConsents ret = null;
+        for (OSPConsents cons : newUpp.getSubscribedOspPolicies()) {
+            //System.out.println("Searching OSPConsents " + cons.getOspId() + " vs " + ospId);
+            if(ospId.equals(cons.getOspId())) {
+                //System.out.println("found OSPConsents " + cons.getOspId());
+                ret = cons;
+                break;
+            }
+        }
+        return ret;
+    }
     /*
     @Override
     public Response userPrivacyPolicyGet(String filter, SecurityContext securityContext) throws NotFoundException {

@@ -323,6 +323,26 @@ public class UPPMongo {
 
         }
         return jsonInString;
+    }    
+    
+    public UserPrivacyPolicy getUPPByIdInt(String uppId) {
+        UserPrivacyPolicy uppObj = null;
+
+        // find
+        BasicDBObject searchQuery = new BasicDBObject();
+        try {
+            searchQuery.put("userId", uppId);
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return uppObj;
+        }
+
+        DBObject result = this.uppTable.findOne(searchQuery);
+        if (result != null) {
+            uppObj = getUPP(result);
+        }
+            
+        return uppObj;
     }
 
     public boolean updateUPP(String regId, UserPrivacyPolicy upp) {
