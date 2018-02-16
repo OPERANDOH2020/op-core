@@ -463,21 +463,22 @@ public class UserPrivacyPolicyApiServiceImpl extends UserPrivacyPolicyApiService
     private String diffUpps(UserPrivacyPolicy oldUpp, UserPrivacyPolicy newUpp) {
         //System.out.println("NEW "+newUpp.getUserId());
         StringBuilder sb = new StringBuilder();
+        
         for (OSPConsents oldCons : oldUpp.getSubscribedOspPolicies()){
             OSPConsents newCons = getOSPConsents(oldCons.getOspId(), newUpp);
             if(newCons != null) {
                 Map<Integer, Boolean> newHM = hashOSPConsents(newCons);
+                Boolean headerFlag = false;
                 for (AccessPolicy ap : oldCons.getAccessPolicies()) {
                     String apId = ap.getSubject() + ap.getResource() + ap.getAction().name();
-                    //System.out.println("checking " + apId);
                     if (newHM.containsKey(apId.hashCode())) {
                         if (newHM.get(apId.hashCode()) != ap.getPermission()) {
-                            sb.append(oldCons.getOspId() + " privacy settings changed:" +
-                                    " " + ap.getSubject() + " " + ap.getAction() + " " + getFriendlyName(ap) + 
-                                    " to " + newHM.get(apId.hashCode()).toString() + "\n");
-                            System.out.println("AccessPolicy change detected: " + oldCons.getOspId() +
-                                    " " + ap.getSubject() + " " + ap.getResource() + " " + ap.getAction() +
-                                    " has changed to " + newHM.get(apId.hashCode()).toString());
+                            if(!headerFlag){
+                                sb.append(oldCons.getOspId() + " privacy settings changes: ");
+                                headerFlag = true;
+                            }                            
+                            sb.append("- " + ap.getSubject() + " " + ap.getAction() + " " + getFriendlyName(ap) + 
+                                    " has changed to " + newHM.get(apId.hashCode()).toString() + ".\n");
                         } 
                     } 
                 }
