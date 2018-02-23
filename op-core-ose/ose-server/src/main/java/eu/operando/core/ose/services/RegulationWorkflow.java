@@ -70,11 +70,14 @@ public class RegulationWorkflow {
         System.out.println("Number of OSPS - " + osps.size());
         for(String osp: osps) {
             System.out.println("OSP - " + osp);
+            /**
+             * Log a notification of new privacy regulation
+             */
+//            logUserRequest(ospRequest.getRegId(), "New Privacy Regulation",
+//                     ospRequest.toString(),
+//                    LogRequest.LogLevelEnum.INFO, LogRequest.LogPriorityEnum.NORMAL, LogRequest.LogTypeEnum.NOTIFICATION, osp,
+//                    new ArrayList<String>(Arrays.asList("POST")));
         }
-
-        /**
-         * For each OSP begin a workflow to check the OSP reason policy against the regulation
-         */
 
         return response;
 
