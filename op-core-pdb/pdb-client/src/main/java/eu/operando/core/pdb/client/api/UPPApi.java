@@ -475,7 +475,9 @@ public class UPPApi {
      * @throws ApiException If fail to call the API, e.g. server error or cannot deserialize the response body
      */
     public UserPrivacyPolicy userPrivacyPolicyUserIdGet(String userId) throws ApiException {
+        System.out.println("UPP client lib: " + userId);
         ApiResponse<UserPrivacyPolicy> resp = userPrivacyPolicyUserIdGetWithHttpInfo(userId);
+        System.out.println("UPPclient resp:" + resp.getData().toString());
         return resp.getData();
     }
 

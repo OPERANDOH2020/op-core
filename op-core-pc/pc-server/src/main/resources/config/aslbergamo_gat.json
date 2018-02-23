@@ -41,11 +41,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"username"
+               "attribute_value":"Username"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"username"
+               "attribute_value":"Username"
             }]
         },
         {
@@ -59,11 +59,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"nome"
+               "attribute_value":"Nome"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"nome"
+               "attribute_value":"Nome"
             }]
         },
         {
@@ -77,11 +77,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"cognome"
+               "attribute_value":"Cognome"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"cognome"
+               "attribute_value":"Cognome"
             }]
         },
         {
@@ -99,7 +99,7 @@
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"codiceFiscale"
+               "attribute_value":"Codice Fiscale"
             }]
         },
         {
@@ -113,11 +113,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"sesso"
+               "attribute_value":"Sesso"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"sesso"
+               "attribute_value":"Sesso"
             }]
         },
         {
@@ -131,11 +131,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"dataNascita"
+               "attribute_value":"Data Di Nascita"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"dataNascita"
+               "attribute_value":"Data Di Nascita"
             }]
         },
         {
@@ -149,11 +149,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"PaeseNascita"
+               "attribute_value":"Paese Di Nascita"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"PaeseNascita"
+               "attribute_value":"Paese Di Nascita"
             }]
         },
         {
@@ -167,11 +167,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"ProvinciaNascita"
+               "attribute_value":"Provincia Di Nascita"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"ProvinciaNascita"
+               "attribute_value":"Provincia Di Nascita"
             }]
         },
         {
@@ -185,11 +185,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"comuneNascita"
+               "attribute_value":"Comune Di Nascita"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"comuneNascita"
+               "attribute_value":"Comune Di Nascita"
             }]
         },
         {
@@ -203,11 +203,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"ProvinciaResidenza"
+               "attribute_value":"Provincia Di Residenza"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"ProvinciaResidenza"
+               "attribute_value":"Provincia Di Residenza"
             }]
         },
         {
@@ -221,11 +221,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"comuneResidenza"
+               "attribute_value":"Comune Di Residenza"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"comuneResidenza"
+               "attribute_value":"Comune Di Residenza"
             }]
         },
         {
@@ -239,11 +239,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"indirizzoResidenza"
+               "attribute_value":"Indirizzo Di Residenza"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"indirizzoResidenza"
+               "attribute_value":"Indirizzo Di Residenza"
             }]
         },
         {
@@ -257,11 +257,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"numeroCivico"
+               "attribute_value":"Numero Civico"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"numeroCivico"
+               "attribute_value":"Numero Civico"
             }]
         },
         {
@@ -275,11 +275,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"cap"
+               "attribute_value":"CAP"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"cap"
+               "attribute_value":"CAP"
             }]
         },
         {
@@ -293,11 +293,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"email"
+               "attribute_value":"Email"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"email"
+               "attribute_value":"Email"
             }]
         },
         {
@@ -311,11 +311,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"cellulare"
+               "attribute_value":"Cellulare"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"cellulare"
+               "attribute_value":"Cellulare"
             }]
         },
         {
@@ -329,11 +329,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"debiti"
+               "attribute_value":"Debiti"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"debiti"
+               "attribute_value":"Debiti"
             }]
         },
         {
@@ -347,11 +347,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"debitiDuranteGioco"
+               "attribute_value":"Debiti Durante Gioco"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"debitiDuranteGioco"
+               "attribute_value":"Debiti Durante Gioco"
             }]
         },
         {
@@ -365,11 +365,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"usoAlcohol"
+               "attribute_value":"Uso Di Alcohol"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"usoAlcohol"
+               "attribute_value":"Uso Di Alcohol"
             }]
         },
         {
@@ -383,11 +383,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"usoTabacco"
+               "attribute_value":"Uso Di Tabacco"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"usoTabacco"
+               "attribute_value":"Uso Di Tabacco"
             }]
         },
         {
@@ -401,11 +401,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"usoDroghe"
+               "attribute_value":"Uso Di Droghe"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"usoDroghe"
+               "attribute_value":"Uso Di Droghe"
             }]
         },
         {
@@ -419,11 +419,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"famigliaUsoAlcohol"
+               "attribute_value":"Uso Di Alcool In Famiglia"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"famigliaUsoAlcohol"
+               "attribute_value":"Uso Di Alcool In Famiglia"
             }]
         },
         {
@@ -437,11 +437,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"famigliaUsoTabacco"
+               "attribute_value":"Uso Di Tabacco In Famiglia"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"famigliaUsoTabacco"
+               "attribute_value":"Uso Di Tabacco In Famiglia"
             }]
         },
         {
@@ -455,11 +455,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"famigliaUsoDroghe"
+               "attribute_value":"Uso Di Droghe In Famiglia"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"famigliaUsoDroghe"
+               "attribute_value":"Uso Di Droghe In Famiglia"
             }]
         },
         
@@ -474,11 +474,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"datainserimento"
+               "attribute_value":"Data Di Inserimento"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"datainserimento"
+               "attribute_value":"Data Di Inserimento"
             }]
         },
         {
@@ -492,11 +492,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"place"
+               "attribute_value":"Luogo"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"place"
+               "attribute_value":"Luogo"
             }]
         },
         {
@@ -510,11 +510,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"fasciaGiorna"
+               "attribute_value":"Fascia Giornaliera"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"fasciaGiorna"
+               "attribute_value":"Fascia Giornaliera"
             }]
         },
         {
@@ -528,11 +528,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"tipoPatologi"
+               "attribute_value":"Tipo Patologia"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"tipoPatologi"
+               "attribute_value":"Tipo Patologia"
             }]
         },
         {
@@ -546,11 +546,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"alcoholDurante"
+               "attribute_value":"Uso Alcohol Durante Il Gioco"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"alcoholDurante"
+               "attribute_value":"Uso Alcohol Durante Il Gioco"
             }]
         },
         {
@@ -564,11 +564,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"tabaccoDurante"
+               "attribute_value":"Uso Tabacco Durante Il Gioco"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"tabaccoDurante"
+               "attribute_value":"Uso Tabacco Durante Il Gioco"
             }]
         },
         {
@@ -582,11 +582,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"drogaDurante"
+               "attribute_value":"Uso Droga Durante Il Gioco"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"drogaDurante"
+               "attribute_value":"Uso Droga Durante Il Gioco"
             }]
         },
         {
@@ -600,11 +600,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"etaPrimiDisturbi"
+               "attribute_value":"Eta Primi Disturbi"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"etaPrimiDisturbi"
+               "attribute_value":"Eta Primi Disturbi"
             }]
         }
         ,
@@ -619,11 +619,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"descrizione"
+               "attribute_value":"Descrizione"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"descrizione"
+               "attribute_value":"Descrizione"
             }]
         }
     ]

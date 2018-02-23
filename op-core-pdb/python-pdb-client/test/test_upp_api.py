@@ -27,7 +27,7 @@ from aapi_client.models import UserCredential
 
 class TestUPPApi(unittest.TestCase):
     """ UPPApi unit test stubs """
-    BASE_PATH = "http://10.136.24.87:8080"
+    # BASE_PATH = "http://10.136.24.87:8080"
     BASE_PATH = "http://integration.operando.esilab.org:8096/operando/core"
 
     AAPI_PATH = "http://integration.operando.esilab.org:8135/operando/interfaces/aapi"

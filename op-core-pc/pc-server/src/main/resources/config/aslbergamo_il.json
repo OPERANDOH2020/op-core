@@ -43,11 +43,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"nomeAzienda"
+               "attribute_value":"Nome Azienda"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"nomeAzienda"
+               "attribute_value":"Nome Azienda"
             }]
         },
         {
@@ -61,11 +61,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"op_psw_inspection_provincia"
+               "attribute_value":"Provincia"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"op_psw_inspection_provincia"
+               "attribute_value":"Provincia"
             }]
         },
         {
@@ -79,11 +79,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"op_psw_inspection_comune"
+               "attribute_value":"Comune"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"op_psw_inspection_comune"
+               "attribute_value":"Comune"
             }]
         },
         {
@@ -97,11 +97,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"indirizzo"
+               "attribute_value":"Indirizzo"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"indirizzo"
+               "attribute_value":"Indirizzo"
             }]
         },
         {
@@ -115,11 +115,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"numeroCivico"
+               "attribute_value":"Numero Civico"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"numeroCivico"
+               "attribute_value":"Numero Civico"
             }]
         },
         {
@@ -133,11 +133,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"cap"
+               "attribute_value":"CAP"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"cap"
+               "attribute_value":"CAP"
             }]
         },
         {
@@ -151,11 +151,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"dataIspezione"
+               "attribute_value":"Data Ispezione"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"dataIspezione"
+               "attribute_value":"Data Ispezione"
             }]
         },
         {
@@ -169,11 +169,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"oraInizio"
+               "attribute_value":"Ora Inizio"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"oraInizio"
+               "attribute_value":"Ora Inizio"
             }]
         },
         {
@@ -187,11 +187,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"oraFine"
+               "attribute_value":"Ora Fine"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"oraFine"
+               "attribute_value":"Ora Fine"
             }]
         },
         {
@@ -205,11 +205,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"sanzioneApplicata"
+               "attribute_value":"Sanzione Applicata"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"sanzioneApplicata"
+               "attribute_value":"Sanzione Applicata"
             }]
         },
         {
@@ -223,11 +223,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"IDIspettore"
+               "attribute_value":"ID Ispettore"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"IDIspettore"
+               "attribute_value":"ID Ispettore"
             }]
         },
         {
@@ -241,11 +241,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"nomeIspettore"
+               "attribute_value":"Nome Ispettore"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"nomeIspettore"
+               "attribute_value":"Nome Ispettore"
             }]
         },
         {
@@ -259,11 +259,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"report"
+               "attribute_value":"Report"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"report"
+               "attribute_value":"Report"
             }]
         },
         {
@@ -277,11 +277,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"daRicontrollare"
+               "attribute_value":"Da Ricontrollare"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"daRicontrollare"
+               "attribute_value":"Da Ricontrollare"
             }]
         },
         {
@@ -295,11 +295,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"dataOraProssimaIspezione"
+               "attribute_value":"Data e Ora Prossima Ispezione"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"dataOraProssimaIspezione"
+               "attribute_value":"Data e Ora Prossima Ispezione"
             }]
         },
         {
@@ -313,11 +313,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"idIspettoreProssimaIspezione"
+               "attribute_value":"ID Ispettore Prossima Ispezione"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"idIspettoreProssimaIspezione"
+               "attribute_value":"ID Ispettore Prossima Ispezione"
             }]
         },
         {
@@ -331,11 +331,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"nomeIspettoreProssimaIspezione"
+               "attribute_value":"Nome Ispettore Prossima Ispezione"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"nomeIspettoreProssimaIspezione"
+               "attribute_value":"Nome Ispettore Prossima Ispezione"
             }]
         },
         {
@@ -349,11 +349,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"username"
+               "attribute_value":"Username"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"username"
+               "attribute_value":"Username"
             }]
         },
         {
@@ -367,11 +367,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"datainserimento"
+               "attribute_value":"Data Di Inserimento"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"datainserimento"
+               "attribute_value":"Data Di Inserimento"
             }]
         },
         {
@@ -385,11 +385,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"amount"
+               "attribute_value":"Totale"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"amount"
+               "attribute_value":"Totale"
             }]
         },
         {
@@ -403,11 +403,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"motivo"
+               "attribute_value":"Motivo"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"motivo"
+               "attribute_value":"Motivo"
             }]
         },
         {
@@ -421,11 +421,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"livello"
+               "attribute_value":"Livello"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"livello"
+               "attribute_value":"Livello"
             }]
         },
         {
@@ -439,11 +439,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"primaPenalita"
+               "attribute_value":"Prima Penalita"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"primaPenalita"
+               "attribute_value":"Prima Penalita"
             }]
         },
         {
@@ -457,11 +457,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"pagato"
+               "attribute_value":"Pagato"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"pagato"
+               "attribute_value":"Pagato"
             }]
         },{
             "subject": "ASL Bergamo - IL - Inspector",
@@ -474,11 +474,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"totale"
+               "attribute_value":"Totale"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"totale"
+               "attribute_value":"Totale"
             }]
         },
         {
@@ -492,11 +492,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"dataPagamento"
+               "attribute_value":"Data Di Pagamento"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"dataPagamento"
+               "attribute_value":"Data Di Pagamento"
             }]
         },
         {
@@ -529,11 +529,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"nomeAzienda"
+               "attribute_value":"Nome Azienda"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"nomeAzienda"
+               "attribute_value":"Nome Azienda"
             }]
         },
         {
@@ -547,11 +547,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"op_psw_inspection_provincia"
+               "attribute_value":"Provincia"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"op_psw_inspection_provincia"
+               "attribute_value":"Provincia"
             }]
         },
         {
@@ -565,11 +565,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"op_psw_inspection_comune"
+               "attribute_value":"Comune"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"op_psw_inspection_comune"
+               "attribute_value":"Comune"
             }]
         },
         {
@@ -583,11 +583,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"indirizzo"
+               "attribute_value":"Indirizzo"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"indirizzo"
+               "attribute_value":"Indirizzo"
             }]
         },
         {
@@ -601,11 +601,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"numeroCivico"
+               "attribute_value":"Numero Civico"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"numeroCivico"
+               "attribute_value":"Numero Civico"
             }]
         },
         {
@@ -619,11 +619,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"cap"
+               "attribute_value":"CAP"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"cap"
+               "attribute_value":"CAP"
             }]
         },
         {
@@ -637,11 +637,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"dataIspezione"
+               "attribute_value":"Data Ispezione"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"dataIspezione"
+               "attribute_value":"Data Ispezione"
             }]
         },
         {
@@ -655,11 +655,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"oraInizio"
+               "attribute_value":"Ora Inizio"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"oraInizio"
+               "attribute_value":"Ora Inizio"
             }]
         },
         {
@@ -673,11 +673,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"oraFine"
+               "attribute_value":"Ora Fine"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"oraFine"
+               "attribute_value":"Ora Fine"
             }]
         },
         {
@@ -691,11 +691,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"sanzioneApplicata"
+               "attribute_value":"Sanzione Applicata"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"sanzioneApplicata"
+               "attribute_value":"Sanzione Applicata"
             }]
         },
         {
@@ -709,11 +709,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"IDIspettore"
+               "attribute_value":"ID Ispettore"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"IDIspettore"
+               "attribute_value":"ID Ispettore"
             }]
         },
         {
@@ -727,11 +727,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"nomeIspettore"
+               "attribute_value":"Nome Ispettore"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"nomeIspettore"
+               "attribute_value":"Nome Ispettore"
             }]
         },
         {
@@ -745,11 +745,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"report"
+               "attribute_value":"Report"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"report"
+               "attribute_value":"Report"
             }]
         },
         {
@@ -763,11 +763,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"daRicontrollare"
+               "attribute_value":"Da Ricontrollare"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"daRicontrollare"
+               "attribute_value":"Da Ricontrollare"
             }]
         },
         {
@@ -781,11 +781,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"dataOraProssimaIspezione"
+               "attribute_value":"Data Ora Prossima Ispezione"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"dataOraProssimaIspezione"
+               "attribute_value":"Data Ora Prossima Ispezione"
             }]
         },
         {
@@ -799,11 +799,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"idIspettoreProssimaIspezione"
+               "attribute_value":"ID Ispettore Prossima Ispezione"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"idIspettoreProssimaIspezione"
+               "attribute_value":"ID Ispettore Prossima Ispezione"
             }]
         },
         {
@@ -817,11 +817,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"nomeIspettoreProssimaIspezione"
+               "attribute_value":"Nome Ispettore Prossima Ispezione"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"nomeIspettoreProssimaIspezione"
+               "attribute_value":"Nome Ispettore Prossima Ispezione"
             }]
         },
         {
@@ -835,11 +835,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"username"
+               "attribute_value":"Username"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"username"
+               "attribute_value":"Username"
             }]
         },
         {
@@ -853,11 +853,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"datainserimento"
+               "attribute_value":"Data Inserimento"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"datainserimento"
+               "attribute_value":"Data Inserimento"
             }]
         },
         {
@@ -871,11 +871,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"amount"
+               "attribute_value":"Totale"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"amount"
+               "attribute_value":"Totale"
             }]
         },
         {
@@ -889,11 +889,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"motivo"
+               "attribute_value":"Motivo"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"motivo"
+               "attribute_value":"Motivo"
             }]
         },
         {
@@ -907,11 +907,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"livello"
+               "attribute_value":"Livello"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"livello"
+               "attribute_value":"Livello"
             }]
         },
         {
@@ -925,11 +925,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"primaPenalita"
+               "attribute_value":"Prima Penalita"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"primaPenalita"
+               "attribute_value":"Prima Penalita"
             }]
         },
         {
@@ -943,11 +943,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"pagato"
+               "attribute_value":"Pagato"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"pagato"
+               "attribute_value":"Pagato"
             }]
         },{
             "subject": "ASL Bergamo - IL - Accountant",
@@ -960,11 +960,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"totale"
+               "attribute_value":"Totale"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"totale"
+               "attribute_value":"Totale"
             }]
         },
         {
@@ -978,11 +978,11 @@
             },
             {
                "attribute_name":"friendly_name",
-               "attribute_value":"dataPagamento"
+               "attribute_value":"Data Pagamento"
             },
             {
                "attribute_name":"tooltip",
-               "attribute_value":"dataPagamento"
+               "attribute_value":"Data Pagamento"
             }]
         }
     ]

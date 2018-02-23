@@ -484,6 +484,8 @@ public class OSPPrivacyPolicyMongo {
      */
     public String getOSPAccessReasonsById(String ospPolicyId) {
         String jsonInString = null;
+        StringBuilder jsonString = new StringBuilder("{[");
+        
         Bson filter = null;
         try {
             filter = new Document("ospPolicyId", ospPolicyId);
@@ -520,14 +522,16 @@ public class OSPPrivacyPolicyMongo {
                 mapper.setPropertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
 
                 jsonInString = mapper.writeValueAsString(ospReasonObj);
-                System.out.println("REASON POLICIES: " + jsonInString);
+                jsonString.append(jsonInString);
+                jsonString.append("]}");
+                System.out.println("REASON POLICIES : " + jsonInString);
             } catch (JsonMappingException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        System.out.println("GET OSP AccessReasons RESULT (list): " + jsonInString);
+        System.out.println("GET OSP AccessReasons RESULT (list): " + jsonString.toString());
         return jsonInString;
     }
 
@@ -551,7 +555,7 @@ public class OSPPrivacyPolicyMongo {
         }
 
         List<Document> result = (List<Document>) ospPPCollection.find(filter).into(new ArrayList<Document>());
-
+        
         if (!result.isEmpty()) {
             Document doc = result.get(0);
 
@@ -597,8 +601,8 @@ public class OSPPrivacyPolicyMongo {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-
+        } 
+        
         return ret;
     }
 
@@ -694,7 +698,7 @@ public class OSPPrivacyPolicyMongo {
             return ret;
         }
 
-        System.out.println("accessReasonIdDelete(" + ospPolicyId + ", " + reasonId + ");");
+        System.out.println("accessReasonIdUpdate(" + ospPolicyId + ", " + reasonId + ");");
 
         List<Document> result = (List<Document>) ospPPCollection.find(filter).into(new ArrayList<Document>());
 
