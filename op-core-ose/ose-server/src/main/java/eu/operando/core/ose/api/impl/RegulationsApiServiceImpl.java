@@ -29,9 +29,9 @@ package eu.operando.core.ose.api.impl;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+import eu.operando.core.ose.mongo.OspsMongo;
 import io.swagger.api.NotFoundException;
 import eu.operando.core.ose.mongo.RegulationsMongo;
-import eu.operando.core.ose.services.RegulationWorkflow;
 import eu.operando.core.pdb.common.model.PrivacyRegulation;
 import eu.operando.core.pdb.common.model.PrivacyRegulationInput;
 
@@ -47,6 +47,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -151,21 +152,21 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
         this.logApi = new LogApi(apiClient);
 
         // setup mongo part
-        //ospsMongodb = new RegulationsMongo(mongoServerHost, mongoServerPort);
-        ClientResponse callAPI = callAPI(jsonUser("normal", "user", "normal_user"));
-        System.out.println("Normal User, POST status code:" + callAPI.getStatus());
-
-        callAPI = callAPI(jsonUser("osp", "admin", "osp_admin"));
-        System.out.println("OSP admin User, POST status code:" + callAPI.getStatus());
-
-        callAPI = callAPI(jsonUser("privacy", "analyst", "privacy_analyst"));
-        System.out.println("PA User, POST status code:" + callAPI.getStatus());
-
-        callAPI = callAPI(jsonUser("psp", "admin", "psp_admin"));
-        System.out.println("PSP admin User, POST status code:" + callAPI.getStatus());
-
-        callAPI = callAPI(jsonUser("ospregulator", "regulator", "regulator"));
-        System.out.println("Regulator, POST status code:" + callAPI.getStatus());
+        ospsMongodb = new RegulationsMongo(mongoServerHost, mongoServerPort);
+//        ClientResponse callAPI = callAPI(jsonUser("normal", "user", "normal_user"));
+//        System.out.println("Normal User, POST status code:" + callAPI.getStatus());
+//
+//        callAPI = callAPI(jsonUser("osp", "admin", "osp_admin"));
+//        System.out.println("OSP admin User, POST status code:" + callAPI.getStatus());
+//
+//        callAPI = callAPI(jsonUser("privacy", "analyst", "privacy_analyst"));
+//        System.out.println("PA User, POST status code:" + callAPI.getStatus());
+//
+//        callAPI = callAPI(jsonUser("psp", "admin", "psp_admin"));
+//        System.out.println("PSP admin User, POST status code:" + callAPI.getStatus());
+//
+//        callAPI = callAPI(jsonUser("ospregulator", "regulator", "regulator"));
+//        System.out.println("Regulator, POST status code:" + callAPI.getStatus());
     }
 
     private void loadParams() {
@@ -307,6 +308,44 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
     }
 
     /**
+     * Regulation to add.
+     * @param ospRequest
+     * @return
+     * @throws NotFoundException
+     */
+    public String addRegulation(PrivacyRegulation ospRequest)
+        throws NotFoundException {
+
+        String response = "";
+
+        RegulationsMongo regMongo = new RegulationsMongo();
+        String storeAction = regMongo.storeRegulation(ospRequest);
+        if(storeAction == null)
+            return "error";
+        /**
+         * Execute the workflow to check OSP services do not violate the regulation.
+         */
+
+        // Step 1. Query the DB to get a list of the OSEs in the legislation sector.
+        OspsMongo ospMongo = new OspsMongo();
+        List<String> osps = ospMongo.getOSPbySector(ospRequest.getLegislationSector());
+        System.out.println("Number of OSPS - " + osps.size());
+        for(String osp: osps) {
+            System.out.println("OSP - " + osp);
+            /**
+             * Log a notification of new privacy regulation
+             */
+            logUserRequest(ospRequest.getRegId(), "New Privacy Regulation",
+                     ospRequest.toString(),
+                    LogRequest.LogLevelEnum.INFO, LogRequest.LogPriorityEnum.NORMAL, LogRequest.LogTypeEnum.NOTIFICATION, osp,
+                    new ArrayList<String>(Arrays.asList("POST")));
+        }
+
+        return response;
+
+    }
+
+    /**
      * Enter a new regulation into the system. Store the regulation in the
      * Policy DB and then call the PC component to do a compliance check. From
      * the output, store an OSP compliance report.
@@ -330,14 +369,13 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
                 LogLevelEnum.INFO, LogPriorityEnum.NORMAL,
                 new ArrayList<String>(Arrays.asList("one", "two")));
 
-        RegulationWorkflow services = new RegulationWorkflow();
-        String storeAction = services.addRegulation(regulation);
+        String storeAction = addRegulation(regulation);
         if (storeAction == null) {
 
-//            logRequest("regulationsPost", "Regulation".concat(regulation.getRegId()),
-//                    "OSE regulations POST failed",
-//                    LogLevelEnum.ERROR, LogPriorityEnum.HIGH,
-//                    new ArrayList<String>(Arrays.asList("one", "two")));
+            logRequest("regulationsPost", "Regulation".concat(regulation.getRegId()),
+                    "OSE regulations POST failed",
+                    LogLevelEnum.ERROR, LogPriorityEnum.HIGH,
+                    new ArrayList<String>(Arrays.asList("one", "two")));
 
             return Response.status(409).entity(new ApiResponseMessage(ApiResponseMessage.ERROR,
                     "Error occured. The resource already exists, so a new resource cannot be created.")).build();
@@ -395,6 +433,38 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
 
         return Response.status(Response.Status.OK).entity(new ApiResponseMessage(ApiResponseMessage.OK,
                 "Successful response. The regulation has been added.")).build();
+    }
+
+
+    public void logUserRequest(String requesterId, String title, String description,
+            LogRequest.LogLevelEnum logLevel, LogRequest.LogPriorityEnum logPriority, LogRequest.LogTypeEnum logType,
+            String affectedId, ArrayList<String> keywords) {
+
+        ArrayList<String> words = new ArrayList<String>(Arrays.asList("OSE", "OSP"));
+        for (String word : keywords) {
+            words.add(word);
+        }
+
+        LogRequest logRequest = new LogRequest();
+        logRequest.setUserId("ose_osps");
+        logRequest.setRequesterType(LogRequest.RequesterTypeEnum.PROCESS);
+
+        logRequest.setDescription(description);
+        logRequest.setLogLevel(logLevel);
+        logRequest.setTitle(title);
+        logRequest.setLogPriority(logPriority);
+        logRequest.setRequesterId(requesterId);
+        logRequest.setLogType(logType);
+        logRequest.setAffectedUserId(affectedId);
+        logRequest.setKeywords(words);
+
+        try {
+            String response = logApi.lodDB(logRequest);
+            System.out.println(response);
+            Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.INFO, response + logRequest.toString());
+        } catch (ApiException ex) {
+            Logger.getLogger(OspsApiServiceImpl.class.getName()).log(Level.SEVERE, "failed to log", ex);
+        }
     }
 
 }

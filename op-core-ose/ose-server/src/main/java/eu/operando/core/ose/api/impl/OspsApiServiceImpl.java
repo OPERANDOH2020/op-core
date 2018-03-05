@@ -32,7 +32,6 @@ import eu.operando.core.pdb.common.model.OSPPrivacyPolicy;
 import java.util.List;
 import io.swagger.api.NotFoundException;
 
-import eu.operando.core.ose.mongo.OspsMongo;
 import eu.operando.core.ose.services.HelperMethods;
 import eu.operando.core.ose.services.PDBHelperMethods;
 import eu.operando.core.pdb.common.model.AccessPolicy;
@@ -85,9 +84,6 @@ public class OspsApiServiceImpl extends OspsApiService {
     private String logdbST = "";
     long ticketLifeTime = 1000L * 60 * 60;
 
-    String mongoServerHost = "localhost";
-    int mongoServerPort = 27017;
-    OspsMongo ospsMongodb = null;
     Timer timer;
 
     Properties prop = null;
@@ -129,8 +125,6 @@ public class OspsApiServiceImpl extends OspsApiService {
         apiClient.addDefaultHeader(stHeaderName, logdbST);
         this.logApi = new LogApi(apiClient);
 
-        // setup mongo part
-        ospsMongodb = new OspsMongo(mongoServerHost, mongoServerPort);
     }
 
     private void loadParams() {
@@ -151,21 +145,7 @@ public class OspsApiServiceImpl extends OspsApiService {
         if (prop.getProperty("ose.osps.service.password") != null) {
             ospsLoginPassword = prop.getProperty("ose.osps.service.password");
         }
-//        if (prop.getProperty("logdb.service.id") != null) {
-//            logdbSId = prop.getProperty("logdb.service.id");
-//        }
 
-        // setup mongo part
-        if (prop.getProperty("mongo.server.host") != null) {
-            mongoServerHost = prop.getProperty("mongo.server.host");
-        }
-        if (prop.getProperty("mongo.server.port") != null) {
-            try {
-                mongoServerPort = Integer.parseInt(prop.getProperty("mongo.server.port"));
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     private Properties loadServiceProperties() {

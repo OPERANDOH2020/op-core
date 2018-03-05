@@ -229,7 +229,7 @@ public class OspPolicyEvaluatorApiServiceImpl extends OspPolicyEvaluatorApiServi
          * Log the request in the LogDB
          */
 
-        String uppsURL = "http://integration.operando.esilab.org:8096/operando/core/pdb/user_privacy_policy/?filter=%7B%27subscribed_osp_policies.osp_id%27:%27"+ospId+"%27%7D";
+        String uppsURL = PDB_UPP_URL + "/?filter=%7B%27subscribed_osp_policies.osp_id%27:%27"+ospId+"%27%7D";
         String uppProfile = null;
         try {
 
