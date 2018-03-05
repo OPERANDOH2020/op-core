@@ -148,7 +148,7 @@
 		</plugins>
 		<resources>
             <resource>
-                <directory>src/main/resources/config</directory>
+                <directory>${sources.path}/src/main/resources/config</directory>
                 <filtering>false</filtering>
             </resource>
         </resources>
