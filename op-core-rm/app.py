@@ -12,15 +12,15 @@ import re
 import sys
 import requests.auth
 
-# load credentials
-config = ConfigParser.RawConfigParser()
-config.read('config.cfg')
-user = config.get('Credentials', 'user')
-passwd = config.get('Credentials', 'password')
 __hdr = {"Content-Type": "application/json", "Accept": "*/*", }
 
-# URLs
-# config.get('URLs', 'aapi_tgt_url')
+config = ConfigParser.RawConfigParser()
+config.read('config.cfg')
+
+user = config.get('Credentials', 'user')
+passwd = config.get('Credentials', 'password')
+
+__aapi_user = config.get('URLs', 'aapi_user')
 __aapi_tgt_url = config.get('URLs', 'aapi_tgt_url')
 __aapi_st_url = config.get('URLs', 'aapi_st_url')
 __URL_LOGDB = config.get('URLs', 'URL_LOGDB')
@@ -29,19 +29,7 @@ __URL_PC = config.get('URLs', 'URL_PC')
 __aapi_tckt_val_url = config.get('URLs', 'aapi_tckt_val_url')
 __url_pc = config.get('URLs', 'url_pc')
 
-# OLD
-
-__aapi_tgt_url = "http://integration.operando.esilab.org:8135/operando/interfaces/aapi/aapi/tickets"
-__aapi_st_url = 'http://integration.operando.esilab.org:8135/operando/interfaces/aapi/aapi/tickets/%s'
-# config.get('URLs', 'URL_LOGDB')
-__URL_LOGDB = "http://ldb.integration.operando.esilab.org:8090/operando/core/ldb/log/"
-# config.get('URLs', 'DAN_url')
-__DAN_url = "http://integration.operando.esilab.org:8111/operando/pdr/dan/%s"
-__URL_PC = "http://integration.operando.esilab.org:8095/operando/core/pc/osp_policy_evaluator"
-__aapi_tckt_val_url = "http://integration.operando.esilab.org:8135/operando/interfaces/aapi/aapi/tickets/%s/validate?serviceId=%s"
-__aapi_user = "http://integration.operando.esilab.org:8135/operando/interfaces/aapi/aapi/user/"
 app = Flask(__name__)
-
 
 def is_json(myjson):
     try:
