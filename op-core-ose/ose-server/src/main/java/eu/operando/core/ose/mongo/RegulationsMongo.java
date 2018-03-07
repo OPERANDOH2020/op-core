@@ -36,6 +36,7 @@ import com.mongodb.MongoWriteException;
 import com.mongodb.WriteResult;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.result.UpdateResult;
 import com.mongodb.util.JSON;
 import eu.operando.core.pdb.common.model.PrivacyRegulation;
 import eu.operando.core.pdb.common.model.PrivacyRegulationInput;
@@ -43,6 +44,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.bson.Document;
+import org.bson.conversions.Bson;
+import org.bson.types.ObjectId;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -63,7 +66,7 @@ public class RegulationsMongo {
     public RegulationsMongo() {
         try {
             this.mongo = new MongoClient("mongo.integration.operando.dmz.lab.esilab.org", 27017);
-//            this.mongo = new MongoClient("localhost", 27017);
+            //this.mongo = new MongoClient("localhost", 27017);
             // get database
             this.db = mongo.getDB("pdb");
             // get collection
@@ -124,14 +127,14 @@ public class RegulationsMongo {
         andQuery.put("$and", obj);
 
         List<Document> documents = regulationsCollection.find(andQuery).into(new ArrayList<Document>());
-        for(Document document : documents){
+        for (Document document : documents) {
             PrivacyRegulation prObj = null;
             try {
                 ObjectMapper mapper = new ObjectMapper();
                 mapper.configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
                 prObj = mapper.readValue(document.toJson(), PrivacyRegulation.class);
                 regs.add(prObj);
-            }catch (JsonGenerationException e) {
+            } catch (JsonGenerationException e) {
                 e.printStackTrace();
             } catch (JsonMappingException e) {
                 e.printStackTrace();
@@ -143,7 +146,43 @@ public class RegulationsMongo {
         return regs;
     }
 
-    public boolean updateRegulation(String regId, PrivacyRegulationInput reg) {
+    public boolean updateRegulation(String regId, PrivacyRegulationInput regulation) {
+        boolean result = false;
+        Bson filter = null;
+        try {
+            filter = new Document("_id", new ObjectId(regId));
+        } catch (IllegalArgumentException ex) {
+            ex.printStackTrace();
+            return result;
+        }
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            String jsonInString = mapper.writeValueAsString(regulation);
+            Document doc = Document.parse(jsonInString);
+
+            try {
+                UpdateResult ur = regulationsCollection.replaceOne(filter, doc);
+                result = ur.wasAcknowledged();
+            } catch (MongoWriteException ex) {
+                ex.printStackTrace();
+            } catch (MongoWriteConcernException ex) {
+                ex.printStackTrace();
+            } catch (MongoException ex) {
+                ex.printStackTrace();
+            }
+
+        } catch (JsonGenerationException e) {
+            e.printStackTrace();
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public boolean updateRegulationD(String regId, PrivacyRegulationInput reg) {
         boolean result = false;
         //reg.setRegId(regId);
         try {
