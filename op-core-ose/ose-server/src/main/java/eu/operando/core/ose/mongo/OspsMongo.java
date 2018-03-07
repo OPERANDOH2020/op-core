@@ -86,7 +86,8 @@ public class OspsMongo {
 
     public OspsMongo() {
         try {
-            this.mongo = new MongoClient("localhost", 27017);
+            //this.mongo = new MongoClient("localhost", 27017);
+            this.mongo = new MongoClient("mongo.integration.operando.dmz.lab.esilab.org", 27017);
             // get the OSE specific mongo database
             this.db = mongo.getDB("ose");
             // get the PDB database

@@ -64,13 +64,13 @@
         <hudson.plugins.git.extensions.impl.SparseCheckoutPaths>
           <sparseCheckoutPaths>
             <hudson.plugins.git.extensions.impl.SparseCheckoutPath>
-              <path>op-webui-mono/eu.operando.int.webui.console.server.src.dvp/src/main/docker/sources</path>
+              <path>op-webui-mono/eu.operando.int.webui.console.server.src.dvp</path>
             </hudson.plugins.git.extensions.impl.SparseCheckoutPath>
           </sparseCheckoutPaths>
         </hudson.plugins.git.extensions.impl.SparseCheckoutPaths>
       </extensions>
     </scm>
-    <scriptPath>op-webui-mono/eu.operando.int.webui.console.server.src.dvp/src/main/docker/sources/JenkinsfileDockerRunService</scriptPath>
+    <scriptPath>op-webui-mono/eu.operando.int.webui.console.server.src.dvp/JenkinsfileDockerRunService</scriptPath>
     <lightweight>false</lightweight>
   </definition>
   <triggers/>

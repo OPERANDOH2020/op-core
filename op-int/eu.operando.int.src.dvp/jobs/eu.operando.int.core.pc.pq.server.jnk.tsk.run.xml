@@ -64,13 +64,13 @@
         <hudson.plugins.git.extensions.impl.SparseCheckoutPaths>
           <sparseCheckoutPaths>
             <hudson.plugins.git.extensions.impl.SparseCheckoutPath>
-              <path>op-int/eu.operando.int.core.pc.pq.server.src.dvp/src</path>
+              <path>op-int/eu.operando.int.core.pc.pq.server.src.dvp</path>
             </hudson.plugins.git.extensions.impl.SparseCheckoutPath>
           </sparseCheckoutPaths>
         </hudson.plugins.git.extensions.impl.SparseCheckoutPaths>
       </extensions>
     </scm>
-    <scriptPath>op-int/eu.operando.int.core.pc.pq.server.src.dvp/src/JenkinsfileDockerRunService</scriptPath>
+    <scriptPath>op-int/eu.operando.int.core.pc.pq.server.src.dvp/JenkinsfileDockerRunService</scriptPath>
     <lightweight>false</lightweight>
   </definition>
   <triggers/>
