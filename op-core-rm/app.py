@@ -244,7 +244,7 @@ def handleSelect(request, addr):
                                     del usersValue[k]
 
                     logdata(requester, fields2query,
-                            diff(fields2query - restrictedFields), userid)
+                            diff(fields2query, restrictedFields), userid)
                     return Response(json.dumps(usersValue), status=200, mimetype='application/json')
             else:
                 usersValue = jsonResponse['value']
@@ -300,7 +300,7 @@ def handleSelect(request, addr):
                         usersValue[counter] = item
                         counter = counter + 1
                         logdata(requester, fields2query,
-                                diff(fields2query - restrictedFields), userid)
+                                diff(fields2query, restrictedFields), userid)
 
             return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
         else:  # built-in structure case (and YellowPages)
@@ -341,7 +341,7 @@ def handleSelect(request, addr):
                                         del f["TextValue"]
 
                         logdata(requester, fields2query,
-                                diff(fields2query - restrictedFields), userid)
+                                diff(fields2query, restrictedFields), userid)
                         return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
                     else:
                         logdata(requester, fields2query, [], userid)
@@ -375,7 +375,7 @@ def handleSelect(request, addr):
                                 del jsonResponse[ev["datafield"]]
 
                         logdata(requester, fields2query,
-                                diff(fields2query - restrictedFields), userid)
+                                diff(fields2query, restrictedFields), userid)
                         return Response(json.dumps(jsonResponse), status=200, mimetype='application/json')
                     else:
                         logdata(requester, fields2query, [], userid)
@@ -420,7 +420,7 @@ def handleSelect(request, addr):
                                                 "TextValue"] = "***PERMISSION DENIED***"
 
                             logdata(requester, fields2query,
-                                    diff(fields2query - restrictedFields), userid)
+                                    diff(fields2query, restrictedFields), userid)
                         else:
                             logdata(requester, fields2query, [], userid)
                             jsonResponse["d"]["results"][i] = {"error": "uknown"}
@@ -454,7 +454,7 @@ def handleSelect(request, addr):
                                     jsonResponse["d"]["results"][i]["datafield"] = "***PERMISSION DENIED***"
                                     del jsonResponse["d"]["results"][i]["datafield"]
                             logdata(requester, fields2query,
-                                    diff(fields2query - restrictedFields), userid)
+                                    diff(fields2query, restrictedFields), userid)
                         else:
                             logdata(requester, fields2query, [], userid)
                             jsonResponse["d"]["results"][i] = {"error": "unknown"}
