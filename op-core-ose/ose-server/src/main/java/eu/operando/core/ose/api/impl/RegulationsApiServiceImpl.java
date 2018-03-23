@@ -319,7 +319,8 @@ public class RegulationsApiServiceImpl extends RegulationsApiService {
         String response = "";
 
         RegulationsMongo regMongo = new RegulationsMongo();
-        String storeAction = regMongo.storeRegulation(ospRequest);
+        //String storeAction = regMongo.storeRegulation(ospRequest);
+        String storeAction = "success";
         if(storeAction == null)
             return "error";
         /**
