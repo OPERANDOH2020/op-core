@@ -250,5 +250,7 @@
 		<ldb.baseurl>${operando.core.ldb.endpoint}</ldb.baseurl>
 		<pdb.baseurl>${operando.core.pdb.endpoint}</pdb.baseurl>
 		<rm.baseurl>${operando.core.ldb.endpoint}</rm.baseurl>
+		<pc.baseurl>${operando.core.pc.endpoint}</pc.baseurl>
+		<ose.baseurl>${operando.core.ose.endpoint}</ose.baseurl>
 	</properties>
 </project>
